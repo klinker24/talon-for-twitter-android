@@ -347,8 +347,7 @@ public abstract class DrawerActivity extends Activity {
             backgroundPic.loadImage(backgroundUrl, false, null);
             //ImageUtils.loadImage(context, backgroundPic, backgroundUrl, mCache);
         } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.default_header_background);
-            backgroundPic.setImageBitmap(ImageUtils.blur(b));
+            backgroundPic.setImageDrawable(getResources().getDrawable(R.drawable.default_header_background));
         }
 
         backgroundPic.setOnClickListener(new View.OnClickListener() {
