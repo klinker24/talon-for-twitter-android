@@ -345,7 +345,7 @@ public abstract class DrawerActivity extends Activity {
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
 
-        final BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+        final BitmapLruCache mCache = App.getInstance(context).getProfileCache();
 
         if (!backgroundUrl.equals("")) {
             backgroundPic.loadImage(backgroundUrl, false, null);

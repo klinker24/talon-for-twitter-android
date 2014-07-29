@@ -1,4 +1,11 @@
 <changelog>
+
+    <version name="2.6.2">
+        <text>Smoooother</text>
+        <text>Some timeline jumping fixes</text>
+        <text>Avatar mixups fixed</text>
+    </version>
+
     <version name="2.6.1">
         <text>Image viewer fixes</text>
         <text>Updated fonts and added an Android "L" Roboto font option</text>
