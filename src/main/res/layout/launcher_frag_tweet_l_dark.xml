@@ -90,7 +90,6 @@
                 android:paddingTop="12dp"
                 android:textColor="@color/dark_text"
                 android:layoutDirection="locale"
-                android:background="@drawable/pressed_button"
                 android:fontFamily="sans-serif-light"/>
 
         <TextView
