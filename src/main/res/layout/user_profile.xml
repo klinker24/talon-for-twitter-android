@@ -30,18 +30,20 @@
 
                 <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="345dp"
                         android:id="@+id/background_image"
                         android:scaleType="centerCrop"
                         android:contentDescription="Profile Picture"
                         android:viewName="profile_picture"/>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/header_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="82dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp" >
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp">
 
                     <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="match_parent"
@@ -62,12 +64,15 @@
 
                             <!-- number of followers and following -->
                             <LinearLayout
+                                    android:id="@+id/profile_counts"
                                     android:layout_width="0dp"
                                     android:layout_height="200dp"
                                     android:layout_weight="1"
                                     android:orientation="vertical"
                                     android:layout_gravity="center"
                                     android:gravity="center"
+                                    android:paddingTop="25dp"
+                                    android:paddingBottom="25dp"
                                     android:background="#34444b">
 
                                 <TextView
@@ -75,18 +80,101 @@
                                         android:layout_height="wrap_content"
                                         android:id="@+id/followers_number"
                                         android:textSize="14sp"
-                                        android:fontFamily="sans-serif-light"
-                                        android:textColor="?textColor"
+                                        android:textColor="@color/dark_text"
                                         android:singleLine="true"/>
+
+                                <LinearLayout android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:layout_weight="1"
+                                              android:orientation="horizontal"
+                                              android:gravity="top"
+                                              android:layout_marginTop="8dp"
+                                              android:id="@+id/view_followers" >
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_1"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_2"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_3"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                </LinearLayout>
+
+                                <View android:layout_width="match_parent"
+                                      android:layout_height="16dp" />
 
                                 <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/following_number"
                                         android:textSize="14sp"
-                                        android:fontFamily="sans-serif-light"
-                                        android:textColor="?textColor"
+                                        android:textColor="@color/dark_text"
                                         android:singleLine="true"/>
+
+                                <LinearLayout android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:layout_weight="1"
+                                              android:orientation="horizontal"
+                                              android:gravity="top"
+                                              android:layout_marginTop="8dp"
+                                              android:id="@+id/view_friends" >
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_1"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_2"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_3"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
                         </LinearLayout>
@@ -112,7 +200,7 @@
                                     android:textColor="?textColor"
                                     android:fontFamily="sans-serif-light"
                                     android:textSize="12sp"
-                                    android:drawableLeft="@drawable/ic_action_place_dark"
+                                    android:drawableLeft="?location_button"
                                     android:drawablePadding="8dp"
                                     android:id="@+id/user_location"
                                     android:gravity="center"/>
@@ -124,7 +212,7 @@
                                     android:fontFamily="sans-serif-light"
                                     android:textSize="12sp"
                                     android:drawablePadding="8dp"
-                                    android:drawableLeft="@drawable/drawer_trends_dark"
+                                    android:drawableLeft="?links"
                                     android:id="@+id/user_webpage"
                                     android:gravity="center"/>
 
@@ -144,23 +232,35 @@
     </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
 
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:id="@+id/actionbar_and_status_bar">
+            android:id="@+id/actionbar_and_status_bar" >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/status_bar"
+                  android:background="@color/darker_primary"/>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/actionbar_bar"
+                  android:background="@color/primary"/>
+
+        </LinearLayout>
 
         <View android:layout_width="match_parent"
               android:layout_height="0dp"
-              android:id="@+id/status_bar"
-              android:background="@color/darker_primary"/>
+              android:id="@+id/blacker_status_bar"
+              android:background="#30000000"/>
+    </RelativeLayout>
 
-        <View android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:id="@+id/actionbar_bar"
-              android:background="@color/primary"/>
-
-    </LinearLayout>
 
 
     <View android:layout_width="match_parent"
