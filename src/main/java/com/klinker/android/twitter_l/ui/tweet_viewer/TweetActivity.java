@@ -1867,7 +1867,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                         public void run() {
                             retweetersPopup.setData(users);
 
-                            for (int i = 0; i < 3; i++) {
+                            for (int i = 0; i < (getResources().getBoolean(R.bool.isTablet) ? 3 : 2); i++) {
                                 try {
                                     retweeters[i].loadImage(urls.get(i), false, null);
                                 } catch (Exception e) {

@@ -6,7 +6,7 @@
 
     <View android:layout_width="match_parent" android:layout_height="match_parent"
           android:id="@+id/background"
-          android:background="?windowBackground" />
+          android:background="?tweet_background" />
 
     <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                                   android:orientation="vertical"
                                   android:paddingLeft="20dp"
                                   android:paddingTop="20dp"
-                                  android:paddingBottom="20dp"
+                                  android:paddingBottom="55dp"
                                   android:paddingRight="20dp">
 
                         <TextView
@@ -104,72 +104,87 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:viewName="tweet_view">
-
-
-                <include android:id="@+id/tweet_background"
-                    layout="@layout/tweet_for_fragment"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="-35dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp" >
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="20dp"
-                        android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-                    <ImageButton
-                            android:id="@+id/web_button"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:src="?links"
-                            android:contentDescription="Open Web Page"
-                            android:minHeight="48dp" android:minWidth="48dp"
-                            android:scaleType="center" android:adjustViewBounds="true"
-                            android:maxWidth="48dp" android:maxHeight="48dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:viewName="tweet_view">
 
+
+                        <include android:id="@+id/tweet_background"
+                                 layout="@layout/tweet_for_fragment"
+                                 android:layout_height="match_parent"
+                                 android:layout_width="match_parent" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="?windowBackground" >
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:paddingBottom="20dp"
+                                android:gravity="center">
+
+                            <ImageButton
+                                    android:id="@+id/web_button"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="?links"
+                                    android:contentDescription="Open Web Page"
+                                    android:minHeight="48dp" android:minWidth="48dp"
+                                    android:scaleType="center" android:adjustViewBounds="true"
+                                    android:maxWidth="48dp" android:maxHeight="48dp"
+                                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:paddingBottom="20dp"
+                                android:gravity="center">
+
+                            <ImageButton
+                                    android:id="@+id/conversation_button"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:src="?directMessageItem"
+                                    android:contentDescription="Open Web Page"
+                                    android:minHeight="48dp" android:minWidth="48dp"
+                                    android:scaleType="center" android:adjustViewBounds="true"
+                                    android:maxWidth="48dp" android:maxHeight="48dp"
+                                    android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-
-
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="20dp"
-                        android:gravity="center">
-
-                    <ImageButton
-                            android:id="@+id/conversation_button"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:src="?directMessageItem"
-                            android:contentDescription="Open Web Page"
-                            android:minHeight="48dp" android:minWidth="48dp"
-                            android:scaleType="center" android:adjustViewBounds="true"
-                            android:maxWidth="48dp" android:maxHeight="48dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                     android:orientation="vertical"
