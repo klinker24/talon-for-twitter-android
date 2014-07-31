@@ -11,10 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.Point;
+import android.graphics.*;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -23,25 +20,19 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ProfilePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
+import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -61,6 +52,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import twitter4j.Relationship;
 import twitter4j.ResponseList;
@@ -109,12 +101,11 @@ public class ProfilePager extends Activity {
         }
 
         setUpTheme();
-
         getFromIntent();
-
         setContentView(R.layout.user_profile);
-
         setUpContent();
+        setUpInsets();
+        getUser();
     }
 
     public NetworkedCacheableImageView background;
@@ -124,8 +115,12 @@ public class ProfilePager extends Activity {
     public TextView description;
     public TextView location;
     public TextView website;
+    public NetworkedCacheableImageView[] friends = new NetworkedCacheableImageView[3];
+    public NetworkedCacheableImageView[] followers = new NetworkedCacheableImageView[3];
+    public View profileCounts;
 
     public void setUpContent() {
+        // first get all the views we need
         background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
@@ -134,6 +129,74 @@ public class ProfilePager extends Activity {
         description = (TextView) findViewById(R.id.user_description);
         location = (TextView) findViewById(R.id.user_location);
         website = (TextView) findViewById(R.id.user_webpage);
+        profileCounts = findViewById(R.id.profile_counts);
+
+        friends[0] = (NetworkedCacheableImageView) findViewById(R.id.friend_1);
+        friends[1] = (NetworkedCacheableImageView) findViewById(R.id.friend_2);
+        friends[2] = (NetworkedCacheableImageView) findViewById(R.id.friend_3);
+
+        followers[0] = (NetworkedCacheableImageView) findViewById(R.id.follower_1);
+        followers[1] = (NetworkedCacheableImageView) findViewById(R.id.follower_2);
+        followers[2] = (NetworkedCacheableImageView) findViewById(R.id.follower_3);
+
+        for (int i = 0; i < 3; i++) {
+            friends[i].setClipToOutline(true);
+            followers[i].setClipToOutline(true);
+        }
+
+        // set up the margin on the profile card so it is under the action bar and status bar
+        int abHeight = Utils.getActionBarHeight(context);
+        int sbHeight = Utils.getStatusBarHeight(context);
+        int navHeight = Utils.getNavBarHeight(context);
+
+        CardView headerCard = (CardView) findViewById(R.id.header_card);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
+        params.topMargin = abHeight + sbHeight + Utils.toDP(16, context);
+        headerCard.setLayoutParams(params);
+    }
+
+    public void setUpInsets() {
+        final View insetsBackground = findViewById(R.id.actionbar_and_status_bar);
+
+        ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
+        statusParams.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+        insetsBackground.setLayoutParams(statusParams);
+        insetsBackground.setAlpha(0);
+
+        final int abHeight = Utils.getActionBarHeight(context);
+        final int sbHeight = Utils.getStatusBarHeight(context);
+        final View header = findViewById(R.id.background_image);
+
+        View status = findViewById(R.id.status_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+        params.height = sbHeight;
+        status.setLayoutParams(params);
+
+        View blackStatus = findViewById(R.id.blacker_status_bar);
+        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) blackStatus.getLayoutParams();
+        param.height = sbHeight;
+        blackStatus.setLayoutParams(param);
+
+        View action = findViewById(R.id.actionbar_bar);
+        params = (LinearLayout.LayoutParams) action.getLayoutParams();
+        params.height = abHeight;
+        action.setLayoutParams(params);
+
+        if (settings.theme == AppSettings.THEME_DARK) {
+            action.setBackgroundResource(R.color.darker_primary);
+            status.setBackgroundResource(R.color.darkest_primary);
+        }
+
+        insetsBackground.setAlpha(1.0f);
+        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
+        scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                final int headerHeight = header.getHeight() - abHeight;
+                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+                //insetsBackground.setAlpha(ratio);
+            }
+        });
     }
 
     public void setUpTheme() {
@@ -166,12 +229,21 @@ public class ProfilePager extends Activity {
         if (screenName.equalsIgnoreCase(settings.myScreenName)) {
             isMyProfile = true;
         }
-
-        getUser();
     }
 
     public void setProfileCard(User user) {
-        background.loadImage(user.getProfileBannerIPadRetinaURL(), true, null);
+        String color = user.getProfileBackgroundColor();
+        String backgroundImage = user.getProfileBannerIPadRetinaURL();
+
+        if (color != null && !color.equals("000000")) {
+            int color1 = Color.parseColor("#" + color);
+            profileCounts.setBackgroundColor(color1);
+            findViewById(R.id.status_bar).setBackgroundColor(color1);
+            findViewById(R.id.actionbar_bar).setBackgroundColor(color1);
+        }
+        if (backgroundImage != null) {
+            background.loadImage(backgroundImage, true, null);
+        }
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
         description.setText(user.getDescription());
@@ -188,8 +260,10 @@ public class ProfilePager extends Activity {
         Thread getUser = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                Twitter twitter =  Utils.getTwitter(context, settings);
+
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
                     thisUser = twitter.showUser(screenName);
                 } catch (Exception e) {
                     thisUser = null;
@@ -216,11 +290,96 @@ public class ProfilePager extends Activity {
                 });
 
                 new GetActionBarInfo().execute();
+
+                // start the other actions now that we are done finding the user
+                getFollowers(twitter);
+                getFriends(twitter);
+
             }
         });
 
         getUser.setPriority(Thread.MAX_PRIORITY);
         getUser.start();
+    }
+
+    private void getFollowers(Twitter twitter) {
+        try {
+            final List<User> followers = twitter.getFollowersList(thisUser.getId(), -1, 3);
+
+            ((Activity)context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setFollowers(followers);
+                }
+            });
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setFollowers(List<User> followers) {
+        switch (followers.size()) {
+            case 0:
+                for(int i = 0; i < 3; i++)
+                    this.followers[i].setVisibility(View.GONE);
+                break;
+            case 1:
+                for(int i = 0; i < 2; i++)
+                    this.followers[i].setVisibility(View.GONE);
+                this.followers[2].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
+                break;
+            case 2:
+                for(int i = 0; i < 1; i++)
+                    this.followers[i].setVisibility(View.GONE);
+                this.followers[1].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
+                this.followers[2].loadImage(followers.get(1).getBiggerProfileImageURL(), false, null);
+                break;
+            case 3:
+                this.followers[0].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
+                this.followers[1].loadImage(followers.get(1).getBiggerProfileImageURL(), false, null);
+                this.followers[2].loadImage(followers.get(2).getBiggerProfileImageURL(), false, null);
+                break;
+        }
+    }
+
+    private void getFriends(Twitter twitter) {
+        try {
+            final List<User> friends = twitter.getFriendsList(thisUser.getId(), -1, 3);
+
+            ((Activity)context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    setFriends(friends);
+                }
+            });
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setFriends(List<User> friends) {
+        switch (friends.size()) {
+            case 0:
+                for(int i = 0; i < 3; i++)
+                    this.friends[i].setVisibility(View.GONE);
+                break;
+            case 1:
+                for(int i = 0; i < 2; i++)
+                    this.friends[i].setVisibility(View.GONE);
+                this.friends[2].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
+                break;
+            case 2:
+                for(int i = 0; i < 1; i++)
+                    this.followers[i].setVisibility(View.GONE);
+                this.followers[1].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
+                this.followers[2].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
+                break;
+            case 3:
+                this.friends[0].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
+                this.friends[1].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
+                this.friends[2].loadImage(friends.get(2).getBiggerProfileImageURL(), false, null);
+                break;
+        }
     }
 
     class GetActionBarInfo extends AsyncTask<String, Void, Void> {
