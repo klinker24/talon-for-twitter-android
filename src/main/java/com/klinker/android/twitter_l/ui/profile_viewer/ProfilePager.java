@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +33,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
@@ -39,6 +41,7 @@ import com.klinker.android.twitter_l.adapters.ProfilePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -86,6 +89,8 @@ public class ProfilePager extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -105,34 +110,30 @@ public class ProfilePager extends Activity {
 
         setUpTheme();
 
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
-
         getFromIntent();
 
-        getActionBar().setIcon(null);
+        setContentView(R.layout.user_profile);
 
-        setContentView(R.layout.tweet_pager);
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        ProfilePagerAdapter mPagerAdapter = new ProfilePagerAdapter(getFragmentManager(), context, name, screenName, proPic, tweetId, isRetweet, isMyProfile);
-        pager.setAdapter(mPagerAdapter);
-        pager.setOffscreenPageLimit(3);
+        setUpContent();
+    }
 
-        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        if (settings.theme == AppSettings.THEME_DARK)
-            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
-        else
-            strip.setBackgroundColor(getResources().getColor(R.color.primary));
+    public NetworkedCacheableImageView background;
+    public NetworkedCacheableImageView profilePic;
+    public TextView followerCount;
+    public TextView followingCount;
+    public TextView description;
+    public TextView location;
+    public TextView website;
 
-        Utils.setActionBar(context);
+    public void setUpContent() {
+        background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
+        profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
-        // set it to the profile
-        pager.setCurrentItem(1);
+        followerCount = (TextView) findViewById(R.id.followers_number);
+        followingCount= (TextView) findViewById(R.id.following_number);
+        description = (TextView) findViewById(R.id.user_description);
+        location = (TextView) findViewById(R.id.user_location);
+        website = (TextView) findViewById(R.id.user_webpage);
     }
 
     public void setUpTheme() {
@@ -142,41 +143,8 @@ public class ProfilePager extends Activity {
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-
-        if (settings.addonTheme) {
-            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
-        }
-    }
-
-
-
-    public void setUpWindow() {
-
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        // Params for the window.
-        // You can easily set the alpha and the dim behind the window from here
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .75f;  // set it higher if you want to dim behind the window
-        getWindow().setAttributes(params);
-
-        // Gets the display size so that you can set the window to a percent of that
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        // You could also easily used an integer value from the shared preferences to set the percent
-        if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .8));
-        } else {
-            getWindow().setLayout((int) (width * .7), (int) (height * .8));
-        }
-
+        actionBar.setIcon(null);
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
 
     private boolean isMyProfile = false;
@@ -200,6 +168,18 @@ public class ProfilePager extends Activity {
         }
 
         getUser();
+    }
+
+    public void setProfileCard(User user) {
+        background.loadImage(user.getProfileBannerIPadRetinaURL(), true, null);
+        profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
+
+        description.setText(user.getDescription());
+        location.setText(user.getLocation());
+        website.setText(user.getURL());
+
+        followingCount.setText(user.getFriendsCount() + " " + getString(R.string.following));
+        followerCount.setText(user.getFollowersCount() + " " + getString(R.string.followers));
     }
 
     public User thisUser;
@@ -227,6 +207,13 @@ public class ProfilePager extends Activity {
                             MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
                     suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
                 }
+
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setProfileCard(thisUser);
+                    }
+                });
 
                 new GetActionBarInfo().execute();
             }
