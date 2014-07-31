@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import android.widget.Toolbar;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
@@ -161,6 +162,11 @@ public class MainActivity extends DrawerActivity {
         });
 
         actionBar = getActionBar();
+        /*Toolbar toolbar = new Toolbar(context);
+        toolbar.setTitle("Timeline");
+        toolbar.setNavigationIcon(R.drawable.ic_drawer_dark);
+        toolbar.inflateMenu(R.menu.main_activity);
+        setActionBar(toolbar);*/
         actionBar.setTitle(getResources().getString(R.string.timeline));
 
         if (!settings.isTwitterLoggedIn) {

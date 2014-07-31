@@ -218,10 +218,12 @@ public abstract class DrawerActivity extends Activity {
 
                     if (!actionBar.isShowing()) {
                         actionBar.show();
-                    }
 
-                    if (translucent) {
-                        statusBar.setVisibility(View.VISIBLE);
+                        if (settings.theme == AppSettings.THEME_DARK) {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.darkest_primary));
+                        } else {
+                            getWindow().setStatusBarColor(getResources().getColor(R.color.darker_primary));
+                        }
                     }
                 }
             };

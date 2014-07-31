@@ -24,6 +24,7 @@ limitations under the License.
     <color name="accent">#3f51b5</color>
     <color name="accent_ligher">#9fa8da</color>
     <color name="snack_bar">#DD323232</color>
+    <color name="transparent_system_bar">#50000000</color>
 
 
     <color name="app_color">@color/accent</color>

@@ -351,12 +351,33 @@ public abstract class MainFragment extends Fragment {
         }
     }
 
+    int orangeStatus = -1;
     public void showStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+        //DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+        if (orangeStatus == -1) {
+            if (settings.theme == AppSettings.THEME_DARK) {
+                orangeStatus = getResources().getColor(R.color.darkest_primary);
+            } else {
+                orangeStatus = getResources().getColor(R.color.darker_primary);
+            }
+        }
+
+        context.getWindow().setStatusBarColor(orangeStatus);
     }
 
+    int tranparent = -1;
     public void hideStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.GONE);
+        if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
+            DrawerActivity.statusBar.setVisibility(View.GONE);
+        }
+        if (tranparent == -1) {
+            if (settings.theme == AppSettings.THEME_DARK) {
+                tranparent = Color.parseColor("#00000000");
+            } else {
+                tranparent = getResources().getColor(R.color.transparent_system_bar);
+            }
+        }
+        context.getWindow().setStatusBarColor(tranparent);
     }
 
     public void setUpToastBar(View view) {

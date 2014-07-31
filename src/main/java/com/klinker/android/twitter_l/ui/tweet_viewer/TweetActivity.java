@@ -118,8 +118,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         } catch (Exception e) {
 
         }
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         context = this;
         settings = AppSettings.getInstance(this);

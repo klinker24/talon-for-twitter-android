@@ -40,6 +40,10 @@ limitations under the License.
         <item name="android:windowSharedElementExitTransition">
             @transition/move_image</item>
 
+        <item name="android:navigationBarColor">@color/transparent_system_bar</item>
+
+        <!--<item name="android:windowActionBar">false</item>-->
+
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
@@ -122,6 +126,8 @@ limitations under the License.
     <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:windowActionBar">false</item>-->
     </style>
 
     <style name="Theme.TalonDark.Tweet.FastTransitions" parent="Theme.TalonDark.Tweet">
