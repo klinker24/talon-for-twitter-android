@@ -5,9 +5,9 @@
     <item android:id="@+id/menu_share"
         android:orderInCategory="1"
         android:title="@string/menu_share"
-        android:icon="?shareButton"
+        android:icon="@drawable/ic_action_share_dark"
         android:showAsAction="always"
-        android:actionProviderClass="android.widget.ShareActionProvider"/>
+        android:actionProviderClass="com.klinker.android.twitter_l.manipulations.widgets.AlwaysLightShareActionProvider"/>
 
     <item android:id="@+id/menu_delete_tweet"
           android:orderInCategory="2"

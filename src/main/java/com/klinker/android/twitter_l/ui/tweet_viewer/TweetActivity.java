@@ -118,6 +118,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         } catch (Exception e) {
 
         }
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         context = this;
@@ -537,7 +538,23 @@ public class TweetActivity extends YouTubeBaseActivity {
         insetsBackground.setAlpha(0);
 
         final int abHeight = Utils.getActionBarHeight(context);
+        final int sbHeight = Utils.getStatusBarHeight(context);
         final View header = findViewById(R.id.profile_pic_contact);
+
+        View status = findViewById(R.id.status_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+        params.height = sbHeight;
+        status.setLayoutParams(params);
+
+        View action = findViewById(R.id.actionbar_bar);
+        params = (LinearLayout.LayoutParams) action.getLayoutParams();
+        params.height = abHeight;
+        action.setLayoutParams(params);
+
+        if (settings.theme == AppSettings.THEME_DARK) {
+            action.setBackgroundResource(R.color.darker_primary);
+            status.setBackgroundResource(R.color.darkest_primary);
+        }
 
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
@@ -581,6 +598,12 @@ public class TweetActivity extends YouTubeBaseActivity {
         navBarSeperator.setLayoutParams(navBar);
 
         if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            navBarSeperator.setVisibility(View.VISIBLE);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            navBarSeperator.setVisibility(View.GONE);
+        }
+
+        if (getResources().getBoolean(R.bool.isTablet)) {
             navBarSeperator.setVisibility(View.VISIBLE);
         }
     }
