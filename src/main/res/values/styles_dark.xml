@@ -56,6 +56,7 @@ limitations under the License.
         <item name="icon_color">@color/icon_dark</item>
         <item name="drawer_subtext">@color/drawer_subtext_dark</item>
         <item name="drawer_options_background">@color/drawer_options_background_dark</item>
+        <item name="tweet_background">@color/dark_drawer</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_dark</item>
         <item name="myTweetBackground">@drawable/sent_background_dark</item>
