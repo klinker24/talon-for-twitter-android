@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
     <View android:layout_width="match_parent" android:layout_height="match_parent"
           android:id="@+id/background"
           android:background="?tweet_background" />
 
     <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:id="@+id/notify_scroll_view"
             android:overScrollMode="never">
 
         <!-- Holds all the content that can be scrolled -->
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
             <!-- This is the persons header with name, picture, and handle -->
-            <LinearLayout
+            <RelativeLayout
                     android:orientation="vertical"
                     android:id="@+id/pro_pic_container"
                     android:layout_width="match_parent"
@@ -30,78 +30,50 @@
                     android:focusableInTouchMode="true"
                     android:gravity="right">
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="300dp"
-                            android:id="@+id/profile_pic_contact"
-                            android:scaleType="centerCrop"
-                            android:contentDescription="Profile Picture"
-                            android:viewName="profile_picture"/>
+                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:id="@+id/profile_pic_contact"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Profile Picture"
+                        android:viewName="profile_picture"/>
 
-                <LinearLayout
-                        android:id="@+id/send_layout"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:padding="10dp"
-                        android:background="@drawable/floating_action_button"
-                        android:elevation="3dp"
-                        android:layout_marginTop="-28dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="40dp"
-                        android:gravity="center"
-                        android:focusableInTouchMode="true"
-                        android:focusable="true" >
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:background="#50000000"
+                              android:id="@+id/person_info"
+                              android:layout_marginTop="-29dp"
+                              android:orientation="horizontal"
+                              android:paddingLeft="20dp"
+                              android:paddingTop="20dp"
+                              android:paddingBottom="20dp"
+                              android:paddingRight="20dp"
+                              android:layout_alignParentBottom="true">
 
-                    <ImageButton
-                            android:id="@+id/send_button"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:minHeight="24dp" android:minWidth="24dp"
-                            android:scaleType="center" android:adjustViewBounds="true"
-                            android:maxWidth="24dp" android:maxHeight="24dp"
-                            android:src="@drawable/ic_send_dark"
-                            android:contentDescription="New Tweet"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+                    <TextView
+                            android:id="@+id/name"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:textSize="24sp"
+                            android:alpha=".87"
+                            android:textColor="@android:color/white"
+                            android:viewName="person_name"/>
+
+                    <TextView
+                            android:id="@+id/screen_name"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:textSize="16sp"
+                            android:alpha=".87"
+                            android:textColor="@android:color/white"
+                            android:viewName="person_handle"/>
+
 
                 </LinearLayout>
 
-                    <LinearLayout android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:background="#34444b"
-                                  android:id="@+id/person_info"
-                                  android:layout_marginTop="-29dp"
-                                  android:orientation="vertical"
-                                  android:paddingLeft="20dp"
-                                  android:paddingTop="20dp"
-                                  android:paddingBottom="55dp"
-                                  android:paddingRight="20dp">
-
-                        <TextView
-                                android:id="@+id/name"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:singleLine="true"
-                                android:textSize="24sp"
-                                android:alpha=".87"
-                                android:textColor="@android:color/white"
-                                android:viewName="person_name"/>
-
-                        <TextView
-                                android:id="@+id/screen_name"
-                                android:layout_height="wrap_content"
-                                android:layout_width="wrap_content"
-                                android:singleLine="true"
-                                android:textSize="16sp"
-                                android:alpha=".87"
-                                android:textColor="@android:color/white"
-                                android:viewName="person_handle"/>
-
-
-                    </LinearLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <android.support.v7.widget.CardView
@@ -113,9 +85,9 @@
                     android:layout_marginBottom="16dp" >
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
 
                     <LinearLayout
                             android:orientation="vertical"
@@ -187,9 +159,9 @@
             </android.support.v7.widget.CardView>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:id="@+id/extra_content"
-                    android:visibility="invisible">
+                          android:orientation="vertical"
+                          android:id="@+id/extra_content"
+                          android:visibility="invisible">
 
                 <View android:layout_width="match_parent"
                       android:id="@+id/youtube_divider"
