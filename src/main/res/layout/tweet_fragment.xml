@@ -6,7 +6,7 @@
 
     <View android:layout_width="match_parent" android:layout_height="match_parent"
           android:id="@+id/background"
-          android:background="?tweet_background" />
+          android:background="?windowBackground" />
 
     <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
         android:layout_width="match_parent"
