@@ -41,6 +41,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -246,24 +247,37 @@ public class ProfilePager extends Activity {
         String color = user.getProfileBackgroundColor();
         String backgroundImage = user.getProfileBannerIPadRetinaURL();
 
-        if (color != null && !color.equals("000000") && !color.toLowerCase().equals("ffffff")) {
+        int brightness = ImageUtils.getBrightness(color);
+        Log.v("talon_profile_color", "brightness: " + brightness);
+
+        if (brightness < 240) {
             int color1 = Color.parseColor("#" + color);
             profileCounts.setBackgroundColor(color1);
-            findViewById(R.id.status_bar).setBackgroundColor(color1);
-            findViewById(R.id.actionbar_bar).setBackgroundColor(color1);
+
+            if (brightness < 210) {
+                findViewById(R.id.status_bar).setBackgroundColor(color1);
+                findViewById(R.id.actionbar_bar).setBackgroundColor(color1);
+            }
+
+            if (brightness > 128) {
+                followerCount.setTextColor(getResources().getColor(R.color.light_text));
+                followingCount.setTextColor(getResources().getColor(R.color.light_text));
+            }
         }
+
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
         } else {
             background.setImageDrawable(getDrawable(R.drawable.default_header_background));
         }
+
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
         String des = user.getDescription();
         String loc = user.getLocation();
         String web = user.getURL();
 
-        if (des != null) {
+        if (des != null && !des.equals("")) {
             description.setText(des);
         } else {
             description.setVisibility(View.GONE);

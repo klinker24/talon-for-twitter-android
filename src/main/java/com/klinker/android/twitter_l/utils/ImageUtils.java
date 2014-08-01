@@ -3,13 +3,7 @@ package com.klinker.android.twitter_l.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -485,5 +479,18 @@ public class ImageUtils {
         }
 
         return inSampleSize;
+    }
+
+    public static int getBrightness(String color) {
+
+        int colorInt = (int)Long.parseLong(color, 16);
+        int r = (colorInt >> 16) & 0xFF;
+        int g = (colorInt >> 8) & 0xFF;
+        int b = (colorInt >> 0) & 0xFF;
+
+        return (int) Math.sqrt(
+                r * r * .241 +
+                        g * g * .691 +
+                        b * b * .068);
     }
 }
