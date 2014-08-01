@@ -23,6 +23,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.jakewharton.disklrucache.Util;
@@ -54,6 +56,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.klinker.android.twitter_l.utils.text.TextUtils;
 import twitter4j.Relationship;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
@@ -125,7 +128,7 @@ public class ProfilePager extends Activity {
         profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
         followerCount = (TextView) findViewById(R.id.followers_number);
-        followingCount= (TextView) findViewById(R.id.following_number);
+        followingCount = (TextView) findViewById(R.id.following_number);
         description = (TextView) findViewById(R.id.user_description);
         location = (TextView) findViewById(R.id.user_location);
         website = (TextView) findViewById(R.id.user_webpage);
@@ -151,10 +154,11 @@ public class ProfilePager extends Activity {
 
         CardView headerCard = (CardView) findViewById(R.id.header_card);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
-        params.topMargin = abHeight + sbHeight + Utils.toDP(16, context);
+        params.topMargin = abHeight + sbHeight + Utils.toDP(86, context);
         headerCard.setLayoutParams(params);
     }
 
+    private int offsetSize = 0;
     public void setUpInsets() {
         final View insetsBackground = findViewById(R.id.actionbar_and_status_bar);
 
@@ -187,14 +191,20 @@ public class ProfilePager extends Activity {
             status.setBackgroundResource(R.color.darkest_primary);
         }
 
-        insetsBackground.setAlpha(1.0f);
+        insetsBackground.setAlpha(0f);
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                if (t > offsetSize) {
+                    background.setTranslationY(-1f * (t - offsetSize));
+                }
+                if (t < offsetSize - 5 && t > offsetSize && (oldt - t)  < 5) {
+                    background.setTranslationY(0f);
+                }
                 final int headerHeight = header.getHeight() - abHeight;
                 final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                //insetsBackground.setAlpha(ratio);
+                insetsBackground.setAlpha(ratio);
             }
         });
     }
@@ -206,6 +216,7 @@ public class ProfilePager extends Activity {
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        android:actionBar.setTitle("");
         actionBar.setIcon(null);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
@@ -235,7 +246,7 @@ public class ProfilePager extends Activity {
         String color = user.getProfileBackgroundColor();
         String backgroundImage = user.getProfileBannerIPadRetinaURL();
 
-        if (color != null && !color.equals("000000")) {
+        if (color != null && !color.equals("000000") && !color.toLowerCase().equals("ffffff")) {
             int color1 = Color.parseColor("#" + color);
             profileCounts.setBackgroundColor(color1);
             findViewById(R.id.status_bar).setBackgroundColor(color1);
@@ -243,15 +254,97 @@ public class ProfilePager extends Activity {
         }
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
+        } else {
+            background.setImageDrawable(getDrawable(R.drawable.default_header_background));
         }
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
-        description.setText(user.getDescription());
-        location.setText(user.getLocation());
-        website.setText(user.getURL());
+        String des = user.getDescription();
+        String loc = user.getLocation();
+        String web = user.getURL();
 
-        followingCount.setText(user.getFriendsCount() + " " + getString(R.string.following));
-        followerCount.setText(user.getFollowersCount() + " " + getString(R.string.followers));
+        if (des != null) {
+            description.setText(des);
+        } else {
+            description.setVisibility(View.GONE);
+        }
+        if (loc != null && !loc.equals("")) {
+            location.setText(loc);
+        } else {
+            location.setVisibility(View.GONE);
+        }
+        if (web != null && !web.equals("")) {
+            website.setText(web);
+        } else {
+            website.setVisibility(View.GONE);
+        }
+
+        followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
+        followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+
+        TextUtils.linkifyText(context, description, null, true, "", false);
+        TextUtils.linkifyText(context, website, null, true, "", false);
+
+        showCard(findViewById(R.id.header_card));
+    }
+
+    private View spinner;
+    private void showCard(final View v) {
+        if (spinner == null) {
+            spinner = findViewById(R.id.spinner);
+        }
+        if (spinner.getVisibility() == View.VISIBLE) {
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (spinner.getVisibility() != View.GONE) {
+                        spinner.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            anim.setDuration(250);
+            spinner.startAnimation(anim);
+        }
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.activity_slide_up);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (v.getVisibility() != View.VISIBLE) {
+                    v.setVisibility(View.VISIBLE);
+                }
+
+                if (offsetSize == 0) {
+                    offsetSize = ((LinearLayout) findViewById(R.id.lower_card)).getHeight() + Utils.toDP(50, context);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        anim.setStartOffset(150);
+        anim.setDuration(300);
+        v.startAnimation(anim);
     }
 
     public User thisUser;
@@ -360,19 +453,18 @@ public class ProfilePager extends Activity {
     private void setFriends(List<User> friends) {
         switch (friends.size()) {
             case 0:
-                for(int i = 0; i < 3; i++)
+                for(int i = 0; i < 3; i++) // 0, 1, and 2 are gone
                     this.friends[i].setVisibility(View.GONE);
                 break;
             case 1:
-                for(int i = 0; i < 2; i++)
+                for(int i = 0; i < 2; i++) // 0 and 1 are gone
                     this.friends[i].setVisibility(View.GONE);
                 this.friends[2].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
                 break;
             case 2:
-                for(int i = 0; i < 1; i++)
-                    this.followers[i].setVisibility(View.GONE);
-                this.followers[1].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
-                this.followers[2].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
+                this.friends[0].setVisibility(View.GONE);
+                this.friends[1].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
+                this.friends[2].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
                 break;
             case 3:
                 this.friends[0].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
