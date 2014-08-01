@@ -318,7 +318,7 @@ public class ProfilePager extends Activity {
             spinner.startAnimation(anim);
         }
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.activity_slide_up);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
