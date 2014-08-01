@@ -41,10 +41,9 @@
                     android:id="@+id/header_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:maxWidth="300dp"
                     android:layout_marginTop="82dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="64dp"
+                    android:layout_marginLeft="64dp"
                     android:layout_marginBottom="16dp"
                     android:visibility="invisible">
 
