@@ -208,6 +208,16 @@ public class ProfilePager extends Activity {
                 insetsBackground.setAlpha(ratio);
             }
         });
+
+        if (Utils.hasNavBar(context)) {
+            View v = findViewById(R.id.nav_bar_seperator);
+            v.setVisibility(View.VISIBLE);
+            params = (LinearLayout.LayoutParams) v.getLayoutParams();
+            params.height = Utils.getNavBarHeight(context);
+            v.setLayoutParams(params);
+        } else {
+            findViewById(R.id.nav_bar_seperator).setVisibility(View.GONE);
+        }
     }
 
     public void setUpTheme() {
