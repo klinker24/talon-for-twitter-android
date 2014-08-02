@@ -102,6 +102,10 @@ public class DMFragment extends MainFragment {
                         hideStatusBar();
                     }
                 }
+
+                if (firstVisibleItem == 0) {
+                    showStatusBar();
+                }
             }
 
         });

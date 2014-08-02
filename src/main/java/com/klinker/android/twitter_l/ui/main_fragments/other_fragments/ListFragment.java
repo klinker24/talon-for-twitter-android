@@ -112,6 +112,10 @@ public class ListFragment extends MainFragment {
                         hideStatusBar();
                     }
                 }
+
+                if (firstVisibleItem == 0) {
+                    showStatusBar();
+                }
             }
         });
     }

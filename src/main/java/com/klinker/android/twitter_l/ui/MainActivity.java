@@ -315,6 +315,15 @@ public class MainActivity extends DrawerActivity {
     public void onResume() {
         super.onResume();
 
+        if (!actionBar.isShowing()) {
+            actionBar.show();
+            if (settings.theme == AppSettings.THEME_DARK) {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.darkest_primary));
+            } else {
+                getWindow().setStatusBarColor(getResources().getColor(R.color.darker_primary));
+            }
+        }
+
         Log.v("talon_starting", "onResume()");
 
         getWindow().setExitTransition(new Explode());

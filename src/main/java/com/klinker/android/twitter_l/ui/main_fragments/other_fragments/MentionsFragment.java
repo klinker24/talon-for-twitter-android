@@ -96,6 +96,10 @@ public class MentionsFragment extends MainFragment {
                         hideStatusBar();
                     }
                 }
+
+                if (firstVisibleItem == 0) {
+                    showStatusBar();
+                }
             }
         });
     }

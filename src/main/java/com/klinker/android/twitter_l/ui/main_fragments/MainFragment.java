@@ -371,11 +371,7 @@ public abstract class MainFragment extends Fragment {
             DrawerActivity.statusBar.setVisibility(View.GONE);
         }
         if (tranparent == -1) {
-            if (settings.theme == AppSettings.THEME_DARK) {
-                tranparent = Color.parseColor("#00000000");
-            } else {
-                tranparent = getResources().getColor(R.color.transparent_system_bar);
-            }
+            tranparent = getResources().getColor(R.color.transparent_system_bar);
         }
         context.getWindow().setStatusBarColor(tranparent);
     }
