@@ -76,6 +76,7 @@ public class ProfilePager extends Activity {
 
     private boolean isBlocking;
     private boolean isFollowing;
+    private boolean followingYou;
     private boolean isFavorite;
     private boolean isMuted;
     private boolean isRTMuted;
@@ -221,7 +222,6 @@ public class ProfilePager extends Activity {
     }
 
     public void setUpTheme() {
-
         Utils.setUpTweetTheme(context, settings);
 
         actionBar = getActionBar();
@@ -308,6 +308,43 @@ public class ProfilePager extends Activity {
 
         TextUtils.linkifyText(context, description, null, true, "", false);
         TextUtils.linkifyText(context, website, null, true, "", false);
+
+        TextView followingStatus = (TextView) findViewById(R.id.follow_status);
+        TextView followText = (TextView) findViewById(R.id.follow_button_text);
+        TextView favoriteText = (TextView) findViewById(R.id.favorite_button);
+        LinearLayout followButton = (LinearLayout) findViewById(R.id.follow_button);
+
+        if (isFollowing) {
+            followText.setText(getString(R.string.menu_unfollow));
+        } else {
+            followText.setText(getString(R.string.menu_follow));
+        }
+
+        followButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FollowUser().execute();
+            }
+        });
+
+        if (followingYou) {
+            followingStatus.setText("@" + user.getScreenName() + ": " + getString(R.string.follows_you));
+        } else {
+            followingStatus.setText("@" + user.getScreenName() + ": " + getString(R.string.not_following_you));
+        }
+
+        if (isFavorite) {
+            favoriteText.setText(getString(R.string.menu_unfavorite));
+        } else {
+            favoriteText.setText(getString(R.string.menu_favorite));
+        }
+
+        favoriteText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FavoriteUser().execute();
+            }
+        });
 
         showCard(findViewById(R.id.header_card));
     }
@@ -399,14 +436,40 @@ public class ProfilePager extends Activity {
                     suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
                 }
 
+                // set the info to set up the action bar items
+                if (isMyProfile) {
+                    if (thisUser != null) {
+                        // put in the banner and profile pic to shared prefs
+                        sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).commit();
+                        sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).commit();
+                    }
+                } else {
+                    try {
+
+                        String otherUserName = screenName;
+                        Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
+
+                        isFollowing = friendship.isSourceFollowingTarget();
+                        followingYou = friendship.isTargetFollowingSource();
+                        isBlocking = friendship.isSourceBlockingTarget();
+                        isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
+                        isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
+                        isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(settings.currentAccount, otherUserName);
+                        isFollowingSet = true;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        actionBar.setTitle(thisUser.getName());
+                        invalidateOptionsMenu();
                         setProfileCard(thisUser);
                     }
                 });
-
-                new GetActionBarInfo().execute();
 
                 // start the other actions now that we are done finding the user
                 getFollowers(twitter);
@@ -779,6 +842,11 @@ public class ProfilePager extends Activity {
             menu.getItem(MENU_CHANGE_BANNER).setVisible(false);
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
+
+        menu.getItem(MENU_FAVORITE).setVisible(false);
+        menu.getItem(MENU_UNFAVORITE).setVisible(false);
+        menu.getItem(MENU_FOLLOW).setVisible(false);
+        menu.getItem(MENU_UNFOLLOW).setVisible(false);
 
         return true;
     }
