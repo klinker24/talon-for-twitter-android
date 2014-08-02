@@ -764,54 +764,34 @@ public class ProfilePager extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         final int MENU_TWEET = 0;
-        final int MENU_FOLLOW = 1;
-        final int MENU_UNFOLLOW = 2;
-        final int MENU_FAVORITE = 3;
-        final int MENU_UNFAVORITE = 4;
-        final int MENU_BLOCK = 5;
-        final int MENU_UNBLOCK = 6;
-        final int MENU_ADD_LIST = 7;
-        final int MENU_DM = 8;
-        final int MENU_CHANGE_PICTURE = 9;
-        final int MENU_CHANGE_BANNER = 10;
-        final int MENU_CHANGE_BIO = 11;
-        final int MENU_MUTE = 12;
-        final int MENU_UNMUTE = 13;
-        final int MENU_MUTE_RT = 14;
-        final int MENU_UNMUTE_RT = 15;
+        final int MENU_BLOCK = 1;
+        final int MENU_UNBLOCK = 2;
+        final int MENU_ADD_LIST = 3;
+        final int MENU_DM = 4;
+        final int MENU_CHANGE_PICTURE = 5;
+        final int MENU_CHANGE_BANNER = 6;
+        final int MENU_CHANGE_BIO = 7;
+        final int MENU_MUTE = 8;
+        final int MENU_UNMUTE = 9;
+        final int MENU_MUTE_RT = 10;
+        final int MENU_UNMUTE_RT = 11;
 
         if (isMyProfile) {
             menu.getItem(MENU_TWEET).setVisible(false);
-            menu.getItem(MENU_FOLLOW).setVisible(false);
-            menu.getItem(MENU_UNFOLLOW).setVisible(false);
             menu.getItem(MENU_BLOCK).setVisible(false);
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
             menu.getItem(MENU_DM).setVisible(false);
-            menu.getItem(MENU_FAVORITE).setVisible(false);
-            menu.getItem(MENU_UNFAVORITE).setVisible(false);
             menu.getItem(MENU_MUTE).setVisible(false);
             menu.getItem(MENU_UNMUTE).setVisible(false);
             menu.getItem(MENU_MUTE_RT).setVisible(false);
             menu.getItem(MENU_UNMUTE_RT).setVisible(false);
         } else {
             if (isFollowingSet) {
-                if (isFollowing) {
-                    menu.getItem(MENU_FOLLOW).setVisible(false);
-                } else {
-                    menu.getItem(MENU_UNFOLLOW).setVisible(false);
-                }
-
                 if (isBlocking) {
                     menu.getItem(MENU_BLOCK).setVisible(false);
                 } else {
                     menu.getItem(MENU_UNBLOCK).setVisible(false);
-                }
-
-                if (isFavorite) {
-                    menu.getItem(MENU_FAVORITE).setVisible(false);
-                } else {
-                    menu.getItem(MENU_UNFAVORITE).setVisible(false);
                 }
 
                 if (isMuted) {
@@ -826,10 +806,6 @@ public class ProfilePager extends Activity {
                     menu.getItem(MENU_UNMUTE_RT).setVisible(false);
                 }
             } else {
-                menu.getItem(MENU_FOLLOW).setVisible(false);
-                menu.getItem(MENU_UNFOLLOW).setVisible(false);
-                menu.getItem(MENU_FAVORITE).setVisible(false);
-                menu.getItem(MENU_UNFAVORITE).setVisible(false);
                 menu.getItem(MENU_BLOCK).setVisible(false);
                 menu.getItem(MENU_UNBLOCK).setVisible(false);
                 menu.getItem(MENU_MUTE).setVisible(false);
@@ -842,11 +818,6 @@ public class ProfilePager extends Activity {
             menu.getItem(MENU_CHANGE_BANNER).setVisible(false);
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
-
-        menu.getItem(MENU_FAVORITE).setVisible(false);
-        menu.getItem(MENU_UNFAVORITE).setVisible(false);
-        menu.getItem(MENU_FOLLOW).setVisible(false);
-        menu.getItem(MENU_UNFOLLOW).setVisible(false);
 
         return true;
     }
