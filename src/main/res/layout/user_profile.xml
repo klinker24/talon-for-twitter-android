@@ -200,7 +200,8 @@
                                               android:layout_weight="1"
                                               android:layout_gravity="left|center_vertical"
                                               android:background="?android:attr/selectableItemBackground"
-                                              android:id="@+id/follow_button">
+                                              android:id="@+id/follow_button"
+                                              android:padding="4dp">
 
                                     <TextView android:layout_width="wrap_content"
                                               android:layout_height="wrap_content"
@@ -215,8 +216,9 @@
                                     <TextView android:layout_width="wrap_content"
                                               android:layout_height="wrap_content"
                                               android:textColor="?dateColor"
-                                              android:textAllCaps="true"
-                                              android:textSize="12sp"
+                                              android:fontFamily="sans-serif-light"
+                                              android:textSize="11sp"
+                                              android:singleLine="true"
                                               android:id="@+id/follow_status"/>
 
                                 </LinearLayout>
@@ -225,12 +227,14 @@
                                 <TextView android:layout_width="0dp"
                                           android:layout_weight="1"
                                           android:layout_height="match_parent"
-                                          android:gravity="center_vertical|left"
-                                          android:layout_gravity="center_vertical|left"
+                                          android:gravity="top|left"
+                                          android:layout_gravity="top|left"
                                           android:textColor="?textColor"
                                           android:textSize="14sp"
                                           android:textStyle="bold"
                                           android:textAllCaps="true"
+                                          android:singleLine="true"
+                                          android:padding="4dp"
                                           android:background="?android:attr/selectableItemBackground"
                                           android:id="@+id/favorite_button"/>
 
