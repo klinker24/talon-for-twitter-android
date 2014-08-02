@@ -240,6 +240,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
                     }
 
+                    if (firstVisibleItem == 0) {
+                        showStatusBar();
+                    }
+
                     // this is for when they are live streaming and get to the top of the feed, the "View" button comes up.
                     if (newTweets && firstVisibleItem == 0 && settings.liveStreaming) {
                         if (liveUnread > 0) {
@@ -313,6 +317,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         } else if (MainActivity.translucent) {
                             hideStatusBar();
                         }
+                    }
+
+                    if (firstVisibleItem == 0) {
+                        showStatusBar();
                     }
 
                 }

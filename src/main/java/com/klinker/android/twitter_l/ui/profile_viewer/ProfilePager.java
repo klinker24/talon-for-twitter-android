@@ -267,6 +267,8 @@ public class ProfilePager extends Activity {
             if (brightness < 210) {
                 findViewById(R.id.status_bar).setBackgroundColor(color1);
                 findViewById(R.id.actionbar_bar).setBackgroundColor(color1);
+            } else {
+                findViewById(R.id.blacker_status_bar).setVisibility(View.GONE);
             }
 
             if (brightness > 128) {

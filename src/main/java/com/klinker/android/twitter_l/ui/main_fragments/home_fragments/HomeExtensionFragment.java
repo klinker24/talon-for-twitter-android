@@ -103,6 +103,10 @@ public abstract class HomeExtensionFragment extends MainFragment {
                         hideStatusBar();
                     }
                 }
+
+                if (firstVisibleItem == 0) {
+                    showStatusBar();
+                }
             }
         });
     }
