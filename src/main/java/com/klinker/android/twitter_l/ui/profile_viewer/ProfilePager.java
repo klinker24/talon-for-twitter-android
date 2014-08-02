@@ -330,9 +330,9 @@ public class ProfilePager extends Activity {
         });
 
         if (followingYou) {
-            followingStatus.setText("@" + user.getScreenName() + ": " + getString(R.string.follows_you));
+            followingStatus.setText(getString(R.string.follows_you));
         } else {
-            followingStatus.setText("@" + user.getScreenName() + ": " + getString(R.string.not_following_you));
+            followingStatus.setText(getString(R.string.not_following_you));
         }
 
         if (isFavorite) {
@@ -476,6 +476,18 @@ public class ProfilePager extends Activity {
                 // start the other actions now that we are done finding the user
                 getFollowers(twitter);
                 getFriends(twitter);
+
+                // if they aren't protected, then get their tweets, favorites, etc.
+                if (!thisUser.isProtected()) {
+
+                } else {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
             }
         });
