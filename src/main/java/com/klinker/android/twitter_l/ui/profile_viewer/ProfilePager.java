@@ -847,22 +847,6 @@ public class ProfilePager extends Activity {
                 onBackPressed();
                 return true;
 
-            case R.id.menu_follow:
-                new FollowUser().execute();
-                return true;
-
-            case R.id.menu_unfollow:
-                new FollowUser().execute();
-                return true;
-
-            case R.id.menu_favorite:
-                new FavoriteUser().execute();
-                return true;
-
-            case R.id.menu_unfavorite:
-                new FavoriteUser().execute();
-                return true;
-
             case R.id.menu_block:
                 new BlockUser().execute();
                 sharedPrefs.edit().putBoolean("just_muted", true).commit();
