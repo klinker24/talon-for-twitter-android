@@ -46,10 +46,7 @@ import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImage
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.IOUtils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
@@ -289,6 +286,10 @@ public class PhotoViewerDialog extends Activity {
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
+
+        File camera = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera");
+        camera.mkdirs();
+        
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "talon-share-image", null);
