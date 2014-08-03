@@ -2,14 +2,17 @@ package com.klinker.android.twitter.ui.setup;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
@@ -44,9 +47,11 @@ import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter.utils.IOUtils;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -205,6 +210,21 @@ public class LoginActivity extends Activity {
                 if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.login_to_twitter))) {
                     if (Utils.hasInternetConnection(context)) {
                         btnLoginTwitter.setEnabled(false);
+
+                        if (sharedPrefs.getInt("current_account", 1) == 2) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(getString(R.string.second_account))
+                                    .setMessage(getString(R.string.second_account_login_info))
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+
                         new RetreiveFeedTask().execute();
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.no_network) + "!", Toast.LENGTH_SHORT).show();
@@ -325,7 +345,7 @@ public class LoginActivity extends Activity {
 
             if (requestToken != null) {
                 mWebView.loadUrl(requestToken.getAuthenticationURL());
-                mWebView.requestFocus(View.FOCUS_DOWN);
+                mWebView.requestFocus(View.FOCUS_UP|View.FOCUS_RIGHT);
             } else {
                 restartLogin();
             }
@@ -660,12 +680,19 @@ public class LoginActivity extends Activity {
     }
 
     public void restartLogin() {
-        Toast.makeText(context, getResources().getString(R.string.login_error), Toast.LENGTH_SHORT).show();
-
-        Intent restart = new Intent(context, LoginActivity.class);
-        finish();
-        AppSettings.invalidate();
-        startActivity(restart);
+        new AlertDialog.Builder(context)
+                .setMessage(context.getResources().getString(R.string.login_error))
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent restart = new Intent(context, LoginActivity.class);
+                        finish();
+                        AppSettings.invalidate();
+                        startActivity(restart);
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
