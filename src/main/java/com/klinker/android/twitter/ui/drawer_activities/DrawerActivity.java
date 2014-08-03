@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -160,6 +161,9 @@ public abstract class DrawerActivity extends Activity {
             ) {
 
                 public void onDrawerClosed(View view) {
+
+                    actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+
                     if (logoutVisible) {
                         Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                         ranim.setFillAfter(true);
@@ -201,6 +205,7 @@ public abstract class DrawerActivity extends Activity {
 
                 public void onDrawerOpened(View drawerView) {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
+                    actionBar.setIcon(R.mipmap.ic_launcher);
 
                     try {
                         notificationAdapter = new InteractionsCursorAdapter(context,
@@ -733,21 +738,15 @@ public abstract class DrawerActivity extends Activity {
         }
     }
 
-    /*@Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
-            try {
-                ((BitmapDrawable)backgroundPic.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-            try {
-                ((BitmapDrawable) profilePic.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-        }
-    }*/
-
     public void setUpTheme() {
+
+        actionBar = getActionBar();
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        } else {
+            actionBar.setIcon(R.mipmap.ic_launcher);
+        }
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
             translucent = true;

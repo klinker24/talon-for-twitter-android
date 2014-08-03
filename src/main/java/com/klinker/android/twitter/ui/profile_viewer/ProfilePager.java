@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -152,6 +153,7 @@ public class ProfilePager extends Activity {
         actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         if (settings.addonTheme) {
             getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
