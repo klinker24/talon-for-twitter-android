@@ -45,6 +45,7 @@
 -- Launcher Page --
 
     - still switches the timelines every once and awhile
+    -- start the pre-cache if they have it enabled
     - emoji support
     - test ui extras on the normal page not showing and hiding the toast correctly
     - get the circles to look better on the avatars (doesnt crop rectangle first)
