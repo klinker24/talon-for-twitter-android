@@ -1,10 +1,13 @@
 <changelog>
 
     <version name="2.6.2">
+        <text>New icon</text>
         <text>Smoooother</text>
         <text>Some timeline jumping fixes</text>
-        <text>Auto-complete now works in the middle of the tweet as well (not just the end)</text>
+        <text>Auto-complete now works in the middle of the tweet</text>
+        <text>New default background image</text>
         <text>Avatar mixups fixed</text>
+        <text>Some login errors fixed</text>
         <text>Translation updates</text>
     </version>
 
