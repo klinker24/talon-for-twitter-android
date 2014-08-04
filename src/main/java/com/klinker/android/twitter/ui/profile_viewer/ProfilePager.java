@@ -137,7 +137,7 @@ public class ProfilePager extends Activity {
 
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
+            strip.setBackgroundColor(settings.pagerTitleInt);
         }
 
         Utils.setActionBar(context);

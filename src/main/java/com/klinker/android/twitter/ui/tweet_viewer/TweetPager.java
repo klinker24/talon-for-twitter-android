@@ -237,7 +237,7 @@ public class TweetPager extends YouTubeBaseActivity {
 
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-            strip.setBackgroundColor(settings.accentInt);
+            strip.setBackgroundColor(settings.pagerTitleInt);
         }
 
 
