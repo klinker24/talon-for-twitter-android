@@ -130,6 +130,7 @@ public class AppSettings {
     public boolean nameAndHandleOnTweet = false;
     public boolean combineProPicAndImage = false;
     public boolean sendToComposeWindow = false;
+    public boolean showTitleStrip = true;
     public String accentColor;
     public int accentInt;
     public int pagerTitleInt;
@@ -367,6 +368,12 @@ public class AppSettings {
                     pagerTitleInt = Color.parseColor(metaData.getString("pager_title_strip_color"));
                 } catch (Exception e) {
                     pagerTitleInt = accentInt;
+                }
+
+                try {
+                    showTitleStrip = metaData.getBoolean("display_tweet_or_profile_title_strip");
+                } catch (Exception e) {
+                    showTitleStrip = true;
                 }
 
                 Log.v("color_for_theme", accentColor);

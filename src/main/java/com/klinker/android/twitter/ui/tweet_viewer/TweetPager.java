@@ -25,13 +25,7 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.ViewConfiguration;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
@@ -238,6 +232,10 @@ public class TweetPager extends YouTubeBaseActivity {
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
             strip.setBackgroundColor(settings.pagerTitleInt);
+
+            if (!settings.showTitleStrip) {
+                strip.setVisibility(View.GONE);
+            }
         }
 
 
