@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -255,8 +256,8 @@ public class TweetFragment extends Fragment {
         final LinearLayout background;
         final ImageButton expand;
         final ImageView profilePic;
-        final ImageButton favoriteButton;
-        final ImageButton retweetButton;
+        final View favoriteButton;
+        final View retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
         final ImageButton overflow;
@@ -303,8 +304,8 @@ public class TweetFragment extends Fragment {
             background = (LinearLayout) layout.findViewById(res.getIdentifier("linLayout", "id", settings.addonThemePackage));
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-            favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
+            favoriteButton = layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+            retweetButton = layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
             reply = (EditText) layout.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
@@ -978,7 +979,7 @@ public class TweetFragment extends Fragment {
     private boolean isFavorited = false;
     private boolean isRetweet = false;
 
-    public void getFavoriteCount(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void getFavoriteCount(final TextView favs, final View favButton, final long tweetId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1001,23 +1002,35 @@ public class TweetFragment extends Fragment {
                                 int resource = a.getResourceId(0, 0);
                                 a.recycle();
 
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    favButton.setColorFilter(settings.accentInt);
-                                }
+                                if (favButton instanceof ImageButton) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)favButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)favButton).setColorFilter(settings.accentInt);
+                                    }
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                } else if (favButton instanceof LinearLayout) {
+                                    if (!settings.addonTheme) {
+                                        favButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        favButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                }
                                 isFavorited = true;
                             } else {
                                 TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
                                 int resource = a.getResourceId(0, 0);
                                 a.recycle();
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = false;
+                                if (favButton instanceof ImageButton) {
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = false;
 
-                                favButton.clearColorFilter();
+                                    ((ImageButton)favButton).clearColorFilter();
+                                } else {
+                                    favButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
                         }
                     });
@@ -1031,9 +1044,9 @@ public class TweetFragment extends Fragment {
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
-        private ImageButton retweetButton;
+        private View retweetButton;
 
-        public RemoveRetweet(long tweetId, ImageButton retweetButton) {
+        public RemoveRetweet(long tweetId, View retweetButton) {
             this.tweetId = tweetId;
             this.retweetButton = retweetButton;
         }
@@ -1059,7 +1072,11 @@ public class TweetFragment extends Fragment {
 
         protected void onPostExecute(Boolean deleted) {
 
-            retweetButton.clearColorFilter();
+            if (retweetButton instanceof ImageButton) {
+                ((ImageButton)retweetButton).clearColorFilter();
+            } else {
+                retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
 
             try {
                 if (deleted) {
@@ -1075,7 +1092,7 @@ public class TweetFragment extends Fragment {
 
     private Status status = null;
 
-    public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getInfo(final View favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final View retweetButton) {
 
         Thread getInfo = new Thread(new Runnable() {
             @Override
@@ -1157,14 +1174,26 @@ public class TweetFragment extends Fragment {
 
                             retweetCount.setText(" " + retCount);
 
-                            if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                            if (retweetButton instanceof ImageButton) {
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)retweetButton).setColorFilter(settings.accentInt);
+                                    }
                                 } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
+                                    ((ImageButton)retweetButton).clearColorFilter();
                                 }
                             } else {
-                                retweetButton.clearColorFilter();
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        retweetButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                } else {
+                                    retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
 
                             timetv.setText(timeDisplay + fVia);
@@ -1172,28 +1201,48 @@ public class TweetFragment extends Fragment {
 
                             favCount.setText(" " + sfavCount);
 
-                            if (fStatus.isFavorited()) {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
+                            if (favButton instanceof ImageButton) {
+                                if (fStatus.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
 
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)favButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)favButton).setColorFilter(settings.accentInt);
+                                    }
+
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = true;
                                 } else {
-                                    favButton.setColorFilter(settings.accentInt);
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = false;
+
+                                    ((ImageButton)favButton).clearColorFilter();
                                 }
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = true;
                             } else {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
+                                if (fStatus.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = false;
+                                    if (!settings.addonTheme) {
+                                        favButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        favButton.setBackgroundColor(settings.accentInt);
+                                    }
 
-                                favButton.clearColorFilter();
+                                    isFavorited = true;
+                                } else {
+                                    isFavorited = false;
+
+                                    favButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
 
                             for (String s : images) {
@@ -1224,7 +1273,7 @@ public class TweetFragment extends Fragment {
         getInfo.start();
     }
 
-    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getRetweetCount(final TextView retweetCount, final long tweetId, final View retweetButton) {
 
         new Thread(new Runnable() {
             @Override
@@ -1245,14 +1294,26 @@ public class TweetFragment extends Fragment {
 
                             retweetCount.setText(" " + retCount);
 
-                            if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                            if (retweetButton instanceof ImageButton) {
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)retweetButton).setColorFilter(settings.accentInt);
+                                    }
                                 } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
+                                    ((ImageButton)retweetButton).clearColorFilter();
                                 }
                             } else {
-                                retweetButton.clearColorFilter();
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        retweetButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                } else {
+                                    retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
                         }
                     });
@@ -1263,7 +1324,7 @@ public class TweetFragment extends Fragment {
         }).start();
     }
 
-    public void favoriteStatus(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void favoriteStatus(final TextView favs, final View favButton, final long tweetId) {
         if (!isFavorited) {
             Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
         } else {
@@ -1300,7 +1361,7 @@ public class TweetFragment extends Fragment {
         }).start();
     }
 
-    public void retweetStatus(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void retweetStatus(final TextView retweetCount, final long tweetId, final View retweetButton) {
         Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
