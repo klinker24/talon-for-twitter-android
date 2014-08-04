@@ -657,7 +657,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (!settings.addonTheme && talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
+        if (!settings.addonTheme && talonLayout == AppSettings.LAYOUT_FULL_SCREEN ||
+                (settings.nameAndHandleOnTweet && settings.addonTheme)) {
             if (holder.screenTV.getVisibility() == View.GONE) {
                 holder.screenTV.setVisibility(View.VISIBLE);
             }

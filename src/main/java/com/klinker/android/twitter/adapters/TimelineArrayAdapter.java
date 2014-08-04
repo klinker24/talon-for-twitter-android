@@ -561,7 +561,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN) {
+        if (talonLayout == AppSettings.LAYOUT_FULL_SCREEN ||
+                (settings.nameAndHandleOnTweet && settings.addonTheme)) {
             if (holder.screenTV.getVisibility() == View.GONE) {
                 holder.screenTV.setVisibility(View.VISIBLE);
             }

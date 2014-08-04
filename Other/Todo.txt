@@ -32,6 +32,8 @@
         - remove the dependency on smoothie and roll it myself
         - animate expanding the timeline
 
+        - insert hashtags into reply from timeline
+
 
     Version 2.6.0
         - More fragments to choose from

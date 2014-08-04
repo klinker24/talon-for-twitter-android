@@ -127,8 +127,12 @@ public class AppSettings {
     public boolean roundContactImages;
     public int backgroundColor;
     public boolean translateProfileHeader;
+    public boolean nameAndHandleOnTweet = false;
+    public boolean combineProPicAndImage = false;
+    public boolean sendToComposeWindow = false;
     public String accentColor;
     public int accentInt;
+    public int pagerTitleInt;
     public Drawable actionBar = null;
     public Drawable customBackground = null;
 
@@ -339,6 +343,30 @@ public class AppSettings {
                     accentColor = "#FF8800";
                     accentInt = Color.parseColor(accentColor);
                     accentColor = accentColor.replace("#", "");
+                }
+
+                try {
+                    nameAndHandleOnTweet = metaData.getBoolean("force_name_and_handle_on_tweet");
+                } catch (Exception e) {
+                    nameAndHandleOnTweet = false;
+                }
+
+                try {
+                    combineProPicAndImage = metaData.getBoolean("tweet_pager_combine_pro_pic_and_image");
+                } catch (Exception e) {
+                    combineProPicAndImage = false;
+                }
+
+                try {
+                    sendToComposeWindow = metaData.getBoolean("tweet_pager_send_to_compose_window");
+                } catch (Exception e) {
+                    sendToComposeWindow = false;
+                }
+
+                try {
+                    pagerTitleInt = Color.parseColor(metaData.getString("pager_title_strip_color"));
+                } catch (Exception e) {
+                    pagerTitleInt = accentInt;
                 }
 
                 Log.v("color_for_theme", accentColor);

@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -51,6 +52,7 @@ import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter.manipulations.ExpansionAnimation;
+import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.services.SendTweet;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
@@ -58,7 +60,6 @@ import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter.ui.tweet_viewer.ViewRetweeters;
 import com.klinker.android.twitter.manipulations.EmojiKeyboard;
-import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter.utils.EmojiUtils;
@@ -255,8 +256,8 @@ public class TweetFragment extends Fragment {
         final LinearLayout background;
         final ImageButton expand;
         final ImageView profilePic;
-        final ImageButton favoriteButton;
-        final ImageButton retweetButton;
+        final View favoriteButton;
+        final View retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
         final ImageButton overflow;
@@ -267,8 +268,8 @@ public class TweetFragment extends Fragment {
             screennametv = (TextView) layout.findViewById(R.id.screen_name);
             tweettv = (TextView) layout.findViewById(R.id.tweet);
             retweetertv = (TextView) layout.findViewById(R.id.retweeter);
-            background = (LinearLayout) layout.findViewById(R.id.linLayout);
-            expand = (ImageButton) layout.findViewById(R.id.expand);
+            background = null;//(LinearLayout) layout.findViewById(R.id.linLayout);
+            expand = null;//(ImageButton) layout.findViewById(R.id.expand);
             profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
             quote = (ImageButton) layout.findViewById(R.id.quote_button);
@@ -277,17 +278,17 @@ public class TweetFragment extends Fragment {
             retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
             reply = (EditText) layout.findViewById(R.id.reply);
             replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
-            attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
+            attachButton = null;//(ImageButton) layout.findViewById(R.id.attach_button);
             overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
-            buttons = (LinearLayout) layout.findViewById(R.id.buttons);
+            buttons = null;//(LinearLayout) layout.findViewById(R.id.buttons);
             charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
             at = (ImageButton) layout.findViewById(R.id.at_button);
             emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
             emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
             timetv = (TextView) layout.findViewById(R.id.time);
-            pictureIv = (ImageView) layout.findViewById(R.id.imageView);
+            pictureIv = null;//(ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
-            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
+            viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
             Resources res;
             try {
@@ -303,8 +304,8 @@ public class TweetFragment extends Fragment {
             background = (LinearLayout) layout.findViewById(res.getIdentifier("linLayout", "id", settings.addonThemePackage));
             expand = (ImageButton) layout.findViewById(res.getIdentifier("expand", "id", settings.addonThemePackage));
             profilePic = (ImageView) layout.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
-            favoriteButton = (ImageButton) layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
-            retweetButton = (ImageButton) layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
+            favoriteButton = layout.findViewById(res.getIdentifier("favorite", "id", settings.addonThemePackage));
+            retweetButton = layout.findViewById(res.getIdentifier("retweet", "id", settings.addonThemePackage));
             favoriteCount = (TextView) layout.findViewById(res.getIdentifier("fav_count", "id", settings.addonThemePackage));
             retweetCount = (TextView) layout.findViewById(res.getIdentifier("retweet_count", "id", settings.addonThemePackage));
             reply = (EditText) layout.findViewById(res.getIdentifier("reply", "id", settings.addonThemePackage));
@@ -336,105 +337,107 @@ public class TweetFragment extends Fragment {
         display.getSize(size);
         int width = size.x;
 
-        userAutocomplete = new ListPopupWindow(context);
-        userAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
-        userAutocomplete.setHeight(Utils.toDP(100, context));
-        userAutocomplete.setWidth((int)(width * .75));
-        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
-        userAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+        if (reply != null) {
+            userAutocomplete = new ListPopupWindow(context);
+            userAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+            userAutocomplete.setHeight(Utils.toDP(100, context));
+            userAutocomplete.setWidth((int) (width * .75));
+            userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
+                    FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, reply.getText().toString()), reply));
+            userAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
-        userAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                userAutocomplete.dismiss();
-            }
-        });
+            userAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    userAutocomplete.dismiss();
+                }
+            });
 
-        hashtagAutocomplete = new ListPopupWindow(context);
-        hashtagAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
-        hashtagAutocomplete.setHeight(Utils.toDP(100, context));
-        hashtagAutocomplete.setWidth((int)(width * .75));
-        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
-        hashtagAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+            hashtagAutocomplete = new ListPopupWindow(context);
+            hashtagAutocomplete.setAnchorView(layout.findViewById(R.id.prompt_pos));
+            hashtagAutocomplete.setHeight(Utils.toDP(100, context));
+            hashtagAutocomplete.setWidth((int) (width * .75));
+            hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                    HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
+            hashtagAutocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
 
-        hashtagAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                hashtagAutocomplete.dismiss();
-            }
-        });
+            hashtagAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    hashtagAutocomplete.dismiss();
+                }
+            });
 
-        reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            reply.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                String searchText = reply.getText().toString();
-
-                try {
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
-                        userAutocomplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        userAutocomplete.dismiss();
-                    } else if (userAutocomplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
-                        adapterText = adapterText.replace("@", "");
-                        userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
-                    }
-
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
-                        hashtagAutocomplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        hashtagAutocomplete.dismiss();
-                    } else if (hashtagAutocomplete.isShowing()) {
-                        String[] split = reply.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
-                        adapterText = adapterText.replace("#", "");
-                        hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                                HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
-                    }
-                } catch (Exception e) {
-                    // there is no text
-                    try {
-                        userAutocomplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong i guess haha
-                    }
-
-                    try {
-                        hashtagAutocomplete.dismiss();
-                    } catch (Exception x) {
-
-                    }
                 }
 
-            }
-        });
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    String searchText = reply.getText().toString();
+
+                    try {
+                        if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
+                            userAutocomplete.show();
+
+                        } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                            userAutocomplete.dismiss();
+                        } else if (userAutocomplete.isShowing()) {
+                            String[] split = reply.getText().toString().split(" ");
+                            String adapterText;
+                            if (split.length > 1) {
+                                adapterText = split[split.length - 1];
+                            } else {
+                                adapterText = split[0];
+                            }
+                            adapterText = adapterText.replace("@", "");
+                            userAutocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
+                                    FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), reply));
+                        }
+
+                        if (searchText.substring(searchText.length() - 1, searchText.length()).equals("#")) {
+                            hashtagAutocomplete.show();
+
+                        } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
+                            hashtagAutocomplete.dismiss();
+                        } else if (hashtagAutocomplete.isShowing()) {
+                            String[] split = reply.getText().toString().split(" ");
+                            String adapterText;
+                            if (split.length > 1) {
+                                adapterText = split[split.length - 1];
+                            } else {
+                                adapterText = split[0];
+                            }
+                            adapterText = adapterText.replace("#", "");
+                            hashtagAutocomplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                                    HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
+                        }
+                    } catch (Exception e) {
+                        // there is no text
+                        try {
+                            userAutocomplete.dismiss();
+                        } catch (Exception x) {
+                            // something went really wrong i guess haha
+                        }
+
+                        try {
+                            hashtagAutocomplete.dismiss();
+                        } catch (Exception x) {
+
+                        }
+                    }
+
+                }
+            });
+        }
 
         nametv.setTextSize(settings.textSize +2);
         screennametv.setTextSize(settings.textSize);
@@ -443,7 +446,9 @@ public class TweetFragment extends Fragment {
         retweetertv.setTextSize(settings.textSize - 3);
         favoriteCount.setTextSize(13);
         retweetCount.setTextSize(13);
-        reply.setTextSize(settings.textSize);
+        if (reply != null) {
+            reply.setTextSize(settings.textSize);
+        }
 
         if (settings.addonTheme) {
             try {
@@ -488,34 +493,36 @@ public class TweetFragment extends Fragment {
             });
         }
 
-        overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (overflow!= null) {
+            overflow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                if (buttons.getVisibility() == View.VISIBLE) {
+                    if (buttons.getVisibility() == View.VISIBLE) {
 
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate_back);
+                        ranim.setFillAfter(true);
+                        overflow.startAnimation(ranim);
 
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
+                        anim.setDuration(300);
+                        buttons.startAnimation(anim);
 
-                    buttons.setVisibility(View.GONE);
-                } else {
-                    buttons.setVisibility(View.VISIBLE);
+                        buttons.setVisibility(View.GONE);
+                    } else {
+                        buttons.setVisibility(View.VISIBLE);
 
-                    Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
-                    ranim.setFillAfter(true);
-                    overflow.startAnimation(ranim);
+                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.compose_rotate);
+                        ranim.setFillAfter(true);
+                        overflow.startAnimation(ranim);
 
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                    anim.setDuration(300);
-                    buttons.startAnimation(anim);
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+                        anim.setDuration(300);
+                        buttons.startAnimation(anim);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         if (settings.theme == 0 && !addonTheme) {
             nametv.setTextColor(getResources().getColor(android.R.color.black));
@@ -524,9 +531,9 @@ public class TweetFragment extends Fragment {
             screennametv.setShadowLayer(0,0,0, getResources().getColor(android.R.color.transparent));
         }
 
-        profilePic.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener profile = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenName);
@@ -536,9 +543,23 @@ public class TweetFragment extends Fragment {
 
                 context.startActivity(viewProfile);
             }
-        });
+        };
 
-        if(picture) { // if there is a picture already loaded
+        if (picture && settings.combineProPicAndImage) {
+            profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
+                }
+            });
+        } else {
+            profilePic.setOnClickListener(profile);
+        }
+
+        nametv.setOnClickListener(profile);
+        screennametv.setOnClickListener(profile);
+
+        if(picture && pictureIv != null) { // if there is a picture already loaded
             Log.v("talon_picture_loading", "picture load started");
 
             mAttacher = new PhotoViewAttacher(pictureIv);
@@ -571,7 +592,9 @@ public class TweetFragment extends Fragment {
             });
 
         } else {
-            expand.setVisibility(View.GONE);
+            if (expand != null) {
+                expand.setVisibility(View.GONE);
+            }
         }
 
         nametv.setText(name);
@@ -590,7 +613,7 @@ public class TweetFragment extends Fragment {
         String timeDisplay;
 
         if (!settings.militaryTime) {
-             timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
+            timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
         } else {
             timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(time);
         }
@@ -687,11 +710,10 @@ public class TweetFragment extends Fragment {
             }
         });
 
-        if(settings.roundContactImages) {
-            //profilePic.loadImage(proPic, false, null, NetworkedCacheableImageView.CIRCLE);
-            ImageUtils.loadCircleImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+        //profilePic.loadImage(proPic, false, null);
+        if (settings.combineProPicAndImage && picture) {
+            ImageUtils.loadImage(context, profilePic, webpage, App.getInstance(context).getBitmapCache());
         } else {
-            //profilePic.loadImage(proPic, false, null);
             ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
         }
 
@@ -709,83 +731,109 @@ public class TweetFragment extends Fragment {
         }
 
         if (retweeter != null && !retweeter.equals("") && !retweeter.equals(settings.myScreenName) && !extraNames.contains(retweeter)) {
-             extraNames += "@" + retweeter + " ";
+            extraNames += "@" + retweeter + " ";
         }
 
+        String sendString = "";
         if (!screenName.equals(settings.myScreenName)) {
-            reply.setText("@" + screenName + " " + extraNames);
+            if (reply != null) {
+                reply.setText("@" + screenName + " " + extraNames);
+            }
+            sendString = "@" + screenName + " " + extraNames;
         } else {
-            reply.setText(extraNames);
+            if (reply != null) {
+                reply.setText(extraNames);
+            }
+            sendString = extraNames;
         }
 
         if (settings.autoInsertHashtags && hashtags != null) {
             for (String s : hashtags) {
                 if (!s.equals("")) {
-                    reply.append("#" + s + " ");
+                    if (reply != null) {
+                        reply.append("#" + s + " ");
+                    }
+                    sendString += "#" + s + " ";
                 }
             }
         }
 
-        reply.setSelection(reply.getText().length());
-        replyButton.setEnabled(false);
-        replyButton.setAlpha(.4f);
+        final String fSendString = sendString;
+        if (reply != null) {
+            reply.setSelection(reply.getText().length());
+        }
+        if (!settings.sendToComposeWindow) {
+            replyButton.setEnabled(false);
+            replyButton.setAlpha(.4f);
+        }
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
-                        if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
-                            new AlertDialog.Builder(context)
-                                    .setTitle(context.getResources().getString(R.string.tweet_to_long))
-                                    .setMessage(context.getResources().getString(R.string.select_shortening_service))
-                                    .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
-                                        }
-                                    })
-                                    .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            try {
-                                                Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
-                                                pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
-                                                startActivityForResult(pwiccer, 420);
-                                            } catch (Throwable e) {
-                                                // open the play store here
-                                                // they don't have pwiccer installed
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
+                if (!settings.sendToComposeWindow) {
+                    try {
+                        if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
+                            if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
+                                new AlertDialog.Builder(context)
+                                        .setTitle(context.getResources().getString(R.string.tweet_to_long))
+                                        .setMessage(context.getResources().getString(R.string.select_shortening_service))
+                                        .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
                                             }
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
+                                        })
+                                        .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                try {
+                                                    Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
+                                                    pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
+                                                    startActivityForResult(pwiccer, 420);
+                                                } catch (Throwable e) {
+                                                    // open the play store here
+                                                    // they don't have pwiccer installed
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .create()
+                                        .show();
+                            } else {
+                                replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
+                            }
                         } else {
-                            replyToStatus(reply, tweetId, Integer.parseInt(charRemaining.getText().toString()));
+                            Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception e) {
-                    Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent compose = new Intent(context, ComposeActivity.class);
+                    compose.putExtra("user", fSendString.substring(0, fSendString.length() - 1)); // for some reason it puts a extra space here
+                    compose.putExtra("id", tweetId);
+                    compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
+
+                    startActivity(compose);
                 }
             }
         });
 
-        attachButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attachClick();
+        if (attachButton != null) {
+            attachButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attachClick();
 
-                overflow.performClick();
-            }
-        });
+                    overflow.performClick();
+                }
+            });
+        }
 
         if (settings.openKeyboard) {
             new Handler().postDelayed(new Runnable() {
@@ -798,30 +846,34 @@ public class TweetFragment extends Fragment {
             }, 500);
         }
 
-        charRemaining.setText(140 - reply.getText().length() + "");
+        if (charRemaining != null) {
+            charRemaining.setText(140 - reply.getText().length() + "");
+        }
 
-        reply.setHint(context.getResources().getString(R.string.reply));
-        reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        if (reply != null) {
+            reply.setHint(context.getResources().getString(R.string.reply));
+            reply.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!replyButton.isEnabled()) {
-                    replyButton.setEnabled(true);
-                    replyButton.setAlpha(1.0f);
                 }
-                countHandler.removeCallbacks(getCount);
-                countHandler.postDelayed(getCount, 200);
-            }
-        });
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (!replyButton.isEnabled()) {
+                        replyButton.setEnabled(true);
+                        replyButton.setAlpha(1.0f);
+                    }
+                    countHandler.removeCallbacks(getCount);
+                    countHandler.postDelayed(getCount, 200);
+                }
+            });
+        }
 
 
         if (!settings.useEmoji || emojiButton == null) {
@@ -887,33 +939,35 @@ public class TweetFragment extends Fragment {
             });
         }
 
-        at.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
-                        setTitle(getResources().getString(R.string.type_user)).
-                        setTitleColor(getResources().getColor(R.color.app_color)).
-                        setDividerColor(getResources().getColor(R.color.app_color));
+        if (at != null) {
+            at.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final QustomDialogBuilder qustomDialogBuilder = new QustomDialogBuilder(context, sharedPrefs.getInt("current_account", 1)).
+                            setTitle(getResources().getString(R.string.type_user)).
+                            setTitleColor(getResources().getColor(R.color.app_color)).
+                            setDividerColor(getResources().getColor(R.color.app_color));
 
-                qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
+                    qustomDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
 
-                qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        reply.append(qustomDialogBuilder.text.getText().toString());
-                    }
-                });
+                    qustomDialogBuilder.setPositiveButton(getResources().getString(R.string.add_user), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            reply.append(qustomDialogBuilder.text.getText().toString());
+                        }
+                    });
 
-                qustomDialogBuilder.show();
+                    qustomDialogBuilder.show();
 
-                overflow.performClick();
-            }
-        });
+                    overflow.performClick();
+                }
+            });
+        }
 
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
@@ -983,7 +1037,7 @@ public class TweetFragment extends Fragment {
     private boolean isFavorited = false;
     private boolean isRetweet = false;
 
-    public void getFavoriteCount(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void getFavoriteCount(final TextView favs, final View favButton, final long tweetId) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1006,23 +1060,35 @@ public class TweetFragment extends Fragment {
                                 int resource = a.getResourceId(0, 0);
                                 a.recycle();
 
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                } else {
-                                    favButton.setColorFilter(settings.accentInt);
-                                }
+                                if (favButton instanceof ImageButton) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)favButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)favButton).setColorFilter(settings.accentInt);
+                                    }
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                } else if (favButton instanceof LinearLayout) {
+                                    if (!settings.addonTheme) {
+                                        favButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        favButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                }
                                 isFavorited = true;
                             } else {
                                 TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
                                 int resource = a.getResourceId(0, 0);
                                 a.recycle();
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = false;
+                                if (favButton instanceof ImageButton) {
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = false;
 
-                                favButton.clearColorFilter();
+                                    ((ImageButton)favButton).clearColorFilter();
+                                } else {
+                                    favButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
                         }
                     });
@@ -1036,9 +1102,9 @@ public class TweetFragment extends Fragment {
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
         private long tweetId;
-        private ImageButton retweetButton;
+        private View retweetButton;
 
-        public RemoveRetweet(long tweetId, ImageButton retweetButton) {
+        public RemoveRetweet(long tweetId, View retweetButton) {
             this.tweetId = tweetId;
             this.retweetButton = retweetButton;
         }
@@ -1064,7 +1130,11 @@ public class TweetFragment extends Fragment {
 
         protected void onPostExecute(Boolean deleted) {
 
-            retweetButton.clearColorFilter();
+            if (retweetButton instanceof ImageButton) {
+                ((ImageButton)retweetButton).clearColorFilter();
+            } else {
+                retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+            }
 
             try {
                 if (deleted) {
@@ -1080,7 +1150,7 @@ public class TweetFragment extends Fragment {
 
     private Status status = null;
 
-    public void getInfo(final ImageButton favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getInfo(final View favButton, final TextView favCount, final TextView retweetCount, final long tweetId, final View retweetButton) {
 
         Thread getInfo = new Thread(new Runnable() {
             @Override
@@ -1162,14 +1232,26 @@ public class TweetFragment extends Fragment {
 
                             retweetCount.setText(" " + retCount);
 
-                            if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                            if (retweetButton instanceof ImageButton) {
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)retweetButton).setColorFilter(settings.accentInt);
+                                    }
                                 } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
+                                    ((ImageButton)retweetButton).clearColorFilter();
                                 }
                             } else {
-                                retweetButton.clearColorFilter();
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        retweetButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                } else {
+                                    retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
 
                             timetv.setText(timeDisplay + fVia);
@@ -1177,28 +1259,48 @@ public class TweetFragment extends Fragment {
 
                             favCount.setText(" " + sfavCount);
 
-                            if (fStatus.isFavorited()) {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
+                            if (favButton instanceof ImageButton) {
+                                if (fStatus.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
 
-                                if (!settings.addonTheme) {
-                                    favButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)favButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)favButton).setColorFilter(settings.accentInt);
+                                    }
+
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = true;
                                 } else {
-                                    favButton.setColorFilter(settings.accentInt);
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
+
+                                    ((ImageButton)favButton).setImageDrawable(context.getResources().getDrawable(resource));
+                                    isFavorited = false;
+
+                                    ((ImageButton)favButton).clearColorFilter();
                                 }
-
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = true;
                             } else {
-                                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                int resource = a.getResourceId(0, 0);
-                                a.recycle();
+                                if (fStatus.isFavorited()) {
+                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
+                                    int resource = a.getResourceId(0, 0);
+                                    a.recycle();
 
-                                favButton.setImageDrawable(context.getResources().getDrawable(resource));
-                                isFavorited = false;
+                                    if (!settings.addonTheme) {
+                                        favButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        favButton.setBackgroundColor(settings.accentInt);
+                                    }
 
-                                favButton.clearColorFilter();
+                                    isFavorited = true;
+                                } else {
+                                    isFavorited = false;
+
+                                    favButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
 
                             for (String s : images) {
@@ -1229,7 +1331,7 @@ public class TweetFragment extends Fragment {
         getInfo.start();
     }
 
-    public void getRetweetCount(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void getRetweetCount(final TextView retweetCount, final long tweetId, final View retweetButton) {
 
         new Thread(new Runnable() {
             @Override
@@ -1250,14 +1352,26 @@ public class TweetFragment extends Fragment {
 
                             retweetCount.setText(" " + retCount);
 
-                            if (fRet) {
-                                if (!settings.addonTheme) {
-                                    retweetButton.setColorFilter(context.getResources().getColor(R.color.app_color));
+                            if (retweetButton instanceof ImageButton) {
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        ((ImageButton)retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        ((ImageButton)retweetButton).setColorFilter(settings.accentInt);
+                                    }
                                 } else {
-                                    retweetButton.setColorFilter(settings.accentInt);
+                                    ((ImageButton)retweetButton).clearColorFilter();
                                 }
                             } else {
-                                retweetButton.clearColorFilter();
+                                if (fRet) {
+                                    if (!settings.addonTheme) {
+                                        retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    } else {
+                                        retweetButton.setBackgroundColor(settings.accentInt);
+                                    }
+                                } else {
+                                    retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                }
                             }
                         }
                     });
@@ -1268,7 +1382,7 @@ public class TweetFragment extends Fragment {
         }).start();
     }
 
-    public void favoriteStatus(final TextView favs, final ImageButton favButton, final long tweetId) {
+    public void favoriteStatus(final TextView favs, final View favButton, final long tweetId) {
         if (!isFavorited) {
             Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
         } else {
@@ -1305,7 +1419,7 @@ public class TweetFragment extends Fragment {
         }).start();
     }
 
-    public void retweetStatus(final TextView retweetCount, final long tweetId, final ImageButton retweetButton) {
+    public void retweetStatus(final TextView retweetCount, final long tweetId, final View retweetButton) {
         Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
@@ -1454,7 +1568,7 @@ public class TweetFragment extends Fragment {
     public boolean pwiccer = false;
 
     public void onActivityResult(int requestCode, int resultCode,
-                                    Intent imageReturnedIntent) {
+                                 Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
