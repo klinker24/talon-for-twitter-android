@@ -243,6 +243,7 @@ public class TweetFragment extends Fragment {
 
     private EditText reply;
     private ImageButton replyButton;
+    public ImageView profilePic;
 
     public void setUIElements(final View layout) {
         TextView nametv;
@@ -255,7 +256,6 @@ public class TweetFragment extends Fragment {
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
-        final ImageView profilePic;
         final View favoriteButton;
         final View retweetButton;
         final TextView favoriteCount;
@@ -815,7 +815,9 @@ public class TweetFragment extends Fragment {
                     }
                 } else {
                     Intent compose = new Intent(context, ComposeActivity.class);
-                    compose.putExtra("user", fSendString.substring(0, fSendString.length() - 1)); // for some reason it puts a extra space here
+                    if (fSendString.length() > 0) {
+                        compose.putExtra("user", fSendString.substring(0, fSendString.length() - 1)); // for some reason it puts a extra space here
+                    }
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
@@ -1308,14 +1310,26 @@ public class TweetFragment extends Fragment {
                             }
                             if (images.size() > 1) {
                                 Log.v("talon_images", "size: " + images.size());
-                                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-                                    @Override
-                                    public void onViewTap(View view, float x, float y) {
-                                        Intent viewPics = new Intent(context, ViewPictures.class);
-                                        viewPics.putExtra("images", images);
-                                        startActivity(viewPics);
-                                    }
-                                });
+                                try {
+                                    mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                                        @Override
+                                        public void onViewTap(View view, float x, float y) {
+                                            Intent viewPics = new Intent(context, ViewPictures.class);
+                                            viewPics.putExtra("images", images);
+                                            startActivity(viewPics);
+                                        }
+                                    });
+                                } catch (Exception  e) {
+                                    // addon theme without the attacher
+                                    profilePic.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent viewPics = new Intent(context, ViewPictures.class);
+                                            viewPics.putExtra("images", images);
+                                            startActivity(viewPics);
+                                        }
+                                    });
+                                }
                             }
 
 
