@@ -268,8 +268,8 @@ public class TweetFragment extends Fragment {
             screennametv = (TextView) layout.findViewById(R.id.screen_name);
             tweettv = (TextView) layout.findViewById(R.id.tweet);
             retweetertv = (TextView) layout.findViewById(R.id.retweeter);
-            background = null;//(LinearLayout) layout.findViewById(R.id.linLayout);
-            expand = null;//(ImageButton) layout.findViewById(R.id.expand);
+            background = (LinearLayout) layout.findViewById(R.id.linLayout);
+            expand = (ImageButton) layout.findViewById(R.id.expand);
             profilePic = (ImageView) layout.findViewById(R.id.profile_pic_contact);
             favoriteButton = (ImageButton) layout.findViewById(R.id.favorite);
             quote = (ImageButton) layout.findViewById(R.id.quote_button);
@@ -278,15 +278,15 @@ public class TweetFragment extends Fragment {
             retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
             reply = (EditText) layout.findViewById(R.id.reply);
             replyButton = (ImageButton) layout.findViewById(R.id.reply_button);
-            attachButton = null;//(ImageButton) layout.findViewById(R.id.attach_button);
+            attachButton = (ImageButton) layout.findViewById(R.id.attach_button);
             overflow = (ImageButton) layout.findViewById(R.id.overflow_button);
-            buttons = null;//(LinearLayout) layout.findViewById(R.id.buttons);
+            buttons = (LinearLayout) layout.findViewById(R.id.buttons);
             charRemaining = (TextView) layout.findViewById(R.id.char_remaining);
             at = (ImageButton) layout.findViewById(R.id.at_button);
             emojiButton = (ImageButton) layout.findViewById(R.id.emoji);
             emojiKeyboard = (EmojiKeyboard) layout.findViewById(R.id.emojiKeyboard);
             timetv = (TextView) layout.findViewById(R.id.time);
-            pictureIv = null;//(ImageView) layout.findViewById(R.id.imageView);
+            pictureIv = (ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
             viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
@@ -711,7 +711,7 @@ public class TweetFragment extends Fragment {
         });
 
         //profilePic.loadImage(proPic, false, null);
-        if (settings.combineProPicAndImage && picture) {
+        if (settings.addonTheme && settings.combineProPicAndImage && picture) {
             ImageUtils.loadImage(context, profilePic, webpage, App.getInstance(context).getBitmapCache());
         } else {
             ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
