@@ -288,7 +288,7 @@ public class TweetFragment extends Fragment {
             timetv = (TextView) layout.findViewById(R.id.time);
             pictureIv = (ImageView) layout.findViewById(R.id.imageView);
             attachImage = (ImageView) layout.findViewById(R.id.attach);
-            viewRetweeters = null;//(ImageButton) layout.findViewById(R.id.view_retweeters);
+            viewRetweeters = (ImageButton) layout.findViewById(R.id.view_retweeters);
         } else {
             Resources res;
             try {
@@ -841,7 +841,9 @@ public class TweetFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    reply.requestFocus();
+                    if (reply != null) {
+                        reply.requestFocus();
+                    }
                     InputMethodManager inputMethodManager=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
                 }
