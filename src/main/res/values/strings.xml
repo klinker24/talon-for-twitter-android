@@ -121,7 +121,7 @@
     <string name="syncing_direct_messages">Syncing direct messages...</string>
     <string name="syncing_user">Syncing friends...</string>
     <string name="done_syncing">Done with sync.</string>
-    <string name="login_error">Something went wrong... Please retry!</string>
+    <string name="login_error">Something went wrong... Please retry!\n\nIt could be that your date and time on your device isn\'t set to automatic. This is a requirement of Twitter\'s 3rd party API.</string>
     <string name="no_network">You aren\'t connected to the internet</string>
     <string name="no_thanks">Not now</string>
     <string name="follow_me">Follow!</string>
@@ -629,8 +629,7 @@
     <string name="both_accounts">Both Accounts</string>
     <string name="attach_gif">Animated GIF</string>
     <string name="roboto_l">Android "L" Roboto</string>
-    <string name="fast_transitions">Quick Transitions</string>
-    <string name="help">Help</string>
-    <string name="send_feedback">Send Feedback</string>
+    <string name="second_account">2nd Account</string>
+    <string name="second_account_login_info">Since Twitter holds some of your login information in it\'s system, the next screen may not allow you to login with your new account info immediately. If it skips this login and goes directly to the authorization page, simply hit the \"Sign Out\" button in the top right corner of the website to allow the app to log you into your second account.</string>
 
 </resources>

@@ -2,13 +2,9 @@ package com.klinker.android.twitter_l.ui.launcher_page;
 
 import android.app.Activity;
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-
-import android.os.IBinder;
 import android.util.Log;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
