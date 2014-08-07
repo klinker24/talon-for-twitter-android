@@ -14,9 +14,13 @@ public class AutoCompleteHelper {
             startPosition = 0;
             endPosition = 1;
         } else {
-            while (tweetText.charAt(position) != type) {
-                startPosition = position--;
-            }
+             try {
+                 while (tweetText.charAt(position) != type) {
+                     startPosition = position--;
+                 }
+             } catch (Exception e) {
+                 // don't know why
+             }
         }
 
         String textPart1 = tweetText.substring(0, startPosition);
