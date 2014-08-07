@@ -39,7 +39,7 @@ public class SetAccount extends IntentService {
         sharedPrefs.edit().putInt("current_account", launcherAccount).commit();
 
         if (intent.getBooleanExtra("start_main", false)) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
 }
