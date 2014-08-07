@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,7 +109,7 @@ public class SearchPager extends Activity {
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(null);
+        actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         View statusBar = findViewById(R.id.activity_status_bar);
 

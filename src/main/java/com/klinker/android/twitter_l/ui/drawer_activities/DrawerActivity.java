@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -156,6 +157,9 @@ public abstract class DrawerActivity extends Activity {
             ) {
 
                 public void onDrawerClosed(View view) {
+
+                    actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+
                     if (logoutVisible) {
                         /*Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                         ranim.setFillAfter(true);
@@ -197,6 +201,7 @@ public abstract class DrawerActivity extends Activity {
 
                 public void onDrawerOpened(View drawerView) {
                     actionBar.setTitle(getResources().getString(R.string.app_name));
+                    actionBar.setIcon(R.mipmap.ic_launcher);
 
                     try {
                         notificationAdapter = new InteractionsCursorAdapter(context,
@@ -753,20 +758,6 @@ public abstract class DrawerActivity extends Activity {
                 .create()
                 .show();
     }
-
-    /*@Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-
-        if (level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_RUNNING_LOW) {
-            try {
-                ((BitmapDrawable)backgroundPic.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-            try {
-                ((BitmapDrawable) profilePic.getDrawable()).getBitmap().recycle();
-            } catch (Exception e) { }
-        }
-    }*/
 
     public void setUpTweetTheme() {
         setUpTheme();

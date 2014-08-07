@@ -464,7 +464,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-
         if (holder.screenTV.getVisibility() == View.GONE) {
             holder.screenTV.setVisibility(View.VISIBLE);
         }
