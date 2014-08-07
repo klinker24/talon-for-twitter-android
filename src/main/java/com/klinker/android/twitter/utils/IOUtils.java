@@ -369,12 +369,14 @@ public class IOUtils {
             File dirCurrent = dirlist.pop();
 
             File[] fileList = dirCurrent.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
+            if (fileList != null) {
+                for (int i = 0; i < fileList.length; i++) {
 
-                if(fileList[i].isDirectory())
-                    dirlist.push(fileList[i]);
-                else
-                    result += fileList[i].length();
+                    if (fileList[i].isDirectory())
+                        dirlist.push(fileList[i]);
+                    else
+                        result += fileList[i].length();
+                }
             }
         }
 

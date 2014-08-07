@@ -843,10 +843,10 @@ public class TweetFragment extends Fragment {
                 public void run() {
                     if (reply != null) {
                         reply.requestFocus();
+                        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
                     }
-                    InputMethodManager inputMethodManager=(InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputMethodManager.toggleSoftInputFromWindow(reply.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-                }
+                    }
             }, 500);
         }
 

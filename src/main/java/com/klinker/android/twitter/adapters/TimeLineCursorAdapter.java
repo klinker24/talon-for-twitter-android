@@ -494,7 +494,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -556,7 +556,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public boolean onLongClick(View view) {
 
                         if (holder.expandArea.getVisibility() != View.VISIBLE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
+                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
                             removeExpansionWithAnimation(holder);
                             removeKeyboard(holder);
@@ -956,7 +956,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
     }
 
-    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId) {
+    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
         if (isDM) {
             holder.retweet.setVisibility(View.GONE);
             holder.retweetCount.setVisibility(View.GONE);
@@ -1007,6 +1007,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.reply.setText("@" + screenname + " " + extraNames);
             } else {
                 holder.reply.setText(extraNames);
+            }
+
+            if (settings.autoInsertHashtags && hashtags != null) {
+                for (String s : hashtags) {
+                    if (!s.equals("")) {
+                        holder.reply.append("#" + s + " ");
+                    }
+                }
             }
         }
 
