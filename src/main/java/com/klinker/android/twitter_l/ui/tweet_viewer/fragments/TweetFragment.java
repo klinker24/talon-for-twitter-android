@@ -255,6 +255,7 @@ public class TweetFragment extends Fragment {
         final TextView retweetertv;
         final LinearLayout background;
         final ImageButton expand;
+        final ImageView profilePic;
         final View favoriteButton;
         final View retweetButton;
         final TextView favoriteCount;
