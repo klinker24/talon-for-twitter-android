@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="2.6.3">
+        <text>Auto insert hashtags working on in-line replies</text>
+        <text>Crash fixes</text>
+        <text>Small bug fixes</text>
+    </version>
+
     <version name="2.6.2">
         <text>New icon</text>
         <text>New Talon-L version themes (check @TalonAndroid on Twitter for links)</text>
