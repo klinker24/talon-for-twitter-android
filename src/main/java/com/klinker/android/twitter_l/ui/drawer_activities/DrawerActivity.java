@@ -763,6 +763,7 @@ public abstract class DrawerActivity extends Activity {
         setUpTheme();
         Utils.setUpTweetTheme(context, settings);
     }
+
     public void setUpTheme() {
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {

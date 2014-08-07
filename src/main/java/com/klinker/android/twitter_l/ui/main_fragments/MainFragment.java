@@ -234,8 +234,8 @@ public abstract class MainFragment extends Fragment {
     }
 
     public void getStrings() {
-        fromTop = getResources().getString(R.string.from_top);
-        jumpToTop = getResources().getString(R.string.jump_to_top);
+        fromTop = getResources().getString(R.string.tweets);
+        jumpToTop = getResources().getString(R.string.to_top);
         allRead = getResources().getString(R.string.all_read);
         toMentions = getResources().getString(R.string.mentions);
     }
