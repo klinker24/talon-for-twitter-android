@@ -296,24 +296,6 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
-        <activity android:name=".ui.launcher_page.StartPull"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.TalonDark.Popup"
-            android:configChanges="orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-
-        <activity android:name=".ui.launcher_page.SetAccount"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.TalonDark.Popup"
-            android:configChanges="orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-
         <activity android:name=".utils.redirects.RedirectToLauncherPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
@@ -585,6 +567,14 @@
 
         <service android:name=".ui.launcher_page.HandleScrollService"
             android:exported="true" >
+        </service>
+
+        <service android:name=".ui.launcher_page.SetAccount"
+                 android:exported="true" >
+        </service>
+
+        <service android:name=".ui.launcher_page.StartPull"
+                 android:exported="true" >
         </service>
 
         <receiver android:name=".receivers.BootReceiver">
