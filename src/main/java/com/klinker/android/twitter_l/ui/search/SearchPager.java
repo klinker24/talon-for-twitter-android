@@ -113,6 +113,8 @@ public class SearchPager extends Activity {
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+
         if (translucent) {
             statusBar.setVisibility(View.VISIBLE);
 
@@ -121,11 +123,12 @@ public class SearchPager extends Activity {
             LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
             statusParams.height = statusBarHeight;
             statusBar.setLayoutParams(statusParams);
+        } else {
+            mViewPager.setPadding(0,0,0,0);
         }
 
-        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
+        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, onlyProfile, searchQuery, translucent);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setOffscreenPageLimit(3);
@@ -138,11 +141,16 @@ public class SearchPager extends Activity {
 
         mViewPager.setCurrentItem(1);
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, true);
+
+        if (onlyProfile) {
+            mViewPager.setCurrentItem(2);
+        }
     }
 
     public String searchQuery = "";
     private boolean onlyStatus = false;
+    private boolean onlyProfile = false;
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -173,6 +181,8 @@ public class SearchPager extends Activity {
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
+                onlyProfile = true;
+                Log.v("talon_searching", "only profile");
             } else if (uriString.contains("q=")){
                 try {
                     String search = uri.getQueryParameter("q");
@@ -206,6 +216,7 @@ public class SearchPager extends Activity {
                         searchQuery = "";
                     }
 
+                    onlyProfile = true;
                 } catch (Exception e) {
 
                 }

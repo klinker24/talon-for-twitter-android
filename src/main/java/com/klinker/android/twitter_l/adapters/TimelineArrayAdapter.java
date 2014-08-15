@@ -69,6 +69,8 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
+    public boolean openFirst = false;
+
     public static final int NORMAL = 0;
     public static final int RETWEET = 1;
     public static final int FAVORITE = 2;
@@ -129,6 +131,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public String retweeterName;
 
         public boolean preventNextClick = false;
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+
+        this.settings = AppSettings.getInstance(context);
+
+        this.type = NORMAL;
+
+        this.username = "";
+        this.openFirst = openFirst;
+
+        setUpLayout();
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses) {
@@ -259,7 +278,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         return v;
     }
 
-    public void bindView(final View view, Context mContext, Status status) {
+    public void bindView(final View view, Status status, int position) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
@@ -660,6 +679,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (currHandler == 10) {
             currHandler = 0;
         }
+
+        if (openFirst && position == 0) {
+            holder.background.performClick();
+            ((Activity)context).finish();
+        }
     }
 
     @Override
@@ -681,7 +705,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        bindView(v, context, statuses.get(position));
+        bindView(v, statuses.get(position), position);
 
         return v;
     }
