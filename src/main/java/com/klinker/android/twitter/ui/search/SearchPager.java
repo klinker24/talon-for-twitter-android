@@ -116,8 +116,6 @@ public class SearchPager extends Activity {
         }
 
         Utils.setUpTheme(context, settings);
-
-        Utils.setUpTheme(context, settings);
         setContentView(R.layout.search_pager);
 
         actionBar = getActionBar();
@@ -128,6 +126,8 @@ public class SearchPager extends Activity {
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+
         if (translucent) {
             statusBar.setVisibility(View.VISIBLE);
 
@@ -136,11 +136,12 @@ public class SearchPager extends Activity {
             LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
             statusParams.height = statusBarHeight;
             statusBar.setLayoutParams(statusParams);
+        } else {
+            mViewPager.setPadding(0,0,0,0);
         }
 
         mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setOffscreenPageLimit(3);

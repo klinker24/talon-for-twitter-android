@@ -573,23 +573,25 @@ public class TweetFragment extends Fragment {
             pictureIv.setVisibility(View.VISIBLE);
             ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
-            expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(background.getVisibility() == View.VISIBLE) {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
-                        ranim.setFillAfter(true);
-                        expand.startAnimation(ranim);
-                    } else {
-                        Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
-                        ranim.setFillAfter(true);
-                        expand.startAnimation(ranim);
-                    }
+            if (expand != null) {
+                expand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(background.getVisibility() == View.VISIBLE) {
+                            Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
+                            ranim.setFillAfter(true);
+                            expand.startAnimation(ranim);
+                        } else {
+                            Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
+                            ranim.setFillAfter(true);
+                            expand.startAnimation(ranim);
+                        }
 
-                    ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
-                    background.startAnimation(expandAni);
-                }
-            });
+                        ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
+                        background.startAnimation(expandAni);
+                    }
+                });
+            }
 
         } else {
             if (expand != null) {

@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="2.6.5">
+        <text>Search layout fixes</text>
+    </version>
+    <version name="2.6.4">
+        <text>Updated translations</text>
+    </version>
+
     <version name="2.6.3">
         <text>Auto insert hashtags working on in-line replies</text>
         <text>Crash fixes</text>
