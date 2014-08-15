@@ -107,7 +107,7 @@
     <string name="third_welcome">Está pronto!</string>
     <string name="back_to_timeline">Me leve para a timeline!</string>
     <string name="initial_sync">Sincronizar agora!</string>
-    <string name="first_info">Antes de começar, vamos fazer seu login. </string>
+    <string name="first_info">Antes de começar, vamos fazer seu login.</string>
     <string name="second_info">Ótimo!\n\nAgora vamos carregar seus dados iniciais.\n\nIsso pode levar algum tempo dependendo da sua conexão com a internet.</string>
     <string name="third_info">Espero que você goste do Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Sincronizando timeline...</string>
@@ -116,7 +116,7 @@
     <string name="syncing_user">Sincronizando amigos...</string>
     <string name="done_syncing">Sincronização concluída.</string>
     <string name="login_error">Algo deu errado... Tente novamente!</string>
-    <string name="no_network">Você não está conectado à internet. </string>
+    <string name="no_network">"Você não está conectado à internet. "</string>
     <string name="no_thanks">Agora não</string>
     <string name="follow_me">Seguir!</string>
     <string name="follow_me_description">Seguir @TalonAndroid e @lukeklinker para ter todas as novidades e suporte!</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Escolher Lista</string>
     <string name="added_to_list">Adicionado a lista</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nAcesse os recursos\ntocando nos itens\nda barra de\nnavegação\nlateral!</string>
-    <string name="part_1_phone">\nDeslize do canto\nesquerdo pro direito\npara abrir a\nbarra de navegação!</string>
-    <string name="part_2">\nNavegue entre\nas abas deslizando,\ndo meio da tela,\npara esquerda\nou direita!</string>
+    <string name="part_1_tablet">Acesse os recursos\ntocando nos itens\nda barra de\nnavegação\nlateral!</string>
+    <string name="part_1_phone">Deslize do canto\nesquerdo pro direito\npara abrir a\nbarra de navegação!</string>
+    <string name="part_2">Navegue entre\nas abas deslizando,\ndo meio da tela,\npara esquerda\nou direita!</string>
     <string name="part_3">Pronto!\n\nToque na\ntela para\ncomeçar!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Temas</string>
