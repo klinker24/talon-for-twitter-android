@@ -153,7 +153,7 @@ public class SearchPager extends Activity {
 
         mViewPager.setCurrentItem(1);
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, true);
     }
 
     public String searchQuery = "";

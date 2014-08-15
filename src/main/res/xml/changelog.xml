@@ -4,7 +4,12 @@
         <text>Search layout fixes</text>
         <text>Small changes for location attaching</text>
         <text>Fixes for saved searches</text>
+        <text>Clearing notification fixes</text>
+        <text>Custom theme style fixes</text>
+        <text>Some web link fixes</text>
+        <text>Turning off advance windowed feature allows themes to use custom backgrounds on the tweet and profile viewers</text>
     </version>
+
     <version name="2.6.4">
         <text>Updated translations</text>
     </version>

@@ -253,7 +253,7 @@ public class TweetPager extends YouTubeBaseActivity {
             getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
         }
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, !settings.advanceWindowed);
     }
 
     public void setUpWindow(boolean youtube) {
