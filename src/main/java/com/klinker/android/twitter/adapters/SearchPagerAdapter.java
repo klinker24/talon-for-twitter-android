@@ -26,6 +26,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         this.onlyId = onlyId;
         this.translucent = translucent;
         this.query = query;
+        this.onlyProfile = onlyProfile;
 
         Log.v("talon_searching", "query: " + query);
     }

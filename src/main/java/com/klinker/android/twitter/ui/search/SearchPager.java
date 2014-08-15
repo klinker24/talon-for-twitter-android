@@ -154,6 +154,10 @@ public class SearchPager extends Activity {
         mViewPager.setCurrentItem(1);
 
         Utils.setActionBar(context, true);
+
+        if (onlyProfile) {
+            mViewPager.setCurrentItem(2);
+        }
     }
 
     public String searchQuery = "";
@@ -190,6 +194,7 @@ public class SearchPager extends Activity {
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
                 onlyProfile = true;
+                Log.v("talon_searching", "only profile");
             } else if (uriString.contains("q=")){
                 try {
                     String search = uri.getQueryParameter("q");
@@ -223,6 +228,7 @@ public class SearchPager extends Activity {
                         searchQuery = "";
                     }
 
+                    onlyProfile = true;
                 } catch (Exception e) {
 
                 }
