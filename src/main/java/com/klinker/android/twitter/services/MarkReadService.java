@@ -49,6 +49,8 @@ public class MarkReadService extends IntentService {
         InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+
+        startService(new Intent(this, ReadInteractionsService.class));
     }
 
 }
