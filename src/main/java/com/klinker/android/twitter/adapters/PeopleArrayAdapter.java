@@ -1,5 +1,6 @@
 package com.klinker.android.twitter.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -262,6 +263,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
         if (openFirst && position == 0) {
             holder.background.performClick();
+            ((Activity)context).finish();
         }
     }
 
