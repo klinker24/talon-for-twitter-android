@@ -144,7 +144,7 @@ public class ProfilePager extends Activity {
             }
         }
 
-        Utils.setActionBar(context);
+        Utils.setActionBar(context, !settings.advanceWindowed);
 
         // set it to the profile
         pager.setCurrentItem(1);

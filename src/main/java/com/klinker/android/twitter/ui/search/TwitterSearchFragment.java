@@ -247,7 +247,7 @@ public class TwitterSearchFragment extends Fragment {
                                 }
                             }
 
-                            adapter = new TimelineArrayAdapter(context, tweets);
+                            adapter = new TimelineArrayAdapter(context, tweets, onlyStatus);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
                             listView.setSelection(top);
@@ -308,7 +308,7 @@ public class TwitterSearchFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new TimelineArrayAdapter(context, tweets);
+                            adapter = new TimelineArrayAdapter(context, tweets, onlyStatus);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
 
@@ -355,7 +355,7 @@ public class TwitterSearchFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses);
+                            TimelineArrayAdapter adapter = new TimelineArrayAdapter(context, statuses, onlyStatus);
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
                             spinner.setVisibility(View.GONE);

@@ -285,15 +285,11 @@ public class SettingsPagerActivity extends FragmentActivity {
                 break;
         }
 
-        if (settings.addonTheme) {
-            getWindow().getDecorView().setBackgroundColor(settings.backgroundColor);
-        } else {
-            TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
 
-            getWindow().getDecorView().setBackgroundResource(resource);
-        }
+        getWindow().getDecorView().setBackgroundResource(resource);
     }
 
     @Override
