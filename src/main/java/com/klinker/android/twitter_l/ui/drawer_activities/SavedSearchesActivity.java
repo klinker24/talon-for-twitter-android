@@ -120,7 +120,7 @@ public class SavedSearchesActivity extends DrawerActivity {
 
                     for (SavedSearch sear : searches) {
                         Log.v("talon_searches", sear.getName());
-                        searchNames.add(sear.getName());
+                        searchNames.add(sear.getQuery());
                     }
 
                     ((Activity) context).runOnUiThread(new Runnable() {

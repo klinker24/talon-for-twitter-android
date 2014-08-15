@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,18 +47,21 @@ public class UserSearchFragment extends Fragment {
     private boolean translucent;
 
     public String searchQuery;
+    public boolean onlyProfile;
 
     private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
-    public UserSearchFragment(String query, boolean translucent) {
+    public UserSearchFragment(boolean onlyProfile, String query, boolean translucent) {
         this.translucent = translucent;
         this.searchQuery = query.replaceAll("@", "");
         searchQuery = searchQuery.replace(" TOP", "");
+        this.onlyProfile = onlyProfile;
     }
 
     public UserSearchFragment() {
         this.translucent = false;
         this.searchQuery = "";
+        this.onlyProfile = false;
     }
 
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
@@ -215,7 +219,7 @@ public class UserSearchFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            peopleAdapter = new PeopleArrayAdapter(context, users);
+                            peopleAdapter = new PeopleArrayAdapter(context, users, onlyProfile);
                             listView.setAdapter(peopleAdapter);
                             listView.setVisibility(View.VISIBLE);
 

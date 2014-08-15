@@ -21,6 +21,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.MovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -331,8 +332,8 @@ class Linkify {
                 String shortUrl = makeUrl(m.group(0), m, transformFilter);
                 String longUrl = getLongUrl(shortUrl, allUrls);
 
-                //Log.v("talon_replace", "longurl: " + longUrl);
-                //Log.v("talon_replace", "shorturl: " + shortUrl);
+                Log.v("talon_replace", "longurl: " + longUrl);
+                Log.v("talon_replace", "shorturl: " + shortUrl);
 
                 applyLink(context, settings, tv, holder, new Link(shortUrl, longUrl), start, end, s, extBrowser);
                 hasMatches = true;

@@ -16,15 +16,17 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     private boolean onlyId;
+    private boolean onlyProfile;
     private boolean translucent;
     private String query;
 
-    public SearchPagerAdapter(FragmentManager fm, Context context, boolean onlyId, String query, boolean translucent) {
+    public SearchPagerAdapter(FragmentManager fm, Context context, boolean onlyId, boolean onlyProfile, String query, boolean translucent) {
         super(fm);
         this.context = context;
         this.onlyId = onlyId;
         this.translucent = translucent;
         this.query = query;
+        this.onlyProfile = onlyProfile;
 
         Log.v("talon_searching", "query: " + query);
     }
@@ -40,7 +42,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
                 f = new TwitterSearchFragment(onlyId, query, translucent);
                 break;
             case 2:
-                f = new UserSearchFragment(query, translucent);
+                f = new UserSearchFragment(onlyProfile, query, translucent);
                 break;
         }
         return f;

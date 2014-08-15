@@ -30,7 +30,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
     }
 
     @Override
-    public void bindView(final View view, Context mContext, final User user) {
+    public void bindView(final View view, int position, final User user) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         final long id = user.getId();

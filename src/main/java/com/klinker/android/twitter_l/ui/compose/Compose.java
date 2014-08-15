@@ -961,21 +961,6 @@ public abstract class Compose extends Activity implements
                         }
 
                         if (addLocation) {
-                            int wait = 0;
-                            while (!mLocationClient.isConnected() && wait < 4) {
-                                try {
-                                    Thread.sleep(1500);
-                                } catch (Exception e) {
-                                    return false;
-                                }
-
-                                wait++;
-                            }
-
-                            if (wait == 4) {
-                                return false;
-                            }
-
                             Location location = mLocationClient.getLastLocation();
                             GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
@@ -995,21 +980,6 @@ public abstract class Compose extends Activity implements
                         }
 
                         if (addLocation) {
-                            int wait = 0;
-                            while (!mLocationClient.isConnected() && wait < 4) {
-                                try {
-                                    Thread.sleep(1500);
-                                } catch (Exception e) {
-                                    return false;
-                                }
-
-                                wait++;
-                            }
-
-                            if (wait == 4) {
-                                return false;
-                            }
-
                             Location location = mLocationClient.getLastLocation();
                             GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
@@ -1085,21 +1055,6 @@ public abstract class Compose extends Activity implements
                                 // post the status with the 0th picture attached
                                 TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
                                 if (addLocation) {
-                                    int wait = 0;
-                                    while (!mLocationClient.isConnected() && wait < 4) {
-                                        try {
-                                            Thread.sleep(1500);
-                                        } catch (Exception e) {
-                                            return false;
-                                        }
-
-                                        wait++;
-                                    }
-
-                                    if (wait == 4) {
-                                        return false;
-                                    }
-
                                     Location location = mLocationClient.getLastLocation();
                                     GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
@@ -1117,21 +1072,6 @@ public abstract class Compose extends Activity implements
 
                                 TwitPicHelper helper = new TwitPicHelper(twitter2, text, files[0], context);
                                 if (addLocation) {
-                                    int wait = 0;
-                                    while (!mLocationClient.isConnected() && wait < 4) {
-                                        try {
-                                            Thread.sleep(1500);
-                                        } catch (Exception e) {
-                                            return false;
-                                        }
-
-                                        wait++;
-                                    }
-
-                                    if (wait == 4) {
-                                        return false;
-                                    }
-
                                     Location location = mLocationClient.getLastLocation();
                                     GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
 
@@ -1166,21 +1106,6 @@ public abstract class Compose extends Activity implements
                             }
 
                             if (addLocation) {
-                                int wait = 0;
-                                while (!mLocationClient.isConnected() && wait < 4) {
-                                    try {
-                                        Thread.sleep(1500);
-                                    } catch (Exception e) {
-                                        return false;
-                                    }
-
-                                    wait++;
-                                }
-
-                                if (wait == 4) {
-                                    return false;
-                                }
-
                                 Location location = mLocationClient.getLastLocation();
                                 GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
                                 media.setLocation(geolocation);

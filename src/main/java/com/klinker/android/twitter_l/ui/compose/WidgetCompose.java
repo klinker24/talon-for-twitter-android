@@ -21,7 +21,10 @@ public class WidgetCompose extends ComposeActivity {
             public void onClick(View view) {
                 finish();
                 overridePendingTransition(0,0);
-                startActivity(new Intent(context, ComposeActivity.class).putExtra("start_attach", true));
+                startActivity(new Intent(context, ComposeActivity.class)
+                        .putExtra("start_attach", true)
+                        .putExtra("user", reply.getText().toString())
+                        .putExtra("reply_to_text", replyText));
             }
         });
     }
