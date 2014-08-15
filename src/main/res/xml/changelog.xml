@@ -2,6 +2,8 @@
 
     <version name="2.6.5">
         <text>Search layout fixes</text>
+        <text>Small changes for location attaching</text>
+        <text>Fixes for saved searches</text>
     </version>
     <version name="2.6.4">
         <text>Updated translations</text>
