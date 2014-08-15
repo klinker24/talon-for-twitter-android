@@ -140,7 +140,7 @@ public class SearchPager extends Activity {
             mViewPager.setPadding(0,0,0,0);
         }
 
-        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, searchQuery, translucent);
+        mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, onlyProfile, searchQuery, translucent);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -158,6 +158,7 @@ public class SearchPager extends Activity {
 
     public String searchQuery = "";
     private boolean onlyStatus = false;
+    private boolean onlyProfile = false;
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -188,6 +189,7 @@ public class SearchPager extends Activity {
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
+                onlyProfile = true;
             } else if (uriString.contains("q=")){
                 try {
                     String search = uri.getQueryParameter("q");
