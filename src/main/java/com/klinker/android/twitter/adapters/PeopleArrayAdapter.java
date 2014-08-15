@@ -49,6 +49,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
     public Context context;
 
+    public boolean openFirst = false;
+
     public ArrayList<User> users;
 
     public LayoutInflater inflater;
@@ -69,6 +71,22 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         public ImageView picture;
         public LinearLayout background;
         public long userId;
+    }
+
+    public PeopleArrayAdapter(Context context, ArrayList<User> users, boolean openFirst) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.users = users;
+
+        settings = AppSettings.getInstance(context);
+        inflater = LayoutInflater.from(context);
+
+        this.openFirst = openFirst;
+
+        setUpLayout();
+
+        mHandler = new Handler();
     }
 
     public PeopleArrayAdapter(Context context, ArrayList<User> users) {
@@ -197,7 +215,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         return v;
     }
 
-    public void bindView(final View view, Context mContext, final User user) {
+    public void bindView(final View view, int position, final User user) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         final long id = user.getId();
@@ -241,6 +259,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 context.startActivity(viewProfile);
             }
         });
+
+        if (openFirst && position == 0) {
+            holder.background.performClick();
+        }
     }
 
     @Override
@@ -259,7 +281,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.picture.setImageDrawable(context.getResources().getDrawable(border));
         }
 
-        bindView(v, context, users.get(position));
+        bindView(v, position, users.get(position));
 
         return v;
     }
