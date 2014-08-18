@@ -74,6 +74,8 @@ public class NotificationUtils {
         //int[] unreadCounts = new int[] {4, 1, 2}; // for testing
         int[] unreadCounts = getUnreads(context);
 
+        int timeline = unreadCounts[0];
+
         // if they don't want that type of notification, simply set it to zero
         if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming) || noTimeline) {
             unreadCounts[0] = 0;
@@ -252,7 +254,7 @@ public class NotificationUtils {
                 }
 
                 // if there are unread tweets on the timeline, check them for favorite users
-                if (settings.favoriteUserNotifications && unreadCounts[0] > 0) {
+                if (settings.favoriteUserNotifications && timeline > 0) {
                     favUsersNotification(currentAccount, context);
                 }
             }
