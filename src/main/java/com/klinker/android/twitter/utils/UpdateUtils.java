@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -79,5 +80,30 @@ public class UpdateUtils {
             context.startActivity(new Intent(context, MainActivity.class));
             ((Activity)context).overridePendingTransition(0,0);
         }
+    }
+
+    public static void versionThreeDialog(final Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle("Blur - A Launcher Replacement")
+                .setMessage("With version 3.0.0, Talon has added support for our latest project, Blur, which is Klinker Apps launcher.\n\n" +
+                        "It does some very cool interfacing with Talon, basically having the full app just one swipe away on your launcher. It has been a great project to work on and I recommend checking it out, it is completely free!\n\n" +
+                        "Head over to the Play Store description for Blur to learn more about getting Talon compatible (it is just downloading one extension app).\n\n" +
+                        "Hope you like it!")
+                .setPositiveButton("Go to Blur!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent web = new Intent(Intent.ACTION_VIEW);
+                        web.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher"));
+                        context.startActivity(web);
+                    }
+                })
+                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 }

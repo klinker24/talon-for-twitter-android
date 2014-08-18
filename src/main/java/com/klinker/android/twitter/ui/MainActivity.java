@@ -424,15 +424,10 @@ public class MainActivity extends DrawerActivity {
         // clear the pull unread
         sharedPrefs.edit().putInt("pull_unread", 0).commit();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (sharedPrefs.getBoolean("version_2_5", true)) {
-                    sharedPrefs.edit().putBoolean("version_2_5", false).commit();
-                    IOUtils.trimCache(context);
-                }
-            }
-        }).start();
+        if (sharedPrefs.getBoolean("version_3", true)) {
+            UpdateUtils.versionThreeDialog(context);
+            sharedPrefs.edit().putBoolean("version_3", false).commit();
+        }
 
         /*new Thread(new Runnable() {
             @Override
