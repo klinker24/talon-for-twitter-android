@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.0.1">
+        <text>Fix favorite user notifications</text>
+    </version>
+
     <version name="3.0.0">
         <text>Support for "Blur - A Launcher Replacement" by Klinker Apps Inc. (https://play.google.com/store/apps/details?id=com.klinker.android.launcher)</text>
     </version>
