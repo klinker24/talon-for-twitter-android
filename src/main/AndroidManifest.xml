@@ -543,7 +543,8 @@
         <service android:name=".services.ReadInteractionsService">
         </service>
 
-        <service android:name=".services.TimelineRefreshService">
+        <service android:name=".services.TimelineRefreshService"
+                android:exported="true">
         </service>
 
         <service android:name=".services.WidgetRefreshService">
