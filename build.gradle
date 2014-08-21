@@ -42,8 +42,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 20
-        versionCode 147
-        versionName "3.0.1"
+        versionCode 148
+        versionName "3.0.2"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 

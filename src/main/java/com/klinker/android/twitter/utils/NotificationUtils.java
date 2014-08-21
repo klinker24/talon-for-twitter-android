@@ -252,11 +252,11 @@ public class NotificationUtils {
                     final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
                     wakeLock.acquire(5000);
                 }
+            }
 
-                // if there are unread tweets on the timeline, check them for favorite users
-                if (settings.favoriteUserNotifications && timeline > 0) {
-                    favUsersNotification(currentAccount, context);
-                }
+            // if there are unread tweets on the timeline, check them for favorite users
+            if (settings.favoriteUserNotifications && timeline > 0) {
+                favUsersNotification(currentAccount, context);
             }
         }
 

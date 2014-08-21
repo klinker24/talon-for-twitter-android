@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="3.0.2">
+        <text>Updates to better support the Blur launcher page extension</text>
+        <text>Another fix for favorite users</text>
+    </version>
+
     <version name="3.0.1">
         <text>Fix favorite user notifications</text>
     </version>
