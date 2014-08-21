@@ -543,7 +543,8 @@
         <service android:name="com.klinker.android.twitter_l.services.ReadInteractionsService">
         </service>
 
-        <service android:name="com.klinker.android.twitter_l.services.TimelineRefreshService">
+        <service android:name="com.klinker.android.twitter_l.services.TimelineRefreshService"
+                android:exported="true">
         </service>
 
         <service android:name="com.klinker.android.twitter_l.services.WidgetRefreshService">

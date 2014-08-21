@@ -1,7 +1,16 @@
 <changelog>
 
+    <version name="3.0.1">
+        <text>Fix favorite user notifications</text>
+    </version>
+
+    <version name="3.0.0">
+        <text>Support for "Blur - A Launcher Replacement" by Klinker Apps Inc. (https://play.google.com/store/apps/details?id=com.klinker.android.launcher)</text>
+    </version>
+
     <version name="2.6.5">
         <text>Auto open web links to profiles and tweets</text>
+        <text>Turning off advance windowed (advanced settings) feature allows themes to use custom backgrounds on the tweet and profile viewers</text>
         <text>Search layout fixes</text>
         <text>Small changes for location attaching</text>
         <text>Fixes for saved searches</text>
@@ -9,7 +18,6 @@
         <text>Custom theme style fixes</text>
         <text>Some web link fixes</text>
         <text>Some widget fixes</text>
-        <text>Turning off advance windowed feature allows themes to use custom backgrounds on the tweet and profile viewers</text>
     </version>
 
     <version name="2.6.4">
