@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.0.3">
+        <text>Better notification dismissal</text>
+        <text>Better styling for some add-on themes on popup windows</text>
+    </version>
     <version name="3.0.2">
         <text>Updates to better support the Blur launcher page extension</text>
         <text>Another fix for favorite users</text>
