@@ -1180,6 +1180,11 @@ public class ProfilePager extends Activity {
 
 
             } else {
+                try {
+                    pDialog.dismiss();
+                } catch (Exception e) {
+                    
+                }
                 Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
