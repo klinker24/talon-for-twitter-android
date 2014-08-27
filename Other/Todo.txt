@@ -46,12 +46,6 @@
 
 -- Launcher Page --
 
-    - still switches the timelines every once and awhile
-    -- start the pre-cache if they have it enabled
-    - remove smoothie dependency with new profile picture stuff
-    - Theming stuff for android L version
-    - emoji support
-
 
 
 -- Talon "L" Version --
