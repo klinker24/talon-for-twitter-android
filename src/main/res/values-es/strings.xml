@@ -107,7 +107,7 @@
     <string name="third_welcome">¡Listo!</string>
     <string name="back_to_timeline">¡Llévame a mi timeline!</string>
     <string name="initial_sync">¡Sincronizar ahora!</string>
-    <string name="first_info">Antes de comenzar, debes iniciar sesión. </string>
+    <string name="first_info">Antes de comenzar, debes iniciar sesión.</string>
     <string name="second_info">¡Genial!\n\nAhora voy a obtener algunos datos iniciales.\n\nEsto puede tardar un poco dependiendo de tu conexión.</string>
     <string name="third_info">¡Espero que disfrutes de Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Sincronizando timeline...</string>
@@ -122,8 +122,8 @@
     <string name="follow_me_description">¡Sigue a @TalonAndroid y @lukeklinker para obtener novedades y soporte!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Nuevo tweet</string>
-    <string name="compose_tweet_hint">Escribe el tweet aquí...</string>
-    <string name="send_to">Ingresa el nombre de usuario</string>
+    <string name="compose_tweet_hint">Escribe el tweet...</string>
+    <string name="send_to">Ingresa el nombre de usuario...</string>
     <string name="direct_message_sent">Mensaje directo enviado</string>
     <string name="type_user">Buscar usuario</string>
     <string name="add_user">Añadir usuario</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Elige la lista</string>
     <string name="added_to_list">Añadido a la lista</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\n¡Accede a las características\nal tocar los ítems\nen el\npanel de\nnavegación!</string>
-    <string name="part_1_phone">\n¡Abre el panel\nde navegación\ndeslizando\nhacia la izquierda!</string>
-    <string name="part_2">\n¡Cambia entre\ntimelines\ndeslizando en\nel centro de\nla pantalla!</string>
+    <string name="part_1_tablet">¡Accede a las características\nal tocar los ítems\nen el\npanel de\nnavegación!</string>
+    <string name="part_1_phone">¡Abre el panel\nde navegación\ndeslizando\nhacia la izquierda!</string>
+    <string name="part_2">¡Cambia entre\ntimelines\ndeslizando en\nel centro de\nla pantalla!</string>
     <string name="part_3">¡Eso es todo!\n\n¡Toca la\npantalla\npara iniciar!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Configuración de temas</string>
@@ -590,6 +590,17 @@
     <string name="no_drafts">No se encontraron borradores</string>
     <string name="no_queued">No hay tweets en la cola</string>
     <string name="menu_show_top_tweets">Filtrar \"Tweets Destacados\"</string>
+    <string name="delete_all">Eliminar todos los borradores</string>
+    <string name="muted_clients">Clientes silenciados</string>
+    <string name="mute_client">Silenciar cliente</string>
+    <string name="no_clients">Sin clientes</string>
+    <string name="muted_clients_summary">Te permite silenciar todos los tweets que vienen de una aplicación específica.</string>
+    <string name="client_not_found">¡Cliente no encontrado!</string>
+    <string name="pick_time">Escoge tiempo</string>
+    <string name="pick_date">Escoge fecha</string>
+    <string name="both_accounts">Ambas cuentas</string>
+    <string name="attach_gif">GIF animado</string>
+    <string name="roboto_l">Android "L" Roboto</string>
     <string name="open_to_web">Abrir enlaces web en el tweet</string>
     <string name="open_to_web_summary">Si el tweet contiene un enlace web, este se abrirá directamente en lugar de abrir el tweet.</string>
 </resources>

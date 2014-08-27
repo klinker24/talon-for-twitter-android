@@ -5,6 +5,7 @@
         <text>Better styling for some add-on themes on popup windows</text>
         <text>Fixed a progress dialog getting stuck</text>
         <text>Other small bug fixes</text>
+        <text>Crash fixes</text>
     </version>
 
     <version name="3.0.2">
