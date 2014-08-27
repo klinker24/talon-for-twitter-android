@@ -1183,7 +1183,7 @@ public class ProfilePager extends Activity {
                 try {
                     pDialog.dismiss();
                 } catch (Exception e) {
-                    
+
                 }
                 Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
