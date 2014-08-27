@@ -18,6 +18,7 @@
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - html spacing on the tweet viewer
+    - look at pre caching and why sometimes the images won't load
 
 
 -- For Release --

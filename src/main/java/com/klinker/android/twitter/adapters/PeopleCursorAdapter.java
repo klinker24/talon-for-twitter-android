@@ -380,8 +380,10 @@ public class PeopleCursorAdapter extends CursorAdapter {
                     Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                     try {
@@ -517,7 +519,11 @@ public class PeopleCursorAdapter extends CursorAdapter {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (Exception e) {
+                    result = null;
+                }
 
                 if (null == result) {
                     Log.d("ImageUrlAsyncTask", "Downloading: " + url);
@@ -540,8 +546,10 @@ public class PeopleCursorAdapter extends CursorAdapter {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                 } else {
