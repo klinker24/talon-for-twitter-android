@@ -612,11 +612,17 @@ public class NotificationUtils {
 
             largeIcon = getImage(context, tweets.get(0)[2]);
         } else {
+            inbox = new NotificationCompat.InboxStyle();
+
             title = context.getResources().getString(R.string.favorite_users);
             shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
             longText = "";
 
-            inbox.setBigContentTitle(shortText);
+            try {
+                inbox.setBigContentTitle(shortText);
+            } catch (Exception e) {
+
+            }
 
             if (tweets.size() <= 5) {
                 for (String[] s : tweets) {

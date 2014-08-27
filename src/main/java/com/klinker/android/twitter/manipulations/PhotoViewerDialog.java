@@ -265,6 +265,10 @@ public class PhotoViewerDialog extends Activity {
             case R.id.menu_share_image:
 
                 // get the bitmap
+                if (picture == null) {
+                    return false;
+                }
+
                 Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
 
                 // create the intent

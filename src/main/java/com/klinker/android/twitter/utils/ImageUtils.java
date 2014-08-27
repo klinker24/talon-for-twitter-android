@@ -584,8 +584,10 @@ public class ImageUtils {
                         }
 
                         // Add to cache
-                        if (b != null) {
+                        try {
                             result = mCache.put(mUrl, b);
+                        } catch (Exception e) {
+                            result = null;
                         }
                     }
 
@@ -809,10 +811,10 @@ public class ImageUtils {
                     }
 
                     // Add to cache
-                    if (b != null && mCache != null) {
+                    try {
                         result = mCache.put(url, b);
-                    } else {
-                        return null;
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                     try {
@@ -908,10 +910,10 @@ public class ImageUtils {
                     b = getSizedCircle(b, context, dp);
 
                     // Add to cache
-                    if (b != null && mCache != null) {
+                    try {
                         result = mCache.put(url + "_profile", b);
-                    } else {
-                        return null;
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                     try {

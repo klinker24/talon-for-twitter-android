@@ -384,7 +384,11 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (Exception e) {
+                    result = null;
+                }
 
                 if (null == result) {
 
@@ -406,8 +410,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                 }
@@ -557,8 +563,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                     try {

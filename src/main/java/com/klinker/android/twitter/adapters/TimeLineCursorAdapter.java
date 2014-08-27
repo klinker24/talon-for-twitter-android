@@ -1898,13 +1898,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     }
 
-                    // Add to cache
-                    if (b != null) {
-                        try {
-                            result = mCache.put(url, b);
-                        } catch (Exception e) {
-                            // don't really know why I guess... NPE
-                        }
+                    try {
+                        result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                 }

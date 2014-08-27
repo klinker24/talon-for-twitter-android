@@ -1605,7 +1605,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (Exception e) {
+                    result = null;
+                }
 
                 if (null == result) {
 
@@ -1627,8 +1631,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                 }

@@ -869,7 +869,12 @@ public abstract class Compose extends Activity implements
                             status += " " + url;
                         }
                     } catch (Exception e) {
-                        Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
 
                 }
@@ -1157,7 +1162,7 @@ public abstract class Compose extends Activity implements
                 Log.v("talon_sending_tweet", "error sending the tweet, message: " + e.getMessage());
                 e.printStackTrace();
 
-                if (e.getMessage().contains("the uploaded media is too large.")) {
+                if (e.getMessage() != null && e.getMessage().contains("the uploaded media is too large.")) {
                     tryingAgain = true;
                     return false;
                 }
