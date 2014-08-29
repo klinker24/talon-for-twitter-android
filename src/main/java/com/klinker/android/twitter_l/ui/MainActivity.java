@@ -440,6 +440,12 @@ public class MainActivity extends DrawerActivity {
             sharedPrefs.edit().putBoolean("version_3", false).commit();
         }
 
+        if (sharedPrefs.getBoolean("force_reverse_click", true)) {
+            sharedPrefs.edit().putBoolean("reverse_click_option", false)
+                    .putBoolean("force_reverse_click", false)
+                    .commit();
+        }
+
         /*new Thread(new Runnable() {
             @Override
             public void run() {

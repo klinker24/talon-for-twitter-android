@@ -1,5 +1,8 @@
 package com.klinker.android.twitter_l.adapters;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -7,12 +10,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -26,19 +31,16 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Patterns;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CursorAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -103,6 +105,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public boolean isHomeTimeline;
 
+    public int contentHeight = 0;
+    public int headerMultiplier = 0;
+    public Expandable expander;
+
     public static class ViewHolder {
         public TextView name;
         public TextView screenTV;
@@ -110,20 +116,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public TextView tweet;
         public TextView time;
         public TextView retweeter;
-        public EditText reply;
-        public ImageButton favorite;
-        public ImageButton retweet;
-        public TextView favCount;
-        public TextView retweetCount;
         public LinearLayout expandArea;
-        public ImageButton replyButton;
         public ImageView image;
         public LinearLayout background;
-        public TextView charRemaining;
         public ImageView playButton;
-        public ImageButton quoteButton;
-        public ImageButton shareButton;
-        //public Bitmap tweetPic;
+        public FrameLayout imageHolder;
+        public View rootView;
 
         public long tweetId;
         public boolean isFavorited;
@@ -133,13 +131,69 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String retweeterName;
 
         public boolean preventNextClick = false;
-
     }
 
     public BitmapLruCache getCache() {
         return App.getInstance(context).getBitmapCache();
     }
 
+    public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
+        super(context, cursor, 0);
+
+        this.isHomeTimeline = isHomeTimeline;
+
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = isDM;
+
+        settings = AppSettings.getInstance(context);
+
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
+        cancelButton = a.getResourceId(0, 0);
+        a.recycle();
+
+        layout = R.layout.tweet_full_screen;
+
+        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        border = b.getResourceId(0, 0);
+        b.recycle();
+
+        mCache = getCache();
+
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+        transparent = new ColorDrawable(android.R.color.transparent);
+
+        mHandlers = new Handler[10];
+        for (int i = 0; i < 10; i++) {
+            mHandlers[i] = new Handler();
+        }
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+    }
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
         super(context, cursor, 0);
 
@@ -179,6 +233,63 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         for (int i = 0; i < 10; i++) {
             mHandlers[i] = new Handler();
         }
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+    }
+
+    public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, Expandable expander) {
+        super(context, cursor, 0);
+
+        this.isHomeTimeline = false;
+
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = isDM;
+
+        settings = AppSettings.getInstance(context);
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
+        cancelButton = a.getResourceId(0, 0);
+        a.recycle();
+
+        layout = R.layout.tweet_full_screen;
+
+        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
+        border = b.getResourceId(0, 0);
+        b.recycle();
+
+        mCache = getCache();
+
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+        transparent = new ColorDrawable(android.R.color.transparent);
+
+        mHandlers = new Handler[10];
+        for (int i = 0; i < 10; i++) {
+            mHandlers[i] = new Handler();
+        }
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        this.expander = expander;
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
@@ -219,6 +330,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         for (int i = 0; i < 10; i++) {
             mHandlers[i] = new Handler();
         }
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
     }
 
     @Override
@@ -233,20 +349,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
-        holder.reply = (EditText) v.findViewById(R.id.reply);
-        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
         holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.charRemaining = (TextView) v.findViewById(R.id.char_remaining);
         holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
-        holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
-        holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
+        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -254,12 +362,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.name.setTextSize(settings.textSize + 4);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
-        holder.favCount.setTextSize(settings.textSize + 1);
-        holder.retweetCount.setTextSize(settings.textSize + 1);
-        holder.reply.setTextSize(settings.textSize);
 
         holder.profilePic.setClipToOutline(true);
         holder.image.setClipToOutline(true);
+
+        holder.rootView = v;
 
         v.setTag(holder);
 
@@ -270,13 +377,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        if (holder.expandArea.getVisibility() == View.VISIBLE) {
-            removeExpansionNoAnimation(holder);
-            holder.retweetCount.setText(" -");
-            holder.favCount.setText(" -");
-            holder.reply.setText("");
-            holder.retweet.clearColorFilter();
-            holder.favorite.clearColorFilter();
+        if (holder.expandArea.getHeight() != 0) {
+            removeExpansion(holder, false);
         }
 
         final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
@@ -292,6 +394,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
         final String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
         final String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+
+        final int position = cursor.getPosition();
 
         String retweeter;
         try {
@@ -354,9 +458,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
-                            removeExpansionWithAnimation(holder);
+                            removeExpansion(holder, true);
                             removeKeyboard(holder);
                         }
                     }
@@ -422,9 +526,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public boolean onLongClick(View view) {
 
                         if (holder.expandArea.getVisibility() != View.VISIBLE) {
-                            addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
-                            removeExpansionWithAnimation(holder);
+                            removeExpansion(holder, true);
                             removeKeyboard(holder);
                         }
 
@@ -517,16 +621,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if(settings.inlinePics && holder.picUrl != null) {
             if (holder.picUrl.equals("")) {
-                if (holder.image.getVisibility() != View.GONE) {
-                    holder.image.setVisibility(View.GONE);
+                if (holder.imageHolder.getVisibility() != View.GONE) {
+                    holder.imageHolder.setVisibility(View.GONE);
                 }
 
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
-                if (holder.image.getVisibility() == View.GONE) {
-                    holder.image.setVisibility(View.VISIBLE);
+                if (holder.imageHolder.getVisibility() == View.GONE) {
+                    holder.imageHolder.setVisibility(View.VISIBLE);
                 }
 
                 if (holder.picUrl.contains("youtube")) {
@@ -536,7 +640,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     final String fRetweeter = retweeter;
 
-                    holder.image.setOnClickListener(new View.OnClickListener() {
+                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             String link;
@@ -583,7 +687,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         holder.playButton.setVisibility(View.GONE);
                     }
 
-                    holder.image.setOnClickListener(new View.OnClickListener() {
+                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
@@ -744,8 +848,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             final ViewHolder holder = (ViewHolder) v.getTag();
 
             holder.profilePic.setImageDrawable(transparent);
-            if (holder.image.getVisibility() == View.VISIBLE) {
-                holder.image.setVisibility(View.GONE);
+            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                holder.imageHolder.setVisibility(View.GONE);
             }
         }
 
@@ -754,18 +858,179 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
-    public void removeExpansionWithAnimation(ViewHolder holder) {
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
+    public void removeExpansion(final ViewHolder holder, boolean anim) {
+
+        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
+        translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationXAnimator);
+
+        ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, holder.background.getTranslationY(), 0f);
+        translationYAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationYAnimator);
+
+        int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
+        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (4 * padding));
+        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.width = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(widthAnimator);
+
+        int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
+        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
+        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.height = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
+        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorHeader);
+
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
+        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
+                layoutParams.height = val;
+                holder.expandArea.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorContent.setDuration(anim ? ANIMATION_DURATION : 0);
+        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorContent);
+
+        if (anim) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    holder.expandArea.setVisibility(View.GONE);
+                }
+            }, ANIMATION_DURATION);
+        } else {
+            holder.expandArea.setVisibility(View.GONE);
+        }
+
+        if (anim) {
+            // if they are just scrolling away from it, there is no reason to put them back at
+            // their original position, so we don't call the expander method.
+            expander.expandViewClosed((int) holder.rootView.getY());
+        } else {
+            expander.expandViewClosed(-1);
+        }
     }
 
-    public void removeExpansionNoAnimation(ViewHolder holder) {
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
-        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
+    protected void startAnimation(Animator animator) {
+        animator.start();
     }
 
-    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
-        if (isDM) {
+    public static final int ANIMATION_DURATION = 200;
+    public static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
+
+    public void addExpansion(final ViewHolder holder, int position, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
+        int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
+        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
+        translationXAnimator.setDuration(ANIMATION_DURATION);
+        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationXAnimator);
+
+        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimator.setDuration(ANIMATION_DURATION);
+            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimator);
+        }
+
+        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
+        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.width = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        widthAnimator.setDuration(ANIMATION_DURATION);
+        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(widthAnimator);
+
+        final int headerHeight = (int) (contentHeight * .5);
+        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
+        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.height = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorHeader.setDuration(ANIMATION_DURATION);
+        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorHeader);
+
+        final int distance;
+        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+            distance = contentHeight - headerHeight;
+        } else {
+            distance = contentHeight;
+        }
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, distance);
+        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
+                layoutParams.height = val;
+                holder.expandArea.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorContent.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                holder.expandArea.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                holder.expandArea.setMinimumHeight(distance);
+                holder.expandArea.getLayoutParams().height = distance;
+                holder.expandArea.invalidate();
+
+                //startArticleLoader(holder, holder.position, new ArticleItem().fillFromCursor(data));
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        heightAnimatorContent.setDuration(ANIMATION_DURATION);
+        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorContent);
+
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
+
+        /*if (isDM) {
             holder.retweet.setVisibility(View.GONE);
             holder.retweetCount.setVisibility(View.GONE);
             holder.favCount.setVisibility(View.GONE);
@@ -1200,13 +1465,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             } catch (Exception e) {
                 // theme does not include a reply entry box
             }
-        }
+        }*/
     }
 
     public void removeKeyboard(ViewHolder holder) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
+        //imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
     }
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
@@ -1256,7 +1521,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                holder.favCount.setText(" " + status.getFavoriteCount());
+                                //holder.favCount.setText(" " + status.getFavoriteCount());
 
                                 if (status.isFavorited()) {
                                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
@@ -1264,22 +1529,22 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     a.recycle();
 
                                     if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        //holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
                                     } else {
-                                        holder.favorite.setColorFilter(settings.accentInt);
+                                        //holder.favorite.setColorFilter(settings.accentInt);
                                     }
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                                     holder.isFavorited = true;
                                 } else {
                                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
                                     int resource = a.getResourceId(0, 0);
                                     a.recycle();
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                                     holder.isFavorited = false;
 
-                                    holder.favorite.clearColorFilter();
+                                    //holder.favorite.clearColorFilter();
                                 }
                             }
                         });
@@ -1313,8 +1578,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                holder.favCount.setText(" " + status.getFavoriteCount());
-                                holder.retweetCount.setText(" " + status.getRetweetCount());
+                                //holder.favCount.setText(" " + status.getFavoriteCount());
+                                //holder.retweetCount.setText(" " + status.getRetweetCount());
 
                                 if (status.isFavorited()) {
                                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
@@ -1322,32 +1587,32 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     a.recycle();
 
                                     if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        //holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
                                     } else {
-                                        holder.favorite.setColorFilter(settings.accentInt);
+                                        //holder.favorite.setColorFilter(settings.accentInt);
                                     }
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                                     holder.isFavorited = true;
                                 } else {
                                     TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
                                     int resource = a.getResourceId(0, 0);
                                     a.recycle();
 
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
+                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
                                     holder.isFavorited = false;
 
-                                    holder.favorite.clearColorFilter();
+                                    //holder.favorite.clearColorFilter();
                                 }
 
                                 if (status.isRetweetedByMe()) {
                                     if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        //holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
                                     } else {
-                                        holder.retweet.setColorFilter(settings.accentInt);
+                                        //holder.retweet.setColorFilter(settings.accentInt);
                                     }
                                 } else {
-                                    holder.retweet.clearColorFilter();
+                                    //holder.retweet.clearColorFilter();
                                 }
                             }
                         });
@@ -1379,15 +1644,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             if (tweetId == holder.tweetId) {
                                 if (retweetedByMe) {
                                     if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        //holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
                                     } else {
-                                        holder.retweet.setColorFilter(settings.accentInt);
+                                        //holder.retweet.setColorFilter(settings.accentInt);
                                     }
                                 } else {
-                                    holder.retweet.clearColorFilter();
+                                    //holder.retweet.clearColorFilter();
                                 }
                                 if (count != null) {
-                                    holder.retweetCount.setText(" " + count);
+                                    //holder.retweetCount.setText(" " + count);
                                 }
                             }
                         }
@@ -1468,95 +1733,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         protected void onPostExecute(String count) {
             Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
             getRetweetCount(holder, tweetId);
-        }
-    }
-
-    class ReplyToStatus extends AsyncTask<String, Void, Boolean> {
-
-        private ViewHolder holder;
-        private long tweetId;
-        private boolean dontgo = false;
-
-        public ReplyToStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected void onPreExecute() {
-            if (Integer.parseInt(holder.charRemaining.getText().toString()) >= 0) {
-                removeExpansionWithAnimation(holder);
-                removeKeyboard(holder);
-            } else {
-                dontgo = true;
-            }
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            try {
-                if (!dontgo) {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-
-                    if (!isDM) {
-                        twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
-                        reply.setInReplyToStatusId(tweetId);
-
-                        twitter.updateStatus(reply);
-                    } else {
-                        String screenName = holder.screenName;
-                        String message = holder.reply.getText().toString();
-                        DirectMessage dm = twitter.sendDirectMessage(screenName, message);
-                    }
-
-
-                    return true;
-                }
-            } catch (Exception e) {
-
-            }
-
-            return false;
-        }
-
-        protected void onPostExecute(Boolean finished) {
-             if (finished) {
-                 Toast.makeText(context, context.getResources().getString(R.string.tweet_success), Toast.LENGTH_SHORT).show();
-             } else {
-                 if (dontgo) {
-                     Toast.makeText(context, context.getResources().getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
-                 } else {
-                     Toast.makeText(context, context.getResources().getString(R.string.error_sending_tweet), Toast.LENGTH_SHORT).show();
-                 }
-             }
-        }
-    }
-
-    class GetImage extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public GetImage(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter4j.Status status = twitter.showStatus(tweetId);
-
-                MediaEntity[] entities = status.getMediaEntities();
-
-
-
-                return entities[0].getMediaURL();
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String url) {
-
         }
     }
 
