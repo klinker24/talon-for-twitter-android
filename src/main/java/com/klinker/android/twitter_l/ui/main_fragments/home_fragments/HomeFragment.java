@@ -213,6 +213,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     if (!canUseScrollStuff) {
+                        if (firstVisibleItem == 0 && !actionBar.isShowing()) {
+                            actionBar.show();
+                            showStatusBar();
+                        }
                         return;
                     }
 
@@ -287,6 +291,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                     if (!canUseScrollStuff) {
+                        if (firstVisibleItem == 0 && !actionBar.isShowing()) {
+                            actionBar.show();
+                            showStatusBar();
+                        }
                         return;
                     }
 

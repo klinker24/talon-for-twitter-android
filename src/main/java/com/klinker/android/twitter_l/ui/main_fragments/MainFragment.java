@@ -462,6 +462,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         canUseScrollStuff = false;
         expandedDistanceFromTop = distanceFromTop;
 
+        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+
         if (getResources().getBoolean(R.bool.isTablet) || landscape) {
             listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
 
@@ -469,8 +471,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 @Override
                 public void run() {
                     hideToastBar(300);
+                    canUseScrollStuff = false;
 
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                     MainActivity.sendHandler.post(MainActivity.hideSend);
                 }
             }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
@@ -481,6 +483,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 @Override
                 public void run() {
                     hideStatusBar();
+                    canUseScrollStuff = false;
 
                     if (actionBar.isShowing()) {
                         actionBar.hide();
@@ -488,7 +491,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
                     hideToastBar(300);
 
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                     MainActivity.sendHandler.post(MainActivity.hideSend);
                 }
             }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
