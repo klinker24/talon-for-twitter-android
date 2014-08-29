@@ -459,6 +459,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
     protected boolean canUseScrollStuff = true;
     @Override
     public void expandViewOpen(final int distanceFromTop, int position) {
+        canUseScrollStuff = false;
+        expandedDistanceFromTop = distanceFromTop;
+
         if (getResources().getBoolean(R.bool.isTablet) || landscape) {
             listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
 
@@ -466,6 +469,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 @Override
                 public void run() {
                     hideToastBar(300);
+
                     MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                     MainActivity.sendHandler.post(MainActivity.hideSend);
                 }
@@ -477,25 +481,37 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 @Override
                 public void run() {
                     hideStatusBar();
-                    actionBar.hide();
+
+                    if (actionBar.isShowing()) {
+                        actionBar.hide();
+                    }
 
                     hideToastBar(300);
+
                     MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
                     MainActivity.sendHandler.post(MainActivity.hideSend);
                 }
             }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
         }
-
-        canUseScrollStuff = false;
-        expandedDistanceFromTop = distanceFromTop;
     }
 
     @Override
     public void expandViewClosed(int currentDistanceFromTop) {
-        if (currentDistanceFromTop == -1) {
-            canUseScrollStuff = true;
-        } else {
-            canUseScrollStuff = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                canUseScrollStuff = true;
+
+                if (listView.getFirstVisiblePosition() < 3) {
+                    if (!actionBar.isShowing()) {
+                        actionBar.show();
+                    }
+                    showStatusBar();
+                }
+            }
+        }, TimeLineCursorAdapter.ANIMATION_DURATION + 500);
+
+        if (currentDistanceFromTop != -1) {
             listView.smoothScrollBy(-1 * expandedDistanceFromTop + currentDistanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
         }
     }
