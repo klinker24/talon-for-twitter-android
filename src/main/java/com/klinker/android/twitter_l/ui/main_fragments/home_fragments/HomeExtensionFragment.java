@@ -162,7 +162,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, HomeExtensionFragment.this);
                         if (bSpinner) {
                             try {
                                 spinner.setVisibility(View.GONE);

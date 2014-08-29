@@ -197,6 +197,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
+                    if (!canUseScrollStuff) {
+                        return;
+                    }
+
                     if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
@@ -208,6 +212,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    if (!canUseScrollStuff) {
+                        return;
+                    }
 
                     if (settings.uiExtras) {
                         if (firstVisibleItem != 0) {
@@ -264,6 +271,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScrollStateChanged(AbsListView absListView, int i) {
+                    if (!canUseScrollStuff) {
+                        return;
+                    }
+
                     if (i == SCROLL_STATE_IDLE) {
                         MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                         MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
@@ -275,6 +286,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 @Override
                 public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    if (!canUseScrollStuff) {
+                        return;
+                    }
 
                     if (newTweets && firstVisibleItem == 0 && (settings.liveStreaming)) {
                         if (liveUnread > 0) {
@@ -329,7 +343,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public CursorAdapter returnAdapter(Cursor c) {
-        return new TimeLineCursorAdapter(context, c, false, true);
+        return new TimeLineCursorAdapter(context, c, false, true, this);
     }
 
     public boolean isLauncher() {

@@ -27,12 +27,14 @@ import android.widget.TextView;
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.CursorListLoader;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -41,7 +43,7 @@ import org.lucasr.smoothie.ItemManager;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public abstract class MainFragment extends Fragment {
+public abstract class MainFragment extends Fragment implements Expandable {
 
     protected Twitter twitter;
 
@@ -450,5 +452,51 @@ public abstract class MainFragment extends Fragment {
 
     public void updateToastText(String text) {
         toastDescription.setText(text);
+    }
+
+    private int expandedDistanceFromTop = 0;
+
+    protected boolean canUseScrollStuff = true;
+    @Override
+    public void expandViewOpen(final int distanceFromTop, int position) {
+        if (getResources().getBoolean(R.bool.isTablet) || landscape) {
+            listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideToastBar(300);
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                    MainActivity.sendHandler.post(MainActivity.hideSend);
+                }
+            }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
+        } else {
+            listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideStatusBar();
+                    actionBar.hide();
+
+                    hideToastBar(300);
+                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+                    MainActivity.sendHandler.post(MainActivity.hideSend);
+                }
+            }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
+        }
+
+        canUseScrollStuff = false;
+        expandedDistanceFromTop = distanceFromTop;
+    }
+
+    @Override
+    public void expandViewClosed(int currentDistanceFromTop) {
+        if (currentDistanceFromTop == -1) {
+            canUseScrollStuff = true;
+        } else {
+            canUseScrollStuff = true;
+            listView.smoothScrollBy(-1 * expandedDistanceFromTop + currentDistanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
+        }
     }
 }

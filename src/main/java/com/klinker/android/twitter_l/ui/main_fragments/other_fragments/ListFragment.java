@@ -311,7 +311,7 @@ public class ListFragment extends MainFragment {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
                             return;
                         }
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                         listView.setAdapter(cursorAdapter);
 
                         int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));

@@ -180,7 +180,7 @@ public class MentionsFragment extends MainFragment {
 
                 }
 
-                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
                 attachCursor();
 
                 try {
@@ -279,7 +279,7 @@ public class MentionsFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
 
                         try {
                             spinner.setVisibility(View.GONE);
