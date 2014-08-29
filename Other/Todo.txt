@@ -4,12 +4,12 @@
     - gallery of picture on searching
     - tweetmarker in lists
     - rotation on tweet viewer
-    - identify conversations from timeline
     - transparent status bar xposed
     - Night mode for themes
     - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
     - better url regex
     - better intent filter for the search so it doesn't get everything
+    - animate expanding the timeline
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
@@ -18,24 +18,22 @@
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - html spacing on the tweet viewer
+    - look at pre caching and why sometimes the images won't load
 
 
 -- For Release --
 
-    Version 2.5.0
+    Version 3.1.0
+        - collage of images on the tweet viewer if there is more than one attached to the tweet
         - manual tweetmarker
+        - conversation indicator on timeline
+
+    Version 3.2.0
+        - Theming options for the fab
+        - try to specify the text color for the action bar themes
         - mute users for a time period
 
-        - material design add on theme
-        - conversation indicator on timeline
-        - collage of images on the tweet viewer if there is more than one attached to the tweet
-        - remove the dependency on smoothie and roll it myself
-        - animate expanding the timeline
-
-        - insert hashtags into reply from timeline
-
-
-    Version 2.6.0
+    Version 3.3.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
@@ -54,12 +52,9 @@
     - remove the gradient behind the background in drawer
 
 
-
 -- Talon "L" Version --
 
     - Profiles
     - remove the black behind the windows
     - better viewing of multiple images on tweet viewer
-    - launcher page theme stuff
-    - put in aaron's default header image
     - fix the drawer in landscape for tablets
