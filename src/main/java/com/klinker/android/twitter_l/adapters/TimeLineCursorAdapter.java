@@ -243,6 +243,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             // we need to take off the size of the action bar and status bar
             contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
         }
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, Expandable expander) {
@@ -290,6 +295,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         contentHeight = size.y;
 
         this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
@@ -335,6 +345,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         Point size = new Point();
         display.getSize(size);
         contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
     }
 
     @Override
