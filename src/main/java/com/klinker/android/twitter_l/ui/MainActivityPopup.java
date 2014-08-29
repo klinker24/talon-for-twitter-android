@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.ui;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Display;
 import android.view.Window;
 
@@ -51,6 +52,10 @@ public class MainActivityPopup extends MainActivity {
         translucent = false;
 
         Utils.setUpNotifTheme(context, settings);
+
+        if (settings.addonTheme) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(settings.backgroundColor));
+        }
     }
 
     @Override

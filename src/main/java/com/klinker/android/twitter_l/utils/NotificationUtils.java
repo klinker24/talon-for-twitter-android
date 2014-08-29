@@ -248,11 +248,11 @@ public class NotificationUtils {
                     final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
                     wakeLock.acquire(5000);
                 }
+            }
 
-                // if there are unread tweets on the timeline, check them for favorite users
-                if (settings.favoriteUserNotifications && timeline > 0) {
-                    favUsersNotification(currentAccount, context);
-                }
+            // if there are unread tweets on the timeline, check them for favorite users
+            if (settings.favoriteUserNotifications && timeline > 0) {
+                favUsersNotification(currentAccount, context);
             }
         }
 
@@ -608,11 +608,17 @@ public class NotificationUtils {
 
             largeIcon = getImage(context, tweets.get(0)[2]);
         } else {
+            inbox = new NotificationCompat.InboxStyle();
+
             title = context.getResources().getString(R.string.favorite_users);
             shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
             longText = "";
 
-            inbox.setBigContentTitle(shortText);
+            try {
+                inbox.setBigContentTitle(shortText);
+            } catch (Exception e) {
+
+            }
 
             if (tweets.size() <= 5) {
                 for (String[] s : tweets) {

@@ -1364,28 +1364,32 @@ public class TweetFragment extends Fragment {
                         @Override
                         public void run() {
 
-                            retweetCount.setText(" " + retCount);
+                            try {
+                                retweetCount.setText(" " + retCount);
 
-                            if (retweetButton instanceof ImageButton) {
-                                if (fRet) {
-                                    if (!settings.addonTheme) {
-                                        ((ImageButton)retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                if (retweetButton instanceof ImageButton) {
+                                    if (fRet) {
+                                        if (!settings.addonTheme) {
+                                            ((ImageButton) retweetButton).setColorFilter(context.getResources().getColor(R.color.app_color));
+                                        } else {
+                                            ((ImageButton) retweetButton).setColorFilter(settings.accentInt);
+                                        }
                                     } else {
-                                        ((ImageButton)retweetButton).setColorFilter(settings.accentInt);
+                                        ((ImageButton) retweetButton).clearColorFilter();
                                     }
                                 } else {
-                                    ((ImageButton)retweetButton).clearColorFilter();
-                                }
-                            } else {
-                                if (fRet) {
-                                    if (!settings.addonTheme) {
-                                        retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                    if (fRet) {
+                                        if (!settings.addonTheme) {
+                                            retweetButton.setBackgroundColor(context.getResources().getColor(R.color.app_color));
+                                        } else {
+                                            retweetButton.setBackgroundColor(settings.accentInt);
+                                        }
                                     } else {
-                                        retweetButton.setBackgroundColor(settings.accentInt);
+                                        retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                                     }
-                                } else {
-                                    retweetButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                                 }
+                            } catch (Exception x) {
+                                // not attached to activity
                             }
                         }
                     });

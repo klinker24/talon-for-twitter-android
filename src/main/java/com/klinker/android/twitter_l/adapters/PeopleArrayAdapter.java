@@ -179,7 +179,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
         if (openFirst && position == 0) {
             holder.background.performClick();
-            ((Activity)context).finish();
+            ((Activity) context).finish();
         }
     }
 
@@ -221,7 +221,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
         if (null != wrapper && holder.picture.getVisibility() != View.GONE) {
             // The cache has it, so just display it
-            holder.picture.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+            holder.picture.setImageDrawable(wrapper);
+            Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
 
             holder.picture.startAnimation(fadeInAnimation);
         } else {
@@ -269,7 +270,11 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 // Now we're not on the main thread we can check all caches
                 CacheableBitmapDrawable result;
 
-                result = mCache.get(url, null);
+                try {
+                    result = mCache.get(url, null);
+                } catch (Exception e) {
+                    result = null;
+                }
 
                 if (null == result) {
 
@@ -291,8 +296,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     }
 
                     // Add to cache
-                    if (b != null) {
+                    try {
                         result = mCache.put(url, b);
+                    } catch (Exception e) {
+                        result = null;
                     }
 
                 }
@@ -389,5 +396,4 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             }
         }
     }
-
 }

@@ -130,7 +130,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         holder.title.setText(Html.fromHtml(title));
 
-        if(!text.equals("")) {
+        if (!text.equals("")) {
             holder.text.setVisibility(View.VISIBLE);
             holder.text.setText(text);
         } else {
@@ -374,5 +374,4 @@ public class InteractionsCursorAdapter extends CursorAdapter {
             }
         }
     }
-
 }
