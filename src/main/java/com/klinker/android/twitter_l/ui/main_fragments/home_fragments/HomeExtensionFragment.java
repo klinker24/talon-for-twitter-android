@@ -56,6 +56,10 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
+                if (!canUseScrollStuff) {
+                    return;
+                }
+
                 if (i == SCROLL_STATE_IDLE) {
                     MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
                     MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
@@ -67,6 +71,13 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
             @Override
             public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (!canUseScrollStuff) {
+                    if (firstVisibleItem == 0 && !actionBar.isShowing()) {
+                        actionBar.show();
+                        showStatusBar();
+                    }
+                    return;
+                }
 
                 if (DrawerActivity.settings.uiExtras) {
                     // show and hide the action bar
