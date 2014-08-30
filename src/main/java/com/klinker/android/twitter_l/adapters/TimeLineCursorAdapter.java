@@ -421,51 +421,97 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
-        if(!settings.reverseClickActions) {
+        if((settings.reverseClickActions || expander == null) && !isDM) {
             final String fRetweeter = retweeter;
-            if (!isDM) {
-                View.OnLongClickListener click = new View.OnLongClickListener() {
+            holder.background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (holder.preventNextClick) {
+                        holder.preventNextClick = false;
+                        return;
+                    }
+
+                    String link;
+
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = holder.picUrl;
+                    } else {
+                        link = otherUrl.split("  ")[0];
+                    }
+
+                    Log.v("tweet_page", "clicked");
+                    Intent viewTweet = new Intent(context, TweetActivity.class);
+                    viewTweet.putExtra("name", name);
+                    viewTweet.putExtra("screenname", screenname);
+                    viewTweet.putExtra("time", longTime);
+                    viewTweet.putExtra("tweet", tweetText);
+                    viewTweet.putExtra("retweeter", fRetweeter);
+                    viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("other_links", otherUrl);
+                    viewTweet.putExtra("picture", displayPic);
+                    viewTweet.putExtra("tweetid", holder.tweetId);
+                    viewTweet.putExtra("proPic", profilePic);
+                    viewTweet.putExtra("users", users);
+                    viewTweet.putExtra("hashtags", hashtags);
+
+                    context.startActivity(viewTweet);
+                }
+            });
+
+            if (expander != null) {
+                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        String link;
-
-                        boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
-                        if (displayPic) {
-                            link = holder.picUrl;
+                        if (holder.expandArea.getVisibility() == View.GONE) {
+                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
-                            link = otherUrl.split("  ")[0];
+                            removeExpansion(holder, true);
                         }
-
-                        Intent viewTweet = new Intent(context, TweetActivity.class);
-                        viewTweet.putExtra("name", name);
-                        viewTweet.putExtra("screenname", screenname);
-                        viewTweet.putExtra("time", longTime);
-                        viewTweet.putExtra("tweet", tweetText);
-                        viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", link);
-                        viewTweet.putExtra("other_links", otherUrl);
-                        viewTweet.putExtra("picture", displayPic);
-                        viewTweet.putExtra("tweetid", holder.tweetId);
-                        viewTweet.putExtra("proPic", profilePic);
-                        viewTweet.putExtra("users", users);
-                        viewTweet.putExtra("hashtags", hashtags);
-
-                        if (isHomeTimeline) {
-                            sharedPrefs.edit()
-                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                    .commit();
-                        }
-
-                        context.startActivity(viewTweet);
 
                         return true;
                     }
-                };
-                holder.background.setOnLongClickListener(click);
+                });
             }
 
-            if (!isDM) {
-                View.OnClickListener click = new View.OnClickListener() {
+        } else if (!isDM) {
+            final String fRetweeter = retweeter;
+            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    String link;
+
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                    if (displayPic) {
+                        link = holder.picUrl;
+                    } else {
+                        link = otherUrl.split("  ")[0];
+                    }
+
+                    Log.v("tweet_page", "clicked");
+                    Intent viewTweet = new Intent(context, TweetActivity.class);
+                    viewTweet.putExtra("name", name);
+                    viewTweet.putExtra("screenname", screenname);
+                    viewTweet.putExtra("time", longTime);
+                    viewTweet.putExtra("tweet", tweetText);
+                    viewTweet.putExtra("retweeter", fRetweeter);
+                    viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("other_links", otherUrl);
+                    viewTweet.putExtra("picture", displayPic);
+                    viewTweet.putExtra("tweetid", holder.tweetId);
+                    viewTweet.putExtra("proPic", profilePic);
+                    viewTweet.putExtra("users", users);
+                    viewTweet.putExtra("hashtags", hashtags);
+
+                    context.startActivity(viewTweet);
+
+                    return true;
+                }
+            });
+
+            if (expander != null) {
+                holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (holder.preventNextClick) {
@@ -476,82 +522,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
                             removeExpansion(holder, true);
-                            removeKeyboard(holder);
                         }
                     }
-                };
-                holder.background.setOnClickListener(click);
-            }
-        } else {
-            final String fRetweeter = retweeter;
-            if (!isDM) {
-                View.OnClickListener click = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (holder.preventNextClick) {
-                            holder.preventNextClick = false;
-                            return;
-                        }
-                        String link = "";
-
-                        boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
-                        if (displayPic) {
-                            link = holder.picUrl;
-                        } else {
-                            link = otherUrl.split("  ")[0];
-                        }
-
-                        Intent viewTweet = new Intent(context, TweetActivity.class);
-                        viewTweet.putExtra("name", name);
-                        viewTweet.putExtra("screenname", screenname);
-                        viewTweet.putExtra("time", longTime);
-                        viewTweet.putExtra("tweet", tweetText);
-                        viewTweet.putExtra("retweeter", fRetweeter);
-                        viewTweet.putExtra("webpage", link);
-                        viewTweet.putExtra("picture", displayPic);
-                        viewTweet.putExtra("other_links", otherUrl);
-                        viewTweet.putExtra("tweetid", holder.tweetId);
-                        viewTweet.putExtra("proPic", profilePic);
-                        viewTweet.putExtra("users", users);
-                        viewTweet.putExtra("hashtags", hashtags);
-
-                        if (isHomeTimeline) {
-                            sharedPrefs.edit()
-                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                    .commit();
-                        }
-
-                        /*ActivityOptions options = ActivityOptions
-                                .makeSceneTransitionAnimation((Activity) context,
-                                        Pair.create((View) holder.profilePic, "profile_picture"),
-                                        Pair.create((View)holder.name, "person_name"),
-                                        Pair.create((View)holder.screenTV, "person_handle"),
-                                        Pair.create((View)holder.image, "large_image"));*/
-
-                        context.startActivity(viewTweet/*, options.toBundle()*/);
-                        //((Activity) context).getFragmentManager().executePendingTransactions();
-                    }
-                };
-                holder.background.setOnClickListener(click);
-            }
-
-            if (!isDM) {
-                View.OnLongClickListener click = new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-
-                        if (holder.expandArea.getVisibility() != View.VISIBLE) {
-                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                        } else {
-                            removeExpansion(holder, true);
-                            removeKeyboard(holder);
-                        }
-
-                        return true;
-                    }
-                };
-
-                holder.background.setOnLongClickListener(click);
+                });
             }
         }
 
@@ -947,6 +920,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             expander.expandViewClosed(-1);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                holder.expandArea.removeAllViews();
+            }
+        }, ANIMATION_DURATION);
+
     }
 
     protected void startAnimation(Animator animator) {
@@ -956,7 +937,41 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public static final int ANIMATION_DURATION = 200;
     public static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
 
-    public void addExpansion(final ViewHolder holder, int position, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
+    public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
+        final String text = holder.tweet.getText().toString();
+        String extraNames = "";
+        String replyStuff = "";
+
+        if (text.contains("@")) {
+            for (String s : users.split("  ")) {
+                if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
+                    extraNames += "@" + s + " ";
+                }
+            }
+        }
+
+        try {
+            if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
+                extraNames += "@" + holder.retweeterName + " ";
+            }
+        } catch (NullPointerException e) {
+
+        }
+
+        if (!screenname.equals(settings.myScreenName)) {
+            replyStuff = "@" + screenname + " " + extraNames;
+        } else {
+            replyStuff = extraNames;
+        }
+
+        if (settings.autoInsertHashtags && hashtags != null) {
+            for (String s : hashtags) {
+                if (!s.equals("")) {
+                    replyStuff += "#" + s + " ";
+                }
+            }
+        }
+
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
         translationXAnimator.setDuration(ANIMATION_DURATION);
@@ -1000,7 +1015,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorHeader);
 
-        final int distance;
+        final int distance;// = (int) context.getResources().getDimension(R.dimen.expansion_size);;
         if (holder.imageHolder.getVisibility() == View.VISIBLE) {
             distance = contentHeight - headerHeight;
         } else {
@@ -1016,6 +1031,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.setLayoutParams(layoutParams);
             }
         });
+        final String s = replyStuff;
         heightAnimatorContent.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -1028,7 +1044,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.getLayoutParams().height = distance;
                 holder.expandArea.invalidate();
 
-                //startArticleLoader(holder, holder.position, new ArticleItem().fillFromCursor(data));
+                ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+                helper.setBackground(holder.background);
+                helper.setWebLink(otherLinks);
+                helper.setReplyDetails("@" + screenname + ": " + text, s);
+                View root = helper.getExpansion();
+
+                ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
+                alpha.setDuration(ANIMATION_DURATION);
+                alpha.setInterpolator(ANIMATION_INTERPOLATOR);
+                startAnimation(alpha);
+
+                holder.expandArea.addView(root);
             }
 
             @Override
@@ -1045,442 +1072,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
 
-        /*if (isDM) {
-            holder.retweet.setVisibility(View.GONE);
-            holder.retweetCount.setVisibility(View.GONE);
-            holder.favCount.setVisibility(View.GONE);
-            holder.favorite.setVisibility(View.GONE);
-        } else {
-            holder.retweet.setVisibility(View.VISIBLE);
-            holder.retweetCount.setVisibility(View.VISIBLE);
-            holder.favCount.setVisibility(View.VISIBLE);
-            holder.favorite.setVisibility(View.VISIBLE);
-        }
-
-        try {
-            holder.replyButton.setVisibility(View.GONE);
-        } catch (Exception e) {
-
-        }
-        try {
-            holder.charRemaining.setVisibility(View.GONE);
-        } catch (Exception e) {
-
-        }
-
-        holder.screenName = screenname;
-
-        // used to find the other names on a tweet... could be optimized i guess, but only run when button is pressed
-        if (!isDM) {
-            String text = holder.tweet.getText().toString();
-            String extraNames = "";
-
-            if (text.contains("@")) {
-                for (String s : users.split("  ")) {
-                    if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
-                        extraNames += "@" + s + " ";
-                    }
-                }
-            }
-
-            try {
-                if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
-                    extraNames += "@" + holder.retweeterName + " ";
-                }
-            } catch (NullPointerException e) {
-
-            }
-
-            if (!screenname.equals(settings.myScreenName)) {
-                holder.reply.setText("@" + screenname + " " + extraNames);
-            } else {
-                holder.reply.setText(extraNames);
-            }
-
-            if (settings.autoInsertHashtags && hashtags != null) {
-                for (String s : hashtags) {
-                    if (!s.equals("")) {
-                        holder.reply.append("#" + s + " ");
-                    }
-                }
-            }
-        }
-
-        holder.reply.setSelection(holder.reply.getText().length());
-
-        if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText(" -");
-            holder.retweetCount.setText(" -");
-        }
-
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.setVisibility(View.VISIBLE);//startAnimation(expandAni);
-
-        if (holder.favCount.getText().toString().equals(" -")) {
-            getCounts(holder, tweetId);
-        }
-
-        holder.favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FavoriteStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.retweet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new RetweetStatus(holder, holder.tweetId).execute();
-            }
-        });
-
-        holder.retweet.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.remove_retweet))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                new RemoveRetweet(holder.tweetId).execute();
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .create()
-                        .show();
-                return false;
-            }
-
-            class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
-
-                private long tweetId;
-
-                public RemoveRetweet(long tweetId) {
-                    this.tweetId = tweetId;
-                }
-
-                protected void onPreExecute() {
-                    holder.retweet.clearColorFilter();
-
-                    Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
-                }
-
-                protected Boolean doInBackground(String... urls) {
-                    try {
-                        Twitter twitter =  Utils.getTwitter(context, settings);
-                        ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
-                        for (twitter4j.Status retweet : retweets) {
-                            if(retweet.getUser().getId() == settings.myId)
-                                twitter.destroyStatus(retweet.getId());
-                        }
-                        return true;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-
-                protected void onPostExecute(Boolean deleted) {
-                    try {
-                        if (deleted) {
-                            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        // user has gone away from the window
-                    }
-                }
-            }
-        });
-
-        holder.reply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeExpansionWithAnimation(holder);
-
-                Intent compose = new Intent(context, ComposeActivity.class);
-                String string = holder.reply.getText().toString();
-                try{
-                    compose.putExtra("user", string.substring(0, string.length() - 1));
-                } catch (Exception e) {
-
-                }
-                compose.putExtra("id", holder.tweetId);
-                compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + holder.tweet.getText().toString());
-
-                if (isHomeTimeline) {
-                    sharedPrefs.edit()
-                            .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                            .commit();
-                }
-
-                context.startActivity(compose);
-            }
-        });
-
-        holder.reply.requestFocus();
-        removeKeyboard(holder);
-
-        // this isn't going to run anymore, but just in case i put it back i guess
-        if (holder.replyButton != null) {
-            holder.replyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new ReplyToStatus(holder, holder.tweetId).execute();
-                }
-            });
-
-            holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
-
-            holder.reply.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    hasKeyboard = b;
-                }
-            });
-
-            holder.reply.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                    holder.charRemaining.setText(140 - holder.reply.getText().length() + "");
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
-
-        }
-
-        final String name = screenname;
-
-        try {
-            holder.shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    String text = holder.tweet.getText().toString();
-
-                    text = restoreLinks(text);
-
-                    text = "@" + name + ": " + text;
-
-                    Log.v("talon_sharing", "text: " + text);
-
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                    intent.putExtra(Intent.EXTRA_TEXT, text);
-
-                    if (isHomeTimeline) {
-                        sharedPrefs.edit()
-                                .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                .commit();
-                    }
-
-                    context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
-                }
-
-                public String restoreLinks(String text) {
-                    String full = text;
-
-                    String[] split = text.split("\\s");
-                    String[] otherLink = new String[otherLinks.length];
-
-                    for (int i = 0; i < otherLinks.length; i++) {
-                        otherLink[i] = "" + otherLinks[i];
-                    }
-
-
-                    boolean changed = false;
-
-                    if (otherLink.length > 0) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-
-                            if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                                String f = s.replace("...", "").replace("http", "");
-
-                                for (int x = 0; x < otherLink.length; x++) {
-                                    if (otherLink[x].contains(f)) {
-                                        changed = true;
-                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
-                                        }
-                                        f = otherLink[x];
-                                        otherLink[x] = "";
-                                        break;
-                                    }
-                                }
-
-                                if (changed) {
-                                    split[i] = f;
-                                } else {
-                                    split[i] = s;
-                                }
-                            } else {
-                                split[i] = s;
-                            }
-
-                        }
-                    }
-
-                    if (!webpage.equals("")) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-                            s = s.replace("...", "");
-
-                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                                String replace = otherLinks[otherLinks.length - 1];
-                                if (replace.replace(" ", "").equals("")) {
-                                    replace = webpage;
-                                }
-                                split[i] = replace;
-                                changed = true;
-                            }
-                        }
-                    }
-
-
-
-                    if(changed) {
-                        full = "";
-                        for (String p : split) {
-                            full += p + " ";
-                        }
-
-                        full = full.substring(0, full.length() - 1);
-                    }
-
-                    return full;
-                }
-            });
-
-
-            holder.quoteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(context, ComposeActivity.class);
-                    intent.setType("text/plain");
-                    String text = holder.tweet.getText().toString();
-
-                    text = TweetLinkUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
-
-                    if (!settings.preferRT) {
-                        text = "\"@" + name + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + name + ": " + text;
-                    }
-                    intent.putExtra("user", text);
-                    intent.putExtra("id", tweetId);
-
-                    if (isHomeTimeline) {
-                        sharedPrefs.edit()
-                                .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                .commit();
-                    }
-
-                    context.startActivity(intent);
-                }
-
-                public String restoreLinks(String text) {
-                    String full = text;
-
-                    String[] split = text.split("\\s");
-                    String[] otherLink = new String[otherLinks.length];
-
-                    for (int i = 0; i < otherLinks.length; i++) {
-                        otherLink[i] = "" + otherLinks[i];
-                    }
-
-
-                    boolean changed = false;
-
-                    if (otherLink.length > 0) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-
-                            if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                                String f = s.replace("...", "").replace("http", "");
-
-                                for (int x = 0; x < otherLink.length; x++) {
-                                    if (otherLink[x].contains(f)) {
-                                        changed = true;
-                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                            otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
-                                        }
-                                        f = otherLink[x];
-                                        otherLink[x] = "";
-                                        break;
-                                    }
-                                }
-
-                                if (changed) {
-                                    split[i] = f;
-                                } else {
-                                    split[i] = s;
-                                }
-                            } else {
-                                split[i] = s;
-                            }
-
-                        }
-                    }
-
-                    if (!webpage.equals("")) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-                            s = s.replace("...", "");
-
-                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                                String replace = otherLinks[otherLinks.length - 1];
-                                if (replace.replace(" ", "").equals("")) {
-                                    replace = webpage;
-                                }
-                                split[i] = replace;
-                                changed = true;
-                            }
-                        }
-                    }
-
-                    if(changed) {
-                        full = "";
-                        for (String p : split) {
-                            full += p + " ";
-                        }
-
-                        full = full.substring(0, full.length() - 1);
-                    }
-
-                    return full;
-                }
-            });
-        } catch (Exception e) {
-            // theme made before these were implemented
-        }
-        if (settings.addonTheme) {
-            try {
-                Resources resourceAddon = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                int back = resourceAddon.getIdentifier("reply_entry_background", "drawable", settings.addonThemePackage);
-                holder.reply.setBackgroundDrawable(resourceAddon.getDrawable(back));
-            } catch (Exception e) {
-                // theme does not include a reply entry box
-            }
-        }*/
     }
 
     public void removeKeyboard(ViewHolder holder) {
@@ -1515,239 +1106,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    public void getFavoriteCount(final ViewHolder holder, final long tweetId) {
-
-        Thread getCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    final Status status;
-                    if (holder.retweeter.getVisibility() != View.GONE) {
-                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
-                    } else {
-                        status = twitter.showStatus(tweetId);
-                    }
-
-                    if (status != null && holder.tweetId == tweetId) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //holder.favCount.setText(" " + status.getFavoriteCount());
-
-                                if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    if (!settings.addonTheme) {
-                                        //holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        //holder.favorite.setColorFilter(settings.accentInt);
-                                    }
-
-                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = true;
-                                } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = false;
-
-                                    //holder.favorite.clearColorFilter();
-                                }
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-
-                }
-            }
-        });
-
-        getCount.setPriority(7);
-        getCount.start();
-    }
-
-    public void getCounts(final ViewHolder holder, final long tweetId) {
-
-        Thread getCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    final Status status;
-                    if (holder.retweeter.getVisibility() != View.GONE) {
-                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
-                    } else {
-                        status = twitter.showStatus(tweetId);
-                    }
-
-                    if (status != null && holder.tweetId == tweetId) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //holder.favCount.setText(" " + status.getFavoriteCount());
-                                //holder.retweetCount.setText(" " + status.getRetweetCount());
-
-                                if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    if (!settings.addonTheme) {
-                                        //holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        //holder.favorite.setColorFilter(settings.accentInt);
-                                    }
-
-                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = true;
-                                } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    //holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = false;
-
-                                    //holder.favorite.clearColorFilter();
-                                }
-
-                                if (status.isRetweetedByMe()) {
-                                    if (!settings.addonTheme) {
-                                        //holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        //holder.retweet.setColorFilter(settings.accentInt);
-                                    }
-                                } else {
-                                    //holder.retweet.clearColorFilter();
-                                }
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-
-                }
-            }
-        });
-
-        getCount.setPriority(7);
-        getCount.start();
-    }
-
-    public void getRetweetCount(final ViewHolder holder, final long tweetId) {
-
-        Thread getRetweetCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    twitter4j.Status status = twitter.showStatus(holder.tweetId);
-                    final boolean retweetedByMe = status.isRetweetedByMe();
-                    final String count = "" + status.getRetweetCount();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tweetId == holder.tweetId) {
-                                if (retweetedByMe) {
-                                    if (!settings.addonTheme) {
-                                        //holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        //holder.retweet.setColorFilter(settings.accentInt);
-                                    }
-                                } else {
-                                    //holder.retweet.clearColorFilter();
-                                }
-                                if (count != null) {
-                                    //holder.retweetCount.setText(" " + count);
-                                }
-                            }
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        getRetweetCount.setPriority(7);
-        getRetweetCount.start();
-    }
-
-    class FavoriteStatus extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public FavoriteStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected void onPreExecute() {
-            if (!holder.isFavorited) {
-                Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                if (holder.isFavorited) {
-                    twitter.destroyFavorite(tweetId);
-                } else {
-                    twitter.createFavorite(tweetId);
-                }
-                return null;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-            getFavoriteCount(holder, tweetId);
-        }
-    }
-
-    class RetweetStatus extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public RetweetStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected void onPreExecute() {
-            Toast.makeText(context, context.getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter.retweetStatus(tweetId);
-                return null;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-            getRetweetCount(holder, tweetId);
         }
     }
 

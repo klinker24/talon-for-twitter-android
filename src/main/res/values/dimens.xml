@@ -40,4 +40,5 @@ limitations under the License.
     <dimen name="header_holder_padding">2dp</dimen>
     <dimen name="header_side_padding">5dp</dimen>
     <dimen name="header_top_padding">16dp</dimen>
+    <dimen name="expansion_size">150dp</dimen>
 </resources>
