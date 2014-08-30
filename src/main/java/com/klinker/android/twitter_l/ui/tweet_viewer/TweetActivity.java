@@ -1516,7 +1516,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
         TextUtils.linkifyText(context, tweettv, null, true, "", true);
-
     }
 
     private boolean isFavorited = false;

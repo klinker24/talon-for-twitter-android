@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,11 +19,14 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -38,7 +42,7 @@ import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class TwitterSearchFragment extends Fragment {
+public class TwitterSearchFragment extends Fragment implements Expandable {
 
     private AsyncListView listView;
     private LinearLayout spinner;
@@ -425,6 +429,23 @@ public class TwitterSearchFragment extends Fragment {
                     }
                 }
             }).start();
+        }
+    }
+
+    private int expandedDistanceFromTop = 0;
+
+    @Override
+    public void expandViewOpen(final int distanceFromTop, int position) {
+        expandedDistanceFromTop = distanceFromTop;
+
+        listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
+    }
+
+    @Override
+    public void expandViewClosed(int currentDistanceFromTop) {
+
+        if (currentDistanceFromTop != -1) {
+            listView.smoothScrollBy(-1 * expandedDistanceFromTop + currentDistanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
         }
     }
 }

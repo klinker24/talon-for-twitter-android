@@ -1,15 +1,20 @@
 package com.klinker.android.twitter_l.adapters;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -19,19 +24,16 @@ import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -41,10 +43,7 @@ import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
-import com.klinker.android.twitter_l.utils.SDK11;
-import com.klinker.android.twitter_l.utils.TweetLinkUtils;
-import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
@@ -104,25 +103,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public java.text.DateFormat dateFormatter;
     public java.text.DateFormat timeFormatter;
 
+    public int contentHeight = 0;
+    public int headerMultiplier = 0;
+    public Expandable expander;
+
     public static class ViewHolder {
         public TextView name;
         public ImageView profilePic;
         public TextView tweet;
         public TextView time;
         public TextView retweeter;
-        public EditText reply;
-        public ImageButton favorite;
-        public ImageButton retweet;
-        public TextView favCount;
-        public TextView retweetCount;
         public LinearLayout expandArea;
-        public ImageButton replyButton;
         public ImageView image;
         public LinearLayout background;
         public ImageView playButton;
         public TextView screenTV;
-        public ImageButton shareButton;
-        public ImageButton quoteButton;
+        public FrameLayout imageHolder;
+        public View rootView;
 
         public long tweetId;
         public boolean isFavorited;
@@ -131,6 +128,137 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public String retweeterName;
 
         public boolean preventNextClick = false;
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst, Expandable expander) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+
+        this.settings = AppSettings.getInstance(context);
+
+        this.type = NORMAL;
+
+        this.username = "";
+        this.openFirst = openFirst;
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
+        setUpLayout();
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, Expandable expander) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+
+        this.settings = AppSettings.getInstance(context);
+
+        this.type = NORMAL;
+
+        this.username = "";
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
+        setUpLayout();
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, int type, Expandable expander) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+
+        this.settings = AppSettings.getInstance(context);
+
+        this.type = type;
+        this.username = "";
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
+        setUpLayout();
+    }
+
+    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, String username, Expandable expander) {
+        super(context, R.layout.tweet);
+
+        this.context = context;
+        this.statuses = statuses;
+        this.inflater = LayoutInflater.from(context);
+
+        this.settings = AppSettings.getInstance(context);
+
+        this.type = NORMAL;
+        this.username = username;
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
+        setUpLayout();
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst) {
@@ -146,6 +274,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.username = "";
         this.openFirst = openFirst;
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
 
         setUpLayout();
     }
@@ -163,6 +308,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.username = "";
 
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
         setUpLayout();
     }
 
@@ -178,6 +340,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.type = type;
         this.username = "";
 
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
+
         setUpLayout();
     }
 
@@ -192,6 +371,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.type = NORMAL;
         this.username = username;
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        contentHeight = size.y;
+
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            // we need to take off the size of the action bar and status bar
+            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
+        }
+
+        this.expander = expander;
+
+        if (context.getResources().getBoolean(R.bool.isTablet) ||
+                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            headerMultiplier = -25;
+        }
 
         setUpLayout();
     }
@@ -242,24 +438,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
-        holder.reply = (EditText) v.findViewById(R.id.reply);
-        holder.favorite = (ImageButton) v.findViewById(R.id.favorite);
-        holder.retweet = (ImageButton) v.findViewById(R.id.retweet);
-        holder.favCount = (TextView) v.findViewById(R.id.fav_count);
-        holder.retweetCount = (TextView) v.findViewById(R.id.retweet_count);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.replyButton = (ImageButton) v.findViewById(R.id.reply_button);
         holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
-        try {
-            holder.quoteButton = (ImageButton) v.findViewById(R.id.quote_button);
-            holder.shareButton = (ImageButton) v.findViewById(R.id.share_button);
-        } catch (Exception x) {
-            // theme was made before they were added
-        }
+        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
 
         holder.profilePic.setClipToOutline(true);
         holder.image.setClipToOutline(true);
@@ -270,24 +455,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.screenTV.setTextSize(settings.textSize - 2);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
-        holder.favCount.setTextSize(settings.textSize + 1);
-        holder.retweetCount.setTextSize(settings.textSize + 1);
-        holder.reply.setTextSize(settings.textSize);
+
+        holder.rootView = v;
 
         v.setTag(holder);
         return v;
     }
 
-    public void bindView(final View view, Status status, int position) {
+    public void bindView(final View view, Status status, final int position) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
-            removeExpansionNoAnimation(holder);
-            holder.retweetCount.setText(" -");
-            holder.favCount.setText(" -");
-            holder.reply.setText("");
-            holder.retweet.clearColorFilter();
-            holder.favorite.clearColorFilter();
+            removeExpansion(holder, false);
         }
 
         Status thisStatus;
@@ -326,11 +505,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String hashtags = html[3];
         final String users = html[4];
 
-        if(!settings.reverseClickActions) {
+        if(settings.reverseClickActions || expander == null) {
             final String fRetweeter = retweeter;
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View view) {
+                public void onClick(View view) {
+                    if (holder.preventNextClick) {
+                        holder.preventNextClick = false;
+                        return;
+                    }
 
                     String link;
 
@@ -357,36 +540,29 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("hashtags", hashtags);
 
                     context.startActivity(viewTweet);
-
-                    return true;
                 }
             });
 
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (holder.preventNextClick) {
-                        holder.preventNextClick = false;
-                        return;
+            if (expander != null) {
+                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        if (holder.expandArea.getVisibility() == View.GONE) {
+                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                        } else {
+                            removeExpansion(holder, true);
+                        }
+
+                        return true;
                     }
-                    if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
-                    } else {
-                        removeExpansionWithAnimation(holder);
-                        removeKeyboard(holder);
-                    }
-                }
-            });
+                });
+            }
 
         } else {
             final String fRetweeter = retweeter;
-            holder.background.setOnClickListener(new View.OnClickListener() {
+            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view) {
-                    if (holder.preventNextClick) {
-                        holder.preventNextClick = false;
-                        return;
-                    }
+                public boolean onLongClick(View view) {
 
                     String link;
 
@@ -413,22 +589,27 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("hashtags", hashtags);
 
                     context.startActivity(viewTweet);
-                }
-            });
-
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (holder.expandArea.getVisibility() == View.GONE) {
-                        addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id);
-                    } else {
-                        removeExpansionWithAnimation(holder);
-                        removeKeyboard(holder);
-                    }
 
                     return true;
                 }
             });
+
+            if (expander != null) {
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (holder.preventNextClick) {
+                            holder.preventNextClick = false;
+                            return;
+                        }
+                        if (holder.expandArea.getVisibility() == View.GONE) {
+                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                        } else {
+                            removeExpansion(holder, true);
+                        }
+                    }
+                });
+            }
         }
 
         if (!screenname.equals(username)) {
@@ -710,35 +891,101 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         return v;
     }
 
-    public void removeExpansionWithAnimation(ViewHolder holder) {
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
-    }
+    public void removeExpansion(final ViewHolder holder, boolean anim) {
 
-    public void removeExpansionNoAnimation(ViewHolder holder) {
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
-        holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
-    }
+        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
+        translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationXAnimator);
 
-    public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long id) {
+        ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, holder.background.getTranslationY(), 0f);
+        translationYAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationYAnimator);
 
-        holder.retweet.setVisibility(View.VISIBLE);
-        holder.retweetCount.setVisibility(View.VISIBLE);
-        holder.favCount.setVisibility(View.VISIBLE);
-        holder.favorite.setVisibility(View.VISIBLE);
+        int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
+        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (4 * padding));
+        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.width = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(widthAnimator);
 
-        //holder.reply.setVisibility(View.GONE);
-        try {
-            holder.replyButton.setVisibility(View.GONE);
-        } catch (Exception e) {
+        int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
+        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
+        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.height = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
+        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorHeader);
 
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
+        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
+                layoutParams.height = val;
+                holder.expandArea.setLayoutParams(layoutParams);
+            }
+        });
+        heightAnimatorContent.setDuration(anim ? ANIMATION_DURATION : 0);
+        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorContent);
+
+        if (anim) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    holder.expandArea.setVisibility(View.GONE);
+                }
+            }, ANIMATION_DURATION);
+        } else {
+            holder.expandArea.setVisibility(View.GONE);
         }
 
-        holder.screenName = screenname;
+        if (anim) {
+            // if they are just scrolling away from it, there is no reason to put them back at
+            // their original position, so we don't call the expander method.
+            expander.expandViewClosed((int) holder.rootView.getY());
+        } else {
+            expander.expandViewClosed(-1);
+        }
 
-        // used to find the other names on a tweet... could be optimized i guess, but only run when button is pressed
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                holder.expandArea.removeAllViews();
+            }
+        }, ANIMATION_DURATION);
+
+    }
+
+    protected void startAnimation(Animator animator) {
+        animator.start();
+    }
+
+    public static final int ANIMATION_DURATION = 200;
+    public static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
+
+    public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
         final String text = holder.tweet.getText().toString();
         String extraNames = "";
+        String replyStuff = "";
 
         if (text.contains("@")) {
             for (String s : users.split("  ")) {
@@ -757,607 +1004,119 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         if (!screenname.equals(settings.myScreenName)) {
-            holder.reply.setText("@" + screenname + " " + extraNames);
+            replyStuff = "@" + screenname + " " + extraNames;
         } else {
-            holder.reply.setText(extraNames);
+            replyStuff = extraNames;
         }
 
-        holder.reply.setSelection(holder.reply.getText().length());
-
-        if (holder.favCount.getText().toString().length() <= 2) {
-            holder.favCount.setText(" -");
-            holder.retweetCount.setText(" -");
+        if (settings.autoInsertHashtags && hashtags != null) {
+            for (String s : hashtags) {
+                if (!s.equals("")) {
+                    replyStuff += "#" + s + " ";
+                }
+            }
         }
 
-        //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
-        holder.expandArea.setVisibility(View.VISIBLE);//startAnimation(expandAni);
+        int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
+        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
+        translationXAnimator.setDuration(ANIMATION_DURATION);
+        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(translationXAnimator);
 
-        getCounts(holder, id);
+        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimator.setDuration(ANIMATION_DURATION);
+            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimator);
+        }
 
-        holder.favorite.setOnClickListener(new View.OnClickListener() {
+        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
+        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onClick(View view) {
-                new FavoriteStatus(holder, holder.tweetId).execute();
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.width = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
             }
         });
+        widthAnimator.setDuration(ANIMATION_DURATION);
+        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(widthAnimator);
 
-        holder.retweet.setOnClickListener(new View.OnClickListener() {
+        final int headerHeight = (int) (contentHeight * .5);
+        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
+        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onClick(View view) {
-                new RetweetStatus(holder, holder.tweetId).execute();
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                layoutParams.height = val;
+                holder.imageHolder.setLayoutParams(layoutParams);
             }
         });
+        heightAnimatorHeader.setDuration(ANIMATION_DURATION);
+        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorHeader);
 
-        holder.retweet.setOnLongClickListener(new View.OnLongClickListener() {
+        final int distance;// = (int) context.getResources().getDimension(R.dimen.expansion_size);;
+        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+            distance = contentHeight - headerHeight;
+        } else {
+            distance = contentHeight;
+        }
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, distance);
+        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public boolean onLongClick(View view) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.remove_retweet))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                new RemoveRetweet(holder.tweetId).execute();
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .create()
-                        .show();
-                return false;
-            }
-
-            class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
-
-                private long tweetId;
-
-                public RemoveRetweet(long tweetId) {
-                    this.tweetId = tweetId;
-                }
-
-                protected void onPreExecute() {
-                    holder.retweet.clearColorFilter();
-
-                    Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
-                }
-
-                protected Boolean doInBackground(String... urls) {
-                    try {
-                        Twitter twitter =  Utils.getTwitter(context, settings);
-                        ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
-                        for (twitter4j.Status retweet : retweets) {
-                            if(retweet.getUser().getId() == settings.myId)
-                                twitter.destroyStatus(retweet.getId());
-                        }
-                        return true;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-
-                protected void onPostExecute(Boolean deleted) {
-                    try {
-                        if (deleted) {
-                            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        // user has gone away from the window
-                    }
-                }
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
+                layoutParams.height = val;
+                holder.expandArea.setLayoutParams(layoutParams);
             }
         });
-
-        holder.reply.requestFocus();
-        removeKeyboard(holder);
-        holder.reply.setOnClickListener(new View.OnClickListener() {
+        final String s = replyStuff;
+        heightAnimatorContent.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onClick(View view) {
-                removeExpansionWithAnimation(holder);
+            public void onAnimationStart(Animator animation) {
+                holder.expandArea.setVisibility(View.VISIBLE);
+            }
 
-                Intent compose = new Intent(context, ComposeActivity.class);
-                String string = holder.reply.getText().toString();
-                try {
-                    compose.putExtra("user", string.substring(0, string.length() - 1));
-                } catch (Exception e) {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                holder.expandArea.setMinimumHeight(distance);
+                holder.expandArea.getLayoutParams().height = distance;
+                holder.expandArea.invalidate();
 
-                }
-                compose.putExtra("id", holder.tweetId);
-                compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + text);
-                context.startActivity(compose);
+                ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+                helper.setBackground(holder.background);
+                helper.setWebLink(otherLinks);
+                helper.setReplyDetails("@" + screenname + ": " + text, s);
+                View root = helper.getExpansion();
+
+                ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
+                alpha.setDuration(ANIMATION_DURATION);
+                alpha.setInterpolator(ANIMATION_INTERPOLATOR);
+                startAnimation(alpha);
+
+                holder.expandArea.addView(root);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
             }
         });
+        heightAnimatorContent.setDuration(ANIMATION_DURATION);
+        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(heightAnimatorContent);
 
-        if (holder.replyButton != null) {
-            holder.replyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    new ReplyToStatus(holder, holder.tweetId).execute();
-                }
-            });
-        }
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
 
-
-        final String name = screenname;
-
-        try {
-            holder.shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(android.content.Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    String text = holder.tweet.getText().toString();
-
-                    text = TweetLinkUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
-
-                    if (!settings.preferRT) {
-                        text = "\"@" + name + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + name + ": " + text;
-                    }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                    intent.putExtra(Intent.EXTRA_TEXT, text);
-                    context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.menu_share)));
-                }
-
-                public String restoreLinks(String text) {
-                    String full = text;
-
-                    String[] split = text.split("\\s");
-                    String[] otherLink = new String[otherLinks.length];
-
-                    for (int i = 0; i < otherLinks.length; i++) {
-                        otherLink[i] = "" + otherLinks[i];
-                    }
-
-                    boolean changed = false;
-
-                    if (otherLink.length > 0) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-
-                            //if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                            if (s.contains("...")) { // we know the link is cut off
-                                String f = s.replace("...", "").replace("http", "");
-
-                                Log.v("talon_links", ":" + s + ":");
-
-                                for (int x = 0; x < otherLink.length; x++) {
-                                    if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
-                                        changed = true;
-                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        try {
-                                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
-                                            }
-                                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
-                                            otherLink[x] = "";
-                                        } catch (Exception e) {
-
-                                        }
-                                        break;
-                                    }
-                                }
-
-                                if (changed) {
-                                    split[i] = f;
-                                } else {
-                                    split[i] = s;
-                                }
-                            } else {
-                                split[i] = s;
-                            }
-
-                        }
-                    }
-
-                    if (!webpage.equals("")) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-                            s = s.replace("...", "");
-
-                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                                String replace = otherLinks[otherLinks.length - 1];
-                                if (replace.replace(" ", "").equals("")) {
-                                    replace = webpage;
-                                }
-                                split[i] = replace;
-                                changed = true;
-                            }
-                        }
-                    }
-
-
-
-                    if(changed) {
-                        full = "";
-                        for (String p : split) {
-                            full += p + " ";
-                        }
-
-                        full = full.substring(0, full.length() - 1);
-                    }
-
-                    return full;
-                }
-            });
-
-
-            holder.quoteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(context, ComposeActivity.class);
-                    intent.setType("text/plain");
-                    String text = holder.tweet.getText().toString();
-
-                    text = TweetLinkUtils.removeColorHtml(text, settings);
-                    text = restoreLinks(text);
-
-                    if (!settings.preferRT) {
-                        text = "\"@" + name + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + name + ": " + text;
-                    }
-                    intent.putExtra("user", text);
-                    intent.putExtra("id", id);
-
-                    context.startActivity(intent);
-                }
-
-                public String restoreLinks(String text) {
-                    String full = text;
-
-                    String[] split = text.split("\\s");
-                    String[] otherLink = new String[otherLinks.length];
-
-                    for (int i = 0; i < otherLinks.length; i++) {
-                        otherLink[i] = "" + otherLinks[i];
-                    }
-
-                    boolean changed = false;
-
-                    if (otherLink.length > 0) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-
-                            //if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
-                            if (s.contains("...")) { // we know the link is cut off
-                                String f = s.replace("...", "").replace("http", "");
-
-                                Log.v("talon_links", ":" + s + ":");
-
-                                for (int x = 0; x < otherLink.length; x++) {
-                                    if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
-                                        changed = true;
-                                        // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                                        try {
-                                            if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                                otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
-                                            }
-                                            f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
-                                            otherLink[x] = "";
-                                        } catch (Exception e) {
-
-                                        }
-                                        break;
-                                    }
-                                }
-
-                                if (changed) {
-                                    split[i] = f;
-                                } else {
-                                    split[i] = s;
-                                }
-                            } else {
-                                split[i] = s;
-                            }
-
-                        }
-                    }
-
-                    if (!webpage.equals("")) {
-                        for (int i = 0; i < split.length; i++) {
-                            String s = split[i];
-                            s = s.replace("...", "");
-
-                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                                String replace = otherLinks[otherLinks.length - 1];
-                                if (replace.replace(" ", "").equals("")) {
-                                    replace = webpage;
-                                }
-                                split[i] = replace;
-                                changed = true;
-                            }
-                        }
-                    }
-
-
-
-                    if(changed) {
-                        full = "";
-                        for (String p : split) {
-                            full += p + " ";
-                        }
-
-                        full = full.substring(0, full.length() - 1);
-                    }
-
-                    return full;
-                }
-            });
-        } catch (Exception e) {
-            // theme made before these were implemented
-        }
-    }
-
-    public void removeKeyboard(ViewHolder holder) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
-    }
-
-    public void getFavoriteCount(final ViewHolder holder, final long tweetId) {
-
-        Thread getCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    final Status status;
-                    if (holder.retweeter.getVisibility() != View.GONE) {
-                        status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
-                    } else {
-                        status = twitter.showStatus(tweetId);
-                    }
-
-                    if (status != null && holder.tweetId == tweetId) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.favCount.setText(" " + status.getFavoriteCount());
-
-                                if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        holder.favorite.setColorFilter(settings.accentInt);
-                                    }
-
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = true;
-                                } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = false;
-
-                                    holder.favorite.clearColorFilter();
-                                }
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-
-                }
-            }
-        });
-
-        getCount.setPriority(7);
-        getCount.start();
-    }
-
-    public void getCounts(final ViewHolder holder, final long tweetId) {
-
-        Thread getCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    final Status status;
-
-                    status = twitter.showStatus(tweetId);
-
-                    if (status != null) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.favCount.setText(" " + status.getFavoriteCount());
-                                holder.retweetCount.setText(" " + status.getRetweetCount());
-
-                                if (status.isFavorited()) {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    if (!settings.addonTheme) {
-                                        holder.favorite.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        holder.favorite.setColorFilter(settings.accentInt);
-                                    }
-
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = true;
-                                } else {
-                                    TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notFavoritedButton});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-
-                                    holder.favorite.setImageDrawable(context.getResources().getDrawable(resource));
-                                    holder.isFavorited = false;
-
-                                    holder.favorite.clearColorFilter();
-                                }
-
-                                if (status.isRetweetedByMe()) {
-                                    if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        holder.retweet.setColorFilter(settings.accentInt);
-                                    }
-                                } else {
-                                    holder.retweet.clearColorFilter();
-                                }
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        getCount.setPriority(7);
-        getCount.start();
-    }
-
-    public void getRetweetCount(final ViewHolder holder, final long tweetId) {
-
-        Thread getRetweetCount = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
-                    twitter4j.Status status = twitter.showStatus(holder.tweetId);
-                    final boolean retweetedByMe = status.isRetweetedByMe();
-                    final String count = "" + status.getRetweetCount();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tweetId == holder.tweetId) {
-                                if (retweetedByMe) {
-                                    if (!settings.addonTheme) {
-                                        holder.retweet.setColorFilter(context.getResources().getColor(R.color.app_color));
-                                    } else {
-                                        holder.retweet.setColorFilter(settings.accentInt);
-                                    }
-                                } else {
-                                    holder.retweet.clearColorFilter();
-                                }
-                                if (count != null) {
-                                    holder.retweetCount.setText(" " + count);
-                                }
-                            }
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        getRetweetCount.setPriority(7);
-        getRetweetCount.start();
-    }
-
-    class FavoriteStatus extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public FavoriteStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected void onPreExecute() {
-            if (!holder.isFavorited) {
-                Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                if (holder.isFavorited) {
-                    twitter.destroyFavorite(tweetId);
-                } else {
-                    twitter.createFavorite(tweetId);
-                }
-                return null;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-            getFavoriteCount(holder, tweetId);
-        }
-    }
-
-    class RetweetStatus extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public RetweetStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-                twitter.retweetStatus(tweetId);
-                return null;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
-            getRetweetCount(holder, tweetId);
-        }
-    }
-
-    class ReplyToStatus extends AsyncTask<String, Void, String> {
-
-        private ViewHolder holder;
-        private long tweetId;
-
-        public ReplyToStatus(ViewHolder holder, long tweetId) {
-            this.holder = holder;
-            this.tweetId = tweetId;
-        }
-
-        protected String doInBackground(String... urls) {
-            try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
-
-
-                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
-                reply.setInReplyToStatusId(tweetId);
-
-                twitter.updateStatus(reply);
-
-                return null;
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        protected void onPostExecute(String count) {
-            removeExpansionWithAnimation(holder);
-            removeKeyboard(holder);
-        }
     }
 
     // used to place images on the timeline
