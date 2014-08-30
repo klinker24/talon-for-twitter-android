@@ -27,8 +27,8 @@ limitations under the License.
         <item name="android:colorAccent">@color/accent</item>
 
         <!-- enable window content transitions -->
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowExitTransitionOverlap">true</item>
+        <item name="android:windowContentTransitions">false</item>
+        <item name="android:windowAllowExitTransitionOverlap">false</item>
 
         <!-- specify enter and exit transitions -->
         <item name="android:windowEnterTransition">@transition/explode</item>

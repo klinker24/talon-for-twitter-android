@@ -19,11 +19,11 @@
             android:defaultValue="false"
             />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
                 android:key="fast_transitions"
                 android:title="@string/fast_transitions"
                 android:defaultValue="false"
-                />
+                />-->
 
         <ListPreference
             android:key="widget_theme"
