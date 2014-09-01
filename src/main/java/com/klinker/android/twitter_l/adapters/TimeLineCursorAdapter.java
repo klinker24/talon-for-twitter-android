@@ -859,7 +859,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         startAnimation(translationYAnimator);
 
         int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (4 * padding));
+        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (2 * padding));
         widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -973,6 +973,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
+
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
+
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
         translationXAnimator.setDuration(ANIMATION_DURATION);
         translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
@@ -981,6 +984,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.imageHolder.getVisibility() == View.VISIBLE) {
             int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimator.setDuration(ANIMATION_DURATION);
+            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimator);
+        } else {
+            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
             translationYAnimator.setDuration(ANIMATION_DURATION);
             translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
             startAnimation(translationYAnimator);
@@ -1069,8 +1078,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         heightAnimatorContent.setDuration(ANIMATION_DURATION);
         heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorContent);
-
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
 
     }
 

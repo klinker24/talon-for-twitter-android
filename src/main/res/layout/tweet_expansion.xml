@@ -209,7 +209,7 @@
                     android:id="@+id/overflow_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="?overflow_button"
+                    android:src="?circle_overflow"
                     android:contentDescription="Open Web Page"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"

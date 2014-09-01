@@ -60,7 +60,7 @@ public class MainActivity extends DrawerActivity {
         public void run() {
             if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
 
-                sContext.sendBroadcast(new Intent("com.klinker.android.twitter.SHOW_TOAST"));
+                //sContext.sendBroadcast(new Intent("com.klinker.android.twitter.SHOW_TOAST"));
 
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
                 anim.setAnimationListener(new Animation.AnimationListener() {
@@ -89,7 +89,7 @@ public class MainActivity extends DrawerActivity {
         public void run() {
             if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
 
-                sContext.sendBroadcast(new Intent("com.klinker.android.twitter.HIDE_TOAST"));
+                //sContext.sendBroadcast(new Intent("com.klinker.android.twitter.HIDE_TOAST"));
 
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
                 anim.setAnimationListener(new Animation.AnimationListener() {
@@ -199,8 +199,9 @@ public class MainActivity extends DrawerActivity {
                     if (translucent) {
                         statusBar.setVisibility(View.VISIBLE);
                     }
+
                 }
-                MainActivity.sendHandler.post(showSend);
+                showStatusBar();
             }
 
             public void onPageSelected(int position) {
@@ -291,6 +292,20 @@ public class MainActivity extends DrawerActivity {
         }
 
         Log.v("talon_starting", "ending on create");
+    }
+
+    int orangeStatus = -1;
+    public void showStatusBar() {
+        //DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+        if (orangeStatus == -1) {
+            if (settings.theme == AppSettings.THEME_DARK) {
+                orangeStatus = getResources().getColor(R.color.darkest_primary);
+            } else {
+                orangeStatus = getResources().getColor(R.color.darker_primary);
+            }
+        }
+
+        context.getWindow().setStatusBarColor(orangeStatus);
     }
 
     public void setLauncherPage() {
