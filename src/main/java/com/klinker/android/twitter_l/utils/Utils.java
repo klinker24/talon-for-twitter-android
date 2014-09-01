@@ -211,6 +211,18 @@ public class Utils {
         }
     }
 
+    public static void setUpMainTheme(Context context, AppSettings settings) {
+        Log.v("talon_theme", "setting talon theme");
+        switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                context.setTheme(R.style.Theme_TalonLight_Main);
+                break;
+            case AppSettings.THEME_DARK:
+                context.setTheme(R.style.Theme_TalonDark_Main);
+                break;
+        }
+    }
+
     public static void setUpTweetTheme(Context context, AppSettings settings) {
         Log.v("talon_theme", "setting talon theme");
         if (!settings.fastTransitions) {

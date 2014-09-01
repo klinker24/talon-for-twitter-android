@@ -69,7 +69,7 @@ limitations under the License.
         <item name="cancelButton">@drawable/ic_cancel_dark</item>
         <item name="sendButton">@drawable/ic_send_dark</item>
         <item name="attachButton">@drawable/ic_attach_dark</item>
-        <item name="drawerIcon">@drawable/ic_drawer_dark</item>
+        <item name="drawerIcon">@drawable/ic_drawer</item>
         <item name="newIcon">@drawable/ic_action_new_dark</item>
         <item name="drawerDrawable">@drawable/drawer_background_dark</item>
         <item name="acceptButton">@drawable/ic_action_accept_dark</item>
@@ -121,6 +121,11 @@ limitations under the License.
         <item name="circle_overflow">@drawable/ic_action_circle_overflow_dark</item>
 
         <item name="compose_window_background">@drawable/compose_background_dark</item>
+    </style>
+
+    <style name="Theme.TalonDark.Main" parent="@style/Theme.TalonDark">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">

@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:orientation="vertical" >
 
-        <View android:id="@+id/activity_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@android:color/black"
-            android:visibility="gone"/>
+        <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/darker_primary"
+                android:id="@+id/toolbar"/>
 
         <LinearLayout android:id="@+id/list_progress"
             android:orientation="vertical"

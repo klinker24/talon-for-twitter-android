@@ -14,6 +14,7 @@ import com.klinker.android.twitter_l.adapters.TrendsPagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.Utils;
 
 /**
  * Created by luke on 11/29/13.
@@ -33,7 +34,7 @@ public class DiscoverPager extends DrawerActivity {
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
-        setUpTweetTheme();
+        setUpTheme();
         setContentView(R.layout.trends_activity);
         setUpDrawer(3, getResources().getString(R.string.trends));
 
@@ -52,6 +53,8 @@ public class DiscoverPager extends DrawerActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
+
+        mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
 
         mViewPager.setOffscreenPageLimit(3);
 

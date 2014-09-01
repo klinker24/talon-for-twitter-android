@@ -71,7 +71,7 @@ limitations under the License.
         <item name="cancelButton">@drawable/ic_cancel_light</item>
         <item name="sendButton">@drawable/ic_send_light</item>
         <item name="attachButton">@drawable/ic_attach_light</item>
-        <item name="drawerIcon">@drawable/ic_drawer_dark</item>
+        <item name="drawerIcon">@drawable/ic_drawer</item>
         <item name="newIcon">@drawable/ic_action_new_light</item>
         <item name="drawerDrawable">@drawable/drawer_background_light</item>
         <item name="acceptButton">@drawable/ic_action_accept_light</item>
@@ -123,6 +123,11 @@ limitations under the License.
 
         <item name="compose_window_background">@drawable/compose_background_light</item>
 
+    </style>
+
+    <style name="Theme.TalonLight.Main" parent="@style/Theme.TalonLight">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">
