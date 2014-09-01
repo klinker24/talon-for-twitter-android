@@ -583,7 +583,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 Log.v("talon_expander", "setting can scroll stuff to true");
                 canUseScrollStuff = true;
             }
-        }, 500);
+        }, currentDistanceFromTop == -1 ? 0 : 500);
 
         if (listView.getFirstVisiblePosition() < 3) {
             if (!actionBar.isShowing()) {
