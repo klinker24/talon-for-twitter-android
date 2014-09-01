@@ -585,7 +585,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             }
         }, currentDistanceFromTop == -1 ? 0 : 500);
 
-        if (listView.getFirstVisiblePosition() < 3) {
+        if (listView.getFirstVisiblePosition() < 5) {
             if (!actionBar.isShowing()) {
                 actionBar.show();
             }
