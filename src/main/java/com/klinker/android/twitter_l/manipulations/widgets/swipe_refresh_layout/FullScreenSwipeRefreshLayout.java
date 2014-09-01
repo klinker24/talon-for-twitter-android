@@ -17,6 +17,8 @@ package com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout
  */
 
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -38,6 +40,7 @@ import android.view.animation.Transformation;
 import android.widget.AbsListView;
 
 import com.klinker.android.launcher.api.ResourceHelper;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -513,7 +516,33 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         }
     }
 
+    private ActionBar ab = null;
+    private Context context = null;
+    private int orangeStatus = -1;
+
+    public void showStatusBar() {
+        if (orangeStatus == -1) {
+            if (AppSettings.getInstance(context).theme == AppSettings.THEME_DARK) {
+                orangeStatus = getResources().getColor(R.color.darkest_primary);
+            } else {
+                orangeStatus = getResources().getColor(R.color.darker_primary);
+            }
+        }
+
+        ((Activity)context).getWindow().setStatusBarColor(orangeStatus);
+    }
+
     private void updateContentOffsetTop(int targetTop) {
+
+        if (ab == null) {
+            context = getContext();
+            ab = ((Activity)context).getActionBar();
+        }
+        if (!ab.isShowing()) {
+            ab.show();
+            showStatusBar();
+        }
+
         final int currentTop = mTarget.getTop();
         if (targetTop > mDistanceToTriggerSync) {
             targetTop = (int) mDistanceToTriggerSync;

@@ -13,16 +13,14 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
@@ -95,14 +93,14 @@ public abstract class MainFragment extends Fragment implements Expandable {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (listView.getFirstVisiblePosition() > 3) {
-                showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 500, false, toTopListener);
+                //showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
             }
         }
     };
     public BroadcastReceiver hideToast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            hideToastBar(300);
+            //hideToastBar(300);
         }
     };
 
@@ -279,7 +277,64 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     }
 
-    public abstract void setUpListScroll();
+    boolean moveActionBar = true;
+    public void setUpListScroll() {
+        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
+        if (isTablet || landscape) {
+            moveActionBar = false;
+        }
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int oldFirstVisibleItem = 0;
+            int oldTop = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int onScreen, int total) {
+                Log.v("talon_expander", "on scroll: " + canUseScrollStuff);
+                if (!canUseScrollStuff) {
+                    return;
+                }
+
+                View view = absListView.getChildAt(0);
+                int top = (view == null) ? 0 : view.getTop();
+
+                if (firstVisibleItem > 3) {
+                    if (firstVisibleItem == oldFirstVisibleItem) {
+                        if (top > oldTop) {
+                            // scrolling up
+                            scrollUp();
+                        } else if (top < oldTop) {
+                            // scrolling down
+                            scrollDown();
+                        }
+                    } else {
+                        if (firstVisibleItem < oldFirstVisibleItem) {
+                            // scrolling up
+                            scrollUp();
+                        } else {
+                            // scrolling down
+                            scrollDown();
+                        }
+                    }
+                } else {
+                    if (!actionBar.isShowing()) {
+                        actionBar.show();
+                    }
+                    showStatusBar();
+                }
+
+                oldTop = top;
+                oldFirstVisibleItem = firstVisibleItem;
+            }
+        });
+    }
 
     public void setUpHeaders() {
         View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
@@ -351,6 +406,33 @@ public abstract class MainFragment extends Fragment implements Expandable {
         } catch (Exception e) {
             return px;
         }
+    }
+
+    public void scrollUp() {
+        if (moveActionBar) {
+            if (actionBar.isShowing()) {
+                actionBar.hide();
+            }
+            hideStatusBar();
+        }
+
+        MainActivity.sendHandler.removeCallbacks(null);
+        MainActivity.sendHandler.post(MainActivity.hideSend);
+
+        hideToastBar(300);
+    }
+    public void scrollDown() {
+        if (moveActionBar) {
+            if (!actionBar.isShowing()) {
+                actionBar.show();
+            }
+            showStatusBar();
+        }
+
+        MainActivity.sendHandler.removeCallbacks(null);
+        MainActivity.sendHandler.post(MainActivity.showSend);
+
+        showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
     }
 
     int orangeStatus = -1;
@@ -455,63 +537,60 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     private int expandedDistanceFromTop = 0;
-
     protected boolean canUseScrollStuff = true;
+    private Handler expansionHandler;
+
     @Override
     public void expandViewOpen(final int distanceFromTop, int position) {
+        Log.v("talon_expander", "expanding view open");
+        if (expansionHandler == null) {
+            expansionHandler = new Handler();
+        }
+        expansionHandler.removeCallbacks(null);
+
         canUseScrollStuff = false;
         expandedDistanceFromTop = distanceFromTop;
 
-        MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
+        MainActivity.sendHandler.removeCallbacks(null);
+        MainActivity.sendHandler.post(MainActivity.hideSend);
+
+        hideStatusBar();
+
+        if (actionBar.isShowing()) {
+            actionBar.hide();
+        }
+
+        hideToastBar(300);
 
         if (getResources().getBoolean(R.bool.isTablet) || landscape) {
             listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideToastBar(300);
-                    canUseScrollStuff = false;
-
-                    MainActivity.sendHandler.post(MainActivity.hideSend);
-                }
-            }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
         } else {
             listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideStatusBar();
-                    canUseScrollStuff = false;
-
-                    if (actionBar.isShowing()) {
-                        actionBar.hide();
-                    }
-
-                    hideToastBar(300);
-
-                    MainActivity.sendHandler.post(MainActivity.hideSend);
-                }
-            }, TimeLineCursorAdapter.ANIMATION_DURATION + 50);
         }
     }
 
     @Override
     public void expandViewClosed(int currentDistanceFromTop) {
-        new Handler().postDelayed(new Runnable() {
+        Log.v("talon_expander", "expanding closed");
+        if (expansionHandler == null) {
+            expansionHandler = new Handler();
+        }
+
+        expansionHandler.removeCallbacks(null);
+        expansionHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.v("talon_expander", "setting can scroll stuff to true");
                 canUseScrollStuff = true;
-
-                if (listView.getFirstVisiblePosition() < 3) {
-                    if (!actionBar.isShowing()) {
-                        actionBar.show();
-                    }
-                    showStatusBar();
-                }
             }
-        }, TimeLineCursorAdapter.ANIMATION_DURATION + 500);
+        }, 500);
+
+        if (listView.getFirstVisiblePosition() < 3) {
+            if (!actionBar.isShowing()) {
+                actionBar.show();
+            }
+            showStatusBar();
+        }
 
         if (currentDistanceFromTop != -1) {
             listView.smoothScrollBy(-1 * expandedDistanceFromTop + currentDistanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
