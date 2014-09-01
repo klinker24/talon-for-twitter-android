@@ -392,7 +392,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        if (holder.expandArea.getHeight() != 0) {
+        if (holder.expandArea.getVisibility() != View.GONE) {
+            Log.v("talon_expander", "view is visible");
             removeExpansion(holder, false);
         }
 
