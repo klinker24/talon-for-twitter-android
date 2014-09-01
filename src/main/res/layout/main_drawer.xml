@@ -7,14 +7,10 @@
               android:layout_height="match_parent" >
 
     <View android:id="@+id/drawer_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@android:color/black"
-        android:visibility="gone"/>
-
-    <include layout="@layout/ab_header"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content" />
+          android:layout_width="match_parent"
+          android:layout_height="20dp"
+          android:background="@android:color/black"
+          android:visibility="gone"/>
 
     <include layout="@layout/user_header"
              android:id="@+id/header"

@@ -2,4 +2,5 @@
 <resources>
     <bool name="isTablet">true</bool>
     <bool name="options_drawer">false</bool>
+    <bool name="has_drawer">false</bool>
 </resources>

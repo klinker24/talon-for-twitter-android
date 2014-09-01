@@ -11,11 +11,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <View android:id="@+id/activity_status_bar"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@android:color/black"
-            android:visibility="gone"/>
+        <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/darker_primary"
+                android:id="@+id/toolbar"/>
 
         <android.support.v4.view.ViewPager
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,8 +23,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity"
-            android:paddingTop="?android:actionBarSize">
+            tools:context=".MainActivity">
 
             <android.support.v4.view.PagerTitleStrip
                 android:id="@+id/pager_title_strip"

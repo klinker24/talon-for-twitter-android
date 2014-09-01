@@ -554,18 +554,17 @@ public abstract class MainFragment extends Fragment implements Expandable {
         MainActivity.sendHandler.removeCallbacks(null);
         MainActivity.sendHandler.post(MainActivity.hideSend);
 
-        hideStatusBar();
-
-        if (actionBar.isShowing()) {
-            actionBar.hide();
-        }
-
         hideToastBar(300);
 
         if (getResources().getBoolean(R.bool.isTablet) || landscape) {
             listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
         } else {
             listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
+            hideStatusBar();
+
+            if (actionBar.isShowing()) {
+                actionBar.hide();
+            }
         }
     }
 

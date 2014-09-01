@@ -54,6 +54,12 @@
             android:background="@android:color/black"
             android:visibility="gone"/>
 
+        <Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/darker_primary"
+                android:id="@+id/toolbar"/>
+
     </RelativeLayout>
 
     <!-- The navigation drawer -->

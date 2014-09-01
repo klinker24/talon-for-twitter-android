@@ -9,16 +9,12 @@ android:layout_height="match_parent">
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:orientation="horizontal">
-
-
-        <LinearLayout android:layout_width="1dp" android:layout_height="match_parent">
-
-        </LinearLayout>
+                  android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="0dp"
+                android:layout_weight="1">
 
             <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -33,6 +29,12 @@ android:layout_height="match_parent">
                 android:layout_height="20dp"
                 android:background="@android:color/black"
                 android:visibility="gone"/>
+
+            <Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/darker_primary"
+                    android:id="@+id/toolbar"/>
 
             <LinearLayout
                     android:id="@+id/send_layout"
@@ -68,6 +70,7 @@ android:layout_height="match_parent">
         </RelativeLayout>
 
     </LinearLayout>
+
 
 
 <!-- The navigation drawer -->

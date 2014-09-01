@@ -24,11 +24,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -113,13 +115,46 @@ public abstract class DrawerActivity extends Activity {
             // Ignore
         }
 
-        actionBar = getActionBar();
-
-        MainDrawerArrayAdapter.current = number;
-
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
         a.recycle();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(resource);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                        mDrawerLayout.closeDrawer(Gravity.START);
+                    } else {
+                        mDrawerLayout.openDrawer(Gravity.START);
+                    }
+                }
+            });
+            try {
+                RelativeLayout.LayoutParams toolParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+                toolParams.height = Utils.getActionBarHeight(context);
+                toolbar.setTranslationY(Utils.getStatusBarHeight(context));
+                toolbar.setLayoutParams(toolParams);
+            } catch (ClassCastException e) {
+                // they are linear layout here
+                LinearLayout.LayoutParams toolParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+                toolParams.height = Utils.getActionBarHeight(context);
+                toolbar.setTranslationY(Utils.getStatusBarHeight(context));
+                toolbar.setLayoutParams(toolParams);
+            }
+
+            try {
+                setActionBar(toolbar);
+            } catch (Exception e) {
+                // already has an action bar supplied?? comes when you switch to landscape and back to portrait
+            }
+        }
+
+        actionBar = getActionBar();
+
+        MainDrawerArrayAdapter.current = number;
 
         a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.read_button});
         openMailResource = a.getResourceId(0,0);
@@ -222,7 +257,7 @@ public abstract class DrawerActivity extends Activity {
                     super.onDrawerSlide(drawerView, slideOffset);
 
                     if (!actionBar.isShowing()) {
-                        actionBar.show();
+                        //actionBar.show();
 
                         if (settings.theme == AppSettings.THEME_DARK) {
                             getWindow().setStatusBarColor(getResources().getColor(R.color.darkest_primary));
@@ -610,7 +645,11 @@ public abstract class DrawerActivity extends Activity {
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
 
-            statusBar.setVisibility(View.VISIBLE);
+            try {
+                statusBar.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
+                // using the toolbar, so unnecessary
+            }
 
             drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
             status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
@@ -782,7 +821,11 @@ public abstract class DrawerActivity extends Activity {
             translucent = false;
         }
 
-        Utils.setUpTheme(context, settings);
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            Utils.setUpMainTheme(context, settings);
+        } else {
+            Utils.setUpTheme(context, settings);
+        }
     }
 
     @Override
