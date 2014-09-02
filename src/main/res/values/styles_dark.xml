@@ -17,32 +17,13 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonDark" parent="android:Theme.Material">
-
-        <!--   your app's branding color (for the app bar) -->
-        <item name="android:colorPrimary">@color/darker_primary</item>
-        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
-        <item name="android:colorPrimaryDark">@color/darkest_primary</item>
-        <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/accent</item>
+    <style name="Theme.TalonDark.Base" parent="android:Theme.Material">
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
         <item name="android:windowAllowExitTransitionOverlap">false</item>
 
-        <!-- specify enter and exit transitions -->
-        <item name="android:windowEnterTransition">@transition/explode</item>
-        <item name="android:windowExitTransition">@transition/explode</item>
-
-        <!-- specify shared element transitions -->
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/move_image</item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/move_image</item>
-
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
-
-        <!--<item name="android:windowActionBar">false</item>-->
 
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
@@ -123,42 +104,17 @@ limitations under the License.
         <item name="compose_window_background">@drawable/compose_background_dark</item>
     </style>
 
-    <style name="Theme.TalonDark.Main" parent="@style/Theme.TalonDark">
+    <style name="Theme.TalonDark.Main" parent="@style/Theme.TalonDark.Base">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark">
+    <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark.Base">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--<item name="android:windowActionBar">false</item>-->
     </style>
 
-    <style name="Theme.TalonDark.Tweet.FastTransitions" parent="Theme.TalonDark.Tweet">
-        <item name="android:windowContentTransitions">false</item>
-    </style>
-
-    <style name="Theme.TalonDark.Compose" parent="@style/Theme.TalonDark">
-        <item name="android:windowContentTransitions">false</item>
-    </style>
-
-    <style name="Theme.TalonDark.Hangouts" parent="@style/Theme.TalonDark">
-        <item name="tweetBackground">@drawable/received_background_hangouts_dark</item>
-    </style>
-
-    <style name="Theme.TalonDark.Hangouts.Popup" parent="@style/Theme.TalonDark.Popup">
-        <item name="tweetBackground">@drawable/received_background_hangouts_dark</item>
-    </style>
-
-    <style name="Theme.TalonDark.Hangouts.Popup.Notif" parent="@style/Theme.TalonDark.Popup.Notif">
-        <item name="tweetBackground">@drawable/received_background_hangouts_dark</item>
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark">
-
-        <item name="android:windowContentTransitions">false</item>
+    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark.Base">
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
@@ -175,39 +131,6 @@ limitations under the License.
 
     <style name="Theme.TalonDark.Popup.Notif" parent="@style/Theme.TalonDark.Popup" >
         <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <style name="AutoCompleteTextViewTwitter" parent="android:Widget.Holo.AutoCompleteTextView">
-        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_dark</item>
-        <item name="android:background">@drawable/twitter_edit_text_holo_dark</item>
-    </style>
-
-    <style name="ButtonTwitter" parent="android:Widget.Holo.Button">
-        <item name="android:background">@drawable/twitter_btn_default_holo_dark</item>
-    </style>
-
-    <style name="ImageButtonTwitter" parent="android:Widget.Holo.ImageButton">
-        <item name="android:background">@drawable/twitter_btn_default_holo_dark</item>
-    </style>
-
-    <style name="SpinnerTwitter" parent="android:Widget.Holo.Spinner">
-        <item name="android:background">@drawable/twitter_spinner_background_holo_dark</item>
-        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_dark</item>
-    </style>
-
-    <style name="ProgressBarTwitter" parent="android:Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/twitter_progress_horizontal_holo_dark</item>
-        <item name="android:indeterminateDrawable">@drawable/twitter_progress_indeterminate_horizontal_holo_dark</item>
-    </style>
-
-    <style name="SeekBarTwitter" parent="android:Widget.Holo.SeekBar">
-        <item name="android:progressDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_dark</item>
-        <item name="android:indeterminateDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_dark</item>
-        <item name="android:thumb">@drawable/twitter_scrubber_control_selector_holo_dark</item>
-    </style>
-
-    <style name="CircleOverflow.Dark" parent="android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_circle_overflow_dark</item>
     </style>
 
 </resources>

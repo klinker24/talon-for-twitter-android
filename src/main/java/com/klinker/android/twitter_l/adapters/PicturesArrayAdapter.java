@@ -192,7 +192,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
             final ViewHolder holder = (ViewHolder) v.getTag();
             holder.iv.setImageDrawable(null);
 
-            if (settings.theme == AppSettings.THEME_LIGHT) {
+            if (!settings.darkTheme) {
                 holder.iv.setBackgroundResource(R.drawable.rect_border_light);
             } else {
                 holder.iv.setBackgroundResource(R.drawable.rect_border_dark);

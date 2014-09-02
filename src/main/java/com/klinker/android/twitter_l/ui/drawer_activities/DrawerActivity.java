@@ -145,6 +145,8 @@ public abstract class DrawerActivity extends Activity {
                 toolbar.setLayoutParams(toolParams);
             }
 
+            toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+
             try {
                 setActionBar(toolbar);
             } catch (Exception e) {
@@ -258,12 +260,7 @@ public abstract class DrawerActivity extends Activity {
 
                     if (!actionBar.isShowing()) {
                         //actionBar.show();
-
-                        if (settings.theme == AppSettings.THEME_DARK) {
-                            getWindow().setStatusBarColor(getResources().getColor(R.color.darkest_primary));
-                        } else {
-                            getWindow().setStatusBarColor(getResources().getColor(R.color.darker_primary));
-                        }
+                        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
                     }
                 }
             };

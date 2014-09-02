@@ -134,10 +134,7 @@ public class SearchPager extends Activity {
         mViewPager.setOffscreenPageLimit(3);
 
         PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        if (settings.theme == AppSettings.THEME_DARK)
-            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
-        else
-            strip.setBackgroundColor(getResources().getColor(R.color.primary));
+        strip.setBackgroundColor(settings.themeColors.primaryColor);
 
         mViewPager.setCurrentItem(1);
 

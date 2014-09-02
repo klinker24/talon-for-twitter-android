@@ -48,17 +48,8 @@ public class TouchableSpan extends ClickableSpan {
 
         settings = AppSettings.getInstance(context);
 
-        if (settings.addonTheme) {
-            mThemeColor = settings.accentInt;
-            try {
-                mColorString = Color.parseColor("#44" + settings.accentColor);
-            } catch (Exception e) {
-                mColorString = Color.TRANSPARENT;
-            }
-        } else {
-            mThemeColor = context.getResources().getColor(R.color.app_color);
-            mColorString = context.getResources().getColor(R.color.pressed_app_color);
-        }
+        mThemeColor = settings.themeColors.accentColor;
+        mColorString = settings.themeColors.accentColorLight;
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
@@ -74,17 +65,8 @@ public class TouchableSpan extends ClickableSpan {
 
         this.settings = settings;
 
-        if (settings.addonTheme) {
-            mThemeColor = settings.accentInt;
-            try {
-                mColorString = Color.parseColor("#44" + settings.accentColor);
-            } catch (Exception e) {
-                mColorString = Color.TRANSPARENT;
-            }
-        } else {
-            mThemeColor = context.getResources().getColor(R.color.app_color);
-            mColorString = context.getResources().getColor(R.color.pressed_app_color);
-        }
+        mThemeColor = settings.themeColors.accentColor;
+        mColorString = settings.themeColors.accentColorLight;
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));

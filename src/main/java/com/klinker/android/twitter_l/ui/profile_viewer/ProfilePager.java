@@ -188,9 +188,9 @@ public class ProfilePager extends Activity {
         params.height = abHeight;
         action.setLayoutParams(params);
 
-        if (settings.theme == AppSettings.THEME_DARK) {
-            action.setBackgroundResource(R.color.darker_primary);
-            status.setBackgroundResource(R.color.darkest_primary);
+        if (settings.darkTheme) {
+            action.setBackgroundColor(settings.themeColors.primaryColor);
+            status.setBackgroundColor(settings.themeColors.primaryColorDark);
         }
 
         insetsBackground.setAlpha(0f);

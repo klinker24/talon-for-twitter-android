@@ -254,24 +254,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
             }
         });
 
-        if (settings.addonTheme) {
-            refreshLayout.setColorScheme(settings.accentInt,
-                    SwipeProgressBar.COLOR2,
-                    settings.accentInt,
-                    SwipeProgressBar.COLOR3);
-        } else {
-            if (settings.theme != AppSettings.THEME_LIGHT) {
-                refreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
-                        SwipeProgressBar.COLOR2,
-                        context.getResources().getColor(R.color.app_color),
-                        SwipeProgressBar.COLOR3);
-            } else {
-                refreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
-                        getResources().getColor(R.color.light_ptr_1),
-                        context.getResources().getColor(R.color.app_color),
-                        getResources().getColor(R.color.light_ptr_2));
-            }
-        }
+        refreshLayout.setColorScheme(settings.themeColors.primaryColor,
+                SwipeProgressBar.COLOR2,
+                settings.themeColors.primaryColorLight,
+                SwipeProgressBar.COLOR3);
 
         setUpHeaders();
 
@@ -439,11 +425,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public void showStatusBar() {
         //DrawerActivity.statusBar.setVisibility(View.VISIBLE);
         if (orangeStatus == -1) {
-            if (settings.theme == AppSettings.THEME_DARK) {
-                orangeStatus = getResources().getColor(R.color.darkest_primary);
-            } else {
-                orangeStatus = getResources().getColor(R.color.darker_primary);
-            }
+            orangeStatus = AppSettings.getInstance(getActivity()).themeColors.primaryColorDark;
         }
 
         context.getWindow().setStatusBarColor(orangeStatus);
@@ -464,6 +446,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastBar = view.findViewById(R.id.toastBar);
         toastDescription = (TextView) view.findViewById(R.id.toastDescription);
         toastButton = (TextView) view.findViewById(R.id.toastButton);
+
+        toastButton.setTextColor(settings.themeColors.accentColorLight);
     }
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {

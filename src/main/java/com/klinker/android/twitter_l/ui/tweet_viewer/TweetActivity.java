@@ -12,7 +12,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -551,10 +553,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         params.height = abHeight;
         action.setLayoutParams(params);
 
-        if (settings.theme == AppSettings.THEME_DARK) {
-            action.setBackgroundResource(R.color.darker_primary);
-            status.setBackgroundResource(R.color.darkest_primary);
-        }
+        action.setBackgroundColor(settings.themeColors.primaryColor);
+        status.setBackgroundColor(settings.themeColors.primaryColorDark);
 
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
@@ -1228,6 +1228,11 @@ public class TweetActivity extends YouTubeBaseActivity {
         viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
         replyButton = (ImageButton) layout.findViewById(R.id.send_button);
 
+        View sendLayout = findViewById(R.id.send_layout);
+        Drawable d = sendLayout.getBackground();
+        d.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+        sendLayout.setBackground(d);
+
         retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
         retweeters[1] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_2);
         retweeters[2] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_3);
@@ -1544,7 +1549,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                             a.recycle();
 
                             if (fStatus.isFavorited()) {
-                                favText.setTextColor(context.getResources().getColor(R.color.accent));
+                                favText.setTextColor(settings.themeColors.accentColor);
                                 isFavorited = true;
                             } else {
                                 favText.setTextColor(context.getResources().getColor(textColor));
@@ -2004,7 +2009,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
-                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
+                                retweetText.setTextColor(settings.themeColors.accentColor);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
                             }
@@ -2015,7 +2020,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                             favCount.setText(" " + sfavCount);
 
                             if (fStatus.isFavorited()) {
-                                favoriteText.setTextColor(context.getResources().getColor(R.color.accent));
+                                favoriteText.setTextColor(settings.themeColors.accentColor);
                                 isFavorited = true;
                             } else {
                                 favoriteText.setTextColor(context.getResources().getColor(textColor));
@@ -2077,7 +2082,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
-                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
+                                retweetText.setTextColor(settings.themeColors.accentColor);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
                             }

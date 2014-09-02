@@ -5,25 +5,23 @@
     <PreferenceCategory
         android:title="@string/theme_options" >
 
-        <ListPreference
+        <Preference android:key="material_theme"
+                    android:title="@string/theme"
+                    />
+
+        <!--<ListPreference
             android:key="theme"
             android:title="@string/theme"
             android:defaultValue="0"
             android:entries="@array/choose_theme"
             android:entryValues="@array/choose_theme_inserted"
-            />
+            />-->
 
         <CheckBoxPreference
             android:key="night_mode"
             android:title="@string/night_mode"
             android:defaultValue="false"
             />
-
-        <!--<CheckBoxPreference
-                android:key="fast_transitions"
-                android:title="@string/fast_transitions"
-                android:defaultValue="false"
-                />-->
 
         <ListPreference
             android:key="widget_theme"
