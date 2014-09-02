@@ -277,14 +277,14 @@
 
         <activity android:name="com.klinker.android.twitter_l.ui.MainActivityPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Notif.Orange"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.launcher_page.LauncherPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Notif.Orange"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden" >
