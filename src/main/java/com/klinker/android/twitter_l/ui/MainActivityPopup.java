@@ -4,14 +4,25 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 
+import android.view.WindowManager;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class MainActivityPopup extends MainActivity {
 
     public void setDim() {
-        // don't dim here
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        // Params for the window.
+        // You can easily set the alpha and the dim behind the window from here
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 1.0f;    // lower than one makes it more transparent
+        params.dimAmount = .6f;  // set it higher if you want to dim behind the window
+        getWindow().setAttributes(params);
     }
 
     @Override
@@ -48,20 +59,20 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void setUpTheme() {
-
         translucent = false;
 
-        Utils.setUpNotifTheme(context, settings);
-
-        if (settings.addonTheme) {
-            getWindow().setBackgroundDrawable(new ColorDrawable(settings.backgroundColor));
-        }
+        Utils.setUpTheme(context, settings);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         MainActivity.isPopup = true;
+
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null && toolbar.getVisibility() != View.GONE) {
+            toolbar.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -47,6 +47,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:textSize="16dp"
+                            android:textColor="?textColor"
                             android:paddingLeft="12dp"/>
 
                 </LinearLayout>
@@ -93,6 +94,7 @@
                     android:textSize="16sp"
                     android:hint="@string/compose_tweet_hint"
                     android:gravity="top"
+                    android:textColorHint="?dateColor"
                     android:background="@android:color/transparent"
                     android:inputType="textCapSentences|textMultiLine" />
 
@@ -247,6 +249,7 @@
                     android:id="@+id/char_remaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?dateColor"
                     android:textSize="10dp"/>
 
             <ImageView
