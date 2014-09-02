@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SavedSearchArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -58,6 +59,8 @@ public class SavedSearchesActivity extends DrawerActivity {
             View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
             listView.addHeaderView(viewHeader, null, false);
             listView.setHeaderDividersEnabled(false);
+        } else {
+            listView.setTranslationY(Utils.getStatusBarHeight(context));
         }
 
         nothing = (LinearLayout) findViewById(R.id.no_content);
@@ -67,7 +70,8 @@ public class SavedSearchesActivity extends DrawerActivity {
             View footer = new View(context);
             footer.setOnClickListener(null);
             footer.setOnLongClickListener(null);
-            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getNavBarHeight(context) + (getResources().getBoolean(R.bool.has_drawer) ? Utils.getStatusBarHeight(context) : 0));
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
