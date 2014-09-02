@@ -1151,10 +1151,12 @@ public abstract class DrawerActivity extends Activity {
 
     public void showStatusBar() {
         DrawerActivity.statusBar.setVisibility(View.VISIBLE);
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
     }
 
     public void hideStatusBar() {
         DrawerActivity.statusBar.setVisibility(View.GONE);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
     }
 
     public void cancelTeslaUnread() {

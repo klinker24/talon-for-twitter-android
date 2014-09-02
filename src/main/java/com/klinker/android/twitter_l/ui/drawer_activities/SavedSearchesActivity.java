@@ -54,24 +54,23 @@ public class SavedSearchesActivity extends DrawerActivity {
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-        listView.setHeaderDividersEnabled(false);
-
+        if (!getResources().getBoolean(R.bool.has_drawer)) {
+            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+            listView.setHeaderDividersEnabled(false);
+        }
 
         nothing = (LinearLayout) findViewById(R.id.no_content);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
         }
 
         getSearches();
