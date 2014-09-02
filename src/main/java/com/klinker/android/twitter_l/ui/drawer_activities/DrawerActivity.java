@@ -102,6 +102,8 @@ public abstract class DrawerActivity extends Activity {
     private NetworkedCacheableImageView backgroundPic;
     private NetworkedCacheableImageView profilePic;
 
+    public static boolean hasToolbar = false;
+
     public void setUpDrawer(int number, final String actName) {
 
         try {
@@ -149,6 +151,7 @@ public abstract class DrawerActivity extends Activity {
 
             try {
                 setActionBar(toolbar);
+                DrawerActivity.hasToolbar = true;
             } catch (Exception e) {
                 // already has an action bar supplied?? comes when you switch to landscape and back to portrait
             }

@@ -874,8 +874,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             final ViewHolder holder = (ViewHolder) v.getTag();
 
             holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
-            if (holder.image.getVisibility() == View.VISIBLE) {
-                holder.image.setVisibility(View.GONE);
+            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                holder.imageHolder.setVisibility(View.GONE);
             }
         }
 

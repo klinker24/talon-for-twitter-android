@@ -108,8 +108,6 @@
         android:divider="?drawerDividerColor"
         android:scrollbars="none"
         android:overScrollMode="never"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"/>
 

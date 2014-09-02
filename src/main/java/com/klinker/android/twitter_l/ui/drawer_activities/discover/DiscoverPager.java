@@ -54,7 +54,9 @@ public class DiscoverPager extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
-        mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
+        }
 
         mViewPager.setOffscreenPageLimit(3);
 
