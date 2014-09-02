@@ -8,9 +8,8 @@
 
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"
-        android:layout_height="0dp"
+        android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:layout_weight="1"
         android:gravity="center" >
 
         <ProgressBar
@@ -25,8 +24,8 @@
         android:id="@+id/listView"
         android:layout_height="500dp"
         android:layout_width="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:divider="?drawerDividerColor"
+        android:dividerHeight="1dp"
         android:scrollbars="vertical"
         android:listSelector="@android:color/transparent"
         android:visibility="gone"

@@ -20,7 +20,6 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
-import twitter4j.User;
 import twitter4j.UserList;
 
 public class ListsArrayAdapter extends ArrayAdapter<UserList> {

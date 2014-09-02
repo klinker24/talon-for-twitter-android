@@ -49,7 +49,7 @@ public class TouchableSpan extends ClickableSpan {
         settings = AppSettings.getInstance(context);
 
         mThemeColor = settings.themeColors.accentColor;
-        mColorString = settings.themeColors.accentColorLight;
+        mColorString = Color.argb(70, Color.red(mThemeColor), Color.green(mThemeColor), Color.blue(mThemeColor));
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
@@ -66,7 +66,7 @@ public class TouchableSpan extends ClickableSpan {
         this.settings = settings;
 
         mThemeColor = settings.themeColors.accentColor;
-        mColorString = settings.themeColors.accentColorLight;
+        mColorString = Color.argb(70, Color.red(mThemeColor), Color.green(mThemeColor), Color.blue(mThemeColor));
 
         // getconnectionstatus() is true if on mobile data, false otherwise
         mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));

@@ -24,7 +24,6 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.transition.Explode;
 import android.transition.Slide;
 import android.util.Log;
 import android.util.Patterns;
@@ -49,7 +48,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.tweet_viewer.fragments.TweetYouTubeFragment;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -141,7 +140,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         Utils.setUpTweetTheme(context, settings);
 
-        setContentView(R.layout.tweet_fragment);
+        setContentView(R.layout.tweet_activity);
 
         final View convo = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convo.findViewById(R.id.listView);

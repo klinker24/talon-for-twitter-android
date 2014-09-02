@@ -18,13 +18,6 @@
             style="@android:style/Widget.Material.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading_webpage"
-            android:textColor="?textColor"
-            android:layout_marginTop="5dp"
-            android:textSize="15dp"/>
     </LinearLayout>
 
     <ScrollView android:id="@+id/scrollview"

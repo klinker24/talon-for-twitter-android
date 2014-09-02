@@ -18,7 +18,7 @@
             <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Large"
                     android:indeterminateOnly="true" />
         </LinearLayout>
 
@@ -41,8 +41,8 @@
                 android:id="@+id/listView"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:divider="@null"
-                android:dividerHeight="0dp"
+                android:divider="?drawerDividerColor"
+                android:dividerHeight="1dp"
                 android:scrollbars="vertical"
                 android:listSelector="@android:color/transparent"
                 android:visibility="gone"

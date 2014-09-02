@@ -629,6 +629,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         //changeMaterialColors(currentColor, colors.get(position), false);
         dialog.dismiss();
         AppSettings.invalidate();
+        getActivity().recreate();
 
         /*new Thread(new Runnable() {
             @Override
