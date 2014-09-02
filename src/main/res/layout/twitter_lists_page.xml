@@ -43,10 +43,9 @@
                 android:text="@string/no_content"/>
         </LinearLayout>
 
-
         <org.lucasr.smoothie.AsyncListView
             android:id="@+id/listView"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:layout_width="match_parent"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"

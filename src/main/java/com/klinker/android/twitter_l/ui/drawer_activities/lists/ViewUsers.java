@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
+import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.UserListMembersArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -42,6 +44,7 @@ public class ViewUsers extends Activity {
     private ActionBar actionBar;
 
     private AsyncListView listView;
+    private LinearLayout spinner;
 
     private boolean canRefresh = true;
 
@@ -53,38 +56,51 @@ public class ViewUsers extends Activity {
     private boolean bigEnough = false;
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = AppSettings.getInstance(this);
 
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         listName = getIntent().getStringExtra("list_name");
 
-        if (settings.advanceWindowed) {
-            setUpWindow();
-        }
-
-        Utils.setUpPopupTheme(this, settings);
+        Utils.setUpTheme(this, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(listName);
 
         setContentView(R.layout.list_view_activity);
 
-        LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-        spinner.setVisibility(View.GONE);
+        spinner = (LinearLayout) findViewById(R.id.list_progress);
 
         listView = (AsyncListView) findViewById(R.id.listView);
+
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getNavBarHeight(context) + Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        } else {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        }
+
+        listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -194,6 +210,7 @@ public class ViewUsers extends Activity {
                 }
             }
 
+            spinner.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
         }
     }

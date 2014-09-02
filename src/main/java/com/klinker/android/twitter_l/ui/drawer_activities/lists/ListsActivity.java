@@ -7,16 +7,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ListsArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -62,20 +59,24 @@ public class ListsActivity extends DrawerActivity {
         }
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-        listView.setHeaderDividersEnabled(false);
 
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
+        if (!getResources().getBoolean(R.bool.has_drawer)) {
+            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+            listView.setHeaderDividersEnabled(false);
+        } else {
+            listView.setTranslationY(Utils.getStatusBarHeight(context));
+        }
+
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context) +
+                    (getResources().getBoolean(R.bool.has_drawer) ? Utils.getStatusBarHeight(context) : 0));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
         }
 
         getLists();
