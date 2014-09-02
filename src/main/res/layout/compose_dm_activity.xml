@@ -27,6 +27,7 @@
                         android:id="@+id/profile_pic"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
+                        android:background="@drawable/pro_pic_clip"
                         android:minHeight="42dp" android:minWidth="42dp"
                         android:scaleType="centerCrop" android:adjustViewBounds="true"
                         android:maxWidth="42dp" android:maxHeight="42dp"/>
@@ -45,7 +46,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:contentDescription="Attach Image"
-                        android:background="@drawable/pressed_toast"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:src="?cancelButton"
                         android:gravity="center"
                         android:layout_gravity="center" />
@@ -171,7 +172,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:contentDescription="Attach Image"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:src="?attachButton"
                 android:gravity="center"
                 android:layout_gravity="center" />
@@ -183,7 +184,7 @@
                 android:layout_width="48dp"
                 android:contentDescription="Add Emojis"
                 android:src="?emoji_button_changing"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
                 android:maxWidth="48dp" android:maxHeight="48dp" />
@@ -199,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:paddingLeft="10dp">
 
             <TextView

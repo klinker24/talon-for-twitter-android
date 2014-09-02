@@ -39,6 +39,8 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.name.setTextSize(settings.textSize + 4);
         holder.screenName.setTextSize(settings.textSize);
 
+        holder.picture.setClipToOutline(true);
+
         v.setTag(holder);
         return v;
     }

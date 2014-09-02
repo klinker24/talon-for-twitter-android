@@ -70,7 +70,7 @@ public class ProfileMentionsFragment extends Fragment {
 
         this.inflater = LayoutInflater.from(context);
 
-        layout = inflater.inflate(R.layout.list_fragment, null);
+        //layout = inflater.inflate(R.layout.list_fragment, null);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);

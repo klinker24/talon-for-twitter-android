@@ -3,7 +3,6 @@ package com.klinker.android.twitter_l.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -86,7 +85,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public void setUpLayout() {
         mHandler = new Handler();
 
-        layout = R.layout.person_full_screen;
+        layout = R.layout.person;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);

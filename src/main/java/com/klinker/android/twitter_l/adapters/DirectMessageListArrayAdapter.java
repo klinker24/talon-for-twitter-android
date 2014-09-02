@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -76,7 +75,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
     public void setUpLayout() {
 
-        layout = R.layout.person_full_screen;
+        layout = R.layout.person;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
 

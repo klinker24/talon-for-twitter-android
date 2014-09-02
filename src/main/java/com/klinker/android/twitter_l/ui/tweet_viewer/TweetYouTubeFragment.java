@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.ui.tweet_viewer.fragments;
+package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.Activity;
 import android.content.Context;

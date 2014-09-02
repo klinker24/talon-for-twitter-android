@@ -3,7 +3,6 @@ package com.klinker.android.twitter_l.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -28,7 +27,6 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.SDK11;
 
 import java.io.BufferedInputStream;
@@ -106,7 +104,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
     public void setUpLayout() {
 
-        layout = R.layout.person_full_screen;
+        layout = R.layout.person;
 
         TypedArray b;
         b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});

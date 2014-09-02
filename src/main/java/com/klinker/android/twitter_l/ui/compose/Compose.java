@@ -335,12 +335,9 @@ public abstract class Compose extends Activity implements
         NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
-        if (settings.roundContactImages) {
-            pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-        } else {
+        pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
+        pic.setClipToOutline(true);
 
-            pic.loadImage(settings.myProfilePicUrl, false, null);
-        }
         currentName.setText("@" + settings.myScreenName);
 
         //numberAttached.setText("0 " + getString(R.string.attached_images));

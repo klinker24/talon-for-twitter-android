@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -23,7 +21,6 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +29,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
@@ -40,7 +36,6 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.utils.*;
@@ -59,9 +54,7 @@ import java.util.Date;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.regex.Pattern;
 
-import twitter4j.ResponseList;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
@@ -401,7 +394,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        layout = R.layout.tweet_full_screen;
+        layout = R.layout.tweet;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);
@@ -685,8 +678,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if(settings.inlinePics) {
             if (holder.picUrl.equals("")) {
-                if (holder.image.getVisibility() != View.GONE) {
-                    holder.image.setVisibility(View.GONE);
+                if (holder.imageHolder.getVisibility() != View.GONE) {
+                    holder.imageHolder.setVisibility(View.GONE);
                 }
 
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
@@ -753,8 +746,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     });
                 }
 
-                if (holder.image.getVisibility() == View.GONE) {
-                    holder.image.setVisibility(View.VISIBLE);
+                if (holder.imageHolder.getVisibility() == View.GONE) {
+                    holder.imageHolder.setVisibility(View.VISIBLE);
                 }
             }
         }

@@ -27,9 +27,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ProfilePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,19 +17,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Pair;
-import android.util.Patterns;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +43,6 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
-import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
@@ -68,10 +61,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.RejectedExecutionException;
 
-import twitter4j.DirectMessage;
-import twitter4j.MediaEntity;
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -156,7 +145,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        layout = R.layout.tweet_full_screen;
+        layout = R.layout.tweet;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);
@@ -213,7 +202,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        layout = R.layout.tweet_full_screen;
+        layout = R.layout.tweet;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);
@@ -268,7 +257,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        layout = R.layout.tweet_full_screen;
+        layout = R.layout.tweet;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);
@@ -320,7 +309,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         cancelButton = a.getResourceId(0, 0);
         a.recycle();
 
-        layout = R.layout.tweet_full_screen;
+        layout = R.layout.tweet;
 
         TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
         border = b.getResourceId(0, 0);

@@ -117,7 +117,7 @@ public class ProfileFragment extends Fragment {
 
         inflater = LayoutInflater.from(context);
 
-        layout = inflater.inflate(R.layout.list_fragment, null);
+        //layout = inflater.inflate(R.layout.list_fragment, null);
         LinearLayout spin = (LinearLayout) layout.findViewById(R.id.spinner);
         spin.setVisibility(View.GONE);
 
