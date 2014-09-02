@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -96,16 +97,15 @@ public class NearbyTweets extends Fragment implements
             }
         });
 
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context) +
+                    (DrawerActivity.hasToolbar ? Utils.getStatusBarHeight(context) : 0));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
         }
 
         mLocationClient = new LocationClient(context, this, this);
