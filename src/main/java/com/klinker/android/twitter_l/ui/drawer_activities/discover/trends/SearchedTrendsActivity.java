@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
@@ -64,11 +65,6 @@ public class SearchedTrendsActivity extends Activity {
 
     private ActionBar actionBar;
 
-    public static ViewPager mViewPager;
-
-    private NotificationDrawerLayout mDrawerLayout;
-    private LinearLayout mDrawer;
-    private ListView drawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private AsyncListView listView;
@@ -96,11 +92,10 @@ public class SearchedTrendsActivity extends Activity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        if (settings.advanceWindowed) {
-            setUpWindow();
-        }
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-        Utils.setUpTweetTheme(context, settings);
+        Utils.setUpTheme(context, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
@@ -123,7 +118,31 @@ public class SearchedTrendsActivity extends Activity {
                 settings.themeColors.primaryColorLight,
                 SwipeProgressBar.COLOR3);
 
+        mPullToRefreshLayout.setFullScreen(true);
+
         listView = (AsyncListView) findViewById(R.id.listView);
+
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getNavBarHeight(context) + Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        } else {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        }
+
+        listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
