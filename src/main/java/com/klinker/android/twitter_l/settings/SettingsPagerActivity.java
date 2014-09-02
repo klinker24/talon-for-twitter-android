@@ -282,7 +282,7 @@ public class SettingsPagerActivity extends FragmentActivity {
 
     public void setUpTheme() {
         AppSettings settings = AppSettings.getInstance(this);
-        Utils.setUpTweetTheme(this, settings);
+        Utils.setUpSettingsTheme(this, settings);
     }
 
     @Override

@@ -704,6 +704,130 @@ public class Utils {
         }
     }
 
+    public static void setUpSettingsTheme(Context context, AppSettings settings) {
+        if (!settings.darkTheme) {
+            switch (settings.theme) {
+                case AppSettings.THEME_AMBER:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Amber);
+                    break;
+                case AppSettings.THEME_BLUE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Blue);
+                    break;
+                case AppSettings.THEME_BLUE_GREY:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_BlueGrey);
+                    break;
+                case AppSettings.THEME_BROWN:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Brown);
+                    break;
+                case AppSettings.THEME_CYAN:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Cyan);
+                    break;
+                case AppSettings.THEME_DEEP_ORANGE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_DeepOrange);
+                    break;
+                case AppSettings.THEME_DEEP_PURPLE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_DeepPurple);
+                    break;
+                case AppSettings.THEME_GREEN:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Green);
+                    break;
+                case AppSettings.THEME_GREY:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Grey);
+                    break;
+                case AppSettings.THEME_INDIGO:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Indigo);
+                    break;
+                case AppSettings.THEME_LIGHT_BLUE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_LightBlue);
+                    break;
+                case AppSettings.THEME_LIGHT_GREEN:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Green);
+                    break;
+                case AppSettings.THEME_LIME:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Lime);
+                    break;
+                case AppSettings.THEME_PINK:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Pink);
+                    break;
+                case AppSettings.THEME_PURPLE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Purple);
+                    break;
+                case AppSettings.THEME_ORANGE:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Orange);
+                    break;
+                case AppSettings.THEME_TEAL:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Teal);
+                    break;
+                case AppSettings.THEME_RED:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Red);
+                    break;
+                case AppSettings.THEME_YELLOW:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Yellow);
+                    break;
+            }
+        } else {
+            switch (settings.theme) {
+                case AppSettings.THEME_AMBER:
+                    context.setTheme(R.style.Theme_TalonDark_Amber);
+                    break;
+                case AppSettings.THEME_BLUE:
+                    context.setTheme(R.style.Theme_TalonDark_Blue);
+                    break;
+                case AppSettings.THEME_BLUE_GREY:
+                    context.setTheme(R.style.Theme_TalonDark_BlueGrey);
+                    break;
+                case AppSettings.THEME_BROWN:
+                    context.setTheme(R.style.Theme_TalonDark_Brown);
+                    break;
+                case AppSettings.THEME_CYAN:
+                    context.setTheme(R.style.Theme_TalonDark_Cyan);
+                    break;
+                case AppSettings.THEME_DEEP_ORANGE:
+                    context.setTheme(R.style.Theme_TalonDark_DeepOrange);
+                    break;
+                case AppSettings.THEME_DEEP_PURPLE:
+                    context.setTheme(R.style.Theme_TalonDark_DeepPurple);
+                    break;
+                case AppSettings.THEME_GREEN:
+                    context.setTheme(R.style.Theme_TalonDark_Green);
+                    break;
+                case AppSettings.THEME_GREY:
+                    context.setTheme(R.style.Theme_TalonDark_Grey);
+                    break;
+                case AppSettings.THEME_INDIGO:
+                    context.setTheme(R.style.Theme_TalonDark_Indigo);
+                    break;
+                case AppSettings.THEME_LIGHT_BLUE:
+                    context.setTheme(R.style.Theme_TalonDark_LightBlue);
+                    break;
+                case AppSettings.THEME_LIGHT_GREEN:
+                    context.setTheme(R.style.Theme_TalonDark_Green);
+                    break;
+                case AppSettings.THEME_LIME:
+                    context.setTheme(R.style.Theme_TalonDark_Lime);
+                    break;
+                case AppSettings.THEME_PINK:
+                    context.setTheme(R.style.Theme_TalonDark_Pink);
+                    break;
+                case AppSettings.THEME_PURPLE:
+                    context.setTheme(R.style.Theme_TalonDark_Purple);
+                    break;
+                case AppSettings.THEME_ORANGE:
+                    context.setTheme(R.style.Theme_TalonDark_Orange);
+                    break;
+                case AppSettings.THEME_TEAL:
+                    context.setTheme(R.style.Theme_TalonDark_Teal);
+                    break;
+                case AppSettings.THEME_RED:
+                    context.setTheme(R.style.Theme_TalonDark_Red);
+                    break;
+                case AppSettings.THEME_YELLOW:
+                    context.setTheme(R.style.Theme_TalonDark_Yellow);
+                    break;
+            }
+        }
+    }
+
     public static void setUpNotifTheme(Context context, AppSettings settings) {
         if (!settings.darkTheme) {
             switch (settings.theme) {

@@ -25,7 +25,7 @@ limitations under the License.
 
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
-        <item name="android:background">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
 
         <item name="textColor">@color/light_text</item>
@@ -137,6 +137,11 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight.Base">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#aa000000</item>
     </style>
 
     <style name="ActionBarPopup" parent="android:Theme.Material.Light">
