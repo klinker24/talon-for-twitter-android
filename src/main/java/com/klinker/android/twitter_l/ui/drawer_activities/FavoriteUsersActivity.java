@@ -82,27 +82,23 @@ public class FavoriteUsersActivity extends DrawerActivity {
         View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
         listView.addHeaderView(viewHeader, null, false);
 
-        if (DrawerActivity.translucent) {
-            if (Utils.hasNavBar(context)) {
-                View footer = new View(context);
-                footer.setOnClickListener(null);
-                footer.setOnLongClickListener(null);
-                ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                footer.setLayoutParams(params);
-                listView.addFooterView(footer);
-                listView.setFooterDividersEnabled(false);
-            }
-
-            if (!MainActivity.isPopup) {
-                View view = new View(context);
-                view.setOnClickListener(null);
-                view.setOnLongClickListener(null);
-                ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
-                view.setLayoutParams(params2);
-                listView.addHeaderView(view);
-                listView.setFooterDividersEnabled(false);
-            }
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
         }
+
+        View view = new View(context);
+        view.setOnClickListener(null);
+        view.setOnLongClickListener(null);
+        ListView.LayoutParams params2 = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getStatusBarHeight(context));
+        view.setLayoutParams(params2);
+        listView.addHeaderView(view);
+        listView.setFooterDividersEnabled(false);
 
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
@@ -143,9 +139,9 @@ public class FavoriteUsersActivity extends DrawerActivity {
                     }
                 }
 
-                if (MainActivity.translucent && actionBar.isShowing()) {
+                if (actionBar.isShowing()) {
                     showStatusBar();
-                } else if (MainActivity.translucent) {
+                } else {
                     hideStatusBar();
                 }
             }
