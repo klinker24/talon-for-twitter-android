@@ -522,11 +522,7 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
 
     public void showStatusBar() {
         if (orangeStatus == -1) {
-            if (AppSettings.getInstance(context).theme == AppSettings.THEME_DARK) {
-                orangeStatus = getResources().getColor(R.color.darkest_primary);
-            } else {
-                orangeStatus = getResources().getColor(R.color.darker_primary);
-            }
+            orangeStatus = AppSettings.getInstance(getContext()).themeColors.primaryColorDark;
         }
 
         ((Activity)context).getWindow().setStatusBarColor(orangeStatus);

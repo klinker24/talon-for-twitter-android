@@ -17,33 +17,15 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonLight" parent="android:Theme.Material.Light.DarkActionBar">
-
-        <!--   your app's branding color (for the app bar) -->
-        <item name="android:colorPrimary">@color/primary</item>
-        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
-        <item name="android:colorPrimaryDark">@color/darker_primary</item>
-        <!--   theme UI controls like checkboxes and text fields -->
-        <item name="android:colorAccent">@color/accent</item>
+    <style name="Theme.TalonLight.Base" parent="android:Theme.Material">
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
         <item name="android:windowAllowExitTransitionOverlap">false</item>
 
-        <!-- specify enter and exit transitions -->
-        <item name="android:windowEnterTransition">@transition/explode</item>
-        <item name="android:windowExitTransition">@transition/explode</item>
-
-        <!-- specify shared element transitions -->
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/move_image</item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/move_image</item>
-
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
-        <!--<item name="android:windowActionBar">false</item>-->
-
+        <item name="android:background">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
 
         <item name="textColor">@color/light_text</item>
@@ -125,25 +107,17 @@ limitations under the License.
 
     </style>
 
-    <style name="Theme.TalonLight.Main" parent="@style/Theme.TalonLight">
+    <style name="Theme.TalonLight.Main" parent="@style/Theme.TalonLight.Base">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight">
+    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight.Base">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--<item name="android:windowActionBar">true</item>-->
     </style>
 
-    <style name="Theme.TalonLight.Tweet.FastTransitions" parent="Theme.TalonLight.Tweet">
-        <item name="android:windowContentTransitions">false</item>
-    </style>
-
-    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight">
-
-        <item name="android:windowContentTransitions">false</item>
+    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
@@ -152,73 +126,20 @@ limitations under the License.
         <item name="android:windowIsTranslucent">true</item>
 
         <item name="android:windowFrame">@drawable/rect_border_light</item>
-        <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:backgroundDimEnabled">false</item>
 
     </style>
 
-    <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight">
-        <item name="android:windowContentTransitions">false</item>
+    <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight.Base">
         <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="Theme.TalonLight.Compose" parent="@style/Theme.TalonLight">
-        <item name="android:windowContentTransitions">false</item>
-    </style>
-
-    <style name="Theme.TalonLight.Hangouts" parent="@style/Theme.TalonLight">
-        <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-    </style>
-
-    <style name="Theme.TalonLight.Hangouts.Popup" parent="@style/Theme.TalonLight.Popup">
-        <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-    </style>
-
-    <style name="Theme.TalonLight.Hangouts.Popup.Notif" parent="@style/Theme.TalonLight.Popup.Notif">
-        <item name="tweetBackground">@drawable/received_background_hangouts_light</item>
-        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="AutoCompleteTextViewTwitter.Light" parent="android:Widget.Material.Light.AutoCompleteTextView">
-        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_light</item>
-        <item name="android:background">@drawable/twitter_edit_text_holo_light</item>
-    </style>
-
-    <style name="ButtonTwitter.Light" parent="android:Widget.Material.Light.Button">
-        <item name="android:background">@drawable/twitter_btn_default_holo_light</item>
-    </style>
-
-    <style name="ImageButtonTwitter.Light" parent="android:Widget.Material.Light.ImageButton">
-        <item name="android:background">@drawable/twitter_btn_default_holo_light</item>
-    </style>
-
-    <style name="SpinnerTwitter.Light" parent="android:Widget.Material.Light.Spinner">
-        <item name="android:background">@drawable/twitter_spinner_background_holo_light</item>
-        <item name="android:dropDownSelector">@drawable/twitter_list_selector_holo_light</item>
-    </style>
-
-    <style name="ProgressBarTwitter.Light" parent="android:Widget.Material.Light.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/twitter_progress_horizontal_holo_light</item>
-        <item name="android:indeterminateDrawable">@drawable/twitter_progress_indeterminate_horizontal_holo_light</item>
-    </style>
-
-    <style name="SeekBarTwitter.Light" parent="android:Widget.Material.Light.SeekBar">
-        <item name="android:progressDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_light</item>
-        <item name="android:indeterminateDrawable">@drawable/twitter_scrubber_progress_horizontal_holo_light</item>
-        <item name="android:thumb">@drawable/twitter_scrubber_control_selector_holo_light</item>
-    </style>
-
-    <style name="CircleOverflow.Light" parent="android:style/Widget.Material.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_circle_overflow_light</item>
-    </style>
-
-    <style name="ActionBarPopup"
-           parent="android:Theme.Material.Light">
+    <style name="ActionBarPopup" parent="android:Theme.Material.Light">
         <item name="android:popupMenuStyle">@android:style/Widget.Material.Light.PopupMenu</item>
         <item name="android:dropDownListViewStyle">@android:style/Widget.Material.Light.ListView.DropDown</item>
     </style>

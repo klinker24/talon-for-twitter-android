@@ -24,19 +24,16 @@ import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.ColorPickerAdapter;
 import com.klinker.android.twitter_l.data.Item;
+import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.utils.LocalTrendsUtils;
@@ -564,11 +561,117 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
     }
 
+
+    protected void showColorPickerDialog() {
+        ScrollView scrollParent = new ScrollView(getActivity());
+        LinearLayout colorPickerLayout = new LinearLayout(getActivity());
+        colorPickerLayout.setOrientation(LinearLayout.VERTICAL);
+
+        int cols = 4;
+        float gridWidth = Utils.toPx(280, getActivity());
+        GridView grid = getGridView();
+        grid.setNumColumns(cols);
+
+        final List<ThemeColor> colors = getThemeColors();
+        final AlertDialog dialog = buildColorPickerDialog(scrollParent);
+
+        ColorPickerAdapter adapter = new ColorPickerAdapter(getActivity(), colors, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                themePickerItemClicked(v, colors, dialog);
+            }
+        });
+        grid.setAdapter(adapter);
+
+        int rows = (int) Math.ceil(colors.size() / (double) cols);
+        LinearLayout.LayoutParams gridParams = new LinearLayout.LayoutParams((int) gridWidth,
+                (int) (gridWidth/4 * rows));
+        gridParams.gravity = Gravity.CENTER;
+        gridParams.topMargin = (int) Utils.toPx(16, getActivity());
+
+
+        int padding = getResources().getDimensionPixelSize(R.dimen.settings_text_padding);
+        CheckBox darkTheme = getDarkThemeCheckbox();
+        LinearLayout.LayoutParams darkThemeParams = getLayoutParams(padding);
+        darkThemeParams.bottomMargin = padding;
+
+        colorPickerLayout.addView(grid, gridParams);
+        colorPickerLayout.addView(darkTheme, darkThemeParams);
+        scrollParent.addView(colorPickerLayout);
+        dialog.show();
+    }
+
+    List<ThemeColor> getThemeColors() {
+        String[] themePrefixes = getResources().getStringArray(R.array.theme_colors);
+        final List<ThemeColor> colors = new ArrayList<ThemeColor>();
+        for (String prefix : themePrefixes) {
+            colors.add(new ThemeColor(prefix, getActivity()));
+        }
+        return colors;
+    }
+
+    GridView getGridView() {
+        return new GridView(getActivity());
+    }
+
+    AlertDialog buildColorPickerDialog(View layout) {
+        return new AlertDialog.Builder(getActivity())
+                .setView(layout)
+                .setTitle(R.string.theme)
+                .create();
+    }
+
+    void themePickerItemClicked(View v, List<ThemeColor> colors, Dialog dialog) {
+        ThemeColor currentColor = colors.get(AppSettings.getInstance(getActivity()).theme);
+        int position = (Integer) v.getTag();
+        Log.v("talon_theme", "position: " + position);
+        AppSettings.getInstance(getActivity()).setValue("material_theme", position, getActivity());
+        //changeMaterialColors(currentColor, colors.get(position), false);
+        dialog.dismiss();
+
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                settings.recreateFirstRunFile(getActivity());
+            }
+        }).start();*/
+    }
+
+    CheckBox getDarkThemeCheckbox() {
+        CheckBox darkTheme = new CheckBox(getActivity());
+        darkTheme.setChecked(AppSettings.getInstance(getActivity()).darkTheme);
+        darkTheme.setText(R.string.theme_dark);
+        darkTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                AppSettings.getInstance(getActivity()).setValue("dark_theme", isChecked, getActivity());
+                //changeBackgroundColors(isChecked);
+                onCreate(null);
+            }
+        });
+        return darkTheme;
+    }
+
+    LinearLayout.LayoutParams getLayoutParams(int padding) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.rightMargin = padding;
+        params.leftMargin = padding;
+        return params;
+    }
+
     public void setUpThemeSettings() {
 
         final SharedPreferences sharedPrefs = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
+        final Preference themePicker = findPreference("material_theme");
+        themePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showColorPickerDialog();
+                return false;
+            }
+        });
         final Preference deviceFont = findPreference("font_type");
         deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -681,18 +784,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
         });*/
-
-        final Preference theme = findPreference("theme");
-
-        if (sharedPrefs.getBoolean("addon_themes", false)) {
-            nightMode.setEnabled(false);
-            theme.setEnabled(false);
-            deviceFont.setEnabled(false);
-        } else {
-            nightMode.setEnabled(true);
-            theme.setEnabled(true);
-            deviceFont.setEnabled(true);
-        }
 
     }
 

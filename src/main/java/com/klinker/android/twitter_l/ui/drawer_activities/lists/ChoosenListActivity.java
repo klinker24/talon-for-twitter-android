@@ -105,24 +105,11 @@ public class ChoosenListActivity extends Activity {
                 onRefreshStarted();
             }
         });
-        if (settings.addonTheme) {
-            mPullToRefreshLayout.setColorScheme(settings.accentInt,
-                    SwipeProgressBar.COLOR2,
-                    settings.accentInt,
-                    SwipeProgressBar.COLOR3);
-        } else {
-            if (settings.theme != AppSettings.THEME_LIGHT) {
-                mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
-                        SwipeProgressBar.COLOR2,
-                        context.getResources().getColor(R.color.app_color),
-                        SwipeProgressBar.COLOR3);
-            } else {
-                mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
-                        getResources().getColor(R.color.light_ptr_1),
-                        context.getResources().getColor(R.color.app_color),
-                        getResources().getColor(R.color.light_ptr_2));
-            }
-        }
+
+        mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
+                SwipeProgressBar.COLOR2,
+                settings.themeColors.primaryColorLight,
+                SwipeProgressBar.COLOR3);
 
         listView = (AsyncListView) findViewById(R.id.listView);
 

@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -271,12 +272,12 @@ public class SettingsPagerActivity extends FragmentActivity {
             mViewPager.setCurrentItem(7, false);
         }
 
+        AppSettings settings = AppSettings.getInstance(this);
         PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        if (AppSettings.getInstance(this).theme == AppSettings.THEME_DARK)
-            strip.setBackgroundColor(getResources().getColor(R.color.darker_primary));
-        else
-            strip.setBackgroundColor(getResources().getColor(R.color.primary));
+        strip.setBackgroundColor(settings.themeColors.primaryColor);
 
+        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
     }
 
     public void setUpTheme() {

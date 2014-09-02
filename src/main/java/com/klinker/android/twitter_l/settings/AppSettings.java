@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
 import java.util.Calendar;
@@ -37,9 +39,27 @@ public class AppSettings {
 
     public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
 
-    public static final int THEME_LIGHT = 0;
-    public static final int THEME_DARK = 1;
-    public static final int THEME_BLACK = 2;
+    public static final int THEME_RED = 0;
+    public static final int THEME_PINK = 1;
+    public static final int THEME_PURPLE = 2;
+    public static final int THEME_DEEP_PURPLE = 3;
+    public static final int THEME_INDIGO = 4;
+    public static final int THEME_BLUE = 5;
+    public static final int THEME_LIGHT_BLUE = 6;
+    public static final int THEME_CYAN = 7;
+    public static final int THEME_TEAL = 8;
+    public static final int THEME_GREEN = 9;
+    public static final int THEME_LIGHT_GREEN = 10;
+    public static final int THEME_LIME = 11;
+    public static final int THEME_YELLOW = 12;
+    public static final int THEME_AMBER = 13;
+    public static final int THEME_ORANGE = 14;
+    public static final int THEME_DEEP_ORANGE = 15;
+    public static final int THEME_BROWN = 16;
+    public static final int THEME_GREY = 17;
+    public static final int THEME_BLUE_GREY = 18;
+
+    public static final int DEFAULT_THEME = THEME_ORANGE;
 
     public static final int WIDGET_LIGHT = 0;
     public static final int WIDGET_DARK = 1;
@@ -72,6 +92,7 @@ public class AppSettings {
     public String secondProfilePicUrl;
     public String favoriteUserNames;
 
+    public boolean darkTheme;
     public boolean isTwitterLoggedIn;
     public boolean reverseClickActions;
     public boolean advanceWindowed;
@@ -194,6 +215,7 @@ public class AppSettings {
         // Booleans
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false) ||
                 defaultPrefs.getBoolean("is_logged_in_1", false) || defaultPrefs.getBoolean("is_logged_in_2", false);
+        darkTheme = sharedPrefs.getBoolean("dark_theme", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = false;//sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
@@ -264,8 +286,8 @@ public class AppSettings {
         }
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is light
-        layout = Integer.parseInt(sharedPrefs.getString("layout", "2")); // default is full screen
+        theme = sharedPrefs.getInt("material_theme", DEFAULT_THEME); // default is orange
+        layout = LAYOUT_FULL_SCREEN;
         currentAccount = sharedPrefs.getInt("current_account", 1);
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
@@ -320,100 +342,6 @@ public class AppSettings {
             }
         }
 
-        // theme stuff
-        if (layout == LAYOUT_TALON) {
-            roundContactImages = true;
-        } else {
-            roundContactImages = false;
-        }
-
-        if (sharedPrefs.getBoolean("addon_themes", false)) {
-            addonTheme = true;
-            addonThemePackage = sharedPrefs.getString("addon_theme_package", null);
-
-            try {
-                Bundle metaData = context.getPackageManager().getApplicationInfo(addonThemePackage, PackageManager.GET_META_DATA).metaData;
-
-                roundContactImages = metaData.getBoolean("talon_theme_round_contact_pictures");
-                translateProfileHeader = metaData.getBoolean("talon_theme_contracting_user_backgrounds");
-                backgroundColor = Color.parseColor(metaData.getString("talon_theme_background_color"));
-                try {
-                    accentColor = metaData.getString("talon_theme_accent_color");
-                    accentInt = Color.parseColor(accentColor);
-                    accentColor = accentColor.replace("#", "");
-                } catch (Exception e) {
-                    // no accent color attribute
-                    accentColor = "#FF8800";
-                    accentInt = Color.parseColor(accentColor);
-                    accentColor = accentColor.replace("#", "");
-                }
-
-                try {
-                    nameAndHandleOnTweet = metaData.getBoolean("force_name_and_handle_on_tweet");
-                } catch (Exception e) {
-                    nameAndHandleOnTweet = false;
-                }
-
-                try {
-                    combineProPicAndImage = metaData.getBoolean("tweet_pager_combine_pro_pic_and_image");
-                } catch (Exception e) {
-                    combineProPicAndImage = false;
-                }
-
-                try {
-                    sendToComposeWindow = metaData.getBoolean("tweet_pager_send_to_compose_window");
-                } catch (Exception e) {
-                    sendToComposeWindow = false;
-                }
-
-                try {
-                    pagerTitleInt = Color.parseColor(metaData.getString("pager_title_strip_color"));
-                } catch (Exception e) {
-                    pagerTitleInt = accentInt;
-                }
-
-                try {
-                    showTitleStrip = metaData.getBoolean("display_tweet_or_profile_title_strip");
-                } catch (Exception e) {
-                    showTitleStrip = true;
-                }
-
-                Log.v("color_for_theme", accentColor);
-
-                String theme = metaData.getString("talon_theme_base");
-                if (theme.equals("dark")) {
-                    this.theme = THEME_DARK;
-                } else if (theme.equals("black")) {
-                    this.theme = THEME_BLACK;
-                } else {
-                    this.theme = THEME_LIGHT;
-                }
-
-                Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
-                try {
-                    actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
-                } catch (Exception e) {
-                    actionBar = null;
-                }
-                try {
-                    customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
-                } catch (Exception e) {
-                    customBackground = null;
-                } catch (OutOfMemoryError e) {
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
-                actionBar = null;
-            }
-        } else {
-            addonTheme = false;
-            addonThemePackage = null;
-            translateProfileHeader = true;
-        }
-
         int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
             count++;
@@ -425,6 +353,8 @@ public class AppSettings {
         if(count != 2) {
             syncSecondMentions = false;
         }
+
+        setColors(context);
     }
 
     public AppSettings(SharedPreferences sharedPrefs, Context context) {
@@ -459,6 +389,7 @@ public class AppSettings {
         }
 
         // Booleans
+        darkTheme = sharedPrefs.getBoolean("dark_theme", false);
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
@@ -529,8 +460,8 @@ public class AppSettings {
         }
 
         // Integers
-        theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is dark
-        layout = Integer.parseInt(sharedPrefs.getString("layout", "2")); // default is talon
+        theme = sharedPrefs.getInt("material_theme", DEFAULT_THEME); // default is orange
+        layout = LAYOUT_FULL_SCREEN;
         currentAccount = sharedPrefs.getInt("current_account", 1);
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
@@ -538,7 +469,6 @@ public class AppSettings {
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
-
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
@@ -586,68 +516,6 @@ public class AppSettings {
             }
         }
 
-        // theme stuff
-        if (layout == LAYOUT_TALON) {
-            roundContactImages = true;
-        } else {
-            roundContactImages = false;
-        }
-
-        if (sharedPrefs.getBoolean("addon_themes", false)) {
-            addonTheme = true;
-            addonThemePackage = sharedPrefs.getString("addon_theme_package", null);
-
-            try {
-                Bundle metaData = context.getPackageManager().getApplicationInfo(addonThemePackage, PackageManager.GET_META_DATA).metaData;
-
-                roundContactImages = metaData.getBoolean("talon_theme_round_contact_pictures");
-                translateProfileHeader = metaData.getBoolean("talon_theme_contracting_user_backgrounds");
-                backgroundColor = Color.parseColor(metaData.getString("talon_theme_background_color"));
-                try {
-                    accentColor = metaData.getString("talon_theme_accent_color");
-                    accentInt = Color.parseColor(accentColor);
-                    accentColor = accentColor.replace("#", "");
-                } catch (Exception e) {
-                    // no accent color attribute
-                    accentColor = "#FF8800";
-                    accentInt = Color.parseColor(accentColor);
-                    accentColor = accentColor.replace("#", "");
-                }
-
-                Log.v("color_for_theme", accentColor);
-
-                String theme = metaData.getString("talon_theme_base");
-                if (theme.equals("dark")) {
-                    this.theme = THEME_DARK;
-                } else if (theme.equals("black")) {
-                    this.theme = THEME_BLACK;
-                } else {
-                    this.theme = THEME_LIGHT;
-                }
-
-                Resources res = context.getPackageManager().getResourcesForApplication(addonThemePackage);
-                try {
-                    actionBar = res.getDrawable(res.getIdentifier("ab_background", "drawable", addonThemePackage));
-                } catch (Exception e) {
-                    actionBar = null;
-                }
-                try {
-                    customBackground = res.getDrawable(res.getIdentifier("wallpaper", "drawable", addonThemePackage));
-                } catch (Exception e) {
-                    customBackground = null;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                sharedPrefs.edit().putBoolean("addon_themes", false).putString("addon_theme_package", null).commit();
-                actionBar = null;
-            }
-        } else {
-            addonTheme = false;
-            addonThemePackage = null;
-            translateProfileHeader = true;
-        }
-
         int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
             count++;
@@ -659,6 +527,8 @@ public class AppSettings {
         if(count != 2) {
             syncSecondMentions = false;
         }
+
+        setColors(context);
     }
 
     public static int getCurrentTheme(SharedPreferences sharedPrefs) {
@@ -684,5 +554,43 @@ public class AppSettings {
         }
 
         return theme;
+    }
+
+    protected void setValue(String key, boolean value, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        sharedPreferences.edit()
+                .putBoolean(key, value)
+                .commit();
+    }
+
+    protected void setValue(String key, int value, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        sharedPreferences.edit()
+                .putInt(key, value)
+                .commit();
+
+    }
+
+    protected void setValue(String key, String value, Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        sharedPreferences.edit()
+                .putString(key, value)
+                .commit();
+
+    }
+
+    public ThemeColor themeColors;
+    private void setColors(Context context) {
+
+        String[] themePrefixes = context.getResources().getStringArray(R.array.theme_colors);
+        String prefix = themePrefixes[theme];
+
+        themeColors = new ThemeColor(prefix, context);
     }
 }

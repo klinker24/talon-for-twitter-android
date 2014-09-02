@@ -136,13 +136,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         }
 
         if (current == position) {
-            if (!DrawerActivity.settings.addonTheme) {
-                holder.icon.setColorFilter(context.getResources().getColor(R.color.app_color));
-                holder.name.setTextColor(context.getResources().getColor(R.color.app_color));
-            } else {
-                holder.icon.setColorFilter(DrawerActivity.settings.accentInt);
-                holder.name.setTextColor(DrawerActivity.settings.accentInt);
-            }
+            holder.icon.setColorFilter(DrawerActivity.settings.themeColors.accentColor);
+            holder.name.setTextColor(DrawerActivity.settings.themeColors.accentColor);
         } else {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
             int resource = a.getResourceId(0, 0);

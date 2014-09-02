@@ -2,13 +2,11 @@
 <resources>
 
     <style name="Theme.PhotoViewerLight" parent="@style/Theme.Tutorial">
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>
     </style>
 
     <style name="Theme.PhotoViewerDark" parent="@style/Theme.Tutorial">
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>
     </style>
@@ -38,7 +36,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="Theme.Tutorial" parent="@style/Theme.TalonDark">
+    <style name="Theme.Tutorial" parent="@style/Theme.TalonDark.Purple">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

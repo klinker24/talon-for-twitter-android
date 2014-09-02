@@ -90,7 +90,7 @@ public class ViewRetweeters extends Activity {
                     settings.accentInt,
                     SwipeProgressBar.COLOR3);
         } else {
-            if (settings.theme != AppSettings.THEME_LIGHT) {
+            if (settings.darkTheme) {
                 mPullToRefreshLayout.setColorScheme(context.getResources().getColor(R.color.app_color),
                         SwipeProgressBar.COLOR2,
                         context.getResources().getColor(R.color.app_color),

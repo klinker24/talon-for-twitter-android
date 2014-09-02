@@ -321,7 +321,7 @@ public class NewScheduledTweet extends Activity {
         btDate.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                com.android.datetimepicker.date.DatePickerDialog.newInstance(reservationDate, currentYear, currentMonth, currentDay, settings.theme != AppSettings.THEME_LIGHT)
+                com.android.datetimepicker.date.DatePickerDialog.newInstance(reservationDate, currentYear, currentMonth, currentDay, settings.darkTheme)
                         .show(getFragmentManager(), "date_picker");
                 btTime.setEnabled(true);
             }
@@ -332,7 +332,7 @@ public class NewScheduledTweet extends Activity {
 
             public void onClick(View v) {
                 com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(timeDate, currentHour, currentMinute, settings.militaryTime);
-                if (settings.theme != AppSettings.THEME_LIGHT) {
+                if (settings.darkTheme) {
                     dialog.setThemeDark(true);
                 }
                 dialog.show(getFragmentManager(), "time_picker");

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -143,14 +145,14 @@ public class MainActivity extends DrawerActivity {
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
         MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
+        Drawable d = MainActivity.sendLayout.getBackground();
+        d.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+        MainActivity.sendLayout.setBackground(d);
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendButton = (ImageButton) findViewById(R.id.send_button);
         MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                getWindow().setExitTransition(new Explode());
-
                 Intent compose = new Intent(context, ComposeActivity.class);
                 startActivity(compose);
             }
@@ -294,18 +296,8 @@ public class MainActivity extends DrawerActivity {
         Log.v("talon_starting", "ending on create");
     }
 
-    int orangeStatus = -1;
     public void showStatusBar() {
-        //DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-        if (orangeStatus == -1) {
-            if (settings.theme == AppSettings.THEME_DARK) {
-                orangeStatus = getResources().getColor(R.color.darkest_primary);
-            } else {
-                orangeStatus = getResources().getColor(R.color.darker_primary);
-            }
-        }
-
-        context.getWindow().setStatusBarColor(orangeStatus);
+        context.getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
     }
 
     public void setLauncherPage() {
@@ -333,16 +325,8 @@ public class MainActivity extends DrawerActivity {
 
         if (!actionBar.isShowing()) {
             actionBar.show();
-            if (settings.theme == AppSettings.THEME_DARK) {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.darkest_primary));
-            } else {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.darker_primary));
-            }
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
-
-        Log.v("talon_starting", "onResume()");
-
-        getWindow().setExitTransition(new Explode());
 
         MainActivity.showIsRunning = false;
         MainActivity.hideIsRunning = false;
