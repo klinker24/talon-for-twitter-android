@@ -32,6 +32,12 @@
         <item name="android:colorAccent">@color/red_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Red" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/red_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/red_primary_color_dark</item>
+        <item name="android:colorAccent">@color/red_accent_color</item>
+    </style>
+
     <!-- Pink -->
     <style name="Theme.TalonLight.Pink" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/pink_primary_color</item>
@@ -58,6 +64,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Pink" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/pink_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/pink_primary_color_dark</item>
+        <item name="android:colorAccent">@color/pink_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Pink" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/pink_primary_color</item>
         <item name="android:colorPrimaryDark">@color/pink_primary_color_dark</item>
         <item name="android:colorAccent">@color/pink_accent_color</item>
@@ -94,6 +106,12 @@
         <item name="android:colorAccent">@color/purple_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Purple" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/purple_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/purple_primary_color_dark</item>
+        <item name="android:colorAccent">@color/purple_accent_color</item>
+    </style>
+
     <!-- Deep Purple -->
     <style name="Theme.TalonLight.DeepPurple" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/deep_purple_primary_color</item>
@@ -120,6 +138,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.DeepPurple" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/deep_purple_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
+        <item name="android:colorAccent">@color/deep_purple_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.DeepPurple" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/deep_purple_primary_color</item>
         <item name="android:colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
         <item name="android:colorAccent">@color/deep_purple_accent_color</item>
@@ -156,6 +180,12 @@
         <item name="android:colorAccent">@color/indigo_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Indigo" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/indigo_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/indigo_primary_color_dark</item>
+        <item name="android:colorAccent">@color/indigo_accent_color</item>
+    </style>
+
     <!-- Blue -->
     <style name="Theme.TalonLight.Blue" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/blue_primary_color</item>
@@ -182,6 +212,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Blue" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/blue_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/blue_primary_color_dark</item>
+        <item name="android:colorAccent">@color/blue_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Blue" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/blue_primary_color</item>
         <item name="android:colorPrimaryDark">@color/blue_primary_color_dark</item>
         <item name="android:colorAccent">@color/blue_accent_color</item>
@@ -218,6 +254,12 @@
         <item name="android:colorAccent">@color/light_blue_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.LightBlue" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/light_blue_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/light_blue_primary_color_dark</item>
+        <item name="android:colorAccent">@color/light_blue_accent_color</item>
+    </style>
+
     <!-- Cyan -->
     <style name="Theme.TalonLight.Cyan" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/cyan_primary_color</item>
@@ -244,6 +286,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Cyan" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/cyan_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/cyan_primary_color_dark</item>
+        <item name="android:colorAccent">@color/cyan_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Cyan" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/cyan_primary_color</item>
         <item name="android:colorPrimaryDark">@color/cyan_primary_color_dark</item>
         <item name="android:colorAccent">@color/cyan_accent_color</item>
@@ -280,6 +328,12 @@
         <item name="android:colorAccent">@color/teal_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Teal" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/teal_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/teal_primary_color_dark</item>
+        <item name="android:colorAccent">@color/teal_accent_color</item>
+    </style>
+
     <!-- Green -->
     <style name="Theme.TalonLight.Green" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/green_primary_color</item>
@@ -306,6 +360,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Green" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/green_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/green_primary_color_dark</item>
+        <item name="android:colorAccent">@color/green_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Green" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/green_primary_color</item>
         <item name="android:colorPrimaryDark">@color/green_primary_color_dark</item>
         <item name="android:colorAccent">@color/green_accent_color</item>
@@ -342,6 +402,12 @@
         <item name="android:colorAccent">@color/light_green_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.LightGreen" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/light_green_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/light_green_primary_color_dark</item>
+        <item name="android:colorAccent">@color/light_green_accent_color</item>
+    </style>
+
     <!-- Lime -->
     <style name="Theme.TalonLight.Lime" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/lime_primary_color</item>
@@ -368,6 +434,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Lime" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/lime_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/lime_primary_color_dark</item>
+        <item name="android:colorAccent">@color/lime_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Lime" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/lime_primary_color</item>
         <item name="android:colorPrimaryDark">@color/lime_primary_color_dark</item>
         <item name="android:colorAccent">@color/lime_accent_color</item>
@@ -404,6 +476,12 @@
         <item name="android:colorAccent">@color/yellow_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Yellow" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/yellow_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/yellow_primary_color_dark</item>
+        <item name="android:colorAccent">@color/yellow_accent_color</item>
+    </style>
+
     <!-- Amber -->
     <style name="Theme.TalonLight.Amber" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/amber_primary_color</item>
@@ -430,6 +508,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.Amber" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/amber_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/amber_primary_color_dark</item>
+        <item name="android:colorAccent">@color/amber_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Amber" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/amber_primary_color</item>
         <item name="android:colorPrimaryDark">@color/amber_primary_color_dark</item>
         <item name="android:colorAccent">@color/amber_accent_color</item>
@@ -466,6 +550,12 @@
         <item name="android:colorAccent">@color/orange_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Orange" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/orange_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/orange_primary_color_dark</item>
+        <item name="android:colorAccent">@color/orange_accent_color</item>
+    </style>
+
     <!-- Deep Orange -->
     <style name="Theme.TalonLight.DeepOrange" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/deep_orange_primary_color</item>
@@ -492,6 +582,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.DeepOrange" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/deep_orange_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
+        <item name="android:colorAccent">@color/deep_orange_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.DeepOrange" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/deep_orange_primary_color</item>
         <item name="android:colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
         <item name="android:colorAccent">@color/deep_orange_accent_color</item>
@@ -528,6 +624,12 @@
         <item name="android:colorAccent">@color/brown_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Brown" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/brown_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/brown_primary_color_dark</item>
+        <item name="android:colorAccent">@color/brown_accent_color</item>
+    </style>
+
     <!-- Grey -->
     <style name="Theme.TalonLight.Grey" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/grey_primary_color</item>
@@ -559,6 +661,12 @@
         <item name="android:colorAccent">@color/grey_accent_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Settings.Grey" parent="Theme.TalonLight.Settings">
+        <item name="android:colorPrimary">@color/grey_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/grey_primary_color_dark</item>
+        <item name="android:colorAccent">@color/grey_accent_color</item>
+    </style>
+
     <!-- Blue Grey -->
     <style name="Theme.TalonLight.BlueGrey" parent="Theme.TalonLight.Base">
         <item name="android:colorPrimary">@color/blue_grey_primary_color</item>
@@ -585,6 +693,12 @@
     </style>
 
     <style name="Theme.TalonLight.Notif.BlueGrey" parent="Theme.TalonLight.Popup.Notif">
+        <item name="android:colorPrimary">@color/blue_grey_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
+        <item name="android:colorAccent">@color/blue_grey_accent_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.BlueGrey" parent="Theme.TalonLight.Settings">
         <item name="android:colorPrimary">@color/blue_grey_primary_color</item>
         <item name="android:colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
         <item name="android:colorAccent">@color/blue_grey_accent_color</item>
