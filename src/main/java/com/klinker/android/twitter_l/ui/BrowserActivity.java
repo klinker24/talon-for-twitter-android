@@ -26,11 +26,6 @@ public class BrowserActivity extends Activity {
 
     public Context context;
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,13 +39,6 @@ public class BrowserActivity extends Activity {
             overridePendingTransition(0,0);
             finish();
             return;
-        }
-
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
 
         context = this;

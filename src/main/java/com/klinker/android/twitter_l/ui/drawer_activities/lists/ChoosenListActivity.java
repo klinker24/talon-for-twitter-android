@@ -12,10 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
@@ -75,6 +72,9 @@ public class ChoosenListActivity extends Activity {
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(null);
 
         setContentView(R.layout.ptr_list_layout);
 
@@ -296,5 +296,16 @@ public class ChoosenListActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return super.onOptionsItemSelected(item);
+        }
+
+        return false;
     }
 }
