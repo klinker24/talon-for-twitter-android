@@ -88,7 +88,6 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
                 Intent list = new Intent(context, ChoosenListActivity.class);
                 list.putExtra("list_id", id);
                 list.putExtra("list_name", name);
-                list.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 context.startActivity(list);
             }
         });

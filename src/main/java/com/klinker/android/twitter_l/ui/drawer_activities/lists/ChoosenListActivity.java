@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
+import android.widget.ListView;
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
@@ -26,6 +28,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -57,33 +60,18 @@ public class ChoosenListActivity extends Activity {
     private LinearLayout spinner;
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+        settings = AppSettings.getInstance(this);
 
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        settings = AppSettings.getInstance(this);
 
-        if (settings.advanceWindowed) {
-            setUpWindow();
-        }
-
-        Utils.setUpPopupTheme(this, settings);
+        Utils.setUpTheme(this, settings);
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
@@ -111,7 +99,31 @@ public class ChoosenListActivity extends Activity {
                 settings.themeColors.primaryColorLight,
                 SwipeProgressBar.COLOR3);
 
+        mPullToRefreshLayout.setFullScreen(true);
+
         listView = (AsyncListView) findViewById(R.id.listView);
+
+        if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getNavBarHeight(context) + Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        } else {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
+        }
+
+        listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
