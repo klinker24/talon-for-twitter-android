@@ -42,6 +42,7 @@ import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.setup.TutorialActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
@@ -318,6 +319,29 @@ public class MainActivity extends DrawerActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         recreate();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        // this will go through all the current fragments and check if one has an expanded item
+        int count = mSectionsPagerAdapter.getCount();
+        boolean clicked = false;
+        for (int i = 0; i < count; i++) {
+            MainFragment f = (MainFragment) mSectionsPagerAdapter.getRealFrag(i);
+
+            // we only want it to quit if there is an expanded item and the view pager is currently looking at the
+            // page with that expanded item. If they swipe to mentions while something is expanded on the main
+            // timeline , then it should still quit if the back button is pressed
+            
+            if (!f.allowBackPress() && mViewPager.getCurrentItem() == i) {
+                clicked = true;
+            }
+        }
+
+        if (!clicked) {
+            super.onBackPressed();
+        }
     }
 
     @Override

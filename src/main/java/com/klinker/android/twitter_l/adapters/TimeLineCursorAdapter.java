@@ -964,7 +964,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
 
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background);
 
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
         translationXAnimator.setDuration(ANIMATION_DURATION);

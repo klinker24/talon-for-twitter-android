@@ -32,6 +32,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     public int numExtraPages = 0;
 
+    private Fragment[] frags;
+
     // remove the home fragment to swipe to, since it is on the launcher
     public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome) {
         super(fm);
@@ -64,6 +66,12 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
         if (page2Type != AppSettings.PAGE_TYPE_NONE) {
             numExtraPages++;
+        }
+
+        if (!removeHome) {
+            frags = new Fragment[3 + numExtraPages];
+        } else {
+            frags = new Fragment[2 + numExtraPages];
         }
     }
 
@@ -165,6 +173,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 }
             }
         }
+
+        frags[i] = frag;
 
         return frag;
     }
@@ -304,5 +314,9 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         }
 
         return null;
+    }
+
+    public Fragment getRealFrag(int i) {
+        return frags[i];
     }
 }
