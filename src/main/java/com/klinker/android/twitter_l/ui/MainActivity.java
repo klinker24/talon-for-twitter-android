@@ -1,5 +1,8 @@
 package com.klinker.android.twitter_l.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
@@ -17,10 +20,7 @@ import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.View;
-import android.view.Window;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -62,8 +62,6 @@ public class MainActivity extends DrawerActivity {
         public void run() {
             if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
 
-                //sContext.sendBroadcast(new Intent("com.klinker.android.twitter.SHOW_TOAST"));
-
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -83,6 +81,22 @@ public class MainActivity extends DrawerActivity {
                     }
                 });
                 sendLayout.startAnimation(anim);
+
+                // should create a circular reveal, but doesn't...
+                /*MainActivity.sendLayout.setVisibility(View.INVISIBLE);
+                int cx = (MainActivity.sendLayout.getLeft() + MainActivity.sendLayout.getRight()) / 2;
+                int cy = (MainActivity.sendLayout.getTop() + MainActivity.sendLayout.getBottom()) / 2;
+                int finalRadius = MainActivity.sendLayout.getWidth();
+                ValueAnimator anim =
+                        ViewAnimationUtils.createCircularReveal(MainActivity.sendLayout, cx, cy, 0, finalRadius);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        MainActivity.sendLayout.setVisibility(View.VISIBLE);
+                    }
+                });
+                anim.start();*/
             }
         }
     };
@@ -90,9 +104,6 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void run() {
             if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
-
-                //sContext.sendBroadcast(new Intent("com.klinker.android.twitter.HIDE_TOAST"));
-
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -119,8 +130,6 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.v("talon_starting", "starting main activity");
 
         MainActivity.sendHandler = new Handler();
 
@@ -165,20 +174,12 @@ public class MainActivity extends DrawerActivity {
         });
 
         actionBar = getActionBar();
-        /*Toolbar toolbar = new Toolbar(context);
-        toolbar.setTitle("Timeline");
-        toolbar.setNavigationIcon(R.drawable.ic_drawer_dark);
-        toolbar.inflateMenu(R.menu.main_activity);
-        setActionBar(toolbar);*/
         actionBar.setTitle(getResources().getString(R.string.timeline));
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
-        } /*else if (!sharedPrefs.getBoolean("setup_v_two", false) && !PreferenceManager.getDefaultSharedPreferences(context).getBoolean("setup_v_two", false)) {
-            Intent setupV2 = new Intent(context, Version2Setup.class);
-            startActivity(setupV2);
-        }*/
+        }
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false));
 
