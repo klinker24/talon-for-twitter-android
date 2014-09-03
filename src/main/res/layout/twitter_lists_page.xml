@@ -61,7 +61,7 @@
     <!-- The navigation drawer -->
     <include layout="@layout/main_drawer"
         android:id="@+id/left_drawer"
-        android:layout_width="@dimen/drawer_size_port"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start" >
 
@@ -69,7 +69,7 @@
 
     <include layout="@layout/notification_drawer"
              android:id="@+id/right_drawer"
-             android:layout_width="@dimen/drawer_size_port"
+             android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_gravity="end"/>
 

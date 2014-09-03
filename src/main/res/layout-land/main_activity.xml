@@ -92,7 +92,7 @@
 
     <include layout="@layout/notification_drawer"
         android:id="@+id/right_drawer"
-        android:layout_width="@dimen/drawer_size_port"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"/>
 </com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout>

@@ -479,7 +479,7 @@ public class ExpansionViewHelper {
                             retweetCount.setText(" " + retCount);
 
                             if (isRetweeted) {
-                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
+                                retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
                             }
@@ -487,7 +487,7 @@ public class ExpansionViewHelper {
                             favCount.setText(" " + sfavCount);
 
                             if (fStatus.isFavorited()) {
-                                favText.setTextColor(context.getResources().getColor(R.color.accent));
+                                favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
                                 isFavorited = true;
                             } else {
                                 favText.setTextColor(context.getResources().getColor(textColor));
@@ -531,7 +531,7 @@ public class ExpansionViewHelper {
                             retweetCount.setText(" " + retCount);
 
                             if (fRet) {
-                                retweetText.setTextColor(context.getResources().getColor(R.color.accent));
+                                retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
                             }
@@ -567,7 +567,7 @@ public class ExpansionViewHelper {
                             a.recycle();
 
                             if (fStatus.isFavorited()) {
-                                favText.setTextColor(context.getResources().getColor(R.color.accent));
+                                favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
                                 isFavorited = true;
                             } else {
                                 favText.setTextColor(context.getResources().getColor(textColor));
