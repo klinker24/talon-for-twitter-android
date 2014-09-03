@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
+import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -522,33 +523,34 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     public boolean allowBackPress() {
         if (background != null) {
-            Log.v("talon_back", "" + background.toString());
-        } else {
-            Log.v("talon_back", "null");
-        }
-        if (background != null) {
             background.performClick();
             return false;
-        } else {
-            return true;
         }
+
+        if (expansionHelper != null) {
+            if (expansionHelper.hidePopups()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private int expandedDistanceFromTop = 0;
     protected boolean canUseScrollStuff = true;
     private Handler expansionHandler;
     private View background;
+    private ExpansionViewHelper expansionHelper;
 
     @Override
-    public void expandViewOpen(final int distanceFromTop, int position, View root) {
+    public void expandViewOpen(final int distanceFromTop, int position, View root, ExpansionViewHelper helper) {
         if (expansionHandler == null) {
             expansionHandler = new Handler();
         }
         expansionHandler.removeCallbacks(null);
 
-        Log.v("talon_back", "setting background: " + root.toString());
-
         background = root;
+        expansionHelper = helper;
 
         canUseScrollStuff = false;
         expandedDistanceFromTop = distanceFromTop;
@@ -577,6 +579,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
 
         background = null;
+        expansionHelper = null;
 
         expansionHandler.removeCallbacks(null);
         expansionHandler.postDelayed(new Runnable() {

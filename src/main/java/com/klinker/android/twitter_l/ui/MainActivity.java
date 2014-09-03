@@ -333,7 +333,7 @@ public class MainActivity extends DrawerActivity {
             // we only want it to quit if there is an expanded item and the view pager is currently looking at the
             // page with that expanded item. If they swipe to mentions while something is expanded on the main
             // timeline , then it should still quit if the back button is pressed
-            
+
             if (!f.allowBackPress() && mViewPager.getCurrentItem() == i) {
                 clicked = true;
             }

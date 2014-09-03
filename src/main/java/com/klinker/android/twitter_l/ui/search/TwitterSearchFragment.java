@@ -27,6 +27,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
+import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -422,7 +423,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     private int expandedDistanceFromTop = 0;
 
     @Override
-    public void expandViewOpen(final int distanceFromTop, int position, View root) {
+    public void expandViewOpen(final int distanceFromTop, int position, View root, ExpansionViewHelper helper) {
         expandedDistanceFromTop = distanceFromTop;
 
         listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
