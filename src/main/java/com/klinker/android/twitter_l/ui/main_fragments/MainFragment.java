@@ -522,15 +522,16 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public boolean allowBackPress() {
-        if (background != null) {
-            background.performClick();
-            return false;
-        }
 
         if (expansionHelper != null) {
             if (expansionHelper.hidePopups()) {
                 return false;
             }
+        }
+        
+        if (background != null) {
+            background.performClick();
+            return false;
         }
 
         return true;
