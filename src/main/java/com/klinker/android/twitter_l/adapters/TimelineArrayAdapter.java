@@ -1108,7 +1108,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorContent);
 
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position);
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background);
 
     }
 

@@ -520,17 +520,35 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastDescription.setText(text);
     }
 
+    public boolean allowBackPress() {
+        if (background != null) {
+            Log.v("talon_back", "" + background.toString());
+        } else {
+            Log.v("talon_back", "null");
+        }
+        if (background != null) {
+            background.performClick();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private int expandedDistanceFromTop = 0;
     protected boolean canUseScrollStuff = true;
     private Handler expansionHandler;
+    private View background;
 
     @Override
-    public void expandViewOpen(final int distanceFromTop, int position) {
-        Log.v("talon_expander", "expanding view open");
+    public void expandViewOpen(final int distanceFromTop, int position, View root) {
         if (expansionHandler == null) {
             expansionHandler = new Handler();
         }
         expansionHandler.removeCallbacks(null);
+
+        Log.v("talon_back", "setting background: " + root.toString());
+
+        background = root;
 
         canUseScrollStuff = false;
         expandedDistanceFromTop = distanceFromTop;
@@ -554,10 +572,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     @Override
     public void expandViewClosed(int currentDistanceFromTop) {
-        Log.v("talon_expander", "expanding closed");
         if (expansionHandler == null) {
             expansionHandler = new Handler();
         }
+
+        background = null;
 
         expansionHandler.removeCallbacks(null);
         expansionHandler.postDelayed(new Runnable() {

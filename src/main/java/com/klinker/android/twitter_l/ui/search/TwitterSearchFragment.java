@@ -422,7 +422,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     private int expandedDistanceFromTop = 0;
 
     @Override
-    public void expandViewOpen(final int distanceFromTop, int position) {
+    public void expandViewOpen(final int distanceFromTop, int position, View root) {
         expandedDistanceFromTop = distanceFromTop;
 
         listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
