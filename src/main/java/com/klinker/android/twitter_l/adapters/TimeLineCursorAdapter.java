@@ -964,7 +964,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
 
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background);
+        final ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+        helper.setBackground(holder.background);
+        helper.setWebLink(otherLinks);
+        helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
+
+        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
 
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
         translationXAnimator.setDuration(ANIMATION_DURATION);
@@ -1030,7 +1035,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.setLayoutParams(layoutParams);
             }
         });
-        final String s = replyStuff;
         heightAnimatorContent.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -1043,10 +1047,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.getLayoutParams().height = distance;
                 holder.expandArea.invalidate();
 
-                ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
-                helper.setBackground(holder.background);
-                helper.setWebLink(otherLinks);
-                helper.setReplyDetails("@" + screenname + ": " + text, s);
                 View root = helper.getExpansion();
 
                 ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
