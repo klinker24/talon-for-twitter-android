@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 /**
@@ -138,10 +139,10 @@ public abstract class PopupLayout extends LinearLayout {
         title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int fiveDP = Utils.toDP(7, context);
         title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
-        title.setTextColor(context.getResources().getColor(R.color.accent));
+        title.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
         title.setAllCaps(true);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        title.setText(context.getResources().getString(R.string.retweets));
+        title.setText(AppSettings.getInstance(context).themeColors.accentColor);
 
         titleDivider = new View(context);
         titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
