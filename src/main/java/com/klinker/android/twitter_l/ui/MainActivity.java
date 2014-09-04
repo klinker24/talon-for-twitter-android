@@ -194,6 +194,7 @@ public class MainActivity extends DrawerActivity {
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
+
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

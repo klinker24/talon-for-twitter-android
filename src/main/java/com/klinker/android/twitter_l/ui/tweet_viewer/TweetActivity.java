@@ -618,7 +618,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
         if(!youtube) {
-            params.dimAmount = .75f;  // set it higher if you want to dim behind the window
+            params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         } else {
             params.dimAmount = 0f;
         }
@@ -633,9 +633,9 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         // You could also easily used an integer value from the shared preferences to set the percent
         if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .8));
+            getWindow().setLayout((int) (width * .75), (int) (height * .6));
         } else {
-            getWindow().setLayout((int) (width * .7), (int) (height * .8));
+            getWindow().setLayout((int) (width * .6), (int) (height * .8));
         }
     }
 
