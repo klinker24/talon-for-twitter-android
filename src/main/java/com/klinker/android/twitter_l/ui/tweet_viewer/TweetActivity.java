@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -120,6 +121,17 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         }
 
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            setUpWindow(false);
+
+            int currentOrientation = getResources().getConfiguration().orientation;
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            }
+        }
+        
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         context = this;
@@ -547,6 +559,10 @@ public class TweetActivity extends YouTubeBaseActivity {
         params.height = sbHeight;
         status.setLayoutParams(params);
 
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            status.setVisibility(View.GONE);
+        }
+
         View action = findViewById(R.id.actionbar_bar);
         params = (LinearLayout.LayoutParams) action.getLayoutParams();
         params.height = abHeight;
@@ -603,7 +619,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         if (getResources().getBoolean(R.bool.isTablet)) {
-            navBarSeperator.setVisibility(View.VISIBLE);
+            navBarSeperator.setVisibility(View.GONE);
         }
     }
 
@@ -618,7 +634,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
         if(!youtube) {
-            params.dimAmount = .6f;  // set it higher if you want to dim behind the window
+            params.dimAmount = .4f;  // set it higher if you want to dim behind the window
         } else {
             params.dimAmount = 0f;
         }
@@ -633,7 +649,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         // You could also easily used an integer value from the shared preferences to set the percent
         if (height > width) {
-            getWindow().setLayout((int) (width * .75), (int) (height * .6));
+            getWindow().setLayout((int) (width * .85), (int) (height * .68));
         } else {
             getWindow().setLayout((int) (width * .6), (int) (height * .8));
         }
@@ -1322,7 +1338,11 @@ public class TweetActivity extends YouTubeBaseActivity {
 
             View proPicContainer = findViewById(R.id.profile_pic_contact);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            params.height = (int) (height * .5);
+            if (!getResources().getBoolean(R.bool.isTablet)) {
+                params.height = (int) (height * .5);
+            } else {
+                params.height = (int) (height * .3);
+            }
             proPicContainer.setLayoutParams(params);
 
             findViewById(R.id.person_info).setOnClickListener(viewPro);
@@ -1335,7 +1355,11 @@ public class TweetActivity extends YouTubeBaseActivity {
 
             View proPicContainer = findViewById(R.id.profile_pic_contact);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            params.height = (int) (height * .4);
+            if (!getResources().getBoolean(R.bool.isTablet)) {
+                params.height = (int) (height * .4);
+            } else {
+                params.height = (int) (height * .3);
+            }
             proPicContainer.setLayoutParams(params);
 
             findViewById(R.id.person_info).setOnClickListener(viewPro);
