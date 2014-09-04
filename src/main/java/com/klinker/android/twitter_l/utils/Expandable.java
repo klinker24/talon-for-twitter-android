@@ -20,6 +20,5 @@ import android.view.View;
 
 public interface Expandable {
     public void expandViewOpen(int distanceFromTop, int position, View root, ExpansionViewHelper expander);
-
     public void expandViewClosed(int currentDistanceFromTop);
 }

@@ -8,6 +8,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.extentions.FavUsersFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
@@ -15,12 +16,14 @@ import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.extentions
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.extentions.PicFragment;
+import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     private SharedPreferences sharedPrefs;
     private boolean removeHome;
+    private SystemBarVisibility watcher;
 
     // list stuff
     public long list1Id; // furthest left list
@@ -35,11 +38,12 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     private Fragment[] frags;
 
     // remove the home fragment to swipe to, since it is on the launcher
-    public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome) {
+    public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome, SystemBarVisibility watcher) {
         super(fm);
         this.context = context;
         this.sharedPrefs = sharedPreferences;
         this.removeHome = removeHome;
+        this.watcher = watcher;
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 
@@ -77,7 +81,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        Fragment frag = null;
+        MainFragment frag = null;
 
         if (!removeHome) {
             if (numExtraPages == 2) {
@@ -174,6 +178,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
             }
         }
 
+        frag.addSystemBarVisibility(watcher);
         frags[i] = frag;
 
         return frag;
@@ -286,7 +291,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public Fragment getFrag(int type, long listId) {
+    public MainFragment getFrag(int type, long listId) {
         switch (type) {
             case AppSettings.PAGE_TYPE_LIST:
                 return new ListFragment(listId);

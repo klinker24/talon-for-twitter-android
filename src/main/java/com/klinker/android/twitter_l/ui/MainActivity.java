@@ -182,7 +182,7 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false));
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false), this);
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -197,15 +197,7 @@ public class MainActivity extends DrawerActivity {
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (!actionBar.isShowing()) {
-                    actionBar.show();
-
-                    if (translucent) {
-                        statusBar.setVisibility(View.VISIBLE);
-                    }
-
-                }
-                showStatusBar();
+                showBars();
             }
 
             public void onPageSelected(int position) {

@@ -1,5 +1,8 @@
 package com.klinker.android.twitter_l.ui.drawer_activities;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
@@ -40,8 +43,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
-import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.SettingsPagerActivity;
@@ -53,10 +55,9 @@ import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
-import com.klinker.android.twitter_l.utils.ImageUtils;
-import com.klinker.android.twitter_l.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;
+import org.jsoup.select.Evaluator;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -65,7 +66,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public abstract class DrawerActivity extends Activity {
+public abstract class DrawerActivity extends Activity implements SystemBarVisibility {
 
     public static AppSettings settings;
     public Activity context;
@@ -102,6 +103,7 @@ public abstract class DrawerActivity extends Activity {
     private NetworkedCacheableImageView backgroundPic;
     private NetworkedCacheableImageView profilePic;
 
+    public Toolbar toolbar = null;
     public static boolean hasToolbar = false;
 
     public void setUpDrawer(int number, final String actName) {
@@ -121,7 +123,7 @@ public abstract class DrawerActivity extends Activity {
         int resource = a.getResourceId(0, 0);
         a.recycle();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setNavigationIcon(resource);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -261,10 +263,12 @@ public abstract class DrawerActivity extends Activity {
                 public void onDrawerSlide(View drawerView, float slideOffset) {
                     super.onDrawerSlide(drawerView, slideOffset);
 
-                    if (!actionBar.isShowing()) {
-                        //actionBar.show();
-                        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+                    if (tranparentSystemBar == -1) {
+                        tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
                     }
+
+                    getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
+                            (toolbar != null && toolbar.getAlpha() == 1f) ? settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
                 }
             };
 
@@ -280,10 +284,6 @@ public abstract class DrawerActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(logoutLayout.getVisibility() == View.GONE) {
-                    /*Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
-                    ranim.setFillAfter(true);
-                    showMoreDrawer.startAnimation(ranim);*/
-
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -1182,5 +1182,85 @@ public abstract class DrawerActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+    public void showBars() {
+        if (tranparentSystemBar == -1) {
+            tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+        }
+        if (statusColor == -1) {
+            statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+        }
+        if (whiteColor == -1) {
+            whiteColor = getResources().getColor(android.R.color.white);
+        }
+
+        if (barsAreShowing) {
+            return;
+        } else {
+            barsAreShowing = true;
+        }
+
+        ValueAnimator showStatus = ValueAnimator.ofInt(tranparentSystemBar, whiteColor, statusColor);
+        showStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                getWindow().setStatusBarColor(val);
+            }
+        });
+        showStatus.setDuration(250);
+        showStatus.setEvaluator(EVALUATOR);
+        showStatus.start();
+
+        if (toolbar != null) {
+            ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
+            showToolbar.setDuration(250);
+            //showToolbar.setEvaluator(EVALUATOR);
+            showToolbar.start();
+        }
+    }
+
+    private int tranparentSystemBar = -1;
+    private int statusColor = -1;
+    private int whiteColor = -1;
+    private ArgbEvaluator EVALUATOR = new ArgbEvaluator();
+    private boolean barsAreShowing = true;
+
+    public void hideBars() {
+        if (tranparentSystemBar == -1) {
+            tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+        }
+        if (statusColor == -1) {
+            statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+        }
+        if (whiteColor == -1) {
+            whiteColor = getResources().getColor(android.R.color.white);
+        }
+
+        if (!barsAreShowing) {
+            return;
+        } else {
+            barsAreShowing = false;
+        }
+
+        ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, whiteColor, tranparentSystemBar);
+        hideStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                getWindow().setStatusBarColor(val);
+            }
+        });
+        hideStatus.setDuration(250);
+        hideStatus.setEvaluator(EVALUATOR);
+        hideStatus.start();
+
+        if (toolbar != null) {
+            ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
+            hideToolbar.setDuration(250);
+            //hideToolbar.setEvaluator(EVALUATOR);
+            hideToolbar.start();
+        }
     }
 }

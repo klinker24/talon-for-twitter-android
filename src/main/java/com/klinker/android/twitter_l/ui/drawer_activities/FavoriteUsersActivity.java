@@ -120,14 +120,11 @@ public class FavoriteUsersActivity extends DrawerActivity {
                         // used to show and hide the action bar
                         if (firstVisibleItem > mLastFirstVisibleItem) {
                             if (!landscape && !isTablet) {
-                                actionBar.hide();
+                                hideBars();
                             }
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             if(!landscape && !isTablet) {
-                                actionBar.show();
-                            }
-                            if (translucent) {
-                                statusBar.setVisibility(View.VISIBLE);
+                                showBars();
                             }
                         }
 
@@ -135,14 +132,12 @@ public class FavoriteUsersActivity extends DrawerActivity {
                     }
                 } else {
                     if(!landscape && !isTablet) {
-                        actionBar.show();
+                        showBars();
                     }
                 }
 
-                if (actionBar.isShowing()) {
-                    showStatusBar();
-                } else {
-                    hideStatusBar();
+                if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
+                    DrawerActivity.statusBar.setVisibility(View.GONE);
                 }
             }
         });
