@@ -120,22 +120,20 @@ public class RetweetActivity extends DrawerActivity {
                         if (MainActivity.canSwitch) {
                             // used to show and hide the action bar
                             if (firstVisibleItem > mLastFirstVisibleItem) {
-                                actionBar.hide();
+                                hideBars();
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                actionBar.show();
+                                showBars();
                             }
 
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        actionBar.show();
+                        showBars();
                     }
                 }
 
-                if (actionBar.isShowing()) {
-                    showStatusBar();
-                } else {
-                    hideStatusBar();
+                if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
+                    DrawerActivity.statusBar.setVisibility(View.GONE);
                 }
             }
         });

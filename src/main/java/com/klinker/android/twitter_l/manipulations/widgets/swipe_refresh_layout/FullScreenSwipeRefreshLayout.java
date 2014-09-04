@@ -43,6 +43,7 @@ import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 import com.klinker.android.twitter_l.utils.Utils;
 
 
@@ -516,27 +517,16 @@ public class FullScreenSwipeRefreshLayout extends ViewGroup {
         }
     }
 
-    private ActionBar ab = null;
-    private Context context = null;
-    private int orangeStatus = -1;
+    SystemBarVisibility watcher;
 
-    public void showStatusBar() {
-        if (orangeStatus == -1) {
-            orangeStatus = AppSettings.getInstance(getContext()).themeColors.primaryColorDark;
-        }
-
-        ((Activity)context).getWindow().setStatusBarColor(orangeStatus);
+    public void setBarVisibilityWatcher(SystemBarVisibility watcher) {
+        this.watcher = watcher;
     }
 
     private void updateContentOffsetTop(int targetTop) {
 
-        if (ab == null) {
-            context = getContext();
-            ab = ((Activity)context).getActionBar();
-        }
-        if (!ab.isShowing()) {
-            ab.show();
-            showStatusBar();
+        if (watcher != null) {
+            watcher.showBars();
         }
 
         final int currentTop = mTarget.getTop();

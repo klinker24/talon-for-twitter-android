@@ -1,5 +1,7 @@
 package com.klinker.android.twitter_l.ui.main_fragments;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,7 +12,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.CursorListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -34,6 +34,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
+import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -260,6 +261,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 settings.themeColors.primaryColorLight,
                 SwipeProgressBar.COLOR3);
 
+        refreshLayout.setBarVisibilityWatcher(barVisibility);
+
         setUpHeaders();
 
     }
@@ -284,7 +287,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int onScreen, int total) {
-                Log.v("talon_expander", "on scroll: " + canUseScrollStuff);
                 if (!canUseScrollStuff) {
                     return;
                 }
@@ -311,9 +313,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
                         }
                     }
                 } else {
-                    if (!actionBar.isShowing()) {
+                    /*if (!actionBar.isShowing()) {
                         actionBar.show();
-                    }
+                    }*/
                     showStatusBar();
                 }
 
@@ -353,13 +355,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void setBuilder() {
-        CursorListLoader loader = new CursorListLoader(mCache, context);
 
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        //listView.setItemManager(builder.build());
     }
 
     public void toTop() {
@@ -397,9 +393,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     public void scrollUp() {
         if (moveActionBar) {
-            if (actionBar.isShowing()) {
+            /*if (actionBar.isShowing()) {
                 actionBar.hide();
-            }
+            }*/
             hideStatusBar();
         }
 
@@ -410,9 +406,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
     public void scrollDown() {
         if (moveActionBar) {
-            if (!actionBar.isShowing()) {
+            /*if (!actionBar.isShowing()) {
                 actionBar.show();
-            }
+            }*/
             showStatusBar();
         }
 
@@ -422,26 +418,49 @@ public abstract class MainFragment extends Fragment implements Expandable {
         showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
     }
 
-    int orangeStatus = -1;
-    public void showStatusBar() {
-        //DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-        if (orangeStatus == -1) {
-            orangeStatus = AppSettings.getInstance(getActivity()).themeColors.primaryColorDark;
-        }
+    SystemBarVisibility barVisibility;
 
-        context.getWindow().setStatusBarColor(orangeStatus);
+    public void addSystemBarVisibility(SystemBarVisibility watcher) {
+        this.barVisibility = watcher;
     }
 
-    int tranparent = -1;
+    public boolean statusIsShown = true;
+    public boolean ignoreVisibilityChange = false;
+    public Handler visibilityChange =  null;
+    public Runnable change = new Runnable() {
+        @Override
+        public void run() {
+            ignoreVisibilityChange = false;
+        }
+    };
+
+    public void showStatusBar() {
+        if (visibilityChange == null) {
+            visibilityChange = new Handler();
+        }
+        if (!statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
+            statusIsShown = true;
+            ignoreVisibilityChange = true;
+            visibilityChange.postDelayed(change, 250);
+            barVisibility.showBars();
+        }
+    }
+
     public void hideStatusBar() {
         if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
             DrawerActivity.statusBar.setVisibility(View.GONE);
         }
-        if (tranparent == -1) {
-            tranparent = getResources().getColor(R.color.transparent_system_bar);
+
+        if (visibilityChange == null) {
+            visibilityChange = new Handler();
         }
-        context.getWindow().setStatusBarColor(tranparent);
-    }
+        if (statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
+            statusIsShown = false;
+            ignoreVisibilityChange = true;
+            visibilityChange.postDelayed(change, 250);
+            barVisibility.hideBars();
+        }
+}
 
     public void setUpToastBar(View view) {
         toastBar = view.findViewById(R.id.toastBar);
@@ -528,7 +547,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 return false;
             }
         }
-        
+
         if (background != null) {
             background.performClick();
             return false;
@@ -567,9 +586,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
             listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
             hideStatusBar();
 
-            if (actionBar.isShowing()) {
+            /*if (actionBar.isShowing()) {
                 actionBar.hide();
-            }
+            }*/
         }
     }
 
@@ -592,9 +611,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }, currentDistanceFromTop == -1 ? 0 : 500);
 
         if (listView.getFirstVisiblePosition() < 5) {
-            if (!actionBar.isShowing()) {
+            /*if (!actionBar.isShowing()) {
                 actionBar.show();
-            }
+            }*/
             showStatusBar();
         }
 
