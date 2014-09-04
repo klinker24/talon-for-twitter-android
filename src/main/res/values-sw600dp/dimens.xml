@@ -8,4 +8,6 @@
     <dimen name="tweet_viewer_name_margin_left">100dp</dimen>
     <dimen name="snack_bar_size">300dp</dimen>
 
+    <dimen name="header_condensed_height">275dp</dimen>
+
 </resources>

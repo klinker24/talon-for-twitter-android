@@ -35,7 +35,7 @@ limitations under the License.
     <dimen name="tutorial_bubble_3_size">80dp</dimen>
     <dimen name="tutorial_bubble_padding">35dp</dimen>
 
-    <dimen name="header_condensed_height">275dp</dimen>
+    <dimen name="header_condensed_height">230dp</dimen>
     <dimen name="header_expanded_height">400dp</dimen>
     <dimen name="header_holder_padding">2dp</dimen>
     <dimen name="header_side_padding">5dp</dimen>
