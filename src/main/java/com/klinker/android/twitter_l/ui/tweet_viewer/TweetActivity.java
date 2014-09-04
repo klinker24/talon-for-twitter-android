@@ -131,7 +131,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             }
         }
-        
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         context = this;
@@ -210,7 +210,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (mobilizedPopup == null) {
-                            mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                            mobilizedPopup = new MobilizedWebPopupLayout(context, main, getResources().getBoolean(R.bool.isTablet));
                         }
                         mobilizedPopup.show();
                         showDim();
@@ -248,7 +248,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (webPopup == null) {
-                            webPopup = new WebPopupLayout(context, webLayout);
+                            webPopup = new WebPopupLayout(context, webLayout, getResources().getBoolean(R.bool.isTablet));
                         }
                         webPopup.show();
                         showDim();
@@ -288,7 +288,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void onClick(View view) {
                 if (!hidePopups()) {
                     if (convoPopup == null) {
-                        convoPopup = new ConversationPopupLayout(context, convo);
+                        convoPopup = new ConversationPopupLayout(context, convo, getResources().getBoolean(R.bool.isTablet));
                     }
                     convoPopup.show();
                     showDim();
@@ -575,9 +575,9 @@ public class TweetActivity extends YouTubeBaseActivity {
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
             public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                final int headerHeight = header.getHeight() - abHeight;
+                /*final int headerHeight = header.getHeight() - abHeight;
                 final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                insetsBackground.setAlpha(ratio);
+                insetsBackground.setAlpha(ratio);*/
             }
         });
         scroll.setOnTouchListener(new View.OnTouchListener() {
@@ -1256,7 +1256,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             retweeters[i].setClipToOutline(true);
         }
 
-        retweetersPopup = new RetweetersPopupLayout(context);
+        retweetersPopup = new RetweetersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
         if (getResources().getBoolean(R.bool.isTablet)) {
             retweetersPopup.setWidthByPercent(.4f);
         } else {

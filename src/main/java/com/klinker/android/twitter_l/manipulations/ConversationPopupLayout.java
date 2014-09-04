@@ -16,6 +16,18 @@ public class ConversationPopupLayout extends PopupLayout {
     AsyncListView list;
     LinearLayout spinner;
 
+    public ConversationPopupLayout(Context context, View main, boolean windowed) {
+        super(context, windowed);
+
+        list = (AsyncListView) main.findViewById(R.id.listView);
+        spinner = (LinearLayout) main.findViewById(R.id.spinner);
+
+        setTitle(getContext().getString(R.string.conversation));
+        setFullScreen();
+
+        addView(main);
+    }
+
     public ConversationPopupLayout(Context context, View main) {
         super(context);
 
