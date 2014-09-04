@@ -142,11 +142,11 @@ public abstract class PopupLayout extends LinearLayout {
         title.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
         title.setAllCaps(true);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        title.setText(AppSettings.getInstance(context).themeColors.accentColor);
+        title.setText(context.getResources().getString(R.string.retweets));
 
         titleDivider = new View(context);
         titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
-        titleDivider.setBackgroundColor(context.getResources().getColor(R.color.accent));
+        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.accentColor);
 
         addView(title);
         addView(titleDivider);
