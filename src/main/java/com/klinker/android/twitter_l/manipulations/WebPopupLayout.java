@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.manipulations;
 import android.content.Context;
 import android.view.View;
 import android.webkit.WebView;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 
 /**
@@ -14,6 +15,21 @@ public class WebPopupLayout extends PopupLayout {
 
     public WebPopupLayout(Context context, View webView) {
         super(context);
+
+        this.webView = webView;
+
+        showTitle(false);
+        setFullScreen();
+
+        try {
+            addView(webView);
+        } catch (Exception e) {
+            dontShow = true;
+        }
+    }
+
+    public WebPopupLayout(Context context, View webView, boolean windowed) {
+        super(context, windowed);
 
         this.webView = webView;
 

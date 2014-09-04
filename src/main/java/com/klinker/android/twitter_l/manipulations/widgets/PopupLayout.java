@@ -105,6 +105,67 @@ public abstract class PopupLayout extends LinearLayout {
         setBackgroundResource(background);
     }
 
+    // default constructor
+    public PopupLayout(Context context, boolean windowed) {
+        super(context);
+
+        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        screenHeight = size.y;
+        screenWidth = size.x;
+
+        if (windowed) {
+            if (screenHeight > screenWidth) {
+                screenHeight = (int) (screenHeight * .68);
+                screenWidth = (int) (screenWidth * .85);
+            } else {
+                screenHeight = (int) (screenHeight * .8);
+                screenWidth = (int) (screenWidth * .6);
+            }
+        }
+
+        background = context.getDrawable(R.drawable.popup_background);
+        setBackground(background);
+        setClipToOutline(true);
+
+        setElevation(3);
+        setPadding(10,10,10,10);
+        setOrientation(VERTICAL);
+
+        title = new TextView(context);
+        title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        int fiveDP = Utils.toDP(7, context);
+        title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
+        title.setTextColor(context.getResources().getColor(R.color.accent));
+        title.setAllCaps(true);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        title.setText(context.getResources().getString(R.string.retweets));
+
+        titleDivider = new View(context);
+        titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
+        titleDivider.setBackgroundColor(context.getResources().getColor(R.color.accent));
+
+        addView(title);
+        addView(titleDivider);
+
+        View main = setMainLayout();
+        if (main != null) {
+            try {
+                addView(main);
+            } catch (Exception e) {
+                dontShow = true;
+            }
+        }
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int background = a.getResourceId(0, 0);
+        a.recycle();
+
+        setBackgroundResource(background);
+    }
+
     /**
      * Sets how far away from the top of the screen the button should be displayed.
      * Distance should be the value in PX
