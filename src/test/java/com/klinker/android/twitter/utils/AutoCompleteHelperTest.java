@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.widget.EditText;
 import com.klinker.android.twitter.AbstractTalonTest;
 import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
+import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class AutoCompleteHelperTest extends AbstractTalonTest {

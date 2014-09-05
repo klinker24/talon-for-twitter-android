@@ -17,8 +17,18 @@ limitations under the License.
 
 <resources>
 
-    <color name="app_color">#FF8800</color>
-    <color name="pressed_app_color">#77FF8800</color>
+    <!-- material colors -->
+    <color name="primary">#ff9800</color>
+    <color name="darker_primary">#f57c00</color>
+    <color name="darkest_primary">#ef6c00</color>
+    <color name="accent">#3f51b5</color>
+    <color name="accent_ligher">#9fa8da</color>
+    <color name="snack_bar">#DD323232</color>
+    <color name="transparent_system_bar">#50000000</color>
+
+
+    <color name="app_color">@color/accent</color>
+    <color name="pressed_app_color">#772f51b5</color>
     <color name="holo_blue">#33B5E5</color>
     <color name="holo_blue_alpha">#4433B5E5</color>
     <color name="pressed_white">#55ffffff</color>
@@ -69,5 +79,13 @@ limitations under the License.
     <color name="widget_dark_trans_list">#66000000</color>
     <color name="widget_light_trans_ab">#99FFFFFF</color>
     <color name="widget_light_trans_list">#66FFFFFF</color>
+
+
+    <!-- Drawer colors -->
+    <color name="drawer_options_background_light">#f7f7f7</color>
+    <color name="drawer_options_background_dark">#212121</color>
+    <color name="drawer_divider_color">#e5e5e5</color>
+    <color name="drawer_subtext_light">#666666</color>
+    <color name="drawer_subtext_dark">#A4A4A4</color>
 
 </resources>

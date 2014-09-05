@@ -6,26 +6,26 @@
         android:orderInCategory="1"
         android:title="@string/dismiss_all"
         android:showAsAction="always"
-        android:icon="?cancelButton"/>
+        android:icon="@drawable/ic_cancel_dark"/>
 
     <item android:id="@+id/menu_search"
         android:orderInCategory="2"
         android:title="@string/search"
         android:showAsAction="always"
-        android:icon="?searchIcon"
+        android:icon="@drawable/ic_action_search_dark"
         android:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/menu_compose"
           android:orderInCategory="3"
           android:title="@string/menu_compose"
           android:showAsAction="always"
-          android:icon="?sendButton" />
+          android:icon="@drawable/ic_send_dark" />
 
     <item android:id="@+id/menu_notifications"
         android:orderInCategory="4"
         android:title="@string/notifications"
         android:showAsAction="always"
-        android:icon="?notification_button_empty" />
+        android:icon="@drawable/ic_action_notification_none_dark" />
 
     <item android:id="@+id/menu_direct_message"
           android:orderInCategory="5"

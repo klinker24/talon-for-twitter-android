@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout
+<com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <!-- The navigation drawer -->
         <include layout="@layout/main_drawer"
             android:id="@+id/left_drawer"
-            android:layout_width="74dp"
+            android:layout_width="64dp"
             android:layout_height="match_parent"
             android:layout_gravity="left" >
 
@@ -56,38 +56,43 @@
                 android:visibility="gone"/>
 
             <LinearLayout
-                android:id="@+id/send_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:background="?background_card"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="-2dp"
-                android:layout_marginBottom="100dp" >
+                    android:id="@+id/send_layout"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/floating_action_button"
+                    android:elevation="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="65dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true" >
 
                 <ImageButton
-                    android:id="@+id/send_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:minHeight="48dp" android:minWidth="48dp"
-                    android:scaleType="fitCenter" android:adjustViewBounds="true"
-                    android:maxWidth="48dp" android:maxHeight="48dp"
-                    android:padding="6dp"
-                    android:paddingRight="10dp"
-                    android:src="?sendButton"
-                    android:contentDescription="New Tweet"
-                    android:background="@drawable/pressed_toast"/>
+                        android:id="@+id/send_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:minHeight="24dp" android:minWidth="24dp"
+                        android:scaleType="fitCenter" android:adjustViewBounds="true"
+                        android:maxWidth="24dp" android:maxHeight="24dp"
+                        android:src="@drawable/ic_action_new_dark"
+                        android:contentDescription="New Tweet"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
             </LinearLayout>
 
-            </RelativeLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
     <include layout="@layout/notification_drawer"
         android:id="@+id/right_drawer"
-        android:layout_width="@dimen/drawer_size_port"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right"/>
-</com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout>
+</com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout>

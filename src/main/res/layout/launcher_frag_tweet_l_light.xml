@@ -86,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:paddingEnd="16dp"
-                android:paddingStart="56dp"
                 android:paddingTop="12dp"
                 android:textColor="@color/light_text"
                 android:layoutDirection="locale"
@@ -112,7 +111,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="16dp"
-                android:paddingLeft="56dp"
                 android:paddingTop="5dp"
                 android:visibility="gone">
 
@@ -290,8 +288,7 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="16dp"
-                android:paddingLeft="56dp">
+                android:paddingRight="16dp" >
 
             <ImageView
                     android:id="@+id/image"

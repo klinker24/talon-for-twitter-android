@@ -3,6 +3,6 @@
     android:label="@string/app_name"
     android:hint="@string/search_hint"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
-    android:searchSuggestAuthority="com.klinker.android.MySuggestionsProvider"
+    android:searchSuggestAuthority="com.klinker.android.twitter_l.MySuggestionsProvider"
     android:searchSuggestSelection=" ?">
 </searchable>

@@ -105,53 +105,45 @@
                                   android:layout_height="match_parent"
                                   android:visibility="gone"
                                   android:layout_alignParentBottom="true"
-                                  android:layout_marginBottom="60dp"
+                                  android:layout_marginBottom="65dp"
+                                  android:layout_marginRight="96dp"
                                   android:gravity="bottom">
 
                         <LinearLayout
                                 android:id="@+id/toast_background"
-                                android:layout_width="match_parent"
-                                android:layout_height="36dp"
-                                android:background="@color/toast_color"
+                                android:layout_width="190dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/snack_bar"
                                 android:baselineAligned="true"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="20dp"
-                                android:orientation="horizontal">
+                                android:layout_marginLeft="12dp"
+                                android:orientation="horizontal"
+                                android:elevation="3dp">
 
-                            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                            <TextView
                                     android:layout_width="0dp"
-                                    android:layout_weight="1.5"
+                                    android:layout_weight="1"
                                     android:layout_height="match_parent"
-                                    android:gravity="center_vertical"
+                                    android:gravity="left"
                                     android:id="@+id/toastDescription"
                                     android:singleLine="true"
                                     android:textSize="14sp"
                                     android:textColor="@android:color/white"
-                                    android:paddingLeft="10dp"
-                                    android:paddingRight="10dp"
+                                    android:paddingLeft="16dp"
+                                    android:paddingTop="18dp"
+                                    android:paddingBottom="18dp"
                                     android:textAllCaps="true"/>
 
-                            <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginBottom="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@android:color/white"
-                                    android:alpha="20"/>
-
-                            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                                    android:layout_width="0dp"
-                                    android:layout_weight="1"
+                            <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:id="@+id/toastButton"
-                                    android:background="@drawable/pressed_toast"
+                                    android:background="@drawable/pressed_button"
                                     android:gravity="center"
                                     android:textSize="14sp"
-                                    android:textColor="@android:color/white"
-                                    android:contentDescription="To First"
+                                    android:textColor="@color/accent_ligher"
                                     android:textAllCaps="true"
-                                    android:paddingLeft="20dp"
-                                    android:paddingRight="20dp"/>
+                                    android:paddingLeft="16dp"
+                                    android:paddingRight="16dp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -159,26 +151,30 @@
 
                 <LinearLayout
                         android:id="@+id/send_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="10dp"
                         android:visibility="gone"
-                        android:background="?background_card"
+                        android:background="@drawable/floating_action_button"
+                        android:elevation="2dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="-2dp"
-                        android:layout_marginBottom="100dp" >
+                        android:layout_marginBottom="65dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true" >
 
                     <ImageButton
                             android:id="@+id/send_button"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:minHeight="48dp" android:minWidth="48dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:minHeight="24dp" android:minWidth="24dp"
                             android:scaleType="fitCenter" android:adjustViewBounds="true"
-                            android:maxWidth="48dp" android:maxHeight="48dp"
-                            android:padding="6dp"
-                            android:paddingRight="10dp"
-                            android:src="?sendButton"
+                            android:maxWidth="24dp" android:maxHeight="24dp"
                             android:contentDescription="New Tweet"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
                             android:background="@drawable/pressed_toast"/>
 
                 </LinearLayout>

@@ -12,11 +12,14 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
 
-    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
         android:id="@+id/picture"
         android:layout_width="@dimen/pro_pic_size"
         android:layout_height="@dimen/pro_pic_size"
         android:contentDescription="Profile Picture"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:background="@drawable/pro_pic_clip"
         />
 
     <LinearLayout
@@ -27,20 +30,24 @@
         android:paddingStart="6dp"
         android:orientation="vertical">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textStyle="bold"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-light"
             android:textColor="?textColor"
             />
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="5"
+            android:fontFamily="sans-serif-light"
+            android:textSize="13sp"
             android:textColor="?dateColor"
             />
 

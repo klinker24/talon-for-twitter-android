@@ -8,11 +8,11 @@
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/ProgressBarTwitter"
+        style="@android:style/Widget.Material.ProgressBar"
         android:visibility="gone"
         android:layout_marginTop="-3dp" />
 
-    <com.klinker.android.twitter.manipulations.widgets.HTML5WebView
+    <com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="0dp"

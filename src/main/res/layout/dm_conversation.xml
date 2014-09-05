@@ -14,7 +14,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
     </LinearLayout>
 
@@ -25,8 +25,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:divider="?drawerDividerColor"
+        android:dividerHeight="1dp"
         android:scrollbars="vertical"
         android:listSelector="@android:color/transparent"
         android:visibility="gone"
@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloEditText
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
             android:id="@+id/tweet_content"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
@@ -63,7 +63,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/char_remaining"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"

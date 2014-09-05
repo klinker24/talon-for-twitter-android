@@ -8,12 +8,6 @@
         />
 
     <CheckBoxPreference
-        android:key="inapp_browser_tweet"
-        android:title="@string/use_browser_on_tweet"
-        android:defaultValue="true"
-        />
-
-    <CheckBoxPreference
         android:key="mobilized_browser"
         android:title="@string/plain_text_browser"
         android:summary="@string/plain_text_summary"
@@ -28,11 +22,4 @@
         android:dependency="mobilized_browser"
         />
 
-    <!--<CheckBoxPreference
-        android:key="open_to_web"
-        android:title="@string/open_to_web"
-        android:summary="@string/open_to_web_summary"
-        android:defaultValue="true"
-        android:dependency="inapp_browser_tweet"
-        />-->
 </PreferenceScreen>

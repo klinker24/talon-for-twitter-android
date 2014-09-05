@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                android:id="@+id/background_image"
                android:layout_height="150dp"
                android:layout_width="match_parent"
@@ -19,10 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="20dp"
-            android:gravity="bottom|center_horizontal"
-            android:background="@drawable/gradient">
+            android:gravity="bottom|center_horizontal" >
 
-        <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
             android:layout_width="@dimen/pro_pic_size"
             android:layout_height="0dp"
             android:id="@+id/profile_pic_contact"
@@ -34,6 +33,7 @@
             android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
+            android:background="@drawable/pro_pic_clip"
             android:contentDescription="Profile Picture" />
 
         <View android:id="@+id/divider"

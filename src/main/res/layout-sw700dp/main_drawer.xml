@@ -37,13 +37,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp" >
 
-            <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
                 android:id="@+id/profile_pic_2"
+                android:background="@drawable/pro_pic_clip"
                 android:src="?circleBorder"
                 android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-                android:scaleType="fitCenter" android:adjustViewBounds="true"
+                android:scaleType="centerCrop" android:adjustViewBounds="true"
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:contentDescription="Profile Picture - Account 2"
                 android:layout_alignParentLeft="true"
@@ -59,7 +60,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp" >
 
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
                     android:textStyle="bold"
                     android:textColor="?textColor"/>
 
-                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/screen_name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -89,7 +90,7 @@
             android:layout_width="match_parent"
             android:text="@string/menu_logout"
             android:contentDescription="Logout from Twitter"
-            android:background="@drawable/pressed_button"/>
+            android:background="?android:attr/selectableItemBackground"/>
 
         <View
             android:id="@+id/nav_bar_seperator"
@@ -103,12 +104,10 @@
         android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:dividerHeight="1dp"
-        android:divider="?drawerDividerColor"
+        android:dividerHeight="0dp"
+        android:divider="@null"
         android:scrollbars="none"
         android:overScrollMode="never"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"/>
 

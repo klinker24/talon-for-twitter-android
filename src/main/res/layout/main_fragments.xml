@@ -16,10 +16,10 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_tweets"
@@ -28,7 +28,7 @@
             android:textSize="15dp"/>
     </LinearLayout>
 
-    <com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout
+    <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,15 +38,15 @@
             android:id="@+id/listView"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:divider="@null"
-            android:dividerHeight="0dp"
+            android:divider="?drawerDividerColor"
+            android:dividerHeight="1dp"
             android:scrollbars="vertical"
             android:background="@android:color/transparent"
             android:listSelector="@android:color/transparent"
             android:visibility="gone"
             />
 
-    </com.klinker.android.twitter.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout>
+    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout>
 
 
 
@@ -55,53 +55,44 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="65dp"
         android:gravity="bottom">
 
         <LinearLayout
             android:id="@+id/toast_background"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:background="@color/toast_color"
+            android:layout_width="@dimen/snack_bar_size"
+            android:layout_height="wrap_content"
+            android:background="@drawable/snack_bar"
             android:baselineAligned="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:elevation="3dp">
 
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+            <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
+                android:gravity="left"
                 android:id="@+id/toastDescription"
                 android:singleLine="true"
                 android:textSize="14sp"
                 android:textColor="@android:color/white"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
                 android:textAllCaps="true"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/white"
-                android:alpha="20"/>
-
-            <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/toastButton"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
                 android:textSize="14sp"
-                android:textColor="@android:color/white"
-                android:contentDescription="To First"
+                android:textColor="@color/accent_ligher"
                 android:textAllCaps="true"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"/>
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
         </LinearLayout>
     </LinearLayout>
 

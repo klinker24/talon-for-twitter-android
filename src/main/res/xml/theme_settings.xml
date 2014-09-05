@@ -5,22 +5,17 @@
     <PreferenceCategory
         android:title="@string/theme_options" >
 
-        <ListPreference
-            android:key="layout"
-            android:title="@string/layout"
-            android:summary="@string/layout_summary"
-            android:defaultValue="0"
-            android:entries="@array/choose_layout"
-            android:entryValues="@array/choose_layout_inserted"
-            />
+        <Preference android:key="material_theme"
+                    android:title="@string/theme"
+                    />
 
-        <ListPreference
+        <!--<ListPreference
             android:key="theme"
             android:title="@string/theme"
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/choose_theme"
             android:entryValues="@array/choose_theme_inserted"
-            />
+            />-->
 
         <CheckBoxPreference
             android:key="night_mode"
@@ -61,59 +56,26 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/addon_themes" >
+            android:title="@string/tweet_look_options" >
 
+        <CheckBoxPreference
+                android:key="inline_pics"
+                android:title="@string/inline_pics"
+                android:defaultValue="true"
+                />
 
-        <Preference
-            android:key="addon_themes"
-            android:title="@string/use_addon_themes"
-            android:defaultValue="@null"
-            />
+        <CheckBoxPreference
+                android:key="military_time"
+                android:title="@string/timestamp"
+                android:defaultValue="false"
+                />
 
-        <Preference
-            android:title="@string/make_a_theme" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://github.com/klinker24/talon_theme" />
-        </Preference>
-
-        <!--<Preference
-            android:key="download_portal"
-            android:title="@string/download_portal"
-            android:summary="@string/download_portal_summary" >
-        </Preference>-->
-
-        <Preference
-            android:summary="@string/addon_note">
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=com.klinker.android.theme_spotlight" />
-        </Preference>
+        <CheckBoxPreference
+                android:key="absolute_date"
+                android:title="@string/absolute_date"
+                android:defaultValue="false"
+                />
 
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/other_options" >
-
-        <CheckBoxPreference
-            android:key="ui_extras"
-            android:title="@string/ui_extras"
-            android:summary="@string/ui_extras_summary"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="use_toast"
-            android:title="@string/use_toast"
-            android:defaultValue="true"
-            android:dependency="ui_extras"
-            />
-
-        <CheckBoxPreference
-            android:key="floating_compose"
-            android:title="@string/floating_compose"
-            android:defaultValue="true"
-            android:dependency="ui_extras"
-            />
-
-        </PreferenceCategory>
 
 </PreferenceScreen>
