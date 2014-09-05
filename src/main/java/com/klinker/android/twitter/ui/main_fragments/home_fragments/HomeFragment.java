@@ -1097,6 +1097,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             @Override
             public void onReceive(Context context, Intent intent) {
                 numberNew = intent.getIntExtra("number_new", 0);
+                unread = numberNew;
                 onStartRefresh = true;
                 onRefreshStarted();
                 context.unregisterReceiver(this);

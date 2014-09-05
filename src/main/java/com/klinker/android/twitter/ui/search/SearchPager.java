@@ -3,7 +3,6 @@ package com.klinker.android.twitter.ui.search;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,23 +20,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.SearchPagerAdapter;
-import com.klinker.android.twitter.adapters.TrendsPagerAdapter;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.settings.SettingsPagerActivity;
+import com.klinker.android.twitter.settings.SettingsActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
-import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter.ui.setup.LoginActivity;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.utils.Utils;
 
@@ -307,7 +301,7 @@ public class SearchPager extends Activity {
                 return true;
 
             case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                Intent settings = new Intent(context, SettingsActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
 

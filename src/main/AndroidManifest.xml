@@ -506,7 +506,7 @@
             android:theme="@style/Theme.TalonDark.Popup">
         </activity>
 
-        <activity android:name=".settings.SettingsPagerActivity"
+        <activity android:name=".settings.SettingsActivity"
             android:label="@string/talon_settings"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"

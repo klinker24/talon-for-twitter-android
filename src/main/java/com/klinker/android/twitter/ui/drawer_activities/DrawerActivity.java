@@ -5,8 +5,6 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -41,12 +39,11 @@ import com.klinker.android.twitter.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter.settings.SettingsActivity;
 import com.klinker.android.twitter.ui.search.SearchPager;
-import com.klinker.android.twitter.ui.search.TwitterSearchFragment;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter.settings.AppSettings;
-import com.klinker.android.twitter.settings.SettingsPagerActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
 import com.klinker.android.twitter.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter.ui.setup.LoginActivity;
@@ -56,7 +53,6 @@ import com.klinker.android.twitter.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter.utils.ImageUtils;
-import com.klinker.android.twitter.utils.UpdateUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import de.timroes.android.listview.EnhancedListView;
@@ -1085,7 +1081,7 @@ public abstract class DrawerActivity extends Activity {
 
             case R.id.menu_settings:
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                Intent settings = new Intent(context, SettingsActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);

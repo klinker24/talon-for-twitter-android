@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SettingsPagerActivity extends FragmentActivity {
+public class SettingsActivity extends FragmentActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
