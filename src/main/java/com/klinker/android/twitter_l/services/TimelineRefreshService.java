@@ -124,14 +124,18 @@ public class TimelineRefreshService extends IntentService {
                     sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
                 }
 
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                if (!intent.getBooleanExtra("on_start_refresh", false)) {
+                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
 
-                if (settings.notifications && settings.timelineNot && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
-                    NotificationUtils.refreshNotification(context);
-                }
+                    if (settings.notifications && settings.timelineNot && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
+                        NotificationUtils.refreshNotification(context);
+                    }
 
-                if (settings.preCacheImages) {
-                    startService(new Intent(this, PreCacheService.class));
+                    if (settings.preCacheImages) {
+                        startService(new Intent(this, PreCacheService.class));
+                    }
+                } else {
+                    sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
                 }
 
             } catch (TwitterException e) {

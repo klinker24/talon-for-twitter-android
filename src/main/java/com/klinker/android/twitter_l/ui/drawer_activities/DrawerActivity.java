@@ -6,16 +6,12 @@ import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
@@ -27,13 +23,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -42,11 +36,11 @@ import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.settings.SettingsPagerActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
@@ -57,12 +51,10 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
 import de.timroes.android.listview.EnhancedListView;
-import org.jsoup.select.Evaluator;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import org.lucasr.smoothie.AsyncListView;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -761,7 +753,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public void onSettingsClicked(View v) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-        Intent settings = new Intent(context, SettingsPagerActivity.class);
+        Intent settings = new Intent(context, SettingsActivity.class);
         finish();
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
@@ -771,7 +763,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     public void onHelpClicked(View v) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-        Intent settings = new Intent(context, SettingsPagerActivity.class);
+        Intent settings = new Intent(context, SettingsActivity.class);
         finish();
         settings.putExtra("open_help", true);
         startActivity(settings);
@@ -1107,7 +1099,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             case R.id.menu_settings:
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                Intent settings = new Intent(context, SettingsActivity.class);
                 finish();
                 sharedPrefs.edit().putBoolean("should_refresh", false).commit();
                 //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);

@@ -507,12 +507,20 @@
             android:theme="@style/Theme.TalonLight.Orange">
         </activity>
 
-        <activity android:name="com.klinker.android.twitter_l.settings.SettingsPagerActivity"
+        <activity android:name="com.klinker.android.twitter_l.settings.SettingsActivity"
             android:label="@string/talon_settings"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Orange">
+        </activity>
+
+        <activity android:name=".settings.PrefActivity"
+                  android:label="@string/talon_settings"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                  android:launchMode="singleTop"
+                  android:theme="@style/Theme.TalonLight.Orange">
         </activity>
 
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">

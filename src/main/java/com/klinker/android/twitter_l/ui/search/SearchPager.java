@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.settings.SettingsPagerActivity;
+import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -292,7 +292,7 @@ public class SearchPager extends Activity {
                 return true;
 
             case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                Intent settings = new Intent(context, SettingsActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
 
