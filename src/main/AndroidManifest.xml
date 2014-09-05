@@ -514,6 +514,14 @@
             android:theme="@style/Theme.TalonDark">
         </activity>
 
+        <activity android:name=".settings.PrefActivity"
+                  android:label="@string/talon_settings"
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+                  android:launchMode="singleTop"
+                  android:theme="@style/Theme.TalonDark">
+        </activity>
+
         <service android:name=".services.TalonPullNotificationService">
         </service>
 
