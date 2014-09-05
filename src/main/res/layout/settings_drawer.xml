@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer"
     android:orientation="vertical"
-    android:layout_width="315dp"
+    android:layout_width="280dp"
     android:layout_height="fill_parent"
     android:layout_gravity="start"
     android:background="?drawerBackground"
@@ -18,7 +18,7 @@
         android:paddingTop="10dp"
         style="@android:style/Holo.ButtonBar">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             android:padding="10dp"
             android:gravity="center"/>
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -89,8 +89,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:choiceMode="singleChoice"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
+            android:divider="@null"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
 
@@ -99,8 +98,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:choiceMode="singleChoice"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
+            android:divider="@null"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
 
@@ -117,7 +115,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17dp"
@@ -125,7 +123,7 @@
             android:text="@string/created_by"
             android:id="@+id/created_by"  />
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"

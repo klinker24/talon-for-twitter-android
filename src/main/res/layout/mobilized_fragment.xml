@@ -15,16 +15,9 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading_webpage"
-            android:textColor="?textColor"
-            android:layout_marginTop="5dp"
-            android:textSize="15dp"/>
     </LinearLayout>
 
     <ScrollView android:id="@+id/scrollview"
@@ -32,10 +25,11 @@
         android:layout_height="match_parent"
         android:visibility="gone">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:id="@+id/webpage_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="?textColor"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 

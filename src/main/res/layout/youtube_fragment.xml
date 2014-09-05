@@ -6,18 +6,18 @@
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_view"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/tweet_activ_margin"
-        />
+        android:adjustViewBounds="true"
+        android:layout_margin="5dp"/>
 
-    <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
         android:id="@+id/error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/youtube_error"
-        android:visibility="gone" />
+            android:visibility="gone" />
 
 </LinearLayout>

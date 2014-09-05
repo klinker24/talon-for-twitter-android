@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Quick Transitions</string>
+    <string name="help">Help</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="to_top">To Top</string>
+</resources>

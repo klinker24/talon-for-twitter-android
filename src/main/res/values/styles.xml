@@ -2,13 +2,11 @@
 <resources>
 
     <style name="Theme.PhotoViewerLight" parent="@style/Theme.Tutorial">
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Dark</item>
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>
     </style>
 
     <style name="Theme.PhotoViewerDark" parent="@style/Theme.Tutorial">
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>
     </style>
@@ -38,7 +36,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="Theme.Tutorial" parent="@style/Theme.TalonDark">
+    <style name="Theme.Tutorial" parent="@style/Theme.TalonDark.Purple">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -52,6 +50,27 @@
 
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <!-- Main theme colors -->
+        <!--   your app's branding color (for the app bar) -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <!--   darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="android:colorPrimaryDark">@color/darker_primary</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/accent</item>
+    </style>
+
+    <style name="DrawerOptionsButton">
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">?drawer_subtext</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
 </resources>

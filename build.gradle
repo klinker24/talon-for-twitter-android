@@ -36,14 +36,14 @@ android {
         exclude 'META-INF/NOTICE'
 	exclude 'META-INF/DEPENDENCIES'
     }
-    compileSdkVersion 20
+    compileSdkVersion "android-L"
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 20
-        versionCode 151
-        versionName "3.0.4"
+        minSdkVersion "L"
+        targetSdkVersion "L"
+        versionCode 3
+        versionName "0.3.0"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
@@ -111,7 +111,8 @@ dependencies {
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     compile 'org.mockito:mockito-all:+'
 
-    compile 'com.android.support:support-v13:20.0.0'
+    compile 'com.android.support:support-v13:+'
+    compile "com.android.support:cardview-v7:+"
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'

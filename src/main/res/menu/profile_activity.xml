@@ -4,28 +4,8 @@
     <item android:id="@+id/menu_tweet"
           android:orderInCategory="1"
           android:title="@string/menu_tweet"
-          android:icon="?sendButton"
+          android:icon="@drawable/ic_send_dark"
           android:showAsAction="always"  />
-
-    <item android:id="@+id/menu_follow"
-          android:orderInCategory="2"
-          android:title="@string/menu_follow"
-          android:showAsAction="never"  />
-
-    <item android:id="@+id/menu_unfollow"
-          android:orderInCategory="3"
-          android:title="@string/menu_unfollow"
-          android:showAsAction="never" />
-
-    <item android:id="@+id/menu_favorite"
-        android:orderInCategory="4"
-        android:title="@string/menu_favorite"
-        android:showAsAction="never"  />
-
-    <item android:id="@+id/menu_unfavorite"
-        android:orderInCategory="5"
-        android:title="@string/menu_unfavorite"
-        android:showAsAction="never" />
 
     <item android:id="@+id/menu_block"
           android:orderInCategory="6"

@@ -4,7 +4,7 @@
     android:id="@+id/background"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/photo_dialog_background" >
+    android:background="@android:color/black" >
 
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"
@@ -15,25 +15,27 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            style="@android:style/Widget.Material.Light.ProgressBar.Large"
             android:indeterminateOnly="true" />
     </LinearLayout>
 
-    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="300dp"
         android:minWidth="300dp"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerInside"
+        android:viewName="large_image"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:visibility="gone"
         android:layout_marginTop="40dp">
 
-        <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:id="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

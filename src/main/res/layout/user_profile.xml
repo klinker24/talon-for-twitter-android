@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+          android:id="@+id/background"
+          android:background="?tweet_background" />
+
+    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            android:layout_width="match_parent"
+            android:layout_height="345dp"
+            android:id="@+id/background_image"
+            android:scaleType="centerCrop"
+            android:contentDescription="Profile Picture"
+            android:viewName="profile_picture"/>
+
+
+    <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/notify_scroll_view"
+            android:overScrollMode="never">
+
+        <!-- Holds all the content that can be scrolled -->
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+            <!-- this is the header portion, will hold the profile card -->
+            <RelativeLayout
+                    android:orientation="vertical"
+                    android:id="@+id/header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/header_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxWidth="300dp"
+                    android:layout_marginTop="82dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="invisible">
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  android:orientation="vertical"
+                                  android:layout_alignParentBottom="true">
+
+                        <LinearLayout android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:orientation="horizontal" >
+
+                            <!-- Profile Picture -->
+                            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                    android:id="@+id/profile_pic"
+                                    android:layout_width="0dp"
+                                    android:layout_height="200dp"
+                                    android:layout_weight="1"
+                                    android:scaleType="centerCrop"/>
+
+                            <!-- number of followers and following -->
+                            <LinearLayout
+                                    android:id="@+id/profile_counts"
+                                    android:layout_width="0dp"
+                                    android:layout_height="200dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:paddingTop="25dp"
+                                    android:paddingBottom="25dp"
+                                    android:background="#34444b">
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/followers_number"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/dark_text"
+                                        android:singleLine="true"/>
+
+                                <LinearLayout android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:layout_weight="1"
+                                              android:orientation="horizontal"
+                                              android:gravity="top"
+                                              android:layout_marginTop="8dp"
+                                              android:id="@+id/view_followers" >
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_1"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_2"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/follower_3"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                </LinearLayout>
+
+                                <View android:layout_width="match_parent"
+                                      android:layout_height="16dp" />
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/following_number"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/dark_text"
+                                        android:singleLine="true"/>
+
+                                <LinearLayout android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:layout_weight="1"
+                                              android:orientation="horizontal"
+                                              android:gravity="top"
+                                              android:layout_marginTop="8dp"
+                                              android:id="@+id/view_friends" >
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_1"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_2"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                    <View android:layout_width="6dp" android:layout_height="match_parent" />
+
+                                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                            android:layout_width="36dp"
+                                            android:layout_height="36dp"
+                                            android:id="@+id/friend_3"
+                                            android:minHeight="36dp" android:minWidth="36dp"
+                                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                            android:maxWidth="36dp" android:maxHeight="36dp"
+                                            android:background="@drawable/pro_pic_clip"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:orientation="vertical"
+                                      android:background="?windowBackground"
+                                      android:padding="16dp"
+                                      android:id="@+id/lower_card">
+
+                            <!-- this is the buttons to follow and favorite the user -->
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:layout_height="wrap_content"
+                                          android:orientation="horizontal">
+
+                                <LinearLayout android:layout_width="0dp"
+                                              android:layout_height="wrap_content"
+                                              android:orientation="vertical"
+                                              android:layout_weight="1"
+                                              android:layout_gravity="left|center_vertical"
+                                              android:background="?android:attr/selectableItemBackground"
+                                              android:id="@+id/follow_button"
+                                              android:padding="4dp">
+
+                                    <TextView android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:textColor="?textColor"
+                                              android:textSize="14sp"
+                                              android:textStyle="bold"
+                                              android:singleLine="true"
+                                              android:textAllCaps="true"
+                                              android:id="@+id/follow_button_text"/>
+
+
+                                    <TextView android:layout_width="wrap_content"
+                                              android:layout_height="wrap_content"
+                                              android:textColor="?dateColor"
+                                              android:fontFamily="sans-serif-light"
+                                              android:textSize="11sp"
+                                              android:singleLine="true"
+                                              android:id="@+id/follow_status"/>
+
+                                </LinearLayout>
+
+
+                                <TextView android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="match_parent"
+                                          android:gravity="top|left"
+                                          android:layout_gravity="top|left"
+                                          android:textColor="?textColor"
+                                          android:textSize="14sp"
+                                          android:textStyle="bold"
+                                          android:textAllCaps="true"
+                                          android:singleLine="true"
+                                          android:padding="4dp"
+                                          android:background="?android:attr/selectableItemBackground"
+                                          android:id="@+id/favorite_button"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="?textColor"
+                                    android:textSize="14sp"
+                                    android:id="@+id/user_description"
+                                    android:layout_marginTop="16dp"/>
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="?textColor"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="13sp"
+                                    android:drawableLeft="?location_button"
+                                    android:drawablePadding="8dp"
+                                    android:layout_marginTop="16dp"
+                                    android:id="@+id/user_location"
+                                    android:gravity="center"/>
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="?textColor"
+                                    android:fontFamily="sans-serif-light"
+                                    android:textSize="13sp"
+                                    android:drawablePadding="8dp"
+                                    android:drawableLeft="?links"
+                                    android:id="@+id/user_webpage"
+                                    android:gravity="center"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="2000dp" />
+
+            <View android:layout_width="match_parent"
+                  android:id="@+id/nav_bar_seperator"
+                  android:layout_height="56dp" />
+
+        </LinearLayout>
+
+    </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:id="@+id/actionbar_and_status_bar" >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/status_bar"
+                  android:background="@color/darker_primary"/>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:id="@+id/actionbar_bar"
+                  android:background="@color/primary"/>
+
+        </LinearLayout>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:id="@+id/blacker_status_bar"
+              android:background="#30000000"/>
+    </RelativeLayout>
+
+
+
+    <View android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="@android:color/black"
+          android:alpha=".6"
+          android:visibility="gone"
+          android:id="@+id/dim" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/spinner">
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                android:indeterminateOnly="true" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
