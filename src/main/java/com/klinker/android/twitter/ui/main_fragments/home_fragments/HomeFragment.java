@@ -755,15 +755,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         Thread refresh = new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.v("talon_fragment", "started the refresh thread");
-                numberNew = doRefresh();
-                Log.v("talon_fragment", "finished the doRefresh method");
+                if (!onStartRefresh) {
+                    numberNew = doRefresh();
+                } else {
+                    onStartRefresh = false;
+                }
 
                 tweetMarkerUpdate = false;
 
                 if (settings.tweetmarker && refreshTweetmarker) {
                     tweetMarkerUpdate = getTweet();
-                    Log.v("talon_tweetmarker", "tweet marker update " + tweetMarkerUpdate);
                 }
 
                 refreshTweetmarker = false;
@@ -1011,6 +1012,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     }
 
     public boolean refreshTweetmarker = false;
+    public boolean onStartRefresh = false;
 
     @Override
     public void onStart() {
@@ -1046,9 +1048,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             actionBar.show();
                         }
 
-                        refreshLayout.setRefreshing(true);
-                        refreshTweetmarker = true;
-                        onRefreshStarted();
+                        refreshOnStart();
                     }
 
                     waitOnRefresh.removeCallbacks(applyRefresh);
@@ -1076,14 +1076,34 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         actionBar.show();
                     }
 
-                    refreshLayout.setRefreshing(true);
-                    refreshTweetmarker = true;
-                    onRefreshStarted();
+                    refreshOnStart();
                 }
             }, 600);
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+    }
+
+    private void refreshOnStart() {
+        refreshLayout.setRefreshing(true);
+        refreshTweetmarker = true;
+
+        Intent refresh = new Intent(context, TimelineRefreshService.class);
+        refresh.putExtra("on_start_refresh", true);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TIMELINE_REFRESHED");
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                numberNew = intent.getIntExtra("number_new", 0);
+                onStartRefresh = true;
+                onRefreshStarted();
+                context.unregisterReceiver(this);
+            }
+        }, filter);
+
+        context.startService(refresh);
     }
 
     public boolean trueLive = false;
