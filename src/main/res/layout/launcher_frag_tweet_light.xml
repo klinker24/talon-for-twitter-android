@@ -13,7 +13,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
         android:layoutDirection="ltr"
-        android:background="@drawable/pressed_button" >
+        android:background="?android:selectableItemBackground" >
 
         <LinearLayout
             android:orientation="horizontal"
@@ -132,7 +132,7 @@
                         android:minHeight="32dp" android:minWidth="32dp"
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="32dp" android:maxHeight="32dp"
-                        android:background="@drawable/pressed_button"
+                        android:background="?android:selectableItemBackground"
                         android:layout_marginLeft="5dp" />
 
                 </LinearLayout>
@@ -151,7 +151,7 @@
                         android:minHeight="37dp" android:minWidth="37dp"
                         android:scaleType="fitCenter" android:adjustViewBounds="true"
                         android:maxWidth="37dp" android:maxHeight="37dp"
-                        android:background="@drawable/pressed_button"
+                        android:background="?android:selectableItemBackground"
                         android:src="@drawable/ic_action_share_light"/>
 
                 </LinearLayout>
@@ -169,7 +169,7 @@
                         android:layout_height="match_parent"
                         android:contentDescription="Favorite Tweet"
                         android:src="@drawable/ic_action_not_important_light"
-                        android:background="@drawable/pressed_button"/>
+                        android:background="?android:selectableItemBackground"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -219,7 +219,7 @@
                         android:layout_height="match_parent"
                         android:contentDescription="Retweet"
                         android:src="@drawable/ic_action_repeat_light"
-                        android:background="@drawable/pressed_button"/>
+                        android:background="?android:selectableItemBackground"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -276,7 +276,6 @@
                     android:contentDescription="Reply"
                     android:textSize="14dp"
                     android:fontFamily="sans-serif-light"
-                    android:background="@drawable/twitter_edit_text_holo_light"
                     android:inputType="textMultiLine|textCapSentences"/>
 
             </LinearLayout>

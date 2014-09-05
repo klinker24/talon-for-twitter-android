@@ -30,7 +30,7 @@ limitations under the License.
                   android:layout_height="wrap_content"
                   android:gravity="center_vertical"
                   android:id="@+id/widget_card_background"
-                  android:background="@drawable/pressed_button">
+                  android:background="?android:selectableItemBackground">
 
         <LinearLayout
             android:layout_width="wrap_content"

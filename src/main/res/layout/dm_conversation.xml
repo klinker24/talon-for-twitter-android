@@ -75,7 +75,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:contentDescription="Send Message"
-                android:background="@drawable/pressed_button"
+                android:background="?android:selectableItemBackground"
                 android:src="?sendButton"
                 android:gravity="center"
                 android:textColor="?textColor" />

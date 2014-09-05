@@ -25,6 +25,8 @@ limitations under the License.
 
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
+        <item name="android:colorControlHighlight">@color/dark_ripple</item>
+
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
@@ -44,9 +46,6 @@ limitations under the License.
         <item name="tweet_background">@color/dark_drawer</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_dark</item>
-        <item name="myTweetBackground">@drawable/sent_background_dark</item>
-        <item name="tweetBackground">@drawable/received_background_dark</item>
-        <item name="tweetBackgroundNoDialog">@drawable/received_bubble_dark</item>
         <item name="cancelButton">@drawable/ic_cancel_dark</item>
         <item name="sendButton">@drawable/ic_send_dark</item>
         <item name="attachButton">@drawable/ic_attach_dark</item>
@@ -76,7 +75,6 @@ limitations under the License.
         <item name="read_button">@drawable/ic_action_read_dark</item>
         <item name="unread_button">@drawable/ic_action_unread_dark</item>
         <item name="quote_button">@drawable/ic_action_reply_all_dark</item>
-        <item name="check_box">@drawable/twitter_btn_check_holo_dark</item>
         <item name="background_card">@drawable/send_card_dark</item>
         <item name="notification_button">@drawable/ic_action_notification_dark</item>
         <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
@@ -97,7 +95,6 @@ limitations under the License.
         <item name="memManagement">@drawable/ic_action_sd_storage_dark</item>
         <item name="feedback">@drawable/ic_feedback_dark</item>
 
-        <item name="actionbar">@drawable/ab_solid_dark</item>
         <item name="searchIcon">@drawable/ic_action_search_dark</item>
         <item name="circle_overflow">@drawable/ic_action_circle_overflow_dark</item>
 

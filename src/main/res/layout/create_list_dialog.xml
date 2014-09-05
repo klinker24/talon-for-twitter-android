@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/pressed_button"
+            android:background="?android:selectableItemBackground"
             android:contentDescription="@string/cancel"
             android:text="@string/cancel"
             android:id="@+id/cancel"/>
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/pressed_button"
+            android:background="?android:selectableItemBackground"
             android:contentDescription="Private List"
             android:text="@string/sPrivate"
             android:id="@+id/private_btn"/>
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/pressed_button"
+            android:background="?android:selectableItemBackground"
             android:contentDescription="Public List"
             android:text="@string/sPublic"
             android:id="@+id/public_btn"/>

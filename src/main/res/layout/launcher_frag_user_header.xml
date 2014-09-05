@@ -10,7 +10,7 @@
                android:layout_height="150dp"
                android:layout_width="match_parent"
                android:scaleType="centerCrop"
-               android:background="@drawable/pressed_button"
+               android:background="?android:selectableItemBackground"
                android:contentDescription="Background Picture"
             />
 
@@ -49,7 +49,7 @@
                 android:layout_height="42dp"
                 android:src="@drawable/ic_action_expand_dark"
                 android:scaleType="fitCenter" android:adjustViewBounds="true"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:contentDescription="Options"
                 android:paddingRight="6dp"
                 android:paddingLeft="6dp"

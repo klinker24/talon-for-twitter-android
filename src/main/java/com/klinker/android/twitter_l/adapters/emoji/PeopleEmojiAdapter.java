@@ -64,7 +64,6 @@ public class PeopleEmojiAdapter extends BaseEmojiAdapter {
         } catch (OutOfMemoryError e) {
             return null;
         }
-        imageView.setBackgroundResource(R.drawable.pressed_button);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

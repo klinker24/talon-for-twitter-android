@@ -40,7 +40,7 @@ limitations under the License.
                 android:id="@+id/launcherIcon"
                 android:layout_alignBottom="@+id/replyButton"
                 android:layout_alignParentTop="true"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 />
 
             <TextView
@@ -64,7 +64,7 @@ limitations under the License.
                 android:layout_toLeftOf="@+id/replyButton"
                 android:layout_marginRight="7dp"
                 android:alpha=".6"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:paddingBottom="3dp"
                 android:src="@drawable/drawer_sync_light"
                 android:scaleX=".85"
@@ -79,7 +79,7 @@ limitations under the License.
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="7dp"
                 android:alpha=".6"
-                android:background="@drawable/pressed_toast"
+                android:background="?android:selectableItemBackground"
                 android:paddingBottom="3dp"
                 android:src="@drawable/ic_send_light"
                 android:scaleX=".85"

@@ -137,7 +137,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:id="@+id/toastButton"
-                                    android:background="@drawable/pressed_button"
+                                    android:background="?android:selectableItemBackground"
                                     android:gravity="center"
                                     android:textSize="14sp"
                                     android:textColor="@color/accent_ligher"
@@ -175,7 +175,7 @@
                             android:contentDescription="New Tweet"
                             android:focusableInTouchMode="false"
                             android:focusable="false"
-                            android:background="@drawable/pressed_toast"/>
+                            android:background="?android:selectableItemBackground"/>
 
                 </LinearLayout>
 

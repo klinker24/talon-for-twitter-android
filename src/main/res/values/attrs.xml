@@ -38,6 +38,7 @@ limitations under the License.
     <attr name="tweet_background" format="color" />
 
     <!-- Drawables -->
+    <attr name="rippleBackground" format="reference"/>
     <attr name="fullScreenTweet" format="reference"/>
     <attr name="myTweetBackground" format="reference"/>
     <attr name="tweetBackground" format="reference"/>

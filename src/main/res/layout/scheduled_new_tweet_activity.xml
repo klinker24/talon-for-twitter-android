@@ -93,7 +93,7 @@ limitations under the License.
                 android:layout_alignTop="@+id/messageEntry2"
                 android:layout_alignBottom="@+id/messageEntry2"
                 android:src="?emoji_button"
-                android:background="@drawable/pressed_button"
+                android:background="?android:selectableItemBackground"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:layout_marginRight="-7dp"

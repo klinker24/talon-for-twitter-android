@@ -42,7 +42,7 @@
                         android:layout_marginTop="16dp"
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-light"
-                        android:background="@drawable/pressed_button"
+                        android:background="?android:selectableItemBackground"
                         android:textColor="?textColor"
                         android:alpha=".6"/>
 
