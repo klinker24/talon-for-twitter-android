@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp">
 
         <LinearLayout
@@ -76,17 +75,18 @@
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center">
             <ImageButton
                     android:id="@+id/options"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="14dp"
                     android:src="@drawable/ic_action_expand_dark"
-                    android:maxWidth="20dp" android:maxHeight="20dp"
+                    android:maxWidth="48dp" android:maxHeight="48dp"
                     android:scaleType="centerInside" android:adjustViewBounds="true"
-                    android:minHeight="20dp" android:minWidth="20dp"
+                    android:minHeight="48dp" android:minWidth="48dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Options"
                     />
