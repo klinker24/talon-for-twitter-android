@@ -28,6 +28,8 @@ limitations under the License.
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
 
+        <item name="android:colorControlHighlight">@color/light_ripple</item>
+
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>
         <item name="drawerDividerColor">@color/light_text_drawer</item>
@@ -47,9 +49,6 @@ limitations under the License.
         <item name="tweet_background">@color/light_background</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
-        <item name="myTweetBackground">@drawable/sent_background_light</item>
-        <item name="tweetBackground">@drawable/received_background_light</item>
-        <item name="tweetBackgroundNoDialog">@drawable/received_bubble_light</item>
         <item name="cancelButton">@drawable/ic_cancel_light</item>
         <item name="sendButton">@drawable/ic_send_light</item>
         <item name="attachButton">@drawable/ic_attach_light</item>
@@ -79,7 +78,6 @@ limitations under the License.
         <item name="read_button">@drawable/ic_action_read_light</item>
         <item name="unread_button">@drawable/ic_action_unread_light</item>
         <item name="quote_button">@drawable/ic_action_reply_all_light</item>
-        <item name="check_box">@drawable/twitter_btn_check_holo_light</item>
         <item name="background_card">@drawable/send_card</item>
         <item name="notification_button">@drawable/ic_action_notification_light</item>
         <item name="notification_button_empty">@drawable/ic_action_notification_none_light</item>

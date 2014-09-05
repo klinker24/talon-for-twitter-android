@@ -60,7 +60,6 @@ public class NatureEmojiAdapter extends BaseEmojiAdapter {
         } catch (Exception e) {
 
         }
-        imageView.setBackgroundResource(R.drawable.pressed_button);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -56,7 +56,6 @@ public class OtherEmojiAdapter extends BaseEmojiAdapter {
         }
 
         imageView.setImageDrawable(res.getDrawable(sIconIds[position]));
-        imageView.setBackgroundResource(R.drawable.pressed_button);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

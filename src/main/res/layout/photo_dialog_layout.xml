@@ -39,7 +39,7 @@
             android:id="@+id/download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/pressed_toast"
+            android:background="?android:selectableItemBackground"
             android:drawableLeft="@drawable/ic_action_save"
             android:textSize="21dp"
             android:drawablePadding="8dp"

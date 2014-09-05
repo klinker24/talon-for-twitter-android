@@ -85,7 +85,6 @@ public class RecentEmojiAdapter extends BaseEmojiAdapter {
             });
 
             imageView.setImageDrawable(res.getDrawable(Integer.parseInt(recents.get(position).icon)));
-            imageView.setBackgroundResource(R.drawable.pressed_button);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

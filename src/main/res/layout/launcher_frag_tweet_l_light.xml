@@ -12,7 +12,7 @@
             android:paddingTop="16dp"
             android:layoutDirection="ltr"
             android:paddingLeft="16dp"
-            android:background="@drawable/pressed_button">
+            android:background="?android:selectableItemBackground">
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -89,7 +89,7 @@
                 android:paddingTop="12dp"
                 android:textColor="@color/light_text"
                 android:layoutDirection="locale"
-                android:background="@drawable/pressed_button"
+                android:background="?android:selectableItemBackground"
                 android:fontFamily="sans-serif-light"/>
 
         <TextView
@@ -102,7 +102,7 @@
                 android:gravity="right"
                 android:textColor="@color/light_date"
                 android:visibility="gone"
-                android:background="@drawable/pressed_button"
+                android:background="?android:selectableItemBackground"
                 android:fontFamily="sans-serif-light" />
 
         <LinearLayout
@@ -135,7 +135,7 @@
                             android:minHeight="32dp" android:minWidth="32dp"
                             android:scaleType="fitCenter" android:adjustViewBounds="true"
                             android:maxWidth="32dp" android:maxHeight="32dp"
-                            android:background="@drawable/pressed_button"
+                            android:background="?android:selectableItemBackground"
                             android:layout_marginLeft="5dp" />
 
                 </LinearLayout>
@@ -154,7 +154,7 @@
                             android:minHeight="37dp" android:minWidth="37dp"
                             android:scaleType="fitCenter" android:adjustViewBounds="true"
                             android:maxWidth="37dp" android:maxHeight="37dp"
-                            android:background="@drawable/pressed_button"
+                            android:background="?android:selectableItemBackground"
                             android:src="@drawable/ic_action_share_light"/>
 
                 </LinearLayout>
@@ -172,7 +172,7 @@
                             android:layout_height="match_parent"
                             android:contentDescription="Favorite Tweet"
                             android:src="@drawable/ic_action_not_important_light"
-                            android:background="@drawable/pressed_button"/>
+                            android:background="?android:selectableItemBackground"/>
 
                     <LinearLayout
                             android:layout_width="match_parent"
@@ -222,7 +222,7 @@
                             android:layout_height="match_parent"
                             android:contentDescription="Retweet"
                             android:src="@drawable/ic_action_repeat_light"
-                            android:background="@drawable/pressed_button"/>
+                            android:background="?android:selectableItemBackground"/>
 
                     <LinearLayout
                             android:layout_width="match_parent"
