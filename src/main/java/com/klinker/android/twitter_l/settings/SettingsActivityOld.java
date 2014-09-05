@@ -7,11 +7,12 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +23,15 @@ import android.widget.ListView;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SettingsPagerActivity extends FragmentActivity {
+public class SettingsActivityOld extends FragmentActivity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     SharedPreferences sharedPrefs;
@@ -55,14 +54,14 @@ public class SettingsPagerActivity extends FragmentActivity {
     @Override
     public void finish() {
         super.finish();
-        //overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         AppSettings.invalidate();
 
@@ -239,7 +238,7 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        if (!userKnows && !getIntent().getBooleanExtra("open_help", false)) {
+        if (!userKnows) {
             mDrawerLayout.openDrawer(mDrawer);
         }
 
@@ -268,21 +267,30 @@ public class SettingsPagerActivity extends FragmentActivity {
             }
         });
 
-        if (getIntent().getBooleanExtra("open_help", false)) {
-            mViewPager.setCurrentItem(7, false);
-        }
-
-        AppSettings settings = AppSettings.getInstance(this);
-        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        strip.setBackgroundColor(settings.themeColors.primaryColor);
-
-        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        mDrawerLayout.openDrawer(Gravity.START);
     }
 
     public void setUpTheme() {
+
         AppSettings settings = AppSettings.getInstance(this);
-        Utils.setUpSettingsTheme(this, settings);
+
+        /*switch (settings.theme) {
+            case AppSettings.THEME_LIGHT:
+                setTheme(R.style.Theme_TalonLight);
+                break;
+            case AppSettings.THEME_DARK:
+                setTheme(R.style.Theme_TalonDark);
+                break;
+            case AppSettings.THEME_BLACK:
+                setTheme(R.style.Theme_TalonBlack);
+                break;
+        }*/
+
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        getWindow().getDecorView().setBackgroundResource(resource);
     }
 
     @Override

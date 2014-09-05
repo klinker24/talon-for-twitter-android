@@ -25,7 +25,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         PreferenceFragment fragment = new PrefFragment(mDrawerList, context);
         Bundle args = new Bundle();
         args.putInt("position", position);

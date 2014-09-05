@@ -11,8 +11,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -30,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
@@ -38,11 +35,10 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.settings.SettingsPagerActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -322,7 +318,7 @@ public class SearchedTrendsActivity extends Activity {
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_settings:
-                Intent settings = new Intent(context, SettingsPagerActivity.class);
+                Intent settings = new Intent(context, SettingsActivity.class);
                 startActivityForResult(settings, SETTINGS_RESULT);
                 return true;
 

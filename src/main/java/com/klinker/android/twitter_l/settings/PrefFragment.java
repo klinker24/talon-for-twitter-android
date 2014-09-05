@@ -10,8 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -73,6 +74,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     public int position;
     public String[] linkItems;
     public ListView mDrawerList;
+
+    public PrefFragment() {
+        context = getActivity();
+    }
 
     public PrefFragment(ListView drawerList, Context context) {
         mDrawerList = drawerList;
@@ -140,6 +145,20 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 setUpOtherAppSettings();
                 break;
         }
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        ListView list = (ListView) v.findViewById(android.R.id.list);
+        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
+        list.setDividerHeight(0);
+
+        return v;
     }
 
     public void setUpBrowserSettings() {

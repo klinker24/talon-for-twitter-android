@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference android:key="ui_settings"
+                android:title="@string/ui_settings"
+                android:icon="?themeSettings" />
+
+    <Preference android:key="timeline_settings"
+                android:title="@string/timelines_settings"
+                android:icon="?timelineItem" />
+
+    <Preference android:key="sync_settings"
+                android:title="@string/sync_settings"
+                android:icon="?syncSettings" />
+
+    <Preference android:key="notification_settings"
+                android:title="@string/notification_settings"
+                android:icon="?notificationSettings" />
+
+    <Preference android:key="browser_settings"
+                android:title="@string/browser_settings"
+                android:icon="?links" />
+
+    <Preference android:key="advanced_settings"
+                android:title="@string/advanced_settings"
+                android:icon="?advancedSettings" />
+
+    <Preference android:key="memory_management"
+                android:title="@string/memory_manage"
+                android:icon="?memManagement" />
+
+</PreferenceScreen>
