@@ -34,9 +34,13 @@
         <RelativeLayout
             android:id="@+id/second_profile"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pro_pic_size"
-            android:layout_marginLeft="7dp"
-            android:layout_marginTop="10dp" >
+            android:layout_height="66dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="7dp"
+            android:paddingStart="7dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="?android:selectableItemBackground" >
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                 android:layout_width="@dimen/pro_pic_size"
@@ -57,27 +61,29 @@
                 android:layout_alignTop="@id/profile_pic_2"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp" >
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <TextView
                     android:id="@+id/name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:textStyle="bold"
+                    android:textSize="15sp"
                     android:textColor="?textColor"
-                       android:visibility="invisible" />
+                    android:visibility="invisible" />
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <TextView
                     android:id="@+id/screen_name_2"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:paddingBottom="3dp"
+                    android:textSize="13sp"
                     android:textColor="?textColor"
-                        android:visibility="invisible"/>
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -93,6 +99,7 @@
             android:layout_width="match_parent"
             android:text="@string/menu_logout"
             android:contentDescription="Logout from Twitter"
+            android:textColor="?textColor"
             android:background="?android:attr/selectableItemBackground"/>
 
         <View

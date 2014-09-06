@@ -23,6 +23,8 @@ limitations under the License.
     <dimen name="tweet_viewer_name_margin_left">35dp</dimen>
     <dimen name="snack_bar_size">200dp</dimen>
 
+    <dimen name="pager_tab_strip_text">14sp</dimen>
+
     <dimen name="pro_pic_size">40dp</dimen>
     <dimen name="tweet_activ_margin">6dp</dimen>
 
