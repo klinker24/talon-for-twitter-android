@@ -45,7 +45,7 @@
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Pictures</string>
-    <string name="timeline">Timeline</string>
+    <string name="timeline">Home</string>
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>
     <string name="retweets">Retweets</string>
@@ -310,7 +310,7 @@
         <string name="max_number_summary">Higher max means a slower refresh.</string>
         <string name="auto_refresh_category">Auto-Refresh Options</string>
             <string name="refresh_on_startup">Refresh on Startup</string>
-            <string name="timeline_sync_interval">Timeline Refresh Rate</string>
+            <string name="timeline_sync_interval">Home Timeline Refresh Rate</string>
             <string name="mentions_sync_interval">Mentions Refresh Rate</string>
             <string name="dm_sync_interval">Direct Messages Refresh Rate</string>
         <string name="sync_friends">Sync Friends Data</string>
@@ -348,7 +348,7 @@
             <string name="not_cache">This does not apply to the app cache.</string>
             <string name="current_cache_size">Current cache size</string>
                 <string name="cache_dialog_summary">This action cannot be un-done.</string>
-            <string name="timeline_size">Timeline Size</string>
+            <string name="timeline_size">Home Size</string>
                 <string name="timeline_size_summary">Max number of tweets to store in the database.</string>
             <string name="mentions_size">Mentions Size</string>
                 <string name="mentions_size_summary">Max number of mentions to store in the database.</string>
@@ -412,7 +412,7 @@
     <string name="layout_hangouts">Hangouts</string>
 
     <!-- added after release -->
-    <string name="use_inapp_browser">In-App Browser on Timeline</string>
+    <string name="use_inapp_browser">In-App Browser on Links</string>
     <string name="use_browser_on_tweet">Browser Page on Tweet</string>
     <string name="dismiss_all">Dismiss All</string>
     <string name="handle_and_name">Display Handle and Name</string>
@@ -517,7 +517,7 @@
     <string name="version_two">Version 2.0.0</string>
     <string name="cleaning_databases">Cleaning databases...</string>
     <string name="setup_version_two">Lots has changed recently with Talon, and to make sure I can give you the best experience, we have to do some cleanup before heading into the app! \n\nThis could take some time depending on the number of tweets you store!</string>
-    <string name="setting_up_timeline">Setting up timeline...</string>
+    <string name="setting_up_timeline">Setting up home timeline...</string>
     <string name="setting_up_mentions">Setting up mentions...</string>
     <string name="setting_up_dms">Setting up direct messages...</string>
     <string name="setting_up_lists">Setting up lists...</string>
@@ -559,7 +559,7 @@
     <string name="ui_settings">UI Settings</string>
     <string name="show_pos_dashclock">Show Timeline Position</string>
     <string name="show_pos_dashclock_summary">Show the current position on the home timeline instead of the number of new tweets.</string>
-    <string name="talon_large_widget">Talon - Timeline</string>
+    <string name="talon_large_widget">Talon - Home Timeline</string>
     <string name="unread_bar_widget">Talon - Unread Bar</string>
     <string name="show_muted_mentions">Show Muted Mentions</string>
     <string name="force_overflow_summary">Always show the 3-Dot \"Overflow Menu\" in the Action Bar. Used for phones with a physical menu button.</string>

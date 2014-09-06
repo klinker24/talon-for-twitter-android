@@ -471,8 +471,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         }
 
         RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
-        HoloTextView name2 = (HoloTextView) findViewById(R.id.name_2);
-        HoloTextView screenname2 = (HoloTextView) findViewById(R.id.screen_name_2);
+        TextView name2 = (TextView) findViewById(R.id.name_2);
+        TextView screenname2 = (TextView) findViewById(R.id.screen_name_2);
         NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
 
         name2.setTextSize(15);

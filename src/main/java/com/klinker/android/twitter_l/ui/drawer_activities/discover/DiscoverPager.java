@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.Window;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TrendsPagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -54,14 +55,20 @@ public class DiscoverPager extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
+        PagerSlidingTabStrip strip = (PagerSlidingTabStrip) findViewById(R.id.pager_tab_strip);
+        //PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        strip.setBackgroundColor(settings.themeColors.primaryColor);
+        strip.setTextColorResource(R.color.white);
+        strip.setIndicatorColor(settings.themeColors.accentColor);
+        strip.setTextSize((int)getResources().getDimension(R.dimen.pager_tab_strip_text));
+        strip.setViewPager(mViewPager);
+
         if (getResources().getBoolean(R.bool.has_drawer)) {
             mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
+            strip.setTranslationY(Utils.getStatusBarHeight(this));
         }
 
         mViewPager.setOffscreenPageLimit(3);
-
-        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-        strip.setBackgroundColor(settings.themeColors.primaryColor);
     }
 
     @Override
