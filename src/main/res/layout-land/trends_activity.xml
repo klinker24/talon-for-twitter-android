@@ -32,7 +32,7 @@
                 android:visibility="gone"/>
 
             <com.astuetz.PagerSlidingTabStrip
-                    android:paddingTop="?android:actionBarSize"
+                    android:layout_marginTop="?android:actionBarSize"
                     android:id="@+id/pager_tab_strip"
                     android:layout_width="match_parent"
                     app:pstsDividerColor="@android:color/transparent"
