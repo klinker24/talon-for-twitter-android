@@ -191,6 +191,15 @@ public class TweetLinkUtils {
                     tweetTexts = tweetTexts.replace(comp, sMediaDisplay[i].replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
+
+                for (MediaEntity m : status.getExtendedMediaEntities()) {
+                    if (m.getType().equals("photo")) {
+                        if (!imageUrl.contains(m.getMediaURL())) {
+                            imageUrl += " " + m.getMediaURL();
+                        }
+                    }
+                }
+
                 otherUrl += sMediaDisplay[i];
             }
         }

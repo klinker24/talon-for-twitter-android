@@ -18,9 +18,6 @@ public class Link {
     public Link(String shortUrl, String longUrl) {
         shortened = shortUrl;
         full = longUrl;
-
-        Log.v("talon_links", "shortened: " + shortUrl);
-        Log.v("talon_links", "full: " + longUrl);
     }
 
     public void setShort(String shortUrl) {
