@@ -774,6 +774,8 @@ public class TweetPager extends YouTubeBaseActivity {
                 if (s.contains("...")) { // we know the link is cut off
                     String f = s.replace("...", "").replace("http", "");
 
+                    f = stripTrailingPeriods(f);
+
                     for (int x = 0; x < otherLink.length; x++) {
                         if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
                             changed = true;
@@ -831,6 +833,14 @@ public class TweetPager extends YouTubeBaseActivity {
         }
 
         return full;
+    }
+
+    private static String stripTrailingPeriods(String url) {
+        if (url.substring(url.length() - 1, url.length()).equals(".")) {
+            return stripTrailingPeriods(url.substring(0, url.length() - 1));
+        } else {
+            return url;
+        }
     }
 
     @Override
