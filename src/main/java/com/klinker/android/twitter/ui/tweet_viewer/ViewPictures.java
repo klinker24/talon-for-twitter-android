@@ -79,6 +79,13 @@ public class ViewPictures extends Activity {
 
         images = getIntent().getStringArrayListExtra("images");
 
+        if (images == null) {
+            images = new ArrayList<String>();
+            for (String s : getIntent().getStringExtra("pictures").split(" ")) {
+                images.add(s);
+            }
+        }
+
         listView.setAdapter(new PicturesArrayAdapter(this, images, null));
 
         spinner.setVisibility(View.GONE);
