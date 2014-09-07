@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
@@ -741,7 +742,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                            if (holder.picUrl.contains(" ")) {
+                                context.startActivity(new Intent(context, ViewPictures.class).putExtra("pictures", holder.picUrl));
+                            } else {
+                                context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                            }
                         }
                     });
                 }
@@ -1204,28 +1209,75 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 if (null == result) {
 
-                    // The bitmap isn't cached so download from the web
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
+                    if (!url.contains(" ")) {
+                        // The bitmap isn't cached so download from the web
+                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                        Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
-                    try {
-                        is.close();
-                    } catch (Exception e) {
+                        try {
+                            is.close();
+                        } catch (Exception e) {
 
-                    }
-                    try {
-                        conn.disconnect();
-                    } catch (Exception e) {
+                        }
+                        try {
+                            conn.disconnect();
+                        } catch (Exception e) {
 
-                    }
+                        }
 
-                    // Add to cache
-                    try {
-                        result = mCache.put(url, b);
-                    } catch (Exception e) {
-                        result = null;
+                        // Add to cache
+                        try {
+                            result = mCache.put(url, b);
+                        } catch (Exception e) {
+                            result = null;
+                        }
+                    } else {
+                        // there are multiple pictures... uh oh
+                        String[] pics = url.split(" ");
+                        Bitmap[] bitmaps = new Bitmap[pics.length];
+
+                        // need to download all of them, then combine them
+                        for (int i = 0; i < pics.length; i++) {
+                            String s = pics[i];
+
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                            try {
+                                is.close();
+                            } catch (Exception e) {
+
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
+
+                            }
+
+                            // Add to cache
+                            try {
+                                mCache.put(s, b);
+
+                                // throw it into our bitmap array for later
+                                bitmaps[i] = b;
+                            } catch (Exception e) {
+                                result = null;
+                            }
+                        }
+
+                        // now that we have all of them, we need to put them together
+                        Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
+
+                        try {
+                            result = mCache.put(url, combined);
+                        } catch (Exception e) {
+
+                        }
                     }
 
                 }

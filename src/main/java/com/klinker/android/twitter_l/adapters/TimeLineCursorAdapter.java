@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -675,10 +676,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         .commit();
                             }
 
-                            Intent viewImage = new Intent(context, PhotoViewerDialog.class);
-                            viewImage.putExtra("url", holder.picUrl);
-
-                            context.startActivity(viewImage);
+                            if (holder.picUrl.contains(" ")) {
+                                context.startActivity(new Intent(context, ViewPictures.class).putExtra("pictures", holder.picUrl));
+                            } else {
+                                context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                            }
                         }
                     });
 
@@ -1220,37 +1222,83 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 if (null == result) {
 
-                    Bitmap b;
-                    if (url.contains("ton.twitter.com")) {
-                        // it is a direct message picture
-                        TwitterDMPicHelper helper = new TwitterDMPicHelper();
-                        b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
+                    if (!url.contains(" ")) {
+                        Bitmap b;
+                        if (url.contains("ton.twitter.com")) {
+                            // it is a direct message picture
+                            TwitterDMPicHelper helper = new TwitterDMPicHelper();
+                            b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
+                        } else {
+
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                            b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                            try {
+                                is.close();
+                            } catch (Exception e) {
+
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
+
+                            }
+                        }
+
+                        try {
+                            result = mCache.put(url, b);
+                        } catch (Exception e) {
+                            result = null;
+                        }
                     } else {
+                        // there are multiple pictures... uh oh
+                        String[] pics = url.split(" ");
+                        Bitmap[] bitmaps = new Bitmap[pics.length];
 
-                        // The bitmap isn't cached so download from the web
-                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                        InputStream is = new BufferedInputStream(conn.getInputStream());
+                        // need to download all of them, then combine them
+                        for (int i = 0; i < pics.length; i++) {
+                            String s = pics[i];
 
-                        b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                        try {
-                            is.close();
-                        } catch (Exception e) {
+                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
 
+                            try {
+                                is.close();
+                            } catch (Exception e) {
+
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
+
+                            }
+
+                            // Add to cache
+                            try {
+                                mCache.put(s, b);
+
+                                // throw it into our bitmap array for later
+                                bitmaps[i] = b;
+                            } catch (Exception e) {
+                                result = null;
+                            }
                         }
+
+                        // now that we have all of them, we need to put them together
+                        Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
+
                         try {
-                            conn.disconnect();
+                            result = mCache.put(url, combined);
                         } catch (Exception e) {
 
                         }
                     }
-
-                    try {
-                        result = mCache.put(url, b);
-                    } catch (Exception e) {
-                        result = null;
-                    }
-
                 }
 
                 return result;
