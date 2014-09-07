@@ -393,9 +393,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     public void scrollUp() {
         if (moveActionBar) {
-            /*if (actionBar.isShowing()) {
-                actionBar.hide();
-            }*/
             hideStatusBar();
         }
 
@@ -406,9 +403,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
     public void scrollDown() {
         if (moveActionBar) {
-            /*if (!actionBar.isShowing()) {
-                actionBar.show();
-            }*/
             showStatusBar();
         }
 
@@ -454,7 +448,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (visibilityChange == null) {
             visibilityChange = new Handler();
         }
-        if (statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
+
+        if (!refreshLayout.isRefreshing() && statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
             statusIsShown = false;
             ignoreVisibilityChange = true;
             visibilityChange.postDelayed(change, 250);
