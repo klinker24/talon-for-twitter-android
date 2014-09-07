@@ -767,6 +767,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     tweetMarkerUpdate = getTweet();
                 }
 
+                HomeFragment.starting = false;
+
                 refreshTweetmarker = false;
 
                 final boolean result = numberNew > 0 || tweetMarkerUpdate;
@@ -1093,7 +1095,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         if (HomeFragment.starting) {
             return;
         } else {
-            HomeFragment.starting = true;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1101,8 +1102,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 }
             }, 10000);
         }
+
         refreshLayout.setRefreshing(true);
         refreshTweetmarker = true;
+        MainActivity.canSwitch = false;
 
         Intent refresh = new Intent(context, TimelineRefreshService.class);
         refresh.putExtra("on_start_refresh", true);
@@ -1112,7 +1115,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                HomeFragment.starting = false;
                 numberNew = intent.getIntExtra("number_new", 0);
                 unread = numberNew;
                 onStartRefresh = true;
