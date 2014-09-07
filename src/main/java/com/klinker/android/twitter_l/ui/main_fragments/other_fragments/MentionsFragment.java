@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 
 import com.klinker.android.twitter_l.R;
@@ -276,5 +279,87 @@ public class MentionsFragment extends MainFragment {
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(newTweets, size);
         }
+    }
+
+    public Handler handler = new Handler();
+    public Runnable hideToast = new Runnable() {
+        @Override
+        public void run() {
+            hideToastBar(mLength);
+            infoBar = false;
+        }
+    };
+    public long mLength;
+
+    public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (quit) {
+            infoBar = true;
+        } else {
+            infoBar = false;
+        }
+
+        mLength = length;
+
+        toastDescription.setText(description);
+        toastButton.setText(buttonText);
+        toastButton.setOnClickListener(listener);
+
+        if(!isToastShowing) {
+            handler.removeCallbacks(hideToast);
+            isToastShowing = true;
+            toastBar.setVisibility(View.VISIBLE);
+
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (quit) {
+                        handler.postDelayed(hideToast, 3000);
+                    }
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        }
+    }
+
+    public void hideToastBar(long length) {
+        mLength = length;
+
+        if (!isToastShowing) {
+            return;
+        }
+
+        isToastShowing = false;
+
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                toastBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(length);
+        toastBar.startAnimation(anim);
     }
 }
