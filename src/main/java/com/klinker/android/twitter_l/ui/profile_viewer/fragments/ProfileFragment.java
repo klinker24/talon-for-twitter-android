@@ -264,7 +264,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWERS) {
                     current = BTN_FOLLOWERS;
-                    hasMore = true;
+                    hasMore = false;
 
                     listView.setItemManager(null);
                     listView.setAdapter(followersAdapter);
@@ -281,7 +281,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (current != BTN_FOLLOWING) {
                     current = BTN_FOLLOWING;
-                    hasMore = true;
+                    hasMore = false;
 
                     listView.setItemManager(null);
                     listView.setAdapter(new PeopleArrayAdapter(context, following));

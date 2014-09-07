@@ -14,7 +14,6 @@
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - switch mentions to save the position instead of current unread method
-    - duplicate followers and following with low numbers
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - html spacing on the tweet viewer
@@ -24,7 +23,6 @@
 -- For Release --
 
     Version 3.1.0
-        - collage of images on the tweet viewer if there is more than one attached to the tweet
         - manual tweetmarker
         - conversation indicator on timeline
 
@@ -51,10 +49,3 @@
     - change the drawer to be more of an overlay for the L version
     - remove the gradient behind the background in drawer
 
-
--- Talon "L" Version --
-
-    - Profiles
-    - remove the black behind the windows
-    - better viewing of multiple images on tweet viewer
-    - fix the drawer in landscape for tablets

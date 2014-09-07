@@ -493,4 +493,84 @@ public class ImageUtils {
                         g * g * .691 +
                         b * b * .068);
     }
+
+    private static final int GROUP_RES = 1000;
+
+    public static Bitmap combineBitmaps(Context context, Bitmap[] bitmaps) {
+        int size = Utils.toDP(GROUP_RES, context);
+        // need to make them square
+        for (int i = 0; i < bitmaps.length; i++) {
+            Bitmap currentImage = bitmaps[i];
+            if (currentImage.getWidth() >= currentImage.getHeight()){
+                currentImage = Bitmap.createBitmap(
+                        currentImage,
+                        currentImage.getWidth() / 2 - currentImage.getHeight() / 2,
+                        0,
+                        currentImage.getHeight(),
+                        currentImage.getHeight()
+                );
+            } else {
+                currentImage = Bitmap.createBitmap(
+                        currentImage,
+                        0,
+                        currentImage.getHeight()/2 - currentImage.getWidth()/2,
+                        currentImage.getWidth(),
+                        currentImage.getWidth()
+                );
+            }
+
+            bitmaps[i] = Bitmap.createScaledBitmap(currentImage, GROUP_RES, GROUP_RES, true);
+        }
+
+        try {
+            switch (bitmaps.length) {
+                case 2:
+                    Bitmap image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(image);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
+
+                    Paint linePaint = new Paint();
+                    linePaint.setStrokeWidth(1f);
+                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+
+                    canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
+                    return image;
+                case 3:
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
+                    canvas = new Canvas(image);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES / 2, GROUP_RES / 2, null);
+
+                    linePaint = new Paint();
+                    linePaint.setStrokeWidth(1f);
+                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+
+                    canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
+                    canvas.drawLine(GROUP_RES / 2, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);
+                    return image;
+                case 4:
+                    image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
+                    canvas = new Canvas(image);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES / 2, GROUP_RES / 2, null);
+                    canvas.drawBitmap(bitmaps[3], 0, GROUP_RES / 2, null);
+
+                    linePaint = new Paint();
+                    linePaint.setStrokeWidth(1f);
+                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
+
+                    canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
+                    canvas.drawLine(0, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);
+                    return image;
+            }
+        } catch (Exception e) {
+            // fall through if an exception occurs and just show the default image
+        }
+
+        return bitmaps[0];
+    }
+
 }

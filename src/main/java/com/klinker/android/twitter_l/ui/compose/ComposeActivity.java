@@ -414,6 +414,7 @@ public class ComposeActivity extends Compose {
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
+                    sharedPrefs.edit().putBoolean("share_location", true).commit();
                     addLocation = true;
 
                     if (!settings.addonTheme) {
@@ -422,12 +423,17 @@ public class ComposeActivity extends Compose {
                         location.setColorFilter(settings.accentInt);
                     }
                 } else {
+                    sharedPrefs.edit().putBoolean("share_location", false).commit();
                     addLocation = false;
 
                     location.clearColorFilter();
                 }
             }
         });
+
+        if (sharedPrefs.getBoolean("share_location", false)) {
+            location.performClick();
+        }
 
         if (!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);

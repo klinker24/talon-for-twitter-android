@@ -1,5 +1,16 @@
 <changelog>
 
+    <version name="3.1.0">
+        <text>View multiple images from the timeline (won't work on tweets already saved to device)</text>
+        <text>New settings menu</text>
+        <text>Save and automatically apply whether you have location attached to your tweets</text>
+        <text>Some animation changes</text>
+        <text>Fixed duplicate followers and following on profiles</text>
+        <text>More fixes for clickable links</text>
+        <text>Small changes for attaching location</text>
+        <text>One more slight change to prevent duplicates</text>
+    </version>
+
     <version name="3.0.5">
         <text>More fixes for refresh on startup</text>
         <text>Fixed incorrect links on some tweets</text>
