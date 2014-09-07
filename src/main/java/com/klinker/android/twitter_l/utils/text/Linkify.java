@@ -352,6 +352,8 @@ class Linkify {
         String[] otherUrls = allUrls.split("  ");
         shortUrl = shortUrl.replace("...", "");
 
+        shortUrl = stripTrailingPeriods(shortUrl);
+
         if (shortUrl.contains("twitter.com/")) {
             // safe to assume picture
             // the link will be the last one in the array
@@ -374,6 +376,14 @@ class Linkify {
         }
 
         return url;
+    }
+
+    private static String stripTrailingPeriods(String url) {
+        if (url.substring(url.length() - 1, url.length()).equals(".")) {
+            return stripTrailingPeriods(url.substring(0, url.length() - 1));
+        } else {
+            return url;
+        }
     }
 
     private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text, boolean extBrowser) {

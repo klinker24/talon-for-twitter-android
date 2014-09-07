@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="3.0.5">
+        <text>More fixes for refresh on startup</text>
+        <text>Fixed incorrect links on some tweets</text>
+    </version>
+
     <version name="3.0.4">
         <text>Hopefully fixed refresh on startup causing duplicates</text>
     </version>
