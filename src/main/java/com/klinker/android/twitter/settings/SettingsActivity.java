@@ -1,45 +1,55 @@
 package com.klinker.android.twitter.settings;
 
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Spanned;
 import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import android.widget.Toast;
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.ChangelogAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter.utils.XmlChangelogUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends FragmentActivity {
+
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    SharedPreferences sharedPrefs;
+
+    private DrawerLayout mDrawerLayout;
+    private ListView otherList;
+    private ListView settingsList;
+    private LinearLayout mDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private boolean userKnows;
+    public static boolean settingsLinksActive = true;
+    public static boolean inOtherLinks = true;
+
+    private String[] linkItems;
+    private String[] settingsItems;
+
+    public static ViewPager mViewPager;
 
     @Override
     public void finish() {
@@ -57,20 +67,182 @@ public class SettingsActivity extends PreferenceActivity {
 
         setUpTheme();
 
-        addPreferencesFromResource(R.xml.main_settings);
+        setContentView(R.layout.settings_main);
 
-        setClicks();
+        DrawerArrayAdapter.current = 0;
 
-        ActionBar ab = getActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
+        linkItems = new String[]{
+                getResources().getString(R.string.get_help_settings),
+                getResources().getString(R.string.other_apps),
+                getResources().getString(R.string.whats_new),
+                getResources().getString(R.string.rate_it)
+        };
 
-        ListView list = (ListView) findViewById(android.R.id.list);
-        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
-        list.setDividerHeight(0);
+        settingsItems = new String[] {
+                getResources().getString(R.string.ui_settings),
+                getResources().getString(R.string.timelines_settings),
+                getResources().getString(R.string.sync_settings),
+                getResources().getString(R.string.notification_settings),
+                getResources().getString(R.string.browser_settings),
+                getResources().getString(R.string.advanced_settings),
+                getResources().getString(R.string.memory_manage)
+        };
 
+        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        /*HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
+        if (sharedPrefs.getBoolean("version_1.20_1", true)) {
+            // necessary because i didnt start out by using sets
+            boolean led = sharedPrefs.getBoolean("led", true);
+            boolean sound = sharedPrefs.getBoolean("sound", true);
+            boolean vibrate = sharedPrefs.getBoolean("vibrate", true);
+            boolean wakeScreen = sharedPrefs.getBoolean("wake", true);
+            boolean timelineNot = sharedPrefs.getBoolean("timeline_notifications", true);
+            boolean mentionsNot = sharedPrefs.getBoolean("mentions_notifications", true);
+            boolean dmsNot = sharedPrefs.getBoolean("direct_message_notifications", true);
+            boolean favoritesNot = sharedPrefs.getBoolean("favorite_notifications", true);
+            boolean retweetNot = sharedPrefs.getBoolean("retweet_notifications", true);
+            boolean followersNot = sharedPrefs.getBoolean("follower_notifications", true);
+
+            Set<String> alert = sharedPrefs.getStringSet("alert_types", new HashSet<String>());
+            alert.clear();
+            if (vibrate) {
+                alert.add("1");
+            }
+            if (led) {
+                alert.add("2");
+            }
+            if (wakeScreen) {
+                alert.add("3");
+            }
+            if (sound) {
+                alert.add("4");
+            }
+            sharedPrefs.edit().putStringSet("alert_types", alert).commit();
+
+            Set<String> timeline = sharedPrefs.getStringSet("timeline_set", new HashSet<String>());
+            timeline.clear();
+            if (timelineNot) {
+                timeline.add("1");
+            }
+            if (mentionsNot) {
+                timeline.add("2");
+            }
+            if (dmsNot) {
+                timeline.add("3");
+            }
+            sharedPrefs.edit().putStringSet("timeline_set", timeline).commit();
+
+            Set<String> interactions = sharedPrefs.getStringSet("interactions_set", new HashSet<String>());
+            interactions.clear();
+            if (favoritesNot) {
+                interactions.add("1");
+            }
+            if (retweetNot) {
+                interactions.add("2");
+            }
+            if (followersNot) {
+                interactions.add("3");
+            }
+            sharedPrefs.edit().putStringSet("interactions_set", interactions).commit();
+
+            sharedPrefs.edit().putBoolean("version_1.20_1", false).commit();
+
+            recreate();
+        }
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(
+                getFragmentManager(), this, otherList);
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+
+        otherList = (ListView) findViewById(R.id.other_list);
+        settingsList = (ListView) findViewById(R.id.settings_list);
+        mDrawer = (LinearLayout) findViewById(R.id.drawer);
+
+        // Set the adapter for the list view
+        otherList.setAdapter(new DrawerArrayAdapter(this,
+                new ArrayList<String>(Arrays.asList(linkItems))));
+        settingsList.setAdapter(new DrawerArrayAdapter(this,
+                new ArrayList<String>(Arrays.asList(settingsItems))));
+        // Set the list's click listener
+        settingsList.setOnItemClickListener(new SettingsDrawerClickListener(this, mDrawerLayout, settingsList, mViewPager, mDrawer));
+        otherList.setOnItemClickListener(new SettingsLinkDrawerClickListener(this, mDrawerLayout, otherList, mViewPager, mDrawer));
+
+        findViewById(R.id.settingsLinks).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToSettingsList(true);
+                settingsLinksActive = true;
+                findViewById(R.id.settingsSelector).setVisibility(View.VISIBLE);
+                findViewById(R.id.otherSelector).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        findViewById(R.id.otherLinks).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToSettingsList(false);
+                settingsLinksActive = false;
+                findViewById(R.id.settingsSelector).setVisibility(View.INVISIBLE);
+                findViewById(R.id.otherSelector).setVisibility(View.VISIBLE);
+            }
+        });
+
+        if (settingsLinksActive) {
+            settingsList.setVisibility(View.VISIBLE);
+            otherList.setVisibility(View.GONE);
+            findViewById(R.id.settingsSelector).setVisibility(View.VISIBLE);
+            findViewById(R.id.otherSelector).setVisibility(View.INVISIBLE);
+        } else {
+            settingsList.setVisibility(View.GONE);
+            otherList.setVisibility(View.VISIBLE);
+            findViewById(R.id.settingsSelector).setVisibility(View.INVISIBLE);
+            findViewById(R.id.otherSelector).setVisibility(View.VISIBLE);
+        }
+
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                resource,  /* nav drawer icon to replace 'Up' caret */
+                R.string.app_name,  /* "open drawer" description */
+                R.string.app_name  /* "close drawer" description */
+        );
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        userKnows = sharedPrefs.getBoolean("user_knows_navigation_drawer", false);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            public void onPageSelected(int position) {
+                DrawerArrayAdapter.current = position;
+                otherList.invalidateViews();
+                settingsList.invalidateViews();
+            }
+        });
+
+        if (!userKnows) {
+            mDrawerLayout.openDrawer(mDrawer);
+        }
+
+        HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
         HoloTextView versionNumber = (HoloTextView) findViewById(R.id.version_number);
 
         try {
@@ -93,7 +265,9 @@ public class SettingsActivity extends PreferenceActivity {
             public void onClick(View view) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
             }
-        });*/
+        });
+
+        mDrawerLayout.openDrawer(Gravity.START);
     }
 
     public void setUpTheme() {
@@ -120,60 +294,42 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_settings, menu);
-
-        return super.onCreateOptionsMenu(menu);
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.menu_whats_new:
-                final Context context = this;
-                final ListView list = new ListView(this);
-                list.setDividerHeight(0);
+                if (mDrawerToggle.onOptionsItemSelected(item)) {
+                    if (!userKnows) {
+                        userKnows = true;
 
-                new AsyncTask<Spanned[], Void, Spanned[]>() {
-                    @Override
-                    public Spanned[] doInBackground(Spanned[]... params) {
-                        return XmlChangelogUtils.parse(context);
+                        sharedPrefs.edit().putBoolean("user_knows_navigation_drawer", true).commit();
                     }
-
-                    @Override
-                    public void onPostExecute(Spanned[] result) {
-                        list.setAdapter(new ChangelogAdapter(context, result));
-                    }
-                }.execute();
-
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.changelog)
-                        .setView(list)
-                        .setPositiveButton(R.string.ok, null)
-                        .show();
-                return true;
-            case R.id.menu_rate_it:
-                Uri uri = Uri.parse("market://details?id=" + getPackageName());
-                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-
-                try {
-                    startActivity(goToMarket);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(this, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
-                return true;
-            case R.id.menu_get_help:
-                showSettings(7, getString(R.string.get_help_settings));
-                return true;
-            case R.id.menu_other_apps:
-                showSettings(8, getString(R.string.other_apps));
-                return true;
+
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
     }
 
     @Override
@@ -184,68 +340,83 @@ public class SettingsActivity extends PreferenceActivity {
         finish();
     }
 
-    public void setClicks() {
+    private static final int ANIM_TIME = 300;
 
-        findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(0, preference.getTitle().toString());
-                return false;
-            }
-        });
+    private void switchToSettingsList(boolean settings) {
+        if (settings && settingsList.getVisibility() != View.VISIBLE) {
+            // animate the settings list showing and other list hiding
+            Animation in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+            in.setDuration(ANIM_TIME * 2);
+            out.setDuration(ANIM_TIME);
+            in.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    settingsList.setVisibility(View.VISIBLE);
+                }
 
-        findPreference("timeline_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(1, preference.getTitle().toString());
-                return false;
-            }
-        });
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
 
-        findPreference("sync_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(2, preference.getTitle().toString());
-                return false;
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            out.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    otherList.setVisibility(View.VISIBLE);
+                }
 
-        findPreference("notification_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(3, preference.getTitle().toString());
-                return false;
-            }
-        });
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    otherList.setVisibility(View.GONE);
+                }
 
-        findPreference("browser_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(4, preference.getTitle().toString());
-                return false;
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            settingsList.startAnimation(in);
+            otherList.startAnimation(out);
+        } else if (!settings && otherList.getVisibility() != View.VISIBLE) {
+            // animate the other list showing and settings list hiding
+            Animation in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
+            in.setDuration(ANIM_TIME * 2);
+            out.setDuration(ANIM_TIME);
+            in.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    otherList.setVisibility(View.VISIBLE);
+                }
 
-        findPreference("advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(5, preference.getTitle().toString());
-                return false;
-            }
-        });
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
 
-        findPreference("memory_management").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(6, preference.getTitle().toString());
-                return false;
-            }
-        });
-    }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            out.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    settingsList.setVisibility(View.VISIBLE);
+                }
 
-    private void showSettings(int position, String title) {
-        startActivity(new Intent(this, PrefActivity.class)
-                .putExtra("position", position)
-                .putExtra("title", title));
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    settingsList.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+            settingsList.startAnimation(out);
+            otherList.startAnimation(in);
+        }
     }
 }
