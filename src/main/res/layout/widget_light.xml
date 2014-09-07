@@ -30,8 +30,9 @@ limitations under the License.
                 android:id="@+id/relLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ab_solid_light_holo"
                 android:padding="4dp">
+            <!--
+                android:background="@drawable/ab_solid_light_holo" -->
 
                 <ImageView
                     android:layout_width="wrap_content"
