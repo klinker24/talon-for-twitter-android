@@ -851,13 +851,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     public boolean refreshTweetmarker = false;
     public boolean onStartRefresh = false;
+    public static Handler refreshHandler;
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (isLauncher()) {
-            return;
+        if (HomeFragment.refreshHandler == null) {
+            HomeFragment.refreshHandler = new Handler();
         }
 
         if (MainActivity.caughtstarting) {
@@ -873,10 +874,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             resetTimeline(false);
             sharedPrefs.edit().putBoolean("refresh_me", false).commit();
         } else if (!sharedPrefs.getBoolean("dont_refresh", false)) { // otherwise, if there are no new ones, it should start the refresh
-            new Handler().postDelayed(new Runnable() {
+            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
+            HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if((settings.refreshOnStart) &&
+                    if ((settings.refreshOnStart) &&
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
                             sharedPrefs.getBoolean("should_refresh", true) &&
@@ -899,14 +901,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
 
         if (settings.liveStreaming && settings.tweetmarker) {
-            new Handler().postDelayed(new Runnable() {
+            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
+            HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     fetchTweetMarker();
                 }
             }, 600);
         } else if (!settings.liveStreaming && settings.tweetmarker) {
-            new Handler().postDelayed(new Runnable() {
+            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
+            HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (!actionBar.isShowing() && !isLauncher()) {
@@ -922,7 +926,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }
 
+    public static boolean starting = false;
     private void refreshOnStart() {
+        if (HomeFragment.starting) {
+            return;
+        } else {
+            HomeFragment.starting = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    HomeFragment.starting = false;
+                }
+            }, 10000);
+        }
         refreshLayout.setRefreshing(true);
         refreshTweetmarker = true;
 
@@ -934,6 +950,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                HomeFragment.starting = false;
                 numberNew = intent.getIntExtra("number_new", 0);
                 unread = numberNew;
                 onStartRefresh = true;
