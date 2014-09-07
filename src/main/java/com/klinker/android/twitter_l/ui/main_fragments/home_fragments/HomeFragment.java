@@ -943,7 +943,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         refreshLayout.setRefreshing(true);
         refreshTweetmarker = true;
-        MainActivity.canSwitch = false;
 
         Intent refresh = new Intent(context, TimelineRefreshService.class);
         refresh.putExtra("on_start_refresh", true);
@@ -953,6 +952,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Log.v("talon_startup", "here");
                 numberNew = intent.getIntExtra("number_new", 0);
                 unread = numberNew;
                 onStartRefresh = true;
