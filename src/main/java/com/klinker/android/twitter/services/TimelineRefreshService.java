@@ -40,7 +40,6 @@ public class TimelineRefreshService extends IntentService {
             return;
         }
         if (MainActivity.canSwitch) {
-            MainActivity.canSwitch = false;
             TimelineRefreshService.isRunning = true;
             sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -155,8 +154,6 @@ public class TimelineRefreshService extends IntentService {
 
 
             TimelineRefreshService.isRunning = false;
-        } else {
-            sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
         }
     }
 }

@@ -232,7 +232,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 if (firstVisibleItem < 3) {
 
                                 } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                    if (!landscape && !isTablet) {
+                                    if (!landscape && !isTablet && !refreshLayout.isRefreshing()) {
                                         actionBar.hide();
                                     }
                                     showToastBar(firstVisibleItem + " " + fromTop, jumpToTop, 400, false, toTopListener);
@@ -317,7 +317,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                 if (firstVisibleItem < 3) {
 
                                 } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                    if (!landscape && !isTablet) {
+                                    if (!landscape && !isTablet && !refreshLayout.isRefreshing()) {
                                         actionBar.hide();
                                     }
 
