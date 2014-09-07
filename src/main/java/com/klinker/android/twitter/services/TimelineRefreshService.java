@@ -74,6 +74,11 @@ public class TimelineRefreshService extends IntentService {
                     lastId = dataSource.getLastIds(currentAccount);
                     id = lastId[1];
                 } catch (Exception e) {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException i) {
+
+                    }
                     TimelineRefreshService.isRunning = false;
                     return;
                 }
@@ -146,6 +151,7 @@ public class TimelineRefreshService extends IntentService {
 
             sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
             getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+
 
             TimelineRefreshService.isRunning = false;
         }
