@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.settings;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -32,6 +33,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.adapters.ChangelogAdapter;
 import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.XmlChangelogUtils;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends Activity {
 
     @Override
     public void finish() {
@@ -55,20 +57,16 @@ public class SettingsActivity extends PreferenceActivity {
 
         AppSettings.invalidate();
 
-        setUpTheme();
-
-        addPreferencesFromResource(R.xml.main_settings);
-
-        setClicks();
+        Utils.setUpTheme(this, AppSettings.getInstance(this));
 
         ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        ListView list = (ListView) findViewById(android.R.id.list);
-        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
-        list.setDividerHeight(0);
-
+        getFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, new MainPrefFrag())
+                .commit();
 
         /*HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
         HoloTextView versionNumber = (HoloTextView) findViewById(R.id.version_number);
@@ -94,29 +92,6 @@ public class SettingsActivity extends PreferenceActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
             }
         });*/
-    }
-
-    public void setUpTheme() {
-
-        AppSettings settings = AppSettings.getInstance(this);
-
-        switch (settings.theme) {
-            case AppSettings.THEME_LIGHT:
-                setTheme(R.style.Theme_TalonLight);
-                break;
-            case AppSettings.THEME_DARK:
-                setTheme(R.style.Theme_TalonDark);
-                break;
-            case AppSettings.THEME_BLACK:
-                setTheme(R.style.Theme_TalonBlack);
-                break;
-        }
-
-        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-        int resource = a.getResourceId(0, 0);
-        a.recycle();
-
-        getWindow().getDecorView().setBackgroundResource(resource);
     }
 
     @Override
@@ -182,65 +157,6 @@ public class SettingsActivity extends PreferenceActivity {
         Intent main = new Intent(this, MainActivity.class);
         startActivity(main);
         finish();
-    }
-
-    public void setClicks() {
-
-        findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(0, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("timeline_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(1, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("sync_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(2, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("notification_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(3, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("browser_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(4, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(5, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("memory_management").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(6, preference.getTitle().toString());
-                return false;
-            }
-        });
     }
 
     private void showSettings(int position, String title) {

@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.utils.Utils;
 
 
 public class PrefActivity extends Activity {
@@ -19,6 +20,8 @@ public class PrefActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Utils.setUpTheme(this, AppSettings.getInstance(this));
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
