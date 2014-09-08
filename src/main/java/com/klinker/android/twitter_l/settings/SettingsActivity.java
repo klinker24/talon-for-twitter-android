@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.settings;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -32,19 +33,21 @@ public class SettingsActivity extends PreferenceActivity {
         overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
     }
 
+    public static boolean useAnim = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setUpTheme();
+        if (SettingsActivity.useAnim) {
+            overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+        }
 
-        overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
+        SettingsActivity.useAnim = true;
 
         AppSettings.invalidate();
 
-        addPreferencesFromResource(R.xml.main_settings);
-
-        setClicks();
+        setUpTheme();
 
         AppSettings settings = AppSettings.getInstance(this);
 
@@ -54,10 +57,10 @@ public class SettingsActivity extends PreferenceActivity {
         ab.setIcon(null);
         ab.setBackgroundDrawable(new ColorDrawable(settings.themeColors.primaryColor));
 
-        ListView list = (ListView) findViewById(android.R.id.list);
-        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
-        list.setDividerHeight(0);
-
+        getFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, new MainPrefFrag())
+                .commit();
 
         /*HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
         HoloTextView versionNumber = (HoloTextView) findViewById(R.id.version_number);
@@ -85,6 +88,7 @@ public class SettingsActivity extends PreferenceActivity {
         });*/
     }
 
+    public boolean refresh = false;
     @Override
     public void onResume() {
         super.onResume();
@@ -180,67 +184,6 @@ public class SettingsActivity extends PreferenceActivity {
         finish();
     }
 
-    public void setClicks() {
-
-        findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                refresh = true;
-                showSettings(0, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("timeline_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(1, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("sync_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(2, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("notification_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(3, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("browser_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(4, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(5, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("memory_management").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(6, preference.getTitle().toString());
-                return false;
-            }
-        });
-    }
-
-    private boolean refresh = false;
     private void showSettings(int position, String title) {
         startActivity(new Intent(this, PrefActivity.class)
                 .putExtra("position", position)
