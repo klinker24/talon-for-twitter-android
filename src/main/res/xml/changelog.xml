@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.1.2">
+        <text>Better coloring of settings for some devices/themes</text>
+    </version>
+
     <version name="3.1.0">
         <text>View multiple images from the timeline (won't work on tweets already saved to device)</text>
         <text>New settings menu</text>
