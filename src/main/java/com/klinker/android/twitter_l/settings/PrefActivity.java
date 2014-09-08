@@ -2,14 +2,15 @@ package com.klinker.android.twitter_l.settings;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
-
 
 public class PrefActivity extends PreferenceActivity {
 
@@ -17,6 +18,16 @@ public class PrefActivity extends PreferenceActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AppSettings.invalidate();
+        Intent main = new Intent(this, SettingsActivity.class);
+        SettingsActivity.useAnim = false;
+        startActivity(main);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        finish();
     }
 
     @Override
