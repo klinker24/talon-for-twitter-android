@@ -84,11 +84,12 @@ limitations under the License.
         <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
+        <item name="drawerTrends">@drawable/drawer_trends_light</item>
         <item name="notificationSettings">@drawable/drawer_notifications_light</item>
         <item name="syncSettings">@drawable/drawer_sync_light</item>
         <item name="advancedSettings">@drawable/advanced_settings_light</item>
         <item name="whatsNew">@drawable/ic_action_new_light</item>
-        <item name="links">@drawable/drawer_trends_light</item>
+        <item name="links">@drawable/ic_links_light</item>
         <item name="worldTrends">@drawable/ic_action_map_light</item>
         <item name="getHelp">@drawable/drawer_help_light</item>
         <item name="otherApps">@drawable/drawer_other_apps_light</item>

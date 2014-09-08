@@ -85,6 +85,7 @@ limitations under the License.
     <attr name="compose_window_background" format="reference"/>
 
     <!-- Drawer Icons -->
+    <attr name="drawerTrends" format="reference"/>
     <attr name="drawerIcon" format="reference"/>
     <attr name="themeSettings" format="reference"/>
     <attr name="notificationSettings" format="reference"/>

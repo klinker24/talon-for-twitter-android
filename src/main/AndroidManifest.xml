@@ -472,7 +472,7 @@
             android:label="@string/pictures"
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Notif.Orange">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.discover.people.PeopleSearch"

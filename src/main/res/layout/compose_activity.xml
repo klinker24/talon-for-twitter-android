@@ -23,13 +23,24 @@
                           android:gravity="center_vertical"
                           android:paddingLeft="12dp" >
 
+                <ImageButton
+                        android:id="@+id/discard_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Attach Image"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:src="?cancelButton"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
+
                 <LinearLayout
                         android:id="@+id/accounts"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp">
 
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                             android:id="@+id/profile_pic"
@@ -51,16 +62,6 @@
                             android:paddingLeft="12dp"/>
 
                 </LinearLayout>
-
-                <ImageButton
-                        android:id="@+id/discard_button"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Attach Image"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:src="?cancelButton"
-                        android:gravity="center"
-                        android:layout_gravity="center" />
 
                 <ImageButton
                         android:id="@+id/overflow_button"

@@ -60,7 +60,7 @@ public class ViewPictures extends Activity {
 
         setUpWindow();
 
-        Utils.setUpPopupTheme(this, settings);
+        Utils.setUpNotifTheme(this, settings);
 
         setContentView(R.layout.list_view_activity);
 

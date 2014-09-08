@@ -694,9 +694,6 @@ public class ExpansionViewHelper {
                                 //adjustConversationSectionSize(replyList);
                                 convoSpinner.setVisibility(View.GONE);
 
-                            } else {
-                                disableConvoButton();
-                                convoSpinner.setVisibility(View.GONE);
                             }
                         } catch (Exception e) {
                             // none and it got the null object
@@ -795,7 +792,9 @@ public class ExpansionViewHelper {
                                     } catch (Exception e) {
                                         // none and it got the null object
                                         e.printStackTrace();
-                                        disableConvoButton();
+                                        if (replies != null && replies.size() == 0) {
+                                            disableConvoButton();
+                                        }
                                     }
                                 }
                             });
