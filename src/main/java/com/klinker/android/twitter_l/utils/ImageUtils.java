@@ -501,6 +501,11 @@ public class ImageUtils {
         // need to make them square
         for (int i = 0; i < bitmaps.length; i++) {
             Bitmap currentImage = bitmaps[i];
+
+            if (currentImage == null) {
+                return bitmaps[0];
+            }
+
             if (currentImage.getWidth() >= currentImage.getHeight()){
                 currentImage = Bitmap.createBitmap(
                         currentImage,

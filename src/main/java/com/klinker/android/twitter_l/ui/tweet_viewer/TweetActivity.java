@@ -1215,9 +1215,13 @@ public class TweetActivity extends YouTubeBaseActivity {
     }
 
     private static String stripTrailingPeriods(String url) {
-        if (url.substring(url.length() - 1, url.length()).equals(".")) {
-            return stripTrailingPeriods(url.substring(0, url.length() - 1));
-        } else {
+        try {
+            if (url.substring(url.length() - 1, url.length()).equals(".")) {
+                return stripTrailingPeriods(url.substring(0, url.length() - 1));
+            } else {
+                return url;
+            }
+        } catch (Exception e) {
             return url;
         }
     }
