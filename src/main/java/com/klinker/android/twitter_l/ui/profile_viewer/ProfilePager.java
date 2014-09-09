@@ -86,6 +86,17 @@ public class ProfilePager extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            setUpWindow();
+
+            int currentOrientation = getResources().getConfiguration().orientation;
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            }
+        }
+
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -109,6 +120,34 @@ public class ProfilePager extends Activity {
         setUpContent();
         setUpInsets();
         getUser();
+    }
+
+    public void setUpWindow() {
+
+        requestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
+                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        // Params for the window.
+        // You can easily set the alpha and the dim behind the window from here
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 1.0f;    // lower than one makes it more transparent
+        params.dimAmount = .4f;  // set it higher if you want to dim behind the window
+        getWindow().setAttributes(params);
+
+        // Gets the display size so that you can set the window to a percent of that
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        // You could also easily used an integer value from the shared preferences to set the percent
+        if (height > width) {
+            getWindow().setLayout((int) (width * .85), (int) (height * .68));
+        } else {
+            getWindow().setLayout((int) (width * .6), (int) (height * .8));
+        }
     }
 
     public NetworkedCacheableImageView background;

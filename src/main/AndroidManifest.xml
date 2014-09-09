@@ -439,7 +439,7 @@
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Tweet">
+                  android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name=".ui.tweet_viewer.LauncherTweetActivity"
@@ -449,7 +449,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name=".ui.tweet_viewer.NotiTweetActivity"
@@ -458,7 +458,7 @@
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.ViewRetweeters"
@@ -487,14 +487,14 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Orange">
+                  android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.LauncherProfilePager"
@@ -504,7 +504,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Orange">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.SettingsActivity"

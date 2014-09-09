@@ -568,7 +568,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
     private ExpansionViewHelper expansionHelper;
 
     @Override
-    public void expandViewOpen(final int distanceFromTop, int position, View root, ExpansionViewHelper helper) {
+    public void expandViewOpen(int distanceFromTop, int position, View root, ExpansionViewHelper helper) {
+        if (landscape) {
+            distanceFromTop = distanceFromTop + Utils.getStatusBarHeight(context);
+        }
+
         if (expansionHandler == null) {
             expansionHandler = new Handler();
         }

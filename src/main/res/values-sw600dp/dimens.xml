@@ -10,4 +10,6 @@
 
     <dimen name="header_condensed_height">275dp</dimen>
 
+    <dimen name="profile_card_padding">64dp</dimen>
+
 </resources>

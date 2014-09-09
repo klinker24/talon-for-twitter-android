@@ -45,4 +45,6 @@ limitations under the License.
     <dimen name="expansion_size">150dp</dimen>
 
     <dimen name="settings_text_padding">16dp</dimen>
+
+    <dimen name="profile_card_padding">16dp</dimen>
 </resources>
