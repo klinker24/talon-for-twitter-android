@@ -359,21 +359,26 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void toTop() {
+        canUseScrollStuff = false;
+        showStatusBar();
+        hideToastBar(300);
+
         try {
             if (listView.getFirstVisiblePosition() > 40) {
                 listView.setSelection(0);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideToastBar(400);
-                    }
-                }, 250);
             } else {
                 listView.smoothScrollToPosition(0);
             }
         } catch (Exception e) {
             listView.smoothScrollToPosition(0);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                canUseScrollStuff = true;
+            }
+        }, 500);
     }
 
     public void onRefreshStarted() {

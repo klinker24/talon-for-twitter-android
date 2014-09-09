@@ -43,6 +43,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
+import com.klinker.android.twitter_l.utils.Utils;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -86,6 +87,8 @@ public class PhotoViewerDialog extends Activity {
         final boolean fromLauncher = getIntent().getBooleanExtra("from_launcher", false);
 
         AppSettings settings = new AppSettings(context);
+
+        Utils.setUpTweetTheme(this, settings);
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION|WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
