@@ -36,6 +36,7 @@ import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.utils.*;
@@ -791,7 +792,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     public void onHelpClicked(View v) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-        Intent settings = new Intent(context, SettingsActivity.class);
+        Intent settings = new Intent(context, PrefActivity.class);
+        settings.putExtra("position", 7)
+                .putExtra("title",
+                        getResources().getString(R.string.get_help_settings));
         finish();
         settings.putExtra("open_help", true);
         startActivity(settings);
