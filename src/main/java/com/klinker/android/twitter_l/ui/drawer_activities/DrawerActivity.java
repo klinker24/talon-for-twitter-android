@@ -89,7 +89,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public int openMailResource;
     public int closedMailResource;
-    public static HoloTextView oldInteractions;
+    public static TextView oldInteractions;
     public ImageView readButton;
 
     private NetworkedCacheableImageView backgroundPic;
@@ -177,10 +177,16 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         drawerList = (ListView) mDrawer.findViewById(R.id.drawer_list);
         notificationList = (EnhancedListView) findViewById(R.id.notificationList);
 
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            findViewById(R.id.notification_drawer_ab).setVisibility(View.GONE);
+        }
+
         try {
             mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_rev, Gravity.END);
+
+            final boolean hasDrawer = getResources().getBoolean(R.bool.has_drawer);
 
             mDrawerToggle = new ActionBarDrawerToggle(
                     this,                  /* host Activity */
@@ -234,8 +240,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 }
 
                 public void onDrawerOpened(View drawerView) {
-                    actionBar.setTitle(getResources().getString(R.string.app_name));
-                    actionBar.setIcon(R.mipmap.ic_launcher);
+                    //actionBar.setTitle(getResources().getString(R.string.app_name));
+                    //actionBar.setIcon(R.mipmap.ic_launcher);
 
                     try {
                         notificationAdapter = new InteractionsCursorAdapter(context,
@@ -253,14 +259,30 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 }
 
                 public void onDrawerSlide(View drawerView, float slideOffset) {
-                    super.onDrawerSlide(drawerView, slideOffset);
+                    //super.onDrawerSlide(drawerView, slideOffset);
 
                     if (tranparentSystemBar == -1) {
                         tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
                     }
 
-                    getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
-                            (toolbar != null && toolbar.getAlpha() == 1f) ? settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                    if (hasDrawer) {
+                        getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
+                                (toolbar != null && toolbar.getAlpha() == 1f) ? settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                    }
+                }
+
+                @Override
+                public boolean onOptionsItemSelected(MenuItem item) {
+                    // Toggle drawer
+                    if (item.getItemId() == android.R.id.home) {
+                        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                            mDrawerLayout.closeDrawer(Gravity.START);
+                        } else {
+                            mDrawerLayout.openDrawer(Gravity.START);
+                        }
+                        return true;
+                    }
+                    return false;
                 }
             };
 
@@ -682,7 +704,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer_1, null);
             notificationList.addFooterView(viewHeader, null, false);
-            oldInteractions = (HoloTextView) findViewById(R.id.old_interactions_text);
+            oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
             readButton = (ImageView) findViewById(R.id.read_button);
 
             LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
@@ -1069,18 +1091,14 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        try {
-            if (mDrawerToggle.onOptionsItemSelected(item)) {
-                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
-                }
-                return true;
-            }
-        } catch (Exception e) {
-            // landscape
-        }
-
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+                    mDrawerLayout.closeDrawer(Gravity.START);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.START);
+                }
+                return super.onOptionsItemSelected(item);
             case R.id.menu_search:
                 overridePendingTransition(0,0);
                 finish();

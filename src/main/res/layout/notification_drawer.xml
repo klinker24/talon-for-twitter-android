@@ -13,9 +13,9 @@
           android:background="@android:color/black"
           android:visibility="gone"/>
 
-    <include layout="@layout/ab_header"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content" />
+    <View android:layout_height="?android:actionBarSize"
+          android:layout_width="match_parent"
+          android:id="@+id/notification_drawer_ab" />
 
     <de.timroes.android.listview.EnhancedListView
             android:layout_width="match_parent"

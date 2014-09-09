@@ -58,10 +58,10 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        HoloTextView title = (HoloTextView) view.findViewById(R.id.title);
+        TextView title = (TextView) view.findViewById(R.id.title);
         String mTitle = title.getText().toString();
 
-        HoloTextView text = (HoloTextView) view.findViewById(R.id.text);
+        TextView text = (TextView) view.findViewById(R.id.text);
         String mText = text.getText().toString();
 
         // get the datasource ready to read/write

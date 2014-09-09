@@ -482,8 +482,10 @@ public class ImageUtils {
     }
 
     public static int getBrightness(String color) {
+        return getBrightness((int)Long.parseLong(color, 16));
+    }
+    public static int getBrightness(int colorInt) {
 
-        int colorInt = (int)Long.parseLong(color, 16);
         int r = (colorInt >> 16) & 0xFF;
         int g = (colorInt >> 8) & 0xFF;
         int b = (colorInt >> 0) & 0xFF;

@@ -31,13 +31,14 @@
             android:src="?read_button"
             />
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+        <TextView
             android:id="@+id/old_interactions_text"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/old_interactions"
             android:gravity="center"
+            android:textColor="?textColor"
             android:textSize="19dp"
             android:layout_gravity="right|center_vertical"/>
 

@@ -5,6 +5,6 @@
     <item android:id="@+id/menu_open_web"
         android:orderInCategory="3"
         android:title="@string/menu_open_web"
-        android:icon="@drawable/drawer_trends_dark"
+        android:icon="@drawable/ic_links_dark"
         android:showAsAction="always" />
 </menu>

@@ -288,6 +288,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int onScreen, int total) {
                 if (!canUseScrollStuff) {
+
+                    if (expansionHelper != null) {
+                        expansionHelper.hidePopups();
+                    }
+
                     return;
                 }
 
