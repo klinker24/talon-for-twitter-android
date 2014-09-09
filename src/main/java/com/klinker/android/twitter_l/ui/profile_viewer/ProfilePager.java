@@ -220,6 +220,11 @@ public class ProfilePager extends Activity {
         param.height = sbHeight;
         blackStatus.setLayoutParams(param);
 
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            blackStatus.setVisibility(View.GONE);
+            status.setVisibility(View.GONE);
+        }
+
         View action = findViewById(R.id.actionbar_bar);
         params = (LinearLayout.LayoutParams) action.getLayoutParams();
         params.height = abHeight;
