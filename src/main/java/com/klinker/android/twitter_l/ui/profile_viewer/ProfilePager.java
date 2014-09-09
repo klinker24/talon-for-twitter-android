@@ -252,8 +252,8 @@ public class ProfilePager extends Activity {
     }
 
     public void setProfileCard(User user) {
-        String color = user.getProfileBackgroundColor();
         String backgroundImage = user.getProfileBannerIPadRetinaURL();
+        /*String color = user.getProfileBackgroundColor();
 
         int brightness = ImageUtils.getBrightness(color);
         Log.v("talon_profile_color", "brightness: " + brightness);
@@ -273,6 +273,14 @@ public class ProfilePager extends Activity {
                 followerCount.setTextColor(getResources().getColor(R.color.light_text));
                 followingCount.setTextColor(getResources().getColor(R.color.light_text));
             }
+        }*/
+        findViewById(R.id.status_bar).setBackgroundColor(settings.themeColors.primaryColorDark);
+        findViewById(R.id.actionbar_bar).setBackgroundColor(settings.themeColors.primaryColor);
+        profileCounts.setBackgroundColor(settings.themeColors.primaryColorLight);
+
+        if (ImageUtils.getBrightness(settings.themeColors.primaryColorLight) > 128) {
+            followerCount.setTextColor(getResources().getColor(R.color.light_text));
+            followingCount.setTextColor(getResources().getColor(R.color.light_text));
         }
 
         if (backgroundImage != null) {
@@ -299,6 +307,10 @@ public class ProfilePager extends Activity {
         }
         if (web != null && !web.equals("")) {
             website.setText(web);
+
+            if (location.getVisibility() == View.GONE) {
+                website.setPadding(0, Utils.toDP(16, context), 0, 0);
+            }
         } else {
             website.setVisibility(View.GONE);
         }
@@ -345,6 +357,12 @@ public class ProfilePager extends Activity {
                 new FavoriteUser().execute();
             }
         });
+
+        if (user.getScreenName().equals(settings.myScreenName)) {
+            // they are you
+            favoriteText.setVisibility(View.GONE);
+            followButton.setVisibility(View.GONE);
+        }
 
         showCard(findViewById(R.id.header_card));
     }

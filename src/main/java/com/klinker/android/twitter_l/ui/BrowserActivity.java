@@ -47,6 +47,8 @@ public class BrowserActivity extends Activity {
 
         settings = AppSettings.getInstance(this);
 
+        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+
         url = getIntent().getStringExtra("url");
 
         Utils.setUpTheme(this, settings);

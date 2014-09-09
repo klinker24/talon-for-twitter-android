@@ -27,6 +27,7 @@ limitations under the License.
 
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
+        <item name="android:popupMenuStyle">@style/ActionBarPopup</item>
 
         <item name="android:colorControlHighlight">@color/light_ripple</item>
 
@@ -146,6 +147,11 @@ limitations under the License.
     <style name="ActionBarPopup" parent="android:Theme.Material.Light">
         <item name="android:popupMenuStyle">@android:style/Widget.Material.Light.PopupMenu</item>
         <item name="android:dropDownListViewStyle">@android:style/Widget.Material.Light.ListView.DropDown</item>
+    </style>
+
+    <style name="ToolBarLight" parent="android:Widget.Material.Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:colorControlHighlight">@color/dark_ripple</item>
     </style>
 
 </resources>

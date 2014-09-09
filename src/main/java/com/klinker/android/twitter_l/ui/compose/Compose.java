@@ -320,7 +320,9 @@ public abstract class Compose extends Activity implements
                         }
                     }
                 });
-        findViewById(R.id.discard_button).setOnClickListener(
+        View discard = findViewById(R.id.discard_button);
+        discard.setVisibility(View.GONE);
+        discard.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
