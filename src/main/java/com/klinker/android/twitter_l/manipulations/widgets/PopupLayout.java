@@ -49,6 +49,7 @@ public abstract class PopupLayout extends LinearLayout {
     private ViewGroup parent = null;
 
     protected boolean dontShow = false;
+    protected boolean centerInScreen = false;
 
     public abstract View setMainLayout();
 
@@ -323,6 +324,11 @@ public abstract class PopupLayout extends LinearLayout {
      */
     public void setTitle(String text) {
         title.setText(text);
+    }
+
+    public void setCenterInScreen() {
+        setDistanceFromLeft(screenWidth/2 - width/2);
+        setDistanceFromTop(screenHeight/2 - height/2);
     }
 
     /**

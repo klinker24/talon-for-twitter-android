@@ -43,8 +43,8 @@
                     android:layout_height="match_parent"
                     android:maxWidth="300dp"
                     android:layout_marginTop="82dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="@dimen/profile_card_padding"
+                    android:layout_marginLeft="@dimen/profile_card_padding"
                     android:layout_marginBottom="16dp"
                     android:visibility="invisible">
 

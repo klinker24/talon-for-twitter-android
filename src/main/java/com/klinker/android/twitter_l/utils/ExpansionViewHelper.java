@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.preference.PreferenceFragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -39,6 +40,7 @@ import org.jsoup.select.Elements;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
+import twitter4j.conf.Configuration;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.text.DateFormat;
@@ -84,12 +86,16 @@ public class ExpansionViewHelper {
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
 
+    boolean landscape;
+
     public ExpansionViewHelper(Context context, long tweetId) {
         this.context = context;
         this.id = tweetId;
 
         // get the base view
         expansion = ((Activity)context).getLayoutInflater().inflate(R.layout.tweet_expansion, null, false);
+
+        landscape = context.getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
         setViews();
         setClicks();
@@ -200,6 +206,16 @@ public class ExpansionViewHelper {
                     getConversation();
                     if (convoPopup == null) {
                         convoPopup = new ConversationPopupLayout(context, convoLayout);
+                        if (context.getResources().getBoolean(R.bool.isTablet)) {
+                            if (landscape) {
+                                convoPopup.setWidthByPercent(.6f);
+                                convoPopup.setHeightByPercent(.8f);
+                            } else {
+                                convoPopup.setWidthByPercent(.85f);
+                                convoPopup.setHeightByPercent(.68f);
+                            }
+                            convoPopup.setCenterInScreen();
+                        }
                     }
                     convoPopup.show();
                 } else {
@@ -236,6 +252,16 @@ public class ExpansionViewHelper {
 
                     if (mobilizedPopup == null) {
                         mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                        if (context.getResources().getBoolean(R.bool.isTablet)) {
+                            if (landscape) {
+                                mobilizedPopup.setWidthByPercent(.6f);
+                                mobilizedPopup.setHeightByPercent(.8f);
+                            } else {
+                                mobilizedPopup.setWidthByPercent(.85f);
+                                mobilizedPopup.setHeightByPercent(.68f);
+                            }
+                            mobilizedPopup.setCenterInScreen();
+                        }
                     }
                     mobilizedPopup.show();
                 } else {
@@ -265,6 +291,16 @@ public class ExpansionViewHelper {
                     web.loadUrl(webLink);
                     if (webPopup == null) {
                         webPopup = new WebPopupLayout(context, webLayout);
+                        if (context.getResources().getBoolean(R.bool.isTablet)) {
+                            if (landscape) {
+                                webPopup.setWidthByPercent(.6f);
+                                webPopup.setHeightByPercent(.8f);
+                            } else {
+                                webPopup.setWidthByPercent(.85f);
+                                webPopup.setHeightByPercent(.68f);
+                            }
+                            webPopup.setCenterInScreen();
+                        }
                     }
                     webPopup.show();
                 }
