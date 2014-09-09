@@ -130,6 +130,7 @@
                             android:id="@+id/quote_button"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:padding="5dp"
                             android:src="@drawable/ic_action_reply_all_light"
                             android:contentDescription="Quote Tweet"
                             android:minHeight="32dp" android:minWidth="32dp"
@@ -151,6 +152,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:contentDescription="Share"
+                            android:padding="5dp"
                             android:minHeight="37dp" android:minWidth="37dp"
                             android:scaleType="fitCenter" android:adjustViewBounds="true"
                             android:maxWidth="37dp" android:maxHeight="37dp"
@@ -203,6 +205,7 @@
                                     android:singleLine="true"
                                     android:paddingRight="3dp"
                                     android:id="@+id/fav_count"
+                                    android:textColor="@android:color/black"
                                     android:fontFamily="sans-serif-light" />
 
                         </LinearLayout>
@@ -254,6 +257,7 @@
                                     android:singleLine="true"
                                     android:gravity="bottom|right"
                                     android:id="@+id/retweet_count"
+                                    android:textColor="@android:color/black"
                                     android:fontFamily="sans-serif-light" />
 
                         </LinearLayout>
@@ -278,6 +282,8 @@
                         android:hint="@string/reply"
                         android:contentDescription="Reply"
                         android:textSize="14dp"
+                        android:textColorHint="@android:color/black"
+                        android:textColor="@android:color/black"
                         android:inputType="textMultiLine|textCapSentences"
                         android:fontFamily="sans-serif-light"/>
 
