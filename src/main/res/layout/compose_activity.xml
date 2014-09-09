@@ -20,17 +20,18 @@
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="56dp"
                           android:orientation="horizontal"
-                          android:gravity="center_vertical"
-                          android:paddingLeft="12dp" >
+                          android:gravity="center_vertical" >
 
                 <ImageButton
                         android:id="@+id/discard_button"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:padding="14dp"
                         android:contentDescription="Attach Image"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:src="?cancelButton"
                         android:gravity="center"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="center" />
 
                 <LinearLayout
@@ -39,8 +40,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="16dp">
+                        android:gravity="center_vertical" >
 
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                             android:id="@+id/profile_pic"
@@ -64,13 +64,27 @@
                 </LinearLayout>
 
                 <ImageButton
+                        android:id="@+id/dm_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="11dp"
+                        android:contentDescription="Switch to Direct Message"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:src="?favUser"
+                        android:gravity="center"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center" />
+
+                <ImageButton
                         android:id="@+id/overflow_button"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
+                        android:padding="10dp"
                         android:contentDescription="Attach Image"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:src="?circle_overflow"
                         android:gravity="center"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="center" />
 
             </LinearLayout>

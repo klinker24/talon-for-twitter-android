@@ -1041,6 +1041,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             setNotificationFilled(false);
         }
 
+        menu.getItem(DM).setVisible(false);
+
         return true;
     }
 

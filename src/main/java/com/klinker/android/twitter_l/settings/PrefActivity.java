@@ -103,7 +103,7 @@ public class PrefActivity extends PreferenceActivity {
         } else if (position == 6) {
             ab.setIcon(R.drawable.ic_action_sd_storage_dark);
         } else if (position == 4) {
-            ab.setIcon(R.drawable.drawer_trends_dark);
+            ab.setIcon(R.drawable.ic_links_dark);
         }
     }
 }

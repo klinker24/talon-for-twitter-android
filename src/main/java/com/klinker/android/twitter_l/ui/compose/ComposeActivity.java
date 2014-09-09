@@ -267,7 +267,7 @@ public class ComposeActivity extends Compose {
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final PopupMenu menu = new PopupMenu(context, findViewById(R.id.discard_button));
+                final PopupMenu menu = new PopupMenu(context, findViewById(R.id.overflow_button));
 
                 menu.getMenu().add(Menu.NONE, SAVE_DRAFT, Menu.NONE, context.getString(R.string.menu_save_draft));
                 menu.getMenu().add(Menu.NONE, VIEW_DRAFTS, Menu.NONE, context.getString(R.string.menu_view_drafts));
@@ -406,6 +406,25 @@ public class ComposeActivity extends Compose {
                 });
 
                 menu.show();
+            }
+        });
+
+        final ImageButton convertToDM = (ImageButton) findViewById(R.id.dm_button);
+        convertToDM.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(context, R.string.menu_direct_message, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        convertToDM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent dm = new Intent(context, ComposeDMActivity.class);
+                startActivity(dm);
+                overridePendingTransition(0,0);
+                finish();
+                overridePendingTransition(0,0);
             }
         });
 

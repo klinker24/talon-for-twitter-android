@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.settings;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -37,9 +39,36 @@ public class MainPrefFrag extends PreferenceFragment {
         return v;
     }
 
+    String[] titles = new String[] {
+            "ui_settings",
+            "timeline_settings",
+            "sync_settings",
+            "notification_settings",
+            "browser_settings",
+            "advanced_settings",
+            "memory_management"
+    };
+
     public void setClicks() {
 
-        findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        for (int i = 0; i < titles.length; i++) {
+            final Preference p = findPreference(titles[i]);
+            final int num = i;
+            p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    showSettings(num, preference.getTitle().toString());
+                    return false;
+                }
+            });
+
+            /*Drawable d = p.getIcon();
+            if (d != null) {
+                d.setColorFilter(AppSettings.getInstance(getActivity()).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+                p.setIcon(d);
+            }*/
+        }
+        /*findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 showSettings(0, preference.getTitle().toString());
@@ -93,7 +122,7 @@ public class MainPrefFrag extends PreferenceFragment {
                 showSettings(6, preference.getTitle().toString());
                 return false;
             }
-        });
+        });*/
     }
 
     private void showSettings(int position, String title) {
