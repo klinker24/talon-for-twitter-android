@@ -49,7 +49,8 @@
                             android:background="@drawable/pro_pic_clip"
                             android:minHeight="42dp" android:minWidth="42dp"
                             android:scaleType="centerCrop" android:adjustViewBounds="true"
-                            android:maxWidth="42dp" android:maxHeight="42dp"/>
+                            android:maxWidth="42dp" android:maxHeight="42dp"
+                            android:layout_marginLeft="16dp"/>
 
                     <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                             android:id="@+id/current_name"

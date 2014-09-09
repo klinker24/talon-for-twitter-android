@@ -702,12 +702,18 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             }
 
-            View viewHeader = ((Activity)context).getLayoutInflater().inflate(R.layout.interactions_footer_1, null);
-            notificationList.addFooterView(viewHeader, null, false);
             oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
             readButton = (ImageView) findViewById(R.id.read_button);
 
-            LinearLayout footer = (LinearLayout) viewHeader.findViewById(R.id.footer);
+            LinearLayout footer = (LinearLayout) findViewById(R.id.footer);
+            View seperater = findViewById(R.id.nav_bar_seperator_interactions);
+            if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                LinearLayout.LayoutParams navParams = (LinearLayout.LayoutParams) seperater.getLayoutParams();
+                navParams.height = navBarHeight;
+                seperater.setLayoutParams(navParams);
+            } else {
+                seperater.setVisibility(View.GONE);
+            }
             footer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -741,7 +747,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     nav.setOnLongClickListener(null);
                     ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
                     nav.setLayoutParams(params);
-                    notificationList.addFooterView(nav);
+                    //notificationList.addFooterView(nav);
                     notificationList.setFooterDividersEnabled(false);
                 }
             }
