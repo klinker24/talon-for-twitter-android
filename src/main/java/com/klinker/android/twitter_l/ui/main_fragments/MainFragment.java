@@ -627,7 +627,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
 
         if (currentDistanceFromTop != -1) {
-            listView.smoothScrollBy(-1 * expandedDistanceFromTop + currentDistanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
+            listView.smoothScrollBy(
+                    -1 * expandedDistanceFromTop + currentDistanceFromTop -
+                            (getResources().getBoolean(R.bool.isTablet) ? Utils.getActionBarHeight(context) : 0),
+                    TimeLineCursorAdapter.ANIMATION_DURATION
+            );
         }
     }
 }
