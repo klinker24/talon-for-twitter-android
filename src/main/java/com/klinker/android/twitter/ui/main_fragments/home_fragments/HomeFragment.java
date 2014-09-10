@@ -869,6 +869,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                 twitter.verifyCredentials();
                 MentionsDataSource mentions = MentionsDataSource.getInstance(context);
+                try {
+                    mentions.markAllRead(settings.currentAccount);
+                } catch (Throwable e) {
+
+                }
                 long[] lastId = mentions.getLastIds(currentAccount);
                 Paging paging;
                 paging = new Paging(1, 200);

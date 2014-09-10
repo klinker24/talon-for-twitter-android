@@ -151,6 +151,12 @@ public class MentionsFragment extends MainFragment {
 
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
 
+                    try {
+                        dataSource.markAllRead(settings.currentAccount);
+                    } catch (Throwable e) {
+
+                    }
+
                     numberNew = dataSource.insertTweets(statuses, currentAccount);
                     unread = numberNew;
 
