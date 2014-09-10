@@ -45,7 +45,7 @@ public class TextUtils {
 
         //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
         Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
-        Linkify.addLinks(context, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, textView, Regex.VALID_URL, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.CASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
@@ -62,7 +62,7 @@ public class TextUtils {
 
         //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
         Linkify.addLinks(context, settings, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
-        Linkify.addLinks(context, settings, textView, Patterns.WEB_URL, null, filter, textView, holder, allLinks, extBrowser);
+        Linkify.addLinks(context, settings, textView, Regex.VALID_URL, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, settings, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, settings, textView, Regex.CASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, settings, textView, Regex.MENTION_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
@@ -87,7 +87,7 @@ public class TextUtils {
         while (m.find()) {
             finish = changeText(finish, m.group(0), color);
         }
-        m = Patterns.WEB_URL.matcher(tweet);
+        m = Regex.VALID_URL.matcher(tweet);
         while (m.find()) {
             finish = changeText(finish, m.group(0), color);
         }
