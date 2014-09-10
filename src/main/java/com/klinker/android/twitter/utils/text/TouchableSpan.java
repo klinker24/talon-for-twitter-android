@@ -30,6 +30,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
+import android.widget.Toast;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Link;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -123,7 +124,11 @@ public class TouchableSpan extends ClickableSpan {
                     Uri weburi = Uri.parse("http://" + data);
                     Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                     launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(launchBrowser);
+                    try {
+                        mContext.startActivity(launchBrowser);
+                    } catch (Exception e) {
+                        Toast.makeText(mContext, "No browser found.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     String data = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
                     Intent launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
