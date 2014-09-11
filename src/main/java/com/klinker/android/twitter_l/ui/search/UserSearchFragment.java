@@ -144,7 +144,7 @@ public class UserSearchFragment extends Fragment {
             footer.setOnClickListener(null);
             footer.setOnLongClickListener(null);
             ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context) +
-                    (DrawerActivity.hasToolbar ? Utils.getStatusBarHeight(context) : 0));
+                    (getResources().getBoolean(R.bool.has_drawer) ? Utils.getNavBarHeight(context) : 0));
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
