@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -115,17 +116,14 @@ public class SearchPager extends Activity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        if (translucent) {
-            statusBar.setVisibility(View.VISIBLE);
+        statusBar.setVisibility(View.VISIBLE);
+        statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
 
-            int statusBarHeight = Utils.getStatusBarHeight(context);
+        int statusBarHeight = Utils.getStatusBarHeight(context);
 
-            LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
-            statusParams.height = statusBarHeight;
-            statusBar.setLayoutParams(statusParams);
-        } else {
-            mViewPager.setPadding(0,0,0,0);
-        }
+        LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
+        statusParams.height = statusBarHeight;
+        statusBar.setLayoutParams(statusParams);
 
         mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, onlyProfile, searchQuery, translucent);
 
@@ -133,8 +131,20 @@ public class SearchPager extends Activity {
 
         mViewPager.setOffscreenPageLimit(3);
 
-        PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        PagerSlidingTabStrip strip = (PagerSlidingTabStrip) findViewById(R.id.pager_tab_strip);
+        //PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        strip.setShouldExpand(true);
         strip.setBackgroundColor(settings.themeColors.primaryColor);
+        strip.setTextColorResource(R.color.white);
+        strip.setIndicatorColor(settings.themeColors.accentColor);
+        strip.setTextSize((int)getResources().getDimension(R.dimen.pager_tab_strip_text));
+        strip.setViewPager(mViewPager);
+
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            int height = Utils.getActionBarHeight(this);
+            strip.setTranslationY(height);
+            mViewPager.setTranslationY(height);
+        }
 
         mViewPager.setCurrentItem(1);
 
