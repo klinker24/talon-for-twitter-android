@@ -112,8 +112,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
         settings = AppSettings.getInstance(context);
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();

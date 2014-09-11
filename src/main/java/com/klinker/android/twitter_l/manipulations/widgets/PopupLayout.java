@@ -76,14 +76,14 @@ public abstract class PopupLayout extends LinearLayout {
         title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int fiveDP = Utils.toDP(7, context);
         title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
-        title.setTextColor(context.getResources().getColor(R.color.accent));
+        title.setTextColor(AppSettings.getInstance(context).themeColors.primaryColor);
         title.setAllCaps(true);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         title.setText(context.getResources().getString(R.string.retweets));
 
         titleDivider = new View(context);
         titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
-        titleDivider.setBackgroundColor(context.getResources().getColor(R.color.accent));
+        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
         addView(title);
         addView(titleDivider);
@@ -137,14 +137,14 @@ public abstract class PopupLayout extends LinearLayout {
         title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int fiveDP = Utils.toDP(7, context);
         title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
-        title.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+        title.setTextColor(AppSettings.getInstance(context).themeColors.primaryColor);
         title.setAllCaps(true);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         title.setText(context.getResources().getString(R.string.retweets));
 
         titleDivider = new View(context);
         titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
-        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.accentColor);
+        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
         addView(title);
         addView(titleDivider);

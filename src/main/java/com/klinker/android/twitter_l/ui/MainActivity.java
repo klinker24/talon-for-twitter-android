@@ -194,7 +194,13 @@ public class MainActivity extends DrawerActivity {
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
-
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    int count = mSectionsPagerAdapter.getCount();
+                    for (int i = 0; i < count; i++) {
+                        MainFragment f = (MainFragment) mSectionsPagerAdapter.getRealFrag(i);
+                        f.allowBackPress();
+                    }
+                }
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
