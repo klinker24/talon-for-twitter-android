@@ -108,9 +108,6 @@ public class TweetActivity extends YouTubeBaseActivity {
     public AsyncListView replyList;
     public LinearLayout convoSpinner;
 
-    public View dim;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +154,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         final View convo = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convo.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convo.findViewById(R.id.spinner);
-        dim = findViewById(R.id.dim);
 
         setUpTheme();
 
@@ -213,7 +209,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                             mobilizedPopup = new MobilizedWebPopupLayout(context, main, getResources().getBoolean(R.bool.isTablet));
                         }
                         mobilizedPopup.show();
-                        showDim();
                     }
                 }
             });
@@ -251,7 +246,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                             webPopup = new WebPopupLayout(context, webLayout, getResources().getBoolean(R.bool.isTablet));
                         }
                         webPopup.show();
-                        showDim();
                     }
                 }
             });
@@ -291,7 +285,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                         convoPopup = new ConversationPopupLayout(context, convo, getResources().getBoolean(R.bool.isTablet));
                     }
                     convoPopup.show();
-                    showDim();
                 }
             }
         });
@@ -443,10 +436,6 @@ public class TweetActivity extends YouTubeBaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        getWindow().setExitTransition(new Slide(3));
-
-        dim.setVisibility(View.GONE);
     }
 
     @Override
@@ -469,8 +458,6 @@ public class TweetActivity extends YouTubeBaseActivity {
     }
 
     public boolean hidePopups() {
-        hideDim();
-
         if (retweetersPopup != null && retweetersPopup.isShowing()) {
             retweetersPopup.hide();
             return true;
@@ -486,50 +473,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         return false;
-    }
-
-    public void showDim() {
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                dim.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(300);
-        dim.startAnimation(anim);
-    }
-
-    public void hideDim() {
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                dim.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(300);
-        dim.startAnimation(anim);
     }
 
     public View insetsBackground;
@@ -588,19 +531,15 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
                 if (retweetersPopup != null && retweetersPopup.isShowing()) {
                     retweetersPopup.hide();
-                    hideDim();
                     return true;
                 } else if (webPopup != null && webPopup.isShowing()) {
                     webPopup.hide();
-                    hideDim();
                     return true;
                 } else if (mobilizedPopup != null && mobilizedPopup.isShowing()) {
                     mobilizedPopup.hide();
-                    hideDim();
                     return true;
                 } else if (convoPopup != null && convoPopup.isShowing()) {
                     convoPopup.hide();
-                    hideDim();
                     return true;
                 } else {
                     return false;
@@ -1285,7 +1224,6 @@ public class TweetActivity extends YouTubeBaseActivity {
                     if (retweetersPopup != null) {
                         retweetersPopup.setOnTopOfView(viewRetweeters);
                         retweetersPopup.show();
-                        showDim();
                     }
                 }
             }

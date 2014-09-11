@@ -824,12 +824,24 @@ public class ExpansionViewHelper {
                                             }
                                         } else {
                                             disableConvoButton();
+                                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
+                                            try {
+                                                convoPopup.hide();
+                                            } catch (Exception e) {
+
+                                            }
                                         }
                                     } catch (Exception e) {
                                         // none and it got the null object
                                         e.printStackTrace();
                                         if (replies != null && replies.size() == 0) {
                                             disableConvoButton();
+                                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
+                                            try {
+                                                convoPopup.hide();
+                                            } catch (Exception x) {
+
+                                            }
                                         }
                                     }
                                 }
@@ -862,6 +874,12 @@ public class ExpansionViewHelper {
                         @Override
                         public void run() {
                             disableConvoButton();
+                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
+                            try {
+                                convoPopup.hide();
+                            } catch (Exception e) {
+
+                            }
                         }
                     });
                 }

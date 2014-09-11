@@ -38,6 +38,8 @@ public abstract class PopupLayout extends LinearLayout {
     private TextView title;
     private View titleDivider;
 
+    private View dim;
+
     // set up default values
     private int distanceFromTop = DEFAULT_DISTANCE_FROM_TOP;
     private int distanceFromLeft = DEFAULT_DISTANCE_FROM_LEFT;
@@ -102,6 +104,8 @@ public abstract class PopupLayout extends LinearLayout {
         a.recycle();
 
         setBackgroundResource(background);
+
+        dim = ((Activity) context).getLayoutInflater().inflate(R.layout.dim, null, false);
     }
 
     // default constructor
@@ -163,6 +167,8 @@ public abstract class PopupLayout extends LinearLayout {
         a.recycle();
 
         setBackgroundResource(background);
+
+        dim = ((Activity) context).getLayoutInflater().inflate(R.layout.dim, null, false);
     }
 
     /**
@@ -362,6 +368,12 @@ public abstract class PopupLayout extends LinearLayout {
         }
 
         try {
+            parent.addView(dim);
+        } catch (Exception e) {
+
+        }
+
+        try {
             parent.addView(this);
         } catch (Exception e) {
 
@@ -381,6 +393,15 @@ public abstract class PopupLayout extends LinearLayout {
 
         if (animator != null) {
             animator.start();
+        }
+
+        ObjectAnimator dimAnimator = null;
+
+        dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, 0.0f, .6f);
+        dimAnimator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
+
+        if (dimAnimator != null) {
+            dimAnimator.start();
         }
 
         isShowing = true;
@@ -409,11 +430,20 @@ public abstract class PopupLayout extends LinearLayout {
             animator.start();
         }
 
+        ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, .6f, 0.0f);
+        animTime = DEFAULT_FADE_ANIMATION_TIME;
+
+        if (dimAnimator != null) {
+            dimAnimator.setDuration(animTime);
+            dimAnimator.start();
+        }
+
         // After animation has finished, remove the ActionButton from the content frame
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 parent.removeView(PopupLayout.this);
+                parent.removeView(dim);
             }
         }, animTime);
 
