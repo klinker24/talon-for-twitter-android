@@ -168,6 +168,19 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     };
 
+    public BroadcastReceiver tweetmarkerReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // if it is live streaming, then we will not have to refresh the timeline
+            // otherwise, we do have to refresh the timeline.
+            if (settings.liveStreaming) {
+                fetchTweetMarker();
+            } else {
+                refreshOnStart();
+            }
+        }
+    };
+
     public BroadcastReceiver markRead = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
@@ -959,6 +972,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
         context.unregisterReceiver(homeClosed);
+        context.unregisterReceiver(tweetmarkerReceiver);
 
         super.onPause();
     }
@@ -1006,6 +1020,10 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         filter.addAction("com.klinker.android.twitter.MARK_POSITION");
         context.registerReceiver(markRead, filter);
 
+        filter = new IntentFilter();
+        filter.addAction("com.klinker.android.twitter.TWEETMARKER");
+        context.registerReceiver(tweetmarkerReceiver, filter);
+
         if (isLauncher()) {
             return;
         }
@@ -1051,7 +1069,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
                             sharedPrefs.getBoolean("should_refresh", true) &&
-                            !settings.tweetmarker) {
+                            (!settings.tweetmarker || settings.tweetmarkerManualOnly)) {
                         if (!actionBar.isShowing() && !isLauncher()) {
                             showStatusBar();
                             actionBar.show();
@@ -1069,7 +1087,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
 
 
-        if (settings.liveStreaming && settings.tweetmarker) {
+        if (settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
             HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
             HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override
@@ -1077,7 +1095,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     fetchTweetMarker();
                 }
             }, 600);
-        } else if (!settings.liveStreaming && settings.tweetmarker) {
+        } else if (!settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
             HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
             HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override

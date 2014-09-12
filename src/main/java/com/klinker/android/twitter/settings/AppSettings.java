@@ -105,6 +105,7 @@ public class AppSettings {
     public boolean twitlonger;
     public boolean twitpic;
     public boolean tweetmarker;
+    public boolean tweetmarkerManualOnly;
     public boolean jumpingWorkaround;
     public boolean floatingCompose;
     public boolean openKeyboard;
@@ -228,11 +229,23 @@ public class AppSettings {
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
         twitpic = sharedPrefs.getBoolean("twitpic", false);
-        tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
         preCacheImages = sharedPrefs.getBoolean("pre_cache_images", false);
+
+        // set up tweetmarker
+        String val = sharedPrefs.getString("tweetmarker_options", "0");
+        if (val.equals("0")) {
+            tweetmarker = false;
+            tweetmarkerManualOnly = false;
+        } else if (val.equals("1")) {
+            tweetmarker = true;
+            tweetmarkerManualOnly = false;
+        } else {
+            tweetmarkerManualOnly = true;
+            tweetmarker = true;
+        }
 
         // set up the mobilized (plain text) browser
         alwaysMobilize = sharedPrefs.getBoolean("mobilized_browser", false) &&
@@ -493,11 +506,23 @@ public class AppSettings {
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
         twitpic = sharedPrefs.getBoolean("twitpic", false);
-        tweetmarker = sharedPrefs.getBoolean("tweetmarker", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
         preCacheImages = sharedPrefs.getBoolean("pre_cache_images", false);
+
+        // set up tweetmarker
+        String val = sharedPrefs.getString("tweetmarker_options", "0");
+        if (val.equals("0")) {
+            tweetmarker = false;
+            tweetmarkerManualOnly = false;
+        } else if (val.equals("1")) {
+            tweetmarker = true;
+            tweetmarkerManualOnly = false;
+        } else {
+            tweetmarkerManualOnly = true;
+            tweetmarker = true;
+        }
 
         // set up the mobilized (plain text) browser
         alwaysMobilize = sharedPrefs.getBoolean("mobilized_browser", false) &&

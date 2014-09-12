@@ -23,7 +23,6 @@
 -- For Release --
 
     Version 3.1.0
-        - manual tweetmarker
         - conversation indicator on timeline
 
     Version 3.2.0

@@ -454,6 +454,10 @@ public class MainActivity extends DrawerActivity {
             menu.getItem(2).setVisible(false); // hide the compose button here
         }
 
+        if (settings.tweetmarkerManualOnly) {
+            menu.getItem(7).setVisible(true);
+        }
+
         return true;
     }
 
