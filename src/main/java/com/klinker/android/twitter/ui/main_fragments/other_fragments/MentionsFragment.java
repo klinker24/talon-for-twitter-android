@@ -204,8 +204,8 @@ public class MentionsFragment extends MainFragment {
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         listView.setSelectionFromTop(numberNew + listView.getHeaderViewsCount() -
-                                        (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                        (MainActivity.isPopup ? 1 : 0),
+                                        (getResources().getBoolean(R.bool.isTablet) ? 1 : 0)/* -
+                                        (MainActivity.isPopup ? 1 : 0)*/,
                                 size);
                     } else {
                         CharSequence text = getResources().getString(R.string.no_new_mentions);
@@ -355,8 +355,8 @@ public class MentionsFragment extends MainFragment {
             unread = newTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             listView.setSelectionFromTop(newTweets + listView.getHeaderViewsCount() -
-                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                            (MainActivity.isPopup ? 1 : 0),
+                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0)/* -
+                            (MainActivity.isPopup ? 1 : 0)*/,
                     size);
         }
     }
