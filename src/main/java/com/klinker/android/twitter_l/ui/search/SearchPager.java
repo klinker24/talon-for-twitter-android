@@ -140,11 +140,9 @@ public class SearchPager extends Activity {
         strip.setTextSize((int)getResources().getDimension(R.dimen.pager_tab_strip_text));
         strip.setViewPager(mViewPager);
 
-        if (getResources().getBoolean(R.bool.has_drawer)) {
-            int height = Utils.getActionBarHeight(this);
-            strip.setTranslationY(height);
-            mViewPager.setTranslationY(height);
-        }
+        int height = Utils.getActionBarHeight(this);
+        strip.setTranslationY(height);
+        mViewPager.setTranslationY(height);
 
         mViewPager.setCurrentItem(1);
 
