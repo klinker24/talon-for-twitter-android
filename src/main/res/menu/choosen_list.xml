@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_to_first"
+          android:title="@string/jump_to_top"
+          android:showAsAction="never" />
+</menu>

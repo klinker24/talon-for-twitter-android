@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -299,13 +300,31 @@ public class ChoosenListActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.choosen_list, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return super.onOptionsItemSelected(item);
-        }
+                return true;
 
-        return false;
+            case R.id.menu_to_first:
+                try {
+                    listView.setSelectionFromTop(0,0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+
+            default:
+                return true;
+        }
     }
 }

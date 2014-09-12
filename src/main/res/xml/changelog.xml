@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="3.1.5">
+        <text>TweetMarker changes: option between automatic tweetmarker and manual tweetmarker</text>
+        <text>To first option in the overflow menu when viewing lists</text>
+        <text>Fixed a problem with expanding pictures on the tweet viewer</text>
+        <text>Removed the jumping workaround (no longer necessary)</text>
+        <text>Removed TwitPic because Twitter shut them down</text>
+        <text>Various other bug fixes</text>
+    </version>
+
     <version name="3.1.4">
         <text>Better matching of hashtags, mentions, and urls</text>
         <text>Bug fixes</text>
