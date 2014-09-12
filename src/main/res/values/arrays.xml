@@ -275,5 +275,16 @@
         <item>blue_grey</item>
     </string-array>
 
+    <string-array name="tweetmarker">
+        <item>@string/do_not_use</item>
+        <item>@string/automatic_refresh</item>
+        <item>@string/manual_refresh</item>
+    </string-array>
+
+    <string-array name="tweetmarker_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>

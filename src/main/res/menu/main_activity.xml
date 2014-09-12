@@ -42,4 +42,9 @@
         android:title="@string/jump_to_top"
         android:showAsAction="never" />
 
+    <item android:id="@+id/menu_tweetmarker"
+          android:orderInCategory="8"
+          android:title="@string/fetch_tweetmarker"
+          android:showAsAction="never" />
+
 </menu>
