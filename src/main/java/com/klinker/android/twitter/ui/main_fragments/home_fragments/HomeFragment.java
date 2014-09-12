@@ -453,11 +453,17 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                         if (viewPressed) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
+                                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                            (MainActivity.isPopup ? 1 : 0),
+                                    size);
                         } else if (tweets != 0) {
                             unread = tweets;
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
+                            listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
+                                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                            (MainActivity.isPopup ? 1 : 0),
+                                    size);
                         } else {
                             listView.setSelectionFromTop(0, 0);
                         }
@@ -803,7 +809,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                                     text = numberNew == 1 ?  numberNew + " " + sNewTweet :  numberNew + " " + sNewTweets;
 
-                                    if (!tweetMarkerUpdate) {
+                                    if (!tweetMarkerUpdate || (!tweetMarkerUpdate && settings.tweetmarkerManualOnly)) {
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
