@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.1.5">
+        <text>To first option in the overflow menu when viewing lists</text>
+        <text>More bug fixes</text>
+    </version>
     <version name="3.1.4">
         <text>Better matching of hashtags, mentions, and urls</text>
         <text>Bug fixes</text>
