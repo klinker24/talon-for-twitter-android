@@ -575,19 +575,22 @@ public class TweetFragment extends Fragment {
             pictureIv.setVisibility(View.VISIBLE);
             ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
+            final Handler expansionHandler = new Handler();
             if (expand != null) {
                 expand.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (!canUseExpand) {
                             return;
+                        } else {
+                            canUseExpand = false;
                         }
                         if(background.getVisibility() == View.VISIBLE) {
                             Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                             ranim.setFillAfter(true);
                             expand.startAnimation(ranim);
-                            canUseExpand = false;
-                            new Handler().postDelayed(new Runnable() {
+                            expansionHandler.removeCallbacksAndMessages(null);
+                            expansionHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     canUseExpand = true;
@@ -597,8 +600,8 @@ public class TweetFragment extends Fragment {
                             Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                             ranim.setFillAfter(true);
                             expand.startAnimation(ranim);
-                            canUseExpand = false;
-                            new Handler().postDelayed(new Runnable() {
+                            expansionHandler.removeCallbacksAndMessages(null);
+                            expansionHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     canUseExpand = true;
