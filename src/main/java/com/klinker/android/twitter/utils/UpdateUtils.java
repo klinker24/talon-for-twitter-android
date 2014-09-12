@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.MainActivity;
 
 import java.io.File;
@@ -105,5 +106,39 @@ public class UpdateUtils {
                 })
                 .create()
                 .show();
+    }
+
+    public static void checkUpdate(final Context context) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        if (sharedPrefs.getBoolean("3.1.5", true)) {
+            sharedPrefs.edit().putBoolean("3.1.5", false).commit();
+
+            // twitpic is shut down
+            if (AppSettings.getInstance(context).twitpic) {
+                new AlertDialog.Builder(context)
+                        .setTitle("TwitPic")
+                        .setMessage("TwitPic support has been removed from Talon with this update. This is not" +
+                                "a choice that I made, Twitter shut down the popular third party hosting service" +
+                                "and they are not allowed to operate anymore.\n\n" +
+                                "I may look into alternatives for the future, but as of now, all image posting will" +
+                                "be done through Twitter native hosting services at pic.twitter.com")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+
+            // want to make sure if tweetmarker was on, it remains on.
+            if (sharedPrefs.getBoolean("tweetmarker", false)) {
+                sharedPrefs.edit().putString("tweetmarker_options", "1").commit();
+                AppSettings.invalidate();
+            }
+        }
     }
 }

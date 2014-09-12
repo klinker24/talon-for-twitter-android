@@ -595,7 +595,7 @@ public class TweetFragment extends Fragment {
                                 public void run() {
                                     canUseExpand = true;
                                 }
-                            }, 300);
+                            }, 400);
                         } else {
                             Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                             ranim.setFillAfter(true);
@@ -606,10 +606,10 @@ public class TweetFragment extends Fragment {
                                 public void run() {
                                     canUseExpand = true;
                                 }
-                            }, 300);
+                            }, 400);
                         }
 
-                        ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
+                        ExpansionAnimation expandAni = new ExpansionAnimation(background, 300);
                         background.startAnimation(expandAni);
                     }
                 });
