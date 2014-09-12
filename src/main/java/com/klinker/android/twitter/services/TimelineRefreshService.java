@@ -132,6 +132,8 @@ public class TimelineRefreshService extends IntentService {
                 if (currentTime - sharedPrefs.getLong("last_timeline_insert", 0l) < 10000) {
                     Log.v("talon_refresh", "don't insert the tweets on refresh");
                     sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
+
+                    TimelineRefreshService.isRunning = false;
                     return;
                 } else {
                     sharedPrefs.edit().putLong("last_timeline_insert", currentTime).commit();
