@@ -4,12 +4,10 @@
     - gallery of picture on searching
     - tweetmarker in lists
     - rotation on tweet viewer
-    - transparent status bar xposed
     - Night mode for themes
     - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
-    - better url regex
     - better intent filter for the search so it doesn't get everything
-    - animate expanding the timeline
+    - 1x1 widget for unread count on timeline
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
@@ -37,10 +35,3 @@
             - second account timeline page
             - favorite tweets fragment
             - Activity fragment
-
-
--- Launcher Page --
-
-    - emoji support
-    - remove the gradient behind the background in drawer
-

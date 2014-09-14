@@ -117,6 +117,7 @@ public class UpdateUtils {
 
             // twitpic is shut down
             if (AppSettings.getInstance(context).twitpic) {
+                sharedPrefs.edit().putBoolean("twitpic", false).commit();
                 new AlertDialog.Builder(context)
                         .setTitle("TwitPic")
                         .setMessage("TwitPic support has been removed from Talon with this update. This is not" +
