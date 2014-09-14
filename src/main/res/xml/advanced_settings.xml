@@ -31,10 +31,12 @@
         android:key="third_party"
         android:title="@string/third_party_services" >
 
-        <CheckBoxPreference
-            android:key="tweetmarker"
+        <ListPreference
+            android:key="tweetmarker_options"
             android:title="@string/use_tweetmarker"
-            android:defaultValue="false"
+            android:defaultValue="0"
+            android:entries="@array/tweetmarker"
+            android:entryValues="@array/tweetmarker_inserted"
             />
 
         <CheckBoxPreference
@@ -44,14 +46,14 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="twitpic"
             android:title="@string/use_twitpic"
             android:summary="@string/twitpic_summary"
             android:defaultValue="false"
-            />
+            />-->
 
-        </PreferenceCategory>
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="display_other"

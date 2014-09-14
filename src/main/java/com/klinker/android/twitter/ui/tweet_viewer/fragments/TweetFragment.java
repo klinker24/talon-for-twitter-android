@@ -124,6 +124,8 @@ public class TweetFragment extends Fragment {
 
     final Pattern p = Patterns.WEB_URL;
 
+    boolean canUseExpand = true;
+
     private Handler countHandler;
     private Runnable getCount = new Runnable() {
         @Override
@@ -573,21 +575,41 @@ public class TweetFragment extends Fragment {
             pictureIv.setVisibility(View.VISIBLE);
             ImageUtils.loadImage(context, pictureIv, webpage, App.getInstance(context).getBitmapCache());
 
+            final Handler expansionHandler = new Handler();
             if (expand != null) {
                 expand.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (!canUseExpand) {
+                            return;
+                        } else {
+                            canUseExpand = false;
+                        }
                         if(background.getVisibility() == View.VISIBLE) {
                             Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate);
                             ranim.setFillAfter(true);
                             expand.startAnimation(ranim);
+                            expansionHandler.removeCallbacksAndMessages(null);
+                            expansionHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    canUseExpand = true;
+                                }
+                            }, 400);
                         } else {
                             Animation ranim = AnimationUtils.loadAnimation(context, R.anim.drawer_rotate_back);
                             ranim.setFillAfter(true);
                             expand.startAnimation(ranim);
+                            expansionHandler.removeCallbacksAndMessages(null);
+                            expansionHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    canUseExpand = true;
+                                }
+                            }, 400);
                         }
 
-                        ExpansionAnimation expandAni = new ExpansionAnimation(background, 450);
+                        ExpansionAnimation expandAni = new ExpansionAnimation(background, 300);
                         background.startAnimation(expandAni);
                     }
                 });

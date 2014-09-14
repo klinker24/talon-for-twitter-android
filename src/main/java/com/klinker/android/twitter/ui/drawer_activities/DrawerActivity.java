@@ -966,6 +966,9 @@ public abstract class DrawerActivity extends Activity {
         final int DM = 4;
         final int SETTINGS = 5;
         final int TOFIRST = 6;
+        final int TWEETMARKER = 7;
+
+        menu.getItem(TWEETMARKER).setVisible(false);
 
         if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT) || sharedPrefs.getBoolean("open_interactions", false)) {
             menu.getItem(DISMISS).setVisible(true);
@@ -1112,6 +1115,10 @@ public abstract class DrawerActivity extends Activity {
 
             case R.id.menu_to_first:
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.TOP_TIMELINE"));
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_tweetmarker:
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.TWEETMARKER"));
                 return super.onOptionsItemSelected(item);
 
             default:

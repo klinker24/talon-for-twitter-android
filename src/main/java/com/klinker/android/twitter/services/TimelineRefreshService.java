@@ -16,6 +16,7 @@ import com.klinker.android.twitter.utils.NotificationUtils;
 import com.klinker.android.twitter.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
@@ -127,6 +128,17 @@ public class TimelineRefreshService extends IntentService {
 
                 lastId = dataSource.getLastIds(currentAccount);
 
+                Long currentTime = Calendar.getInstance().getTimeInMillis();
+                if (currentTime - sharedPrefs.getLong("last_timeline_insert", 0l) < 10000) {
+                    Log.v("talon_refresh", "don't insert the tweets on refresh");
+                    sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
+
+                    TimelineRefreshService.isRunning = false;
+                    return;
+                } else {
+                    sharedPrefs.edit().putLong("last_timeline_insert", currentTime).commit();
+                }
+
                 int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
                 if (inserted > 0 && statuses.size() > 0) {
@@ -144,11 +156,15 @@ public class TimelineRefreshService extends IntentService {
                         startService(new Intent(this, PreCacheService.class));
                     }
                 } else {
+                    Log.v("talon_refresh", "sending broadcast to fragment");
                     sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
                 }
 
             } catch (TwitterException e) {
                 Log.d("Twitter Update Error", e.getMessage());
+                if (intent.getBooleanExtra("on_start_refresh", false)) {
+                    sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
+                }
             }
 
             sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
