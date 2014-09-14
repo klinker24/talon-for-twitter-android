@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
     }
 }
@@ -37,7 +37,7 @@ android {
 	exclude 'META-INF/DEPENDENCIES'
     }
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 14
@@ -85,32 +85,10 @@ dependencies {
             'org.hamcrest:hamcrest-integration:1.1',
             'org.hamcrest:hamcrest-core:1.1',
             'org.hamcrest:hamcrest-library:1.1'
-
-    androidTestCompile('junit:junit:4.11') {
-        exclude module: 'hamcrest-core'
-    }
-    androidTestCompile('org.robolectric:robolectric:2.3') {
-        exclude module: 'classworlds'
-        exclude module: 'maven-artifact'
-        exclude module: 'maven-artifact-manager'
-        exclude module: 'maven-error-diagnostics'
-        exclude module: 'maven-model'
-        exclude module: 'maven-plugin-registry'
-        exclude module: 'maven-profile'
-        exclude module: 'maven-project'
-        exclude module: 'maven-settings'
-        exclude module: 'nekohtml'
-        exclude module: 'plexus-container-default'
-        exclude module: 'plexus-interpolation'
-        exclude module: 'plexus-utils'
-        exclude module: 'wagon-file'
-        exclude module: 'wagon-http-lightweight'
-        exclude module: 'wagon-http-shared'
-        exclude module: 'wagon-provider-api'
-    }
+    androidTestCompile 'junit:junit:4.11'
+    androidTestCompile 'org.robolectric:robolectric:2.3'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     compile 'org.mockito:mockito-all:+'
-
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
@@ -121,16 +99,14 @@ dependencies {
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
     compile 'com.klinkerapps:launcher-apis:+'
-
     compile files('lib/httpmime-4.3.2.jar')
     compile files('lib/dashclock-api-r2.0.jar')
     compile files('lib/YouTubeAndroidPlayerApi.jar')
     compile files('lib/httpcore-4.3.1.jar')
     compile files('lib/jsoup-1.7.3.jar')
     compile files('lib/nineoldandroids-2.4.0.jar')
-
-    compile(name:'datetimepicker', ext:'aar')
-    compile(name: 'bitmap-cache', ext:'aar')
+    compile(name: 'datetimepicker', ext: 'aar')
+    compile(name: 'bitmap-cache', ext: 'aar')
 }
 
 apply plugin: 'idea'
