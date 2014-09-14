@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +32,15 @@ import com.klinker.android.twitter.utils.Utils;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 import twitter4j.GeoLocation;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -59,6 +66,8 @@ public class NearbyTweets extends Fragment implements
     private AsyncListView listView;
     private View layout;
 
+    private SharedPreferences sharedPrefs;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -68,6 +77,9 @@ public class NearbyTweets extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         settings = AppSettings.getInstance(context);
 
@@ -161,8 +173,10 @@ public class NearbyTweets extends Fragment implements
                 try {
                     Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
+                    boolean manualLoc = sharedPrefs.getBoolean("manually_config_location", false);
+
                     int i = 0;
-                    while (!connected && i < 5) {
+                    while (!connected && i < 5 && !manualLoc) {
                         try {
                             Thread.sleep(1500);
                         } catch (Exception e) {
@@ -172,10 +186,23 @@ public class NearbyTweets extends Fragment implements
                         i++;
                     }
 
-                    Location location = mLocationClient.getLastLocation();
+                    double latitude = -1;
+                    double longitude = -1;
+
+                    if (manualLoc) {
+                        // need to query yahoos api for the location...
+                        double[] loc = getLocationFromYahoo(sharedPrefs.getInt("woeid", 2379574));
+                        latitude = loc[0];
+                        longitude = loc[1];
+                    } else {
+                        // set it from the location client
+                        Location location = mLocationClient.getLastLocation();
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    }
 
                     query = new Query();
-                    query.setGeoCode(new GeoLocation(location.getLatitude(),location.getLongitude()), 10, Query.MILES);
+                    query.setGeoCode(new GeoLocation(latitude,longitude), 10, Query.MILES);
 
                     QueryResult result = twitter.search(query);
 
@@ -207,7 +234,7 @@ public class NearbyTweets extends Fragment implements
                         @Override
                         public void run() {
                             try {
-                                Toast.makeText(context, getString(R.id.error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
                             } catch (IllegalStateException e) {
                                 // not attached to activity
                             }
@@ -266,6 +293,60 @@ public class NearbyTweets extends Fragment implements
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
+    }
+
+    private double[] getLocationFromYahoo(int woeid) {
+        double[] loc = new double[] {-1, -1};
+
+        try {
+            String url = "http://where.yahooapis.com/v1/place/" + woeid + "?appid=.DuZKdDV34EQ.TNLpvgTtFuMf5VruNTzx4Ti7F60XHVyV2zEbulKVjZKvRWBAiYZ";
+            HttpURLConnection connection = (HttpURLConnection) new URL(url)
+                    .openConnection();
+
+            XmlPullParserFactory factory = null;
+            try {
+                factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+            } catch (XmlPullParserException e) {
+
+            }
+
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(new InputStreamReader(connection.getInputStream()));
+
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG
+                        && "latitude".equals(xpp.getName()) &&
+                        loc[0] == -1) {
+
+                    try {
+                        loc[0] = Double.parseDouble(xpp.nextText());
+                    } catch (Exception e) {
+
+                    }
+                } else if (eventType == XmlPullParser.START_TAG
+                        && "longitude".equals(xpp.getName()) &&
+                        loc[1] == -1) {
+
+                    try {
+                        loc[1] = Double.parseDouble(xpp.nextText());
+                    } catch (Exception e) {
+
+                    }
+                }
+                eventType = xpp.next();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            loc[0] = -1;
+            loc[1] = -1;
+        }
+
+        Log.v("talon_loc", "lat: " + loc[0] + " long: " + loc[1]);
+
+        return loc;
     }
 
 }
