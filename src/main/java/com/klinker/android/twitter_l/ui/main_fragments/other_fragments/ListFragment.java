@@ -259,7 +259,7 @@ public class ListFragment extends MainFragment {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             listView.setSelectionFromTop(position + listView.getHeaderViewsCount() -
                                     (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                    (MainActivity.isPopup ? 1 : 0),
+                                    (settings.jumpingWorkaround ? 1 : 0),
                                     size);
                             refreshLayout.setRefreshing(false);
                         }

@@ -294,14 +294,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
                                             (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                            (MainActivity.isPopup ? 1 : 0),
+                                            (settings.jumpingWorkaround ? 1 : 0),
                                     size);
                         } else if (tweets != 0) {
                             unread = tweets;
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
                                             (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                            (MainActivity.isPopup ? 1 : 0),
+                                            (settings.jumpingWorkaround ? 1 : 0),
                                     size);
                         } else {
                             listView.setSelectionFromTop(0, 0);
