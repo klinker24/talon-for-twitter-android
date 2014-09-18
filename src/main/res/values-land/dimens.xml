@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="pro_pic_size">48dp</dimen>
+
+    <dimen name="user_profile_card_padding">32dp</dimen>
+    <dimen name="user_profile_header_padding">32dp</dimen>
 </resources>

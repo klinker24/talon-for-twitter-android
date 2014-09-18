@@ -6,8 +6,8 @@
                                     android:layout_height="match_parent"
                                     android:maxWidth="300dp"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginRight="@dimen/profile_card_padding"
-                                    android:layout_marginLeft="@dimen/profile_card_padding"
+                                    android:layout_marginRight="@dimen/user_profile_card_padding"
+                                    android:layout_marginLeft="@dimen/user_profile_card_padding"
                                     android:layout_marginBottom="16dp"
                                     android:visibility="invisible">
 
