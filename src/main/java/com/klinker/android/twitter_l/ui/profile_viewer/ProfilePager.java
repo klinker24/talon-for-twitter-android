@@ -56,11 +56,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-import twitter4j.Relationship;
-import twitter4j.ResponseList;
-import twitter4j.Twitter;
-import twitter4j.User;
-import twitter4j.UserList;
+import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
@@ -330,7 +326,11 @@ public class ProfilePager extends Activity {
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
         } else {
-            background.setImageDrawable(getDrawable(R.drawable.default_header_background));
+            //background.setImageDrawable(getDrawable(R.drawable.default_header_background));
+            CardView headerCard = (CardView) findViewById(R.id.header_card);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
+            params.topMargin = Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + Utils.toDP(15, context);
+            headerCard.setLayoutParams(params);
         }
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
@@ -409,6 +409,20 @@ public class ProfilePager extends Activity {
         }
 
         showCard(findViewById(R.id.header_card));
+    }
+
+    public ArrayList<Status> tweets = new ArrayList<Status>();
+    private void setUpTweets() {
+        TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
+        Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
+        View divider = findViewById(R.id.tweet_text_divider);
+        LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
+
+        tweetsTitle.setTextColor(settings.themeColors.accentColor);
+        showAllTweets.setTextColor(settings.themeColors.accentColorLight);
+        divider.setBackgroundColor(settings.themeColors.accentColor);
+
+        showCard(findViewById(R.id.tweets_card));
     }
 
     private View spinner;
@@ -530,6 +544,7 @@ public class ProfilePager extends Activity {
                         actionBar.setTitle(thisUser.getName());
                         invalidateOptionsMenu();
                         setProfileCard(thisUser);
+                        setUpTweets();
                     }
                 });
 
