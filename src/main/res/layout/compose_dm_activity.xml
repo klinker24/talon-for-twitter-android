@@ -76,7 +76,7 @@
                     android:padding="15dp"
                     android:textSize="16sp"
                     android:textColor="?textColor"
-                    android:textColorHint="?textColor"
+                    android:textColorHint="?dateColor"
                     android:background="@android:color/transparent" />
 
 
@@ -91,7 +91,7 @@
                     android:textSize="16sp"
                     android:hint="@string/compose_dm_hint"
                     android:gravity="top"
-                    android:textColorHint="?textColor"
+                    android:textColorHint="?dateColor"
                     android:background="@android:color/transparent"
                     android:inputType="textCapSentences|textMultiLine" />
 

@@ -436,11 +436,7 @@ public class ComposeActivity extends Compose {
                     sharedPrefs.edit().putBoolean("share_location", true).commit();
                     addLocation = true;
 
-                    if (!settings.addonTheme) {
-                        location.setColorFilter(context.getResources().getColor(R.color.app_color));
-                    } else {
-                        location.setColorFilter(settings.accentInt);
-                    }
+                    location.setColorFilter(settings.themeColors.accentColor);
                 } else {
                     sharedPrefs.edit().putBoolean("share_location", false).commit();
                     addLocation = false;

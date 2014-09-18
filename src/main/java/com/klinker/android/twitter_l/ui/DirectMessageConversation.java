@@ -118,12 +118,6 @@ public class DirectMessageConversation extends Activity {
     };
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-    }
-
-    @Override
     public void onDestroy() {
         try {
             cursorAdapter.getCursor().close();
@@ -136,8 +130,6 @@ public class DirectMessageConversation extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         countHandler = new Handler();
 

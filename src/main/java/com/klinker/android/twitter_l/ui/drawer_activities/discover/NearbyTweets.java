@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
