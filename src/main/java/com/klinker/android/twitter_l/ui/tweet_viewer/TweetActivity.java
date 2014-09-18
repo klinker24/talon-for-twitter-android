@@ -1392,7 +1392,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             }
         });
 
-        if (retweeter.length() > 0 ) {
+        if (retweeter != null && retweeter.length() > 0) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
             retweetertv.setVisibility(View.VISIBLE);
             isRetweet = true;

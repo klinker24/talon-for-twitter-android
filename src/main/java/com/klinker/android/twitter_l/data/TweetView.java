@@ -2,6 +2,13 @@ package com.klinker.android.twitter_l.data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.v4.graphics.BitmapCompat;
+import android.text.Html;
+import android.text.Spannable;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -9,12 +16,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
+import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
+import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
+
 import twitter4j.Status;
 import twitter4j.User;
+import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,6 +45,7 @@ public class TweetView {
     AppSettings settings;
 
     Status status;
+    String currentUser = null;
 
     public java.text.DateFormat dateFormatter;
     public java.text.DateFormat timeFormatter;
@@ -40,6 +58,7 @@ public class TweetView {
     String tweet;
     String time;
     String retweetText;
+    String retweeter;
     String imageUrl;
     String otherUrl;
     String hashtags;
@@ -55,6 +74,7 @@ public class TweetView {
     LinearLayout backgroundLayout;
     NetworkedCacheableImageView playButton;
     TextView screenTV;
+    FrameLayout imageHolder;
 
     public TweetView(Context context) {
         this.context = context;
@@ -90,8 +110,13 @@ public class TweetView {
         }
 
         if (status.isRetweet()) {
-            retweetText = context.getString(R.string.retweeter) + "@" + status.getUser().getScreenName();
+            retweeter = status.getUser().getScreenName();
+            retweetText = context.getString(R.string.retweeter) + "@" + retweeter;
             this.status = status.getRetweetedStatus();
+        } else {
+            retweetText = null;
+            retweeter = null;
+            this.status = status;
         }
 
         User user = status.getUser();
@@ -132,6 +157,7 @@ public class TweetView {
         backgroundLayout = (LinearLayout) v.findViewById(R.id.background);
         playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
+        imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
 
         profilePicIv.setClipToOutline(true);
         imageIv.setClipToOutline(true);
@@ -145,6 +171,181 @@ public class TweetView {
     }
 
     private void bindData() {
+        backgroundLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String link;
 
+                boolean displayPic = !imageUrl.equals("") && !imageUrl.contains("youtube");
+                if (displayPic) {
+                    link = imageUrl;
+                } else {
+                    link = otherUrl.split("  ")[0];
+                }
+
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenName);
+                viewTweet.putExtra("time", time);
+                viewTweet.putExtra("tweet", tweet);
+                viewTweet.putExtra("retweeter", retweeter);
+                viewTweet.putExtra("webpage", link);
+                viewTweet.putExtra("other_links", otherUrl);
+                viewTweet.putExtra("picture", displayPic);
+                viewTweet.putExtra("tweetid", tweetId);
+                viewTweet.putExtra("proPic", profilePicUrl);
+                viewTweet.putExtra("users", users);
+                viewTweet.putExtra("hashtags", hashtags);
+
+                context.startActivity(viewTweet);
+            }
+        });
+
+        if (currentUser == null || !screenName.equals(currentUser)) {
+            profilePicIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent viewProfile = new Intent(context, ProfilePager.class);
+                    viewProfile.putExtra("name", name);
+                    viewProfile.putExtra("screenname", screenName);
+                    viewProfile.putExtra("proPic", profilePicUrl);
+                    viewProfile.putExtra("tweetid", tweetId);
+                    viewProfile.putExtra("retweet", retweeterTv.getVisibility() == View.VISIBLE);
+                    viewProfile.putExtra("long_click", false);
+
+                    context.startActivity(viewProfile);
+                }
+            });
+        }
+
+        if (screenTV.getVisibility() == View.GONE) {
+            screenTV.setVisibility(View.VISIBLE);
+        }
+
+        screenTV.setText("@" + screenName);
+        nameTv.setText(name);
+        timeTv.setText(time);
+        tweetTv.setText(tweet);
+
+        boolean picture = false;
+
+        if(settings.inlinePics) {
+            if (imageUrl.equals("")) {
+                if (imageHolder.getVisibility() != View.GONE) {
+                    imageHolder.setVisibility(View.GONE);
+                }
+
+                if (playButton.getVisibility() == View.VISIBLE) {
+                    playButton.setVisibility(View.GONE);
+                }
+            } else {
+                if (imageUrl.contains("youtube")) {
+
+                    if (playButton.getVisibility() == View.GONE) {
+                        playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    final String fRetweeter = retweeter;
+
+                    imageIv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String link;
+
+                            boolean displayPic = !imageUrl.equals("") && !imageUrl.contains("youtube");
+                            if (displayPic) {
+                                link = imageUrl;
+                            } else {
+                                link = otherUrl.split("  ")[0];
+                            }
+
+                            Intent viewTweet = new Intent(context, TweetActivity.class);
+                            viewTweet.putExtra("name", name);
+                            viewTweet.putExtra("screenname", screenName);
+                            viewTweet.putExtra("time", time);
+                            viewTweet.putExtra("tweet", tweet);
+                            viewTweet.putExtra("retweeter", fRetweeter);
+                            viewTweet.putExtra("webpage", link);
+                            viewTweet.putExtra("other_links", otherUrl);
+                            viewTweet.putExtra("picture", displayPic);
+                            viewTweet.putExtra("tweetid", tweetId);
+                            viewTweet.putExtra("proPic", profilePicUrl);
+                            viewTweet.putExtra("users", users);
+                            viewTweet.putExtra("hashtags", hashtags);
+                            viewTweet.putExtra("clicked_youtube", true);
+
+                            context.startActivity(viewTweet);
+                        }
+                    });
+
+                    imageIv.setImageDrawable(new ColorDrawable(context.getResources().getColor(android.R.color.transparent)));
+
+                    picture = true;
+
+                } else {
+                    imageIv.setImageDrawable(new ColorDrawable(context.getResources().getColor(android.R.color.transparent)));
+
+                    picture = true;
+
+                    if (playButton.getVisibility() == View.VISIBLE) {
+                        playButton.setVisibility(View.GONE);
+                    }
+
+                    imageIv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (imageUrl.contains(" ")) {
+                                context.startActivity(new Intent(context, ViewPictures.class).putExtra("pictures", imageUrl));
+                            } else {
+                                context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", imageUrl));
+                            }
+                        }
+                    });
+                }
+
+                if (imageHolder.getVisibility() == View.GONE) {
+                    imageHolder.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+        BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
+        if (picture) {
+            ImageUtils.loadImage(context, imageIv, imageUrl, mCache);
+        }
+
+        ImageUtils.loadImage(context, profilePicIv, profilePicUrl, mCache);
+
+        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+            if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
+                final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet));
+                tweetTv.setText(span);
+            }
+        }
+
+        tweetTv.setSoundEffectsEnabled(false);
+        tweetTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    backgroundLayout.performClick();
+                }
+            }
+        });
+
+        if (retweeterTv.getVisibility() == View.VISIBLE) {
+            retweeterTv.setSoundEffectsEnabled(false);
+            retweeterTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!TouchableMovementMethod.touched) {
+                        backgroundLayout.performClick();
+                    }
+                }
+            });
+        }
+
+        TextUtils.linkifyText(context, tweetTv, backgroundLayout, true, otherUrl, false);
+        TextUtils.linkifyText(context, retweeterTv, backgroundLayout, true, "", false);
     }
 }
