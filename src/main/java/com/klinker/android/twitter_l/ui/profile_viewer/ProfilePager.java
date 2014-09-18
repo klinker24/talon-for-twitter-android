@@ -18,8 +18,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.view.PagerTitleStrip;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.*;
@@ -28,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
@@ -421,15 +420,15 @@ public class ProfilePager extends Activity {
     }
 
     public List<Status> tweets = new ArrayList<Status>();
-    private void setUpTweets() {
+    private void showTweets() {
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
         View divider = findViewById(R.id.tweet_text_divider);
         LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
 
-        tweetsTitle.setTextColor(settings.themeColors.accentColor);
-        showAllTweets.setTextColor(settings.themeColors.accentColorLight);
-        divider.setBackgroundColor(settings.themeColors.accentColor);
+        tweetsTitle.setTextColor(settings.themeColors.primaryColor);
+        showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
+        divider.setBackgroundColor(settings.themeColors.primaryColor);
 
         if (thisUser.getStatusesCount() < 1000) {
             showAllTweets.setText(getString(R.string.show_all) + " (" + thisUser.getStatusesCount() + ")");
@@ -466,6 +465,98 @@ public class ProfilePager extends Activity {
         }
 
         showCard(findViewById(R.id.tweets_card));
+    }
+
+    public List<Status> mentions = new ArrayList<Status>();
+    private void showMentions() {
+        TextView mentionsTitle = (TextView) findViewById(R.id.mentions_title_text);
+        Button showAllMentions = (Button) findViewById(R.id.show_all_mentions_button);
+        View divider = findViewById(R.id.mentions_text_divider);
+        LinearLayout content = (LinearLayout) findViewById(R.id.mentions_content);
+
+        mentionsTitle.setTextColor(settings.themeColors.primaryColor);
+        showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
+        divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        int size = 0;
+        if (mentions.size() >= 3) {
+            size = 3;
+        } else {
+            size = mentions.size();
+        }
+
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                if (i != 0) {
+                    View tweetDivider = new View(context);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+                    tweetDivider.setLayoutParams(params);
+
+                    if (settings.darkTheme) {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.dark_text_drawer));
+                    } else {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
+                    }
+
+                    content.addView(tweetDivider);
+                }
+                content.addView(new TweetView(context, mentions.get(i)).getView());
+            }
+        } else {
+            // add a no mentions textbox
+        }
+
+        if (mentions.size() > 0) {
+            showCard(findViewById(R.id.mentions_card));
+        } else {
+            findViewById(R.id.mentions_card).setVisibility(View.GONE);
+        }
+    }
+
+    public List<Status> favorites = new ArrayList<Status>();
+    private void showFavorites() {
+        TextView favoritesTitle = (TextView) findViewById(R.id.favorites_title_text);
+        Button showAllfavorites = (Button) findViewById(R.id.show_all_favorites_button);
+        View divider = findViewById(R.id.favorites_text_divider);
+        LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
+
+        favoritesTitle.setTextColor(settings.themeColors.primaryColor);
+        showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
+        divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        int size = 0;
+        if (favorites.size() >= 3) {
+            size = 3;
+        } else {
+            size = favorites.size();
+        }
+
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                if (i != 0) {
+                    View tweetDivider = new View(context);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+                    tweetDivider.setLayoutParams(params);
+
+                    if (settings.darkTheme) {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.dark_text_drawer));
+                    } else {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
+                    }
+
+                    content.addView(tweetDivider);
+                }
+                content.addView(new TweetView(context, favorites.get(i)).getView());
+            }
+        } else {
+            // add a no favorites textbox
+        }
+
+        if (favorites.size() > 0) {
+            showCard(findViewById(R.id.favorites_card));
+        } else {
+            findViewById(R.id.favorites_card).setVisibility(View.GONE);
+        }
     }
 
     private View spinner;
@@ -602,12 +693,25 @@ public class ProfilePager extends Activity {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            setUpTweets();
+                            showTweets();
                         }
                     });
 
                     getMentions(twitter);
-                    getFavorites(twitter);
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMentions();
+                        }
+                    });
+
+                    favorites = twitter.getFavorites(thisUser.getId(), new Paging(1, 3));
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showFavorites();
+                        }
+                    });
                     getPictures(twitter);
                 } catch (Exception e) {
                     if (thisUser != null && thisUser.isProtected()) {
@@ -635,10 +739,30 @@ public class ProfilePager extends Activity {
     }
 
     private void getMentions(Twitter twitter) {
+        try {
+            Query query = new Query("@" + screenName + " -RT");
+            query.sinceId(1);
+            QueryResult result = twitter.search(query);
 
-    }
+            mentions.clear();
 
-    private void getFavorites(Twitter twitter) {
+            for (twitter4j.Status status : result.getTweets()) {
+                mentions.add(status);
+            }
+
+            while (result.hasNext() && mentions.size() < 3) {
+                query = result.nextQuery();
+                result = twitter.search(query);
+
+                for (twitter4j.Status status : result.getTweets()) {
+                    mentions.add(status);
+                }
+            }
+
+        } catch (Throwable t) {
+
+        }
+
 
     }
 

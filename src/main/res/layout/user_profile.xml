@@ -43,6 +43,10 @@
 
             <include layout="@layout/profile_tweets_card" />
 
+            <include layout="@layout/profile_mentions_card" />
+
+            <include layout="@layout/profile_favorites_card" />
+
             <View android:layout_width="match_parent"
                   android:id="@+id/nav_bar_seperator"
                   android:layout_height="56dp" />
