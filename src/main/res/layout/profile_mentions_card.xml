@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mentions_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxWidth="300dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="@dimen/profile_card_padding"
+    android:layout_marginLeft="@dimen/profile_card_padding"
+    android:layout_marginBottom="16dp"
+    android:visibility="invisible">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:background="?windowBackground">
+
+            <TextView
+                android:id="@+id/mentions_title_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/mentions"
+                android:textAllCaps="true"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/show_all_mentions_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_all"
+                android:textSize="12sp"
+                android:background="?android:selectableItemBackground"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"/>
+
+        </LinearLayout>
+
+        <View android:id="@+id/mentions_text_divider"
+            android:layout_height="1dp"
+            android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/mentions_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="?windowBackground" >
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
