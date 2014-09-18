@@ -46,5 +46,6 @@ limitations under the License.
 
     <dimen name="settings_text_padding">16dp</dimen>
 
-    <dimen name="profile_card_padding">16dp</dimen>
+    <dimen name="user_profile_card_padding">16dp</dimen>
+    <dimen name="user_profile_header_padding">16dp</dimen>
 </resources>

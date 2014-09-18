@@ -2,6 +2,4 @@
 <resources>
     <bool name="options_drawer">true</bool>
     <bool name="has_drawer">false</bool>
-
-    <dimen name="profile_card_padding">128dp</dimen>
 </resources>

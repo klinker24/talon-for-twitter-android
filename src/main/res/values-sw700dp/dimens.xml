@@ -5,6 +5,6 @@
     <dimen name="drawer_size_land">305dp</dimen>
 
 
-    <dimen name="profile_card_padding">164dp</dimen>
-
+    <dimen name="user_profile_card_padding">112dp</dimen>
+    <dimen name="user_profile_header_padding">164dp</dimen>
 </resources>

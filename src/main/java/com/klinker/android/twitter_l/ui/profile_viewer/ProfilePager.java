@@ -248,7 +248,7 @@ public class ProfilePager extends Activity {
             }
         });
 
-        if (Utils.hasNavBar(context)) {
+        if (Utils.hasNavBar(context) && !getResources().getBoolean(R.bool.isTablet)) {
             View v = findViewById(R.id.nav_bar_seperator);
             v.setVisibility(View.VISIBLE);
             params = (LinearLayout.LayoutParams) v.getLayoutParams();
