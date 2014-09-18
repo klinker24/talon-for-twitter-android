@@ -29,6 +29,7 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -359,8 +360,16 @@ public class ProfilePager extends Activity {
             website.setVisibility(View.GONE);
         }
 
-        followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
-        followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+        if (user.getFriendsCount() < 1000) {
+            followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
+        } else {
+            followingCount.setText(getString(R.string.following) + ": " + Utils.coolFormat(user.getFriendsCount(), 0));
+        }
+        if (user.getFollowersCount() < 1000) {
+            followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+        } else {
+            followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
+        }
 
         TextUtils.linkifyText(context, description, null, true, "", false);
         TextUtils.linkifyText(context, website, null, true, "", false);
@@ -411,7 +420,7 @@ public class ProfilePager extends Activity {
         showCard(findViewById(R.id.header_card));
     }
 
-    public ArrayList<Status> tweets = new ArrayList<Status>();
+    public List<Status> tweets = new ArrayList<Status>();
     private void setUpTweets() {
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
@@ -421,6 +430,40 @@ public class ProfilePager extends Activity {
         tweetsTitle.setTextColor(settings.themeColors.accentColor);
         showAllTweets.setTextColor(settings.themeColors.accentColorLight);
         divider.setBackgroundColor(settings.themeColors.accentColor);
+
+        if (thisUser.getStatusesCount() < 1000) {
+            showAllTweets.setText(getString(R.string.show_all) + " (" + thisUser.getStatusesCount() + ")");
+        } else {
+            showAllTweets.setText(getString(R.string.show_all) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
+        }
+
+        int size = 0;
+        if (tweets.size() >= 3) {
+            size = 3;
+        } else {
+            size = tweets.size();
+        }
+
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                if (i != 0) {
+                    View tweetDivider = new View(context);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+                    tweetDivider.setLayoutParams(params);
+
+                    if (settings.darkTheme) {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.dark_text_drawer));
+                    } else {
+                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
+                    }
+
+                    content.addView(tweetDivider);
+                }
+                content.addView(new TweetView(context, tweets.get(i)).getView());
+            }
+        } else {
+            // add a no tweets textbox
+        }
 
         showCard(findViewById(R.id.tweets_card));
     }
@@ -469,7 +512,7 @@ public class ProfilePager extends Activity {
                 }
 
                 if (offsetSize == 0) {
-                    offsetSize = ((LinearLayout) findViewById(R.id.lower_card)).getHeight() + Utils.toDP(50, context);
+                    offsetSize = ((LinearLayout) findViewById(R.id.lower_card)).getHeight() + Utils.toDP(30, context);
                 }
             }
 
@@ -544,7 +587,6 @@ public class ProfilePager extends Activity {
                         actionBar.setTitle(thisUser.getName());
                         invalidateOptionsMenu();
                         setProfileCard(thisUser);
-                        setUpTweets();
                     }
                 });
 
@@ -553,15 +595,36 @@ public class ProfilePager extends Activity {
                 getFriends(twitter);
 
                 // if they aren't protected, then get their tweets, favorites, etc.
-                if (!thisUser.isProtected()) {
-
-                } else {
+                try {
+                    // tweets first
+                    // this will error out if they are protected and we can't reach them
+                    tweets = twitter.getUserTimeline(thisUser.getId(), new Paging(1, 20));
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                            setUpTweets();
                         }
                     });
+
+                    getMentions(twitter);
+                    getFavorites(twitter);
+                    getPictures(twitter);
+                } catch (Exception e) {
+                    if (thisUser != null && thisUser.isProtected()) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, getString(R.string.protected_account), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
 
             }
@@ -569,6 +632,18 @@ public class ProfilePager extends Activity {
 
         getUser.setPriority(Thread.MAX_PRIORITY);
         getUser.start();
+    }
+
+    private void getMentions(Twitter twitter) {
+
+    }
+
+    private void getFavorites(Twitter twitter) {
+
+    }
+
+    private void getPictures(Twitter twitter) {
+
     }
 
     private void getFollowers(Twitter twitter) {

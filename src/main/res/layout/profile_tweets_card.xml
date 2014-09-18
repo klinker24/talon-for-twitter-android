@@ -38,8 +38,11 @@
                     android:text="@string/show_all"
                     android:textSize="12sp"
                     android:background="?android:selectableItemBackground"
+                    android:fontFamily="sans-serif-light"
                     android:textStyle="bold"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"/>
 
         </LinearLayout>
 
@@ -50,7 +53,7 @@
         <LinearLayout
                 android:id="@+id/tweets_content"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="?windowBackground"
                 >
