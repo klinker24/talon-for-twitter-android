@@ -78,11 +78,6 @@
                   android:background="@color/primary"/>
 
         </LinearLayout>
-
-        <View android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:id="@+id/blacker_status_bar"
-              android:background="#30000000"/>
     </RelativeLayout>
 
 
