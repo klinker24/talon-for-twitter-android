@@ -191,7 +191,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             hasWebpage = false;
         }
 
-        ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
+        final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
         if (hasWebpage && (settings.alwaysMobilize ||
                 (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
 
@@ -207,6 +207,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     if (!hidePopups()) {
                         if (mobilizedPopup == null) {
                             mobilizedPopup = new MobilizedWebPopupLayout(context, main, getResources().getBoolean(R.bool.isTablet));
+                            mobilizedPopup.setExpansionPointForAnim(webButton);
                         }
                         mobilizedPopup.show();
                     }
@@ -244,6 +245,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     if (!hidePopups()) {
                         if (webPopup == null) {
                             webPopup = new WebPopupLayout(context, webLayout, getResources().getBoolean(R.bool.isTablet));
+                            webPopup.setExpansionPointForAnim(webButton);
                         }
                         webPopup.show();
                     }
@@ -283,6 +285,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 if (!hidePopups()) {
                     if (convoPopup == null) {
                         convoPopup = new ConversationPopupLayout(context, convo, getResources().getBoolean(R.bool.isTablet));
+                        convoPopup.setExpansionPointForAnim(viewReplyButton);
                     }
                     convoPopup.show();
                 }
@@ -1223,6 +1226,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 if (!hidePopups()) {
                     if (retweetersPopup != null) {
                         retweetersPopup.setOnTopOfView(viewRetweeters);
+                        retweetersPopup.setExpansionPointForAnim(viewRetweeters);
                         retweetersPopup.show();
                     }
                 }

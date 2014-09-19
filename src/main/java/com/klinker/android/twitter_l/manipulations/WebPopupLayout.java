@@ -22,7 +22,7 @@ public class WebPopupLayout extends PopupLayout {
         setFullScreen();
 
         try {
-            addView(webView);
+            content.addView(webView);
         } catch (Exception e) {
             dontShow = true;
         }
@@ -37,7 +37,7 @@ public class WebPopupLayout extends PopupLayout {
         setFullScreen();
 
         try {
-            addView(webView);
+            content.addView(webView);
         } catch (Exception e) {
             dontShow = true;
         }
