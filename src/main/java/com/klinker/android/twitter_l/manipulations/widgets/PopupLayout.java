@@ -91,7 +91,9 @@ public abstract class PopupLayout extends LinearLayout {
         titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
         content = new LinearLayout(context);
-        content.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        params.weight = 1;
+        content.setLayoutParams(params);
 
         addView(title);
         addView(titleDivider);
@@ -158,7 +160,9 @@ public abstract class PopupLayout extends LinearLayout {
         titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
         content = new LinearLayout(context);
-        content.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        params.weight = 1;
+        content.setLayoutParams(params);
 
         addView(title);
         addView(titleDivider);
@@ -316,6 +320,7 @@ public abstract class PopupLayout extends LinearLayout {
         setDistanceFromTop(startY);
     }
 
+    private boolean showTitle = true;
     /**
      * Set whether we should show the title or not
      *
@@ -333,6 +338,7 @@ public abstract class PopupLayout extends LinearLayout {
                 titleDivider.setVisibility(View.GONE);
             }
         }
+        showTitle = show;
     }
 
     /**
@@ -416,9 +422,6 @@ public abstract class PopupLayout extends LinearLayout {
             animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
             animator.start();
         } else {
-
-            boolean showTitle = title.getVisibility() == View.VISIBLE;
-
             title.setVisibility(View.GONE);
             titleDivider.setVisibility(View.GONE);
             content.setVisibility(View.GONE);
@@ -431,6 +434,7 @@ public abstract class PopupLayout extends LinearLayout {
             layoutParams.height = 0;
             setLayoutParams(layoutParams);
 
+            ObjectAnimator alpha = ObjectAnimator.ofFloat(this, View.ALPHA, 0.0f, 1.0f);
             ObjectAnimator xTranslation = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, animStartLeft, distanceFromLeft);
             ObjectAnimator yTranslation = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, animStartTop, distanceFromTop);
             ValueAnimator widthExpander = ValueAnimator.ofInt(0, width);
@@ -466,6 +470,10 @@ public abstract class PopupLayout extends LinearLayout {
             yTranslation.setDuration(200);
             yTranslation.setInterpolator(new DecelerateInterpolator());
 
+            alpha.setDuration(200);
+            alpha.setInterpolator(new DecelerateInterpolator());
+
+            alpha.start();
             xTranslation.start();
             yTranslation.start();
             widthExpander.start();
@@ -528,53 +536,83 @@ public abstract class PopupLayout extends LinearLayout {
             animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
             animator.start();
         } else {
-            setTranslationX(animStartLeft);
-            setTranslationY(animStartTop);
+            if (showTitle) {
+                title.setVisibility(View.GONE);
 
-            ViewGroup.LayoutParams layoutParams = getLayoutParams();
-            layoutParams.width = 0;
-            layoutParams.height = 0;
-            setLayoutParams(layoutParams);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 1.0f, 0.0f);
+                animator.setDuration(200);
+                animator.start();
 
-            ObjectAnimator xTranslation = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, distanceFromLeft, animStartLeft);
-            ObjectAnimator yTranslation = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, distanceFromTop, animStartTop);
-            ValueAnimator widthExpander = ValueAnimator.ofInt(width, 0);
-            ValueAnimator heightExpander = ValueAnimator.ofInt(height, 0);
+                titleDivider.setVisibility(View.GONE);
 
-            widthExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 1.0f, 0.0f);
+                animator.setDuration(200);
+                animator.start();
+            }
+
+            content.setVisibility(View.GONE);
+
+            ObjectAnimator animator = ObjectAnimator.ofFloat(content, View.ALPHA, 1.0f, 0.0f);
+            animator.setDuration(200);
+            animator.start();
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
+                public void run() {
+                    setTranslationX(animStartLeft);
+                    setTranslationY(animStartTop);
+
                     ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                    layoutParams.width = val;
+                    layoutParams.width = 0;
+                    layoutParams.height = 0;
                     setLayoutParams(layoutParams);
+
+                    ObjectAnimator alpha = ObjectAnimator.ofFloat(PopupLayout.this, View.ALPHA, 1.0f, 0f);
+                    ObjectAnimator xTranslation = ObjectAnimator.ofFloat(PopupLayout.this, View.TRANSLATION_X, distanceFromLeft, animStartLeft);
+                    ObjectAnimator yTranslation = ObjectAnimator.ofFloat(PopupLayout.this, View.TRANSLATION_Y, distanceFromTop, animStartTop);
+                    ValueAnimator widthExpander = ValueAnimator.ofInt(width, 0);
+                    ValueAnimator heightExpander = ValueAnimator.ofInt(height, 0);
+
+                    widthExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            int val = (Integer) valueAnimator.getAnimatedValue();
+                            ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                            layoutParams.width = val;
+                            setLayoutParams(layoutParams);
+                        }
+                    });
+                    widthExpander.setDuration(200);
+                    widthExpander.setInterpolator(new DecelerateInterpolator());
+
+                    heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            int val = (Integer) valueAnimator.getAnimatedValue();
+                            ViewGroup.LayoutParams layoutParams = getLayoutParams();
+                            layoutParams.height = val;
+                            setLayoutParams(layoutParams);
+                        }
+                    });
+                    heightExpander.setDuration(200);
+                    heightExpander.setInterpolator(new DecelerateInterpolator());
+
+                    xTranslation.setDuration(200);
+                    xTranslation.setInterpolator(new DecelerateInterpolator());
+
+                    yTranslation.setDuration(200);
+                    yTranslation.setInterpolator(new DecelerateInterpolator());
+
+                    alpha.setDuration(200);
+                    alpha.setInterpolator(new DecelerateInterpolator());
+
+                    alpha.start();
+                    xTranslation.start();
+                    yTranslation.start();
+                    widthExpander.start();
+                    heightExpander.start();
                 }
-            });
-            widthExpander.setDuration(200);
-            widthExpander.setInterpolator(new DecelerateInterpolator());
-
-            heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                    layoutParams.height = val;
-                    setLayoutParams(layoutParams);
-                }
-            });
-            heightExpander.setDuration(200);
-            heightExpander.setInterpolator(new DecelerateInterpolator());
-
-            xTranslation.setDuration(200);
-            xTranslation.setInterpolator(new DecelerateInterpolator());
-
-            yTranslation.setDuration(200);
-            yTranslation.setInterpolator(new DecelerateInterpolator());
-
-            xTranslation.start();
-            yTranslation.start();
-            widthExpander.start();
-            heightExpander.start();
+            }, 200);
         }
 
         ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, .6f, 0.0f);

@@ -157,6 +157,7 @@ public class ExpansionViewHelper {
             public void onClick(View view) {
                 if (retweetersPopup != null) {
                     retweetersPopup.setOnTopOfView(viewRetweeters);
+                    retweetersPopup.setExpansionPointForAnim(viewRetweeters);
                     retweetersPopup.show();
                 }
             }
@@ -206,6 +207,7 @@ public class ExpansionViewHelper {
                     getConversation();
                     if (convoPopup == null) {
                         convoPopup = new ConversationPopupLayout(context, convoLayout);
+                        convoPopup.setExpansionPointForAnim(repliesButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 convoPopup.setWidthByPercent(.6f);
@@ -252,6 +254,7 @@ public class ExpansionViewHelper {
 
                     if (mobilizedPopup == null) {
                         mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                        mobilizedPopup.setExpansionPointForAnim(webButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 mobilizedPopup.setWidthByPercent(.6f);
@@ -291,6 +294,7 @@ public class ExpansionViewHelper {
                     web.loadUrl(webLink);
                     if (webPopup == null) {
                         webPopup = new WebPopupLayout(context, webLayout);
+                        webPopup.setExpansionPointForAnim(webButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 webPopup.setWidthByPercent(.6f);
