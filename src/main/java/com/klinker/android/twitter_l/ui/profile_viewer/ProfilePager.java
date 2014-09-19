@@ -211,13 +211,7 @@ public class ProfilePager extends Activity {
         params.height = sbHeight;
         status.setLayoutParams(params);
 
-        View blackStatus = findViewById(R.id.blacker_status_bar);
-        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) blackStatus.getLayoutParams();
-        param.height = sbHeight;
-        blackStatus.setLayoutParams(param);
-
         if (getResources().getBoolean(R.bool.isTablet)) {
-            blackStatus.setVisibility(View.GONE);
             status.setVisibility(View.GONE);
         }
 
@@ -504,7 +498,7 @@ public class ProfilePager extends Activity {
                     content.addView(tweetDivider);
                 }
 
-                TweetView t = new TweetView(context, tweets.get(i));
+                TweetView t = new TweetView(context, mentions.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
                 content.addView(t.getView());
             }
@@ -553,7 +547,7 @@ public class ProfilePager extends Activity {
                     content.addView(tweetDivider);
                 }
 
-                TweetView t = new TweetView(context, tweets.get(i));
+                TweetView t = new TweetView(context, favorites.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
                 content.addView(t.getView());
             }
