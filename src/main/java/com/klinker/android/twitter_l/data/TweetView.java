@@ -100,6 +100,10 @@ public class TweetView {
         setData(status);
     }
 
+    public void setCurrentUser(String s) {
+        currentUser = s;
+    }
+
     public void setData(Status status) {
 
         if (!settings.absoluteDate) {
@@ -128,6 +132,7 @@ public class TweetView {
         screenName = user.getScreenName();
 
         String[] html = TweetLinkUtils.getLinksInStatus(status);
+        tweet = html[0];
         imageUrl = html[1];
         otherUrl = html[2];
         hashtags = html[3];

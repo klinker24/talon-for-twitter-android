@@ -458,7 +458,10 @@ public class ProfilePager extends Activity {
 
                     content.addView(tweetDivider);
                 }
-                content.addView(new TweetView(context, tweets.get(i)).getView());
+
+                TweetView t = new TweetView(context, tweets.get(i));
+                t.setCurrentUser(thisUser.getScreenName());
+                content.addView(t.getView());
             }
         } else {
             // add a no tweets textbox
@@ -500,7 +503,10 @@ public class ProfilePager extends Activity {
 
                     content.addView(tweetDivider);
                 }
-                content.addView(new TweetView(context, mentions.get(i)).getView());
+
+                TweetView t = new TweetView(context, tweets.get(i));
+                t.setCurrentUser(thisUser.getScreenName());
+                content.addView(t.getView());
             }
         } else {
             // add a no mentions textbox
@@ -546,7 +552,10 @@ public class ProfilePager extends Activity {
 
                     content.addView(tweetDivider);
                 }
-                content.addView(new TweetView(context, favorites.get(i)).getView());
+
+                TweetView t = new TweetView(context, tweets.get(i));
+                t.setCurrentUser(thisUser.getScreenName());
+                content.addView(t.getView());
             }
         } else {
             // add a no favorites textbox
@@ -633,18 +642,25 @@ public class ProfilePager extends Activity {
                     thisUser = null;
                 }
 
-                if (thisUser != null) {
-                    try {
-                        FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
-
-                    } catch (Exception e) {
-                        // the user already exists. don't know if this is more efficient than querying the db or not.
-                    }
-
-                    final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
-                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                    suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
+                if (thisUser == null) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
+
+                try {
+                    FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
+
+                } catch (Exception e) {
+                    // the user already exists. don't know if this is more efficient than querying the db or not.
+                }
+
+                final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
 
                 // set the info to set up the action bar items
                 if (isMyProfile) {
