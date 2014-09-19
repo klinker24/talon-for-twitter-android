@@ -31,6 +31,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -285,8 +286,8 @@ public class ProfilePager extends Activity {
         }
     }
 
-    public void setProfileCard(User user) {
-        String backgroundImage = user.getProfileBannerIPadRetinaURL();
+    public void setProfileCard(final User user) {
+        final String backgroundImage = user.getProfileBannerIPadRetinaURL();
         /*String color = user.getProfileBackgroundColor();
 
         int brightness = ImageUtils.getBrightness(color);
@@ -319,6 +320,15 @@ public class ProfilePager extends Activity {
 
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
+
+            background.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent pic = new Intent(context, PhotoViewerDialog.class);
+                    pic.putExtra("url", backgroundImage);
+                    startActivity(pic);
+                }
+            });
         } else {
             //background.setImageDrawable(getDrawable(R.drawable.default_header_background));
             CardView headerCard = (CardView) findViewById(R.id.header_card);
@@ -328,6 +338,15 @@ public class ProfilePager extends Activity {
         }
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
+
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pic = new Intent(context, PhotoViewerDialog.class);
+                pic.putExtra("url", user.getOriginalProfileImageURL());
+                startActivity(pic);
+            }
+        });
 
         String des = user.getDescription();
         String loc = user.getLocation();
