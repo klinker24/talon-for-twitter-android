@@ -25,7 +25,7 @@ public class ConversationPopupLayout extends PopupLayout {
         setTitle(getContext().getString(R.string.conversation));
         setFullScreen();
 
-        addView(main);
+        content.addView(main);
     }
 
     public ConversationPopupLayout(Context context, View main) {
@@ -37,7 +37,7 @@ public class ConversationPopupLayout extends PopupLayout {
         setTitle(getContext().getString(R.string.conversation));
         setFullScreen();
 
-        addView(main);
+        content.addView(main);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class MobilizedWebPopupLayout extends PopupLayout {
         setFullScreen();
 
         try {
-            addView(webView);
+            content.addView(webView);
         } catch (Exception e) {
             dontShow = true;
         }
@@ -36,7 +36,7 @@ public class MobilizedWebPopupLayout extends PopupLayout {
         setFullScreen();
 
         try {
-            addView(webView);
+            content.addView(webView);
         } catch (Exception e) {
             dontShow = true;
         }
