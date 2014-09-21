@@ -9,6 +9,7 @@
     android:layout_marginLeft="@dimen/user_profile_card_padding"
     android:layout_marginBottom="16dp"
     card_view:cardCornerRadius="3dp"
+    card_view:cardBackgroundColor="?windowBackground"
     android:visibility="invisible">
 
     <LinearLayout android:layout_width="match_parent"
@@ -19,8 +20,7 @@
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:background="?windowBackground">
+            android:paddingLeft="16dp">
 
             <TextView
                 android:id="@+id/favorites_title_text"
@@ -55,8 +55,7 @@
             android:id="@+id/favorites_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="?windowBackground" >
+            android:orientation="vertical" >
 
         </LinearLayout>
 
