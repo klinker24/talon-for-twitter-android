@@ -41,6 +41,8 @@
 
             </RelativeLayout>
 
+            <include layout="@layout/profile_stats_card" />
+
             <include layout="@layout/profile_tweets_card" />
 
             <include layout="@layout/profile_mentions_card" />
