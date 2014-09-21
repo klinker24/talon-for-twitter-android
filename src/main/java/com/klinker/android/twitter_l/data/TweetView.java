@@ -117,6 +117,7 @@ public class TweetView {
             retweeter = status.getUser().getScreenName();
             retweetText = context.getString(R.string.retweeter) + "@" + retweeter;
             this.status = status.getRetweetedStatus();
+            status = status.getRetweetedStatus();
         } else {
             retweetText = null;
             retweeter = null;

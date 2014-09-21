@@ -32,6 +32,9 @@ import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileFavoritesPopup;
+import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileMentionsPopup;
+import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileTweetsPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -57,6 +60,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import org.lucasr.smoothie.AsyncListView;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -433,15 +437,28 @@ public class ProfilePager extends Activity {
     }
 
     public List<Status> tweets = new ArrayList<Status>();
+    public ProfileTweetsPopup tweetsPopup;
     private void showTweets() {
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
         View divider = findViewById(R.id.tweet_text_divider);
-        LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
+        final LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
+
+        final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
         tweetsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+
+        showAllTweets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tweetsPopup.setExpansionPointForAnim(view);
+                tweetsPopup.show();
+            }
+        });
 
         if (thisUser.getStatusesCount() < 1000) {
             showAllTweets.setText(getString(R.string.show_all) + " (" + thisUser.getStatusesCount() + ")");
@@ -484,15 +501,28 @@ public class ProfilePager extends Activity {
     }
 
     public List<Status> mentions = new ArrayList<Status>();
+    public ProfileMentionsPopup mentionsPopup;
     private void showMentions() {
         TextView mentionsTitle = (TextView) findViewById(R.id.mentions_title_text);
         Button showAllMentions = (Button) findViewById(R.id.show_all_mentions_button);
         View divider = findViewById(R.id.mentions_text_divider);
         LinearLayout content = (LinearLayout) findViewById(R.id.mentions_content);
 
+        final View mentionsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+
         mentionsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+
+        showAllMentions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mentionsPopup.setExpansionPointForAnim(view);
+                mentionsPopup.show();
+            }
+        });
 
         int size = 0;
         if (mentions.size() >= 3) {
@@ -533,15 +563,28 @@ public class ProfilePager extends Activity {
     }
 
     public List<Status> favorites = new ArrayList<Status>();
+    public ProfileFavoritesPopup favoritesPopup;
     private void showFavorites() {
         TextView favoritesTitle = (TextView) findViewById(R.id.favorites_title_text);
         Button showAllfavorites = (Button) findViewById(R.id.show_all_favorites_button);
         View divider = findViewById(R.id.favorites_text_divider);
         LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
 
+        final View favoritesLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+
         favoritesTitle.setTextColor(settings.themeColors.primaryColor);
         showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+
+        showAllfavorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                favoritesPopup.setExpansionPointForAnim(view);
+                favoritesPopup.show();
+            }
+        });
 
         int size = 0;
         if (favorites.size() >= 3) {
@@ -1148,6 +1191,19 @@ public class ProfilePager extends Activity {
             }
         } catch (Exception e) {
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (tweetsPopup != null && tweetsPopup.isShowing()) {
+            tweetsPopup.hide();
+        } else if (mentionsPopup != null && mentionsPopup.isShowing()) {
+            mentionsPopup.hide();
+        } else if (favoritesPopup != null && favoritesPopup.isShowing()) {
+            favoritesPopup.hide();
+        } else {
+            super.onBackPressed();
         }
     }
 
