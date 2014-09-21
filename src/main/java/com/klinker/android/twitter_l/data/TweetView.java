@@ -145,12 +145,23 @@ public class TweetView {
         setComponents(tweet);
         bindData();
 
+        if (images) {
+            imageHolder.setVisibility(View.VISIBLE);
+        } else {
+            imageHolder.setVisibility(View.GONE);
+        }
+
         return tweet;
     }
 
     private View createTweet() {
         View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet, null, false);
         return tweetView;
+    }
+
+    private boolean images = true;
+    public void hideImage(boolean hide) {
+        images = !hide;
     }
 
     private void setComponents(View v) {
