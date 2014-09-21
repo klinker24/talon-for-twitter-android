@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.ui.profile_viewer;
 
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +24,10 @@ import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
@@ -153,6 +156,10 @@ public class ProfilePager extends Activity {
 
     public NetworkedCacheableImageView background;
     public NetworkedCacheableImageView profilePic;
+    public NetworkedCacheableImageView toolbarBackground;
+    public NetworkedCacheableImageView toolbarProfilePic;
+    public TextView toolbarName;
+    public TextView toolbarRealName;
     public TextView followerCount;
     public TextView followingCount;
     public TextView description;
@@ -166,6 +173,11 @@ public class ProfilePager extends Activity {
         // first get all the views we need
         background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+
+        toolbarBackground = (NetworkedCacheableImageView) findViewById(R.id.toolbar_background);
+        toolbarProfilePic = (NetworkedCacheableImageView) findViewById(R.id.toolbar_profile_pic);
+        toolbarName = (TextView) findViewById(R.id.toolbar_screenname);
+        toolbarRealName = (TextView) findViewById(R.id.toolbar_name);
 
         followerCount = (TextView) findViewById(R.id.followers_number);
         followingCount = (TextView) findViewById(R.id.following_number);
@@ -199,19 +211,32 @@ public class ProfilePager extends Activity {
     }
 
     private int offsetSize = 0;
+    private boolean toolbarIsShowing = false;
     public void setUpInsets() {
         final View insetsBackground = findViewById(R.id.actionbar_and_status_bar);
 
+        final int toolbarHeight = Utils.getActionBarHeight(this) +
+                (getResources().getBoolean(R.bool.isTablet) ? 0 : Utils.getStatusBarHeight(this));
+
         ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
-        statusParams.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+        statusParams.height = toolbarHeight;
         insetsBackground.setLayoutParams(statusParams);
-        insetsBackground.setAlpha(0);
+        insetsBackground.setTranslationY(-1 * statusParams.height);
 
-        final int abHeight = Utils.getActionBarHeight(context);
         final int sbHeight = Utils.getStatusBarHeight(context);
-        final View header = findViewById(R.id.background_image);
 
-        View status = findViewById(R.id.status_bar);
+        View status = findViewById(R.id.darker_status);
+        RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) status.getLayoutParams();
+        params1.height = sbHeight;
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            status.setLayoutParams(params1);
+        }
+
+        /*final int abHeight = Utils.getActionBarHeight(context);
+        final View header = findViewById(R.id.background_image);*/
+
+        /*View status = findViewById(R.id.status_bar);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
         params.height = sbHeight;
         status.setLayoutParams(params);
@@ -228,9 +253,19 @@ public class ProfilePager extends Activity {
         if (settings.darkTheme) {
             action.setBackgroundColor(settings.themeColors.primaryColor);
             status.setBackgroundColor(settings.themeColors.primaryColorDark);
-        }
+        }*/
 
-        insetsBackground.setAlpha(0f);
+        //insetsBackground.setAlpha(0f);
+
+        final ObjectAnimator showToolbar = ObjectAnimator.ofFloat(insetsBackground, View.TRANSLATION_Y, -1 * toolbarHeight, 0);
+        showToolbar.setDuration(250);
+        showToolbar.setInterpolator(new DecelerateInterpolator());
+        final ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(insetsBackground, View.TRANSLATION_Y, 0, -1 * toolbarHeight);
+        hideToolbar.setDuration(250);
+        hideToolbar.setInterpolator(new DecelerateInterpolator());
+
+        final int headerSize = Utils.toDP(345, context);
+
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
@@ -241,16 +276,26 @@ public class ProfilePager extends Activity {
                 if (t < offsetSize - 5 && t > offsetSize && (oldt - t)  < 5) {
                     background.setTranslationY(0f);
                 }
-                final int headerHeight = header.getHeight() - abHeight;
-                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                insetsBackground.setAlpha(ratio);
+
+                float heightForToolbar = headerSize + background.getTranslationY();
+
+                if (toolbarHeight > heightForToolbar && !toolbarIsShowing) {
+                    toolbarIsShowing = true;
+                    showToolbar.start();
+                } else if (toolbarHeight < heightForToolbar && toolbarIsShowing) {
+                    toolbarIsShowing = false;
+                    hideToolbar.start();
+                }
+                //final int headerHeight = header.getHeight() - abHeight;
+                //final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+                //insetsBackground.setAlpha(ratio);
             }
         });
 
         if (Utils.hasNavBar(context) && !getResources().getBoolean(R.bool.isTablet)) {
             View v = findViewById(R.id.nav_bar_seperator);
             v.setVisibility(View.VISIBLE);
-            params = (LinearLayout.LayoutParams) v.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
             params.height = Utils.getNavBarHeight(context);
             v.setLayoutParams(params);
         } else {
@@ -262,9 +307,9 @@ public class ProfilePager extends Activity {
         Utils.setUpTweetTheme(context, settings);
 
         actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        android:actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setTitle("");
         actionBar.setIcon(null);
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
@@ -313,17 +358,19 @@ public class ProfilePager extends Activity {
                 followingCount.setTextColor(getResources().getColor(R.color.light_text));
             }
         }*/
-        findViewById(R.id.status_bar).setBackgroundColor(settings.themeColors.primaryColorDark);
-        findViewById(R.id.actionbar_bar).setBackgroundColor(settings.themeColors.primaryColor);
-        profileCounts.setBackgroundColor(settings.themeColors.primaryColorLight);
+        //findViewById(R.id.status_bar).setBackgroundColor(settings.themeColors.primaryColorDark);
+        //findViewById(R.id.actionbar_bar).setBackgroundColor(settings.themeColors.primaryColor);
+        profileCounts.setBackgroundColor(settings.themeColors.primaryColor);
 
-        if (ImageUtils.getBrightness(settings.themeColors.primaryColorLight) > 128) {
+        if (ImageUtils.getBrightness(settings.themeColors.primaryColor) > 128) {
             followerCount.setTextColor(getResources().getColor(R.color.light_text));
             followingCount.setTextColor(getResources().getColor(R.color.light_text));
         }
 
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
+
+            toolbarBackground.loadImage(backgroundImage, true, null);
 
             background.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,7 +386,16 @@ public class ProfilePager extends Activity {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
             params.topMargin = Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + Utils.toDP(15, context);
             headerCard.setLayoutParams(params);
+
+            toolbarBackground.setBackgroundColor(settings.themeColors.primaryColor);
+            findViewById(R.id.darker_status).setBackgroundColor(settings.themeColors.primaryColorDark);
         }
+
+        toolbarProfilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
+        toolbarProfilePic.setClipToOutline(true);
+
+        toolbarName.setText("@" + user.getScreenName());
+        toolbarRealName.setText(user.getName());
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
@@ -491,6 +547,7 @@ public class ProfilePager extends Activity {
 
                 TweetView t = new TweetView(context, tweets.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
+                t.hideImage(true);
                 content.addView(t.getView());
             }
         } else {
@@ -549,6 +606,7 @@ public class ProfilePager extends Activity {
 
                 TweetView t = new TweetView(context, mentions.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
+                t.hideImage(true);
                 content.addView(t.getView());
             }
         } else {
@@ -611,6 +669,7 @@ public class ProfilePager extends Activity {
 
                 TweetView t = new TweetView(context, favorites.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
+                t.hideImage(true);
                 content.addView(t.getView());
             }
         } else {
@@ -747,7 +806,7 @@ public class ProfilePager extends Activity {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        actionBar.setTitle(thisUser.getName());
+                        //actionBar.setTitle(thisUser.getName());
                         invalidateOptionsMenu();
                         setProfileCard(thisUser);
                     }
@@ -955,7 +1014,7 @@ public class ProfilePager extends Activity {
 
         protected void onPostExecute(Void none) {
             if (thisUser != null) {
-                actionBar.setTitle(thisUser.getName());
+                //actionBar.setTitle(thisUser.getName());
             }
             invalidateOptionsMenu();
         }

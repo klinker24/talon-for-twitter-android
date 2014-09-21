@@ -62,7 +62,7 @@
             android:orientation="vertical"
             android:id="@+id/actionbar_and_status_bar" >
 
-        <LinearLayout
+        <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -77,6 +77,65 @@
                   android:id="@+id/actionbar_bar"
                   android:background="@color/primary"/>
 
+        </LinearLayout>-->
+
+        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/toolbar_background"
+                android:scaleType="centerCrop"/>
+
+        <View
+                android:id="@+id/darker_status"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/transparent_system_bar"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/toolbar_profile_pic"
+                    android:background="@drawable/pro_pic_clip"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="16dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/toolbar_name"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:shadowColor="?textShadowColor"
+                        android:shadowDy="1"
+                        android:shadowRadius="3"
+                        android:textColor="@android:color/white"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/toolbar_screenname"
+                        android:textSize="13sp"
+                        android:shadowColor="?textShadowColor"
+                        android:shadowDy="1"
+                        android:shadowRadius="3"
+                        android:textColor="@android:color/white"/>
+
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
