@@ -5,4 +5,7 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="to_top">To Top</string>
     <string name="show_all">Show All</string>
+    <string name="stats">Stats</string>
+    <string name="list_count">In %s lists.</string>
+    <string name="joined_twitter">Joined Twitter: </string>
 </resources>

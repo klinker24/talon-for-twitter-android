@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/stats_card"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:maxWidth="300dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginRight="@dimen/user_profile_card_padding"
+                                    android:layout_marginLeft="@dimen/user_profile_card_padding"
+                                    android:layout_marginBottom="16dp"
+                                    android:paddingBottom="12dp"
+                                    card_view:cardCornerRadius="3dp"
+                                    card_view:cardBackgroundColor="?windowBackground"
+                                    android:visibility="invisible">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:layout_alignParentBottom="true">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:paddingLeft="16dp">
+
+            <TextView
+                    android:id="@+id/stats_title_text"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/stats"
+                    android:textAllCaps="true"
+                    android:textSize="18sp"/>
+
+            <Button
+                    android:id="@+id/show_all_stats_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_all"
+                    android:textSize="12sp"
+                    android:background="?android:selectableItemBackground"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="invisible"/>
+
+
+        </LinearLayout>
+
+        <View android:id="@+id/stats_text_divider"
+              android:layout_height="1dp"
+              android:layout_width="match_parent" />
+
+        <!-- number of followers and following -->
+        <LinearLayout
+                android:id="@+id/profile_counts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="16dp" >
+
+            <LinearLayout
+                    android:id="@+id/view_followers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/followers_number"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_text"
+                        android:singleLine="true"/>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:gravity="center_horizontal"
+                              android:layout_marginTop="8dp" >
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:id="@+id/follower_1"
+                                android:minHeight="36dp" android:minWidth="36dp"
+                                android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                android:maxWidth="36dp" android:maxHeight="36dp"
+                                android:background="@drawable/pro_pic_clip"/>
+
+                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:id="@+id/follower_2"
+                                android:layout_marginLeft="-6dp"
+                                android:minHeight="36dp" android:minWidth="36dp"
+                                android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                android:maxWidth="36dp" android:maxHeight="36dp"
+                                android:background="@drawable/pro_pic_clip"/>
+
+                    </LinearLayout>
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/follower_3"
+                            android:layout_marginTop="-6dp"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="36dp" android:maxHeight="36dp"
+                            android:background="@drawable/pro_pic_clip"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View android:layout_width="1dp" android:layout_height="match_parent"
+                    android:background="?drawerDividerColor"/>
+
+            <LinearLayout
+                    android:id="@+id/view_friends"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/following_number"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_text"
+                        android:singleLine="true"/>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:gravity="center_horizontal"
+                              android:layout_marginTop="8dp" >
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:id="@+id/friend_1"
+                                android:minHeight="36dp" android:minWidth="36dp"
+                                android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                android:maxWidth="36dp" android:maxHeight="36dp"
+                                android:background="@drawable/pro_pic_clip"/>
+
+                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:id="@+id/friend_2"
+                                android:layout_marginLeft="-6dp"
+                                android:minHeight="36dp" android:minWidth="36dp"
+                                android:scaleType="centerCrop" android:adjustViewBounds="true"
+                                android:maxWidth="36dp" android:maxHeight="36dp"
+                                android:background="@drawable/pro_pic_clip"/>
+
+                    </LinearLayout>
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/friend_3"
+                            android:layout_marginTop="-6dp"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:scaleType="centerCrop" android:adjustViewBounds="true"
+                            android:maxWidth="36dp" android:maxHeight="36dp"
+                            android:background="@drawable/pro_pic_clip"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/verified"
+                android:drawableLeft="?acceptButton"
+                android:drawablePadding="8dp"
+                android:text="@string/verified"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?textColor"
+                android:textSize="13sp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:gravity="center_vertical"
+                android:visibility="gone"/>
+
+        <TextView
+                android:id="@+id/created_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?textColor"
+                android:textSize="13sp"
+                android:paddingLeft="16dp"/>
+
+        <TextView
+                android:id="@+id/number_of_lists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?textColor"
+                android:paddingLeft="16dp"
+                android:textSize="13sp"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

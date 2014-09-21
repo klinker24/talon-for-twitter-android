@@ -57,10 +57,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import org.lucasr.smoothie.AsyncListView;
@@ -360,12 +358,12 @@ public class ProfilePager extends Activity {
         }*/
         //findViewById(R.id.status_bar).setBackgroundColor(settings.themeColors.primaryColorDark);
         //findViewById(R.id.actionbar_bar).setBackgroundColor(settings.themeColors.primaryColor);
-        profileCounts.setBackgroundColor(settings.themeColors.primaryColor);
+        //profileCounts.setBackgroundColor(settings.themeColors.primaryColor);
 
-        if (ImageUtils.getBrightness(settings.themeColors.primaryColor) > 128) {
+        /*if (ImageUtils.getBrightness(settings.themeColors.primaryColor) > 128) {
             followerCount.setTextColor(getResources().getColor(R.color.light_text));
             followingCount.setTextColor(getResources().getColor(R.color.light_text));
-        }
+        }*/
 
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
@@ -432,17 +430,6 @@ public class ProfilePager extends Activity {
             website.setVisibility(View.GONE);
         }
 
-        if (user.getFriendsCount() < 1000) {
-            followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
-        } else {
-            followingCount.setText(getString(R.string.following) + ": " + Utils.coolFormat(user.getFriendsCount(), 0));
-        }
-        if (user.getFollowersCount() < 1000) {
-            followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
-        } else {
-            followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
-        }
-
         TextUtils.linkifyText(context, description, null, true, "", false);
         TextUtils.linkifyText(context, website, null, true, "", false);
 
@@ -490,6 +477,45 @@ public class ProfilePager extends Activity {
         }
 
         showCard(findViewById(R.id.header_card));
+    }
+
+    private void showStats(User user) {
+        if (user.getFriendsCount() < 1000) {
+            followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
+        } else {
+            followingCount.setText(getString(R.string.following) + ": " + Utils.coolFormat(user.getFriendsCount(), 0));
+        }
+        if (user.getFollowersCount() < 1000) {
+            followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+        } else {
+            followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
+        }
+
+        TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
+        View divider = findViewById(R.id.stats_text_divider);
+
+        statsTitle.setTextColor(settings.themeColors.primaryColor);
+        divider.setBackgroundColor(settings.themeColors.primaryColor);
+
+        TextView verified = (TextView) findViewById(R.id.verified);
+        TextView createdAt = (TextView) findViewById(R.id.created_at);
+        TextView listsCount = (TextView) findViewById(R.id.number_of_lists);
+
+        if (user.isVerified()) {
+            verified.setVisibility(View.VISIBLE);
+        }
+
+        SimpleDateFormat ft = new SimpleDateFormat("MMM dd, yyyy");
+
+        createdAt.setText(getString(R.string.joined_twitter) +" " + ft.format(user.getCreatedAt()));
+
+        if (user.getListedCount() == 0) {
+            listsCount.setVisibility(View.GONE);
+        } else {
+            listsCount.setText(getString(R.string.list_count).replace("%s", user.getListedCount() + ""));
+        }
+
+        showCard(findViewById(R.id.stats_card));
     }
 
     public List<Status> tweets = new ArrayList<Status>();
@@ -809,6 +835,7 @@ public class ProfilePager extends Activity {
                         //actionBar.setTitle(thisUser.getName());
                         invalidateOptionsMenu();
                         setProfileCard(thisUser);
+                        showStats(thisUser);
                     }
                 });
 
