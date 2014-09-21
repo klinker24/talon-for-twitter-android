@@ -76,8 +76,8 @@ public class ProfileFavoritesFragment extends Fragment {
         ArrayListLoader loader = new ArrayListLoader(cache, context);
 
         ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
+        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
+        builder.setThreadPoolSize(2);
 
         listView.setItemManager(builder.build());
 
