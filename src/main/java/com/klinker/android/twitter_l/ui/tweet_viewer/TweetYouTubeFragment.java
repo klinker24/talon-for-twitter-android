@@ -29,6 +29,8 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     private static YouTubePlayer realPlayer;
     private static YouTubePlayer.OnInitializedListener listener;
 
+    private static boolean videoLoaded = false;
+
     public TweetYouTubeFragment(AppSettings settings, String url) {
         this.settings = settings;
         this.url = url;
@@ -43,6 +45,19 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (realPlayer != null) {
+            realPlayer.release();
+        }
+
+        realPlayer = null;
+
+        TweetYouTubeFragment.videoLoaded = false;
     }
 
     @Override
@@ -64,9 +79,9 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         return layout;
     }
 
+    private static String video = "";
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        String video;
 
         try {
             if (url.contains("youtube")) { // normal youtube link
@@ -100,7 +115,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
             video = "";
         }
 
-        youTubePlayer.loadVideo(video);
+        //youTubePlayer.loadVideo(video, 0);
         youTubePlayer.setShowFullscreenButton(false);
 
         realPlayer = youTubePlayer;
@@ -123,7 +138,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         }
 
         if (realPlayer != null) {
-            realPlayer.release();
+            realPlayer.pause();
         }
     }
 
@@ -136,7 +151,12 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         }
 
         if (realPlayer != null) {
-            player.initialize(AppSettings.YOUTUBE_API_KEY, listener);
+            if (videoLoaded) {
+                realPlayer.play();
+            } else {
+                realPlayer.loadVideo(video);
+                videoLoaded = true;
+            }
         }
     }
 }

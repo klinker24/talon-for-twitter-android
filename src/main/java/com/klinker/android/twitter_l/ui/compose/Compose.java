@@ -976,8 +976,6 @@ public abstract class Compose extends Activity implements
                 if (remaining < 0 && !pwiccer) {
                     // twitlonger goes here
 
-                    Log.v("pwiccer_text", "twitlonger running: " + remaining);
-
                     boolean isDone = false;
 
                     if (useAccOne) {
@@ -988,10 +986,11 @@ public abstract class Compose extends Activity implements
                         }
 
                         if (addLocation) {
-                            Location location = mLocationClient.getLastLocation();
-                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-
-                            helper.setLocation(geolocation);
+                            if (waitForLocation()) {
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                helper.setLocation(geolocation);
+                            }
                         }
 
                         if (helper.createPost() != 0) {
@@ -1007,10 +1006,13 @@ public abstract class Compose extends Activity implements
                         }
 
                         if (addLocation) {
-                            Location location = mLocationClient.getLastLocation();
-                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
+                            waitForLocation();
 
-                            helper.setLocation(geolocation);
+                            if (waitForLocation()) {
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                helper.setLocation(geolocation);
+                            }
                         }
 
                         if (helper.createPost() != 0) {
@@ -1029,9 +1031,11 @@ public abstract class Compose extends Activity implements
                     if (imagesAttached == 0) {
                         // Update status
                         if(addLocation) {
-                            Location location = mLocationClient.getLastLocation();
-                            GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-                            media.setLocation(geolocation);
+                            if (waitForLocation()) {
+                                Location location = mLocationClient.getLastLocation();
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                media.setLocation(geolocation);
+                            }
                         }
 
                         if (useAccOne) {
@@ -1082,10 +1086,11 @@ public abstract class Compose extends Activity implements
                                 // post the status with the 0th picture attached
                                 TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
                                 if (addLocation) {
-                                    Location location = mLocationClient.getLastLocation();
-                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-
-                                    helper.setLocation(geolocation);
+                                    if (waitForLocation()) {
+                                        Location location = mLocationClient.getLastLocation();
+                                        GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                        media.setLocation(geolocation);
+                                    }
                                 }
                                 if (helper.createPost() != 0) {
                                     isDone = true;
@@ -1099,10 +1104,11 @@ public abstract class Compose extends Activity implements
 
                                 TwitPicHelper helper = new TwitPicHelper(twitter2, text, files[0], context);
                                 if (addLocation) {
-                                    Location location = mLocationClient.getLastLocation();
-                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(),location.getLongitude());
-
-                                    helper.setLocation(geolocation);
+                                    if (waitForLocation()) {
+                                        Location location = mLocationClient.getLastLocation();
+                                        GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                        media.setLocation(geolocation);
+                                    }
                                 }
                                 if (helper.createPost() != 0) {
                                     isDone = true;
@@ -1133,9 +1139,11 @@ public abstract class Compose extends Activity implements
                             }
 
                             if (addLocation) {
-                                Location location = mLocationClient.getLastLocation();
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                media.setLocation(geolocation);
+                                if (waitForLocation()) {
+                                    Location location = mLocationClient.getLastLocation();
+                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                    media.setLocation(geolocation);
+                                }
                             }
 
                             twitter4j.Status s = null;
@@ -1197,6 +1205,23 @@ public abstract class Compose extends Activity implements
                 outofmem = true;
             }
             return false;
+        }
+
+        private boolean waitForLocation() {
+            if (!mLocationClient.isConnected()) {
+                for (int i = 0; i < 5; i++) {
+                    try {
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
+
+                    }
+                    if (mLocationClient.isConnected()) {
+                        break;
+                    }
+                }
+            }
+
+            return mLocationClient.isConnected();
         }
 
         boolean outofmem = false;
