@@ -59,7 +59,7 @@
                 android:background="@drawable/pressed_button"
                 android:text="@string/tweets" />
 
-            <View android:id="@+id/divider"
+            <View
                 android:background="?textColor"
                 android:layout_width="1dp"
                 android:layout_height="40dp" />
@@ -73,7 +73,7 @@
                 android:background="@drawable/pressed_button"
                 android:text="@string/followers" />
 
-            <View android:id="@+id/divider"
+            <View
                 android:background="?textColor"
                 android:layout_width="1dp"
                 android:layout_height="40dp" />
