@@ -40,6 +40,7 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.settings.SettingsActivity;
+import com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter.ui.search.SearchPager;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
 import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
