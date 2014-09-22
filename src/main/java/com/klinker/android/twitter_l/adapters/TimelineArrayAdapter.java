@@ -791,7 +791,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         mHandler[currHandler].postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (holder.tweetId == id) {
+                //if (holder.tweetId == id) {
                     if (hasPicture) {
                         loadImage(context, holder, holder.picUrl, mCache, id);
                     }
@@ -850,7 +850,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
-                }
+                //}
             }
         }, 400);
         currHandler++;
