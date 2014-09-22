@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="3.1.7">
+        <text>Added support TwitPic again</text>
+        <text>Fixes for the YouTube player</text>
+        <text>Fixed not being able to create lists</text>
+    </version>
     <version name="3.1.6">
         <text>Nearby tweets now use the manual location preference</text>
     </version>
