@@ -83,7 +83,7 @@
             <LinearLayout
                     android:id="@+id/view_followers"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:layout_weight="1">
@@ -147,7 +147,7 @@
             <LinearLayout
                     android:id="@+id/view_friends"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:layout_weight="1">
