@@ -70,8 +70,8 @@ public class PreCacheService extends IntentService {
                 String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
                 String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
 
-                CacheableBitmapDrawable wrapper = mCache.get(profilePic);
-                if (wrapper == null) {
+
+                if (!mCache.contains(profilePic)) {
 
                     try {
                         HttpURLConnection conn = (HttpURLConnection) new URL(profilePic).openConnection();
@@ -91,9 +91,9 @@ public class PreCacheService extends IntentService {
                     }
                 }
 
+
                 if (!imageUrl.equals("")) {
-                    wrapper = mCache.get(imageUrl);
-                    if (wrapper == null) {
+                    if (!mCache.contains(imageUrl)) {
                         try {
                             HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
                             InputStream is = new BufferedInputStream(conn.getInputStream());

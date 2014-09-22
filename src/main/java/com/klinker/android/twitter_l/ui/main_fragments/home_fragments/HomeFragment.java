@@ -292,19 +292,31 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                         if (viewPressed) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
-                                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                            (settings.jumpingWorkaround ? 1 : 0),
-                                    size);
+                            try {
+                                listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
+                                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                                (settings.jumpingWorkaround ? 1 : 0),
+                                        size);
+                            } catch (Exception e) {
+                                // not attached
+                            }
                         } else if (tweets != 0) {
                             unread = tweets;
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                            listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
-                                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                            (settings.jumpingWorkaround ? 1 : 0),
-                                    size);
+                            try {
+                                listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
+                                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                                (settings.jumpingWorkaround ? 1 : 0),
+                                        size);
+                            } catch (Exception e) {
+                                // not attached
+                            }
                         } else {
-                            listView.setSelectionFromTop(0, 0);
+                            try {
+                                listView.setSelectionFromTop(0, 0);
+                            } catch (Exception e) {
+                                // not attached
+                            }
                         }
 
                         try {
@@ -986,7 +998,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                 unread = numberNew;
                 onStartRefresh = true;
                 onRefreshStarted();
-                context.unregisterReceiver(this);
+                try {
+                    context.unregisterReceiver(this);
+                } catch (Exception e) {
+                    // not registered
+                }
             }
         }, filter);
 
