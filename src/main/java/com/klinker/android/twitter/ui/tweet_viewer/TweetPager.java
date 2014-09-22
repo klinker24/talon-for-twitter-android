@@ -18,6 +18,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -228,7 +229,12 @@ public class TweetPager extends YouTubeBaseActivity {
 
         if (getIntent().getBooleanExtra("clicked_youtube", false)) {
             pager.setCurrentItem(0);
-            TweetYouTubeFragment.resume();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    TweetYouTubeFragment.resume();
+                }
+            }, 1000);
         }
 
         if (settings.addonTheme) {
