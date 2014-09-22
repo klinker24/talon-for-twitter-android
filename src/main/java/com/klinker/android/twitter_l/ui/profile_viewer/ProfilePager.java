@@ -799,9 +799,11 @@ public class ProfilePager extends Activity {
                     // the user already exists. don't know if this is more efficient than querying the db or not.
                 }
 
-                final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
-                        MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
-                suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
+                if (thisUser != null) {
+                    final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(context,
+                            MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
+                    suggestions.saveRecentQuery("@" + thisUser.getScreenName(), null);
+                }
 
                 // set the info to set up the action bar items
                 if (isMyProfile) {
@@ -829,15 +831,17 @@ public class ProfilePager extends Activity {
                     }
                 }
 
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //actionBar.setTitle(thisUser.getName());
-                        invalidateOptionsMenu();
-                        setProfileCard(thisUser);
-                        showStats(thisUser);
-                    }
-                });
+                if (thisUser != null) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //actionBar.setTitle(thisUser.getName());
+                            invalidateOptionsMenu();
+                            setProfileCard(thisUser);
+                            showStats(thisUser);
+                        }
+                    });
+                }
 
                 // start the other actions now that we are done finding the user
                 getFollowers(twitter);

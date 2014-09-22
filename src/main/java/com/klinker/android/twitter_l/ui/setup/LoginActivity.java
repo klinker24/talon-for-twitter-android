@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.SearchRecentSuggestions;
 import android.text.Html;
@@ -47,11 +48,13 @@ import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragme
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import twitter4j.DirectMessage;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
@@ -78,7 +81,7 @@ public class LoginActivity extends Activity {
     private TextSwitcher title;
     private TextSwitcher summary;
     private TextSwitcher progDescription;
-    private ProgressBar progressBar;
+    private SmoothProgressBar progressBar;
     private WebView mWebView;
     private LinearLayout main;
 
@@ -113,9 +116,11 @@ public class LoginActivity extends Activity {
         title = (TextSwitcher) findViewById(R.id.welcome);
         summary = (TextSwitcher) findViewById(R.id.info);
         progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (SmoothProgressBar) findViewById(R.id.progress_bar);
         main = (LinearLayout) findViewById(R.id.mainLayout);
 
+        progressBar.setSmoothProgressDrawableColors(new int[] {settings.themeColors.accentColorLight, settings.themeColors.accentColor});
+        progressBar.setVisibility(View.GONE);
 
         Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(this,android.R.anim.slide_out_right);
@@ -125,6 +130,11 @@ public class LoginActivity extends Activity {
             public View makeView() {
                 TextView myText = new TextView(LoginActivity.this);
                 myText.setTextSize(30);
+                if (settings.darkTheme) {
+                    myText.setTextColor(getResources().getColor(R.color.dark_text));
+                } else {
+                    myText.setTextColor(getResources().getColor(R.color.light_text));
+                }
                 return myText;
             }
         });
@@ -138,6 +148,11 @@ public class LoginActivity extends Activity {
             public View makeView() {
                 TextView myText = new TextView(LoginActivity.this);
                 myText.setTextSize(17);
+                if (settings.darkTheme) {
+                    myText.setTextColor(getResources().getColor(R.color.dark_text));
+                } else {
+                    myText.setTextColor(getResources().getColor(R.color.light_text));
+                }
                 return myText;
             }
         });
@@ -151,6 +166,11 @@ public class LoginActivity extends Activity {
             public View makeView() {
                 TextView myText = new TextView(LoginActivity.this);
                 myText.setTextSize(17);
+                if (settings.darkTheme) {
+                    myText.setTextColor(getResources().getColor(R.color.dark_text));
+                } else {
+                    myText.setTextColor(getResources().getColor(R.color.light_text));
+                }
                 return myText;
             }
         });
@@ -161,8 +181,6 @@ public class LoginActivity extends Activity {
 
         title.setText(getResources().getString(R.string.first_welcome));
         summary.setText(getResources().getString(R.string.first_info));
-
-        progressBar.setProgress(100);
 
         mWebView = (WebView)findViewById(R.id.loginWebView);
         try {
@@ -192,10 +210,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 new FollowMe().execute();
 
-                btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
-                noThanks.setVisibility(View.GONE);
-
-                summary.setText(getResources().getString(R.string.third_info));
+                btnLoginTwitter.callOnClick();
             }
         });
 
@@ -228,11 +243,6 @@ public class LoginActivity extends Activity {
                     }
                 } else if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.initial_sync))) {
                     new getTimeLine().execute();
-                } else if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.no_thanks))) {
-                    btnLoginTwitter.setText(getResources().getString(R.string.back_to_timeline));
-                    noThanks.setVisibility(View.GONE);
-
-                    summary.setText(getResources().getString(R.string.third_info));
                 } else {
 
                     if (settings.timelineRefresh != 0) { // user only wants manual
@@ -422,6 +432,8 @@ public class LoginActivity extends Activity {
             super.onPreExecute();
 
             progressBar.setIndeterminate(true);
+            progressBar.progressiveStart();
+            progressBar.setVisibility(View.VISIBLE);
 
             btnLoginTwitter.setEnabled(false);
 
@@ -601,19 +613,18 @@ public class LoginActivity extends Activity {
         protected void onPostExecute(String file_url) {
 
             String text = getResources().getString(R.string.follow_me_description);
-            text = text.replace("@TalonAndroid", "<font color='#FF8800'>@TalonAndroid</font>");
-            text = text.replace("@lukeklinker", "<font color='#FF8800'>@lukeklinker</font>");
 
             btnLoginTwitter.setEnabled(true);
             btnLoginTwitter.setText(getResources().getString(R.string.no_thanks));
             noThanks.setVisibility(View.VISIBLE);
 
-            progressBar.setIndeterminate(false);
-            progressBar.setProgress(100);
+            progressBar.progressiveStop();
 
             progDescription.setText(getResources().getString(R.string.done_syncing));
             title.setText(getResources().getString(R.string.third_welcome));
-            summary.setText(Html.fromHtml(text));
+            summary.setText(text);
+
+            TextUtils.linkifyText(context, (TextView) summary.getChildAt(0), null, false, "", true);
         }
 
     }

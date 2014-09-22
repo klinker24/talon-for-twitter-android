@@ -56,6 +56,20 @@
               android:layout_height="1dp"
               android:layout_width="match_parent" />
 
+        <TextView
+            android:id="@+id/verified"
+            android:drawableLeft="?acceptButton"
+            android:drawablePadding="8dp"
+            android:text="@string/verified"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:textSize="13sp"
+            android:paddingLeft="16dp"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"/>
+
         <!-- number of followers and following -->
         <LinearLayout
                 android:id="@+id/profile_counts"
@@ -63,7 +77,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp" >
+                android:padding="16dp"
+                android:layout_marginBottom="8dp">
 
             <LinearLayout
                     android:id="@+id/view_followers"
@@ -78,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/followers_number"
                         android:textSize="14sp"
-                        android:textColor="@color/dark_text"
+                        android:textColor="?textColor"
                         android:singleLine="true"/>
 
                 <LinearLayout android:layout_width="match_parent"
@@ -142,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/following_number"
                         android:textSize="14sp"
-                        android:textColor="@color/dark_text"
+                        android:textColor="?textColor"
                         android:singleLine="true"/>
 
                 <LinearLayout android:layout_width="match_parent"
@@ -191,20 +206,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <TextView
-                android:id="@+id/verified"
-                android:drawableLeft="?acceptButton"
-                android:drawablePadding="8dp"
-                android:text="@string/verified"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?textColor"
-                android:textSize="13sp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:gravity="center_vertical"
-                android:visibility="gone"/>
 
         <TextView
                 android:id="@+id/created_at"
