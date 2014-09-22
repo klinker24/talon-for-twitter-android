@@ -140,6 +140,45 @@ public class TweetPager extends YouTubeBaseActivity {
 
         final int numberOfPages = mSectionsPagerAdapter.getCount();
 
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (youtube) {
+                    try {
+                        switch (numberOfPages) {
+                            case 3:
+                            case 4:
+                                if (i != 0) {
+                                    TweetYouTubeFragment.pause();
+                                } else {
+                                    TweetYouTubeFragment.resume();
+                                }
+                                break;
+                            case 5:
+                                if (i != 1) {
+                                    TweetYouTubeFragment.pause();
+                                } else {
+                                    TweetYouTubeFragment.resume();
+                                }
+                                break;
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
         switch (numberOfPages) {
             case 2:
                 if (settings.pageToOpen == AppSettings.PAGE_CONVO) {
@@ -189,45 +228,8 @@ public class TweetPager extends YouTubeBaseActivity {
 
         if (getIntent().getBooleanExtra("clicked_youtube", false)) {
             pager.setCurrentItem(0);
+            TweetYouTubeFragment.resume();
         }
-
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                if (youtube) {
-                    try {
-                        switch (numberOfPages) {
-                            case 4:
-                                if (i != 0) {
-                                    TweetYouTubeFragment.pause();
-                                } else {
-                                    TweetYouTubeFragment.resume();
-                                }
-                                break;
-                            case 5:
-                                if (i != 1) {
-                                    TweetYouTubeFragment.pause();
-                                } else {
-                                    TweetYouTubeFragment.resume();
-                                }
-                                break;
-                        }
-                    } catch (Exception e) {
-
-                    }
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
 
         if (settings.addonTheme) {
             PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
