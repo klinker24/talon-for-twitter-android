@@ -255,7 +255,7 @@ public class ListFragment extends MainFragment {
 
                         int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
 
-                        if (position > 0) {
+                        if (position > 0  && !settings.topDown) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
                                 listView.setSelectionFromTop(position + listView.getHeaderViewsCount() -

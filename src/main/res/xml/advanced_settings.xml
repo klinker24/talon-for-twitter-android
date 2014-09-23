@@ -87,6 +87,12 @@
             android:defaultValue="false"
             />
 
+        <CheckBoxPreference
+            android:key="top_down_mode"
+            android:title="@string/top_down"
+            android:summary="@string/top_down_summary"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

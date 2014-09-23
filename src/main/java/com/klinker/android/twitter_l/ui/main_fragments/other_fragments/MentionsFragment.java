@@ -136,10 +136,12 @@ public class MentionsFragment extends MainFragment {
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                         int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         try {
-                            listView.setSelectionFromTop(numberNew + listView.getHeaderViewsCount() -
-                                            (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                            (settings.jumpingWorkaround ? 1 : 0),
-                                    size);
+                            if (!settings.topDown) {
+                                listView.setSelectionFromTop(numberNew + listView.getHeaderViewsCount() -
+                                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                                (settings.jumpingWorkaround ? 1 : 0),
+                                        size);
+                            }
                         } catch (Exception e) {
                             // not attached
                         }
@@ -291,10 +293,12 @@ public class MentionsFragment extends MainFragment {
             unread = newTweets;
             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             try {
-                listView.setSelectionFromTop(newTweets + listView.getHeaderViewsCount() -
-                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                (settings.jumpingWorkaround ? 1 : 0),
-                        size);
+                if (!settings.topDown) {
+                    listView.setSelectionFromTop(newTweets + listView.getHeaderViewsCount() -
+                                    (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                    (settings.jumpingWorkaround ? 1 : 0),
+                            size);
+                }
             } catch (Exception e) {
                 // not attached
             }
