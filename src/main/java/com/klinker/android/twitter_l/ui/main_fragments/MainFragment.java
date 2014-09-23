@@ -503,6 +503,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
 
+        isToastShowing = true;
+
         if (toastBar.getVisibility() != View.VISIBLE) {
             toastBar.setVisibility(View.VISIBLE);
 
@@ -510,8 +512,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
             anim.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    isToastShowing = true;
-
                     if (quit) {
                         infoBar = true;
                     }
