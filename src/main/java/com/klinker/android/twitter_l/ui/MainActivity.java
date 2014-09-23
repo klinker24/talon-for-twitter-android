@@ -24,6 +24,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import android.widget.Toolbar;
@@ -53,7 +54,7 @@ public class MainActivity extends DrawerActivity {
     public static boolean isPopup;
     public static Context sContext;
 
-    public static ImageButton sendButton;
+    public static ImageView sendButton;
     public static LinearLayout sendLayout;
     public static boolean showIsRunning = false;
     public static boolean hideIsRunning = false;
@@ -155,6 +156,7 @@ public class MainActivity extends DrawerActivity {
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
         MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
+        MainActivity.sendButton = (ImageView) findViewById(R.id.send_button);
         MainActivity.sendLayout.setClipToOutline(true);
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +164,12 @@ public class MainActivity extends DrawerActivity {
             public void onClick(View view) {
                 Intent compose = new Intent(context, ComposeActivity.class);
                 startActivity(compose);
+            }
+        });
+        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.sendLayout.callOnClick();
             }
         });
 

@@ -42,15 +42,15 @@
                     android:layout_height="56dp"
                     android:padding="10dp"
                     android:visibility="gone"
-                    android:background="@drawable/fab_ripple"
+                    android:background="@drawable/fab_color"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="65dp"
                     android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:focusableInTouchMode="true"
-                    android:focusable="true" >
-                <!-- android:elevation="2dp" -->
+                    android:focusable="true"
+                    android:elevation="2dp" >
 
                 <ImageView
                         android:id="@+id/send_button"
@@ -62,6 +62,7 @@
                         android:maxWidth="56dp" android:maxHeight="56dp"
                         android:src="@drawable/ic_action_new_dark"
                         android:contentDescription="New Tweet"
+                        android:background="@drawable/light_ripple_borderless"
                         android:focusable="false"
                         android:focusableInTouchMode="false"/>
 
