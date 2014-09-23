@@ -45,7 +45,7 @@
                 android:layout_height="56dp"
                 android:padding="10dp"
                 android:visibility="gone"
-                android:background="@drawable/floating_action_button"
+                android:background="@drawable/fab_color"
                 android:elevation="2dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"

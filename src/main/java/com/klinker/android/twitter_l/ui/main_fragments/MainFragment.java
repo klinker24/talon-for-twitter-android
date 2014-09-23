@@ -474,43 +474,46 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
 
-        toastBar.setVisibility(View.VISIBLE);
+        if (toastBar.getVisibility() != View.VISIBLE) {
+            toastBar.setVisibility(View.VISIBLE);
 
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                isToastShowing = true;
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    isToastShowing = true;
 
-                if (quit) {
-                    infoBar = true;
+                    if (quit) {
+                        infoBar = true;
+                    }
                 }
-            }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (quit) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideToastBar(length);
-                            infoBar = false;
-                        }
-                    }, 3000);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (quit) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideToastBar(length);
+                                infoBar = false;
+                            }
+                        }, 3000);
+                    }
                 }
-            }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
+                }
+            });
+            anim.setDuration(length);
+            toastBar.startAnimation(anim);
+        }
     }
 
     public void hideToastBar(long length) {

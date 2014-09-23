@@ -1182,7 +1182,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         final LinearLayout retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
-        final ImageButton replyButton;
         retweeters = new NetworkedCacheableImageView[3];
 
         nametv = (TextView) layout.findViewById(R.id.name);
@@ -1197,12 +1196,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
-        replyButton = (ImageButton) layout.findViewById(R.id.send_button);
 
         View sendLayout = findViewById(R.id.send_layout);
-        Drawable d = sendLayout.getBackground();
-        d.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-        sendLayout.setBackground(d);
 
         retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
         retweeters[1] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_2);
@@ -1494,7 +1489,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
             }
         };
-        replyButton.setOnClickListener(clickListener);
+
+        sendLayout.setOnClickListener(clickListener);
 
 
         // last bool is whether it should open in the external browser or not
