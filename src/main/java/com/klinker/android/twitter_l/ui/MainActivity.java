@@ -155,22 +155,13 @@ public class MainActivity extends DrawerActivity {
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
         MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
-        Drawable d = MainActivity.sendLayout.getBackground();
-        d.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-        MainActivity.sendLayout.setBackground(d);
+        MainActivity.sendLayout.setClipToOutline(true);
         MainActivity.sendHandler.postDelayed(showSend, 1000);
-        MainActivity.sendButton = (ImageButton) findViewById(R.id.send_button);
         MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent compose = new Intent(context, ComposeActivity.class);
                 startActivity(compose);
-            }
-        });
-        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendLayout.performClick();
             }
         });
 

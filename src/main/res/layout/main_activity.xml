@@ -42,8 +42,7 @@
                     android:layout_height="56dp"
                     android:padding="10dp"
                     android:visibility="gone"
-                    android:background="@drawable/floating_action_button"
-                    android:elevation="2dp"
+                    android:background="@drawable/fab_ripple"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="65dp"
@@ -51,8 +50,9 @@
                     android:gravity="center"
                     android:focusableInTouchMode="true"
                     android:focusable="true" >
+                <!-- android:elevation="2dp" -->
 
-                <ImageButton
+                <ImageView
                         android:id="@+id/send_button"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
@@ -63,10 +63,10 @@
                         android:src="@drawable/ic_action_new_dark"
                         android:contentDescription="New Tweet"
                         android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+                        android:focusableInTouchMode="false"/>
 
             </LinearLayout>
+
 
         </RelativeLayout>
 
