@@ -1228,13 +1228,13 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
     };
     public long mLength;
 
-    public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+    /*public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         showToastBar(description, buttonText, length, quit, listener, false);
-    }
+    }*/
 
     public boolean topViewToastShowing = false;
 
-    public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
+    /*public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
         try {
             if (!isToastShowing || isLive) {
                 if (isToastShowing) {
@@ -1292,7 +1292,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         } catch (Exception e) {
             // fragment not attached
         }
-    }
+    }*/
 
     public boolean isHiding = false;
 

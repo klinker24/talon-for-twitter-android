@@ -1491,6 +1491,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         };
 
         sendLayout.setOnClickListener(clickListener);
+        findViewById(R.id.send_button).setOnClickListener(clickListener);
 
 
         // last bool is whether it should open in the external browser or not
