@@ -118,6 +118,13 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
+            try {
+                setActionBar(toolbar);
+                DrawerActivity.hasToolbar = true;
+            } catch (Exception e) {
+                // already has an action bar supplied?? comes when you switch to landscape and back to portrait
+            }
+
             toolbar.setNavigationIcon(resource);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,13 +150,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             }
 
             toolbar.setBackgroundColor(settings.themeColors.primaryColor);
-
-            try {
-                setActionBar(toolbar);
-                DrawerActivity.hasToolbar = true;
-            } catch (Exception e) {
-                // already has an action bar supplied?? comes when you switch to landscape and back to portrait
-            }
         }
 
         actionBar = getActionBar();
@@ -274,6 +274,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                 @Override
                 public boolean onOptionsItemSelected(MenuItem item) {
+                    Log.v("talon_drawer", "item clicked");
                     // Toggle drawer
                     if (item.getItemId() == android.R.id.home) {
                         if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
