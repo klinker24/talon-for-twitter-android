@@ -134,6 +134,7 @@ public class AppSettings {
     public boolean mobilizeOnData;
     public boolean preCacheImages;
     public boolean fastTransitions;
+    public boolean topDown;
 
     // notifications
     public boolean timelineNot;
@@ -257,6 +258,7 @@ public class AppSettings {
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
         preCacheImages = sharedPrefs.getBoolean("pre_cache_images", false);
         fastTransitions = true;//sharedPrefs.getBoolean("fast_transitions", false);
+        topDown = sharedPrefs.getBoolean("top_down_mode", false);
 
         // set up tweetmarker
         String val = sharedPrefs.getString("tweetmarker_options", "0");
@@ -443,6 +445,7 @@ public class AppSettings {
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
         preCacheImages = sharedPrefs.getBoolean("pre_cache_images", false);
+        topDown = sharedPrefs.getBoolean("top_down_mode", false);
 
         // set up tweetmarker
         String val = sharedPrefs.getString("tweetmarker_options", "0");

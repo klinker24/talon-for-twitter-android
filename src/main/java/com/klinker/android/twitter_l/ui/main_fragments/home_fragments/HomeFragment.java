@@ -290,7 +290,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             return;
                         }
 
-                        if (viewPressed) {
+                        if (viewPressed && !settings.topDown) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
                                 listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
@@ -300,14 +300,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             } catch (Exception e) {
                                 // not attached
                             }
-                        } else if (tweets != 0) {
+                        } else if (tweets != 0 ) {
                             unread = tweets;
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
-                                listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
-                                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
-                                                (settings.jumpingWorkaround ? 1 : 0),
-                                        size);
+                                if (!settings.topDown) {
+                                    listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -
+                                                    (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                                    (settings.jumpingWorkaround ? 1 : 0),
+                                            size);
+                                }
                             } catch (Exception e) {
                                 // not attached
                             }

@@ -8,4 +8,6 @@
     <string name="stats">Stats</string>
     <string name="list_count">In %s lists.</string>
     <string name="joined_twitter">Joined Twitter: </string>
+    <string name="top_down">Top Down Mode</string>
+    <string name="top_down_summary">The timeline will never save your position. It will start at the top.</string>
 </resources>

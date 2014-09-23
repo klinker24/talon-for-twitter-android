@@ -297,29 +297,53 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 View view = absListView.getChildAt(0);
                 int top = (view == null) ? 0 : view.getTop();
 
-                if (firstVisibleItem > 3) {
-                    if (firstVisibleItem == oldFirstVisibleItem) {
-                        if (top > oldTop) {
-                            // scrolling up
-                            scrollUp();
-                        } else if (top < oldTop) {
-                            // scrolling down
-                            scrollDown();
+                if (!settings.topDown) {
+                    if (firstVisibleItem > 3) {
+                        if (firstVisibleItem == oldFirstVisibleItem) {
+                            if (top > oldTop) {
+                                // scrolling up
+                                scrollUp();
+                            } else if (top < oldTop) {
+                                // scrolling down
+                                scrollDown();
+                            }
+                        } else {
+                            if (firstVisibleItem < oldFirstVisibleItem) {
+                                // scrolling up
+                                scrollUp();
+                            } else {
+                                // scrolling down
+                                scrollDown();
+                            }
                         }
                     } else {
-                        if (firstVisibleItem < oldFirstVisibleItem) {
-                            // scrolling up
-                            scrollUp();
-                        } else {
-                            // scrolling down
-                            scrollDown();
-                        }
-                    }
-                } else {
                     /*if (!actionBar.isShowing()) {
                         actionBar.show();
                     }*/
-                    showStatusBar();
+                        showStatusBar();
+                    }
+                } else {
+                    if (firstVisibleItem == 0) {
+                        hideToastBar(300);
+                    } else {
+                        if (firstVisibleItem == oldFirstVisibleItem) {
+                            if (top > oldTop) {
+                                // scrolling up
+                                scrollDown();
+                            } else if (top < oldTop) {
+                                // scrolling down
+                                scrollUp();
+                            }
+                        } else {
+                            if (firstVisibleItem < oldFirstVisibleItem) {
+                                // scrolling up
+                                scrollDown();
+                            } else {
+                                // scrolling down
+                                scrollUp();
+                            }
+                        }
+                    }
                 }
 
                 oldTop = top;
