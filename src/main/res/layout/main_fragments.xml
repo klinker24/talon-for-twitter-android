@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/toastButton"
-                android:background="@drawable/light_ripple_borderless"
+                android:background="@drawable/ripple_dark_borderless"
                 android:gravity="center"
                 android:textSize="14sp"
                 android:textColor="@color/accent_ligher"

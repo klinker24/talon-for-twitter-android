@@ -107,6 +107,8 @@ limitations under the License.
 
         <item name="compose_window_background">@drawable/compose_background_light</item>
 
+        <item name="ripple_background">@drawable/ripple_light</item>
+        <item name="ripple_borderless">@drawable/ripple_light_borderless</item>
     </style>
 
     <style name="ActionBarStyle" parent="@android:style/Widget.Material.ActionBar">

@@ -100,6 +100,8 @@ limitations under the License.
         <item name="circle_overflow">@drawable/ic_action_circle_overflow_dark</item>
 
         <item name="compose_window_background">@drawable/compose_background_dark</item>
+        <item name="ripple_background">@drawable/ripple_dark</item>
+        <item name="ripple_borderless">@drawable/ripple_dark_borderless</item>
     </style>
 
     <style name="Theme.TalonDark.Main" parent="@style/Theme.TalonDark.Base">

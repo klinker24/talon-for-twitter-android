@@ -161,14 +161,17 @@ public abstract class Compose extends Activity implements
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+        overridePendingTransition(0, R.anim.fade_out);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (!getIntent().getBooleanExtra("already_animated", false)) {
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
 
         countHandler = new Handler();
 

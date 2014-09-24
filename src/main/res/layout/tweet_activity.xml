@@ -67,7 +67,7 @@
                             android:contentDescription="New Tweet"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
-                            android:background="@drawable/light_ripple_borderless"/>
+                            android:background="@drawable/ripple_dark_borderless"/>
 
                 </LinearLayout>
 

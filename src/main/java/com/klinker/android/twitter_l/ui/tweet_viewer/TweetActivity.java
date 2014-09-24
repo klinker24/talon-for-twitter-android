@@ -1476,7 +1476,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         final String fsendString = sendString;
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 if (!hidePopups()) {
                     Intent compose = new Intent(context, ComposeActivity.class);
                     compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
@@ -1485,7 +1485,11 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     getWindow().setExitTransition(null);
 
-                    startActivity(compose);
+                    ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                            v.getMeasuredWidth(), v.getMeasuredHeight());
+                    compose.putExtra("already_animated", true);
+
+                    startActivity(compose, opts.toBundle());
                 }
             }
         };
