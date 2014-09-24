@@ -1,5 +1,7 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -29,8 +31,10 @@ import android.transition.Slide;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -38,6 +42,7 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
@@ -1197,7 +1202,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
 
-        View sendLayout = findViewById(R.id.send_layout);
+        final View sendLayout = findViewById(R.id.send_layout);
 
         retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
         retweeters[1] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_2);
@@ -1497,6 +1502,60 @@ public class TweetActivity extends YouTubeBaseActivity {
         sendLayout.setOnClickListener(clickListener);
         findViewById(R.id.send_button).setOnClickListener(clickListener);
 
+        // we are going to do a little fade in thing with the top of this area
+        /*final View darkBackgroundArea = findViewById(R.id.person_info);
+
+        final LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) darkBackgroundArea.getLayoutParams();
+        final int originalHeight = params.height;
+        final int twentyFive = Utils.toDP(25, context);
+        final int newHeight = params.height + twentyFive;
+        final int marginDp = Utils.toDP(-29,context);
+        params.height = newHeight;
+        //params.topMargin = marginDp - twentyFive;
+        darkBackgroundArea.setLayoutParams(params);
+        darkBackgroundArea.setTranslationY(-1 * twentyFive);
+
+        final int twenty = Utils.toDP(20, context);
+        //darkBackgroundArea.setPadding(twenty, twenty + Utils.toDP(25, context), twenty, twenty);
+
+        final ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(0, twentyFive);
+        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                params.height = newHeight - val;
+                //params.topMargin = marginDp - Math.abs(originalHeight - val);
+                darkBackgroundArea.setLayoutParams(params);
+
+                darkBackgroundArea.setTranslationY(-1*(twentyFive - val));
+
+                //darkBackgroundArea.setPadding(twenty, twenty + Math.abs(originalHeight - val), twenty, twenty);
+            }
+        });
+        heightAnimatorHeader.setDuration(500);
+        heightAnimatorHeader.setInterpolator(new DecelerateInterpolator());
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                heightAnimatorHeader.start();
+            }
+        }, 300);*/
+
+        // lets get a little scale in animation on that fab
+        final View content = findViewById(R.id.content);
+        content.setVisibility(View.INVISIBLE);
+        sendLayout.setVisibility(View.INVISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_expand));
+                sendLayout.setVisibility(View.VISIBLE);
+
+                content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+                content.setVisibility(View.VISIBLE);
+            }
+        }, 200);
 
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, "", true);
