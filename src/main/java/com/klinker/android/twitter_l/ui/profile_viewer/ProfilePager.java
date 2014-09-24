@@ -474,8 +474,7 @@ public class ProfilePager extends Activity {
 
         if (user.getScreenName().equals(settings.myScreenName)) {
             // they are you
-            favoriteText.setVisibility(View.GONE);
-            followButton.setVisibility(View.GONE);
+            findViewById(R.id.header_button_section).setVisibility(View.GONE);
         }
 
         showCard(findViewById(R.id.header_card));
