@@ -229,6 +229,8 @@ public class ProfilePager extends Activity {
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             status.setLayoutParams(params1);
+        } else {
+            status.setVisibility(View.INVISIBLE);
         }
 
         /*final int abHeight = Utils.getActionBarHeight(context);
