@@ -126,6 +126,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         if (getResources().getBoolean(R.bool.isTablet)) {
             setUpWindow(false);
 
+            getActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
+
             int currentOrientation = getResources().getConfiguration().orientation;
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
