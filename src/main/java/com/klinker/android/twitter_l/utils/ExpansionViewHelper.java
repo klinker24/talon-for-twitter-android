@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -228,12 +229,17 @@ public class ExpansionViewHelper {
 
         composeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
                 compose.putExtra("user", composeText);
                 compose.putExtra("id", id);
                 compose.putExtra("reply_to_text", tweetText);
-                context.startActivity(compose);
+
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
+                compose.putExtra("already_animated", true);
+
+                context.startActivity(compose, opts.toBundle());
             }
         });
 

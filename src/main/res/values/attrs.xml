@@ -83,6 +83,8 @@ limitations under the License.
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>
+    <attr name="ripple_background" format="reference"/>
+    <attr name="ripple_borderless" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerTrends" format="reference"/>

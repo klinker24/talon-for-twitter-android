@@ -48,6 +48,7 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:focusableInTouchMode="true"
+                    android:viewName="compose"
                     android:focusable="true"
                     android:elevation="2dp" >
 
@@ -61,7 +62,7 @@
                         android:maxWidth="56dp" android:maxHeight="56dp"
                         android:src="@drawable/ic_action_new_dark"
                         android:contentDescription="New Tweet"
-                        android:background="@drawable/light_ripple_borderless"
+                        android:background="@drawable/ripple_dark_borderless"
                         android:focusable="false"
                         android:focusableInTouchMode="false"/>
 

@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
@@ -16,8 +17,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.transition.ChangeBounds;
 import android.transition.Explode;
 import android.transition.Fade;
+import android.transition.MoveImage;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.*;
@@ -64,7 +67,7 @@ public class MainActivity extends DrawerActivity {
         public void run() {
             if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
 
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_expand);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -106,7 +109,7 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void run() {
             if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_hide);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -147,6 +150,8 @@ public class MainActivity extends DrawerActivity {
 
         }
 
+        getWindow().setSharedElementExitTransition(new ChangeBounds());
+
         sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
         setUpTheme();
@@ -161,9 +166,12 @@ public class MainActivity extends DrawerActivity {
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
-                startActivity(compose);
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
+                compose.putExtra("already_animated", true);
+                startActivity(compose, opts.toBundle());
             }
         });
         MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
