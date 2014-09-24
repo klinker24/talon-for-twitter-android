@@ -17,7 +17,7 @@ limitations under the License.
 
 <resources>
 
-    <style name="Theme.TalonLight.Base" parent="android:Theme.Material">
+    <style name="Theme.TalonLight.Base" parent="android:Theme.Material.Light.DarkActionBar">
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
@@ -27,9 +27,11 @@ limitations under the License.
 
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
-        <item name="android:popupMenuStyle">@style/ActionBarPopup</item>
+        <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
 
         <item name="android:colorControlHighlight">@color/light_ripple</item>
+
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>
@@ -105,6 +107,18 @@ limitations under the License.
 
         <item name="compose_window_background">@drawable/compose_background_light</item>
 
+    </style>
+
+    <style name="ActionBarStyle" parent="@android:style/Widget.Material.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:colorControlHighlight">@color/dark_ripple</item>
+        <item name="android:background">?android:colorPrimary</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+        parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/dark_text</item>
     </style>
 
     <style name="Theme.TalonLight.Main" parent="@style/Theme.TalonLight.Base">
