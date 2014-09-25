@@ -57,6 +57,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -431,7 +434,9 @@ public class ProfilePager extends Activity {
             location.setVisibility(View.GONE);
         }
         if (web != null && !web.equals("")) {
-            website.setText(web);
+            website.setText("");
+
+            expandUrl(web);
 
             if (location.getVisibility() == View.GONE) {
                 website.setPadding(0, Utils.toDP(16, context), 0, 0);
@@ -441,7 +446,6 @@ public class ProfilePager extends Activity {
         }
 
         TextUtils.linkifyText(context, description, null, true, "", false);
-        TextUtils.linkifyText(context, website, null, true, "", false);
 
         TextView followingStatus = (TextView) findViewById(R.id.follow_status);
         TextView followText = (TextView) findViewById(R.id.follow_button_text);
@@ -1959,5 +1963,46 @@ public class ProfilePager extends Activity {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void expandUrl(final String web) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // resolve the link
+                HttpURLConnection connection;
+                try {
+                    URL address = new URL(web);
+                    connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
+                    connection.setConnectTimeout(1000);
+                    connection.setInstanceFollowRedirects(false);
+                    connection.setReadTimeout(1000);
+                    connection.connect();
+                    final String expandedURL = connection.getHeaderField("Location");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (expandedURL != null) {
+                                website.setText(expandedURL);
+                            } else {
+                                website.setText(web);
+                            }
+                            TextUtils.linkifyText(context, website, null, true, "", false);
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            website.setText(web);
+                            TextUtils.linkifyText(context, website, null, true, "", false);
+                        }
+                    });
+                }
+
+            }
+        }).start();
     }
 }
