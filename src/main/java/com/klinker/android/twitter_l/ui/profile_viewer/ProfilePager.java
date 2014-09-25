@@ -371,6 +371,14 @@ public class ProfilePager extends Activity {
             background.loadImage(backgroundImage, true, null);
 
             toolbarBackground.loadImage(backgroundImage, true, null);
+            toolbarBackground.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent pic = new Intent(context, PhotoViewerDialog.class);
+                    pic.putExtra("url", backgroundImage);
+                    startActivity(pic);
+                }
+            });
 
             background.setOnClickListener(new View.OnClickListener() {
                 @Override
