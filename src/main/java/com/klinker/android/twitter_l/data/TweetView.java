@@ -115,7 +115,7 @@ public class TweetView {
 
         if (status.isRetweet()) {
             retweeter = status.getUser().getScreenName();
-            retweetText = context.getString(R.string.retweeter) + "@" + retweeter;
+            retweetText = context.getString(R.string.retweeter) + retweeter;
             this.status = status.getRetweetedStatus();
             status = status.getRetweetedStatus();
         } else {
@@ -244,6 +244,11 @@ public class TweetView {
         timeTv.setText(time);
         tweetTv.setText(tweet);
 
+        if (retweeter != null) {
+            retweeterTv.setText(retweetText);
+            retweeterTv.setVisibility(View.VISIBLE);
+        }
+
         boolean picture = false;
 
         if(settings.inlinePics) {
@@ -349,6 +354,7 @@ public class TweetView {
                 }
             }
         });
+
 
         if (retweeterTv.getVisibility() == View.VISIBLE) {
             retweeterTv.setSoundEffectsEnabled(false);
