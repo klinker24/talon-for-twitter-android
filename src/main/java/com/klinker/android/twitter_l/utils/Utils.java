@@ -258,7 +258,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Green);
+                    context.setTheme(R.style.Theme_TalonLight_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Lime);
@@ -318,7 +318,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Green);
+                    context.setTheme(R.style.Theme_TalonDark_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Lime);
@@ -382,7 +382,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_Main_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Main_Green);
+                    context.setTheme(R.style.Theme_TalonLight_Main_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Main_Lime);
@@ -442,7 +442,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_Main_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Main_Green);
+                    context.setTheme(R.style.Theme_TalonDark_Main_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Main_Lime);
@@ -506,7 +506,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_Tweet_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Tweet_Green);
+                    context.setTheme(R.style.Theme_TalonLight_Tweet_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Tweet_Lime);
@@ -566,7 +566,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_Tweet_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Tweet_Green);
+                    context.setTheme(R.style.Theme_TalonDark_Tweet_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Tweet_Lime);
@@ -630,7 +630,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_Popup_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Popup_Green);
+                    context.setTheme(R.style.Theme_TalonLight_Popup_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Popup_Lime);
@@ -690,7 +690,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_Popup_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Popup_Green);
+                    context.setTheme(R.style.Theme_TalonDark_Popup_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Popup_Lime);
@@ -754,7 +754,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_Settings_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Settings_Green);
+                    context.setTheme(R.style.Theme_TalonLight_Settings_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Settings_Lime);
@@ -814,7 +814,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Green);
+                    context.setTheme(R.style.Theme_TalonDark_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Lime);
@@ -878,7 +878,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonLight_Notif_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Green);
+                    context.setTheme(R.style.Theme_TalonLight_Notif_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonLight_Notif_Lime);
@@ -938,7 +938,7 @@ public class Utils {
                     context.setTheme(R.style.Theme_TalonDark_Notif_LightBlue);
                     break;
                 case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonDark_Notif_Green);
+                    context.setTheme(R.style.Theme_TalonDark_Notif_LightGreen);
                     break;
                 case AppSettings.THEME_LIME:
                     context.setTheme(R.style.Theme_TalonDark_Notif_Lime);
