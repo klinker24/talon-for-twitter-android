@@ -106,7 +106,7 @@ public class ComposeActivity extends Compose {
                                     useAccOne = true;
                                     useAccTwo = true;
 
-                                    TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
+                                    TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.bothAccounts});
                                     int resource = a.getResourceId(0, 0);
                                     a.recycle();
                                     pic.setImageResource(resource);
