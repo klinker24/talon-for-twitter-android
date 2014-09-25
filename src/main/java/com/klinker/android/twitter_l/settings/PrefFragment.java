@@ -581,7 +581,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
 
-    protected void showColorPickerDialog() {
+    protected void showColorPickerDialog(SharedPreferences sharedPrefs) {
         ScrollView scrollParent = new ScrollView(getActivity());
         LinearLayout colorPickerLayout = new LinearLayout(getActivity());
         colorPickerLayout.setOrientation(LinearLayout.VERTICAL);
@@ -610,7 +610,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
 
         int padding = getResources().getDimensionPixelSize(R.dimen.settings_text_padding);
-        CheckBox darkTheme = getDarkThemeCheckbox();
+        CheckBox darkTheme = getDarkThemeCheckbox(sharedPrefs);
         LinearLayout.LayoutParams darkThemeParams = getLayoutParams(padding);
         darkThemeParams.bottomMargin = padding;
 
@@ -658,9 +658,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }).start();*/
     }
 
-    CheckBox getDarkThemeCheckbox() {
+    CheckBox getDarkThemeCheckbox(SharedPreferences sharedPrefs) {
         CheckBox darkTheme = new CheckBox(getActivity());
-        darkTheme.setChecked(AppSettings.getInstance(getActivity()).darkTheme);
+        darkTheme.setChecked(sharedPrefs.getBoolean("dark_theme", false));
         darkTheme.setText(R.string.theme_dark);
         darkTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -689,7 +689,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         themePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                showColorPickerDialog();
+                showColorPickerDialog(sharedPrefs);
                 return false;
             }
         });
@@ -727,20 +727,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                 public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                                     sharedPrefs.edit().putInt("day_start_hour", hourOfDay).putInt("day_start_min", minute).commit();
 
-                                    new AlertDialog.Builder(getActivity())
-                                            .setTitle(R.string.night_mode_theme)
-                                            .setItems(getResources().getStringArray(R.array.choose_theme), new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    sharedPrefs.edit().putInt("night_theme", i).commit();
+                                    nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
+                                            " - " +
+                                            getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
 
-                                                    nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
-                                                            " - " +
-                                                            getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
-
-                                                }
-                                            })
-                                            .show();
                                 }
                             }, 6, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_day));
                             dialog.show(getFragmentManager(), "night_mode_day");
