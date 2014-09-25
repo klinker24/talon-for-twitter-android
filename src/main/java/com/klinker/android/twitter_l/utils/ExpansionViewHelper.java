@@ -208,7 +208,6 @@ public class ExpansionViewHelper {
                     getConversation();
                     if (convoPopup == null) {
                         convoPopup = new ConversationPopupLayout(context, convoLayout);
-                        convoPopup.setExpansionPointForAnim(repliesButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 convoPopup.setWidthByPercent(.6f);
@@ -220,6 +219,7 @@ public class ExpansionViewHelper {
                             convoPopup.setCenterInScreen();
                         }
                     }
+                    convoPopup.setExpansionPointForAnim(view);
                     convoPopup.show();
                 } else {
                     Toast.makeText(context, "Loading Tweet...", Toast.LENGTH_SHORT).show();
@@ -260,7 +260,6 @@ public class ExpansionViewHelper {
 
                     if (mobilizedPopup == null) {
                         mobilizedPopup = new MobilizedWebPopupLayout(context, main);
-                        mobilizedPopup.setExpansionPointForAnim(webButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 mobilizedPopup.setWidthByPercent(.6f);
@@ -272,6 +271,7 @@ public class ExpansionViewHelper {
                             mobilizedPopup.setCenterInScreen();
                         }
                     }
+                    mobilizedPopup.setExpansionPointForAnim(webButton);
                     mobilizedPopup.show();
                 } else {
                     final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
@@ -300,7 +300,6 @@ public class ExpansionViewHelper {
                     web.loadUrl(webLink);
                     if (webPopup == null) {
                         webPopup = new WebPopupLayout(context, webLayout);
-                        webPopup.setExpansionPointForAnim(webButton);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 webPopup.setWidthByPercent(.6f);
@@ -312,6 +311,7 @@ public class ExpansionViewHelper {
                             webPopup.setCenterInScreen();
                         }
                     }
+                    webPopup.setExpansionPointForAnim(webButton);
                     webPopup.show();
                 }
             }
