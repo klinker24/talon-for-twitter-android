@@ -420,11 +420,11 @@ public class MainActivity extends DrawerActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         // check for night mode switching
-        int theme = AppSettings.getCurrentTheme(sharedPrefs);
+        boolean dark = AppSettings.getCurrentTheme(sharedPrefs);
 
         if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) ||
                 sharedPrefs.getBoolean("launcher_frag_switch", false) ||
-                (theme != settings.theme && !settings.addonTheme && settings.nightMode)) {
+                (dark != settings.darkTheme)) {
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
                               .putBoolean("dont_refresh", true).commit();

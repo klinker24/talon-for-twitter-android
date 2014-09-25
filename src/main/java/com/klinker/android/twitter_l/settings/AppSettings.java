@@ -332,8 +332,9 @@ public class AppSettings {
 
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
-                nightMode = true;
-                theme = sharedPrefs.getInt("night_theme", 0);
+                //nightMode = true;
+                darkTheme = true;
+                //theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
@@ -519,8 +520,9 @@ public class AppSettings {
 
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
-                nightMode = true;
-                theme = sharedPrefs.getInt("night_theme", 0);
+                //nightMode = true;
+                darkTheme = true;
+                //theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
@@ -559,8 +561,8 @@ public class AppSettings {
         setColors(context);
     }
 
-    public static int getCurrentTheme(SharedPreferences sharedPrefs) {
-        int theme = Integer.parseInt(sharedPrefs.getString("theme", "0")); // default is dark
+    public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
+        boolean dark = sharedPrefs.getBoolean("dark_theme", false);
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
             int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
@@ -577,11 +579,11 @@ public class AppSettings {
 
             if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
                     (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
-                theme = sharedPrefs.getInt("night_theme", 0);
+                dark = true;
             }
         }
 
-        return theme;
+        return dark;
     }
 
     protected void setValue(String key, boolean value, Context context) {
