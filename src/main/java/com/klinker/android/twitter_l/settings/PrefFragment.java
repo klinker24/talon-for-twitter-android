@@ -144,6 +144,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 addPreferencesFromResource(R.xml.other_apps_settings);
                 setUpOtherAppSettings();
                 break;
+            case 9:
+                addPreferencesFromResource(R.xml.location_settings);
+                setUpLocationSettings();
+                break;
         }
 
 
@@ -402,16 +406,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 });
 
                 dialog.show();
-                return false;
-            }
-        });
-
-        Preference pages = findPreference("pages");
-        pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
-                startActivity(configurePages);
                 return false;
             }
         });
@@ -693,7 +687,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
         });
-        final Preference deviceFont = findPreference("font_type");
+        /*final Preference deviceFont = findPreference("font_type");
         deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -702,7 +696,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 return true;
             }
-        });
+        });*/
 
 
         final Preference nightMode = findPreference("night_mode");
@@ -946,8 +940,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final boolean mentionsChanges = count == 2;
 
-        if (sharedPrefs.getBoolean("push_notifications", true)) {
-            if (sharedPrefs.getBoolean("live_streaming", true)) {
+        if (settings.pushNotifications) {
+            if (settings.liveStreaming) {
                 timeline.setEnabled(false);
                 onStart.setEnabled(false);
             }
@@ -968,28 +962,21 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        final Preference stream = findPreference("live_streaming");
+        final Preference stream = findPreference("talon_pull");
         stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                if (((CheckBoxPreference) stream).isChecked()) {
+                if (!o.equals("2")) {
                     timeline.setEnabled(true);
                     onStart.setEnabled(true);
                 } else {
                     timeline.setEnabled(false);
                     onStart.setEnabled(false);
                 }
-                return true;
-            }
-        });
 
-        final Preference pull = findPreference("push_notifications");
-        pull.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) pull).isChecked()) {
-                    if (sharedPrefs.getBoolean("live_streaming", true)) {
+                if (o.equals("2")) {
+                    if (settings.liveStreaming) {
                         timeline.setEnabled(false);
                         onStart.setEnabled(false);
                     }
@@ -1075,6 +1062,51 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
+        Preference pages = findPreference("pages");
+        pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
+                startActivity(configurePages);
+                return false;
+            }
+        });
+
+        final Preference emojis = findPreference("use_emojis");
+        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
+                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
+                            .setPositiveButton(R.string.get_android, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
+                                }
+                            })
+                            .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+
+                return true;
+            }
+
+        });
+    }
+
+    public void setUpLocationSettings() {
+        final Context context = getActivity();
+        final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
         final Preference cities = findPreference("city");
 
         if (sharedPrefs.getBoolean("manually_config_location", false)) {
@@ -1111,35 +1143,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 return false;
             }
-        });
-
-        final Preference emojis = findPreference("use_emojis");
-        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
-                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
-                            .setPositiveButton(R.string.get_android, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
-                                }
-                            })
-                            .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
-                                }
-                            })
-                            .create()
-                            .show();
-                }
-
-                return true;
-            }
-
         });
     }
 

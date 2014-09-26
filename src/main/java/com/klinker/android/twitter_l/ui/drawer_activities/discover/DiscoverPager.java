@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.ui.drawer_activities.discover;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -7,12 +8,18 @@ import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TrendsPagerAdapter;
+import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -87,6 +94,13 @@ public class DiscoverPager extends DrawerActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.trends_activity, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
@@ -101,6 +115,33 @@ public class DiscoverPager extends DrawerActivity {
         menu.getItem(NOTIFICATIONS).setVisible(false);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        try {
+            if (mDrawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
+        } catch (Exception e) {
+
+        }
+
+        switch (item.getItemId()) {
+            case R.id.location_settings:
+                Intent settings = new Intent(context, PrefActivity.class);
+                settings.putExtra("position", 9)
+                        .putExtra("title",
+                                getResources().getString(R.string.location_settings));
+                finish();
+                settings.putExtra("open_help", true);
+                startActivity(settings);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

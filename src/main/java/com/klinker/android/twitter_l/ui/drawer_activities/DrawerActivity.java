@@ -794,9 +794,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         Intent settings = new Intent(context, PrefActivity.class);
-        settings.putExtra("position", 7)
+        settings.putExtra("position", 9)
                 .putExtra("title",
-                        getResources().getString(R.string.get_help_settings));
+                        getResources().getString(R.string.location_settings));
         finish();
         settings.putExtra("open_help", true);
         startActivity(settings);

@@ -233,7 +233,7 @@ public abstract class Compose extends Activity implements
                 String text = reply.getText().toString();
 
                 try {
-                    if (!android.text.TextUtils.isEmpty(text)) {
+                    if (!android.text.TextUtils.isEmpty(text) && !text.startsWith(" RT")) {
                         text = text.replaceAll("  ", " ");
 
                         reply.setText(text);

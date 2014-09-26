@@ -6,10 +6,6 @@
                 android:title="@string/ui_settings"
                 android:icon="?themeSettings" />
 
-    <Preference android:key="timeline_settings"
-                android:title="@string/timelines_settings"
-                android:icon="?timelineItem" />
-
     <Preference android:key="sync_settings"
                 android:title="@string/sync_settings"
                 android:icon="?syncSettings" />
@@ -25,6 +21,10 @@
     <Preference android:key="advanced_settings"
                 android:title="@string/advanced_settings"
                 android:icon="?advancedSettings" />
+
+    <Preference android:key="timeline_settings"
+                android:title="@string/manage_mutes"
+                android:icon="?favUser" />
 
     <Preference android:key="memory_management"
                 android:title="@string/memory_manage"

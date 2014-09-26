@@ -34,16 +34,8 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <!--<PreferenceCategory
         android:title="@string/font_options" >
-
-        <ListPreference
-            android:key="text_size"
-            android:title="@string/text_size"
-            android:defaultValue="14"
-            android:entries="@array/text_size"
-            android:entryValues="@array/text_size"
-            />
 
         <ListPreference
             android:key="font_type"
@@ -53,7 +45,7 @@
             android:entryValues="@array/font_type_inserted"
             />
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory
             android:title="@string/tweet_look_options" >
@@ -75,6 +67,14 @@
                 android:title="@string/absolute_date"
                 android:defaultValue="false"
                 />
+
+        <ListPreference
+            android:key="text_size"
+            android:title="@string/timeline_text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size"
+            />
 
     </PreferenceCategory>
 
