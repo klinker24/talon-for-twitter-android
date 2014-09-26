@@ -58,6 +58,8 @@ public class ConfigurePagerActivity extends Activity {
             finish();
         }
 
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+
         mSectionsPagerAdapter = new ConfigurationPagerAdapter(getFragmentManager(), context);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
