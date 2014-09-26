@@ -496,6 +496,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         actionBar.setTitle("");
         actionBar.setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+
         insetsBackground = findViewById(R.id.actionbar_and_status_bar);
 
         ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
