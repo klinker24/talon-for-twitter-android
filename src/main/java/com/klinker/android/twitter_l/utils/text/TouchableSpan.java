@@ -41,6 +41,7 @@ import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.Utils;
