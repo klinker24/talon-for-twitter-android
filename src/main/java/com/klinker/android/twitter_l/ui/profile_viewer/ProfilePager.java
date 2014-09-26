@@ -849,6 +849,14 @@ public class ProfilePager extends Activity {
                         @Override
                         public void run() {
                             Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
+
+                            if (spinner == null) {
+                                spinner = findViewById(R.id.spinner);
+                            }
+                            if (spinner.getVisibility() == View.VISIBLE) {
+                                spinner.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+                                spinner.setVisibility(View.GONE);
+                            }
                         }
                     });
                 }
