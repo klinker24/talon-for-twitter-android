@@ -54,6 +54,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1619,7 +1620,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(context, FAQActivity.class));
+                XmlFaqUtils.showFaqDialog(context);
                 return false;
             }
         });

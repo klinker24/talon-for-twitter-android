@@ -1,0 +1,193 @@
+<faq>
+    <question
+            name="About Pages and Cards"
+            description="Blur has some pretty sweet extensions, but how does it all work?">
+
+        <text>
+            With Blur, we wanted to make something that any devs could plug their own work into, so we created the Pages and Cards APIs.
+
+            Your favorite developers need only make an extension and everything from that app will be available with just a swipe from your launcher.
+
+            To add pages, simply go to Settings -> Page Picker -> then hit the add button to see a list of available apps.
+
+            To add cards, just go to Settings -> Card Picker -> and hit the create button to see a list of cards that you have on your system.
+
+            You can get these extensions from anywhere. Some devs may package them along with their app, while some will create a separate package to house the extension.
+
+            Just install the app with the extension like any other, whether that is from the Play Store, or if the developer gives you a direct download link. It will automatically appear in Blur's settings after you install it.
+        </text>
+
+    </question>
+
+    <question
+            name="Using Talon (and other paid apps)"
+            description="Why do I have to install a separate app?">
+
+        <text>
+            To get "Talon for Twitter" to work with Blur, you need to install the "Talon (Blur Launcher Page)" app, found here:
+
+            https://play.google.com/store/apps/details?id=com.klinker.android.launcher.twitter_page
+
+            This is due to some limitations with paid packages from the Google Play Store. Google themselves ran into these limitations head on when they released Android Wear. The problem is that you cannot read anything other than resources (images, layouts, strings, etc.) from a paid package on the Play Store.
+
+            Since our app relies completely on running code from the extension packages, it would never work with Talon, or any other app that is paid on the Play Store. There is simply no way to run that code from Blur. So, to get a paid app to work on the launcher, devs will always have to have a free extension app on the Play Store.
+
+            (It is helpful to note that apps with In-App Purchases to not have this limitation, such as EvolveSMS. That's why there is no separate launcher page app for Evolve.)
+
+            Steps to get Talon working with Blur:
+            1.) Install Talon from the Play Store: http://goo.gl/bBM6hR
+            2.) Install Talon (Blur Launcher Page) from the Play Store: goo.gl/rXRkhG
+            3.) Go to the "Page Picker" within Blur's settings and add Talon for Twitter to one of your launcher pages.
+        </text>
+
+    </question>
+
+    <question
+            name="Launcher Crashes"
+            description="Why does Blur always seem to stop on me??">
+
+        <text>
+            This project is a bit different than apps with similar goals in mind. For the extensions, we allow the developers to do just about anything they want with almost zero restrictions. Anything they can do in a regular app can be done on their launcher pages or info cards. Of course, this can be good and bad. One of the downsides is that error trapping on our end is next to impossible. If something goes wrong on one of the extensions, then the entire app will fail because we have no way to control the outcome of that error. From the user's side though, all you see if the launcher crashing and assuming the error comes from us, when more often than not, it has nothing to do with the launcher code, but what you are running on the launcher.
+
+            This presents a difficult problem to debug as well. If you notice frequent crashes, try playing around with your extensions a little bit. See if you can find the one that is the problem, then get in touch with the developer that created it. If you come to us with problems about specific pages, Klinker Apps will not be able to do anything for you to solve it.
+
+            The only time we can control the error catching is when we initially create the page, and even then, we can't catch everything that happens.
+        
+            Another time that Blur could suddenly force close on you is if you are updating one of the apps that has an extension.
+
+            When you update your app, there will be a time when nothing is installed on the device. This can be a problem because when you are on your launcher, it is going to be checking and trying to run the code from that package. If it can't find the package to run the code from... Then it will throw an error and everything will stop. Unfortunately this is also one of the cases where we cannot catch the error.
+        </text>
+
+    </question>
+
+    <question
+            name="Lost the App Drawer Button"
+            description="Oh no! You deleted that one button you really need...">
+
+        <text>
+            Easy fix, no worries, you can convert any shortcut you want to an "All Apps" button just by picking it up and dropping it back in the same spot.
+
+            This will pull up a popup menu, where one of the options is to "Convert to All Apps".
+
+            Phew, now you can get to your apps again! (There is also a swipe up gesture that will open the drawer... Just an FYI)
+        </text>
+
+    </question>
+
+    <question
+            name="Customize the Look of your Shortcuts"
+            description="I just don't like that one icon..">
+
+        <text>
+            This one is pretty easy, picking up and dropping a shortcut in the same place will open a popup menu with a few options on it.
+
+            The first option to note is the "Change Icon" button. Clicking it will allow you to pick any icon from your current icon pack and assign it to that shortcut.
+
+            The second option to note is the "Change Name" button. It will change the name on the homescreen ONLY, not in your "All Apps" drawer.
+
+            Lastly, if you want to restore it to it's normal look, just click the restore defaults button.
+        </text>
+
+    </question>
+
+    <question
+            name="Unread Counts (Experimental)"
+            description="When your normal launcher can't...">
+
+        <text>
+            Unread counts in Blur are pretty easy, just install our "Blur - Unread" app, enable it from "Experimental Settings", then turn on the Notification Listener service and you are good to go.
+
+            Here is the download link for "Blur - Unread": http://goo.gl/Gi0x18
+
+            Head over to the "Experimental Settings" section for more information on this part of the app.
+
+            NOTE: Unread counts will only be available on Android 4.3+ due to their Notification Listener dependency.
+        </text>
+
+    </question>
+
+    <question
+            name="Launcher Redraws/Restarting"
+            description="Why does Blur seem to take extra time to return to the home screen?">
+
+        <text>
+            This is something that we were concerned about from the beginning. Obviously a launcher inherently is a big project with lots of stuff always going on in the background. Ours takes this to a whole new level though.
+
+            We can't control what kind of blocks on memory usage or processing power that other developers use in their extensions. This means that Blur could use quite a bit of RAM while it runs. If your device has a lot going on and Android realizes that it is running out of RAM, then it will try to shut down any memory hogs from being alive in the background. Hence the redraw issues.
+
+            Jacob and I have done the best we can to reduce this, but sometimes it is going to happen. You can experiment with the "Keep Blur Running" option under the experimental settings section (found in the three dot overflow menu on the settings screen). This will try to create a persistent service to ensure Android waits til the last moment to shut it down, but again, this won't always work.
+
+            There is no fool proof way in Android force your apps to remain in memory when the system needs to shut it down.
+
+            For more information about how the "Keep Blur Running" option works,  head over to it's about section under experimental settings.
+
+
+            Another thing to note is about live wallpapers. Although they are very cool, I have found them to be potentially massive memory hogs because the system wants to keep them going and to draw your wallpaper on the screen before the launcher itself. If you keep getting redraws, even after playing around with the pages and the options in Blur, try disabling your live wallpapers and see if that does the trick for you!
+        </text>
+
+    </question>
+
+    <question
+            name="Blank or Transparent Pages"
+            description="Why is there sometimes nothing on my extra pages?">
+
+        <text>
+            This happens when the launcher cannot find the app with the extension or the extension developer made a mistake with their layouts and Blur wasn't able to create the page from that layout.
+
+            The most common occurrence of this is simply when an app updates. Sometimes instead of the launcher crashing completely, the page just won't show up. To fix this, go to settings and "Restart Pages"
+        </text>
+
+    </question>
+
+    <question
+            name="Debugging Pages"
+            description="Things happen, here is what you can do to get them fixed.">
+
+        <text>
+            If you read the crashing question, then you know that our extensions work a little bit differently than similar apps (like DashClock). There is no easy way for us to debug those pages or their crashes. If you think something doesn't seem right, you will have to get in touch with the developer of that extension and try to figure out if it is in fact something on their end.
+
+            The best way, by far, to debug and figure out the culprit of the problem is with a log. I know they aren't for everyone, but if you really want help or to get your problem fixed, this is the way to do it. If you log an error, such as a force close, go through the file and search for "FATAL EXCEPTION". This means that the app couldn't recover from the error and had to close. Along with those fatal exceptions, there is a package name, for example, Talon's package name is "com.klinker.android.twitter". Use that package to figure out what app is the problem and what app is causing force close issues.
+
+            If you can't get a log of the errors, then try to find patterns. Mess with which pages you haven enabled and see if you can figure out yourself which one is causing the force closes. Then, try to get in contact with the developer and let them know how to reproduce the errors. Logs really are the best way though.
+
+            Here is a post that I wrote about taking logs on your device: http://goo.gl/KmjgEX
+        </text>
+
+    </question>
+
+    <question
+            name="In-App Purchases"
+            description="What's up with that?!">
+
+        <text>
+            Blur is completely free. The in-app purchases are solely for a donation option. Use it, enjoy it. We wanted to give the Android community something fun to play with and create with.
+        </text>
+
+    </question>
+
+    <question
+            name="Uninstalling Blur"
+            description="Why won't it let you uninstall?">
+
+        <text>
+            This happens because you have enabled Blur as a "Device Administrator". The administrator features allow us to use the double tap to sleep gesture on the homescreen, however, as you have noted, it does not allow you to uninstall apps that have been designated as administrator.
+
+            Easy fix though, head over to your system settings, then "Security". Under that "Security" preference, there should be an item for "Device Administrators". Remove our app as administrator and you are all set.
+        </text>
+
+    </question>
+
+    <question
+            name="Creating an Extension"
+            description="Glad you are interested!">
+
+        <text>
+            We have tried to make these extensions as simple and complete as possible. Creating a page is just like creating a Fragment, whereas creating an info card is just a LinearLayout.
+
+            For most developers, it will come pretty easy and be a quick process to learn the in's and out's and create your first simple page. If you are serious about looking into it, go ahead and check out our APIs. There is a pretty extensive rundown and links to example projects:
+
+            https://github.com/klinker-apps/blur-launcher-apis
+        </text>
+
+    </question>
+</faq>
