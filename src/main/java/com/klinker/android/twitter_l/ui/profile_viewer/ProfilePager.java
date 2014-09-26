@@ -1,6 +1,8 @@
 package com.klinker.android.twitter_l.ui.profile_viewer;
 
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -231,11 +233,14 @@ public class ProfilePager extends Activity {
         RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) status.getLayoutParams();
         params1.height = sbHeight;
 
-        if (!getResources().getBoolean(R.bool.isTablet)) {
+        status.setVisibility(View.GONE);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+
+        /*if (!getResources().getBoolean(R.bool.isTablet)) {
             status.setLayoutParams(params1);
         } else {
             status.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
         /*final int abHeight = Utils.getActionBarHeight(context);
         final View header = findViewById(R.id.background_image);*/
@@ -401,6 +406,20 @@ public class ProfilePager extends Activity {
 
             toolbarBackground.setBackgroundColor(settings.themeColors.primaryColor);
             findViewById(R.id.darker_status).setBackgroundColor(settings.themeColors.primaryColorDark);
+            findViewById(R.id.darker_status).setVisibility(View.VISIBLE);
+
+            ValueAnimator hideStatus = ValueAnimator.ofInt(getResources().getColor(R.color.transparent_system_bar), getResources().getColor(android.R.color.white), getResources().getColor(android.R.color.transparent));
+            hideStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    getWindow().setStatusBarColor(val);
+                }
+            });
+            hideStatus.setDuration(250);
+            hideStatus.setEvaluator(new ArgbEvaluator());
+            hideStatus.start();
+
         }
 
         toolbarProfilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
