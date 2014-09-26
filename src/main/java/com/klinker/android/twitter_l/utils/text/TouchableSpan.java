@@ -16,10 +16,16 @@
 
 package com.klinker.android.twitter_l.utils.text;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
@@ -76,7 +82,7 @@ public class TouchableSpan extends ClickableSpan {
     }
 
     private AppSettings settings;
-    private final Context mContext;
+    public final Context mContext;
     private final String mValue;
     private final String full;
     private int mThemeColor;
@@ -171,6 +177,38 @@ public class TouchableSpan extends ClickableSpan {
         }, 500);
     }
 
+    public void onLongClick() {
+        if (Patterns.WEB_URL.matcher(mValue).find()) {
+            // open link
+            // copy link
+            // share link
+            longClickWeb();
+        } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
+            // search hashtag
+            // mute hashtag
+            // copy hashtag
+            longClickHashtag();
+        } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
+            // Open profile
+            // copy handle
+            // search
+            // mute user
+            // share profile
+            longClickMentions();
+        } else if (Regex.CASHTAG_PATTERN.matcher(mValue).find()) {
+            // search cashtag
+            // copy cashtag
+            longClickCashtag();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TouchableMovementMethod.touched = false;
+            }
+        }, 500);
+    }
+
     public boolean touched = false;
 
     @Override
@@ -184,5 +222,164 @@ public class TouchableSpan extends ClickableSpan {
 
     public void setTouched(boolean isTouched) {
         touched = isTouched;
+    }
+
+    public void longClickWeb() {
+        AlertDialog.Builder builder = getBuilder();
+
+        builder.setItems(R.array.long_click_web, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0: // open web
+                        TouchableSpan.this.onClick(null);
+                        break;
+                    case 1: // copy link
+                        copy();
+                        break;
+                    case 2: // share link
+                        share(full);
+                        break;
+                }
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void longClickHashtag() {
+        AlertDialog.Builder builder = getBuilder();
+
+        builder.setItems(R.array.long_click_hashtag, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0: // search hashtag
+                        TouchableSpan.this.onClick(null);
+                        break;
+                    case 1: // mute hashtag
+                        SharedPreferences sharedPreferences = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.muted) + " " + full, Toast.LENGTH_SHORT).show();
+                        String item = full.replace("#", "") + " ";
+
+                        String current = sharedPreferences.getString("muted_hashtags", "");
+                        sharedPreferences.edit().putString("muted_hashtags", current + item).commit();
+                        sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+
+                        if (mContext instanceof DrawerActivity) {
+                            ((Activity)mContext).recreate();
+                        }
+                        break;
+                    case 2: // copy hashtag
+                        copy();
+                        break;
+                }
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void longClickMentions() {
+        AlertDialog.Builder builder = getBuilder();
+
+        builder.setItems(R.array.long_click_mentions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences sharedPrefs = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+                switch (i) {
+                    case 0: // open profile
+                        TouchableSpan.this.onClick(null);
+                        break;
+                    case 1: // copy handle
+                        copy();
+                        break;
+                    case 2: // search user
+                        search();
+                        break;
+                    case 3: // mute user
+                        String current = sharedPrefs.getString("muted_users", "");
+                        sharedPrefs.edit().putString("muted_users", current + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
+                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                        sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                        if (mContext instanceof DrawerActivity) {
+                            ((Activity)mContext).recreate();
+                        }
+                        break;
+                    case 4: // mute retweets
+                        String muted_rts = sharedPrefs.getString("muted_rts", "");
+                        sharedPrefs.edit().putString("muted_rts", muted_rts + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
+                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                        sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                        if (mContext instanceof DrawerActivity) {
+                            ((Activity)mContext).recreate();
+                        }
+                        break;
+                    case 5: // share profile
+                        share("https://twitter.com/" + full.replace("@", "").replace(" ", ""));
+                        break;
+                }
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void longClickCashtag() {
+        AlertDialog.Builder builder = getBuilder();
+
+        builder.setItems(R.array.long_click_cashtag, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0: // search cashtag
+                        TouchableSpan.this.onClick(null);
+                        break;
+                    case 1: // copy cashtag
+                        copy();
+                        break;
+                }
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private AlertDialog.Builder getBuilder() {
+        String display = "";
+
+        if (full.length() > 20) {
+            display = full.substring(0, 18) + "...";
+        } else {
+            display = full;
+        }
+        return new AlertDialog.Builder(mContext)
+                .setTitle(full);
+    }
+
+    private void search() {
+        Intent search = new Intent(mContext, SearchedTrendsActivity.class);
+        search.setAction(Intent.ACTION_SEARCH);
+        search.putExtra(SearchManager.QUERY, full);
+        mContext.startActivity(search);
+    }
+
+    private void copy() {
+        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Activity.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("link", full);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(mContext, R.string.copied, Toast.LENGTH_SHORT).show();
+    }
+
+    private void share(String text) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, text);
+
+        mContext.startActivity(share);
     }
 }

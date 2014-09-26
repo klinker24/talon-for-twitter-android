@@ -24,34 +24,19 @@
           android:title="@string/menu_copy_text"
           android:showAsAction="never"  />
 
-    <item android:id="@+id/menu_open_web"
-          android:orderInCategory="5"
-          android:title="@string/menu_open_web"
-          android:showAsAction="never"  />
-
     <item android:id="@+id/menu_save_image"
-          android:orderInCategory="6"
+          android:orderInCategory="5"
           android:title="@string/menu_save_image"
           android:showAsAction="never"  />
 
     <item android:id="@+id/menu_spam"
           android:title="@string/menu_spam"
-          android:orderInCategory="7"
-          android:showAsAction="never" />
-
-    <item android:id="@+id/menu_mute_hashtags"
-          android:title="@string/mute_hashtags"
-          android:orderInCategory="8"
-          android:showAsAction="never" />
-
-    <item android:id="@+id/menu_share_links"
-          android:title="@string/menu_share_link"
-          android:orderInCategory="9"
+          android:orderInCategory="6"
           android:showAsAction="never" />
 
     <item android:id="@+id/menu_translate"
         android:title="@string/menu_translate"
-        android:orderInCategory="10"
+        android:orderInCategory="7"
         android:showAsAction="never" />
 
 </menu>
