@@ -354,15 +354,6 @@ public class MainActivity extends DrawerActivity {
     public void onResume() {
         super.onResume();
 
-        if (!actionBar.isShowing()) {
-            actionBar.show();
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        }
-
-        MainActivity.showIsRunning = false;
-        MainActivity.hideIsRunning = false;
-        MainActivity.sendHandler.postDelayed(showSend, 1000);
-
         if (sharedPrefs.getBoolean("open_a_page", false)) {
             sharedPrefs.edit().putBoolean("open_a_page", false).commit();
             int page = sharedPrefs.getInt("open_what_page", 3);
@@ -375,8 +366,6 @@ public class MainActivity extends DrawerActivity {
             sharedPrefs.edit().putBoolean("open_interactions", false).commit();
             mDrawerLayout.openDrawer(Gravity.END);
         }
-
-        Log.v("talon_starting", "ending onResume()");
     }
 
     @Override
