@@ -1249,16 +1249,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
 
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-                        mDrawerLayout.closeDrawer(Gravity.START);
-                    } else {
-                        mDrawerLayout.openDrawer(Gravity.START);
-                    }
-                }
-            });
+            toolbar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1303,7 +1294,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             //hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
 
-            toolbar.setNavigationOnClickListener(null);
+            toolbar.setVisibility(View.GONE);
         }
     }
 }
