@@ -476,8 +476,8 @@ public class TweetPager extends YouTubeBaseActivity {
         final int MENU_DELETE_TWEET = 1;
         final int MENU_QUOTE = 2;
         final int MENU_COPY_TEXT = 3;
-        final int MENU_SAVE_IMAGE = 5;
-        final int MENU_SPAM = 6;
+        final int MENU_SAVE_IMAGE = 4;
+        final int MENU_SPAM = 5;
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
