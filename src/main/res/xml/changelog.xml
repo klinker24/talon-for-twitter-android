@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="3.2.0">
+        <text>Long click links, user handles, and hashtags for more options</text>
+        <text>Reduced clutter in the tweet viewer overflow menu</text>
+    </version>
+
     <version name="3.1.7">
         <text>Added support TwitPic again</text>
         <text>Fixes for the YouTube player</text>
