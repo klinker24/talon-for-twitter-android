@@ -18,6 +18,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -488,6 +489,34 @@ public class ProfilePager extends Activity {
             // they are you
             findViewById(R.id.header_button_section).setVisibility(View.GONE);
         }
+
+        final View sendLayout = findViewById(R.id.send_layout);
+        final View sendButton = findViewById(R.id.send_button);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendLayout.callOnClick();
+            }
+        });
+        sendLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+                compose.putExtra("user", "@" + screenName);
+                startActivity(compose);
+            }
+        });
+
+        sendLayout.setVisibility(View.INVISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_expand));
+                sendLayout.setVisibility(View.VISIBLE);
+            }
+        }, 450);
 
         showCard(findViewById(R.id.header_card));
     }
@@ -964,16 +993,16 @@ public class ProfilePager extends Activity {
         switch (followers.size()) {
             case 0:
                 for(int i = 0; i < 3; i++)
-                    this.followers[i].setVisibility(View.GONE);
+                    this.followers[i].setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 for(int i = 0; i < 2; i++)
-                    this.followers[i].setVisibility(View.GONE);
+                    this.followers[i].setVisibility(View.INVISIBLE);
                 this.followers[2].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
                 break;
             case 2:
                 for(int i = 0; i < 1; i++)
-                    this.followers[i].setVisibility(View.GONE);
+                    this.followers[i].setVisibility(View.INVISIBLE);
                 this.followers[1].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
                 this.followers[2].loadImage(followers.get(1).getBiggerProfileImageURL(), false, null);
                 break;
@@ -1004,15 +1033,15 @@ public class ProfilePager extends Activity {
         switch (friends.size()) {
             case 0:
                 for(int i = 0; i < 3; i++) // 0, 1, and 2 are gone
-                    this.friends[i].setVisibility(View.GONE);
+                    this.friends[i].setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 for(int i = 0; i < 2; i++) // 0 and 1 are gone
-                    this.friends[i].setVisibility(View.GONE);
+                    this.friends[i].setVisibility(View.INVISIBLE);
                 this.friends[2].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
                 break;
             case 2:
-                this.friends[0].setVisibility(View.GONE);
+                this.friends[0].setVisibility(View.INVISIBLE);
                 this.friends[1].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
                 this.friends[2].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
                 break;
@@ -1226,25 +1255,25 @@ public class ProfilePager extends Activity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        final int MENU_TWEET = 0;
-        final int MENU_BLOCK = 1;
-        final int MENU_UNBLOCK = 2;
-        final int MENU_ADD_LIST = 3;
-        final int MENU_DM = 4;
-        final int MENU_CHANGE_PICTURE = 5;
-        final int MENU_CHANGE_BANNER = 6;
-        final int MENU_CHANGE_BIO = 7;
-        final int MENU_MUTE = 8;
-        final int MENU_UNMUTE = 9;
-        final int MENU_MUTE_RT = 10;
-        final int MENU_UNMUTE_RT = 11;
+        //final int MENU_TWEET = 0;
+        final int MENU_BLOCK = 0;
+        final int MENU_UNBLOCK = 1;
+        final int MENU_ADD_LIST = 2;
+        //final int MENU_DM = 4;
+        final int MENU_CHANGE_PICTURE = 3;
+        final int MENU_CHANGE_BANNER = 4;
+        final int MENU_CHANGE_BIO = 5;
+        final int MENU_MUTE = 6;
+        final int MENU_UNMUTE = 7;
+        final int MENU_MUTE_RT = 8;
+        final int MENU_UNMUTE_RT = 9;
 
         if (isMyProfile) {
-            menu.getItem(MENU_TWEET).setVisible(false);
+            //menu.getItem(MENU_TWEET).setVisible(false);
             menu.getItem(MENU_BLOCK).setVisible(false);
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
-            menu.getItem(MENU_DM).setVisible(false);
+            //menu.getItem(MENU_DM).setVisible(false);
             menu.getItem(MENU_MUTE).setVisible(false);
             menu.getItem(MENU_UNMUTE).setVisible(false);
             menu.getItem(MENU_MUTE_RT).setVisible(false);
@@ -1334,17 +1363,17 @@ public class ProfilePager extends Activity {
                 new GetLists().execute();
                 return true;
 
-            case R.id.menu_tweet:
+            /*case R.id.menu_tweet:
                 Intent compose = new Intent(context, ComposeActivity.class);
                 compose.putExtra("user", "@" + screenName);
                 startActivity(compose);
-                return true;
+                return true;*/
 
-            case R.id.menu_dm:
+            /*case R.id.menu_dm:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
                 dm.putExtra("screenname", screenName);
                 startActivity(dm);
-                return true;
+                return true;*/
 
             case R.id.menu_change_picture:
                 Intent photoPickerIntent = new Intent();
