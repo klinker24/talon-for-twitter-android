@@ -635,4 +635,21 @@
     <string name="second_account">2nd Account</string>
     <string name="second_account_login_info">Since Twitter holds some of your login information in it\'s system, the next screen may not allow you to login with your new account info immediately. If it skips this login and goes directly to the authorization page, simply hit the \"Sign Out\" button in the top right corner of the website to allow the app to log you into your second account.</string>
     <string name="fetch_tweetmarker">Fetch TweetMarker</string>
+
+    <!-- Long click methods -->
+    <string name="open_profile">Open Profile</string>
+    <string name="copy_handle">Copy Handle</string>
+    <string name="search_user">Search User</string>
+    <string name="mute_user">Mute User</string>
+    <string name="mute_retweets">Mute Retweets</string>
+    <string name="share_profile">Share Profile</string>
+    <string name="open_webpage">Open Link</string>
+    <string name="copy_link">Copy Link</string>
+    <string name="share_link">Share Link</string>
+    <string name="search_hashtag">Search Hashtag</string>
+    <string name="mute_hashtag">Mute Hashtag</string>
+    <string name="copy_hashtag">Copy Hashtag</string>
+    <string name="search_cashtag">Search Cashtag</string>
+    <string name="copy_cashtag">Copy Cashtag</string>
+    <string name="copied">Copied Text</string>
 </resources>

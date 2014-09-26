@@ -16,6 +16,9 @@
 
 package com.klinker.android.twitter_l.utils.text;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Vibrator;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -29,12 +32,26 @@ public class TouchableMovementMethod extends LinkMovementMethod {
     private TouchableSpan mPressedSpan;
 
     @Override
-    public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent event) {
+    public boolean onTouchEvent(TextView textView, final Spannable spannable, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             mPressedSpan = getPressedSpan(textView, spannable, event);
             if (mPressedSpan != null) {
                 mPressedSpan.setTouched(true);
                 touched = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (touched && mPressedSpan != null) {
+                            Vibrator v = (Vibrator) mPressedSpan.mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                            v.vibrate(25);
+
+                            mPressedSpan.onLongClick();
+                            mPressedSpan.setTouched(false);
+                            mPressedSpan = null;
+                            Selection.removeSelection(spannable);
+                        }
+                    }
+                }, 500);
                 Selection.setSelection(spannable, spannable.getSpanStart(mPressedSpan),
                         spannable.getSpanEnd(mPressedSpan));
             }
