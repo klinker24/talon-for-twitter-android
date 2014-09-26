@@ -220,6 +220,12 @@ public abstract class Compose extends Activity implements
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
             replyTo.setVisibility(View.VISIBLE);
         }
+
+        String t = reply.getText().toString();
+        if (!android.text.TextUtils.isEmpty(t) && !t.endsWith(" ")) {
+            reply.append(" ");
+            reply.setSelection(reply.getText().length());
+        }
     }
 
     public void setUpWindow() {
