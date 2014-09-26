@@ -1244,12 +1244,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         showStatus.start();
 
         if (toolbar != null) {
+            toolbar.setVisibility(View.VISIBLE);
+
             ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
             showToolbar.setDuration(250);
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
-
-            toolbar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1294,7 +1294,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             //hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
 
-            toolbar.setVisibility(View.GONE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toolbar.setVisibility(View.GONE);
+                }
+            }, 250);
         }
     }
 }
