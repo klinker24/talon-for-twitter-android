@@ -27,9 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingRight="20dp"
-        android:drawableLeft="?acceptButton"
+        android:drawableLeft="@drawable/ic_action_accept_dark"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:singleLine="true"
+        android:textColor="@android:color/white"
         android:text="@string/send"/>
 </FrameLayout>

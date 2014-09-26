@@ -45,7 +45,7 @@ public class ConfigurePagerActivity extends Activity {
             // don't have a clue why
         }
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
         setContentView(R.layout.configuration_activity);
 
         setUpDoneDiscard();

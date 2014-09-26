@@ -22,14 +22,15 @@
              android:layout_weight="1">
 
     <TextView style="?android:actionBarTabTextStyle"
-        android:id="@+id/discard"
+              android:id="@+id/discard"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:paddingRight="15dp"
-              android:drawableLeft="?cancelButton"
+              android:drawableLeft="@drawable/ic_cancel_dark"
               android:drawablePadding="8dp"
               android:gravity="center_vertical"
               android:singleLine="true"
+              android:textColor="@android:color/white"
               android:text="@string/discard"/>
 </FrameLayout>

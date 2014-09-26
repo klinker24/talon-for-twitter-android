@@ -3,31 +3,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/local_trend_options" >
-
-        <CheckBoxPreference
-            android:key="manually_config_location"
-            android:title="@string/manually_config_location"
-            android:defaultValue="false"
-            />
-
-        <ListPreference
-            android:key="country"
-            android:title="@string/country_region"
-            android:defaultValue="United States"
-            android:entries="@array/countries"
-            android:entryValues="@array/countries"
-            android:dependency="manually_config_location"
-            />
-
-        <Preference
-            android:key="city"
-            android:title="@string/city"
-            android:dependency="manually_config_location" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="third_party"
         android:title="@string/third_party_services" >
 
@@ -40,16 +15,9 @@
             />
 
         <CheckBoxPreference
-            android:key="twitlonger"
-            android:title="@string/use_shortening_service"
-            android:summary="@string/use_shortening_service_summary"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
             android:key="twitpic"
             android:title="@string/use_twitpic"
-            android:summary="@string/twitpic_summary"
+            android:summary="@string/twitpic_summary_l"
             android:defaultValue="false"
             />
 
@@ -60,18 +28,31 @@
         android:key="advanced_other"
         android:title="@string/other_options" >
 
+        <Preference
+            android:key="pages"
+            android:title="@string/configure_pages"
+            />
+
+
+        <ListPreference
+            android:key="quote_style"
+            android:title="@string/quote_style"
+            android:defaultValue="0"
+            android:entries="@array/quote_style"
+            android:entryValues="@array/quote_style_inserted"
+            />
+
+        <CheckBoxPreference
+            android:key="top_down_mode"
+            android:title="@string/top_down"
+            android:summary="@string/top_down_summary"
+            android:defaultValue="false" />
+
         <CheckBoxPreference
                 android:key="use_emojis"
                 android:title="@string/enable_emojis"
                 android:defaultValue="false"
                 />
-
-        <CheckBoxPreference
-            android:key="prefer_rt"
-            android:title="@string/rt_style_quotes"
-            android:summary="@string/rt_style_quotes_summary"
-            android:defaultValue="false"
-            />
 
         <CheckBoxPreference
             android:key="auto_insert_hashtags"
@@ -86,12 +67,6 @@
             android:summary="@string/jumping_workaround_summary"
             android:defaultValue="false"
             />
-
-        <CheckBoxPreference
-            android:key="top_down_mode"
-            android:title="@string/top_down"
-            android:summary="@string/top_down_summary"
-            android:defaultValue="false" />
 
     </PreferenceCategory>
 

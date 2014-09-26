@@ -89,7 +89,7 @@ public class PrefActivity extends PreferenceActivity {
         if (position == 0) {
             ab.setIcon(R.drawable.drawer_theme_dark);
         } else if (position == 1) {
-            ab.setIcon(R.drawable.timeline_dark);
+            ab.setIcon(R.drawable.drawer_user_dark);
         } else if (position == 2) {
             ab.setIcon(R.drawable.drawer_sync_dark);
         } else if (position == 3) {
@@ -104,6 +104,8 @@ public class PrefActivity extends PreferenceActivity {
             ab.setIcon(R.drawable.ic_action_sd_storage_dark);
         } else if (position == 4) {
             ab.setIcon(R.drawable.ic_links_dark);
+        } else if (position == 9) {
+            ab.setIcon(R.drawable.ic_action_place_dark);
         }
     }
 }

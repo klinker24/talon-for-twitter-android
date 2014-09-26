@@ -5,32 +5,20 @@
     <PreferenceCategory
         android:title="@string/push_notification_options" >
 
+        <ListPreference
+            android:key="talon_pull"
+            android:title="@string/talon_pull"
+            android:defaultValue="2"
+            android:entries="@array/talon_pull"
+            android:entryValues="@array/talon_pull_inserted"
+            />
+
         <Preference
             android:summary="@string/push_notification_warning" >
             <intent android:action="android.intent.action.VIEW"
                 android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
         </Preference>
 
-        <CheckBoxPreference
-            android:key="push_notifications"
-            android:title="@string/push_notifications"
-            android:summary="@string/push_notifications_summary"
-            android:defaultValue="true"
-            />
-
-        <CheckBoxPreference
-            android:key="live_streaming"
-            android:title="@string/live_streaming"
-            android:defaultValue="true"
-            android:dependency="push_notifications"
-            />
-
-        <Preference
-            android:key="fill_gaps"
-            android:title="@string/fill_gaps"
-            android:summary="@string/fill_gaps_summary"
-            android:dependency="push_notifications"
-            />
 
     </PreferenceCategory>
 
@@ -75,25 +63,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pre_cache_settings" >
-
-        <CheckBoxPreference
-            android:key="pre_cache_images"
-            android:title="@string/pre_cache_images"
-            android:summary="@string/pre_cache_summary"
-            android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="pre_cache_wifi_only"
-            android:title="@string/pre_cache_only_wifi"
-            android:defaultValue="false"
-            android:dependency="pre_cache_images"
-            />
-
-        </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="other_options"
         android:title="@string/other_options" >
 
@@ -119,10 +88,24 @@
             android:entryValues="@array/max_number_inserted"
             />
 
+        <ListPreference
+            android:key="pre_cache"
+            android:title="@string/pre_cache_images"
+            android:defaultValue="1"
+            android:entries="@array/pre_cache"
+            android:entryValues="@array/talon_pull_inserted"
+            />
+
         <Preference
             android:key="sync_friends"
             android:title="@string/sync_friends"
             android:summary="@string/sync_friends_summary2"
+            />
+
+        <Preference
+            android:key="fill_gaps"
+            android:title="@string/fill_gaps"
+            android:summary="@string/fill_gaps_summary"
             />
 
         </PreferenceCategory>

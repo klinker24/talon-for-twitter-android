@@ -2,10 +2,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <PreferenceCategory
-        android:title="@string/limiting_options" >
-
         <Preference
             android:key="manage_mutes"
             android:title="@string/muted_users"
@@ -51,24 +47,5 @@
             android:title="@string/show_muted_mentions"
             android:defaultValue="false"
             />
-
-        </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/other_options" >
-
-        <CheckBoxPreference
-            android:key="reverse_click_option"
-            android:title="@string/reverse_click_actions"
-            android:summary="@string/reverse_click_actions_summary"
-            android:defaultValue="true"
-            />
-
-        <Preference
-            android:key="pages"
-            android:title="@string/configure_pages"
-            />
-
-        </PreferenceCategory>
 
 </PreferenceScreen>

@@ -941,6 +941,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 Intent quote = new Intent(context, ComposeActivity.class);
                 quote.putExtra("user", text);
                 quote.putExtra("id", tweetId);
+                quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
                 getWindow().setExitTransition(null);
 
