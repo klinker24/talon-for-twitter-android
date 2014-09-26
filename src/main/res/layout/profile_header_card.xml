@@ -14,6 +14,40 @@
                                     card_view:cardBackgroundColor="?windowBackground"
                                     android:visibility="invisible">
 
+    <LinearLayout
+        android:id="@+id/send_layout"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="10dp"
+        android:background="@drawable/fab_color"
+        android:elevation="3dp"
+        android:layout_marginTop="160dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="28dp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:focusableInTouchMode="true"
+        android:focusable="true" >
+
+        <ImageView
+            android:id="@+id/send_button"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="12dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:minHeight="56dp" android:minWidth="56dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
+            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:src="@drawable/ic_send_dark"
+            android:contentDescription="New Tweet"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:background="@drawable/ripple_dark_borderless"/>
+
+    </LinearLayout>
+
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"

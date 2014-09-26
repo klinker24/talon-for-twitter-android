@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_tweet"
+    <!--<item android:id="@+id/menu_tweet"
           android:orderInCategory="1"
           android:title="@string/menu_tweet"
           android:icon="@drawable/ic_send_dark"
-          android:showAsAction="always"  />
+          android:showAsAction="always"  />-->
 
     <item android:id="@+id/menu_block"
           android:orderInCategory="6"
@@ -22,10 +22,10 @@
           android:title="@string/menu_add_to_list"
           android:showAsAction="never" />
 
-    <item android:id="@+id/menu_dm"
+    <!--<item android:id="@+id/menu_dm"
           android:orderInCategory="9"
           android:title="@string/menu_dm"
-          android:showAsAction="never"  />
+          android:showAsAction="never"  />-->
 
     <item android:id="@+id/menu_change_picture"
           android:orderInCategory="10"
