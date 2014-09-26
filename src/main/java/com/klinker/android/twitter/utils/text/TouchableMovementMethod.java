@@ -44,7 +44,7 @@ public class TouchableMovementMethod extends LinkMovementMethod {
                     public void run() {
                         if (touched && mPressedSpan != null) {
                             Vibrator v = (Vibrator) mPressedSpan.mContext.getSystemService(Context.VIBRATOR_SERVICE);
-                            v.vibrate(1);
+                            v.vibrate(25);
 
                             mPressedSpan.onLongClick();
                             mPressedSpan.setTouched(false);
