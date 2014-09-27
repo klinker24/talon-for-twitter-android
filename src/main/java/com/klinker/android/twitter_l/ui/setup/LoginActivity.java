@@ -37,6 +37,8 @@ import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.manipulations.FollowMePopup;
+import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
@@ -86,6 +88,8 @@ public class LoginActivity extends Activity {
     private LinearLayout main;
 
     private AppSettings settings;
+
+    private FollowMePopup popup;
 
 
     @Override
@@ -205,12 +209,22 @@ public class LoginActivity extends Activity {
             }
         });
 
+        popup = new FollowMePopup(context);
+        int threeHundred = Utils.toDP(300, context);
+        popup.setWidth(threeHundred);
+        popup.setHeight(threeHundred + Utils.toDP(50, context));
+
+        noThanks.setText(getResources().getString(R.string.follow_progress));
+
         noThanks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FollowMe().execute();
 
-                btnLoginTwitter.callOnClick();
+                popup.setExpansionPointForAnim(progDescription);
+                popup.setCenterInScreen();
+
+                popup.show();
+
             }
         });
 
@@ -612,10 +626,10 @@ public class LoginActivity extends Activity {
 
         protected void onPostExecute(String file_url) {
 
-            String text = getResources().getString(R.string.follow_me_description);
+            String text = getResources().getString(R.string.third_info);
 
             btnLoginTwitter.setEnabled(true);
-            btnLoginTwitter.setText(getResources().getString(R.string.no_thanks));
+            btnLoginTwitter.setText(getResources().getString(R.string.done_label));
             noThanks.setVisibility(View.VISIBLE);
 
             progressBar.progressiveStop();
@@ -714,6 +728,8 @@ public class LoginActivity extends Activity {
                 btnLoginTwitter.setEnabled(true);
                 return;
             }
+        } else if (popup != null && popup.isShowing()) {
+            popup.hide();
         }
     }
 }

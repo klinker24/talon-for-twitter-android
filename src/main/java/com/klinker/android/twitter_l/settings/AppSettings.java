@@ -202,8 +202,6 @@ public class AppSettings {
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_1", "");
             myId = sharedPrefs.getLong("twitter_id_1", 0);
-
-            Log.v("talon_username", myScreenName);
         } else {
             authenticationToken = sharedPrefs.getString("authentication_token_2", "none");
             authenticationTokenSecret = sharedPrefs.getString("authentication_token_secret_2", "none");
@@ -217,6 +215,8 @@ public class AppSettings {
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
             myId = sharedPrefs.getLong("twitter_id_2", 0);
         }
+
+        Log.v("talon_pro_pic", myProfilePicUrl);
 
         // Booleans
         darkTheme = sharedPrefs.getBoolean("dark_theme", false);
