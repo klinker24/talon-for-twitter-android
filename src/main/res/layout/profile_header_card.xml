@@ -78,7 +78,8 @@
                           android:layout_height="wrap_content"
                           android:id="@+id/header_button_section"
                           android:orientation="horizontal"
-                          android:layout_marginBottom="16dp">
+                          android:layout_marginBottom="16dp"
+                          android:layout_marginTop="8dp" >
 
                 <LinearLayout android:layout_width="0dp"
                               android:layout_height="wrap_content"
