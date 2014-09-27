@@ -151,6 +151,23 @@
     </question>
 
     <question
+        name="Extra Pages"
+        description="Why only two? I need more!">
+
+        <text>
+            Unfortunately, every feature has it's consequences as well. I think the idea of user defined extra pages is awesome (access them from advanced settings by the way), but they also can potentially hog a ton of resources and slow things down...
+
+            Think about it, the more you have open and ready to view, as a single swipe away, the more resource intensive that activity will be. Talon is no exception.
+
+            I pride myself on the fact that Talon is one of the fastest and smoothest apps around. By allowing an unlimited number of extra pages or even increasing it to 5 would be a huge draw on the performance.
+
+            I chose two as a balance between functionality and performance, this is a decision I will be sticking with for the time being.
+        </text>
+
+
+    </question>
+
+    <question
             name="Debugging/Providing Logs"
             description="Sometimes I have to actually know the backend to debug, not just the problem description">
 
@@ -160,6 +177,37 @@
             Image uploads and problems refreshing data are part of those situations. If you come to me asking about them, chances are, I will ask you to get me a log to help debug.
 
             To get a log and learn about what they are, you can check out this post I wrote: http://goo.gl/wtUViQ
+        </text>
+
+    </question>
+
+    <question
+        name="Feature Requests"
+        description="Some people have much better ideas than me">
+
+        <text>
+            As a one person team making this app, unfortunately I can't possibly implement every single request from every single user. If you have something that you think is cool though, feel free to shoot me an email: support@klinkerapps.com
+
+            Just remember though, we do get a ton of requests and chances are someone has requested the same thing as you already :) sooo, here is a list of requests/features that I would like to get done. Unfortunately I cannot provide a timetable on them at this point, not even an estimate:
+
+            1.) More extra pages (like saved searches, search, and favorite tweets)
+            2.) 1x1 widget to compose tweets
+            3.) Tweetmarker in lists
+            4.) Easier manipulation of lists and what lists a user is in from their profiles
+            5.) Mute users for a time period
+            6.) Instagram video support
+            7.) Conversation indicator on tweets
+            8.) QSlide for LG devices
+            9.) User's lists on their profiles
+
+
+            Things requested that won't happen at this point:
+
+            1.) Samsung multi-window support (it breaks some features and isn't something you can have an option for in settings)
+            2.) More extra pages (read the faq above)
+            3.) GIF support (check the faq above about GIFs)
+            4.) Integration with FaceBook or other social networks (this app will remain only a Twitter client)
+            5.) Vine support (they do not have a developer API to plug into at the moment)
         </text>
 
     </question>
