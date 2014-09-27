@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -345,8 +346,11 @@ public class ExpansionViewHelper {
 
     String webLink = null;
     public boolean shareOnWeb = false;
+    public String[] otherLinks;
 
     public void setWebLink(String[] otherLinks) {
+
+        this.otherLinks = otherLinks;
 
         ArrayList<String> webpages = new ArrayList<String>();
 
@@ -463,9 +467,9 @@ public class ExpansionViewHelper {
                             String text = tweet;
 
                             if (!AppSettings.getInstance(context).preferRT) {
-                                text = "\"@" + screenName + ": " + text + "\" ";
+                                text = "\"@" + screenName + ": " + restoreLinks(text) + "\" ";
                             } else {
-                                text = " RT @" + screenName + ": " + text;
+                                text = " RT @" + screenName + ": " + restoreLinks(text);
                             }
 
                             Intent quote = new Intent(context, ComposeActivity.class);
@@ -1300,6 +1304,103 @@ public class ExpansionViewHelper {
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
 
             ((Activity)context).recreate();
+        }
+    }
+
+    public String restoreLinks(String text) {
+        String full = text;
+
+        String[] split = text.split("\\s");
+        String[] otherLink = new String[otherLinks.length];
+
+        for (int i = 0; i < otherLinks.length; i++) {
+            otherLink[i] = "" + otherLinks[i];
+        }
+
+        for (String s : otherLink) {
+            Log.v("talon_links", ":" + s + ":");
+        }
+
+        boolean changed = false;
+
+        if (otherLink.length > 0) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+
+                //if (Patterns.WEB_URL.matcher(s).find()) { // we know the link is cut off
+                if (s.contains("...")) { // we know the link is cut off
+                    String f = s.replace("...", "").replace("http", "");
+
+                    f = stripTrailingPeriods(f);
+
+                    for (int x = 0; x < otherLink.length; x++) {
+                        if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
+                            changed = true;
+                            // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
+                            try {
+                                if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
+                                    otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
+                                }
+                                f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
+                                otherLink[x] = "";
+                            } catch (Exception e) {
+                                // out of bounds exception?
+                            }
+                            break;
+                        }
+                    }
+
+                    if (changed) {
+                        split[i] = f;
+                    } else {
+                        split[i] = s;
+                    }
+                } else {
+                    split[i] = s;
+                }
+
+            }
+        }
+
+        if (webLink != null && !webLink.equals("")) {
+            for (int i = 0; i < split.length; i++) {
+                String s = split[i];
+                s = s.replace("...", "");
+
+                if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                    String replace = otherLinks[otherLinks.length - 1];
+                    if (replace.replace(" ", "").equals("")) {
+                        replace = webLink;
+                    }
+                    split[i] = replace;
+                    changed = true;
+                }
+            }
+        }
+
+
+
+        if(changed) {
+            full = "";
+            for (String p : split) {
+                full += p + " ";
+            }
+
+            full = full.substring(0, full.length() - 1);
+        }
+
+        return full;
+    }
+
+    private static String stripTrailingPeriods(String url) {
+        try {
+            if (url.substring(url.length() - 1, url.length()).equals(".")) {
+                return stripTrailingPeriods(url.substring(0, url.length() - 1));
+            } else {
+                return url;
+            }
+        } catch (Exception e) {
+            return url;
         }
     }
 }
