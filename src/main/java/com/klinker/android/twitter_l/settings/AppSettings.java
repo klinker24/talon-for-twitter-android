@@ -34,8 +34,8 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "4i8JnA4fnWRMuE7zXrXQQgfI9";
-    public static String TWITTER_CONSUMER_SECRET = "biUAl6lAmjSVIkL4VYiIpkQBovA1pcmIjZ1pRnRpep8qGmL0EN";
+    public static String TWITTER_CONSUMER_KEY = "***REMOVED***";
+    public static String TWITTER_CONSUMER_SECRET = "***REMOVED***";
 
     public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
 

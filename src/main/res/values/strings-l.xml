@@ -31,6 +31,7 @@
     <string name="contact">Contact</string>
     <string name="follow">Follow</string>
     <string name="no_interactions">No New\nInteractions</string>
+    <string name="emojis_summary">Allows you to use iOS emojis by downloading our Sliding Emoji Keyboard - iOS.</string>
 
     <string name="faq_first">
         I would love to get in touch with you about the app, but before we do that, make sure you have checked out the \"Frequent Questions\" section!\n\n
