@@ -1654,16 +1654,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        Preference xda = findPreference("xda_thread");
-        xda.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
-                Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
         Preference email = findPreference("email_me");
         email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

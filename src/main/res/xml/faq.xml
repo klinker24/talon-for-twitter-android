@@ -1,192 +1,165 @@
 <faq>
     <question
-            name="About Pages and Cards"
-            description="Blur has some pretty sweet extensions, but how does it all work?">
+            name="Push Notifications"
+            description="Not going to happen, but....">
 
         <text>
-            With Blur, we wanted to make something that any devs could plug their own work into, so we created the Pages and Cards APIs.
+            I am just going to say this now, before anyone asks: Push notifications will not be coming to Talon unless something changes with the Twitter APIs. I have created "Talon Pull" with is simply an always on, listening/streaming service that will receive new tweets from Twitter whenever your Twitter handle is included. To read more about this option, look at the "Talon Pull" section below the "Reasons" section.
 
-            Your favorite developers need only make an extension and everything from that app will be available with just a swipe from your launcher.
+            REASONS:
+            This will be the more technical part of this post, if you don't want to read and understand it, then you will have to just accept my answer from above. If you don't accept that I know what I am talking about... Then by all means, read on, I will try to keep it as simple as possible.
 
-            To add pages, simply go to Settings -> Page Picker -> then hit the add button to see a list of available apps.
+            To access Twitter, they have provided us with the REST APIs (currently version 1.1). These APIs allow developers to communicate with Twitter in real time by just submitting requests to get data from the network. They make it relatively simple - if you know what your doing - to obtain the data that they allow you to get and store, but there are plenty of limitations to these APIs, which make sense: Twitter is a completely free service and make their money off of advertisements. They want people to use their official Twitter products (such as the web or their own Android app) to access their services because they are able to place advertisements in them and that is the only way they make money. So they just aren't going to make some things available for 3rd party developers.
 
-            To add cards, just go to Settings -> Card Picker -> and hit the create button to see a list of cards that you have on your system.
+            One of those things is their push notification system. As I said before, they allow us to access their services with these REST APIs, but they also have a Streaming API available so that a 3rd party service, such as this one, could be "always connected". Sounds great right? Maybe, maybe not. More testing probably needs to go into it, because it is very new in Talon. For the past few weeks though, I can say that it doesn't seem to take up much more battery than sycning on an intervol does. So try it and let me know. I have done the best I can to optimize this service, but if you want to know more about it, read below in the "Talon Pull" section
 
-            You can get these extensions from anywhere. Some devs may package them along with their app, while some will create a separate package to house the extension.
+            What these streaming APIs should be used for is a server side interaction that would then connect to GCM (Google Cloud Messaging) and send push notifications from there. I would love to say I am working on something like this, but it isn't possible for a developer like me. I don't have the time, resources, or knowledge to set up a complex server like this. The knowledge I could get, but I am a 20 year old kid, working off of this 1 MB/sec internet connection while being a full time college student at the University of Iowa. I wouldn't be able to handle the upkeep of the system like this or the traffic. I just don't have the backend necessary for this type of thing, and there aren't many developers who do. So push notifications from the server side? Way out of the question.
 
-            Just install the app with the extension like any other, whether that is from the Play Store, or if the developer gives you a direct download link. It will automatically appear in Blur's settings after you install it.
+            That leaves only one thing to do: wait. Maybe Twitter will open up some kind of push notification service to it's developers, but I wouldn't count on that. The ideal thing for them to do would be to set up their own GCM server for us to communicate with, but I don't see that as being likely at all because of the advertising. That would take away one of the main draws for their app, leaving it with almost nothing that 3rd party developers can't do. For now though, "Talon Pull" seems to be working well and I would encourage you all to try it out. Battery seems to be fine, the one drawback is that you must be connected to a datasource right when the interaction happens or it won't be saved or shown.
+
+
+            TALON PULL - My solution/workaround
+            As I said before, this is NOT push notifications. Push notifications are sent to your device to notify you from some kind of server. They aren't always on, and only turn on when your device receives the info from the web service.
+
+            Talon Pull on the other hand, uses Twitter's Streaming API to just create an "always on" service to be constantly listening for and streaming tweets that contain your Twitter Handle. The way this works is that you are signed in with your API keys after you turn on the option to enable Talon Pull. I then just create this "listener" that Twitter's servers will send new tweets to. Luckily, they will take care of most of the filtering of those tweets on their end, to reduce the load as much as possible on your device (because before the filtering, it literally will receive every single public tweet that is happening. It was amazing when I first flipped and saw the tweets flowing over my log haha). So we filter it down to as few of tweets actually reaching your device as possible, then I start broadcasting the notifications when you receive the new ones.
+
+            Overall, it is a relatively simple process, the problem with it though, you have probably already realized, you have to be constantly connected with a data service or the app won't know when to receive the new tweets. Obviously that is the part that is going to end up taking the battery (if it does), not "bloated" or "un-optimized" code as some of you I sure believed. So far though, through my testing, it doesn't seem to have a very big impact on battery overall, but I suppose that it potentially could if you are using Twitter that much more than I do.
+
+            If there was a better way, I wish I could find it. I think that this is the method that most 3rd party services use to send you those fake "push notifications". So there ya have it, hope you learned something. It works well and it is the only way to get a lot of information like who favorited or retweeted your statuses
+
+
+            CONCLUSION
+            Thanks for the read, if you made it all the way, hope that gives you an idea as to why push notifications just aren't even an option at this point and what my solution to that problem has been, even if it is not ideal.﻿ It works, and it seems to be working quite well for me.
+
+            So just know: "Talon Pull" isn't quite the same as push notifications, but it is as close as you are going to get and is working better for me than I would have ever imagined. Enjoy!
         </text>
 
     </question>
 
     <question
-            name="Using Talon (and other paid apps)"
-            description="Why do I have to install a separate app?">
+            name="Favorites on a status"
+            description="I can see retweets, but where are the favorites??">
 
         <text>
-            To get "Talon for Twitter" to work with Blur, you need to install the "Talon (Blur Launcher Page)" app, found here:
+            Unfortunately, Twitter does not allow third party apps direct access to who favorites a status. Bummer, I know :(
 
-            https://play.google.com/store/apps/details?id=com.klinker.android.launcher.twitter_page
-
-            This is due to some limitations with paid packages from the Google Play Store. Google themselves ran into these limitations head on when they released Android Wear. The problem is that you cannot read anything other than resources (images, layouts, strings, etc.) from a paid package on the Play Store.
-
-            Since our app relies completely on running code from the extension packages, it would never work with Talon, or any other app that is paid on the Play Store. There is simply no way to run that code from Blur. So, to get a paid app to work on the launcher, devs will always have to have a free extension app on the Play Store.
-
-            (It is helpful to note that apps with In-App Purchases to not have this limitation, such as EvolveSMS. That's why there is no separate launcher page app for Evolve.)
-
-            Steps to get Talon working with Blur:
-            1.) Install Talon from the Play Store: http://goo.gl/bBM6hR
-            2.) Install Talon (Blur Launcher Page) from the Play Store: goo.gl/rXRkhG
-            3.) Go to the "Page Picker" within Blur's settings and add Talon for Twitter to one of your launcher pages.
+            The only real solution I have, for at least viewing favorites on your own status, is to use "Talon Pull". This will allow you to get real time notifications for when someone favorites your own statuses.
         </text>
 
     </question>
 
     <question
-            name="Launcher Crashes"
-            description="Why does Blur always seem to stop on me??">
+            name="Viewing GIFs"
+            description="Twitter made this super cool and awesome feature, but I can't see them!">
 
         <text>
-            This project is a bit different than apps with similar goals in mind. For the extensions, we allow the developers to do just about anything they want with almost zero restrictions. Anything they can do in a regular app can be done on their launcher pages or info cards. Of course, this can be good and bad. One of the downsides is that error trapping on our end is next to impossible. If something goes wrong on one of the extensions, then the entire app will fail because we have no way to control the outcome of that error. From the user's side though, all you see if the launcher crashing and assuming the error comes from us, when more often than not, it has nothing to do with the launcher code, but what you are running on the launcher.
+            If you read the last FAQ about favorites on your status, unfortunately this is the same deal. Twitter doesn't allow third party apps to view these GIFs.
 
-            This presents a difficult problem to debug as well. If you notice frequent crashes, try playing around with your extensions a little bit. See if you can find the one that is the problem, then get in touch with the developer that created it. If you come to us with problems about specific pages, Klinker Apps will not be able to do anything for you to solve it.
+            Until something changes on their end with it, it isn't going to happen in Talon, sorry about that.
 
-            The only time we can control the error catching is when we initially create the page, and even then, we can't catch everything that happens.
-        
-            Another time that Blur could suddenly force close on you is if you are updating one of the apps that has an extension.
-
-            When you update your app, there will be a time when nothing is installed on the device. This can be a problem because when you are on your launcher, it is going to be checking and trying to run the code from that package. If it can't find the package to run the code from... Then it will throw an error and everything will stop. Unfortunately this is also one of the cases where we cannot catch the error.
+            I know that Tweetbot for iOS can do it now, but it isn't really the same as the official Twitter app and they just use some resources specific to iOS for that functionality. Not possible for me.
         </text>
 
     </question>
 
     <question
-            name="Lost the App Drawer Button"
-            description="Oh no! You deleted that one button you really need...">
+            name="Logging into a second account"
+            description="I got to many people to keep track of here...">
 
         <text>
-            Easy fix, no worries, you can convert any shortcut you want to an "All Apps" button just by picking it up and dropping it back in the same spot.
+            Talon supports up to two accounts. It won't be more than that because of Twitter's token limit.
 
-            This will pull up a popup menu, where one of the options is to "Convert to All Apps".
+            If you want to add your second account, simply click the down arrow on the right side of the main drawer, then the blank circle to start the login.
 
-            Phew, now you can get to your apps again! (There is also a swipe up gesture that will open the drawer... Just an FYI)
+            Make sure you pay attention to the dialog that comes up, as it explains how you go about authorizing the second account.
         </text>
 
     </question>
 
     <question
-            name="Customize the Look of your Shortcuts"
-            description="I just don't like that one icon..">
+            name="Battery Consumption"
+            description="Here are some of my suggestions">
 
         <text>
-            This one is pretty easy, picking up and dropping a shortcut in the same place will open a popup menu with a few options on it.
+            If you use Talon a lot throughout the day, it is going to take up battery, simple as that. I find that on a 30 min refresh intervol for the different timelines and manually going in and browsing/updating throughout the day, it takes about 4-5% of my battery. I would say this is pretty normal because there are days that Google+ takes up to 10% with just casual browsing.
 
-            The first option to note is the "Change Icon" button. Clicking it will allow you to pick any icon from your current icon pack and assign it to that shortcut.
+            If that isn't acceptable for you though, then there are a few things you can do to reduce battery consumption:
+            1.) Turn down the refresh interval on the timelines. This is the big one. It is those background services that are going to drain your battery.
+            2.) Turn off "Refresh on Startup".
+            3.) Turn off "Talon Pull" and "Live Streaming"
+            4.) Don't have it sync the second account's mentions
 
-            The second option to note is the "Change Name" button. It will change the name on the homescreen ONLY, not in your "All Apps" drawer.
-
-            Lastly, if you want to restore it to it's normal look, just click the restore defaults button.
+            And if all else fails... Get off Twitter and do something productive for awhile =D haha any app that accesses the internet and refreshes as much as a Twitter client is inherently going to use more battery in the background. There are ways to reduce it, but not always ways around it!
         </text>
 
     </question>
 
     <question
-            name="Unread Counts (Experimental)"
-            description="When your normal launcher can't...">
+            name="Streaming Problems"
+            description="Interactions aren't coming in like they should...">
 
         <text>
-            Unread counts in Blur are pretty easy, just install our "Blur - Unread" app, enable it from "Experimental Settings", then turn on the Notification Listener service and you are good to go.
+            This is a bit of a sore subject around 3rd party Twitter apps right now. Twitter has had lots of issues lately with users connecting to their streaming APIs as well as faulty error codes.
 
-            Here is the download link for "Blur - Unread": http://goo.gl/Gi0x18
+            To check out their API page, go here: https://dev.twitter.com/overview/status
 
-            Head over to the "Experimental Settings" section for more information on this part of the app.
+            The main thing to check out from your streaming problems is the User Stream. It has unfortunately been marked as disrupted for months on end, without really any communication from Twitter about it's status or what is happening.
 
-            NOTE: Unread counts will only be available on Android 4.3+ due to their Notification Listener dependency.
+            I am hopeful that they will be able to get it fixed, but if you are having problems with the stream, that is where they are coming from.
+
+            Some people are able to get around this problem by logging out (pressing the down arrow in the main drawer, then the "Logout" button at the bottom) and back in.
         </text>
 
     </question>
 
     <question
-            name="Launcher Redraws/Restarting"
-            description="Why does Blur seem to take extra time to return to the home screen?">
+            name="Tweets do not refresh"
+            description="Your timeline doesn't want to refresh or other parts of the app aren't loading data...">
 
         <text>
-            This is something that we were concerned about from the beginning. Obviously a launcher inherently is a big project with lots of stuff always going on in the background. Ours takes this to a whole new level though.
+           There could be a few different causes to this one:
 
-            We can't control what kind of blocks on memory usage or processing power that other developers use in their extensions. This means that Blur could use quite a bit of RAM while it runs. If your device has a lot going on and Android realizes that it is running out of RAM, then it will try to shut down any memory hogs from being alive in the background. Hence the redraw issues.
+            1.) You are being rate limited.
 
-            Jacob and I have done the best we can to reduce this, but sometimes it is going to happen. You can experiment with the "Keep Blur Running" option under the experimental settings section (found in the three dot overflow menu on the settings screen). This will try to create a persistent service to ensure Android waits til the last moment to shut it down, but again, this won't always work.
+            Twitter only allows users to refresh their feeds 15 times in a 15 min period. If you go over that, there is nothing Talon can do to get your feed to refresh other than wait.
 
-            There is no fool proof way in Android force your apps to remain in memory when the system needs to shut it down.
+            Other parts of the API are rate limited as well. You can check here for a list of all of them: https://dev.twitter.com/rest/public/rate-limits
 
-            For more information about how the "Keep Blur Running" option works,  head over to it's about section under experimental settings.
+            All you can do to overcome the limit is to wait.
 
+            2.) If you are trying to refresh your home timeline, much like the streaming problems FAQ, Twitter has had some issues with it lately. Their Home Timeline APIs have been marked with performance issues for months. Sometimes it would seem that that just means slow, whereas other times, it would seem as though the data requests just time out.
 
-            Another thing to note is about live wallpapers. Although they are very cool, I have found them to be potentially massive memory hogs because the system wants to keep them going and to draw your wallpaper on the screen before the launcher itself. If you keep getting redraws, even after playing around with the pages and the options in Blur, try disabling your live wallpapers and see if that does the trick for you!
+            Unfortunately I don't know much more than you on this one. If you can give me a LOG of it happening, then I can let you know what is causing it in the background. For more info on logs, there is another FAQ you can view.
         </text>
 
     </question>
 
     <question
-            name="Blank or Transparent Pages"
-            description="Why is there sometimes nothing on my extra pages?">
+            name="Images do not upload"
+            description="Sometimes they fail, sometimes they go through">
 
         <text>
-            This happens when the launcher cannot find the app with the extension or the extension developer made a mistake with their layouts and Blur wasn't able to create the page from that layout.
+             Although Twitter hasn't come out and said anything about it, I fairly certain that the issue is on their end for this. Recently, their image upload APIs have undergone some massive changes for things like GIFs and multiple images. I think that that has something to do with the problems, because I have encounted them as well lately.
 
-            The most common occurrence of this is simply when an app updates. Sometimes instead of the launcher crashing completely, the page just won't show up. To fix this, go to settings and "Restart Pages"
+            Technical response:
+            When they fail as of late, every single time it is marked with an error message that the user is unable to be authenticated. This cannot be the correct response to those failures, I believe they just do not have any better responses to send the client at this time.
+
+            Authentication cannot be the problem here because it is the same authentication used throughout the rest of the app. Talon need only provide the 4 tokens (consumer, user, consumer secret, and user secret) to authenticate with any of Twitter's APIs. Since these credentials work throughout the rest of the app, this cannot possibly be the problem, especially since it is off and on and they will work at some times and not others.
         </text>
+
 
     </question>
 
     <question
-            name="Debugging Pages"
-            description="Things happen, here is what you can do to get them fixed.">
+            name="Debugging/Providing Logs"
+            description="Sometimes I have to actually know the backend to debug, not just the problem description">
 
         <text>
-            If you read the crashing question, then you know that our extensions work a little bit differently than similar apps (like DashClock). There is no easy way for us to debug those pages or their crashes. If you think something doesn't seem right, you will have to get in touch with the developer of that extension and try to figure out if it is in fact something on their end.
+            Especially with something like Twitter and accessing another companies services, it can be hard to debug off of just a problem description when I cannot replicate that problem.
 
-            The best way, by far, to debug and figure out the culprit of the problem is with a log. I know they aren't for everyone, but if you really want help or to get your problem fixed, this is the way to do it. If you log an error, such as a force close, go through the file and search for "FATAL EXCEPTION". This means that the app couldn't recover from the error and had to close. Along with those fatal exceptions, there is a package name, for example, Talon's package name is "com.klinker.android.twitter". Use that package to figure out what app is the problem and what app is causing force close issues.
+            Image uploads and problems refreshing data are part of those situations. If you come to me asking about them, chances are, I will ask you to get me a log to help debug.
 
-            If you can't get a log of the errors, then try to find patterns. Mess with which pages you haven enabled and see if you can figure out yourself which one is causing the force closes. Then, try to get in contact with the developer and let them know how to reproduce the errors. Logs really are the best way though.
-
-            Here is a post that I wrote about taking logs on your device: http://goo.gl/KmjgEX
-        </text>
-
-    </question>
-
-    <question
-            name="In-App Purchases"
-            description="What's up with that?!">
-
-        <text>
-            Blur is completely free. The in-app purchases are solely for a donation option. Use it, enjoy it. We wanted to give the Android community something fun to play with and create with.
-        </text>
-
-    </question>
-
-    <question
-            name="Uninstalling Blur"
-            description="Why won't it let you uninstall?">
-
-        <text>
-            This happens because you have enabled Blur as a "Device Administrator". The administrator features allow us to use the double tap to sleep gesture on the homescreen, however, as you have noted, it does not allow you to uninstall apps that have been designated as administrator.
-
-            Easy fix though, head over to your system settings, then "Security". Under that "Security" preference, there should be an item for "Device Administrators". Remove our app as administrator and you are all set.
-        </text>
-
-    </question>
-
-    <question
-            name="Creating an Extension"
-            description="Glad you are interested!">
-
-        <text>
-            We have tried to make these extensions as simple and complete as possible. Creating a page is just like creating a Fragment, whereas creating an info card is just a LinearLayout.
-
-            For most developers, it will come pretty easy and be a quick process to learn the in's and out's and create your first simple page. If you are serious about looking into it, go ahead and check out our APIs. There is a pretty extensive rundown and links to example projects:
-
-            https://github.com/klinker-apps/blur-launcher-apis
+            To get a log and learn about what they are, you can check out this post I wrote: http://goo.gl/wtUViQ
         </text>
 
     </question>
