@@ -3,7 +3,7 @@ package com.klinker.android.twitter_l.manipulations.profile_popups;
 import android.content.Context;
 import android.view.View;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.ProfileListPopupLayout;
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
