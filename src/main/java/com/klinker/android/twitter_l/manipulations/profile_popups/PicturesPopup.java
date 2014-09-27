@@ -155,6 +155,8 @@ public class PicturesPopup extends PopupLayout {
                             if (tweetsWithPics.size() > 0) {
                                 listView.setVisibility(View.VISIBLE);
                                 spinner.setVisibility(View.GONE);
+                            } else {
+                                getMore();
                             }
                             canRefresh = true;
 
@@ -213,8 +215,12 @@ public class PicturesPopup extends PopupLayout {
                                 adapter.notifyDataSetChanged();
                                 canRefresh = true;
 
-                                listView.setVisibility(View.VISIBLE);
-                                spinner.setVisibility(View.GONE);
+                                if (tweetsWithPics.size() == 0) {
+                                    getMore();
+                                } else {
+                                    listView.setVisibility(View.VISIBLE);
+                                    spinner.setVisibility(View.GONE);
+                                }
                             }
                         });
                     } else {
