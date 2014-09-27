@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.manipulations;
+package com.klinker.android.twitter_l.manipulations.profile_popups;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileMentionsPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;

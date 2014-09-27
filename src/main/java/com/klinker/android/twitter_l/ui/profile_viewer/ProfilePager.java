@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.profile_popups.PicturesPopup;
 import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileFavoritesPopup;
 import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileMentionsPopup;
 import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileTweetsPopup;
@@ -540,7 +541,21 @@ public class ProfilePager extends Activity {
         showCard(findViewById(R.id.header_card));
     }
 
+    private PicturesPopup picsPopup;
     private void showStats(User user) {
+
+        Button pictures = (Button) findViewById(R.id.pictures_button);
+        pictures.setTextColor(settings.themeColors.primaryColorLight);
+
+        picsPopup = new PicturesPopup(context, getResources().getBoolean(R.bool.isTablet), thisUser);
+        pictures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                picsPopup.setExpansionPointForAnim(view);
+                picsPopup.show();
+            }
+        });
+
         if (user.getFriendsCount() < 1000) {
             followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
         } else {
@@ -1361,6 +1376,8 @@ public class ProfilePager extends Activity {
             mentionsPopup.hide();
         } else if (favoritesPopup != null && favoritesPopup.isShowing()) {
             favoritesPopup.hide();
+        } else if (picsPopup != null && picsPopup.isShowing()) {
+            picsPopup.hide();
         } else {
             super.onBackPressed();
         }
