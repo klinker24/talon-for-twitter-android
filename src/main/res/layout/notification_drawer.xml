@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/right_drawer"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:animateLayoutChanges="true">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/right_drawer">
 
-    <View android:id="@+id/drawer_status_bar_2"
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:background="@android:color/black"
-          android:visibility="gone"/>
-
-    <View android:layout_height="?android:actionBarSize"
-          android:layout_width="match_parent"
-          android:id="@+id/notification_drawer_ab" />
-
-    <de.timroes.android.listview.EnhancedListView
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/notificationList"
-            android:background="?windowBackground" />
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true">
 
-    <include layout="@layout/interactions_footer_1"/>
+        <View android:id="@+id/drawer_status_bar_2"
+              android:layout_width="match_parent"
+              android:layout_height="20dp"
+              android:background="@android:color/black"
+              android:visibility="gone"/>
 
-    <View android:layout_width="match_parent" android:layout_height="0dp"
-          android:id="@+id/nav_bar_seperator_interactions"
-          android:background="?drawerBackground"/>
+        <View android:layout_height="?android:actionBarSize"
+              android:layout_width="match_parent"
+              android:id="@+id/notification_drawer_ab" />
 
-</LinearLayout>
+        <de.timroes.android.listview.EnhancedListView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/notificationList"
+                android:background="?windowBackground" />
+
+        <include layout="@layout/interactions_footer_1"/>
+
+        <View android:layout_width="match_parent" android:layout_height="0dp"
+              android:id="@+id/nav_bar_seperator_interactions"
+              android:background="?drawerBackground"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/no_interaction"
+            android:orientation="vertical"
+            android:gravity="center">
+
+        <ImageView android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:src="@drawable/ic_biker"
+                   android:id="@+id/no_inter_icon"
+                   android:scaleType="fitCenter"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_interactions"
+                android:textSize="12sp"
+                android:layout_marginBottom="35dp"
+                android:gravity="center"
+                android:textColor="?dateColor" />
+    </LinearLayout>
+
+</RelativeLayout>
