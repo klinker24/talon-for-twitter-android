@@ -252,8 +252,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                             try {
                                 if (c.getCount() == 0) {
                                     noInteractions.setVisibility(View.VISIBLE);
+                                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
                                 } else {
                                     noInteractions.setVisibility(View.GONE);
+                                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                                 }
                             } catch (Exception e) {
 
@@ -285,8 +287,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     try {
                         if (c.getCount() == 0) {
                             noInteractions.setVisibility(View.VISIBLE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
                         } else {
                             noInteractions.setVisibility(View.GONE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
                     } catch (Exception e) {
 
@@ -740,10 +744,16 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             }
 
-            if (c.getCount() == 0) {
-                noInteractions.setVisibility(View.VISIBLE);
-            } else {
-                noInteractions.setVisibility(View.GONE);
+            try {
+                if (c.getCount() == 0) {
+                    noInteractions.setVisibility(View.VISIBLE);
+                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+                } else {
+                    noInteractions.setVisibility(View.GONE);
+                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+                }
+            } catch (Exception e) {
+
             }
 
             oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
@@ -786,8 +796,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     try {
                         if (c.getCount() == 0) {
                             noInteractions.setVisibility(View.VISIBLE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
                         } else {
                             noInteractions.setVisibility(View.GONE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
                     } catch (Exception e) {
 
@@ -822,8 +834,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     try {
                         if (c.getCount() == 0) {
                             noInteractions.setVisibility(View.VISIBLE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
                         } else {
                             noInteractions.setVisibility(View.GONE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
                     } catch (Exception e) {
 
@@ -1355,8 +1369,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 try {
                     if (c.getCount() == 0) {
                         noInteractions.setVisibility(View.VISIBLE);
+                        noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
                     } else {
                         noInteractions.setVisibility(View.GONE);
+                        noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                     }
                 } catch (Exception e) {
 
