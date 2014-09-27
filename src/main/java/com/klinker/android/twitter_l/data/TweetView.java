@@ -16,12 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -317,7 +317,10 @@ public class TweetView {
                         @Override
                         public void onClick(View view) {
                             if (imageUrl.contains(" ")) {
-                                context.startActivity(new Intent(context, ViewPictures.class).putExtra("pictures", imageUrl));
+                                MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), imageUrl);
+                                popup.setFullScreen();
+                                popup.setExpansionPointForAnim(view);
+                                popup.show();
                             } else {
                                 context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", imageUrl));
                             }

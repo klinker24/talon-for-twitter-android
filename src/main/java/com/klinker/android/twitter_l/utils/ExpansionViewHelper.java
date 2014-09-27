@@ -41,7 +41,6 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

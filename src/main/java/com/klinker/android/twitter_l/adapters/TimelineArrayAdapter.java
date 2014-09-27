@@ -33,12 +33,12 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.ui.tweet_viewer.ViewPictures;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
@@ -743,7 +743,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             if (holder.picUrl.contains(" ")) {
-                                context.startActivity(new Intent(context, ViewPictures.class).putExtra("pictures", holder.picUrl));
+                                MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), holder.picUrl);
+                                popup.setFullScreen();
+                                popup.setExpansionPointForAnim(view);
+                                popup.show();
                             } else {
                                 context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
                             }

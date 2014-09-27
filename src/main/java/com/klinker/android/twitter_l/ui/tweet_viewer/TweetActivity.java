@@ -2078,10 +2078,14 @@ public class TweetActivity extends YouTubeBaseActivity {
                                 profilePic.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent viewPics = new Intent(context, ViewPictures.class);
-                                        viewPics.putExtra("images", images);
-                                        getWindow().setExitTransition(null);
-                                        startActivity(viewPics);
+                                        String s = "";
+                                        for (String x : images) {
+                                            s += x + " ";
+                                        }
+                                        MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), s);
+                                        popup.setFullScreen();
+                                        popup.setExpansionPointForAnim(view);
+                                        popup.show();
                                     }
                                 });
                             }
