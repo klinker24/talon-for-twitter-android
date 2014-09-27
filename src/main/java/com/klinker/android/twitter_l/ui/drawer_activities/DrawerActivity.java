@@ -1075,8 +1075,16 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         }
 
         if (!settings.darkTheme) {
-            setSearchTextColour();
-            setSearchIcons();
+            try {
+                setSearchTextColour();
+            } catch (Exception e) {
+
+            }
+            try {
+                setSearchIcons();
+            } catch (Exception e) {
+                
+            }
         }
 
 
