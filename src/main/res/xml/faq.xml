@@ -209,6 +209,7 @@
             4.) Integration with FaceBook or other social networks (this app will remain only a Twitter client)
             5.) Vine support (they do not have a developer API to plug into at the moment)
             6.) In-line pictures on profiles (They just didn't work with my style of profiles, the cards were way to big, so I went with style on this one)
+            7.) Images on the bottom of the tweets instead of the top (the style and expansion only work if it is on the top, the rest of the app must also have them on the top then for consistency)
         </text>
 
     </question>

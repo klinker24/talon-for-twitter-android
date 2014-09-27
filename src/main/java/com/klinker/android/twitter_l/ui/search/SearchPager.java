@@ -8,12 +8,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +25,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -37,6 +43,7 @@ import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -283,7 +290,74 @@ public class SearchPager extends Activity {
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
         view.setImageResource(R.drawable.ic_action_search_dark);
 
-        return true;
+        if (!settings.darkTheme) {
+            try {
+                setSearchTextColour();
+            } catch (Exception e) {
+
+            }
+            try {
+                setSearchIcons();
+            } catch (Exception e) {
+
+            }
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setSearchTextColour() {
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
+        searchPlate.setTextColor(getResources().getColor(R.color.white));
+        searchPlate.setHintTextColor(getResources().getColor(R.color.white));
+        searchPlate.setBackgroundResource(android.R.color.transparent);
+        searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
+        int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
+        View autoComplete = searchView.findViewById(queryTextViewId);
+
+        try {
+            Class<?> clazz = Class.forName("android.widget.SearchView$SearchAutoComplete");
+
+            SpannableStringBuilder stopHint = new SpannableStringBuilder("   ");
+            stopHint.append(getString(R.string.search));
+
+            // Add the icon as an spannable
+            Drawable searchIcon = getResources().getDrawable(R.drawable.ic_action_search_dark);
+            Method textSizeMethod = clazz.getMethod("getTextSize");
+            Float rawTextSize = (Float) textSizeMethod.invoke(autoComplete);
+            int textSize = (int) (rawTextSize * 1.25);
+            searchIcon.setBounds(0, 0, textSize, textSize);
+            stopHint.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            // Set the new hint text
+            Method setHintMethod = clazz.getMethod("setHint", CharSequence.class);
+            setHintMethod.invoke(autoComplete, stopHint);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    private void setSearchIcons() {
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            ImageView closeBtn = (ImageView) searchField.get(searchView);
+            closeBtn.setImageResource(R.drawable.tablet_close);
+
+            searchField = SearchView.class.getDeclaredField("mVoiceButton");
+            searchField.setAccessible(true);
+            ImageView voiceBtn = (ImageView) searchField.get(searchView);
+            voiceBtn.setImageResource(R.drawable.ic_voice_dark);
+
+        } catch (NoSuchFieldException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        }
     }
 
     public static final int SETTINGS_RESULT = 101;

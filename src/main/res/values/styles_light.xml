@@ -174,6 +174,6 @@ limitations under the License.
     </style>
 
     <style name="CircleOverflow.Light" parent="android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_circle_overflow_light</item>
+        <item name="android:src">@drawable/ic_action_circle_overflow_dark</item>
     </style>
 </resources>

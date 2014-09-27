@@ -1096,7 +1096,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
         searchPlate.setTextColor(getResources().getColor(R.color.white));
         searchPlate.setHintTextColor(getResources().getColor(R.color.white));
-        searchPlate.setBackgroundResource(android.R.color.transparent);
+        //searchPlate.setBackground(new ColorDrawable(android.R.color.transparent));
         searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
