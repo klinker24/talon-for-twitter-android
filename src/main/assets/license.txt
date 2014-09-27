@@ -9,8 +9,6 @@ Klinker Apps assumes zero liability for misdelivered tweets, missed notification
 &#8226; Aaron Klinker, Icon Design<br/>
 &#8226; JRW, Naming of "Talon"<br/><br/>
 
-&#8226; Joaquim Verges, One heck of a way to quickly view pictures from the timeline<br/><br/>
-
 <b><u>Translations</u></b><br/><br/>
 &#8226; Nils Wasser, German<br/>
 &#8226; Neto Cavalcanti (@NETOHXCX), Brazilian Portuguese<br/>
@@ -35,10 +33,8 @@ Klinker Apps assumes zero liability for misdelivered tweets, missed notification
 &#8226; YouTube APIs<br/><br/>
 <u>Apache License:</u><br/>
 &#8226; <b>Twitter4j</b> by Yusuke Yamamoto<br/>
-&#8226; <b>ActionBar-PullToRefresh</b> by Chris Banes on Github<br/>
 &#8226; <b>Android-BitmapCache</b> by Chris Banes on Github<br/>
 &#8226; <b>PhotoView</b> by Chris Banes on Github<br/>
-&#8226; <b>Smoothie</b> by Lucas Rocha on Github<br/>
 &#8226; <b>DateTimePicker</b> by the Android Open Source Project and portions by Jake Klinker<br/>
 &#8226; <b>EnhancedListView</b> by Tim Roes<br/>
 &#8226; <b>NineOldAndroids</b> by Jake Wharton<br/>

@@ -22,6 +22,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.provider.SearchRecentSuggestions;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -32,6 +33,7 @@ import android.widget.*;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.adapters.ColorPickerAdapter;
 import com.klinker.android.twitter_l.data.Item;
 import com.klinker.android.twitter_l.data.ThemeColor;
@@ -54,6 +56,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import java.io.File;
@@ -1616,20 +1619,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference changelog = findPreference("whats_new");
+        changelog.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final ListView list = new ListView(context);
+                list.setDividerHeight(0);
+
+                new AsyncTask<Spanned[], Void, Spanned[]>() {
+                    @Override
+                    public Spanned[] doInBackground(Spanned[]... params) {
+                        return XmlChangelogUtils.parse(context);
+                    }
+
+                    @Override
+                    public void onPostExecute(Spanned[] result) {
+                        list.setAdapter(new ChangelogAdapter(context, result));
+                    }
+                }.execute();
+
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.changelog)
+                        .setView(list)
+                        .setPositiveButton(R.string.ok, null)
+                        .show();
+                return false;
+            }
+        });
+
         Preference faq = findPreference("faq");
         faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 XmlFaqUtils.showFaqDialog(context);
-                return false;
-            }
-        });
-
-        Preference features = findPreference("features");
-        features.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(context, FeaturesActivity.class));
                 return false;
             }
         });
@@ -1649,7 +1671,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://goo.gl/KCXlZk")));
-                //Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -1661,7 +1682,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter");
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter (Plus)");
                 emailIntent.setType("plain/text");
 
                 startActivity(emailIntent);
@@ -1673,9 +1694,22 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         tweet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent tweet = new Intent(getActivity(), ComposeActivity.class);
-                tweet.putExtra("user", "@TalonAndroid");
-                startActivity(tweet);
+                final Intent tweet = new Intent(getActivity(), ComposeActivity.class);
+                new AlertDialog.Builder(context)
+                        .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                if (i == 0) {
+                                    tweet.putExtra("user", "@TalonAndroid");
+                                } else {
+                                    tweet.putExtra("user", "@lukeklinker");
+                                }
+                                startActivity(tweet);
+                            }
+                        })
+                        .create()
+                        .show();
                 return false;
             }
         });
@@ -1684,10 +1718,34 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         followTalon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent profile = new Intent(getActivity(), ProfilePager.class);
-                profile.putExtra("screenname", "TalonAndroid");
-                profile.putExtra("proPic", "");
-                startActivity(profile);
+
+                new AlertDialog.Builder(context)
+                        .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker", "Luke's Google+"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                if (i == 0) {
+                                    // talon
+                                    Intent profile = new Intent(getActivity(), ProfilePager.class);
+                                    profile.putExtra("screenname", "TalonAndroid");
+                                    profile.putExtra("proPic", "");
+                                    startActivity(profile);
+                                } else if (i == 1) {
+                                    // luke (twitter)
+                                    Intent profile = new Intent(getActivity(), ProfilePager.class);
+                                    profile.putExtra("screenname", "lukeklinker");
+                                    profile.putExtra("proPic", "");
+                                    startActivity(profile);
+                                } else {
+                                    // luke (google+)
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com/+LukeKlinker")));
+                                }
+
+                            }
+                        })
+                        .create()
+                        .show();
+
                 return false;
             }
         });
@@ -1731,8 +1789,16 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         blur.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(context, "Not yet... :)", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher")));
+                return false;
+            }
+        });
+
+        Preference source = findPreference("source");
+        source.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.reader")));
                 return false;
             }
         });

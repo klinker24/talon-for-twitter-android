@@ -24,4 +24,8 @@
     <string name="never">Never</string>
     <string name="only_on_wifi">Only on WiFi</string>
     <string name="only_on_data">Only on Data</string>
+    <string name="contact_me">Contact Me</string>
+    <string name="my_google_plus">My Google+</string>
+    <string name="follow_progress">Follow our Progress!</string>
+    <string name="general">General</string>
 </resources>
