@@ -72,14 +72,14 @@ public class PicturesPopup extends PopupLayout {
         setFullScreen();
         setTitle(getContext().getString(R.string.pictures));
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) spinner.getLayoutParams();
-        params.width = width;
-        spinner.setLayoutParams(params);
-
         View root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.picture_popup_layout, null, false);
 
         listView = (GridView) root.findViewById(R.id.gridView);
         spinner = (LinearLayout) root.findViewById(R.id.spinner);
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) spinner.getLayoutParams();
+        params.width = width;
+        spinner.setLayoutParams(params);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
