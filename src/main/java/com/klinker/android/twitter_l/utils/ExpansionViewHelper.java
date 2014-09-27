@@ -520,6 +520,8 @@ public class ExpansionViewHelper {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("tweet_text", tweet);
         clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
     }
 
     public void setBackground(View v) {
