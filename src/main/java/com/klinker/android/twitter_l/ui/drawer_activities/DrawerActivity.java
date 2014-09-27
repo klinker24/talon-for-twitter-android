@@ -7,7 +7,9 @@ import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -102,6 +104,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     private NetworkedCacheableImageView backgroundPic;
     private NetworkedCacheableImageView profilePic;
 
+    private LinearLayout noInteractions;
+
     public Toolbar toolbar = null;
     public static boolean hasToolbar = false;
 
@@ -121,6 +125,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
         a.recycle();
+
+        noInteractions = (LinearLayout) findViewById(R.id.no_interaction);
+        ImageView noInterImage = (ImageView) findViewById(R.id.no_inter_icon);
+        noInterImage.getDrawable().setColorFilter(settings.themeColors.primaryColor, PorterDuff.Mode.MULTIPLY);
+        noInteractions.setVisibility(View.GONE);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -233,11 +242,22 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                     try {
                         if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
+                            Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
                             oldInteractions.setText(getResources().getString(R.string.old_interactions));
                             readButton.setImageResource(openMailResource);
                             notificationList.enableSwipeToDismiss();
-                            notificationAdapter = new InteractionsCursorAdapter(context, InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
+                            notificationAdapter = new InteractionsCursorAdapter(context, c);
                             notificationList.setAdapter(notificationAdapter);
+
+                            try {
+                                if (c.getCount() == 0) {
+                                    noInteractions.setVisibility(View.VISIBLE);
+                                } else {
+                                    noInteractions.setVisibility(View.GONE);
+                                }
+                            } catch (Exception e) {
+
+                            }
                         }
                     } catch (Exception e) {
                         // don't have talon pull on
@@ -250,9 +270,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     //actionBar.setTitle(getResources().getString(R.string.app_name));
                     //actionBar.setIcon(R.mipmap.ic_launcher);
 
+                    Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
                     try {
-                        notificationAdapter = new InteractionsCursorAdapter(context,
-                                InteractionsDataSource.getInstance(context).getUnreadCursor(settings.currentAccount));
+                        notificationAdapter = new InteractionsCursorAdapter(context, c);
                         notificationList.setAdapter(notificationAdapter);
                         notificationList.enableSwipeToDismiss();
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
@@ -260,6 +280,16 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                         sharedPrefs.edit().putBoolean("new_notification", false).commit();
                     } catch (Exception e) {
                         // don't have talon pull on
+                    }
+
+                    try {
+                        if (c.getCount() == 0) {
+                            noInteractions.setVisibility(View.VISIBLE);
+                        } else {
+                            noInteractions.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e) {
+
                     }
 
                     invalidateOptionsMenu();
@@ -702,12 +732,18 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 // i don't know why it does this to be honest...
             }
 
-            notificationAdapter = new InteractionsCursorAdapter(context,
-                    InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
+            Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
+            notificationAdapter = new InteractionsCursorAdapter(context, c);
             try {
                 notificationList.setAdapter(notificationAdapter);
             } catch (Exception e) {
 
+            }
+
+            if (c.getCount() == 0) {
+                noInteractions.setVisibility(View.VISIBLE);
+            } else {
+                noInteractions.setVisibility(View.GONE);
             }
 
             oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
@@ -726,22 +762,35 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 @Override
                 public void onClick(View view) {
 
+                    Cursor c;
+
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
                         oldInteractions.setText(getResources().getString(R.string.new_interactions));
                         readButton.setImageResource(closedMailResource);
 
                         notificationList.disableSwipeToDismiss();
 
-                        notificationAdapter = new InteractionsCursorAdapter(context,
-                                InteractionsDataSource.getInstance(context).getCursor(DrawerActivity.settings.currentAccount));
+                        c = InteractionsDataSource.getInstance(context).getCursor(DrawerActivity.settings.currentAccount);
+
+                        notificationAdapter = new InteractionsCursorAdapter(context, c);
                     } else {
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         readButton.setImageResource(openMailResource);
 
                         notificationList.enableSwipeToDismiss();
 
-                        notificationAdapter = new InteractionsCursorAdapter(context,
-                                InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount));
+                        c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
+                        notificationAdapter = new InteractionsCursorAdapter(context, c);
+                    }
+
+                    try {
+                        if (c.getCount() == 0) {
+                            noInteractions.setVisibility(View.VISIBLE);
+                        } else {
+                            noInteractions.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e) {
+
                     }
 
                     notificationList.setAdapter(notificationAdapter);
@@ -766,8 +815,19 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     Log.v("talon_interactions_delete", "position to delete: " + position);
                     InteractionsDataSource data = InteractionsDataSource.getInstance(context);
                     data.markRead(settings.currentAccount, position);
-                    notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                    Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
+                    notificationAdapter = new InteractionsCursorAdapter(context, c);
                     notificationList.setAdapter(notificationAdapter);
+
+                    try {
+                        if (c.getCount() == 0) {
+                            noInteractions.setVisibility(View.VISIBLE);
+                        } else {
+                            noInteractions.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e) {
+
+                    }
 
                     oldInteractions.setText(getResources().getString(R.string.old_interactions));
                     readButton.setImageResource(openMailResource);
@@ -1288,8 +1348,19 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 InteractionsDataSource data = InteractionsDataSource.getInstance(context);
                 data.markAllRead(DrawerActivity.settings.currentAccount);
                 mDrawerLayout.closeDrawer(Gravity.RIGHT);
-                notificationAdapter = new InteractionsCursorAdapter(context, data.getUnreadCursor(DrawerActivity.settings.currentAccount));
+                Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
+                notificationAdapter = new InteractionsCursorAdapter(context, c);
                 notificationList.setAdapter(notificationAdapter);
+
+                try {
+                    if (c.getCount() == 0) {
+                        noInteractions.setVisibility(View.VISIBLE);
+                    } else {
+                        noInteractions.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+
+                }
 
                 return super.onOptionsItemSelected(item);
 

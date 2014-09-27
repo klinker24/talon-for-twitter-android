@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:gravity="center_vertical"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:paddingLeft="5dp"
@@ -19,6 +18,7 @@
         android:contentDescription="Profile Picture"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
+        android:layout_margin="8dp"
         android:background="@drawable/pro_pic_clip"
         />
 
