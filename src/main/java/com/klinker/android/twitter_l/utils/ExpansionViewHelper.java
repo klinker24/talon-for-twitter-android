@@ -508,7 +508,12 @@ public class ExpansionViewHelper {
             });
         }
 
-        menu.show();
+        overflowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menu.show();
+            }
+        });
     }
 
     private void copyText() {
