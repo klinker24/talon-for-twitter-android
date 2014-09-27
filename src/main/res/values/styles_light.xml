@@ -161,7 +161,7 @@ limitations under the License.
         <item name="android:textColorSecondary">#aa000000</item>
     </style>
 
-    <style name="ActionBarPopup" parent="android:Theme.Material.Light">
+    <style name="ActionBarPopup" parent="android:Theme.Material.Light.DarkActionBar">
         <item name="android:popupMenuStyle">@android:style/Widget.Material.Light.PopupMenu</item>
         <item name="android:dropDownListViewStyle">@android:style/Widget.Material.Light.ListView.DropDown</item>
     </style>
@@ -170,5 +170,4 @@ limitations under the License.
         <item name="android:textColor">@android:color/white</item>
         <item name="android:colorControlHighlight">@color/dark_ripple</item>
     </style>
-
 </resources>

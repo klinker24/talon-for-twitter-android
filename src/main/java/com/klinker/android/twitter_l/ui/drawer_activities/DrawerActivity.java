@@ -9,18 +9,23 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.transition.Explode;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
@@ -57,6 +62,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import org.lucasr.smoothie.AsyncListView;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class DrawerActivity extends Activity implements SystemBarVisibility {
@@ -1068,8 +1074,66 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
         }
 
+        if (!settings.darkTheme) {
+            setSearchTextColour();
+            setSearchIcons();
+        }
+
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setSearchTextColour() {
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
+        searchPlate.setTextColor(getResources().getColor(R.color.white));
+        searchPlate.setHintTextColor(getResources().getColor(R.color.white));
+        searchPlate.setBackgroundResource(android.R.color.transparent);
+        searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
+        int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
+        View autoComplete = searchView.findViewById(queryTextViewId);
+
+        try {
+            Class<?> clazz = Class.forName("android.widget.SearchView$SearchAutoComplete");
+
+            SpannableStringBuilder stopHint = new SpannableStringBuilder("   ");
+            stopHint.append(getString(R.string.search));
+
+            // Add the icon as an spannable
+            Drawable searchIcon = getResources().getDrawable(R.drawable.ic_action_search_dark);
+            Method textSizeMethod = clazz.getMethod("getTextSize");
+            Float rawTextSize = (Float) textSizeMethod.invoke(autoComplete);
+            int textSize = (int) (rawTextSize * 1.25);
+            searchIcon.setBounds(0, 0, textSize, textSize);
+            stopHint.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            // Set the new hint text
+            Method setHintMethod = clazz.getMethod("setHint", CharSequence.class);
+            setHintMethod.invoke(autoComplete, stopHint);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    private void setSearchIcons() {
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            ImageView closeBtn = (ImageView) searchField.get(searchView);
+            closeBtn.setImageResource(R.drawable.tablet_close);
+
+            searchField = SearchView.class.getDeclaredField("mVoiceButton");
+            searchField.setAccessible(true);
+            ImageView voiceBtn = (ImageView) searchField.get(searchView);
+            voiceBtn.setImageResource(R.drawable.ic_voice_dark);
+
+        } catch (NoSuchFieldException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        }
     }
 
     @Override
