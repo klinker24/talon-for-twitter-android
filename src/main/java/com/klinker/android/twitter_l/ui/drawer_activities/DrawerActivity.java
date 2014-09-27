@@ -1388,6 +1388,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         showStatus.start();
 
         if (toolbar != null) {
+            if (toolBarVis == null) {
+                toolBarVis = new Handler();
+            }
+            toolBarVis.removeCallbacksAndMessages(null);
             toolbar.setVisibility(View.VISIBLE);
 
             ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
@@ -1402,6 +1406,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     private int whiteColor = -1;
     private ArgbEvaluator EVALUATOR = new ArgbEvaluator();
     private boolean barsAreShowing = true;
+
+    Handler toolBarVis;
 
     public void hideBars() {
         if (tranparentSystemBar == -1) {
@@ -1435,10 +1441,14 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         if (toolbar != null) {
             ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
             hideToolbar.setDuration(250);
-            //hideToolbar.setEvaluator(EVALUATOR);
+            hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
 
-            new Handler().postDelayed(new Runnable() {
+            if (toolBarVis == null) {
+                toolBarVis = new Handler();
+            }
+            toolBarVis.removeCallbacksAndMessages(null);
+            toolBarVis.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     toolbar.setVisibility(View.GONE);

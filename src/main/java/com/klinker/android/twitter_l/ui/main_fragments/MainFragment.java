@@ -618,10 +618,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
         } else {
             listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
             hideStatusBar();
-
-            /*if (actionBar.isShowing()) {
-                actionBar.hide();
-            }*/
         }
     }
 
