@@ -589,7 +589,8 @@ public class ProfilePager extends Activity {
         }
 
         View openFollowers = findViewById(R.id.view_followers);
-        final ProfileFollowersPopup fol = new ProfileFollowersPopup(context, user);
+        final ProfileFollowersPopup fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+
         openFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -600,7 +601,7 @@ public class ProfilePager extends Activity {
         });
 
         View openFriends = findViewById(R.id.view_friends);
-        final ProfileFriendsPopup fri = new ProfileFriendsPopup(context, user);
+        final ProfileFriendsPopup fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
