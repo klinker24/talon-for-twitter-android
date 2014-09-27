@@ -1441,7 +1441,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         if (toolbar != null) {
             ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
             hideToolbar.setDuration(250);
-            hideToolbar.setEvaluator(EVALUATOR);
+            //hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
 
             if (toolBarVis == null) {

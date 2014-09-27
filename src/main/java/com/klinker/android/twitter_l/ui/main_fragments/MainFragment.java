@@ -300,7 +300,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 int top = (view == null) ? 0 : view.getTop();
 
                 if (!settings.topDown) {
-                    if (firstVisibleItem > 3) {
+                    //if (firstVisibleItem > 3) {
                         if (firstVisibleItem == oldFirstVisibleItem) {
                             if (top > oldTop) {
                                 // scrolling up
@@ -318,9 +318,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
                                 scrollDown();
                             }
                         }
-                    } else {
-                        showStatusBar();
-                    }
+                    //} else {
+                        //showStatusBar();
+                    //}
                 } else {
                     if (firstVisibleItem == 0) {
                         hideToastBar(300);
@@ -440,7 +440,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         MainActivity.sendHandler.removeCallbacks(null);
         MainActivity.sendHandler.post(MainActivity.showSend);
 
-        showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
+        int first = listView.getFirstVisiblePosition();
+        if (first > 3) {
+            showToastBar(first + " " + fromTop, jumpToTop, 300, false, toTopListener);
+        }
     }
 
     SystemBarVisibility barVisibility;
