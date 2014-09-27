@@ -1683,16 +1683,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        Preference xda = findPreference("xda_thread");
-        xda.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms")));
-                Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
         Preference email = findPreference("email_me");
         email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -1770,8 +1760,16 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         blur.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(context, "Not yet... :)", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.launcher")));
+                return false;
+            }
+        });
+
+        Preference source = findPreference("source");
+        source.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.reader")));
                 return false;
             }
         });

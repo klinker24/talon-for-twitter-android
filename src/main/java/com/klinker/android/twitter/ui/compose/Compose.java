@@ -221,11 +221,27 @@ public abstract class Compose extends Activity implements
             replyTo.setVisibility(View.VISIBLE);
         }
 
-        String t = reply.getText().toString();
-        if (!android.text.TextUtils.isEmpty(t) && !t.endsWith(" ")) {
-            reply.append(" ");
-            reply.setSelection(reply.getText().length());
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = reply.getText().toString();
+
+                try {
+                    if (!android.text.TextUtils.isEmpty(text) && !text.startsWith(" RT")) {
+                        text = text.replaceAll("  ", " ");
+
+                        reply.setText(text);
+                        reply.setSelection(text.length());
+
+                        if (!text.endsWith(" ")) {
+                            reply.append(" ");
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }, 250);
     }
 
     public void setUpWindow() {
