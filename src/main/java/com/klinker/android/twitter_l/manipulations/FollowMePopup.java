@@ -30,18 +30,23 @@ public class FollowMePopup extends PopupLayout {
         setTitle(getResources().getString(R.string.follow_progress));
     }
 
+    View root;
+    NetworkedCacheableImageView talonIv;
+    NetworkedCacheableImageView lukeIv;
+    NetworkedCacheableImageView googleIv;
+
     @Override
     public View setMainLayout() {
-        View root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.follow_me_popup, null, false);
+        root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.follow_me_popup, null, false);
 
         LinearLayout talon = (LinearLayout) root.findViewById(R.id.talon_area);
-        NetworkedCacheableImageView talonIv = (NetworkedCacheableImageView) root.findViewById(R.id.talon_picture);
+        talonIv = (NetworkedCacheableImageView) root.findViewById(R.id.talon_picture);
 
         LinearLayout luke = (LinearLayout) root.findViewById(R.id.luke_area);
-        NetworkedCacheableImageView lukeIv = (NetworkedCacheableImageView) root.findViewById(R.id.luke_picture);
+        lukeIv = (NetworkedCacheableImageView) root.findViewById(R.id.luke_picture);
 
         LinearLayout google = (LinearLayout) root.findViewById(R.id.google_plus_area);
-        NetworkedCacheableImageView googleIv = (NetworkedCacheableImageView) root.findViewById(R.id.google_picture);
+        googleIv = (NetworkedCacheableImageView) root.findViewById(R.id.google_picture);
 
         talonIv.loadImage("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", true, null);
         lukeIv.loadImage("https://pbs.twimg.com/profile_images/497466110892331009/_iR38HDB.jpeg", true, null);
@@ -98,5 +103,14 @@ public class FollowMePopup extends PopupLayout {
             return null;
         }
 
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        talonIv.loadImage("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", true, null);
+        lukeIv.loadImage("https://pbs.twimg.com/profile_images/497466110892331009/_iR38HDB.jpeg", true, null);
+        googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
     }
 }

@@ -212,7 +212,7 @@ public class LoginActivity extends Activity {
         popup = new FollowMePopup(context);
         int threeHundred = Utils.toDP(300, context);
         popup.setWidth(threeHundred);
-        popup.setHeight(threeHundred + Utils.toDP(50, context));
+        popup.setHeight(threeHundred + Utils.toDP(80, context));
 
         noThanks.setText(getResources().getString(R.string.follow_progress));
 
@@ -220,7 +220,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                popup.setExpansionPointForAnim(progDescription);
+                popup.setExpansionPointForAnim(view);
                 popup.setCenterInScreen();
 
                 popup.show();
