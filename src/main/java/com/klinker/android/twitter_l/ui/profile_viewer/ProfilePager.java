@@ -38,10 +38,7 @@ import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
-import com.klinker.android.twitter_l.manipulations.profile_popups.PicturesPopup;
-import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileFavoritesPopup;
-import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileMentionsPopup;
-import com.klinker.android.twitter_l.manipulations.profile_popups.ProfileTweetsPopup;
+import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -590,6 +587,28 @@ public class ProfilePager extends Activity {
         } else {
             listsCount.setText(getString(R.string.list_count).replace("%s", user.getListedCount() + ""));
         }
+
+        View openFollowers = findViewById(R.id.view_followers);
+        final ProfileFollowersPopup fol = new ProfileFollowersPopup(context, user);
+        openFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fol.setExpansionPointForAnim(view);
+                fol.setOnTopOfView(view);
+                fol.show();
+            }
+        });
+
+        View openFriends = findViewById(R.id.view_friends);
+        final ProfileFriendsPopup fri = new ProfileFriendsPopup(context, user);
+        openFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fri.setExpansionPointForAnim(view);
+                fri.setOnTopOfView(view);
+                fri.show();
+            }
+        });
 
         showCard(findViewById(R.id.stats_card));
     }
