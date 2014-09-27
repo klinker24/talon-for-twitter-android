@@ -102,7 +102,6 @@ public class FollowMePopup extends PopupLayout {
 
             return null;
         }
-
     }
 
     @Override
