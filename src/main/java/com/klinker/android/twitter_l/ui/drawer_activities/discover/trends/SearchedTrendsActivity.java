@@ -8,9 +8,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -21,8 +25,10 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,6 +51,7 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import twitter4j.Query;
@@ -268,7 +275,74 @@ public class SearchedTrendsActivity extends Activity {
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
         view.setImageResource(R.drawable.ic_action_search_dark);
 
-        return true;
+        if (!settings.darkTheme) {
+            try {
+                setSearchTextColour();
+            } catch (Exception e) {
+
+            }
+            try {
+                setSearchIcons();
+            } catch (Exception e) {
+
+            }
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setSearchTextColour() {
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
+        searchPlate.setTextColor(getResources().getColor(R.color.white));
+        searchPlate.setHintTextColor(getResources().getColor(R.color.white));
+        searchPlate.setBackgroundResource(android.R.color.transparent);
+        searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
+        int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
+        View autoComplete = searchView.findViewById(queryTextViewId);
+
+        try {
+            Class<?> clazz = Class.forName("android.widget.SearchView$SearchAutoComplete");
+
+            SpannableStringBuilder stopHint = new SpannableStringBuilder("   ");
+            stopHint.append(getString(R.string.search));
+
+            // Add the icon as an spannable
+            Drawable searchIcon = getResources().getDrawable(R.drawable.ic_action_search_dark);
+            Method textSizeMethod = clazz.getMethod("getTextSize");
+            Float rawTextSize = (Float) textSizeMethod.invoke(autoComplete);
+            int textSize = (int) (rawTextSize * 1.25);
+            searchIcon.setBounds(0, 0, textSize, textSize);
+            stopHint.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            // Set the new hint text
+            Method setHintMethod = clazz.getMethod("setHint", CharSequence.class);
+            setHintMethod.invoke(autoComplete, stopHint);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    private void setSearchIcons() {
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            ImageView closeBtn = (ImageView) searchField.get(searchView);
+            closeBtn.setImageResource(R.drawable.tablet_close);
+
+            searchField = SearchView.class.getDeclaredField("mVoiceButton");
+            searchField.setAccessible(true);
+            ImageView voiceBtn = (ImageView) searchField.get(searchView);
+            voiceBtn.setImageResource(R.drawable.ic_voice_dark);
+
+        } catch (NoSuchFieldException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            Log.e("SearchView", e.getMessage(), e);
+        }
     }
 
     private static final int SETTINGS_RESULT = 101;
