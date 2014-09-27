@@ -18,10 +18,10 @@ public class StopPull extends IntentService {
     public void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPreferences.edit().putBoolean("push_notifications", false).commit();
+        sharedPreferences.edit().putString("talon_pull", "0").commit();
 
         // write to normal prefs so that it appears in the settings
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("push_notifications", false).commit();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("talon_pull", "0").commit();
 
         sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
     }
