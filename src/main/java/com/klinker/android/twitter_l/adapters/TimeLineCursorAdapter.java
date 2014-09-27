@@ -971,7 +971,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         helper.setWebLink(otherLinks);
         helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
         helper.setUser(screenname);
-        helper.setId(tweetId);
+        helper.setText(text);
+        helper.setUpOverflow();
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
 

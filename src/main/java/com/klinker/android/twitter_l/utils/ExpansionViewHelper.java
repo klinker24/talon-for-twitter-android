@@ -3,17 +3,23 @@ package com.klinker.android.twitter_l.utils;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -24,6 +30,8 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.ConversationPopupLayout;
 import com.klinker.android.twitter_l.manipulations.MobilizedWebPopupLayout;
 import com.klinker.android.twitter_l.manipulations.RetweetersPopupLayout;
@@ -324,7 +332,7 @@ public class ExpansionViewHelper {
 
     private void shareClick() {
         String text1 = tweetText;
-        text1 = text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
+        text1 = text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + id;
         Log.v("my_text_on_share", text1);
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
@@ -385,9 +393,128 @@ public class ExpansionViewHelper {
         screenName = name;
     }
 
-    private long tweetId;
-    public void setId(long id) {
-        tweetId = id;
+    private String tweet;
+    public void setText(String t) {
+        tweet = t;
+    }
+
+    public void setUpOverflow() {
+        final PopupMenu menu = new PopupMenu(context, overflowButton);
+
+        if (screenName.equals(AppSettings.getInstance(context).myScreenName)) {
+            // my tweet
+
+            final int DELETE_TWEET = 1;
+            final int COPY_TEXT = 2;
+            final int SHARE_TWEET = 3;
+
+            menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
+            menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
+
+            if (!shareOnWeb) { //share button isn't on top of the web button
+                menu.getMenu().add(Menu.NONE, SHARE_TWEET, Menu.NONE, context.getString(R.string.menu_share));
+            }
+
+            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case DELETE_TWEET:
+                            new DeleteTweet().execute();
+                            context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                    .edit().putBoolean("just_muted", true).commit();
+
+                            ((Activity)context).recreate();
+                            break;
+                        case COPY_TEXT:
+                            copyText();
+                            break;
+                        case SHARE_TWEET:
+                            shareClick();
+                            break;
+                    }
+                    return false;
+                }
+            });
+        } else {
+            // someone else's tweet
+
+            final int QUOTE_TWEET = 1;
+            final int COPY_TEXT = 2;
+            final int MARK_SPAM = 3;
+            final int TRANSLATE = 4;
+            final int SHARE = 5;
+
+            menu.getMenu().add(Menu.NONE, QUOTE_TWEET, Menu.NONE, context.getString(R.string.menu_quote));
+            menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
+            menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
+            menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
+
+            if (!shareOnWeb) { //share button isn't on top of the web button
+                menu.getMenu().add(Menu.NONE, SHARE, Menu.NONE, context.getString(R.string.menu_share));
+            }
+
+            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case QUOTE_TWEET:
+                            String text = tweet;
+
+                            if (!AppSettings.getInstance(context).preferRT) {
+                                text = "\"@" + screenName + ": " + text + "\" ";
+                            } else {
+                                text = " RT @" + screenName + ": " + text;
+                            }
+
+                            Intent quote = new Intent(context, ComposeActivity.class);
+                            quote.putExtra("user", text);
+                            quote.putExtra("id", id);
+                            quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
+
+                            ((Activity)context).getWindow().setExitTransition(null);
+
+                            context.startActivity(quote);
+                            break;
+                        case COPY_TEXT:
+                            copyText();
+                            break;
+                        case SHARE:
+                            shareClick();
+                            break;
+                        case TRANSLATE:
+                            try {
+                                String query = tweet.replaceAll(" ", "+");
+                                String url = "http://translate.google.com/#auto|en|" + tweet;
+                                Uri uri = Uri.parse(url);
+
+                                Intent browser = new Intent(Intent.ACTION_VIEW, uri);
+                                browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                ((Activity)context).getWindow().setExitTransition(null);
+
+                                context.startActivity(browser);
+                            } catch (Exception e) {
+
+                            }
+                            break;
+                        case MARK_SPAM:
+                            new MarkSpam().execute();
+                            break;
+                    }
+                    return false;
+                }
+            });
+        }
+
+        menu.show();
+    }
+
+    private void copyText() {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("tweet_text", tweet);
+        clipboard.setPrimaryClip(clip);
     }
 
     public void setBackground(View v) {
@@ -1087,5 +1214,85 @@ public class ExpansionViewHelper {
 
         getText.setPriority(8);
         getText.start();
+    }
+
+    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+
+            try {
+
+                HomeDataSource.getInstance(context).deleteTweet(id);
+                MentionsDataSource.getInstance(context).deleteTweet(id);
+
+                try {
+                    twitter.destroyStatus(id);
+                } catch (Exception x) {
+
+                }
+
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+
+            ((Activity)context).recreate();
+        }
+    }
+
+    class MarkSpam extends AsyncTask<String, Void, Boolean> {
+
+        protected Boolean doInBackground(String... urls) {
+            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+
+            try {
+                HomeDataSource.getInstance(context).deleteTweet(id);
+                MentionsDataSource.getInstance(context).deleteTweet(id);
+
+                try {
+                    twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
+                } catch (Throwable t) {
+                    // for somme reason this causes a big "naitive crash" on some devices
+                    // with a ton of random letters on play store reports... :/ hmm
+                }
+
+                try {
+                    twitter.destroyStatus(id);
+                } catch (Exception x) {
+
+                }
+
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+
+                return true;
+            } catch (Throwable e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean deleted) {
+            if (deleted) {
+                Toast.makeText(context, context.getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+
+            ((Activity)context).recreate();
+        }
     }
 }
