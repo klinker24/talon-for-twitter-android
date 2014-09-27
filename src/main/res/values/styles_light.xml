@@ -33,6 +33,8 @@ limitations under the License.
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
+        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
+
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>
         <item name="drawerDividerColor">@color/light_text_drawer</item>
@@ -169,5 +171,9 @@ limitations under the License.
     <style name="ToolBarLight" parent="android:Widget.Material.Toolbar">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:colorControlHighlight">@color/dark_ripple</item>
+    </style>
+
+    <style name="CircleOverflow.Light" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_circle_overflow_light</item>
     </style>
 </resources>
