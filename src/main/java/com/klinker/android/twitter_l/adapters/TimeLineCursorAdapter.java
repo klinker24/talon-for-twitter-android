@@ -16,6 +16,7 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -29,10 +30,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
+import android.view.animation.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
@@ -930,7 +928,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public static final int ANIMATION_DURATION = 200;
-    public static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
+    public static final Interpolator ANIMATION_INTERPOLATOR = new PathInterpolator(.4f,0f,.2f,1f);
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
         final String text = holder.tweet.getText().toString();
