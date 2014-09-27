@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +42,8 @@ public abstract class PopupLayout extends LinearLayout {
 
     public static final int LONG_ANIMATION_TIME = 200;
     public static final int SHORT_ANIMATION_TIME = 100;
+    
+    private static final Interpolator INTERPOLATOR = new PathInterpolator(.4f,0f,.2f,1f);
 
     private Drawable background;
     private TextView title;
@@ -475,7 +480,7 @@ public abstract class PopupLayout extends LinearLayout {
                 }
             });
             widthExpander.setDuration(LONG_ANIMATION_TIME);
-            widthExpander.setInterpolator(new DecelerateInterpolator());
+            widthExpander.setInterpolator(INTERPOLATOR);
 
             heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -487,16 +492,16 @@ public abstract class PopupLayout extends LinearLayout {
                 }
             });
             heightExpander.setDuration(SHORT_ANIMATION_TIME);
-            heightExpander.setInterpolator(new DecelerateInterpolator());
+            heightExpander.setInterpolator(INTERPOLATOR);
 
             xTranslation.setDuration(LONG_ANIMATION_TIME);
-            xTranslation.setInterpolator(new DecelerateInterpolator());
+            xTranslation.setInterpolator(INTERPOLATOR);
 
             yTranslation.setDuration(SHORT_ANIMATION_TIME);
-            yTranslation.setInterpolator(new DecelerateInterpolator());
+            yTranslation.setInterpolator(INTERPOLATOR);
 
             alpha.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
-            alpha.setInterpolator(new DecelerateInterpolator());
+            alpha.setInterpolator(INTERPOLATOR);
 
             alpha.start();
             xTranslation.start();
@@ -620,7 +625,7 @@ public abstract class PopupLayout extends LinearLayout {
                         }
                     });
                     widthExpander.setDuration(LONG_ANIMATION_TIME);
-                    widthExpander.setInterpolator(new DecelerateInterpolator());
+                    widthExpander.setInterpolator(INTERPOLATOR);
 
                     heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
@@ -632,16 +637,16 @@ public abstract class PopupLayout extends LinearLayout {
                         }
                     });
                     heightExpander.setDuration(SHORT_ANIMATION_TIME);
-                    heightExpander.setInterpolator(new DecelerateInterpolator());
+                    heightExpander.setInterpolator(INTERPOLATOR);
 
                     xTranslation.setDuration(LONG_ANIMATION_TIME);
-                    xTranslation.setInterpolator(new DecelerateInterpolator());
+                    xTranslation.setInterpolator(INTERPOLATOR);
 
                     yTranslation.setDuration(SHORT_ANIMATION_TIME);
-                    yTranslation.setInterpolator(new DecelerateInterpolator());
+                    yTranslation.setInterpolator(INTERPOLATOR);
 
                     alpha.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
-                    alpha.setInterpolator(new DecelerateInterpolator());
+                    alpha.setInterpolator(INTERPOLATOR);
 
                     alpha.start();
                     yTranslation.start();

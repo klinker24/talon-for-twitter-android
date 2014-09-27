@@ -6,7 +6,7 @@
             android:fromYScale="0dp"
             android:toYScale="100%"
         android:duration="150"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+        android:interpolator="@android:interpolator/fast_out_slow_in" />
 
     <translate
         android:fromXDelta="50%"
@@ -14,5 +14,5 @@
         android:toXDelta="0%"
         android:toYDelta="0%"
         android:duration="150"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+        android:interpolator="@android:interpolator/fast_out_slow_in" />
 </set>

@@ -22,5 +22,5 @@ limitations under the License.
             android:fromYDelta="0%"
             android:toYDelta="0%"
             android:duration="500"
-            android:interpolator="@android:anim/decelerate_interpolator"/>
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
 </set>
