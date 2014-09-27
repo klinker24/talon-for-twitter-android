@@ -37,6 +37,18 @@
     </question>
 
     <question
+            name="Talon Pull Notification"
+            description="I do not like it in the drawer, can I remove it?">
+
+        <text>
+            This is something that will not be possible. That notification creates what is called a "foreground service" in Android. That tells the system to keep the process alive and running even when you start to run out of resources.
+
+            Without the notification, there would be nothing stopping the streaming service from getting shut down by the Android system.
+        </text>
+
+    </question>
+
+    <question
             name="Favorites on a status"
             description="I can see retweets, but where are the favorites??">
 
