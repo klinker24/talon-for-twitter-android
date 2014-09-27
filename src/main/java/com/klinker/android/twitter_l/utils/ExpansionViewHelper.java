@@ -73,7 +73,7 @@ public class ExpansionViewHelper {
     View viewRetweeters;
 
     // buttons at the bottom
-    View webButton;
+    ImageButton webButton;
     View repliesButton;
     View composeButton;
     View overflowButton;
@@ -119,7 +119,7 @@ public class ExpansionViewHelper {
         retweeters[1] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_2);
         retweeters[2] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_3);
 
-        webButton = expansion.findViewById(R.id.web_button);
+        webButton = (ImageButton) expansion.findViewById(R.id.web_button);
         repliesButton = expansion.findViewById(R.id.conversation_button);
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
@@ -248,6 +248,10 @@ public class ExpansionViewHelper {
         webButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (shareOnWeb) {
+                    shareClick();
+                    return;
+                }
                 AppSettings settings = AppSettings.getInstance(context);
                 if ((settings.alwaysMobilize ||
                         (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
@@ -318,7 +322,21 @@ public class ExpansionViewHelper {
         });
     }
 
+    private void shareClick() {
+        String text1 = tweetText;
+        text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
+        Log.v("my_text_on_share", text1);
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, text1);
+
+        ((Activity)context).getWindow().setExitTransition(null);
+
+        context.startActivity(share);
+    }
+
     String webLink = null;
+    public boolean shareOnWeb = false;
 
     public void setWebLink(String[] otherLinks) {
 
@@ -343,10 +361,16 @@ public class ExpansionViewHelper {
             webLink = null;
         }
 
-        if (webLink != null) {
-            webButton.setEnabled(true);
-            webButton.setAlpha(1.0f);
+        if (webLink == null) {
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.shareButton});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            webButton.setImageResource(resource);
+            shareOnWeb = true;
         }
+
+        webButton.setEnabled(true);
+        webButton.setAlpha(1.0f);
     }
 
     String tweetText = null;
@@ -354,6 +378,16 @@ public class ExpansionViewHelper {
     public void setReplyDetails(String t, String replyText) {
         this.tweetText = t;
         this.composeText = replyText;
+    }
+
+    private String screenName;
+    public void setUser(String name) {
+        screenName = name;
+    }
+
+    private long tweetId;
+    public void setId(long id) {
+        tweetId = id;
     }
 
     public void setBackground(View v) {
