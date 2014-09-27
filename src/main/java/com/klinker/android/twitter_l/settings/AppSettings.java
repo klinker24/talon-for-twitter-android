@@ -34,8 +34,8 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "4i8JnA4fnWRMuE7zXrXQQgfI9";
-    public static String TWITTER_CONSUMER_SECRET = "biUAl6lAmjSVIkL4VYiIpkQBovA1pcmIjZ1pRnRpep8qGmL0EN";
+    public static String TWITTER_CONSUMER_KEY = "ByivySWf9pykD5CpamBNODii8";
+    public static String TWITTER_CONSUMER_SECRET = "ARKOhkKBSTeOl1fyhL2njfMMqRlDkDmlhFtEJZfD5jmgP7kttg";
 
     public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
 
