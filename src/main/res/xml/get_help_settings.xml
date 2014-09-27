@@ -2,47 +2,77 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:key="tutorial"
-        android:title="@string/rerun_tutorial" />
+    <PreferenceCategory
+        android:title="@string/help" >
 
-    <Preference
-        android:key="faq"
-        android:title="@string/faq" />
+        <Preference
+            android:key="faq"
+            android:title="@string/faq" />
 
-    <Preference
-        android:key="features"
-        android:title="@string/features_explained" />
+        <Preference
+            android:key="tutorial"
+            android:title="@string/rerun_tutorial" />
 
-    <Preference
-        android:key="klinkerapps"
-        android:title="@string/our_website" >
-        <intent android:action="android.intent.action.VIEW"
-            android:data="http://klinkerapps.com" />
+        <Preference
+            android:key="whats_new"
+            android:title="@string/whats_new" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/links" >
+
+        <Preference
+            android:key="google_plus"
+            android:title="@string/google_plus" />
+
+        <Preference
+            android:key="klinkerapps"
+            android:title="@string/our_website" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://klinkerapps.com" />
         </Preference>
 
-    <Preference
-        android:key="youtube"
-        android:title="@string/youtube" />
+        <Preference
+            android:key="youtube"
+            android:title="@string/youtube" />
 
-    <Preference
-        android:key="google_plus"
-        android:title="@string/google_plus" />
 
-    <Preference
-        android:key="email_me"
-        android:title="@string/email_me" />
+    </PreferenceCategory>
 
-    <Preference
-        android:key="tweet_me"
-        android:title="@string/tweet_me" />
+    <PreferenceCategory
+        android:title="@string/contact_me">
 
-    <Preference
-        android:key="follow_talon"
-        android:title="@string/follow_talon" />
+        <Preference
+            android:key="email_me"
+            android:title="@string/email_me" />
 
-    <Preference
-        android:key="credits"
-        android:title="@string/credits" />
+        <Preference
+            android:key="tweet_me"
+            android:title="@string/tweet_me" />
+
+        <Preference
+            android:key="luke_google_plus"
+            android:title="@string/my_google_plus" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/+LukeKlinker/posts" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/general">
+
+        <Preference
+            android:key="follow_talon"
+            android:title="@string/follow_progress" />
+
+        <Preference
+            android:key="credits"
+            android:title="@string/credits" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>
