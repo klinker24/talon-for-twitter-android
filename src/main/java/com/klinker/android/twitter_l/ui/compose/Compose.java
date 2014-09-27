@@ -248,7 +248,6 @@ public abstract class Compose extends Activity implements
                 }
             }
         }, 250);
-
     }
 
     public void setUpWindow() {

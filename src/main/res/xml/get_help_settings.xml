@@ -66,7 +66,6 @@
         <Preference
             android:key="follow_talon"
             android:title="@string/follow_progress" />
-
         <Preference
             android:key="credits"
             android:title="@string/credits" />
