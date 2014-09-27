@@ -65,6 +65,8 @@ public abstract class PopupLayout extends LinearLayout {
     protected boolean dontShow = false;
     protected boolean centerInScreen = false;
 
+    protected boolean windowed = false;
+
     public abstract View setMainLayout();
 
     // default constructor
@@ -137,6 +139,8 @@ public abstract class PopupLayout extends LinearLayout {
     // default constructor
     public PopupLayout(Context context, boolean windowed) {
         super(context);
+
+        this.windowed = windowed;
 
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -340,6 +344,16 @@ public abstract class PopupLayout extends LinearLayout {
             startY = screenHeight - height - 10;
         }
 
+        if (windowed) {
+            if (screenHeight > screenWidth) {
+                startY = (int) (startY * .84);
+                startX = (int) (startX * .8);
+            } else {
+                startY = (int) (startY * .9);
+                startX= (int) (startX * .6);
+            }
+        }
+
         setDistanceFromLeft(startX);
         setDistanceFromTop(startY);
     }
@@ -393,6 +407,16 @@ public abstract class PopupLayout extends LinearLayout {
 
         animStartLeft = fromLeft + (int) (viewWidth / 2.0);
         animStartTop = fromTop + (int) (viewHeight / 2.0);
+
+        if (windowed) {
+            if (screenHeight > screenWidth) {
+                animStartTop = (int) (animStartTop * .68);
+                animStartLeft = (int) (animStartLeft * .85);
+            } else {
+                animStartTop = (int) (animStartTop * .8);
+                animStartLeft= (int) (animStartLeft * .6);
+            }
+        }
     }
 
     /**
