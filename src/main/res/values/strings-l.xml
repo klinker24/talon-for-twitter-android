@@ -28,4 +28,14 @@
     <string name="my_google_plus">My Google+</string>
     <string name="follow_progress">Follow our Progress!</string>
     <string name="general">General</string>
+    <string name="contact">Contact</string>
+    <string name="follow">Follow</string>
+
+    <string name="faq_first">
+        I would love to get in touch with you about the app, but before we do that, make sure you have checked out the \"Frequent Questions\" section!\n\n
+
+        I am a one person team, so a lot of your problems or questions could be answered right from there, without the need to wait on a reply from me. It has common issues, feature requests, and more.\n\n
+
+        Have a question for me though? Feel free to drop me a line!
+    </string>
 </resources>
