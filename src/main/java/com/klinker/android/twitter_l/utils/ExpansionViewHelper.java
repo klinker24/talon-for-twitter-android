@@ -324,7 +324,7 @@ public class ExpansionViewHelper {
 
     private void shareClick() {
         String text1 = tweetText;
-        text1 = "@" + screenName + ": " + text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
+        text1 = text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + tweetId;
         Log.v("my_text_on_share", text1);
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
