@@ -741,10 +741,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             }
 
             try {
-                if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                if (c.getCount() == 0) {
                     noInteractions.setVisibility(View.VISIBLE);
                     noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                } else if (noInteractions.getVisibility() != View.GONE) {
+                } else {
                     noInteractions.setVisibility(View.GONE);
                     noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                 }
@@ -790,10 +790,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     }
 
                     try {
-                        if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                        if (c.getCount() == 0) {
                             noInteractions.setVisibility(View.VISIBLE);
                             noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                        } else if (noInteractions.getVisibility() != View.GONE) {
+                        } else {
                             noInteractions.setVisibility(View.GONE);
                             noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
@@ -801,7 +801,44 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                     }
 
-                    notificationList.setAdapter(notificationAdapter);
+                    if (notificationList.getCount() != 0) {
+                        // fade out the list
+                        // set the adapter
+                        // animate it up from the bottom
+
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                        anim.setDuration(300);
+                        notificationList.startAnimation(anim);
+
+                        notificationList.setVisibility(View.GONE);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                notificationList.setAdapter(notificationAdapter);
+
+                                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                                anim.setDuration(250);
+                                notificationList.startAnimation(anim);
+
+                                notificationList.setVisibility(View.VISIBLE);
+                            }
+                        },300);
+                    } else {
+                        // set the visibility to gone
+                        // set the adapter
+                        // slide up animation
+                        // set visibility to visible
+
+                        notificationList.setVisibility(View.GONE);
+                        notificationList.setAdapter(notificationAdapter);
+
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                        anim.setDuration(250);
+                        notificationList.startAnimation(anim);
+
+                        notificationList.setVisibility(View.VISIBLE);
+                    }
                 }
             });
 
@@ -828,10 +865,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     notificationList.setAdapter(notificationAdapter);
 
                     try {
-                        if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                        if (c.getCount() == 0) {
                             noInteractions.setVisibility(View.VISIBLE);
                             noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                        } else if (noInteractions.getVisibility() != View.GONE) {
+                        } else {
                             noInteractions.setVisibility(View.GONE);
                             noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
@@ -1153,7 +1190,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             try {
                 setSearchIcons();
             } catch (Exception e) {
-                
+
             }
         }
 
@@ -1363,10 +1400,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 notificationList.setAdapter(notificationAdapter);
 
                 try {
-                    if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                    if (c.getCount() == 0) {
                         noInteractions.setVisibility(View.VISIBLE);
                         noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                    } else if (noInteractions.getVisibility() != View.GONE) {
+                    } else {
                         noInteractions.setVisibility(View.GONE);
                         noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                     }
