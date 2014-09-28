@@ -294,6 +294,10 @@ public class NetworkedCacheableImageView extends CacheableImageView {
             mCurrentTask.cancel(true);
         }
 
+        if (url == null) {
+            return false;
+        }
+
         // Check to see if the memory cache already has the bitmap. We can
         // safely do
         // this on the main thread.
