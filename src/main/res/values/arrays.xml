@@ -267,4 +267,29 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="long_click_mentions">
+        <item>@string/open_profile</item>
+        <item>@string/copy_handle</item>
+        <item>@string/search_user</item>
+        <item>@string/mute_user</item>
+        <item>@string/mute_retweets</item>
+        <item>@string/share_profile</item>
+    </string-array>
+
+    <string-array name="long_click_web">
+        <item>@string/open_webpage</item>
+        <item>@string/copy_link</item>
+        <item>@string/share_link</item>
+    </string-array>
+
+    <string-array name="long_click_hashtag">
+        <item>@string/search_hashtag</item>
+        <item>@string/mute_hashtag</item>
+        <item>@string/copy_hashtag</item>
+    </string-array>
+
+    <string-array name="long_click_cashtag">
+        <item>@string/search_cashtag</item>
+        <item>@string/copy_cashtag</item>
+    </string-array>
 </resources>

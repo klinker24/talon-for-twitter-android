@@ -220,6 +220,28 @@ public abstract class Compose extends Activity implements
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
             replyTo.setVisibility(View.VISIBLE);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String text = reply.getText().toString();
+
+                try {
+                    if (!android.text.TextUtils.isEmpty(text) && !text.startsWith(" RT")) {
+                        text = text.replaceAll("  ", " ");
+
+                        reply.setText(text);
+                        reply.setSelection(text.length());
+
+                        if (!text.endsWith(" ")) {
+                            reply.append(" ");
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }, 250);
     }
 
     public void setUpWindow() {
