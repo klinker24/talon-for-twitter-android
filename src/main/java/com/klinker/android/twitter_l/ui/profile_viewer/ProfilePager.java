@@ -3,11 +3,7 @@ package com.klinker.android.twitter_l.ui.profile_viewer;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -518,10 +514,12 @@ public class ProfilePager extends Activity {
         });
         sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
                 compose.putExtra("user", "@" + screenName);
-                startActivity(compose);
+                startActivity(compose, opts.toBundle());
             }
         });
 

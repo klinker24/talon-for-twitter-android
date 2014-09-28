@@ -790,12 +790,14 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     }
 
                     try {
-                        if (c.getCount() == 0) {
-                            noInteractions.setVisibility(View.VISIBLE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                        } else {
-                            noInteractions.setVisibility(View.GONE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+                        if (notificationList.getCount() != 0 && c.getCount() != 0) {
+                            if (c.getCount() == 0) {
+                                noInteractions.setVisibility(View.VISIBLE);
+                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+                            } else {
+                                noInteractions.setVisibility(View.GONE);
+                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+                            }
                         }
                     } catch (Exception e) {
 
@@ -1512,7 +1514,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 toolBarVis = new Handler();
             }
             toolBarVis.removeCallbacksAndMessages(null);
-            toolbar.setVisibility(View.VISIBLE);
+            if (!MainActivity.isPopup) {
+                toolbar.setVisibility(View.VISIBLE);
+            }
 
             ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
             showToolbar.setDuration(250);
