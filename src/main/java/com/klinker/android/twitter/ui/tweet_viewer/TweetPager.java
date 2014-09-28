@@ -476,19 +476,14 @@ public class TweetPager extends YouTubeBaseActivity {
         final int MENU_DELETE_TWEET = 1;
         final int MENU_QUOTE = 2;
         final int MENU_COPY_TEXT = 3;
-        final int MENU_OPEN_WEB = 4;
-        final int MENU_SAVE_IMAGE = 5;
-        final int MENU_SPAM = 6;
+        final int MENU_SAVE_IMAGE = 4;
+        final int MENU_SPAM = 5;
 
         if (!isMyTweet) {
             menu.getItem(MENU_DELETE_TWEET).setVisible(false);
         } else {
             menu.getItem(MENU_QUOTE).setVisible(false);
             menu.getItem(MENU_SPAM).setVisible(false);
-        }
-
-        if (!mSectionsPagerAdapter.getHasWebpage()) {
-            menu.getItem(MENU_OPEN_WEB).setVisible(false);
         }
 
         if (!picture) {
@@ -530,7 +525,7 @@ public class TweetPager extends YouTubeBaseActivity {
                 clipboard.setPrimaryClip(clip);
                 return true;
 
-            case R.id.menu_open_web:
+            /*case R.id.menu_open_web:
                 Uri weburi;
                 try {
                     weburi = Uri.parse(otherLinks[0]);
@@ -540,7 +535,7 @@ public class TweetPager extends YouTubeBaseActivity {
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 startActivity(launchBrowser);
 
-                return true;
+                return true;*/
 
             case R.id.menu_save_image:
 
@@ -638,7 +633,7 @@ public class TweetPager extends YouTubeBaseActivity {
                         .edit().putBoolean("just_muted", true).commit();
                 return super.onOptionsItemSelected(item);
 
-            case R.id.menu_mute_hashtags:
+            /*case R.id.menu_mute_hashtags:
                 if (!hashtags[0].equals("")) {
                     ArrayList<String> tags = new ArrayList<String>();
                     if (hashtags != null) {
@@ -738,7 +733,7 @@ public class TweetPager extends YouTubeBaseActivity {
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.no_links), Toast.LENGTH_SHORT).show();
                 }
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);*/
             case R.id.menu_translate:
                 try {
                     String query = tweet.replaceAll(" ", "+");
