@@ -67,9 +67,9 @@
         <text>
             If you read the last FAQ about favorites on your status, unfortunately this is the same deal. Twitter doesn't allow third party apps to view these GIFs.
 
-            Until something changes on their end with it, it isn't going to happen in Talon, sorry about that.
+            Until something changes on their end with it, it isn't going to happen in Talon, sorry about that. Currently you can post animated GIFs though by hitting the attach button on the compose window and selecting "Animated GIF".
 
-            I know that Tweetbot for iOS can do it now, but it isn't really the same as the official Twitter app and they just use some resources specific to iOS for that functionality. Not possible for me.
+            I know that TweetBot for iOS can do it now, but it isn't really the same as the official Twitter app and they just use some resources specific to iOS for that functionality. Not possible for me.
         </text>
 
     </question>
@@ -175,8 +175,19 @@
 
             I chose two as a balance between functionality and performance, this is a decision I will be sticking with for the time being.
         </text>
+    </question>
 
+    <question
+        name="Multiple Pictures"
+        description="Sometimes they do not show, why?">
 
+        <text>
+            As this is a relatively new feature, it does have some problems on the third party API. The main problems come when you are live streaming. For some reason, Twitter doesn't always send the "extended_entities" (which is what holds the extra pictures) when tweets are downloaded through their Streaming APIs.
+
+            This presents a pretty big problem for us because there is no indication that that tweet does in fact have more than one image. Hopefully Twitter gets this patched up eventually, although it seems to work off and on.
+
+            Until they get this done, note that you can always see multiple images in a tweet though by opening up the tweet viewer, then clicking on the image after the retweet and favorite counts have loaded.
+        </text>
     </question>
 
     <question
@@ -213,13 +224,15 @@
             9.) User's lists on their profiles
             10.) Twitter Cards
             11.) Show info on a linked tweet (ie: one tweet contains a link to another)
+            12.) Notifications for saved searches
+            13.) Expand the widget for multiple account support and mention support
 
 
             Things requested that won't happen at this point:
 
             1.) Samsung multi-window support (it breaks some features and isn't something you can have an option for in settings)
             2.) More extra pages (read the faq above)
-            3.) GIF support (check the faq above about GIFs)
+            3.) Viewing GIF support (check the faq above about GIFs)
             4.) Integration with FaceBook or other social networks (this app will remain only a Twitter client)
             5.) Vine support (they do not have a developer API to plug into at the moment)
             6.) In-line pictures on profiles (They just didn't work with my style of profiles, the cards were way to big, so I went with style on this one)

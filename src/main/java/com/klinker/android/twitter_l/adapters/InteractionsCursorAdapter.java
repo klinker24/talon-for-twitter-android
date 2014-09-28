@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,7 +131,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
         holder.title.setText(Html.fromHtml(title));
 
-        if (!text.equals("")) {
+        if (!TextUtils.isEmpty(text)) {
             holder.text.setVisibility(View.VISIBLE);
             holder.text.setText(text);
         } else {
