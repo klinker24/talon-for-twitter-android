@@ -109,7 +109,7 @@ public class TweetWearableService extends WearableListenerService {
             String[] messageContent = message.split(KeyProperties.DIVIDER);
             ArticleHelper helper = new ArticleHelper(this);
             helper.markArticleAsRead(Long.parseLong(messageContent[1]));
-        }*/ else if (message.startsWith(KeyProperties.REQUEST_IMAGE)) {
+        } else if (message.startsWith(KeyProperties.REQUEST_IMAGE)) {
             String[] messageContent = message.split(KeyProperties.DIVIDER);
             ArticleHelper helper = new ArticleHelper(this);
             Cursor articles = helper.getArticlesForAuthor(messageContent[1]);
@@ -134,7 +134,7 @@ public class TweetWearableService extends WearableListenerService {
 
                 articles.close();
             }
-        } else {
+        }*/ else {
             Log.e(TAG, "message not recognized");
         }
     }
