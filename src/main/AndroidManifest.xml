@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.klinker.android.twitter">
+
+    <uses-sdk tools:node="replace"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -584,6 +587,12 @@
 
         <service android:name=".ui.launcher_page.StartPull"
                  android:exported="true" >
+        </service>
+
+        <service android:name=".services.TweetWearableService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
         </service>
 
         <receiver android:name=".receivers.BootReceiver">

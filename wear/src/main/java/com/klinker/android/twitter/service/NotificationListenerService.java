@@ -46,8 +46,8 @@ public class NotificationListenerService extends WearableListenerService {
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(map.getString(KeyProperties.KEY_TITLE))
-                    .setContentText(map.getString(KeyProperties.KEY_BODY))
-                    .setTicker(map.getString(KeyProperties.KEY_BODY))
+                    .setContentText(map.getString(KeyProperties.KEY_TWEET))
+                    .setTicker(map.getString(KeyProperties.KEY_TWEET))
                     .addAction(R.drawable.ic_logo, getString(R.string.view_articles), notificationPendingIntent)
                     .build();
             notification.defaults = Notification.DEFAULT_ALL;
