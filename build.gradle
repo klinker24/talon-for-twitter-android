@@ -40,6 +40,7 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
+        applicationId "com.klinker.android.twitter"
         minSdkVersion 14
         targetSdkVersion 20
         versionCode Integer.parseInt(project.VERSION_CODE)
@@ -127,9 +128,8 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
 
-    compile 'com.android.support:support-v13:+'
+    compile 'com.android.support:support-v13:20.0.0'
     compile 'com.google.android.gms:play-services:+'
-    compile 'com.google.android.gms:play-services-wearable:+'
     compile 'com.google.android.support:wearable:+'
 
     compile files('lib/httpmime-4.3.2.jar')

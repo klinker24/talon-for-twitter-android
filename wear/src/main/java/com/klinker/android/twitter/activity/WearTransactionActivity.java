@@ -70,14 +70,14 @@ public abstract class WearTransactionActivity extends Activity implements
 
             if (map.containsKey(KeyProperties.KEY_TITLE)) {
                 titles = map.getStringArrayList(KeyProperties.KEY_TITLE);
-                bodies = map.getStringArrayList(KeyProperties.KEY_BODY);
+                bodies = map.getStringArrayList(KeyProperties.KEY_TWEET);
                 ids = map.getStringArrayList(KeyProperties.KEY_ID);
                 sharedPreferences.edit()
                         .putInt(KeyProperties.KEY_PRIMARY_COLOR, map.getInt(KeyProperties.KEY_PRIMARY_COLOR))
                         .putInt(KeyProperties.KEY_ACCENT_COLOR, map.getInt(KeyProperties.KEY_ACCENT_COLOR))
                         .commit();
 
-                Log.v(TAG, "found " + titles.size() + " articles");
+                Log.v(TAG, "found " + titles.size() + " tweets");
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
