@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="3"
             android:textSize="17sp"/>
 
@@ -37,6 +38,7 @@
             style="@style/CardText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:paddingBottom="15dp"/>
 
 </LinearLayout>
