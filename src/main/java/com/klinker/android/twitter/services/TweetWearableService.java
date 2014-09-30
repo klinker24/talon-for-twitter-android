@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 
@@ -62,13 +63,19 @@ public class TweetWearableService extends WearableListenerService {
     private static final String TAG = "TweetWearableService";
     private static final int MAX_ARTICLES_TO_SYNC = 200;
 
+    private Handler markReadHandler;
+
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         final WearableUtils wearableUtils = new WearableUtils();
 
         final BitmapLruCache cache = App.getInstance(this).getBitmapCache();
 
-        String message = new String(messageEvent.getData());
+        if (markReadHandler == null) {
+            markReadHandler = new Handler();
+        }
+
+        final String message = new String(messageEvent.getData());
         Log.d(TAG, "got message: " + message);
 
         final GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
@@ -126,41 +133,48 @@ public class TweetWearableService extends WearableListenerService {
                 Log.v(TAG, "sent " + bytes.length + " bytes of data to node " + node);
             }
         } else if (message.startsWith(KeyProperties.MARK_READ_MESSAGE)) {
-            String[] messageContent = message.split(KeyProperties.DIVIDER);
+            markReadHandler.removeCallbacksAndMessages(null);
+            markReadHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    String[] messageContent = message.split(KeyProperties.DIVIDER);
 
-            final long id = Long.parseLong(messageContent[1]);
+                    final long id = Long.parseLong(messageContent[1]);
 
-            final AppSettings settings = AppSettings.getInstance(this);
+                    final AppSettings settings = AppSettings.getInstance(TweetWearableService.this);
 
-            try {
-                HomeDataSource.getInstance(this).markPosition(settings.currentAccount, id);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+                    try {
+                        HomeDataSource.getInstance(TweetWearableService.this).markPosition(settings.currentAccount, id);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
 
-            sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+                    sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-            final SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    final SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-            // mark tweetmarker if they use it
-            if (AppSettings.getInstance(this).tweetmarker) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TweetMarkerHelper helper = new TweetMarkerHelper(settings.currentAccount,
-                                sharedPrefs.getString("twitter_screen_name_" + settings.currentAccount, ""),
-                                Utils.getTwitter(TweetWearableService.this, settings),
-                                sharedPrefs);
+                    // mark tweetmarker if they use it
+                    if (AppSettings.getInstance(TweetWearableService.this).tweetmarker) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TweetMarkerHelper helper = new TweetMarkerHelper(settings.currentAccount,
+                                        sharedPrefs.getString("twitter_screen_name_" + settings.currentAccount, ""),
+                                        Utils.getTwitter(TweetWearableService.this, settings),
+                                        sharedPrefs);
 
-                        helper.sendCurrentId("timeline", id);
+                                helper.sendCurrentId("timeline", id);
 
+                                startService(new Intent(TweetWearableService.this, HandleScrollService.class));
+                            }
+                        }).start();
+                    } else {
                         startService(new Intent(TweetWearableService.this, HandleScrollService.class));
                     }
-                }).start();
-            } else {
-                startService(new Intent(TweetWearableService.this, HandleScrollService.class));
-            }
+                }
+            }, 5000);
+
         } else if (message.startsWith(KeyProperties.REQUEST_IMAGE)) {
             final String url = message.split(KeyProperties.DIVIDER)[1];
             Bitmap image = null;

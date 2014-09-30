@@ -3,6 +3,8 @@
     <version name="3.2.0">
         <text>View your timeline on your Android Wear device</text>
         <text>Long click links, user handles, and hashtags for more options</text>
+        <text>Notification when rate limits are reached on the home timeline</text>
+        <text>Small reported bug fixes</text>
         <text>Reduced clutter in the tweet viewer overflow menu</text>
     </version>
 

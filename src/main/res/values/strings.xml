@@ -633,6 +633,8 @@
     <string name="second_account">2nd Account</string>
     <string name="second_account_login_info">Since Twitter holds some of your login information in it\'s system, the next screen may not allow you to login with your new account info immediately. If it skips this login and goes directly to the authorization page, simply hit the \"Sign Out\" button in the top right corner of the website to allow the app to log you into your second account.</string>
     <string name="fetch_tweetmarker">Fetch TweetMarker</string>
+    <string name="rate_limit_reached">Rate Limit Reached</string>
+    <string name="info">Info</string>
 
     <!-- Long click methods -->
     <string name="open_profile">Open Profile</string>
