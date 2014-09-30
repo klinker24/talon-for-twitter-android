@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.StaleDataException;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,12 +44,14 @@ import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
 public class HomeFragment extends MainFragment { // implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int HOME_REFRESH_ID = 121;
+    public static final String RATE_LIMIT_URL = "https://plus.google.com/117432358268488452276/posts/J5yY3K3fyME";
 
     public int unread;
 
@@ -103,6 +106,16 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }, 500);
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+        }
+    };
+
+    protected View.OnClickListener infoClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(RATE_LIMIT_URL));
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
     };
 
@@ -522,6 +535,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
     public boolean manualRefresh = false;
     public boolean dontGetCursor = false;
+    public boolean rateLimited = false;
 
     public int insertTweets(List<Status> statuses, long[] lastId) {
         return HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
@@ -547,143 +561,142 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         }
 
+        boolean needClose = false;
+
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+
+        twitter = Utils.getTwitter(context, settings);
+
+        final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+
+        boolean foundStatus = false;
+
+        Paging paging = new Paging(1, 200);
+
+        long[] lastId = null;
+        long id;
         try {
-
-            boolean needClose = false;
-
-            context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
-
-            twitter = Utils.getTwitter(context, settings);
-
-            User user = twitter.verifyCredentials();
-
-            final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
-
-            boolean foundStatus = false;
-
-            Paging paging = new Paging(1, 200);
-
-            long[] lastId = null;
-            long id;
-            try {
-                lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
-                id = lastId[1];
-            } catch (Exception e) {
-                id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
-            }
-            Log.v("talon_inserting", "since_id=" + id);
-            try {
-                paging.setSinceId(id);
-            } catch (Exception e) {
-                // 0 for some reason, so dont set one and let the database sort which should show and which shouldn't
-            }
-
-            long beforeDownload = Calendar.getInstance().getTimeInMillis();
-
-            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-
-                try {
-                    if (!foundStatus) {
-                        paging.setPage(i + 1);
-                        List<Status> list = twitter.getHomeTimeline(paging);
-                        statuses.addAll(list);
-
-                        if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
-                            Log.v("talon_inserting", "found status");
-                            foundStatus = true;
-                        } else {
-                            Log.v("talon_inserting", "haven't found status");
-                            foundStatus = false;
-                        }
-                    }
-                } catch (Exception e) {
-                    // the page doesn't exist
-                    e.printStackTrace();
-                    foundStatus = true;
-                } catch (OutOfMemoryError o) {
-                    // don't know why...
-                }
-            }
-
-            long afterDownload = Calendar.getInstance().getTimeInMillis();
-            Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
-
-            if (statuses.size() > 0) {
-                statuses.remove(statuses.size() - 1);
-            }
-
-            HashSet hs = new HashSet();
-            hs.addAll(statuses);
-            statuses.clear();
-            statuses.addAll(hs);
-
-            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
-
-            manualRefresh = false;
-
-            if (needClose) {
-                HomeDataSource.dataSource = null;
-                Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
-                dontGetCursor = true;
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
-            }
-
-            if (lastId == null) {
-                try {
-                    lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
-                } catch (Exception e) {
-                    // let the
-                    lastId = new long[] {0,0,0,0,0};
-                }
-            }
-
-            try {
-                numberNew = insertTweets(statuses, lastId);
-            } catch (NullPointerException e) {
-                return 0;
-            }
-
-            if (numberNew > statuses.size()) {
-                numberNew = statuses.size();
-            }
-
-            if (numberNew > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
-            }
-
-            Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
-
-            //numberNew = statuses.size();
-            unread = numberNew;
-
-            statuses.clear();
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.timelineRefresh;
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-            if (settings.timelineRefresh != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
-            else
-                am.cancel(pendingIntent);
-
-            int unreadCount;
-            try {
-                unreadCount = HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
-            } catch (Exception e) {
-                unreadCount = numberNew;
-            }
-            return unreadCount;
-
-        } catch (TwitterException e) {
-            // Error in updating status
-            Log.d("Twitter Update Error", e.getMessage());
+            lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            id = lastId[1];
+        } catch (Exception e) {
+            id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 1l);
+        }
+        Log.v("talon_inserting", "since_id=" + id);
+        try {
+            paging.setSinceId(id);
+        } catch (Exception e) {
+            // 0 for some reason, so dont set one and let the database sort which should show and which shouldn't
         }
 
-        return 0;
+        long beforeDownload = Calendar.getInstance().getTimeInMillis();
+
+        for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+
+            try {
+                if (!foundStatus) {
+                    paging.setPage(i + 1);
+                    List<Status> list = twitter.getHomeTimeline(paging);
+                    statuses.addAll(list);
+
+                    if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                        Log.v("talon_inserting", "found status");
+                        foundStatus = true;
+                    } else {
+                        Log.v("talon_inserting", "haven't found status");
+                        foundStatus = false;
+                    }
+                }
+            } catch (TwitterException e) {
+                Log.v("talon_error", "code: " + e.getErrorCode());
+                if (e.getErrorCode() == 88) {
+                    // rate limit reached
+                    rateLimited = true;
+                    foundStatus = true;
+
+                    return 0;
+                }
+            } catch (Exception e) {
+                // the page doesn't exist
+                e.printStackTrace();
+                Log.v("talon_error", "error with refresh");
+                foundStatus = true;
+            } catch (OutOfMemoryError o) {
+                // don't know why...
+            }
+        }
+
+        long afterDownload = Calendar.getInstance().getTimeInMillis();
+        Log.v("talon_inserting", "downloaded " + statuses.size() + " tweets in " + (afterDownload - beforeDownload));
+
+        if (statuses.size() > 0) {
+            statuses.remove(statuses.size() - 1);
+        }
+
+        HashSet hs = new HashSet();
+        hs.addAll(statuses);
+        statuses.clear();
+        statuses.addAll(hs);
+
+        Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+        manualRefresh = false;
+
+        if (needClose) {
+            HomeDataSource.dataSource = null;
+            Log.v("talon_home_frag", "sending the reset home broadcase in needclose section");
+            dontGetCursor = true;
+            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_HOME"));
+        }
+
+        if (lastId == null) {
+            try {
+                lastId = HomeDataSource.getInstance(context).getLastIds(currentAccount);
+            } catch (Exception e) {
+                // let the
+                lastId = new long[] {0,0,0,0,0};
+            }
+        }
+
+        try {
+            numberNew = insertTweets(statuses, lastId);
+        } catch (NullPointerException e) {
+            return 0;
+        }
+
+        if (numberNew > statuses.size()) {
+            numberNew = statuses.size();
+        }
+
+        if (numberNew > 0 && statuses.size() > 0) {
+            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+        }
+
+        Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
+
+        //numberNew = statuses.size();
+        unread = numberNew;
+
+        statuses.clear();
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        long now = new Date().getTime();
+        long alarm = now + settings.timelineRefresh;
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+        if (settings.timelineRefresh != 0)
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+        else
+            am.cancel(pendingIntent);
+
+        int unreadCount;
+        try {
+            unreadCount = HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
+        } catch (Exception e) {
+            unreadCount = numberNew;
+        }
+        return unreadCount;
     }
 
     public boolean getTweet() {
@@ -819,7 +832,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                                     numberNew = HomeDataSource.getInstance(context).getUnreadCount(currentAccount);
 
-                                    text = numberNew == 1 ?  numberNew + " " + sNewTweet :  numberNew + " " + sNewTweets;
+                                    text = numberNew == 1 ? numberNew + " " + sNewTweet : numberNew + " " + sNewTweets;
 
                                     if (!tweetMarkerUpdate || (!tweetMarkerUpdate && settings.tweetmarkerManualOnly)) {
                                         new Handler().postDelayed(new Runnable() {
@@ -836,6 +849,31 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                         }, 500);
                                     }
                                 }
+                            } else if (rateLimited) {
+
+                                refreshLayout.setRefreshing(false);
+                                isRefreshing = false;
+                                rateLimited = false;
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Looper.prepare();
+                                        } catch (Exception e) {
+                                            // just in case
+                                        }
+                                        isToastShowing = false;
+                                        showToastBar(getString(R.string.rate_limit_reached),
+                                                getString(R.string.info),
+                                                400,
+                                                true,
+                                                infoClickListener);
+                                    }
+                                }, 500);
+
+                                refreshLayout.setRefreshing(false);
+                                isRefreshing = false;
                             } else {
                                 final CharSequence text = sNoNewTweets;
                                 if (!settings.tweetmarker) {
@@ -898,7 +936,6 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             try {
                 twitter = Utils.getTwitter(context, settings);
 
-                twitter.verifyCredentials();
                 MentionsDataSource mentions = MentionsDataSource.getInstance(context);
                 try {
                     mentions.markAllRead(settings.currentAccount);
