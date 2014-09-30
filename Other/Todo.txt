@@ -37,3 +37,14 @@
             - second account timeline page
             - favorite tweets fragment
             - Activity fragment
+
+
+-- Launcher Page --
+
+    - tweetmarker settings
+    - regex from twitter
+
+
+
+
+adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444
