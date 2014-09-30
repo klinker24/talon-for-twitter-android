@@ -455,6 +455,92 @@ public class HomeDataSource {
         return cursor;
     }
 
+    public synchronized Cursor getWearCursor(int account) {
+
+        String users = sharedPreferences.getString("muted_users", "");
+        String rts = sharedPreferences.getString("muted_rts", "");
+        String hashtags = sharedPreferences.getString("muted_hashtags", "");
+        String expressions = sharedPreferences.getString("muted_regex", "");
+        String clients = sharedPreferences.getString("muted_clients", "");
+        String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        expressions = expressions.replaceAll("'", "''");
+
+        if (!users.equals("")) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("")) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("")) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!clients.equals("")) {
+            String[] split = clients.split("   ");
+            for (String s : split) {
+                where += " AND (" + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " NOT LIKE " + "'%" + s + "%'" + " OR " + HomeSQLiteHelper.COLUMN_CLIENT_SOURCE + " is NULL)" ;
+            }
+        }
+
+        if (noRetweets) {
+            where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " = '' OR " + HomeSQLiteHelper.COLUMN_RETWEETER + " is NULL";
+        } else if (!rts.equals("")) {
+            String[] split = rts.split(" ");
+            for (String s : split) {
+                where += " AND " + HomeSQLiteHelper.COLUMN_RETWEETER + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        Cursor cursor;
+
+        String sql = "SELECT COUNT(*) FROM " + HomeSQLiteHelper.TABLE_HOME + " WHERE " + where;
+        SQLiteStatement statement;
+        try {
+            statement = database.compileStatement(sql);
+        } catch (Exception e) {
+            open();
+            statement = database.compileStatement(sql);
+        }
+        long count;
+        try {
+            count = statement.simpleQueryForLong();
+        } catch (Exception e) {
+            open();
+            try {
+                count = statement.simpleQueryForLong();
+            } catch (Exception x) {
+                return null;
+            }
+        }
+        int position = getPosition(sharedPreferences.getInt("current_account", 1));
+
+        try {
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", count - position + "," + position);
+        } catch (Exception e) {
+            open();
+            cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
+                    allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", count - position + "," + position);
+        }
+
+        return cursor;
+    }
 
     public synchronized Cursor getTrimmingCursor(int account) {
 

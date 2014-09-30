@@ -127,10 +127,11 @@ public class ExpandableCardFragment extends CardFragment {
         if (f.exists()) {
             Bitmap image = BitmapFactory.decodeFile(f.getPath());
             final BitmapDrawable drawable = new BitmapDrawable(getResources(), image);
+            f.delete();
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    title.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                    //title.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
                 }
             });
         } else {

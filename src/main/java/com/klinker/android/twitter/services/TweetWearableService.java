@@ -16,9 +16,13 @@
 
 package com.klinker.android.twitter.services;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.text.Html;
 import android.util.Log;
 
@@ -29,16 +33,29 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.data.App;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.transaction.KeyProperties;
+import com.klinker.android.twitter.ui.launcher_page.HandleScrollService;
+import com.klinker.android.twitter.util.IoUtils;
+import com.klinker.android.twitter.utils.ImageUtils;
+import com.klinker.android.twitter.utils.Utils;
 import com.klinker.android.twitter.utils.WearableUtils;
+import com.klinker.android.twitter.utils.api_helper.TweetMarkerHelper;
 
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TweetWearableService extends WearableListenerService {
 
@@ -47,12 +64,14 @@ public class TweetWearableService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        WearableUtils wearableUtils = new WearableUtils();
+        final WearableUtils wearableUtils = new WearableUtils();
+
+        final BitmapLruCache cache = App.getInstance(this).getBitmapCache();
 
         String message = new String(messageEvent.getData());
         Log.d(TAG, "got message: " + message);
 
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
+        final GoogleApiClient googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .build();
 
@@ -67,7 +86,7 @@ public class TweetWearableService extends WearableListenerService {
         if (message.equals(KeyProperties.GET_DATA_MESSAGE)) {
             AppSettings settings = AppSettings.getInstance(this);
 
-            Cursor tweets = HomeDataSource.getInstance(this).getCursor(settings.currentAccount);
+            Cursor tweets = HomeDataSource.getInstance(this).getWearCursor(settings.currentAccount);
             PutDataMapRequest dataMap = PutDataMapRequest.create(KeyProperties.PATH);
             ArrayList<String> titles = new ArrayList<String>();
             ArrayList<String> bodies = new ArrayList<String>();
@@ -76,12 +95,12 @@ public class TweetWearableService extends WearableListenerService {
             if (tweets != null && tweets.moveToLast()) {
                 do {
                     String name = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
-                    String handle = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+                    String pic = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
                     String body = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
                     long id = tweets.getLong(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
                     titles.add(name);
-                    body = handle + KeyProperties.DIVIDER + body + KeyProperties.DIVIDER;
+                    body = pic + KeyProperties.DIVIDER + body + KeyProperties.DIVIDER;
                     bodies.add(Html.fromHtml(body.replace("<p>", KeyProperties.LINE_BREAK)).toString());
                     ids.add(id + "");
                 } while (tweets.moveToPrevious() && tweets.getCount() - tweets.getPosition() < MAX_ARTICLES_TO_SYNC);
@@ -91,11 +110,12 @@ public class TweetWearableService extends WearableListenerService {
             dataMap.getDataMap().putStringArrayList(KeyProperties.KEY_TITLE, titles);
             dataMap.getDataMap().putStringArrayList(KeyProperties.KEY_TWEET, bodies);
             dataMap.getDataMap().putStringArrayList(KeyProperties.KEY_ID, ids);
+
+            // light background with orange accent or theme color accent
+            dataMap.getDataMap().putInt(KeyProperties.KEY_PRIMARY_COLOR, Color.parseColor("#dddddd"));
             if (settings.addonTheme) {
-                dataMap.getDataMap().putInt(KeyProperties.KEY_PRIMARY_COLOR, settings.accentInt);
                 dataMap.getDataMap().putInt(KeyProperties.KEY_ACCENT_COLOR, settings.accentInt);
             } else {
-                dataMap.getDataMap().putInt(KeyProperties.KEY_PRIMARY_COLOR, getResources().getColor(R.color.orange_primary_color));
                 dataMap.getDataMap().putInt(KeyProperties.KEY_ACCENT_COLOR, getResources().getColor(R.color.orange_primary_color));
             }
             dataMap.getDataMap().putLong(KeyProperties.KEY_DATE, System.currentTimeMillis());
@@ -105,37 +125,194 @@ public class TweetWearableService extends WearableListenerService {
                 Wearable.MessageApi.sendMessage(googleApiClient, node, KeyProperties.PATH, bytes);
                 Log.v(TAG, "sent " + bytes.length + " bytes of data to node " + node);
             }
-        } /*else if (message.startsWith(KeyProperties.MARK_READ_MESSAGE)) {
+        } else if (message.startsWith(KeyProperties.MARK_READ_MESSAGE)) {
             String[] messageContent = message.split(KeyProperties.DIVIDER);
-            ArticleHelper helper = new ArticleHelper(this);
-            helper.markArticleAsRead(Long.parseLong(messageContent[1]));
-        } else if (message.startsWith(KeyProperties.REQUEST_IMAGE)) {
-            String[] messageContent = message.split(KeyProperties.DIVIDER);
-            ArticleHelper helper = new ArticleHelper(this);
-            Cursor articles = helper.getArticlesForAuthor(messageContent[1]);
 
-            if (articles != null && articles.moveToFirst()) {
-                String url = new ArticleItem().fillFromCursor(articles).getAuthorUrl();
-                File f = new File(Utils.CACHE_DIR + "/" + DigestUtils.shaHex(url));
-                Log.v(TAG, url + " " + f.getPath());
-                if (f.exists()) {
-                    Bitmap image = BitmapFactory.decodeFile(f.getPath());
-                    if (image != null) {
-                        PutDataMapRequest dataMap = PutDataMapRequest.create(KeyProperties.PATH);
-                        byte[] bytes = new IoUtils().convertToByteArray(image);
-                        dataMap.getDataMap().putByteArray(KeyProperties.KEY_IMAGE_DATA, bytes);
-                        dataMap.getDataMap().putString(KeyProperties.KEY_IMAGE_NAME, messageContent[1]);
-                        for (String node : wearableUtils.getNodes(googleApiClient)) {
-                            Wearable.MessageApi.sendMessage(googleApiClient, node, KeyProperties.PATH, dataMap.asPutDataRequest().getData());
-                            Log.v(TAG, "sent " + bytes.length + " bytes of data to node " + node);
+            final long id = Long.parseLong(messageContent[1]);
+
+            final AppSettings settings = AppSettings.getInstance(this);
+
+            try {
+                HomeDataSource.getInstance(this).markPosition(settings.currentAccount, id);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+
+            sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
+
+            final SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+            // mark tweetmarker if they use it
+            if (AppSettings.getInstance(this).tweetmarker) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TweetMarkerHelper helper = new TweetMarkerHelper(settings.currentAccount,
+                                sharedPrefs.getString("twitter_screen_name_" + settings.currentAccount, ""),
+                                Utils.getTwitter(TweetWearableService.this, settings),
+                                sharedPrefs);
+
+                        helper.sendCurrentId("timeline", id);
+
+                        startService(new Intent(TweetWearableService.this, HandleScrollService.class));
+                    }
+                }).start();
+            } else {
+                startService(new Intent(TweetWearableService.this, HandleScrollService.class));
+            }
+        } else if (message.startsWith(KeyProperties.REQUEST_IMAGE)) {
+            final String url = message.split(KeyProperties.DIVIDER)[1];
+            Bitmap image = null;
+
+            try {
+                cache.get(url).getBitmap();
+            } catch (Exception e) {
+
+            }
+
+            if (image != null) {
+                image = adjustImage(image);
+
+                sendImage(image, url, wearableUtils, googleApiClient);
+            } else {
+                // download it
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                            Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+                            try {
+                                is.close();
+                            } catch (Exception e) {
+
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
+
+                            }
+
+                            cache.put(url, image);
+
+                            image = adjustImage(image);
+
+                            sendImage(image, url, wearableUtils, googleApiClient);
+                        } catch (Exception e) {
+
                         }
                     }
-                }
-
-                articles.close();
+                }).start();
             }
-        }*/ else {
+        } else {
             Log.e(TAG, "message not recognized");
         }
+    }
+
+    public void sendImage(Bitmap image, String url, WearableUtils wearableUtils, GoogleApiClient googleApiClient) {
+        PutDataMapRequest dataMap = PutDataMapRequest.create(KeyProperties.PATH);
+        byte[] bytes = new IoUtils().convertToByteArray(image);
+        dataMap.getDataMap().putByteArray(KeyProperties.KEY_IMAGE_DATA, bytes);
+        dataMap.getDataMap().putString(KeyProperties.KEY_IMAGE_NAME, url);
+        for (String node : wearableUtils.getNodes(googleApiClient)) {
+            Wearable.MessageApi.sendMessage(googleApiClient, node, KeyProperties.PATH, dataMap.asPutDataRequest().getData());
+            Log.v(TAG, "sent " + bytes.length + " bytes of data to node " + node);
+        }
+    }
+    
+    public Bitmap adjustImage(Bitmap b) {
+        if (b == null) {
+            return null;
+        }
+
+        if (b.getWidth() >= b.getHeight()){
+            b = Bitmap.createBitmap(
+                    b,
+                    b.getWidth() / 2 - b.getHeight() / 2,
+                    0,
+                    b.getHeight(),
+                    b.getHeight()
+            );
+        } else {
+            b = Bitmap.createBitmap(
+                    b,
+                    0,
+                    b.getHeight()/2 - b.getWidth()/2,
+                    b.getWidth(),
+                    b.getWidth()
+            );
+        }
+        
+        b = Bitmap.createScaledBitmap(b, Utils.toDP(40, this), Utils.toDP(40, this), true);
+
+        return b;
+    }
+
+    public Bitmap decodeSampledBitmapFromResourceMemOpt(
+            InputStream inputStream, int reqWidth, int reqHeight) {
+
+        byte[] byteArr = new byte[0];
+        byte[] buffer = new byte[1024];
+        int len;
+        int count = 0;
+
+        try {
+            while ((len = inputStream.read(buffer)) > -1) {
+                if (len != 0) {
+                    if (count + len > byteArr.length) {
+                        byte[] newbuf = new byte[(count + len) * 2];
+                        System.arraycopy(byteArr, 0, newbuf, 0, count);
+                        byteArr = newbuf;
+                    }
+
+                    System.arraycopy(buffer, 0, byteArr, count, len);
+                    count += len;
+                }
+            }
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            options.inSampleSize = calculateInSampleSize(options, reqWidth,
+                    reqHeight);
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = opt.outHeight;
+        final int width = opt.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 }

@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.wearable.view.GridViewPager;
 import android.view.View;
@@ -83,6 +84,13 @@ public class WearActivity extends WearTransactionActivity {
             emptyView.setVisibility(View.GONE);
             adapter = new ArticleGridPagerAdapter(this);
             viewPager.setAdapter(adapter);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    viewPager.setCurrentItem(adapter.getRowCount() - 1,0, adapter.getRowCount() > 20 ? false : true);
+                }
+            }, 300);
         } else {
             progressBar.setVisibility(View.GONE);
             viewPager.setVisibility(View.GONE);
