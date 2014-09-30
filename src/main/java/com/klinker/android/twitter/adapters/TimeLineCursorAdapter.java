@@ -408,11 +408,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
             removeExpansionNoAnimation(holder);
-            holder.retweetCount.setText(" -");
-            holder.favCount.setText(" -");
-            holder.reply.setText("");
-            holder.retweet.clearColorFilter();
-            holder.favorite.clearColorFilter();
         }
 
         final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
@@ -954,11 +949,23 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void removeExpansionWithAnimation(ViewHolder holder) {
         //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 450);
         holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
+
+        holder.retweetCount.setText(" -");
+        holder.favCount.setText(" -");
+        holder.reply.setText("");
+        holder.retweet.clearColorFilter();
+        holder.favorite.clearColorFilter();
     }
 
     public void removeExpansionNoAnimation(ViewHolder holder) {
         //ExpansionAnimation expandAni = new ExpansionAnimation(holder.expandArea, 10);
         holder.expandArea.setVisibility(View.GONE);//startAnimation(expandAni);
+
+        holder.retweetCount.setText(" -");
+        holder.favCount.setText(" -");
+        holder.reply.setText("");
+        holder.retweet.clearColorFilter();
+        holder.favorite.clearColorFilter();
     }
 
     public void addExpansion(final ViewHolder holder, String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
