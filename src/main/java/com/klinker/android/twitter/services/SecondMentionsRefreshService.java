@@ -58,7 +58,6 @@ public class SecondMentionsRefreshService extends IntentService {
                 currentAccount = 1;
             }
 
-            User user = twitter.verifyCredentials();
             MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
 
             long lastId = dataSource.getLastIds(currentAccount)[0];

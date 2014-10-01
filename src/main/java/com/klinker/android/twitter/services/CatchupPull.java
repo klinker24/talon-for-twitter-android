@@ -59,101 +59,92 @@ public class CatchupPull extends IntentService {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        try {
-            if (settings.liveStreaming) {
-                Log.v("talon_pull", "into the try for catchup service");
-                Twitter twitter = Utils.getTwitter(context, settings);
+        if (settings.liveStreaming) {
+            Log.v("talon_pull", "into the try for catchup service");
+            Twitter twitter = Utils.getTwitter(context, settings);
 
-                HomeDataSource dataSource = HomeDataSource.getInstance(context);
+            HomeDataSource dataSource = HomeDataSource.getInstance(context);
 
-                int currentAccount = sharedPrefs.getInt("current_account", 1);
+            int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-                User user = twitter.verifyCredentials();
-                List<Status> statuses = new ArrayList<Status>();
+            List<Status> statuses = new ArrayList<Status>();
 
-                boolean foundStatus = false;
+            boolean foundStatus = false;
 
-                Paging paging = new Paging(1, 200);
+            Paging paging = new Paging(1, 200);
 
-                long[] lastId;
-                long id;
+            long[] lastId;
+            long id;
 
-                try {
-                    lastId = dataSource.getLastIds(currentAccount);
-                    id = lastId[0];
-                } catch (Exception e) {
-                    context.startService(new Intent(context, TalonPullNotificationService.class));
-                    CatchupPull.isRunning = false;
-                    return;
-                }
-
-                paging.setSinceId(id);
-
-                for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                    try {
-                        if (!foundStatus) {
-                            paging.setPage(i + 1);
-                            List<Status> list = twitter.getHomeTimeline(paging);
-
-                            statuses.addAll(list);
-
-                            if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
-                                Log.v("talon_inserting", "found status");
-                                foundStatus = true;
-                            } else {
-                                Log.v("talon_inserting", "haven't found status");
-                                foundStatus = false;
-                            }
-
-                        }
-                    } catch (Exception e) {
-                        // the page doesn't exist
-                        foundStatus = true;
-                        e.printStackTrace();
-                    } catch (OutOfMemoryError o) {
-                        // don't know why...
-                        o.printStackTrace();
-                    }
-                }
-
-                Log.v("talon_pull", "got statuses, new = " + statuses.size());
-
-                // hash set to remove duplicates I guess
-                HashSet hs = new HashSet();
-                hs.addAll(statuses);
-                statuses.clear();
-                statuses.addAll(hs);
-
-                Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
-
-
+            try {
                 lastId = dataSource.getLastIds(currentAccount);
-
-                int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
-
-                if (inserted > 0 && statuses.size() > 0) {
-                    sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
-                    unreadNow += statuses.size();
-                }
-
-                if (settings.preCacheImages) {
-                    // delay it 15 seconds so that we can finish checking mentions first
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startService(new Intent(context, PreCacheService.class));
-                        }
-                    }, 15000);
-                }
-
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                id = lastId[0];
+            } catch (Exception e) {
+                context.startService(new Intent(context, TalonPullNotificationService.class));
+                CatchupPull.isRunning = false;
+                return;
             }
 
-        } catch (TwitterException e) {
-            Log.v("talon_pull", "caught while refreshing the messages in the catchup service");
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+            paging.setSinceId(id);
 
+            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+                try {
+                    if (!foundStatus) {
+                        paging.setPage(i + 1);
+                        List<Status> list = twitter.getHomeTimeline(paging);
+
+                        statuses.addAll(list);
+
+                        if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                            Log.v("talon_inserting", "found status");
+                            foundStatus = true;
+                        } else {
+                            Log.v("talon_inserting", "haven't found status");
+                            foundStatus = false;
+                        }
+
+                    }
+                } catch (Exception e) {
+                    // the page doesn't exist
+                    foundStatus = true;
+                    e.printStackTrace();
+                } catch (OutOfMemoryError o) {
+                    // don't know why...
+                    o.printStackTrace();
+                }
+            }
+
+            Log.v("talon_pull", "got statuses, new = " + statuses.size());
+
+            // hash set to remove duplicates I guess
+            HashSet hs = new HashSet();
+            hs.addAll(statuses);
+            statuses.clear();
+            statuses.addAll(hs);
+
+            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+
+            lastId = dataSource.getLastIds(currentAccount);
+
+            int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
+
+            if (inserted > 0 && statuses.size() > 0) {
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                unreadNow += statuses.size();
+            }
+
+            if (settings.preCacheImages) {
+                // delay it 15 seconds so that we can finish checking mentions first
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startService(new Intent(context, PreCacheService.class));
+                    }
+                }, 15000);
+            }
+
+            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
         }
 
         try {
