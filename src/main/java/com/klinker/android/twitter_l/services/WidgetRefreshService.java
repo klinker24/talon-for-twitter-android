@@ -67,80 +67,73 @@ public class WidgetRefreshService  extends IntentService {
             return;
         }
 
+        Twitter twitter = Utils.getTwitter(context, settings);
+
+        HomeDataSource dataSource = HomeDataSource.getInstance(context);
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+        List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+
+        boolean foundStatus = false;
+
+        Paging paging = new Paging(1, 200);
+
+        long[] lastId;
+        long id;
         try {
-            Twitter twitter = Utils.getTwitter(context, settings);
-
-            HomeDataSource dataSource = HomeDataSource.getInstance(context);
-
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
-
-            User user = twitter.verifyCredentials();
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
-
-            boolean foundStatus = false;
-
-            Paging paging = new Paging(1, 200);
-
-            long[] lastId;
-            long id;
-            try {
-                lastId = dataSource.getLastIds(currentAccount);
-                id = lastId[0];
-            } catch (Exception e) {
-                WidgetRefreshService.isRunning = false;
-                return;
-            }
-
-            paging.setSinceId(id);
-
-            for (int i = 0; i < settings.maxTweetsRefresh; i++) {
-                try {
-                    if (!foundStatus) {
-                        paging.setPage(i + 1);
-                        List<Status> list = twitter.getHomeTimeline(paging);
-                        statuses.addAll(list);
-
-                        if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
-                            Log.v("talon_inserting", "found status");
-                            foundStatus = true;
-                        } else {
-                            Log.v("talon_inserting", "haven't found status");
-                            foundStatus = false;
-                        }
-                    }
-                } catch (Exception e) {
-                    // the page doesn't exist
-                    foundStatus = true;
-                } catch (OutOfMemoryError o) {
-                    // don't know why...
-                }
-            }
-
-            Log.v("talon_pull", "got statuses, new = " + statuses.size());
-
-            // hash set to remove duplicates I guess
-            HashSet hs = new HashSet();
-            hs.addAll(statuses);
-            statuses.clear();
-            statuses.addAll(hs);
-
-            Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
-
             lastId = dataSource.getLastIds(currentAccount);
+            id = lastId[0];
+        } catch (Exception e) {
+            WidgetRefreshService.isRunning = false;
+            return;
+        }
 
-            int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+        paging.setSinceId(id);
 
-            if (inserted > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+        for (int i = 0; i < settings.maxTweetsRefresh; i++) {
+            try {
+                if (!foundStatus) {
+                    paging.setPage(i + 1);
+                    List<Status> list = twitter.getHomeTimeline(paging);
+                    statuses.addAll(list);
+
+                    if (statuses.size() <= 1 || statuses.get(statuses.size() - 1).getId() == lastId[0]) {
+                        Log.v("talon_inserting", "found status");
+                        foundStatus = true;
+                    } else {
+                        Log.v("talon_inserting", "haven't found status");
+                        foundStatus = false;
+                    }
+                }
+            } catch (Exception e) {
+                // the page doesn't exist
+                foundStatus = true;
+            } catch (OutOfMemoryError o) {
+                // don't know why...
             }
+        }
 
-            if (settings.preCacheImages) {
-                startService(new Intent(this, PreCacheService.class));
-            }
+        Log.v("talon_pull", "got statuses, new = " + statuses.size());
 
+        // hash set to remove duplicates I guess
+        HashSet hs = new HashSet();
+        hs.addAll(statuses);
+        statuses.clear();
+        statuses.addAll(hs);
 
-        } catch (TwitterException e) {
-            Log.d("Twitter Update Error", e.getMessage());
+        Log.v("talon_inserting", "tweets after hashset: " + statuses.size());
+
+        lastId = dataSource.getLastIds(currentAccount);
+
+        int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+
+        if (inserted > 0 && statuses.size() > 0) {
+            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+        }
+
+        if (settings.preCacheImages) {
+            startService(new Intent(this, PreCacheService.class));
         }
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
