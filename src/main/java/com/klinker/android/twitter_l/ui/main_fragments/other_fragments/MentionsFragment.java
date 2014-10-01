@@ -62,7 +62,6 @@ public class MentionsFragment extends MainFragment {
                 try {
                     twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
-                    User user = twitter.verifyCredentials();
                     long[] lastId = MentionsDataSource.getInstance(context).getLastIds(currentAccount);
 
                     Paging paging;
