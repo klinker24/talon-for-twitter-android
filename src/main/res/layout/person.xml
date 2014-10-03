@@ -57,6 +57,7 @@
                 android:textColor="?dateColor"
                 android:textSize="11sp"
                 android:layout_toRightOf="@+id/name"
+                android:layout_alignBaseline="@+id/name"
                 android:layout_marginLeft="8dp"
                 android:visibility="gone"
                 android:text="@string/following"
