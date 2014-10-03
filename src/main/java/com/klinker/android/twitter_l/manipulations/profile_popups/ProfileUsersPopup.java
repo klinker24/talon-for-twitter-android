@@ -128,7 +128,9 @@ public abstract class ProfileUsersPopup extends PopupLayout {
                     Twitter twitter = Utils.getTwitter(getContext(), AppSettings.getInstance(getContext()));
 
                     if (AppSettings.getInstance(getContext()).myId == user.getId() &&
-                            followingIds == null) {
+                            followingIds == null &&
+                            ProfileUsersPopup.this instanceof ProfileFollowersPopup) {
+
                         long currCursor = -1;
                         IDs idObject;
                         int rep = 0;

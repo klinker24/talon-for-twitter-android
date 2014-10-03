@@ -153,6 +153,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         final long id = user.getId();
         holder.userId = id;
 
+        setFollowingStatus(holder, user);
+
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
@@ -185,8 +187,6 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.background.performClick();
             ((Activity) context).finish();
         }
-
-        setFollowingStatus(holder, user);
     }
 
     @Override
