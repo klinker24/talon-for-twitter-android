@@ -8,6 +8,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
+import com.klinker.android.twitter_l.adapters.FollowersArrayAdapter;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
@@ -32,6 +33,8 @@ public abstract class ProfileUsersPopup extends PopupLayout {
     protected User user;
 
     public ArrayList<User> users = new ArrayList<User>();
+    public ArrayList<Long> followingIds = new ArrayList<Long>();
+
     public long cursor = -1;
     public boolean canRefresh = false;
     public PeopleArrayAdapter adapter;
@@ -124,6 +127,27 @@ public abstract class ProfileUsersPopup extends PopupLayout {
                 try {
                     Twitter twitter = Utils.getTwitter(getContext(), AppSettings.getInstance(getContext()));
 
+                    if (AppSettings.getInstance(getContext()).myId == user.getId() &&
+                            followingIds == null) {
+                        long currCursor = -1;
+                        IDs idObject;
+                        int rep = 0;
+
+                        do {
+                            idObject = twitter.getFriendsIDs(AppSettings.getInstance(getContext()).myId, currCursor);
+
+                            long[] lIds = idObject.getIDs();
+                            if (followingIds == null) {
+                                followingIds = new ArrayList<Long>();
+                            }
+                            for (int i = 0; i < lIds.length; i++) {
+                                followingIds.add(lIds[i]);
+                            }
+
+                            rep++;
+                        } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
+                    }
+
                     final PagableResponseList<User> result = getData(twitter, cursor);
 
                     if (result == null) {
@@ -154,7 +178,12 @@ public abstract class ProfileUsersPopup extends PopupLayout {
                     ((Activity)getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter = new PeopleArrayAdapter(getContext(), users);
+                            if (followingIds == null) {
+                                adapter = new PeopleArrayAdapter(getContext(), users);
+                            } else {
+                                adapter = new FollowersArrayAdapter(getContext(), users, followingIds);
+                            }
+
                             list.setAdapter(adapter);
 
                             list.setVisibility(View.VISIBLE);

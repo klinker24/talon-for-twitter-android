@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
+import com.klinker.android.twitter_l.adapters.FollowersArrayAdapter;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import twitter4j.IDs;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Status;
@@ -85,6 +87,9 @@ public class ProfileFragment extends Fragment {
     private ProgressBar spinner;
 
     public BitmapLruCache mCache;
+
+    public ArrayList<Long> followingIds;
+    public boolean finishedGettingIds = false;
 
     public View layout;
 
@@ -564,6 +569,29 @@ public class ProfileFragment extends Fragment {
                 try {
                     Twitter twitter =  Utils.getTwitter(context, settings);
 
+                    try {
+                        if (followingIds == null && user.getId() == settings.myId) {
+                            long currCursor = -1;
+                            IDs idObject;
+                            int rep = 0;
+
+                            do {
+                                // gets 5000 ids at a time
+                                idObject = twitter.getFriendsIDs(settings.myId, currCursor);
+
+                                long[] lIds = idObject.getIDs();
+                                followingIds = new ArrayList<Long>();
+                                for (int i = 0; i < lIds.length; i++) {
+                                    followingIds.add(lIds[i]);
+                                }
+
+                                rep++;
+                            } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
+                        }
+                    } catch (Throwable t) {
+                        followingIds = null;
+                    }
+
                     PagableResponseList<User> friendsPaging = twitter.getFollowersList(user.getId(), currentFollowers);
 
                     for (int i = 0; i < friendsPaging.size(); i++) {
@@ -582,7 +610,12 @@ public class ProfileFragment extends Fragment {
                         @Override
                         public void run() {
                             if (followersAdapter == null) {
-                                followersAdapter = new PeopleArrayAdapter(context, followers);
+                                if (followingIds == null) {
+                                    // we will do a normal array adapter
+                                    followersAdapter = new PeopleArrayAdapter(context, followers);
+                                } else {
+                                    followersAdapter = new FollowersArrayAdapter(context, followers, followingIds);
+                                }
                                 listView.setAdapter(followersAdapter);
                             } else {
                                 followersAdapter.notifyDataSetChanged();

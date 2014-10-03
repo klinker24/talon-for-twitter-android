@@ -64,6 +64,7 @@
                     android:layout_marginRight="16dp"
                     android:fontFamily="sans-serif-light"/>
 
+
                 <TextView
                     android:id="@+id/screen_name"
                     android:layout_height="wrap_content"
@@ -81,5 +82,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?dateColor"
+        android:textSize="12sp"
+        android:layout_marginLeft="16dp"
+        android:visibility="gone"
+        android:text="@string/following"
+        android:textAllCaps="true"
+        android:singleLine="true"/>
 
 </LinearLayout>

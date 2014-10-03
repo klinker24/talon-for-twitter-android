@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -104,8 +105,22 @@ public class TweetWearableService extends WearableListenerService {
                     String body = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
                     long id = tweets.getLong(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
 
+                    String retweeter;
+                    try {
+                        retweeter = tweets.getString(tweets.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+                    } catch (Exception e) {
+                        retweeter = "";
+                    }
+
                     titles.add(name);
-                    body = pic + KeyProperties.DIVIDER + body + KeyProperties.DIVIDER;
+                    if (TextUtils.isEmpty(retweeter)) {
+                        body = pic + KeyProperties.DIVIDER + body + KeyProperties.DIVIDER;
+                    } else {
+                        body = pic + KeyProperties.DIVIDER +
+                                body +
+                                "<p><p>" + getString(R.string.retweeter) + " @" + retweeter +
+                                KeyProperties.DIVIDER;
+                    }
                     bodies.add(Html.fromHtml(body.replace("<p>", KeyProperties.LINE_BREAK)).toString());
                     ids.add(id + "");
                 } while (tweets.moveToPrevious() && tweets.getCount() - tweets.getPosition() < MAX_ARTICLES_TO_SYNC);

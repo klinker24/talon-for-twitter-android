@@ -67,6 +67,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
+        public TextView following;
         public ImageView picture;
         public LinearLayout background;
         public long userId;
@@ -134,11 +135,16 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.screenName = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.following = (TextView) v.findViewById(R.id.following);
 
         holder.picture.setClipToOutline(true);
 
         v.setTag(holder);
         return v;
+    }
+
+    public void setFollowingStatus(ViewHolder holder, User u) {
+
     }
 
     public void bindView(final View view, int position, final User user) {
@@ -179,6 +185,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.background.performClick();
             ((Activity) context).finish();
         }
+
+        setFollowingStatus(holder, user);
     }
 
     @Override
