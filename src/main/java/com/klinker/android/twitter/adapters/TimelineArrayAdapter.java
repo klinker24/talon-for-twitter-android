@@ -811,7 +811,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (openFirst && position == 0) {
             holder.background.performClick();
-            ((Activity)context).finish();
         }
     }
 
