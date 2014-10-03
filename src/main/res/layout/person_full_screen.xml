@@ -59,6 +59,19 @@
                     android:layout_marginLeft="8dp"/>
 
                 <com.klinker.android.twitter.manipulations.widgets.HoloTextView
+                    android:id="@+id/following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?dateColor"
+                    android:textSize="11sp"
+                    android:layout_toRightOf="@+id/name"
+                    android:layout_marginLeft="8dp"
+                    android:visibility="gone"
+                    android:text="@string/following"
+                    android:textAllCaps="true"
+                    android:singleLine="true"/>
+
+                <com.klinker.android.twitter.manipulations.widgets.HoloTextView
                     android:id="@+id/screen_name"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"

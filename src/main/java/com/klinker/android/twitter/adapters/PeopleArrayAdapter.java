@@ -69,6 +69,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
     public static class ViewHolder {
         public TextView name;
         public TextView screenName;
+        public TextView following;
         public ImageView picture;
         public LinearLayout background;
         public long userId;
@@ -184,11 +185,16 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                     int id = res.getIdentifier("person", "layout", settings.addonThemePackage);
                     v = LayoutInflater.from(viewContext).inflate(res.getLayout(id), null);
 
-
                     holder.name = (TextView) v.findViewById(res.getIdentifier("name", "id", settings.addonThemePackage));
                     holder.screenName = (TextView) v.findViewById(res.getIdentifier("screen_name", "id", settings.addonThemePackage));
                     holder.background = (LinearLayout) v.findViewById(res.getIdentifier("background", "id", settings.addonThemePackage));
                     holder.picture = (ImageView) v.findViewById(res.getIdentifier("profile_pic", "id", settings.addonThemePackage));
+
+                    try {
+                        holder.following = (TextView) v.findViewById(res.getIdentifier("following", "id", settings.addonThemePackage));
+                    } catch (Exception e) {
+                        // haven't put it into their theme
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -198,6 +204,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
                 holder.screenName = (TextView) v.findViewById(R.id.screen_name);
                 holder.background = (LinearLayout) v.findViewById(R.id.background);
                 holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+                holder.following = (TextView) v.findViewById(R.id.following);
             }
         } else {
             v = inflater.inflate(layout, viewGroup, false);
@@ -206,14 +213,20 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.screenName = (TextView) v.findViewById(R.id.screen_name);
             holder.background = (LinearLayout) v.findViewById(R.id.background);
             holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
+            holder.following = (TextView) v.findViewById(R.id.following);
         }
 
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
         holder.screenName.setTextSize(settings.textSize);
+        holder.following.setTextSize(settings.textSize - 2);
 
         v.setTag(holder);
         return v;
+    }
+
+    public void setFollowingStatus(ViewHolder holder, User u) {
+
     }
 
     public void bindView(final View view, int position, final User user) {
@@ -265,6 +278,8 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
             holder.background.performClick();
             ((Activity)context).finish();
         }
+
+        setFollowingStatus(holder, user);
     }
 
     @Override
