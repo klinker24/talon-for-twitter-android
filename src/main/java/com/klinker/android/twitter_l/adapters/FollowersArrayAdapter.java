@@ -30,10 +30,8 @@ public class FollowersArrayAdapter extends PeopleArrayAdapter {
             Long l = u.getId();
             if (followingIds.contains(l)) {
                 holder.following.setVisibility(View.VISIBLE);
-                Log.v("talon_followers", "i am following this person");
             } else {
                 holder.following.setVisibility(View.GONE);
-                Log.v("talon_followers", "i am not following this person");
             }
         }
     }
