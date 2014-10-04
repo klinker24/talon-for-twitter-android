@@ -29,6 +29,7 @@
         android:paddingLeft="6dp"
         android:paddingStart="6dp"
         android:orientation="vertical"
+        android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
 
         <TextView

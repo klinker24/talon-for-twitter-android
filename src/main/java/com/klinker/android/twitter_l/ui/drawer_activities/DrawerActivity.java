@@ -770,7 +770,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                     Cursor c;
 
+                    final boolean allInteractions;
+
                     if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
+                        allInteractions = true;
+
                         oldInteractions.setText(getResources().getString(R.string.new_interactions));
                         readButton.setImageResource(closedMailResource);
 
@@ -780,6 +784,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                         notificationAdapter = new InteractionsCursorAdapter(context, c);
                     } else {
+                        allInteractions = false;
+
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         readButton.setImageResource(openMailResource);
 
@@ -808,18 +814,19 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                         // set the adapter
                         // animate it up from the bottom
 
-                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+                        Animation anim = AnimationUtils.loadAnimation(context, !allInteractions ? R.anim.slide_card_down : R.anim.fade_out);
                         anim.setDuration(300);
                         notificationList.startAnimation(anim);
 
-                        notificationList.setVisibility(View.GONE);
+                        notificationList.setVisibility(View.INVISIBLE);
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 notificationList.setAdapter(notificationAdapter);
+                                notificationList.setTranslationY(0);
 
-                                Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                                Animation anim = AnimationUtils.loadAnimation(context, allInteractions ? R.anim.slide_card_up : R.anim.fade_in);
                                 anim.setDuration(250);
                                 notificationList.startAnimation(anim);
 
@@ -832,10 +839,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                         // slide up animation
                         // set visibility to visible
 
-                        notificationList.setVisibility(View.GONE);
+                        notificationList.setVisibility(View.INVISIBLE);
                         notificationList.setAdapter(notificationAdapter);
 
-                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
                         anim.setDuration(250);
                         notificationList.startAnimation(anim);
 
