@@ -20,20 +20,16 @@ import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextSwitcher;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
+import android.widget.*;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
@@ -93,7 +89,6 @@ public class LoginActivity extends Activity {
 
     private FollowMePopup popup;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,11 +98,17 @@ public class LoginActivity extends Activity {
         context = this;
         settings = AppSettings.getInstance(context);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
 
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.login_activity);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.relLayout);
+
+        layout.setPadding(0, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), 0, Utils.getNavBarHeight(context));
 
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY);
@@ -227,7 +228,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
 
                 popup.setExpansionPointForAnim(view);
-                popup.setCenterInScreen();
+                popup.setOnTopOfView(view);
 
                 popup.show();
 
