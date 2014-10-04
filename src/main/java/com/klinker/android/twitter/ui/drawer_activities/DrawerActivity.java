@@ -56,6 +56,7 @@ import com.klinker.android.twitter.manipulations.widgets.NotificationDrawerLayou
 import com.klinker.android.twitter.utils.ImageUtils;
 import com.klinker.android.twitter.utils.Utils;
 
+import com.klinker.android.twitter.utils.XmlFaqUtils;
 import de.timroes.android.listview.EnhancedListView;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -1122,9 +1123,102 @@ public abstract class DrawerActivity extends Activity {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.TWEETMARKER"));
                 return super.onOptionsItemSelected(item);
 
+            case R.id.menu_get_help:
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.faq)
+                        .setMessage(R.string.faq_first)
+                        .setPositiveButton("FAQ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                XmlFaqUtils.showFaqDialog(context);
+                            }
+                        })
+                        .setNegativeButton(R.string.contact, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showContactUsDialog();
+                            }
+                        })
+                        .setNeutralButton(R.string.follow, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                showFollowDialog();
+                            }
+                        })
+                        .create()
+                        .show();
+                return super.onOptionsItemSelected(item);
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showContactUsDialog() {
+        new AlertDialog.Builder(context)
+                .setItems(new CharSequence[] {"Twitter", "Google+", "Email"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 0) {
+                            final Intent tweet = new Intent(context, ComposeActivity.class);
+                            new AlertDialog.Builder(context)
+                                    .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker"}, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            if (i == 0) {
+                                                tweet.putExtra("user", "@TalonAndroid");
+                                            } else {
+                                                tweet.putExtra("user", "@lukeklinker");
+                                            }
+                                            startActivity(tweet);
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        } else if (i == 1) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://goo.gl/KCXlZk")));
+                        } else {
+                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
+                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Classic)");
+                            emailIntent.setType("plain/text");
+
+                            startActivity(emailIntent);
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    public void showFollowDialog() {
+        new AlertDialog.Builder(context)
+                .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker", "Luke's Google+"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if (i == 0) {
+                            // talon
+                            Intent profile = new Intent(context, ProfilePager.class);
+                            profile.putExtra("screenname", "TalonAndroid");
+                            profile.putExtra("proPic", "");
+                            startActivity(profile);
+                        } else if (i == 1) {
+                            // luke (twitter)
+                            Intent profile = new Intent(context, ProfilePager.class);
+                            profile.putExtra("screenname", "lukeklinker");
+                            profile.putExtra("proPic", "");
+                            startActivity(profile);
+                        } else {
+                            // luke (google+)
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com/+LukeKlinker")));
+                        }
+
+                    }
+                })
+                .create()
+                .show();
     }
 
     public int toDP(int px) {
