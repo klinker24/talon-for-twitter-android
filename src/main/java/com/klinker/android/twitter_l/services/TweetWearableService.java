@@ -118,7 +118,7 @@ public class TweetWearableService extends WearableListenerService {
                     } else {
                         body = pic + KeyProperties.DIVIDER +
                                 body +
-                                "<p><p>" + getString(R.string.retweeter) + " @" + retweeter +
+                                "<br><br>" + getString(R.string.retweeter) + retweeter +
                                 KeyProperties.DIVIDER;
                     }
                     bodies.add(Html.fromHtml(body.replace("<p>", KeyProperties.LINE_BREAK)).toString());
