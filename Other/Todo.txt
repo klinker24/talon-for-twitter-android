@@ -8,6 +8,8 @@
     - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
     - better intent filter for the search so it doesn't get everything
     - 1x1 widget for unread count on timeline
+    - seconds instead of 0m on timeline
+    - Pictures on the right for your send direct messages
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
@@ -35,3 +37,14 @@
             - second account timeline page
             - favorite tweets fragment
             - Activity fragment
+
+
+-- Launcher Page --
+
+    - tweetmarker settings
+    - regex from twitter
+
+
+
+
+adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444

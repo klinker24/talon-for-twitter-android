@@ -7,7 +7,6 @@ import com.klinker.android.twitter.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 
 import static org.junit.Assert.assertEquals;
