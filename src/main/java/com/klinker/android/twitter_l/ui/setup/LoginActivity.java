@@ -22,6 +22,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -186,6 +188,10 @@ public class LoginActivity extends Activity {
         title.setText(getResources().getString(R.string.first_welcome));
         summary.setText(getResources().getString(R.string.first_info));
 
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
         mWebView = (WebView)findViewById(R.id.loginWebView);
         try {
             mWebView.getSettings().setJavaScriptEnabled(true);
@@ -236,20 +242,6 @@ public class LoginActivity extends Activity {
                 if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.login_to_twitter))) {
                     if (Utils.hasInternetConnection(context)) {
                         btnLoginTwitter.setEnabled(false);
-
-                        if (sharedPrefs.getInt("current_account", 1) == 2) {
-                            new AlertDialog.Builder(context)
-                                    .setTitle(getString(R.string.second_account))
-                                    .setMessage(getString(R.string.second_account_login_info))
-                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.dismiss();
-                                        }
-                                    })
-                                    .create()
-                                    .show();
-                        }
 
                         new RetreiveFeedTask().execute();
                     } else {

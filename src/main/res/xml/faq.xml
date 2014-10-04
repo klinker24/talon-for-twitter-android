@@ -147,6 +147,18 @@
     </question>
 
     <question
+            name="Remove Retweets"
+            description="Oops, did not actually want to press that button..">
+
+        <text>
+            Talon makes it pretty easy to remove a retweet if you know what you are doing. Just long click the retweet button and a dialog will come up about it.
+
+            It doesn't work quite like the favorite button because the backend data for those two actions is quite a bit different.
+        </text>
+
+    </question>
+
+    <question
             name="Images do not upload"
             description="Sometimes they fail, sometimes they go through">
 
