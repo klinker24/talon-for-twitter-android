@@ -44,8 +44,12 @@ public class ThemeConfigurationReceiver extends BroadcastReceiver {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(themePackage, PackageManager.GET_META_DATA);
             Bundle metaData = app.metaData;
 
-            if (metaData.getString("talon_theme").startsWith("version")) {
+            String themeType = metaData.getString("talon_theme");
+            if (themeType == null) {
+            	return;
+            }
 
+            if (themeType.startsWith("version")) {
                 context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                         Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit()
                         .putString("addon_theme_package", themePackage)
