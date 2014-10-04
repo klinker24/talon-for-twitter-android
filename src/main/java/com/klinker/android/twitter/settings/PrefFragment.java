@@ -42,8 +42,7 @@ import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Item;
 import com.klinker.android.twitter.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.utils.LocalTrendsUtils;
-import com.klinker.android.twitter.utils.MySuggestionsProvider;
+import com.klinker.android.twitter.utils.*;
 import com.klinker.android.twitter.services.DirectMessageRefreshService;
 import com.klinker.android.twitter.services.MentionsRefreshService;
 import com.klinker.android.twitter.services.TimelineRefreshService;
@@ -57,9 +56,6 @@ import com.klinker.android.twitter.ui.main_fragments.home_fragments.HomeFragment
 import com.klinker.android.twitter.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter.utils.EmojiUtils;
-import com.klinker.android.twitter.utils.IOUtils;
-import com.klinker.android.twitter.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1649,7 +1645,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(context, FAQActivity.class));
+                XmlFaqUtils.showFaqDialog(context);
                 return false;
             }
         });
@@ -1690,7 +1686,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter");
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Classic)");
                 emailIntent.setType("plain/text");
 
                 startActivity(emailIntent);
