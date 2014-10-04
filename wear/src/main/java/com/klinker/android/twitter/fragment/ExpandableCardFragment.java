@@ -125,14 +125,23 @@ public class ExpandableCardFragment extends CardFragment {
 
     public void checkExisting(File f, final TextView title, int attempts) {
         if (f.exists()) {
-            Bitmap image = BitmapFactory.decodeFile(f.getPath());
-            final BitmapDrawable drawable = new BitmapDrawable(getResources(), image);
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    title.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
-                }
-            });
+            try {
+                Bitmap image = BitmapFactory.decodeFile(f.getPath());
+                final BitmapDrawable drawable = new BitmapDrawable(getResources(), image);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        title.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+                    }
+                });
+            } catch (Exception e) {
+                // the card has scrolled down, we do this on the initial opening of the app,
+                // so that fragment is gone and we can't create the handler..
+
+                // the problem really lies in the incomplete methods for the gridviewpager.
+                // this force close comes from their end because of my silly workaround for their
+                // broken methods haha
+            }
         } else {
             if (attempts == 0) {
                 ((WearTransactionActivity) getActivity()).sendImageRequest(getArguments().getString(ARG_AUTHOR));
