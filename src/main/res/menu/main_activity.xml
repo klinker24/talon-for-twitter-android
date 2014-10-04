@@ -47,4 +47,9 @@
           android:title="@string/fetch_tweetmarker"
           android:showAsAction="never" />
 
+    <item android:id="@+id/menu_get_help"
+          android:orderInCategory="15"
+          android:title="@string/get_help_settings"
+          android:showAsAction="never" />
+
 </menu>

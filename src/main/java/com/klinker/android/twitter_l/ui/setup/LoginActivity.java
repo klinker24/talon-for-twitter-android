@@ -193,6 +193,10 @@ public class LoginActivity extends Activity {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
         mWebView = (WebView)findViewById(R.id.loginWebView);
         try {
             mWebView.getSettings().setJavaScriptEnabled(true);
