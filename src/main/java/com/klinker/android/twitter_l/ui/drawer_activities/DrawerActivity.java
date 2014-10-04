@@ -58,6 +58,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.ActionBarDrawerToggle
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
+import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 import de.timroes.android.listview.EnhancedListView;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -1442,7 +1443,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             case R.id.menu_tweetmarker:
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.TWEETMARKER"));
                 return super.onOptionsItemSelected(item);
-
             default:
                 return super.onOptionsItemSelected(item);
         }

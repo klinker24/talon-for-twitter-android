@@ -637,6 +637,15 @@
     <string name="fetch_tweetmarker">Fetch TweetMarker</string>
     <string name="rate_limit_reached">Rate Limit Reached</string>
     <string name="info">Info</string>
+    <string name="help_and_feedback">Help/Feedback</string>
+    <string name="faq_first">
+        Hey there, glad you want to help me improve Talon!\n\n
+        Feel free to email or send me a tweet of your feedback or any questions you might have, but before you do so, have you checked out the FAQ section?\n\n
+        Talon has a pretty extensive list of support topics and requests built right into the app. Check it out before worrying about waiting on a response from me! (Although I try to get back to you as quickly as a one man operation can..)\n\n
+        Hope you are enjoying my work!
+    </string>
+    <string name="contact">Contact</string>
+    <string name="follow">Follow</string>
 
     <!-- Long click methods -->
     <string name="open_profile">Open Profile</string>

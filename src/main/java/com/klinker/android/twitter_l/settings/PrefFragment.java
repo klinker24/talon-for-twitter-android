@@ -1682,7 +1682,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter (Plus)");
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Plus)");
                 emailIntent.setType("plain/text");
 
                 startActivity(emailIntent);
