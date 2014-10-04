@@ -66,5 +66,5 @@ dependencies {
     compile (project(":shared_assets"))
     compile 'com.android.support:support-v13:+'
     compile 'com.google.android.support:wearable:+'
-    compile 'com.google.android.gms:play-services-wearable:+'
+    compile 'com.google.android.gms:play-services:5.+'
 }
