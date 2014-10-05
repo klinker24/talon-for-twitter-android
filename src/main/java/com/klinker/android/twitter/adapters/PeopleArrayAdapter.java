@@ -219,7 +219,10 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         // sets up the font sizes
         holder.name.setTextSize(settings.textSize + 4);
         holder.screenName.setTextSize(settings.textSize);
-        holder.following.setTextSize(settings.textSize - 5);
+
+        if (holder.following != null) {
+            holder.following.setTextSize(settings.textSize - 5);
+        }
 
         v.setTag(holder);
         return v;
