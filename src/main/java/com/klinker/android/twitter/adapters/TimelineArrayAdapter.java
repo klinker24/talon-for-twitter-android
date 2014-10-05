@@ -999,8 +999,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeExpansionWithAnimation(holder);
-
                 Intent compose = new Intent(context, ComposeActivity.class);
                 String string = holder.reply.getText().toString();
                 try {
@@ -1011,6 +1009,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 compose.putExtra("id", holder.tweetId);
                 compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + text);
                 context.startActivity(compose);
+
+                removeExpansionWithAnimation(holder);
             }
         });
 
