@@ -67,6 +67,12 @@ public class TweetWearableService extends WearableListenerService {
     private Handler markReadHandler;
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.v(TAG, "created wearable service");
+    }
+
+    @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         final WearableUtils wearableUtils = new WearableUtils();
 
@@ -224,6 +230,10 @@ public class TweetWearableService extends WearableListenerService {
                                 conn.disconnect();
                             } catch (Exception e) {
 
+                            }
+
+                            if (AppSettings.getInstance(TweetWearableService.this).roundContactImages) {
+                                image = ImageUtils.getCircle(image, TweetWearableService.this);
                             }
 
                             cache.put(url, image);
