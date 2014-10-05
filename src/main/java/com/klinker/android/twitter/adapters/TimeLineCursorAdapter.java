@@ -1126,14 +1126,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeExpansionWithAnimation(holder);
-
                 Intent compose = new Intent(context, ComposeActivity.class);
                 String string = holder.reply.getText().toString();
                 try{
                     compose.putExtra("user", string.substring(0, string.length() - 1));
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
                 compose.putExtra("id", holder.tweetId);
                 compose.putExtra("reply_to_text", "@" + holder.screenName + ": " + holder.tweet.getText().toString());
@@ -1145,6 +1143,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 context.startActivity(compose);
+
+                removeExpansionWithAnimation(holder);
             }
         });
 
