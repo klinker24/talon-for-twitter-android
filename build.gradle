@@ -129,7 +129,7 @@ dependencies {
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
 
     compile 'com.android.support:support-v13:20.0.0'
-    compile 'com.google.android.gms:play-services:5.0.89'
+    compile 'com.google.android.gms:play-services:5.0.+'
     compile 'com.google.android.support:wearable:+'
 
     compile files('lib/httpmime-4.3.2.jar')
