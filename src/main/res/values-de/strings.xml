@@ -107,7 +107,7 @@
     <string name="third_welcome">Das war\'s schon!</string>
     <string name="back_to_timeline">Bring mich zu meiner Timeline!</string>
     <string name="initial_sync">Jetzt synchronisieren!</string>
-    <string name="first_info">Bevor wir anfangen können, musst du dich erst anmelden. </string>
+    <string name="first_info">Bevor wir anfangen können, musst du dich erst anmelden.</string>
     <string name="second_info">Großartig!\n\nWir werden nun die App mit deinen Daten einrichten.\n\nDieser Vorgang könnte etwas länger dauern, je nachdem, wie du mit dem Internet verbunden bist.</string>
     <string name="third_info">Hoffentlich gefällt dir Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Timeline wird synchronisiert...</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Liste wählen</string>
     <string name="added_to_list">Zur Liste hinzugefügt</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nVerwende Funktionen\nindem du Einträge\nim \nNavigationsmenü\nberührst!</string>
-    <string name="part_1_phone">\nÖffne das\nNavigationsmenü\nmit einer Wischgeste\nvom Rand!</string>
-    <string name="part_2">\nWechsle die\nAnsicht mit\neiner Wischgeste\nvon der Mitte des\nBildschirms!</string>
+    <string name="part_1_tablet">Verwende Funktionen\nindem du Einträge\nim \nNavigationsmenü\nberührst!</string>
+    <string name="part_1_phone">Öffne das\nNavigationsmenü\nmit einer Wischgeste\nvom Rand!</string>
+    <string name="part_2">Wechsle die\nAnsicht mit\neiner Wischgeste\nvon der Mitte des\nBildschirms!</string>
     <string name="part_3">Das war\'s!\n\nBerühre den\nBildschirm um\nzu beginnen!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Theme</string>
@@ -445,6 +445,9 @@
     <string name="verified">Bestätigt</string>
     <string name="use_tweetmarker">TweetMarker aktivieren</string>
     <string name="tweetmarker_summary">Noch experimentell, es können Probleme beim nach unten Springen auftreten</string>
+    <string name="do_not_use">Nicht benutzen</string>
+    <string name="automatic_refresh">Automatischer TweetMarker-Sync</string>
+    <string name="manual_refresh">Manueller TweetMarker-Sync</string>
     <string name="finding_tweetmarker">TweetMarker wird gesucht</string>
     <string name="loading">Wird geladen</string>
     <string name="loading_tweets">Tweets werden geladen...</string>
@@ -601,6 +604,24 @@
     <string name="both_accounts">Beide Benutzerkonten</string>
     <string name="attach_gif">Animierte GIF-Datei</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">2.Account</string>
+    <string name="second_account_login_info">Da Twitter einige deiner Login-Informationen in seinem System behält, kannst du dich vielleicht nicht sofort mit deinem neuen Account einloggen. Wenn die Login-Seite übersprungen wird und du direkt auf der Au­to­ri­sie­rungsseite startest, klick einfach auf den \"Sign out\"-Button in der rechten oberen Ecke der Website, um der App zu ermöglichen, dich in deinen 2.Account einzuloggen.</string>
+    <string name="fetch_tweetmarker">Hole Infos von Tweetmarker..</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Profil öffnen</string>
+    <string name="search_user">Nutzer suchen</string>
+    <string name="mute_user">Nutzer muten</string>
+    <string name="mute_retweets">Retweets muten</string>
+    <string name="share_profile">Profil teilen</string>
+    <string name="open_webpage">Link öffnen</string>
+    <string name="copy_link">Link kopieren</string>
+    <string name="share_link">Link teilen</string>
+    <string name="search_hashtag">Hashtag suchen</string>
+    <string name="mute_hashtag">Hashtag muten</string>
+    <string name="copy_hashtag">Hashtag kopieren</string>
+    <string name="search_cashtag">Cashtag suchen</string>
+    <string name="copy_cashtag">Cashtag kopieren</string>
+    <string name="copied">Kopierter Text</string>
     <string name="open_to_web">Webseite in Tweet öffnen</string>
     <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
 </resources>

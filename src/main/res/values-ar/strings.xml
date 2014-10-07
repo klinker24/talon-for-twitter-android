@@ -149,7 +149,7 @@
     <string name="save_image">تم حفظ الصورة</string>
     <string name="tweet_success">تم إرسال التغريدة</string>
     <string name="error_sending_tweet">"خلل في إرسال التغريدة "</string>
-    <string name="tweet_to_long">تغريدة لفترة طويلة!</string>
+    <string name="tweet_to_long">غرد تغريدة طويلة!</string>
     <string name="ok">"حسنا "</string>
     <string name="no">لا</string>
     <string name="changelog">ماهو الجديد</string>
@@ -445,6 +445,7 @@
     <string name="verified">موثق</string>
     <string name="use_tweetmarker">تفعيل تويت ماركر</string>
     <string name="tweetmarker_summary">لايزال في الطور التجريبي.  قد يكون لديك مشاكل معها تؤدي إلى القفز إلى أسفل.</string>
+    <string name="do_not_use">لا تستخدم</string>
     <string name="finding_tweetmarker">العثور على تويت ماركر</string>
     <string name="loading">تحميل</string>
     <string name="loading_tweets">تحميل التغريدات...</string>
@@ -601,6 +602,21 @@
     <string name="both_accounts">كلا الحسابين</string>
     <string name="attach_gif">صور GIF المتحركة</string>
     <string name="roboto_l">روبوت أندرويد L</string>
+    <string name="second_account">الحساب الثاني</string>
+    <!-- Long click methods -->
+    <string name="open_profile">افتح الملف الشخصي</string>
+    <string name="copy_handle">انسخ اسم الحساب</string>
+    <string name="search_user">ابحث عن مستخدم</string>
+    <string name="mute_user">كتم المستخدم</string>
+    <string name="mute_retweets">كتم إعادة التغريد</string>
+    <string name="share_profile">مشاركة الملف الشخصي</string>
+    <string name="open_webpage">افتح الرابط</string>
+    <string name="copy_link">انسخ الرابط</string>
+    <string name="share_link">شارك الرابط</string>
+    <string name="search_hashtag">ابحث عن هاشتاج</string>
+    <string name="mute_hashtag">كتم الهاشتاج</string>
+    <string name="copy_hashtag">انسخ الهاشتاج</string>
+    <string name="search_cashtag">ابحث في الهاشتاج</string>
     <string name="open_to_web">افتح التغريدة إلى صفحة الويب</string>
     <string name="open_to_web_summary">إذا كانت التغريدة تحتوي على رابط ويب، ستفتح رابط الويب مباشرة بدلا من التغريدة نفسها.</string>
 </resources>

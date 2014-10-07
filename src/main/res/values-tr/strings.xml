@@ -229,9 +229,9 @@
     <string name="choose_list">Liste Seçin</string>
     <string name="added_to_list">Listeye eklendi</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nAçılabilir çekmeceye \ndokunduğun da\ngörünen erişim\nözellikleri!\n\n\n\n</string>
-    <string name="part_1_phone">Ekranın soluna \ndokunun ve \nsağa doğru \nkaydırın!\n\n\n</string>
-    <string name="part_2">\nEkranın ortasına\nkadar açılır, ekranın \ndiğer kalan \nbölümünde ana\nsayfa görüntülenir !\n\n\n</string>
+    <string name="part_1_tablet">Açılabilir çekmeceye \ndokunduğun da\ngörünen erişim\nözellikleri!</string>
+    <string name="part_1_phone">Ekranın soluna \ndokunun ve \nsağa doğru \nkaydırın!</string>
+    <string name="part_2">Ekranın ortasına\nkadar açılır, ekranın \ndiğer kalan \nbölümünde ana\nsayfa görüntülenir !</string>
     <string name="part_3">İşte bu!\n\nBaşlamak için\nekrana\ndokunun!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Tema Ayarları</string>
@@ -576,6 +576,7 @@ Talon yerine TwitPic kullanarak resim yükleme.</string>
     <string name="muted_rts">Sessizleştiriln Retwetler</string>
     <string name="twitter">Twitter</string>
     <string name="user">Kullanıcılar</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Twetleri web sayfasında göster</string>
     <string name="open_to_web_summary">Tweet bir web bağlantısı içeriyorsa, o bağlantı yerine tweet\'in kendisi doğrudan açılacaktır.</string>
 </resources>

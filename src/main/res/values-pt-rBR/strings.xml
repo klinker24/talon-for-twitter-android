@@ -115,14 +115,14 @@
     <string name="syncing_direct_messages">Sincronizando MD\'s...</string>
     <string name="syncing_user">Sincronizando amigos...</string>
     <string name="done_syncing">Sincronização concluída.</string>
-    <string name="login_error">Algo deu errado... Tente novamente!</string>
+    <string name="login_error">Algo deu errado... Tente novamente!\n\nPode ser que a data e hora no seu dispositivo não esteja definida para automáticas. Este é um requisito da API de terceiros do Twitter.</string>
     <string name="no_network">"Você não está conectado à internet. "</string>
     <string name="no_thanks">Agora não</string>
     <string name="follow_me">Seguir!</string>
     <string name="follow_me_description">Seguir @TalonAndroid e @lukeklinker para ter todas as novidades e suporte!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Novo Tweet</string>
-    <string name="compose_tweet_hint">Escreva seu tweet aqui...</string>
+    <string name="compose_tweet_hint">Escreva seu tweet...</string>
     <string name="send_to">Escreva o nome de usuário...</string>
     <string name="direct_message_sent">Mensagem Direta Enviada</string>
     <string name="type_user">Selecione o usuário</string>
@@ -206,7 +206,7 @@
     <string name="open_what">O que abrir</string>
     <string name="youtube_error">Erro ao executar video</string>
     <string name="no_conversation">Sem Tweets Anteriores</string>
-    <string name="saving_picture">Salvando imagem</string>
+    <string name="saving_picture">Salvando Imagem</string>
     <string name="saved_picture">Imagem Salva com Sucesso</string>
     <string name="retweet_success">Retweetado</string>
     <string name="favorite_success">Favoritado</string>
@@ -263,8 +263,8 @@
  - Barras do Sistema Translúcidas (Android 4.4)\n\n
  Ativar essa opção pode afetar a performance da rolagem.</string>
     <string name="inline_pics">Mostrar Imagens In-line</string>
-    <string name="use_screen_name">Mostrar apenas @NomeDeUsuário</string>
-    <string name="use_screen_name_summary">Mostra o @NomeDeUsuário no lugar do Nome Completo.</string>
+    <string name="use_screen_name">Mostrar apenas @Nome</string>
+    <string name="use_screen_name_summary">Mostra o @Nome no lugar do Nome Completo.</string>
     <string name="timestamp">Formato da hora: 24hs</string>
     <string name="enable_emojis">Ativar Emojis</string>
     <string name="to_market">Play Store</string>
@@ -288,7 +288,7 @@
     <string name="quiet_hours">Modo Não Perturbe</string>
     <string name="max_number_on_refresh">Máximo de Tweets por Atualização</string>
     <string name="fav_users_notifications">Notificação de Usuários Favoritos</string>
-    <string name="sync_second_mentions">Sincronizar Menções da Seg. Conta</string>
+    <string name="sync_second_mentions">Sincronizar Segunda Conta</string>
     <string name="sync_second_mentions_summary">Verifica automaticamente se sua segunda conta tem menções e lhe mostra junto com as da primeira.</string>
     <string name="max_number_summary">Escolha o máximo de tweets para carregar depois que você atualizar a timeline</string>
     <string name="auto_refresh_category">Opções de Atualização Automática</string>
@@ -445,6 +445,9 @@
     <string name="verified">Verificado</string>
     <string name="use_tweetmarker">Ativar TweetMarker</string>
     <string name="tweetmarker_summary">Ainda em fase experimental. Você pode ter algum problema se usar esse recurso.</string>
+    <string name="do_not_use">Não Use</string>
+    <string name="automatic_refresh">TweetMarker Automático</string>
+    <string name="manual_refresh">TweetMarker Manual</string>
     <string name="finding_tweetmarker">Encontrando TweetMarker</string>
     <string name="loading">Carregando</string>
     <string name="loading_tweets">Carregando tweets...</string>
@@ -601,6 +604,25 @@
     <string name="both_accounts">Ambas as Contas</string>
     <string name="attach_gif">GIF Animado</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">2ª Conta</string>
+    <string name="second_account_login_info">Desde que o Twitter grava algumas das suas informações de login no seu sistema, a próxima tela pode não permitir você fazer o login com uma nova informação de conta imediatamente. Se ele pular este login e for diretamente para a página de autorização, basta clicar no botão \"Sair\" no canto superior direito do site para poder fazer login em sua segunda conta.</string>
+    <string name="fetch_tweetmarker">Carregar TweetMarker</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Abrir Perfil</string>
+    <string name="copy_handle">Copiar @Nome</string>
+    <string name="search_user">Pesquisar Usuário</string>
+    <string name="mute_user">Silenciar Usuário</string>
+    <string name="mute_retweets">Silenciar Retweets</string>
+    <string name="share_profile">Compartilhar Perfil</string>
+    <string name="open_webpage">Abrir Link</string>
+    <string name="copy_link">Copiar Link</string>
+    <string name="share_link">Compartilhar Link</string>
+    <string name="search_hashtag">Buscar Hashtag</string>
+    <string name="mute_hashtag">Silenciar Hashtag</string>
+    <string name="copy_hashtag">Copiar Hashtag</string>
+    <string name="search_cashtag">Buscar Cashtag</string>
+    <string name="copy_cashtag">Copiar Cashtag</string>
+    <string name="copied">Texto Copiado</string>
     <string name="open_to_web">Tweets com links</string>
     <string name="open_to_web_summary">Se o tweet contém um link, marcar essa opção fará com que ao abrir o tweet, o navegador seja mostrado primeiro ao invés do em si.</string>
 </resources>

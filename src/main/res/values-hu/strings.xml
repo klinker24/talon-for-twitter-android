@@ -77,8 +77,8 @@
     <string name="messages">Üzenet</string>
     <string name="new_message">új üzenet</string>
     <string name="new_messages">új üzenet</string>
-    <string name="mentioned_by">Említve általa: </string>
-    <string name="message_from">Üzenet tőle: </string>
+    <string name="mentioned_by">"Említve általa: "</string>
+    <string name="message_from">"Üzenet tőle: "</string>
     <string name="mark_read">Olvasott</string>
     <string name="noti_reply">Válasz</string>
     <string name="popup">Előhoz</string>
@@ -107,7 +107,7 @@
     <string name="third_welcome">Kész!</string>
     <string name="back_to_timeline">Ugrás az idővonalhoz!</string>
     <string name="initial_sync">Szinkronizálás!</string>
-    <string name="first_info">Mielőtt elkezdené, jelentkezzen be. </string>
+    <string name="first_info">Mielőtt elkezdené, jelentkezzen be.</string>
     <string name="second_info">Nagyszerű!\n\nMost lekérdezünk pár szükséges adatot.\n\nAz internet kapcsolattól függően ez eltarthat egy ideig.</string>
     <string name="third_info">Reméljük élvezni fogja a Talon használatát!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Idővonal szinkronizálása...</string>
@@ -115,7 +115,7 @@
     <string name="syncing_direct_messages">Közvetlen üzenetek szinkronizálása...</string>
     <string name="syncing_user">Barátok szinkronizálása...</string>
     <string name="done_syncing">A szinkronizálás befejeződött.</string>
-    <string name="login_error">Valami hiba történt... Kérem próbálja meg újra!</string>
+    <string name="login_error">Valami hiba történt... Kérem próbálja meg újra!\n\nLehetséges, hogy a dátum és időbeállítás nincs automatikusra állítva. Ez alapkövetelmény a külső Twitter alkalmazásokhoz.</string>
     <string name="no_network">Nincs kapcsolódva az internethez</string>
     <string name="no_thanks">Most nem</string>
     <string name="follow_me">Kövessen minket!</string>
@@ -153,7 +153,7 @@
     <string name="ok">OK</string>
     <string name="no">Nem</string>
     <string name="changelog">Újdonságok</string>
-    <string name="created_by">Készítette: </string>
+    <string name="created_by">"Készítette: "</string>
     <string name="no_location">A hely nem elérhető</string>
     <string name="take_picture">Kép készítése</string>
     <string name="from_file">Kép hozzáadása</string>
@@ -206,7 +206,7 @@
     <string name="open_what">Megnyitás</string>
     <string name="youtube_error">Hiba a videó lejátszásakor</string>
     <string name="no_conversation">Nincsenek régebbi tweetek</string>
-    <string name="saving_picture">Kép mentése</string>
+    <string name="saving_picture">Kép Mentése</string>
     <string name="saved_picture">Kép mentése sikerült</string>
     <string name="retweet_success">Sikeres Retweet</string>
     <string name="favorite_success">Kedvenc hozzáadása sikerült</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Lista kiválasztása</string>
     <string name="added_to_list">Hozzáadva a listához</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nFérjen hozzá\na listákhoz\naz elemek megérintésével\na navigációs\nsávon!</string>
-    <string name="part_1_phone">\nNyissa meg\na navigációs sávot\negy balra\ncsúsztatással!</string>
-    <string name="part_2">\nLapozzon\naz idővonalak között\na kijelző közepéről\nindított\ncsúsztatással!</string>
+    <string name="part_1_tablet">Férjen hozzá\na listákhoz\naz elemek megérintésével\na navigációs\nsávon!</string>
+    <string name="part_1_phone">Nyissa meg\na navigációs sávot\negy balra\ncsúsztatással!</string>
+    <string name="part_2">Lapozzon\naz idővonalak között\na kijelző közepéről\nindított\ncsúsztatással!</string>
     <string name="part_3">Ennyi!\n\nÉrintse meg a\nkijelzőt a\nkezdéshez!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Téma beállítások</string>
@@ -442,8 +442,11 @@
     <string name="use_twitpic">TwitPic használata</string>
     <string name="twitpic_summary">Képek csatolásakor a TwitPic használata a Twitter képfeltöltés szolgáltatás helyett.</string>
     <string name="verified">Ellenőrizve</string>
-    <string name="use_tweetmarker">TweetMarker engedélyezése</string>
-    <string name="tweetmarker_summary">Még kísérleti állapotban van. Előfordulhatnak lefelé ugráló hibák.</string>
+    <string name="use_tweetmarker">TweetMarker</string>
+    <string name="tweetmarker_summary">A különböző eszközök pozíciójának szinkronizálásához használható.</string>
+    <string name="do_not_use">Ne használja</string>
+    <string name="automatic_refresh">Automatikus TweetMarker</string>
+    <string name="manual_refresh">Kézi TweetMarker</string>
     <string name="finding_tweetmarker">TweetMarker keresése</string>
     <string name="loading">Betöltés</string>
     <string name="loading_tweets">Tweetek betöltése...</string>
@@ -600,6 +603,25 @@
     <string name="both_accounts">Mindkét fiók</string>
     <string name="attach_gif">Animált GIF</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">Második fiók</string>
+    <string name="second_account_login_info">Mivel a Twitter a saját rendszerén belül tárolja a bejelentkezési információkat, ezért a következő képernyőn nem biztos, hogy azonnal engedélyezi az új fiókkal való bejelentkezést. Ha átlépi a bejelentkezést és közvetlenül a hitelesítő oldalra irányítja, akkor egyszerűen nyomjon a \"Kijelentkezés\" gombra a jobb felső sarokban, hogy engedélyezhesse az alkalmazásnak a második fiókkal való bejelentkezést.</string>
+    <string name="fetch_tweetmarker">TweetMarker lekérdezése</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Profil megnyitása</string>
+    <string name="copy_handle">Becenév másolása</string>
+    <string name="search_user">Felhasználó keresése</string>
+    <string name="mute_user">Felhasználó némítása</string>
+    <string name="mute_retweets">Retweetek némítása</string>
+    <string name="share_profile">Profil megosztása</string>
+    <string name="open_webpage">Link megnyitása</string>
+    <string name="copy_link">Link másolása</string>
+    <string name="share_link">Link megosztása</string>
+    <string name="search_hashtag">Hashtag keresése</string>
+    <string name="mute_hashtag">Hashtag némítása</string>
+    <string name="copy_hashtag">Hashtag másolása</string>
+    <string name="search_cashtag">Cashtag keresése</string>
+    <string name="copy_cashtag">Cashtag másolása</string>
+    <string name="copied">Másolt szöveg</string>
     <string name="open_to_web">Weboldal megnyitása</string>
     <string name="open_to_web_summary">Ha a tweet URL-t tartalmaz, akkor a tweet helyett közvetlenül az URL-t nyitja meg.</string>
 </resources>

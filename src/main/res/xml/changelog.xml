@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.2">
+        <text>Problem with usernames not being inserted on replies</text>
+        <text>Updated translations</text>
+    </version>
     <version name="3.2.1">
         <text>Force close viewing your following with addon theme applied</text>
         <text>Fix the wear app</text>

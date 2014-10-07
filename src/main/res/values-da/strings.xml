@@ -107,7 +107,7 @@
     <string name="third_welcome">Færdig!</string>
     <string name="back_to_timeline">Vis mig min tidslinje!</string>
     <string name="initial_sync">Synkronisér nu!</string>
-    <string name="first_info">For at komme igang, skal du logges ind </string>
+    <string name="first_info">For at komme igang, skal du logges ind</string>
     <string name="second_info">Super!\n\nNu skal vi have hentet flere data\n\nDette kan tage lidt tid, afhængig af din internet hastighed</string>
     <string name="third_info">Jeg håber du får glæde af Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Synkroniserer tidslinjen...</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Vælg liste</string>
     <string name="added_to_list">Tilføjet til liste</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nTilgå indstillinger\nved tap på enheder\ni\nnavigations\nlisten!</string>
-    <string name="part_1_phone">\nTilgå\nnavigations listen\nved at swipe fra venstre\nkant mod højre!</string>
-    <string name="part_2">\nFor at skifte\nside i forhold til\nTidslinjen, skal du \nswipe til enten højre\neller venstre!</string>
+    <string name="part_1_tablet">Tilgå indstillinger\nved tap på enheder\ni\nnavigations\nlisten!</string>
+    <string name="part_1_phone">Tilgå\nnavigations listen\nved at swipe fra venstre\nkant mod højre!</string>
+    <string name="part_2">For at skifte\nside i forhold til\nTidslinjen, skal du \nswipe til enten højre\neller venstre!</string>
     <string name="part_3">Færdig!\n\nTap på\nskærmen for\nat starte!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Tema indstillinger</string>
@@ -445,6 +445,9 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="verified">Bekræftet</string>
     <string name="use_tweetmarker">Aktivér TweetMarker</string>
     <string name="tweetmarker_summary">Stadig under udvikling. Du kan opleve det får tidslinjen til at springe til bunden.</string>
+    <string name="do_not_use">Brug ikke</string>
+    <string name="automatic_refresh">Automatisk TweetMarker</string>
+    <string name="manual_refresh">Manuel TweetMarker</string>
     <string name="finding_tweetmarker">Synkroniserer TweetMarker</string>
     <string name="loading">Opdaterer</string>
     <string name="loading_tweets">Opdaterer tweets...</string>
@@ -601,6 +604,25 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="both_accounts">Begge konti</string>
     <string name="attach_gif">Animeret GIF</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">Sekundær konto</string>
+    <string name="second_account_login_info">Eftersom Twitter ikke videregiver noget af din log ind information fra deres system, vil du fra den næste skærm muligvis ikke umiddelbart kunne logge ind med din  nyoprettet profil. Hvis det sker og du sendes direkte til deres  side for bekræftelse af din identitet, tap på \"Log af\" i toppen øverst til højre på hjemmesiden, for at lade app\'en logge dig ind med din sekundære konto</string>
+    <string name="fetch_tweetmarker">Fastgør TweetMarker</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Åbn profil</string>
+    <string name="copy_handle">Kopiér indhold</string>
+    <string name="search_user">Søg bruger</string>
+    <string name="mute_user">Mute bruger</string>
+    <string name="mute_retweets">Mute Retweets</string>
+    <string name="share_profile">Del profil</string>
+    <string name="open_webpage">Åbn link</string>
+    <string name="copy_link">Kopiér link</string>
+    <string name="share_link">Del link</string>
+    <string name="search_hashtag">Søg hashtag</string>
+    <string name="mute_hashtag">Mute hashtag</string>
+    <string name="copy_hashtag">Kopiér hashtag</string>
+    <string name="search_cashtag">Søg cashtag</string>
+    <string name="copy_cashtag">Kopiér cashtag</string>
+    <string name="copied">Kopieret tekst</string>
     <string name="open_to_web">Åbn websider fra tweets</string>
     <string name="open_to_web_summary">Hvis et tweet indeholder et link til en webside, vil det åbne websiden i stedet for at vise tweetet</string>
 </resources>

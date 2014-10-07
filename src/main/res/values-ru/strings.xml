@@ -17,7 +17,7 @@
     <string name="menu_add_to_list">В список</string>
     <string name="menu_change_picture">Сменить аватар</string>
     <string name="menu_change_bio">Изменить профиль</string>
-    <string name="menu_change_banner">Сменить фон </string>
+    <string name="menu_change_banner">"Сменить фон "</string>
     <string name="menu_direct_message">Новое личное сообщение</string>
     <string name="menu_save_image">Сохранить изображение</string>
     <string name="menu_favorite">Добавить в избранное</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Выберите список</string>
     <string name="added_to_list">Добавлен в список</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nПеремещайтесь\nпо приложению\nс помощью\nбокового\nменю!</string>
-    <string name="part_1_phone">\nОткрывайте\nбоковое меню\nсвайпом\nслева!</string>
-    <string name="part_2">\nПереключайте\nвкладки\nсвайпом\nв любую сторону\nс середины экрана!</string>
+    <string name="part_1_tablet">Перемещайтесь\nпо приложению\nс помощью\nбокового\nменю!</string>
+    <string name="part_1_phone">Открывайте\nбоковое меню\nсвайпом\nслева!</string>
+    <string name="part_2">Переключайте\nвкладки\nсвайпом\nв любую сторону\nс середины экрана!</string>
     <string name="part_3">Это всё!\n\nДотроньтесь,\nчтобы\nначать!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Темы</string>
@@ -601,6 +601,7 @@
     <string name="both_accounts">Оба аккаунта</string>
     <string name="attach_gif">GIF-анимация</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Открывать ссылки в твитах</string>
     <string name="open_to_web_summary">Если твит содержит ссылку, будет открываться страница с ней, а не сам твит.</string>
 </resources>
