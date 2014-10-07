@@ -229,9 +229,9 @@
     <string name="choose_list">Виберіть список</string>
     <string name="added_to_list">Доданий до списку</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nПереміщуйтеся\nдодатком\nза допомогою\nбокового\nменю!</string>
-    <string name="part_1_phone">\nВідкрийте\nбокове меню\nсвайпом\nслева!</string>
-    <string name="part_2">\nПереміщуйтесь між\nвкладками\nсвайпом\nв любу сторону\nз середини екрану!</string>
+    <string name="part_1_tablet">Переміщуйтеся\nдодатком\nза допомогою\nбокового\nменю!</string>
+    <string name="part_1_phone">Відкрийте\nбокове меню\nсвайпом\nслева!</string>
+    <string name="part_2">Переміщуйтесь між\nвкладками\nсвайпом\nв любу сторону\nз середини екрану!</string>
     <string name="part_3">Ось і все!\n\nДоторкніться до екрану,\nщоб\nпочати!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Теми</string>
@@ -530,6 +530,7 @@
     <string name="widget_trans_light">Прозора світла</string>
     <string name="widget_trans_black">Прозора темна</string>
     <string name="ui_settings">Налаштування UI</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Відкривати посилання в твітах</string>
     <string name="open_to_web_summary">Якщо твіт містить посилання, буде відкриватися сторінка з нею, а не сам твіт.</string>
 </resources>
