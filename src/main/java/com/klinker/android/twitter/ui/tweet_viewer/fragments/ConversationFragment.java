@@ -38,14 +38,8 @@ public class ConversationFragment extends Fragment {
     private AppSettings settings;
     private long tweetId;
 
-    public ConversationFragment(AppSettings settings, long tweetId) {
-        this.settings = settings;
-        this.tweetId = tweetId;
-    }
-
     public ConversationFragment() {
-        this.settings = null;
-        this.tweetId = 0;
+
     }
 
     @Override
@@ -65,6 +59,9 @@ public class ConversationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        settings = AppSettings.getInstance(getActivity());
+        tweetId = getArguments().getLong("tweet_id", 0l);
 
         isRunning = true;
 

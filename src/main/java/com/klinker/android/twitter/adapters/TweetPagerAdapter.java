@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
@@ -127,19 +128,22 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 1:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
+                    ConversationFragment conversation = new ConversationFragment();
+                    conversation.setArguments(getConvoBundle());
                     return conversation;
             }
         } else if (pageCount == 3 && youtube) {
             switch (i) {
                 case 0:
-                    TweetYouTubeFragment youTube = new TweetYouTubeFragment(settings, video);
+                    TweetYouTubeFragment youTube = new TweetYouTubeFragment();
+                    youTube.setArguments(getYouTubeBundle());
                     return youTube;
                 case 1:
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
+                    ConversationFragment conversation = new ConversationFragment();
+                    conversation.setArguments(getConvoBundle());
                     return conversation;
             }
         } else if (pageCount == 3) { // no youtube, just a webpage
@@ -151,13 +155,15 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 2:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
+                    ConversationFragment conversation = new ConversationFragment();
+                    conversation.setArguments(getConvoBundle());
                     return conversation;
             }
         } else { // every page is shown
             switch (i) {
                 case 0:
-                    TweetYouTubeFragment youTube = new TweetYouTubeFragment(settings, video);
+                    TweetYouTubeFragment youTube = new TweetYouTubeFragment();
+                    youTube.setArguments(getYouTubeBundle());
                     return youTube;
                 case 1:
                     Fragment web = mobilizedBrowser ? new MobilizedFragment(settings, webpages) : new WebFragment(settings, webpages);
@@ -166,7 +172,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
                     return tweetFragment;
                 case 3:
-                    ConversationFragment conversation = new ConversationFragment(settings, tweetId);
+                    ConversationFragment conversation = new ConversationFragment();
+                    conversation.setArguments(getConvoBundle());
                     return conversation;
             }
         }
@@ -227,5 +234,17 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
             }
         }
         return null;
+    }
+
+    public Bundle getConvoBundle() {
+        Bundle b = new Bundle();
+        b.putLong("tweet_id", tweetId);
+        return b;
+    }
+
+    public Bundle getYouTubeBundle() {
+        Bundle b = new Bundle();
+        b.putString("url", video);
+        return b;
     }
 }

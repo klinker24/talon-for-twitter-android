@@ -31,14 +31,9 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
     private static boolean videoLoaded = false;
 
-    public TweetYouTubeFragment(AppSettings settings, String url) {
-        this.settings = settings;
-        this.url = url;
-    }
 
     public TweetYouTubeFragment() {
-        this.settings = null;
-        this.url = "";
+
     }
 
     @Override
@@ -63,6 +58,9 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        settings = AppSettings.getInstance(getActivity());
+        url = getArguments().getString("url");
 
         layout = inflater.inflate(R.layout.youtube_fragment, null, false);
         player = (YouTubePlayerView) layout.findViewById(R.id.youtube_view);
