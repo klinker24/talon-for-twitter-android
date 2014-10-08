@@ -3,6 +3,7 @@ package com.klinker.android.twitter.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.util.Log;
 
@@ -36,13 +37,16 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         Fragment f = null;
         switch (i) {
             case 0:
-                f = new TimelineSearchFragment(query, translucent);
+                f = new TimelineSearchFragment();
+                f.setArguments(getTimelineBundle());
                 break;
             case 1:
-                f = new TwitterSearchFragment(onlyId, query, translucent);
+                f = new TwitterSearchFragment();
+                f.setArguments(getTwitterBundle());
                 break;
             case 2:
-                f = new UserSearchFragment(onlyProfile, query, translucent);
+                f = new UserSearchFragment();
+                f.setArguments(getUserBundle());
                 break;
         }
         return f;
@@ -64,5 +68,28 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
                 return context.getResources().getString(R.string.user);
         }
         return null;
+    }
+
+    public Bundle getTwitterBundle() {
+        Bundle b = new Bundle();
+        b.putBoolean("translucent", translucent);
+        b.putBoolean("only_status", onlyId);
+        b.putString("search", query);
+        return b;
+    }
+
+    public Bundle getUserBundle() {
+        Bundle b = new Bundle();
+        b.putBoolean("translucent", translucent);
+        b.putBoolean("only_profile", onlyProfile);
+        b.putString("search", query);
+        return b;
+    }
+
+    public Bundle getTimelineBundle() {
+        Bundle b = new Bundle();
+        b.putBoolean("translucent", translucent);
+        b.putString("search", query);
+        return b;
     }
 }

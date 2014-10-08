@@ -41,11 +41,6 @@ public class MobilizedFragment extends Fragment {
     public Context context;
     public AppSettings settings;
 
-    public MobilizedFragment(AppSettings settings, ArrayList<String> webpages) {
-        this.webpages = webpages;
-        this.settings = settings;
-    }
-
     public MobilizedFragment() {
         this.webpages = new ArrayList<String>();
     }
@@ -53,6 +48,9 @@ public class MobilizedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        settings = AppSettings.getInstance(getActivity());
+        webpages = getArguments().getStringArrayList("webpages");
 
         context = getActivity();
 

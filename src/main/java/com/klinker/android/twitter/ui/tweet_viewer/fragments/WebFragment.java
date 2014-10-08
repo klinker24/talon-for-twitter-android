@@ -40,10 +40,6 @@ public class WebFragment extends Fragment {
 
     public Context context;
 
-    public WebFragment(AppSettings settings, ArrayList<String> webpages) {
-        this.webpages = webpages;
-    }
-
     public WebFragment() {
         this.webpages = new ArrayList<String>();
     }
@@ -51,6 +47,8 @@ public class WebFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        webpages = getArguments().getStringArrayList("webpages");
 
         context = getActivity();
 

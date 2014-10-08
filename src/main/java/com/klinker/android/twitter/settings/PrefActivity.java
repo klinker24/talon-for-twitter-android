@@ -25,7 +25,7 @@ public class PrefActivity extends Activity {
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
-        final PrefFragment fragment = new PrefFragment(null, this);
+        final PrefFragment fragment = new PrefFragment();
         Bundle args = new Bundle();
         args.putInt("position", getIntent().getIntExtra("position", 0));
         fragment.setArguments(args);

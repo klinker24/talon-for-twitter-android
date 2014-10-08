@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
@@ -279,7 +280,14 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     public Fragment getFrag(int type, long listId) {
         switch (type) {
             case AppSettings.PAGE_TYPE_LIST:
-                return new ListFragment(listId);
+                Fragment f = new ListFragment();
+
+                Bundle b = new Bundle();
+                b.putLong("list_id", listId);
+
+                f.setArguments(b);
+
+                return f;
             case AppSettings.PAGE_TYPE_LINKS:
                 return new LinksFragment();
             case AppSettings.PAGE_TYPE_PICS:
