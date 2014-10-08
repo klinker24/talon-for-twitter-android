@@ -3,6 +3,7 @@ package com.klinker.android.twitter.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter.R;
@@ -34,16 +35,20 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                ProfilePicturesFragment pics = new ProfilePicturesFragment(screenName);
+                ProfilePicturesFragment pics = new ProfilePicturesFragment();
+                pics.setArguments(getSceeennameBundle());
                 return pics;
             case 1:
-                ProfileFragment profile = new ProfileFragment(name, screenName, proPic, tweetId, isRetweet, isMyProfile);
+                ProfileFragment profile = new ProfileFragment();
+                profile.setArguments(getSceeennameBundle());
                 return profile;
             case 2:
-                ProfileMentionsFragment mentions = new ProfileMentionsFragment(screenName);
+                ProfileMentionsFragment mentions = new ProfileMentionsFragment();
+                mentions.setArguments(getSceeennameBundle());
                 return mentions;
             case 3:
-                ProfileFavoritesFragment favs = new ProfileFavoritesFragment(screenName);
+                ProfileFavoritesFragment favs = new ProfileFavoritesFragment();
+                favs.setArguments(getSceeennameBundle());
                 return favs;
         }
         return null;
@@ -67,5 +72,11 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 return context.getResources().getString(R.string.favorites);
         }
         return null;
+    }
+
+    public Bundle getSceeennameBundle() {
+        Bundle b = new Bundle();
+        b.putString("screen_name", screenName);
+        return b;
     }
 }

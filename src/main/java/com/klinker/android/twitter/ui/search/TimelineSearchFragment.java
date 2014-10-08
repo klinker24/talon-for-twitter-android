@@ -45,14 +45,8 @@ public class TimelineSearchFragment extends Fragment {
 
     private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
-    public TimelineSearchFragment(String query, boolean translucent) {
-        this.searchQuery = query;
-        this.translucent = translucent;
-    }
-
     public TimelineSearchFragment() {
-        this.searchQuery = "";
-        translucent = false;
+
     }
 
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
@@ -90,6 +84,9 @@ public class TimelineSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, null);
+
+        translucent = getArguments().getBoolean("translucent", false);
+        searchQuery = getArguments().getString("search");
 
         settings = AppSettings.getInstance(context);
 

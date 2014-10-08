@@ -11,8 +11,6 @@ import android.support.v13.app.FragmentPagerAdapter;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.ConversationFragment;
-import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
-import com.klinker.android.twitter.ui.tweet_viewer.fragments.DiscussionFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.TweetYouTubeFragment;
 import com.klinker.android.twitter.ui.tweet_viewer.fragments.MobilizedFragment;
@@ -125,7 +123,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         if (pageCount == 2) {
             switch (i) {
                 case 0:
-                    TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
+                    TweetFragment tweetFragment = new TweetFragment();
+                    tweetFragment.setArguments(getTweetBundle());
                     return tweetFragment;
                 case 1:
                     ConversationFragment conversation = new ConversationFragment();
@@ -139,7 +138,8 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     youTube.setArguments(getYouTubeBundle());
                     return youTube;
                 case 1:
-                    TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
+                    TweetFragment tweetFragment = new TweetFragment();
+                    tweetFragment.setArguments(getTweetBundle());
                     return tweetFragment;
                 case 2:
                     ConversationFragment conversation = new ConversationFragment();
@@ -149,10 +149,12 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
         } else if (pageCount == 3) { // no youtube, just a webpage
             switch (i) {
                 case 0:
-                    Fragment web = mobilizedBrowser ? new MobilizedFragment(settings, webpages) : new WebFragment(settings, webpages);
+                    Fragment web = mobilizedBrowser ? new MobilizedFragment() : new WebFragment();
+                    web.setArguments(getMobilizedBundle());
                     return web;
                 case 1:
-                    TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
+                    TweetFragment tweetFragment = new TweetFragment();
+                    tweetFragment.setArguments(getTweetBundle());
                     return tweetFragment;
                 case 2:
                     ConversationFragment conversation = new ConversationFragment();
@@ -166,10 +168,12 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
                     youTube.setArguments(getYouTubeBundle());
                     return youTube;
                 case 1:
-                    Fragment web = mobilizedBrowser ? new MobilizedFragment(settings, webpages) : new WebFragment(settings, webpages);
+                    Fragment web = mobilizedBrowser ? new MobilizedFragment() : new WebFragment();
+                    web.setArguments(getMobilizedBundle());
                     return web;
                 case 2:
-                    TweetFragment tweetFragment = new TweetFragment(settings, name, screenName, tweet, time, retweeter, webpage, proPic, tweetId, picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet);
+                    TweetFragment tweetFragment = new TweetFragment();
+                    tweetFragment.setArguments(getTweetBundle());
                     return tweetFragment;
                 case 3:
                     ConversationFragment conversation = new ConversationFragment();
@@ -245,6 +249,32 @@ public class TweetPagerAdapter extends FragmentPagerAdapter {
     public Bundle getYouTubeBundle() {
         Bundle b = new Bundle();
         b.putString("url", video);
+        return b;
+    }
+
+    public Bundle getMobilizedBundle() {
+        Bundle b = new Bundle();
+        b.putStringArrayList("webpages", webpages);
+        return b;
+    }
+
+    public Bundle getTweetBundle() {
+        Bundle b = new Bundle();
+
+        b.putString("name", name);
+        b.putString("screen_name", screenName);
+        b.putString("tweet", tweet);
+        b.putLong("time", time);
+        b.putString("retweeter", retweeter);
+        b.putString("webpage", webpage);
+        b.putString("pro_pic", proPic);
+        b.putBoolean("picture", picture);
+        b.putLong("tweet_id", tweetId);
+        b.putStringArray("users", users);
+        b.putStringArray("hashtags", hashtags);
+        b.putBoolean("is_my_tweet", isMyTweet);
+        b.putStringArray("links", otherLinks);
+
         return b;
     }
 }

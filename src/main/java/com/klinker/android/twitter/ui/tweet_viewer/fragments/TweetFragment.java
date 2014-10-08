@@ -156,42 +156,28 @@ public class TweetFragment extends Fragment {
         }
     };
 
-    public TweetFragment(AppSettings settings, String name, String screenName, String tweet, long time, String retweeter, String webpage,
-                         String proPic, long tweetId, boolean picture, String[] users, String[] hashtags, String[] links,
-                         boolean isMyTweet, boolean isMyRetweet) {
-        this.settings = settings;
+    public void setFromBundle() {
+        Bundle b = getArguments();
 
-        this.name = name;
-        this.screenName = screenName;
-        this.tweet = tweet;
-        this.time = time;
-        this.retweeter = retweeter;
-        this.webpage = webpage;
-        this.proPic = proPic;
-        this.picture = picture;
-        this.tweetId = tweetId;
-        this.users = users;
-        this.hashtags = hashtags;
-        this.isMyTweet = isMyTweet;
-        this.otherLinks = links;
+        settings = AppSettings.getInstance(getActivity());
+
+        name = b.getString("name");
+        screenName = b.getString("screen_name");
+        tweet = b.getString("tweet");
+        time = b.getLong("time");
+        retweeter = b.getString("retweeter");
+        webpage = b.getString("webpage");
+        proPic = b.getString("pro_pic");
+        picture = b.getBoolean("picture");
+        tweetId = b.getLong("tweet_id");
+        users = b.getStringArray("users");
+        hashtags = b.getStringArray("hashtags");
+        isMyTweet = b.getBoolean("is_my_tweet");
+        otherLinks = b.getStringArray("links");
     }
 
     public TweetFragment() {
-        this.settings = null;
 
-        this.name = "";
-        this.screenName = "";
-        this.tweet = "";
-        this.time = 0;
-        this.retweeter = "";
-        this.webpage = "";
-        this.proPic = "";
-        this.picture = false;
-        this.tweetId = 0;
-        this.users = null;
-        this.hashtags = null;
-        this.isMyTweet = false;
-        this.otherLinks = null;
     }
 
     @Override
@@ -205,6 +191,8 @@ public class TweetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        setFromBundle();
 
         countHandler = new Handler();
 

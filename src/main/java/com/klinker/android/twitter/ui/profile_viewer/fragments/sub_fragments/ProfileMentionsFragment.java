@@ -47,10 +47,6 @@ public class ProfileMentionsFragment extends Fragment {
 
     public String screenName;
 
-    public ProfileMentionsFragment(String screenName) {
-        this.screenName = screenName;
-    }
-
     public ProfileMentionsFragment() {
         this.screenName = "";
     }
@@ -64,6 +60,8 @@ public class ProfileMentionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        screenName = getArguments().getString("screen_name");
 
         settings = AppSettings.getInstance(context);
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",

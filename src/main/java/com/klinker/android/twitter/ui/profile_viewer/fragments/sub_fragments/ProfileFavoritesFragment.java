@@ -46,10 +46,6 @@ public class ProfileFavoritesFragment extends Fragment {
 
     public String screenName;
 
-    public ProfileFavoritesFragment(String screenName) {
-        this.screenName = screenName;
-    }
-
     public ProfileFavoritesFragment() {
         this.screenName = "";
     }
@@ -63,6 +59,8 @@ public class ProfileFavoritesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        screenName = getArguments().getString("screen_name");
 
         settings = AppSettings.getInstance(context);
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",

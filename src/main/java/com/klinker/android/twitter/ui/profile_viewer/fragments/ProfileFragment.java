@@ -99,13 +99,7 @@ public class ProfileFragment extends Fragment {
     public View layout;
 
     public ProfileFragment() {
-        this.screenName = "";
-        this.isMyProfile = false;
-    }
 
-    public ProfileFragment(String name, String screenName, String proPic, long tweetId, boolean isRetweet, boolean isMyProfile) {
-        this.screenName = screenName;
-        this.isMyProfile = isMyProfile;
     }
 
     @Override
@@ -122,6 +116,10 @@ public class ProfileFragment extends Fragment {
         mCache = App.getInstance(context).getBitmapCache();
 
         settings = AppSettings.getInstance(context);
+
+        screenName = getArguments().getString("screen_name");
+        isMyProfile = settings.myScreenName.equals(screenName);
+
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
