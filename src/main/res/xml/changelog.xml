@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.4">
+        <text>Favorite a user from a long click</text>
+        <text>Bug fixes</text>
+    </version>
     <version name="3.2.3">
         <text>Updated translations</text>
         <text>Added a few more FAQ</text>

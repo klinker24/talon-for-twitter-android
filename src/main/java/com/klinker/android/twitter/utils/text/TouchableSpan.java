@@ -37,8 +37,10 @@ import android.util.Patterns;
 import android.view.View;
 
 import android.widget.Toast;
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter.R;
 import com.klinker.android.twitter.data.Link;
+import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.PlainTextBrowserActivity;
@@ -46,6 +48,8 @@ import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.utils.Utils;
+import twitter4j.Twitter;
+import twitter4j.User;
 
 public class TouchableSpan extends ClickableSpan {
 
@@ -212,6 +216,7 @@ public class TouchableSpan extends ClickableSpan {
             // Open profile
             // copy handle
             // search
+            // favorite user
             // mute user
             // share profile
             longClickMentions();
@@ -308,7 +313,7 @@ public class TouchableSpan extends ClickableSpan {
         builder.setItems(R.array.long_click_mentions, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPreferences sharedPrefs = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                final SharedPreferences sharedPrefs = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                         Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
                 switch (i) {
@@ -321,7 +326,25 @@ public class TouchableSpan extends ClickableSpan {
                     case 2: // search user
                         search();
                         break;
-                    case 3: // mute user
+                    case 3: // favorite user
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Twitter twitter = Utils.getTwitter(mContext, settings);
+                                    User user = twitter.showUser(full.replace("@", ""));
+
+                                    int current = sharedPrefs.getInt("current_account", 1);
+
+                                    FavoriteUsersDataSource.getInstance(mContext).createUser(user, current);
+
+                                    sharedPrefs.edit().putString("favorite_user_names_" + current, sharedPrefs.getString("favorite_user_names_" + current, "") + user.getScreenName() + " ").commit();
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        }).start();
+                    case 4: // mute user
                         String current = sharedPrefs.getString("muted_users", "");
                         sharedPrefs.edit().putString("muted_users", current + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
                         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
@@ -330,7 +353,7 @@ public class TouchableSpan extends ClickableSpan {
                             ((Activity)mContext).recreate();
                         }
                         break;
-                    case 4: // mute retweets
+                    case 5: // mute retweets
                         String muted_rts = sharedPrefs.getString("muted_rts", "");
                         sharedPrefs.edit().putString("muted_rts", muted_rts + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
                         sharedPrefs.edit().putBoolean("refresh_me", true).commit();
@@ -339,7 +362,7 @@ public class TouchableSpan extends ClickableSpan {
                             ((Activity)mContext).recreate();
                         }
                         break;
-                    case 5: // share profile
+                    case 6: // share profile
                         share("https://twitter.com/" + full.replace("@", "").replace(" ", ""));
                         break;
                 }
