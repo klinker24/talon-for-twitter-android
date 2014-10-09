@@ -797,19 +797,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     }
 
                     try {
-                        if (notificationList.getCount() != 0 && c.getCount() != 0) {
-                            if (c.getCount() == 0) {
-                                noInteractions.setVisibility(View.VISIBLE);
-                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                            } else {
-                                noInteractions.setVisibility(View.GONE);
-                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                            }
-                        } else {
-                            if (c.getCount() != 0) {
-                                noInteractions.setVisibility(View.GONE);
-                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                            }
+                        if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                            noInteractions.setVisibility(View.VISIBLE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+                        } else if (noInteractions.getVisibility() != View.GONE) {
+                            noInteractions.setVisibility(View.GONE);
+                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                         }
                     } catch (Exception e) {
 
@@ -1604,10 +1597,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     public void onBackPressed() {
         super.onBackPressed();
 
-        try {
-            searchItem.collapseActionView();
-        } catch (Exception e) {
-
-        }
+        searchItem.collapseActionView();
     }
 }
