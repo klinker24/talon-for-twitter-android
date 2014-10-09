@@ -932,6 +932,7 @@ public abstract class DrawerActivity extends Activity {
     }
 
     private SearchView searchView;
+    private MenuItem searchItem;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -954,7 +955,6 @@ public abstract class DrawerActivity extends Activity {
 
         }
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -969,6 +969,12 @@ public abstract class DrawerActivity extends Activity {
         final int SETTINGS = 5;
         final int TOFIRST = 6;
         final int TWEETMARKER = 7;
+
+        try {
+            searchItem = menu.findItem(com.klinker.android.twitter_l.R.id.menu_search);
+        } catch (Exception e) {
+            searchItem = null;
+        }
 
         menu.getItem(TWEETMARKER).setVisible(false);
 
@@ -1256,5 +1262,16 @@ public abstract class DrawerActivity extends Activity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        try {
+            searchItem.collapseActionView();
+        } catch (Exception e) {
+            
+        }
     }
 }
