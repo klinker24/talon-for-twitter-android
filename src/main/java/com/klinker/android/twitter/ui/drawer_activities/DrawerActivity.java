@@ -955,8 +955,18 @@ public abstract class DrawerActivity extends Activity {
 
         }
 
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            closeBtn = (ImageView) searchField.get(searchView);
+        } catch (Exception e) {
+
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    private ImageView closeBtn;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -1268,10 +1278,8 @@ public abstract class DrawerActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        try {
-            searchItem.collapseActionView();
-        } catch (Exception e) {
-
+        if (closeBtn != null) {
+            closeBtn.callOnClick();
         }
     }
 }
