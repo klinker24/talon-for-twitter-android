@@ -1271,7 +1271,7 @@ public abstract class DrawerActivity extends Activity {
         try {
             searchItem.collapseActionView();
         } catch (Exception e) {
-            
+
         }
     }
 }
