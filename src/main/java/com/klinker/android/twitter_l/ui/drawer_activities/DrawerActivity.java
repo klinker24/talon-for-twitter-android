@@ -805,6 +805,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                                 noInteractions.setVisibility(View.GONE);
                                 noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
                             }
+                        } else {
+                            if (c.getCount() != 0) {
+                                noInteractions.setVisibility(View.GONE);
+                                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+                            }
                         }
                     } catch (Exception e) {
 
