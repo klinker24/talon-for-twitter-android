@@ -53,13 +53,6 @@ public class UserSearchFragment extends Fragment {
 
     private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
-    public UserSearchFragment(boolean onlyProfile, String query, boolean translucent) {
-        this.translucent = translucent;
-        this.searchQuery = query.replaceAll("@", "");
-        searchQuery = searchQuery.replace(" TOP", "");
-        this.onlyProfile = onlyProfile;
-    }
-
     public UserSearchFragment() {
         this.translucent = false;
         this.searchQuery = "";
@@ -101,6 +94,11 @@ public class UserSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        this.translucent = getArguments().getBoolean("translucent", false);
+        this.searchQuery = getArguments().getString("search").replaceAll("@", "");
+        searchQuery = searchQuery.replace(" TOP", "");
+        this.onlyProfile = getArguments().getBoolean("only_profile", false);
 
         settings = AppSettings.getInstance(context);
 

@@ -76,40 +76,17 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     private Context context;
 
     public int position;
-    public String[] linkItems;
-    public ListView mDrawerList;
-
-    public PrefFragment() {
-        context = getActivity();
-    }
-
-    public PrefFragment(ListView drawerList, Context context) {
-        mDrawerList = drawerList;
-
-        linkItems = new String[]{context.getResources().getString(R.string.theme_settings),
-                context.getResources().getString(R.string.timelines_settings),
-                context.getResources().getString(R.string.sync_settings),
-                context.getResources().getString(R.string.notification_settings),
-                context.getResources().getString(R.string.browser_settings),
-                context.getResources().getString(R.string.advanced_settings),
-                context.getResources().getString(R.string.memory_manage),
-                context.getResources().getString(R.string.get_help_settings),
-                context.getResources().getString(R.string.other_apps),
-                context.getResources().getString(R.string.rate_it)};
-
-        this.context = context;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = getActivity();
+
         Bundle args = getArguments();
         position = args.getInt("position");
 
         DrawerArrayAdapter.current = position - 1;
-        //mDrawerList.setAdapter(new DrawerArrayAdapter(getActivity(),
-                //new ArrayList<String>(Arrays.asList(linkItems))));
 
         switch (position) {
             case 0:

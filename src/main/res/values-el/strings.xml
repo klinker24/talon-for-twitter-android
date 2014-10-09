@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name_full">Talon για το Twitter</string>
-    <string name="extension_description">Προβάλει τον αριθμό των μη αναγνωσμένων tweets, αναφορών και απευθείας μηνυμάτων καθώς αυτά ανανεώνονται. </string>
+    <string name="extension_description">"Προβάλει τον αριθμό των μη αναγνωσμένων tweets, αναφορών και απευθείας μηνυμάτων καθώς αυτά ανανεώνονται. "</string>
     <!-- Action Bar -->
     <string name="menu_refresh">Ανανέωση γραμμής ενημερώσεων</string>
     <string name="menu_compose">Νέο Tweet</string>
@@ -31,4 +31,5 @@
     <!-- Emoji Keyboard -->
     <!-- Array value for translation -->
     <!-- added after release -->
+    <!-- Long click methods -->
 </resources>

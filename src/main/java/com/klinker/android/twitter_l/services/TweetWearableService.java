@@ -65,6 +65,12 @@ public class TweetWearableService extends WearableListenerService {
     private Handler markReadHandler;
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.v(TAG, "created wearable service");
+    }
+
+    @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         final WearableUtils wearableUtils = new WearableUtils();
 

@@ -75,9 +75,9 @@
     <string name="text_size">ขนาดตัวอักษร</string>
     <string name="enable_emojis">เปิดใช้อีโมจิ</string>
     <string name="to_market">ไปยัง Play Store</string>
-    <string name="emoji_dialog_summary">การเปิดใช้อีโมจิในแอพนี้ คุณจำเป็นต้องมี \"Sliding Emoji Keyboard\" หรือ \"Sliding Emoji Keyboard - iOS\" ที่ติดตั้งจาก Play Store \n\n
+    <string name="emoji_dialog_summary">"การเปิดใช้อีโมจิในแอพนี้ คุณจำเป็นต้องมี \"Sliding Emoji Keyboard\" หรือ \"Sliding Emoji Keyboard - iOS\" ที่ติดตั้งจาก Play Store \n\n
 
-</string>
+"</string>
     <string name="theme_dark">ธีมมืด</string>
     <string name="theme_black">ธีมสีดำ</string>
     <string name="sync_settings">ตั้งค่าการซิงค์</string>
@@ -124,4 +124,5 @@
     <string name="widget_light">ธีมสว่าง</string>
     <string name="ui_settings">ตั้งค่า UI</string>
     <string name="show_pos_dashclock">แสดงตำแหน่งไทม์ไลน์</string>
+    <!-- Long click methods -->
 </resources>

@@ -107,7 +107,7 @@
     <string name="third_welcome">完成！</string>
     <string name="back_to_timeline">让我转到主页！</string>
     <string name="initial_sync">现在就同步！</string>
-    <string name="first_info">在开始之前，先登陆Twitter吧。 </string>
+    <string name="first_info">在开始之前，先登陆Twitter吧。</string>
     <string name="second_info">做得很棒！\n\n现在我们需要载入一些初始信息。\n\n根据您的因特网连接，需要一些时间。</string>
     <string name="third_info">祝你使用Talon用得愉快！\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">同步时间线中……</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">选择列表</string>
     <string name="added_to_list">添加至列表</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\n通过点击\n导航栏上的项目\n来访问\n各个功能项\n！</string>
-    <string name="part_1_phone">\n向左\n侧滑\n来打开\n导航栏！</string>
-    <string name="part_2">\n通过\n从中央侧滑\n任意一个方向\n来反问\n其他的时间线！</string>
+    <string name="part_1_tablet">通过点击\n导航栏上的项目\n来访问\n各个功能项\n！</string>
+    <string name="part_1_phone">向左\n侧滑\n来打开\n导航栏！</string>
+    <string name="part_2">通过\n从中央侧滑\n任意一个方向\n来反问\n其他的时间线！</string>
     <string name="part_3">就是这样！\n\n请点击\n屏幕任意位置\n开始！</string>
     <!-- Settings Menu -->
     <string name="theme_settings">主题设置</string>
@@ -530,6 +530,7 @@
     <string name="widget_trans_light">透明明亮主题</string>
     <string name="widget_trans_black">透明黑色主题</string>
     <string name="ui_settings">用户界面设置</string>
+    <!-- Long click methods -->
     <string name="open_to_web">打开推文中的网页预览</string>
     <string name="open_to_web_summary">如果推文中含有网页链接，将会直接打开网页预览而不是推文内容。</string>
 </resources>

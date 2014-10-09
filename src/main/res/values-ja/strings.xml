@@ -115,7 +115,7 @@
     <string name="syncing_direct_messages">メッセージを同期中...</string>
     <string name="syncing_user">フォロー中ユーザーを同期中...</string>
     <string name="done_syncing">同期しました。</string>
-    <string name="login_error">同期失敗... もう一度してください!</string>
+    <string name="login_error">同期失敗... もう一度してください!\n\n端末の時刻設定が合っていない可能性があります。サードパーティクライアントがAPIを使う場合は時刻設定が合っていないといけません。</string>
     <string name="no_network">インターネットに接続されていません</string>
     <string name="no_thanks">今はしない</string>
     <string name="follow_me">フォローする!</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">リストの選択</string>
     <string name="added_to_list">追加しました</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nナビゲーション\nドロワーのアイテムを\nタップすると様々な機能に\nアクセス出来ます!\n</string>
-    <string name="part_1_phone">\n左端をスワイプして\nナビゲーション\nドロワーを\n開きましょう!</string>
-    <string name="part_2">\n画面中央を\nスワイプすると\n切り替えられます!\n\n</string>
+    <string name="part_1_tablet">ナビゲーション\nドロワーのアイテムを\nタップすると様々な機能に\nアクセス出来ます!</string>
+    <string name="part_1_phone">左端をスワイプして\nナビゲーション\nドロワーを\n開きましょう!</string>
+    <string name="part_2">画面中央を\nスワイプすると\n切り替えられます!</string>
     <string name="part_3">おしまい!\n\nタッチして\n始めましょう!\n</string>
     <!-- Settings Menu -->
     <string name="theme_settings">テーマ設定</string>
@@ -445,6 +445,9 @@
     <string name="verified">認証済み</string>
     <string name="use_tweetmarker">TweetMarkerを有効化</string>
     <string name="tweetmarker_summary">実験的です。一番下に移動するときに問題が起きる場合があります。</string>
+    <string name="do_not_use">使用しない</string>
+    <string name="automatic_refresh">自動TweetMarker</string>
+    <string name="manual_refresh">手動TweetMarker</string>
     <string name="finding_tweetmarker">TweetMarkerを探しています</string>
     <string name="loading">読み込み中</string>
     <string name="loading_tweets">ツイートを読み込み中...</string>
@@ -601,6 +604,25 @@ TalonはTwitPicに画像をアップロードします。</string>
     <string name="both_accounts">両方のアカウント</string>
     <string name="attach_gif">アニメGIF</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">二つ目のアカウント</string>
+    <string name="second_account_login_info">Twitterはログイン情報の一部を残したままにするため、次の画面で別のアカウントにログインできる状態ではないことがあります。ログインページが表示されない場合は、右上にある「ログアウト」をタップしてください。</string>
+    <string name="fetch_tweetmarker">TweetMarkerの取得</string>
+    <!-- Long click methods -->
+    <string name="open_profile">プロフィールを開く</string>
+    <string name="copy_handle">名前のコピー</string>
+    <string name="search_user">ユーザーの検索</string>
+    <string name="mute_user">ユーザーをミュート</string>
+    <string name="mute_retweets">リツイートをミュート</string>
+    <string name="share_profile">プロフィールの共有</string>
+    <string name="open_webpage">リンクを開く</string>
+    <string name="copy_link">リンクのコピー</string>
+    <string name="share_link">リンクの共有</string>
+    <string name="search_hashtag">ハッシュタグの検索</string>
+    <string name="mute_hashtag">ハッシュタグをミュート</string>
+    <string name="copy_hashtag">ハッシュタグのコピー</string>
+    <string name="search_cashtag">キャッシュタグの検索</string>
+    <string name="copy_cashtag">キャッシュタグのコピー</string>
+    <string name="copied">コピーしました</string>
     <string name="open_to_web">ツイートのURLを直接開く</string>
     <string name="open_to_web_summary">ツイートにURLが含まれている場合に、ツイート自体ではなくそのURLを直接開くようにします。</string>
 </resources>

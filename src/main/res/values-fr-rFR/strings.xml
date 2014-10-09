@@ -601,6 +601,7 @@ A la place, Talon permettra le téléchargement des photos via TwitPic.</string>
     <string name="both_accounts">Deux comptes à la fois</string>
     <string name="attach_gif">GIF animé</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Ouvrir le tweet dans une page web</string>
     <string name="open_to_web_summary">Si un tweet contient un lien, il ouvrira directement ce lien à la place du tweet.</string>
 </resources>
