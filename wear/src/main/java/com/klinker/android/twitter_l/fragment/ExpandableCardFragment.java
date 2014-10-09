@@ -28,7 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activity.TextSizeActivity;
 import com.klinker.android.twitter_l.activity.WearTransactionActivity;
 import com.klinker.android.twitter_l.transaction.KeyProperties;

@@ -21,7 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.util.RecyclerOnClickListener;
 
 import java.util.List;

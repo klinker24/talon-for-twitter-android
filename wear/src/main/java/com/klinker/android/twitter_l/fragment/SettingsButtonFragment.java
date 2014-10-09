@@ -25,7 +25,7 @@ import android.support.wearable.view.CircledImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activity.SettingsActivity;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 

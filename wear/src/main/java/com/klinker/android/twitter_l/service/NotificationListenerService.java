@@ -24,7 +24,7 @@ import android.util.Log;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activity.WearActivity;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 
