@@ -115,7 +115,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if(menuKeyField != null) {
+            if (menuKeyField != null) {
                 menuKeyField.setAccessible(true);
                 menuKeyField.setBoolean(config, false);
             }
@@ -172,12 +172,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
         MainDrawerArrayAdapter.current = number;
 
-        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.read_button});
-        openMailResource = a.getResourceId(0,0);
+        a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.read_button});
+        openMailResource = a.getResourceId(0, 0);
         a.recycle();
 
-        a = context.getTheme().obtainStyledAttributes(new int[] {R.attr.unread_button});
-        closedMailResource = a.getResourceId(0,0);
+        a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.unread_button});
+        closedMailResource = a.getResourceId(0, 0);
         a.recycle();
 
 
@@ -336,7 +336,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         showMoreDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(logoutLayout.getVisibility() == View.GONE) {
+                if (logoutLayout.getVisibility() == View.GONE) {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
                     anim.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -542,7 +542,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         final int current = sharedPrefs.getInt("current_account", 1);
 
         // make a second account
-        if(count == 1){
+        if (count == 1) {
             name2.setText(getResources().getString(R.string.new_account));
             screenname2.setText(getResources().getString(R.string.tap_to_setup));
             secondAccount.setOnClickListener(new View.OnClickListener() {
@@ -716,7 +716,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
-        if(!settings.pushNotifications) {
+        if (!settings.pushNotifications) {
             try {
                 mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
             } catch (Exception e) {
@@ -725,7 +725,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         } else {
             try {
                 if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
-                    View viewHeader2 = ((Activity)context).getLayoutInflater().inflate(R.layout.ab_header, null);
+                    View viewHeader2 = ((Activity) context).getLayoutInflater().inflate(R.layout.ab_header, null);
                     notificationList.addHeaderView(viewHeader2, null, false);
                     notificationList.setHeaderDividersEnabled(false);
                 }
@@ -838,7 +838,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                                 notificationList.setVisibility(View.VISIBLE);
                             }
-                        },300);
+                        }, 300);
                     } else {
                         // set the visibility to gone
                         // set the adapter
@@ -859,7 +859,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             if (DrawerActivity.translucent) {
                 if (Utils.hasNavBar(context)) {
-                    View nav= new View(context);
+                    View nav = new View(context);
                     nav.setOnClickListener(null);
                     nav.setOnLongClickListener(null);
                     ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
@@ -958,13 +958,13 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     private void showContactUsDialog() {
         new AlertDialog.Builder(context)
-                .setItems(new CharSequence[] {"Twitter", "Google+", "Email"}, new DialogInterface.OnClickListener() {
+                .setItems(new CharSequence[]{"Twitter", "Google+", "Email"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (i == 0) {
                             final Intent tweet = new Intent(context, ComposeActivity.class);
                             new AlertDialog.Builder(context)
-                                    .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker"}, new DialogInterface.OnClickListener() {
+                                    .setItems(new CharSequence[]{"@TalonAndroid", "@lukeklinker"}, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             if (i == 0) {
@@ -996,7 +996,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public void showFollowDialog() {
         new AlertDialog.Builder(context)
-                .setItems(new CharSequence[] {"@TalonAndroid", "@lukeklinker", "Luke's Google+"}, new DialogInterface.OnClickListener() {
+                .setItems(new CharSequence[]{"@TalonAndroid", "@lukeklinker", "Luke's Google+"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -1144,7 +1144,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             recreate();
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
-                              .putBoolean("dont_refresh", true).commit();
+                    .putBoolean("dont_refresh", true).commit();
 
             return;
         }
@@ -1174,6 +1174,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     }
 
     private SearchView searchView;
+    private MenuItem searchItem;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -1208,7 +1209,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             }
         }
-
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -1277,6 +1277,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         final int SETTINGS = 5;
         final int TOFIRST = 6;
         final int TWEETMARKER = 7;
+
+        try {
+            searchItem = menu.findItem(com.klinker.android.twitter_l.R.id.menu_search);
+        } catch (Exception e) {
+            searchItem = null;
+        }
 
         menu.getItem(TWEETMARKER).setVisible(false);
 
@@ -1349,6 +1355,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     }
 
     public MenuItem noti;
+
     public void setNotificationFilled(boolean isFilled) {
         if (isFilled) {
             noti.setIcon(getResources().getDrawable(R.drawable.ic_action_notification_dark));
@@ -1380,9 +1387,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 }
                 return super.onOptionsItemSelected(item);
             case R.id.menu_search:
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
                 finish();
-                overridePendingTransition(0,0);
+                overridePendingTransition(0, 0);
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose:
@@ -1590,6 +1597,17 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     toolbar.setVisibility(View.GONE);
                 }
             }, 250);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        try {
+            searchItem.collapseActionView();
+        } catch (Exception e) {
+
         }
     }
 }
