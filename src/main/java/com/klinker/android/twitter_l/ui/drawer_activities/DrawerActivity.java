@@ -1207,6 +1207,18 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             Field searchField = SearchView.class.getDeclaredField("mCloseButton");
             searchField.setAccessible(true);
             closeBtn = (ImageView) searchField.get(searchView);
+
+            int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
+            searchPlate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if (!b) {
+                        closeBtn.callOnClick();
+                    }
+                }
+            });
+
         } catch (Exception e) {
 
         }
