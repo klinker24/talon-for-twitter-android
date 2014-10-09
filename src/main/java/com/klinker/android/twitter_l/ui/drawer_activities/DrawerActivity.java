@@ -1203,6 +1203,14 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             }
         }
 
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            closeBtn = (ImageView) searchField.get(searchView);
+        } catch (Exception e) {
+
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -1258,6 +1266,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             Log.e("SearchView", e.getMessage(), e);
         }
     }
+
+    private ImageView closeBtn;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -1597,6 +1607,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     public void onBackPressed() {
         super.onBackPressed();
 
-        searchItem.collapseActionView();
+        if (closeBtn != null) {
+            closeBtn.callOnClick();
+        }
     }
 }
