@@ -7,7 +7,7 @@
     <string name="menu_refresh">Vernieuw timeline</string>
     <string name="menu_compose">Nieuwe tweet</string>
     <string name="menu_logout">Log uit</string>
-    <string name="menu_settings">Instellingen </string>
+    <string name="menu_settings">"Instellingen "</string>
     <string name="menu_follow">Volg gebruiker</string>
     <string name="menu_unfollow">Ontvolg gebruiker</string>
     <string name="menu_tweet">Verstuur tweet</string>
@@ -115,7 +115,7 @@
     <string name="syncing_direct_messages">Privéberichten aan het synchroniseren...</string>
     <string name="syncing_user">Vrienden aan het synchroniseren...</string>
     <string name="done_syncing">Klaar met synchroniseren.</string>
-    <string name="login_error">Er iets fout gegaan... Probeer het alsjeblieft opnieuw!</string>
+    <string name="login_error">Er iets fout gegaan... Probeer het alsjeblieft opnieuw!\n\nHet zou kunnen dat de datum en tijd op je apparaat niet op automatisch staat. Dit is een vereiste door Twitter\'s 3rd party API.</string>
     <string name="no_network">Je bent niet verbonden met het internet.</string>
     <string name="no_thanks">Niet nu</string>
     <string name="follow_me">Volg!</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Kies lijst</string>
     <string name="added_to_list">Toegevoegd aan lijst</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nToegang tot\nfuncties bij tikken\nop items in\nde navigatie\ndrawer!</string>
-    <string name="part_1_phone">\nTrek de\nnavigatie drawer open\nmet een linkse\nzijkant swipe!</string>
-    <string name="part_2">\nWissel tussen\ntimelines met\neen swipe vanuit\nhet midden van\nhet scherm!</string>
+    <string name="part_1_tablet">Toegang tot\nfuncties bij tikken\nop items in\nde navigatie\ndrawer!</string>
+    <string name="part_1_phone">Trek de\nnavigatie drawer open\nmet een linkse\nzijkant swipe!</string>
+    <string name="part_2">Wissel tussen\ntimelines met\neen swipe vanuit\nhet midden van\nhet scherm!</string>
     <string name="part_3">Dat is het!\n\nRaak aan\nom te\nstarten!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Thema instellingen</string>
@@ -268,9 +268,9 @@ Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</s
     <string name="to_market">Naar Play Store</string>
     <string name="get_android">Krijg Android Emojis</string>
     <string name="get_ios">Krijg iOS Emojis</string>
-    <string name="emoji_dialog_summary">Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
+    <string name="emoji_dialog_summary">"Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
 U kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
-NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. </string>
+NOTITIE: Emojis zullen blijven werken, zelfs als de proefversie is verlopen! Dat pakket wordt zowel als plug-in gebruikt, en als een op zichzelf staand toetsenbord. "</string>
     <string name="theme_light">Licht thema</string>
     <string name="theme_dark">Donker thema</string>
     <string name="theme_black">Zwart thema</string>
@@ -404,7 +404,7 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="ignore_retweets_summary">Geef geen enkele retweets weer tijdens het scrollen door de hoofd timelines.</string>
     <string name="view">Bekijk</string>
     <string name="muted_hashtags">Genegeerde Hashtags</string>
-    <string name="muted_hashtags_summary">Tik op hashtag om demping te verwijderen. </string>
+    <string name="muted_hashtags_summary">"Tik op hashtag om demping te verwijderen. "</string>
     <string name="no_hashtags">Geen hashtags</string>
     <string name="mute_hashtags">Demp Hashtags</string>
     <string name="muted">Gedempt</string>
@@ -441,8 +441,11 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="use_twitpic">Gebruik TwitPic</string>
     <string name="twitpic_summary">Gebruik TwitPic om afbeelding aan tweets toe te voegen in plaats van Twitter\'s afbeelding upload service.</string>
     <string name="verified">Gecontroleerd</string>
-    <string name="use_tweetmarker">Schakel TweetMarker in</string>
-    <string name="tweetmarker_summary">Nog een beetje experimenteel. U kunt hiermee problemen ondervinden tijdens het springen naar de onderkant.</string>
+    <string name="use_tweetmarker">TweetMarker</string>
+    <string name="tweetmarker_summary">Wordt gebruikt om je positie te synchroniseren tussen apparaten</string>
+    <string name="do_not_use">Niet gebruiken</string>
+    <string name="automatic_refresh">Automatische TweetMarker</string>
+    <string name="manual_refresh">Handmatige TweetMarker</string>
     <string name="finding_tweetmarker">TweetMarker aan het vinden</string>
     <string name="loading">Aan het laden</string>
     <string name="loading_tweets">Tweets aan het laden...</string>
@@ -452,7 +455,7 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="removing_favorite">Favoriet aan het verwijderen</string>
     <string name="favoriting_status">Status aan favorieten aan het toevoegen</string>
     <string name="jumping_workaround">Springen Alternatief</string>
-    <string name="jumping_workaround_summary">Schakel dit in als uw timeline één plek naar beneden springt nadat u uw feed vernieuwt. </string>
+    <string name="jumping_workaround_summary">"Schakel dit in als uw timeline één plek naar beneden springt nadat u uw feed vernieuwt. "</string>
     <string name="menu_share_link">Deel Link</string>
     <string name="no_links">Geen Links</string>
     <string name="configure_pages">Configureer Extra Pagina\'s</string>
@@ -599,6 +602,25 @@ In plaats daarvan, zal Talon de afbeeldingen uploaden met behulp van TwitPic.</s
     <string name="both_accounts">Beide Accounts</string>
     <string name="attach_gif">Geanimeerde GIF</string>
     <string name="roboto_l">Android \'\'L\'\' Roboto</string>
+    <string name="second_account">2e Account</string>
+    <string name="second_account_login_info">Het kan zijn dat het volgende scherm je niet meteen laat inloggen met je nieuwe account, omdat Twitter bepaalde delen van je inloggegevens in hun systemen opslaat. Als de inlogpagina wordt overgeslagen en je direct naar de autorisatie pagina gaat, druk dan gewoon op de \'Sign Out\' knop in de rechterbovenhoek van de website zodat je kunt inloggen met je tweede account.</string>
+    <string name="fetch_tweetmarker">Fetch TweetMarker</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Open profiel</string>
+    <string name="copy_handle">Kopieer gebruikersnaam</string>
+    <string name="search_user">Zoek gebruiker</string>
+    <string name="mute_user">Demp gebruiker</string>
+    <string name="mute_retweets">Demp retweets</string>
+    <string name="share_profile">Deel profiel</string>
+    <string name="open_webpage">Open link</string>
+    <string name="copy_link">Kopieer link</string>
+    <string name="share_link">Deel link</string>
+    <string name="search_hashtag">Zoek hashtag</string>
+    <string name="mute_hashtag">Demp hashtag</string>
+    <string name="copy_hashtag">Kopieer hashtag</string>
+    <string name="search_cashtag">Zoek cashtag</string>
+    <string name="copy_cashtag">Kopieer cashtag</string>
+    <string name="copied">Tekst gekopieërd</string>
     <string name="open_to_web">Open naar webpagina</string>
     <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
 </resources>

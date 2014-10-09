@@ -266,7 +266,10 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         // youtube player isn't working right now
         if (false){//youtube) {
-            TweetYouTubeFragment frag = new TweetYouTubeFragment(settings, youtubeVideo);
+            TweetYouTubeFragment frag = new TweetYouTubeFragment();
+            Bundle b = new Bundle();
+            b.putString("url", youtubeVideo);
+            frag.setArguments(b);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, frag);
             ft.commit();

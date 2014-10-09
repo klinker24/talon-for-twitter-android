@@ -107,7 +107,7 @@
     <string name="third_welcome">To wszystko!</string>
     <string name="back_to_timeline">Pokaż mi moją oś czasu!</string>
     <string name="initial_sync">Synchronizuj!</string>
-    <string name="first_info">Zanim zaczniemy, zaloguj się. </string>
+    <string name="first_info">Zanim zaczniemy, zaloguj się.</string>
     <string name="second_info">Świetnie!\n\nTeraz nastąpi pobranie danych początkowych.\n\nMoże to potrwać chwilę, w zależności od szybkości Twojego łącza internetowego.</string>
     <string name="third_info">Mam nadzieję, że Talon Ci się spodoba!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Synchronizowanie tweetów...</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Wybierz listę</string>
     <string name="added_to_list">Dodano do listy</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nUzyskaj dostęp do funkcji\ndotykając elementów\nw\npanelu\nnawigacyjnym!</string>
-    <string name="part_1_phone">\nAby otworzyć\npanel menu\nprzeciągnij palcem\nzza lewej krawędzi!</string>
-    <string name="part_2">\nPrzełączaj\nosie czasu\nprzesuwając\nw lewą lub prawą\nstronę!</string>
+    <string name="part_1_tablet">Uzyskaj dostęp do funkcji\ndotykając elementów\nw\npanelu\nnawigacyjnym!</string>
+    <string name="part_1_phone">Aby otworzyć\npanel menu\nprzeciągnij palcem\nzza lewej krawędzi!</string>
+    <string name="part_2">Przełączaj\nosie czasu\nprzesuwając\nw lewą lub prawą\nstronę!</string>
     <string name="part_3">To wszystko!\n\nDotknij\nekranu\naby rozpocząć!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Ustawienia motywu</string>
@@ -602,6 +602,7 @@ Ten obrazek będzie dostępny do wyświetlenia na Twoim profilu TwitPic.</string
     <string name="both_accounts">Oba konta</string>
     <string name="attach_gif">Animowany GIF</string>
     <string name="roboto_l">Roboto z Androida "L"</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Otwieranie w przeglądarce</string>
     <string name="open_to_web_summary">Jeżeli tweet zawiera link, dotknięcie go przeniesie od razu pod wskazany adres.</string>
 </resources>

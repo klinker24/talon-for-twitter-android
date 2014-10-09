@@ -60,16 +60,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
     private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
 
-    public TwitterSearchFragment(boolean onlyStatus, String query, boolean translucent) {
-        this.translucent = translucent;
-        this.searchQuery = query;
-        this.onlyStatus = onlyStatus;
-    }
-
     public TwitterSearchFragment() {
-        this.translucent = false;
-        this.searchQuery = "";
-        this.onlyStatus = false;
+
     }
 
     public boolean topTweets = false;
@@ -116,6 +108,10 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, null);
+
+        this.translucent = getArguments().getBoolean("translucent", false);
+        this.searchQuery = getArguments().getString("search");
+        this.onlyStatus = getArguments().getBoolean("only_status", false);
 
         settings = AppSettings.getInstance(context);
 

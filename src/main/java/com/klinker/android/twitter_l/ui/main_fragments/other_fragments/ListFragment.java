@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
@@ -39,16 +42,18 @@ public class ListFragment extends MainFragment {
         this.listId = 0;
     }
 
-    public ListFragment(long listId) {
-        this.listId = listId;
-    }
-
     public BroadcastReceiver resetLists = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             getCursorAdapter(true);
         }
     };
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        listId = getArguments().getLong("list_id", 0l);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     @Override
     public void onResume() {

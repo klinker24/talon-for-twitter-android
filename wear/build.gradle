@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.+'
+        classpath 'com.android.tools.build:gradle:0.13.2'
     }
 }
 apply plugin: 'com.android.application'
@@ -30,7 +30,7 @@ repositories {
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
@@ -66,5 +66,5 @@ dependencies {
     compile (project(":shared_assets"))
     compile 'com.android.support:support-v13:+'
     compile 'com.google.android.support:wearable:+'
-    compile 'com.google.android.gms:play-services:5.+'
+    compile 'com.google.android.gms:play-services-wearable:+'
 }

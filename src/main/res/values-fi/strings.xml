@@ -122,8 +122,8 @@
     <string name="follow_me_description">Seuraa @TalonAndroid ja @lukeklinker lukeaksesi kaikista uusista ominaisuuksista ja saa tukea!</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Uusi twiitti</string>
-    <string name="compose_tweet_hint">Mitä haluat kertoa maailmalle....</string>
-    <string name="send_to">Kirjoita käyttäjän nimimerkki</string>
+    <string name="compose_tweet_hint">Mitä haluat sanoa...</string>
+    <string name="send_to">Kirjoita käyttäjän nimimerkki...</string>
     <string name="direct_message_sent">Yksityisviesti lähetetty</string>
     <string name="type_user">Kirjoita käyttäjä</string>
     <string name="add_user">Lisää käyttäjä</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Valitse lista</string>
     <string name="added_to_list">Lisätty listalle</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nPääse ominaisuksiin\nkäsiksi napauttamalla\nkohdetta sivuvalikosta!</string>
-    <string name="part_1_phone">\nAvaa sivuvalikko\npyyhkäisemällä\nvasemmasta\nreunasta!</string>
-    <string name="part_2">\nLiiku aikajanojen\nvälillä pyyhkäisemällä\nmolempiin suuntiin\nruudun keskeltä!\n</string>
+    <string name="part_1_tablet">Pääse ominaisuksiin\nkäsiksi napauttamalla\nkohdetta sivuvalikosta!</string>
+    <string name="part_1_phone">Avaa sivuvalikko\npyyhkäisemällä\nvasemmasta\nreunasta!</string>
+    <string name="part_2">Liiku aikajanojen\nvälillä pyyhkäisemällä\nmolempiin suuntiin\nruudun keskeltä!</string>
     <string name="part_3">Ja sillä selvä!\n\nNapauta\nruutua\naloittaaksesi!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Teema</string>
@@ -288,8 +288,8 @@ HUOM: Emojit jatkavat toimivista sovelluksessa, vaikka kokeilujakso olisi päät
     <string name="quiet_hours">Älä häiritse</string>
     <string name="max_number_on_refresh">Hae maks. twiittiä</string>
     <string name="fav_users_notifications">Suosikkikäyttäjäilmoitukset</string>
-    <string name="sync_second_mentions">Synkronoi toisen tilin maininnat</string>
-    <string name="sync_second_mentions_summary">Tarkista automaattisesti ja ilmoita uusista maininnoista toisesta tilistäsi sekä ensisijaisesta.</string>
+    <string name="sync_second_mentions">Synkronoi toinen tili</string>
+    <string name="sync_second_mentions_summary">Tarkista automaattisesti ja ilmoita uusista maininnoista ja yktisviesteistä toisesta tilistäsi sekä ensisijaisesta.</string>
     <string name="max_number_summary">Mitä suurempi luku, sitä hitaammin päivittää.</string>
     <string name="auto_refresh_category">Automaattinen päivittäminen</string>
     <string name="refresh_on_startup">Päivitä käynnistettäessä</string>
@@ -468,7 +468,7 @@ Oletus (kun pois käytöstä):\n
     <string name="load_tweets">Lataa twiitit</string>
     <string name="download_portal">Lataa teema</string>
     <string name="download_portal_summary">Tämä on Klinker Apps:n \"Portal\"-sovellus, jonka avulla pysyt kärryillä uusimmista uutisista sekä löydät parhaimmat teemat Talon- ja EvolveSMS-sovelluksiin yhdestä paikasta!</string>
-    <string name="compose_dm_hint">Kirjoita yksityisviesti tänne...</string>
+    <string name="compose_dm_hint">Kirjoita viesti...</string>
     <string name="pwiccer">Pwiccer</string>
     <string name="select_shortening_service">Valitse lyhennyspalvleu tai lyhenne twiittiä.</string>
     <string name="use_shortening_service">Twiitin lyhennyspalvelu</string>
@@ -530,7 +530,9 @@ Oletus (kun pois käytöstä):\n
     <string name="widget_trans_light">Läpinäkyvä vaalea</string>
     <string name="widget_trans_black">Läpinäkyvä musta</string>
     <string name="ui_settings">Käyttöliittymä</string>
+    <string name="show_pos_dashclock">Näytä aikajanan sijainti</string>
     <string name="talon_large_widget">Talon - Aikajana</string>
+    <string name="show_muted_mentions">Näytä mykistetyt maininnat</string>
     <string name="menu_view_drafts">Näytä luonnokset</string>
     <string name="menu_schedule_tweet">Ajasta twiitti</string>
     <string name="menu_save_draft">Tallenna luonnos</string>
@@ -544,9 +546,29 @@ Oletus (kun pois käytöstä):\n
     <string name="sending_tweet">Lähetetään twiittiä...</string>
     <string name="attached_images">Liitetty</string>
     <string name="loading_webpage">Ladataan verkkosivua...</string>
+    <string name="plain_text_browser">Pelkkä teksti -selain</string>
     <string name="layout_full_screen">Koko näyttö</string>
+    <string name="pre_cache_only_wifi">Vain WiFin yli</string>
+    <string name="tweet_page">Twiittisivu</string>
     <string name="web_page">Verkkosivu</string>
     <string name="conversation_page">Keskustelusivu</string>
+    <string name="browser_settings">Selainasetukset</string>
+    <string name="memory_manage">Muistinhallinta</string>
+    <string name="twitter">Twitter</string>
+    <string name="user">Käyttäjät</string>
+    <string name="menu_translate">Käännä twiitti</string>
+    <string name="add_new_tweet">Lisää uusi twiitti</string>
+    <string name="done_label">Valmis</string>
+    <string name="date_picker">Valitse päivämäärä</string>
+    <string name="time_picker">Valitse aika</string>
+    <string name="complete_form">Täytä lomake!</string>
+    <string name="no_drafts">Luonnoksia ei löytynyt</string>
+    <string name="no_queued">Jonossa olevia twiittejä ei ole</string>
+    <string name="delete_all">Poista kaikki luonnokset</string>
+    <string name="pick_time">Valitse aika</string>
+    <string name="pick_date">Valitse päivämäärä</string>
+    <string name="both_accounts">Molemmat tilit</string>
+    <!-- Long click methods -->
     <string name="open_to_web">Avaa twiitit verkkosivulle</string>
     <string name="open_to_web_summary">Jos twiitti sisältää URL-osoitteen, se avautuu suoraan kyseiseen URLiin twiitin sijaan.</string>
 </resources>

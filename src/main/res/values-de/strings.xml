@@ -107,7 +107,7 @@
     <string name="third_welcome">Das war\'s schon!</string>
     <string name="back_to_timeline">Bring mich zu meiner Timeline!</string>
     <string name="initial_sync">Jetzt synchronisieren!</string>
-    <string name="first_info">Bevor wir anfangen können, musst du dich erst anmelden. </string>
+    <string name="first_info">Bevor wir anfangen können, musst du dich erst anmelden.</string>
     <string name="second_info">Großartig!\n\nWir werden nun die App mit deinen Daten einrichten.\n\nDieser Vorgang könnte etwas länger dauern, je nachdem, wie du mit dem Internet verbunden bist.</string>
     <string name="third_info">Hoffentlich gefällt dir Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Timeline wird synchronisiert...</string>
@@ -115,7 +115,7 @@
     <string name="syncing_direct_messages">Direktnachrichten werden synchronisiert...</string>
     <string name="syncing_user">Freunde werden synchronisiert...</string>
     <string name="done_syncing">Synchronisation abgeschlossen.</string>
-    <string name="login_error">Etwas ist schief gelaufen... Bitte versuche es erneut!</string>
+    <string name="login_error">"Etwas ist schief gelaufen... Bitte versuche es erneut!\n\nEs könnte daran liegen, dass das Datum und die Uhrzeit Ihres Gerätes nicht automatisch festgelegt wird. Dies ist für die Drittanbieter-API von Twitter erforderlich. "</string>
     <string name="no_network">Du bist nicht mit dem Internet verbunden</string>
     <string name="no_thanks">Später</string>
     <string name="follow_me">Folgen!</string>
@@ -229,9 +229,9 @@
     <string name="choose_list">Liste wählen</string>
     <string name="added_to_list">Zur Liste hinzugefügt</string>
     <!-- Tutorial Activity -->
-    <string name="part_1_tablet">\nVerwende Funktionen\nindem du Einträge\nim \nNavigationsmenü\nberührst!</string>
-    <string name="part_1_phone">\nÖffne das\nNavigationsmenü\nmit einer Wischgeste\nvom Rand!</string>
-    <string name="part_2">\nWechsle die\nAnsicht mit\neiner Wischgeste\nvon der Mitte des\nBildschirms!</string>
+    <string name="part_1_tablet">\nFunktionen verwenden,\nindem Sie Einträge\nim \nNavigationsmenü\nantippen!</string>
+    <string name="part_1_phone">\nÖffnen Sie das\nNavigationsmenü\nmit einer Wischgeste\nvom linken Bildschirmrand!</string>
+    <string name="part_2">Wechsle die\nAnsicht mit\neiner Wischgeste\nvon der Mitte des\nBildschirms!</string>
     <string name="part_3">Das war\'s!\n\nBerühre den\nBildschirm um\nzu beginnen!</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Theme</string>
@@ -241,7 +241,7 @@
     <string name="theme">Theme</string>
     <string name="addon_themes">Add-On-Themes</string>
     <string name="addon_note">Hier klicken, um neue Themes zu entdecken.\n\nHINWEIS:\n- Dadurch wird die integrierte Emoji-Tastatur beim Antworten auf einen Tweet deaktiviert.\n- Bitte melde keine Bugs ohne sicherzustellen, dass diese auch OHNE ein Custom-Theme reproduzierbar sind.</string>
-    <string name="use_addon_themes">Add-On-Themes verwenden</string>
+    <string name="use_addon_themes">Add-On-Theme verwenden</string>
     <string name="make_a_theme">Theme erstellen</string>
     <string name="layout">Layout</string>
     <string name="themeing_complete">Theme angewandt</string>
@@ -330,7 +330,7 @@
     <string name="current_cache_size">Aktuelle Zwischenspeichergröße:</string>
     <string name="cache_dialog_summary">Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
     <string name="timeline_size">Timeline-Größe</string>
-    <string name="timeline_size_summary">Maximale Anzahl an Tweets, die in der Datenbank gespeichert werden</string>
+    <string name="timeline_size_summary">Maximale Anzahl an Tweets, die in der Datenbank gespeichert werden.</string>
     <string name="mentions_size">Erwähnungen-Größe</string>
     <string name="mentions_size_summary">Maximale Anzahl an Erwähnungen, die in der Datenbank gespeichert werden</string>
     <string name="dm_size">Direktnachrichten-Größe</string>
@@ -444,7 +444,10 @@
     <string name="twitpic_summary">TwitPic anstelle von Twitters eigenem Upload-Dienst zum Anhängen von Bildern verwenden.</string>
     <string name="verified">Bestätigt</string>
     <string name="use_tweetmarker">TweetMarker aktivieren</string>
-    <string name="tweetmarker_summary">Noch experimentell, es können Probleme beim nach unten Springen auftreten</string>
+    <string name="tweetmarker_summary">Wird zur Synchronisation der Position zwischen mehreren Geräten verwendet</string>
+    <string name="do_not_use">Nicht verwenden</string>
+    <string name="automatic_refresh">Automatische TweetMarker-Synchronisation</string>
+    <string name="manual_refresh">Manuelle TweetMarker-Synchronisation</string>
     <string name="finding_tweetmarker">TweetMarker wird gesucht</string>
     <string name="loading">Wird geladen</string>
     <string name="loading_tweets">Tweets werden geladen...</string>
@@ -601,6 +604,24 @@
     <string name="both_accounts">Beide Benutzerkonten</string>
     <string name="attach_gif">Animierte GIF-Datei</string>
     <string name="roboto_l">Android "L" Roboto</string>
+    <string name="second_account">Zweitkonto</string>
+    <string name="second_account_login_info">Da Twitter einige deiner Login-Informationen in seinem System behält, können Sie sich vielleicht nicht sofort mit Ihren neuen Benutzerkonto anmelden. Wenn die Login-Seite übersprungen wird und Sie direkt auf der Au­to­ri­sie­rungsseite beginnen, klicken Sie einfach auf die \"Abmelden\"-Schaltfläche in der rechten oberen Ecke der Website, um der App die Anmeldung in Ihrem Zweitkonto zu ermöglichen.</string>
+    <string name="fetch_tweetmarker">TweetMarker wird abgerufen…</string>
+    <!-- Long click methods -->
+    <string name="open_profile">Profil öffnen</string>
+    <string name="search_user">Nutzer suchen</string>
+    <string name="mute_user">Nutzer muten</string>
+    <string name="mute_retweets">Retweets stummschalten</string>
+    <string name="share_profile">Profil teilen</string>
+    <string name="open_webpage">Link öffnen</string>
+    <string name="copy_link">Link kopieren</string>
+    <string name="share_link">Link teilen</string>
+    <string name="search_hashtag">Hashtag suchen</string>
+    <string name="mute_hashtag">Hashtag stummschalten</string>
+    <string name="copy_hashtag">Hashtag kopieren</string>
+    <string name="search_cashtag">Cashtag suchen</string>
+    <string name="copy_cashtag">Cashtag kopieren</string>
+    <string name="copied">Kopierter Text</string>
     <string name="open_to_web">Webseite in Tweet öffnen</string>
     <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
 </resources>
