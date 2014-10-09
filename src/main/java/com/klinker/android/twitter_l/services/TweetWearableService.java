@@ -138,12 +138,9 @@ public class TweetWearableService extends WearableListenerService {
             dataMap.getDataMap().putStringArrayList(KeyProperties.KEY_ID, ids);
 
             // light background with orange accent or theme color accent
-            dataMap.getDataMap().putInt(KeyProperties.KEY_PRIMARY_COLOR, Color.parseColor("#dddddd"));
-            if (settings.addonTheme) {
-                dataMap.getDataMap().putInt(KeyProperties.KEY_ACCENT_COLOR, settings.accentInt);
-            } else {
-                dataMap.getDataMap().putInt(KeyProperties.KEY_ACCENT_COLOR, getResources().getColor(R.color.orange_primary_color));
-            }
+            dataMap.getDataMap().putInt(KeyProperties.KEY_PRIMARY_COLOR, settings.themeColors.primaryColor);
+            dataMap.getDataMap().putInt(KeyProperties.KEY_ACCENT_COLOR, settings.themeColors.accentColor);
+
             dataMap.getDataMap().putLong(KeyProperties.KEY_DATE, System.currentTimeMillis());
 
             for (String node : wearableUtils.getNodes(googleApiClient)) {
