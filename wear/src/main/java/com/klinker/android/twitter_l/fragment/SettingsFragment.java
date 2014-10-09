@@ -23,7 +23,7 @@ import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activity.TextSizeActivity;
 import com.klinker.android.twitter_l.adapter.SettingsAdapter;
 import com.klinker.android.twitter_l.util.RecyclerOnClickListener;
