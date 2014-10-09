@@ -324,6 +324,7 @@ public class TouchableSpan extends ClickableSpan {
                                 }
                             }
                         }).start();
+                        break;
                     case 4: // mute user
                         String current = sharedPrefs.getString("muted_users", "");
                         sharedPrefs.edit().putString("muted_users", current + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
