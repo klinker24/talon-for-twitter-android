@@ -23,7 +23,7 @@
               android:layout_gravity="center"
               android:gravity="center">
 
-    <com.klinker.android.twitter.view.CircularProgressBar
+    <com.klinker.android.twitter_l.view.CircularProgressBar
         android:layout_width="match_parent"
                                                          android:layout_height="match_parent"
                                                          android:id="@+id/progress_bar"/>
