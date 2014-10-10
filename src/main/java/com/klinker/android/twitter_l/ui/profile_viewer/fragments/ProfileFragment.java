@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -555,7 +556,7 @@ public class ProfileFragment extends Fragment {
         getData.start();
     }
 
-    public PeopleArrayAdapter followersAdapter;
+    public ArrayAdapter<User> followersAdapter;
 
     public void getFollowers(final User user, final AsyncListView listView) {
         spinner.setVisibility(View.VISIBLE);

@@ -18,6 +18,7 @@
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - html spacing on the tweet viewer
     - look at pre caching and why sometimes the images won't load
+    - following status on your followers list doesn't work on L version
 
 
 -- For Release --
