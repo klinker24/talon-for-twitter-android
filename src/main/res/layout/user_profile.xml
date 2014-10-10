@@ -1,169 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-    <View android:layout_width="match_parent" android:layout_height="match_parent"
-          android:id="@+id/background"
-          android:background="?tweet_background" />
-
-    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-            android:layout_width="match_parent"
-            android:layout_height="345dp"
-            android:id="@+id/background_image"
-            android:scaleType="centerCrop"
-            android:contentDescription="Profile Picture"
-            android:viewName="profile_picture"/>
-
-
-    <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/notify_scroll_view"
-            android:overScrollMode="never">
-
-        <!-- Holds all the content that can be scrolled -->
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-            <!-- this is the header portion, will hold the profile card -->
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:id="@+id/header_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <include layout="@layout/profile_header_card" />
-
-            </RelativeLayout>
-
-            <include layout="@layout/profile_stats_card" />
-
-            <include layout="@layout/profile_tweets_card" />
-
-            <include layout="@layout/profile_mentions_card" />
-
-            <include layout="@layout/profile_favorites_card" />
-
-            <View android:layout_width="match_parent"
-                  android:id="@+id/nav_bar_seperator"
-                  android:layout_height="56dp" />
-
-        </LinearLayout>
-
-    </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:id="@+id/actionbar_and_status_bar" >
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" >
 
-        <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:id="@+id/status_bar"
-                  android:background="@color/darker_primary"/>
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:id="@+id/actionbar_bar"
-                  android:background="@color/primary"/>
-
-        </LinearLayout>-->
+        <View android:layout_width="match_parent" android:layout_height="match_parent"
+              android:id="@+id/background"
+              android:background="?tweet_background" />
 
         <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/toolbar_background"
-                android:scaleType="centerCrop"/>
+                android:layout_height="345dp"
+                android:id="@+id/background_image"
+                android:scaleType="centerCrop"
+                android:contentDescription="Profile Picture"
+                android:viewName="profile_picture"/>
 
-        <View
-                android:id="@+id/darker_status"
+
+        <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:id="@+id/notify_scroll_view"
+                android:overScrollMode="never">
+
+            <!-- Holds all the content that can be scrolled -->
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                <!-- this is the header portion, will hold the profile card -->
+                <RelativeLayout
+                        android:orientation="vertical"
+                        android:id="@+id/header_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <include layout="@layout/profile_header_card" />
+
+                </RelativeLayout>
+
+                <include layout="@layout/profile_stats_card" />
+
+                <include layout="@layout/profile_tweets_card" />
+
+                <include layout="@layout/profile_mentions_card" />
+
+                <include layout="@layout/profile_favorites_card" />
+
+                <View android:layout_width="match_parent"
+                      android:id="@+id/nav_bar_seperator"
+                      android:layout_height="56dp" />
+
+            </LinearLayout>
+
+        </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
+
+
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/transparent_system_bar"/>
+                android:orientation="vertical"
+                android:id="@+id/actionbar_and_status_bar" >
+
+            <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="0dp"
+                      android:id="@+id/status_bar"
+                      android:background="@color/darker_primary"/>
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="0dp"
+                      android:id="@+id/actionbar_bar"
+                      android:background="@color/primary"/>
+
+            </LinearLayout>-->
+
+            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/toolbar_background"
+                    android:scaleType="centerCrop"/>
+
+            <View
+                    android:id="@+id/darker_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/transparent_system_bar"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_alignParentBottom="true"
+                    android:paddingLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:id="@+id/toolbar_profile_pic"
+                        android:background="@drawable/pro_pic_clip"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="16dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/toolbar_name"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:shadowColor="?textShadowColor"
+                            android:shadowDy="1"
+                            android:shadowRadius="3"
+                            android:textColor="@android:color/white"/>
+                    <TextView
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/toolbar_screenname"
+                            android:textSize="13sp"
+                            android:shadowColor="?textShadowColor"
+                            android:shadowDy="1"
+                            android:shadowRadius="3"
+                            android:textColor="@android:color/white"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+        <View android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/black"
+              android:alpha=".6"
+              android:visibility="gone"
+              android:id="@+id/dim" />
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_alignParentBottom="true"
-                android:paddingLeft="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/spinner">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/toolbar_profile_pic"
-                    android:background="@drawable/pro_pic_clip"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"/>
+            <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                    android:indeterminateOnly="true" />
 
-            <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/toolbar_name"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:shadowColor="?textShadowColor"
-                        android:shadowDy="1"
-                        android:shadowRadius="3"
-                        android:textColor="@android:color/white"/>
-                <TextView
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/toolbar_screenname"
-                        android:textSize="13sp"
-                        android:shadowColor="?textShadowColor"
-                        android:shadowDy="1"
-                        android:shadowRadius="3"
-                        android:textColor="@android:color/white"/>
-
-            </LinearLayout>
         </LinearLayout>
+
+
     </RelativeLayout>
 
-
-
-    <View android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="@android:color/black"
-          android:alpha=".6"
-          android:visibility="gone"
-          android:id="@+id/dim" />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/spinner">
-
-        <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@android:style/Widget.Material.Light.ProgressBar.Large"
-                android:indeterminateOnly="true" />
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/landscape_nav_bar" />
+</LinearLayout>

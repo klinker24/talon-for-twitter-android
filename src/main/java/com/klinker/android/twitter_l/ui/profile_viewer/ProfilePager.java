@@ -122,6 +122,23 @@ public class ProfilePager extends Activity {
         setUpContent();
         setUpInsets();
         getUser();
+
+        View nav = findViewById(R.id.landscape_nav_bar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) nav.getLayoutParams();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) {
+            params.width = (int) (Utils.getNavBarHeight(context) * .9);
+        } else {
+            params.width = 0;
+        }
+
+        nav.setLayoutParams(params);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        recreate();
     }
 
     public void setUpWindow() {
