@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
@@ -37,7 +38,7 @@ public abstract class ProfileUsersPopup extends PopupLayout {
 
     public long cursor = -1;
     public boolean canRefresh = false;
-    public PeopleArrayAdapter adapter;
+    public ArrayAdapter<User> adapter;
 
     protected boolean hasLoaded = false;
 

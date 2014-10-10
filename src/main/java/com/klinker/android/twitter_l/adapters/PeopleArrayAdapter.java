@@ -143,7 +143,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         return v;
     }
 
-    public void setFollowingStatus(ViewHolder holder, User u) {
+    public void setFollowingStatus(ViewHolder holder, Long id) {
 
     }
 
@@ -153,7 +153,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         final long id = user.getId();
         holder.userId = id;
 
-        setFollowingStatus(holder, user);
+        setFollowingStatus(holder, id);
 
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
