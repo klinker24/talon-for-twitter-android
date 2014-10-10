@@ -139,6 +139,7 @@
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:paddingBottom="20dp"
+                        android:orientation="vertical"
                             android:gravity="center">
 
                         <ImageButton
@@ -152,6 +153,15 @@
                                 android:maxWidth="48dp" android:maxHeight="48dp"
                                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="true"
+                            android:text="@string/web"
+                            android:textColor="?dateColor"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-light"/>
+
                     </LinearLayout>
 
 
@@ -162,7 +172,8 @@
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp"
                             android:paddingBottom="20dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageButton
                                 android:id="@+id/conversation_button"
@@ -174,6 +185,15 @@
                                 android:scaleType="center" android:adjustViewBounds="true"
                                 android:maxWidth="48dp" android:maxHeight="48dp"
                                 android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="true"
+                            android:text="@string/replies"
+                            android:textColor="?dateColor"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-light"/>
 
                     </LinearLayout>
                 </LinearLayout>

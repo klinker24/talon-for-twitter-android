@@ -30,5 +30,7 @@
     <string name="general">General</string>
     <string name="no_interactions">No Interactions</string>
     <string name="emojis_summary">Allows you to use iOS emojis by downloading our Sliding Emoji Keyboard - iOS.</string>
+    <string name="replies">Replies</string>
+    <string name="web">Web</string>
 
 </resources>
