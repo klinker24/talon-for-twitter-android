@@ -234,7 +234,7 @@ public abstract class Compose extends Activity implements
 
                 try {
                     if (!android.text.TextUtils.isEmpty(text) && !text.startsWith(" RT @")) {
-                        //text = text.replaceAll("  ", " ");
+                        text = text.replaceAll("  ", " ");
 
                         reply.setText(text);
                         reply.setSelection(text.length());

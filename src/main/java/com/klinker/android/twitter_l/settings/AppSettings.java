@@ -308,7 +308,7 @@ public class AppSettings {
         } else if (pull.equals("1")) {
             pushNotifications = true;
             liveStreaming = false;
-        } else if (pull.equals("2")) {
+        } else {
             pushNotifications = true;
             liveStreaming = true;
         }

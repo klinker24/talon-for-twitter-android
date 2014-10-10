@@ -26,7 +26,7 @@
                 android:textAllCaps="true"
                 android:textSize="14sp"
                 android:gravity="center"
-                android:textColor="?textColor"
+                android:textColor="@color/light_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:textSize="13sp"
                 android:gravity="right"
-                android:textColor="?textColor"
+                android:textColor="@color/light_text"
                 android:fontFamily="sans-serif-light"
                 android:alpha=".6"
                 android:id="@+id/fav_count" />
@@ -61,7 +61,7 @@
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:gravity="center"
-                    android:textColor="?textColor"
+                    android:textColor="@color/light_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:textSize="13sp"
                     android:gravity="right"
-                    android:textColor="?textColor"
+                    android:textColor="@color/light_text"
                     android:fontFamily="sans-serif-light"
                     android:alpha=".6"
                     android:id="@+id/retweet_count" />
@@ -142,7 +142,7 @@
                 android:id="@+id/web_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="?links"
+                android:src="@drawable/ic_links_light"
                 android:contentDescription="Open Web Page"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
@@ -165,7 +165,7 @@
                 android:id="@+id/conversation_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="?directMessageItem"
+                android:src="@drawable/ic_action_share_light"
                 android:contentDescription="Open Web Page"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
@@ -187,7 +187,7 @@
                 android:id="@+id/compose_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="?sendButton"
+                android:src="@drawable/ic_send_light"
                 android:contentDescription="Open Web Page"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
@@ -209,7 +209,7 @@
                 android:id="@+id/overflow_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="?circle_overflow"
+                android:src="@drawable/ic_action_circle_overflow_light"
                 android:contentDescription="Open Web Page"
                 android:minHeight="48dp" android:minWidth="48dp"
                 android:scaleType="center" android:adjustViewBounds="true"
