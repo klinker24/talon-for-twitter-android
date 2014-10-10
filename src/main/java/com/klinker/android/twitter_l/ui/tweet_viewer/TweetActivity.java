@@ -265,7 +265,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         // youtube player isn't working right now
-        if (false){//youtube) {
+        if (youtube) {
             TweetYouTubeFragment frag = new TweetYouTubeFragment();
             Bundle b = new Bundle();
             b.putString("url", youtubeVideo);
@@ -273,10 +273,10 @@ public class TweetActivity extends YouTubeBaseActivity {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, frag);
             ft.commit();
-        } else {
-            findViewById(R.id.youtube_divider).setVisibility(View.GONE);
-            findViewById(R.id.youtube_text).setVisibility(View.GONE);
         }
+
+        findViewById(R.id.youtube_divider).setVisibility(View.GONE);
+        findViewById(R.id.youtube_text).setVisibility(View.GONE);
 
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
