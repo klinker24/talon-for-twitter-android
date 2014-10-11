@@ -88,7 +88,11 @@ public class TimelineRefreshService extends IntentService {
                 id = 1;
             }
 
-            paging.setSinceId(id);
+            try {
+                paging.setSinceId(id);
+            } catch (Exception e) {
+                paging.setSinceId(1l);
+            }
 
             for (int i = 0; i < settings.maxTweetsRefresh; i++) {
                 try {
