@@ -993,7 +993,7 @@ public abstract class DrawerActivity extends Activity {
         final int TWEETMARKER = 7;
 
         try {
-            searchItem = menu.findItem(com.klinker.android.twitter_l.R.id.menu_search);
+            searchItem = menu.findItem(R.id.menu_search);
         } catch (Exception e) {
             searchItem = null;
         }
