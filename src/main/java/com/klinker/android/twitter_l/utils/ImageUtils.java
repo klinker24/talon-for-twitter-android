@@ -526,7 +526,11 @@ public class ImageUtils {
                 );
             }
 
-            bitmaps[i] = Bitmap.createScaledBitmap(currentImage, GROUP_RES, GROUP_RES, true);
+            try {
+                bitmaps[i] = Bitmap.createScaledBitmap(currentImage, GROUP_RES, GROUP_RES, true);
+            } catch (Exception e) {
+
+            }
         }
 
         try {
