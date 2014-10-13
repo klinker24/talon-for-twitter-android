@@ -758,7 +758,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             LinearLayout footer = (LinearLayout) findViewById(R.id.footer);
             View seperater = findViewById(R.id.nav_bar_seperator_interactions);
-            if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE && !MainActivity.isPopup) {
                 LinearLayout.LayoutParams navParams = (LinearLayout.LayoutParams) seperater.getLayoutParams();
                 navParams.height = navBarHeight;
                 seperater.setLayoutParams(navParams);
