@@ -42,6 +42,7 @@ import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
+import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
@@ -410,7 +411,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
-        if((settings.reverseClickActions || expander == null) && !isDM) {
+        if((settings.reverseClickActions || expander == null || MainActivity.isPopup) && !isDM) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -448,7 +449,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             });
 
-            if (expander != null) {
+            if (expander != null && ! MainActivity.isPopup) {
                 holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {

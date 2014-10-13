@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,6 +118,8 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         youTubePlayer.setShowFullscreenButton(false);
 
         realPlayer = youTubePlayer;
+
+        getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
     }
 
     @Override
