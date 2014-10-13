@@ -42,16 +42,24 @@
             android:textColor="?textColor"
             android:textSize="19dp"
             android:layout_marginLeft="8dp"
+            android:singleLine="true"
             android:layout_gravity="right|center_vertical"
                 android:padding="8dp"/>
 
         <ImageButton
                 android:id="@+id/dismiss_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="12dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:minHeight="36dp"
+                android:minWidth="36dp"
+                android:maxHeight="36dp"
+                android:maxWidth="36dp"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 android:layout_marginRight="8dp"
                 android:src="?cancelButton"
+                android:layout_gravity="center_vertical"
                 android:background="?android:selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
