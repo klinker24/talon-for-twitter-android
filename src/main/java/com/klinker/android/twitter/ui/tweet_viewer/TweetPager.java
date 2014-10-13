@@ -4,12 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -131,6 +126,18 @@ public class TweetPager extends YouTubeBaseActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
 
+        if (getIntent().getBooleanExtra("clicked_youtube", false)) {
+            IntentFilter i = new IntentFilter("com.klinker.android.twitter.YOUTUBE_READY");
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    TweetYouTubeFragment.resume();
+                    
+                    context.unregisterReceiver(this);
+                }
+            }, i);
+        }
+
         setContentView(R.layout.tweet_pager);
         pager = (ViewPager) findViewById(R.id.pager);
         mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
@@ -229,12 +236,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
         if (getIntent().getBooleanExtra("clicked_youtube", false)) {
             pager.setCurrentItem(0);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    TweetYouTubeFragment.resume();
-                }
-            }, 1000);
         }
 
         if (settings.addonTheme) {
