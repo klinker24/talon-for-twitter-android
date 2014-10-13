@@ -756,6 +756,14 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
             readButton = (ImageView) findViewById(R.id.read_button);
 
+            ImageButton dismiss = (ImageButton) findViewById(R.id.dismiss_button);
+            dismiss.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissNotifications();
+                }
+            });
+
             LinearLayout footer = (LinearLayout) findViewById(R.id.footer);
             View seperater = findViewById(R.id.nav_bar_seperator_interactions);
             if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE && !MainActivity.isPopup) {
@@ -1365,6 +1373,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         }
 
         menu.getItem(DM).setVisible(false);
+        menu.getItem(DISMISS).setVisible(false);
 
         return true;
     }
@@ -1429,24 +1438,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_dismiss:
-                InteractionsDataSource data = InteractionsDataSource.getInstance(context);
-                data.markAllRead(DrawerActivity.settings.currentAccount);
-                mDrawerLayout.closeDrawer(Gravity.RIGHT);
-                Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
-                notificationAdapter = new InteractionsCursorAdapter(context, c);
-                notificationList.setAdapter(notificationAdapter);
-
-                try {
-                    if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
-                        noInteractions.setVisibility(View.VISIBLE);
-                        noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                    } else if (noInteractions.getVisibility() != View.GONE) {
-                        noInteractions.setVisibility(View.GONE);
-                        noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                    }
-                } catch (Exception e) {
-
-                }
+                dismissNotifications();
 
                 return super.onOptionsItemSelected(item);
 
@@ -1472,6 +1464,27 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void dismissNotifications() {
+        InteractionsDataSource data = InteractionsDataSource.getInstance(context);
+        data.markAllRead(DrawerActivity.settings.currentAccount);
+        mDrawerLayout.closeDrawer(Gravity.RIGHT);
+        Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
+        notificationAdapter = new InteractionsCursorAdapter(context, c);
+        notificationList.setAdapter(notificationAdapter);
+
+        try {
+            if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
+                noInteractions.setVisibility(View.VISIBLE);
+                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+            } else if (noInteractions.getVisibility() != View.GONE) {
+                noInteractions.setVisibility(View.GONE);
+                noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+            }
+        } catch (Exception e) {
+
         }
     }
 
