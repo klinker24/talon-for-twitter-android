@@ -1101,15 +1101,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (!webpage.equals("")) {
                         for (int i = 0; i < split.length; i++) {
                             String s = split[i];
-                            s = s.replace("...", "");
 
-                            if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                                String replace = otherLinks[otherLinks.length - 1];
-                                if (replace.replace(" ", "").equals("")) {
-                                    replace = webpage;
+                            if (s.contains("...")) {
+                                s = s.replace("...", "");
+
+                                if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                                    String replace = otherLinks[otherLinks.length - 1];
+                                    if (replace.replace(" ", "").equals("")) {
+                                        replace = webpage;
+                                    }
+                                    split[i] = replace;
+                                    changed = true;
                                 }
-                                split[i] = replace;
-                                changed = true;
                             }
                         }
                     }
