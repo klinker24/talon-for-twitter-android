@@ -1895,7 +1895,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                             InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                            b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                            b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                             if (round) {
                                 b = ImageUtils.getCircle(b, context);
@@ -1931,7 +1931,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
                             InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                             try {
                                 is.close();
