@@ -355,6 +355,9 @@ public class ProfilePager extends Activity {
         }
     }
 
+    public TextView followText;
+    public TextView favoriteText;
+
     public void setProfileCard(final User user) {
         final String backgroundImage = user.getProfileBannerIPadRetinaURL();
         /*String color = user.getProfileBackgroundColor();
@@ -479,8 +482,8 @@ public class ProfilePager extends Activity {
         TextUtils.linkifyText(context, description, null, true, "", false);
 
         TextView followingStatus = (TextView) findViewById(R.id.follow_status);
-        TextView followText = (TextView) findViewById(R.id.follow_button_text);
-        TextView favoriteText = (TextView) findViewById(R.id.favorite_button);
+        followText = (TextView) findViewById(R.id.follow_button_text);
+        favoriteText = (TextView) findViewById(R.id.favorite_button);
         LinearLayout followButton = (LinearLayout) findViewById(R.id.follow_button);
 
         if (isFollowing) {
@@ -1209,8 +1212,10 @@ public class ProfilePager extends Activity {
             if (created != null) {
                 if (created) {
                     Toast.makeText(context, getResources().getString(R.string.followed_user), Toast.LENGTH_SHORT).show();
+                    followText.setText(getString(R.string.menu_unfollow));
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.unfollowed_user), Toast.LENGTH_SHORT).show();
+                    followText.setText(getString(R.string.menu_follow));
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -1309,8 +1314,10 @@ public class ProfilePager extends Activity {
             if (isFavorited != null) {
                 if (isFavorited) {
                     Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
+                    favoriteText.setText(getString(R.string.menu_unfavorite));
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.unfavorite_user), Toast.LENGTH_SHORT).show();
+                    favoriteText.setText(getString(R.string.menu_favorite));
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
