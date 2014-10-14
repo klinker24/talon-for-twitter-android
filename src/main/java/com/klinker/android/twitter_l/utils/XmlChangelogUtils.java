@@ -20,7 +20,7 @@ public class XmlChangelogUtils {
 
     public static Spanned[] parse(Context context) {
         try {
-            XmlResourceParser parser = context.getResources().getXml(R.xml.changelog);
+            XmlResourceParser parser = context.getResources().getXml(R.xml.changelog_l);
             parser.next();
             parser.nextTag();
             return readChangelog(parser);

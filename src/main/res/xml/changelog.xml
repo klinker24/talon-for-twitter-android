@@ -1,5 +1,13 @@
 <changelog>
 
+    <version name="3.2.6">
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="3.2.5">
+        <text>Fix the YouTube player on some devices</text>
+    </version>
+
     <version name="3.2.4">
         <text>Favorite a user from a long click</text>
         <text>Bug fixes</text>
