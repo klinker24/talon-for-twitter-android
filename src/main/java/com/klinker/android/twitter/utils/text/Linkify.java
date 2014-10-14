@@ -351,7 +351,7 @@ class Linkify {
 
         shortUrl = stripTrailingPeriods(shortUrl);
 
-        if (shortUrl.contains("twitter.com/")) {
+        /*if (shortUrl.contains("twitter.com/")) {
             // safe to assume picture
             // the link will be the last one in the array
             if (otherUrls.length == 1) {
@@ -359,14 +359,14 @@ class Linkify {
             } else {
                 url = otherUrls[otherUrls.length - 1];
             }
-        } else {
+        } else {*/
             for (String s : otherUrls) {
                 if (s.contains(shortUrl)) {
                     url = s;
                     break;
                 }
             }
-        }
+        //}
 
         if (url.equals("")) {
             url = shortUrl;
