@@ -271,7 +271,7 @@
         <item>@string/open_profile</item>
         <item>@string/copy_handle</item>
         <item>@string/search_user</item>
-        <item>@string/favorite_user</item>
+        <item>@string/favorite_user_text</item>
         <item>@string/mute_user</item>
         <item>@string/mute_retweets</item>
         <item>@string/share_profile</item>
