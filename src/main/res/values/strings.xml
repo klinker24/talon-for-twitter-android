@@ -663,4 +663,5 @@
     <string name="search_cashtag">Search Cashtag</string>
     <string name="copy_cashtag">Copy Cashtag</string>
     <string name="copied">Copied Text</string>
+    <string name="favorite_user_text">Favorite User</string>
 </resources>
