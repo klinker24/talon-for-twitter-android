@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.klinker.android.twitter_l">
 
-    <uses-sdk tools:node="replace"/>
+    <uses-sdk tools:overrideLibrary="android.support.v13,android.support.v4,android.support.v7.cardview,android.support.wearable"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
