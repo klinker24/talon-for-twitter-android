@@ -809,6 +809,9 @@ public class TalonPullNotificationService extends Service {
                 HttpURLConnection conn = (HttpURLConnection) new URL(profilePic).openConnection();
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
+                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+
+
                 try {
                     is.close();
                 } catch (Exception e) {
@@ -819,8 +822,7 @@ public class TalonPullNotificationService extends Service {
                 } catch (Exception e) {
 
                 }
-
-                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                
                 if (settings.roundContactImages) {
                     image = ImageUtils.getCircle(image, this);
                 }
