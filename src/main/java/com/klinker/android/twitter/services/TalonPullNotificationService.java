@@ -809,6 +809,17 @@ public class TalonPullNotificationService extends Service {
                 HttpURLConnection conn = (HttpURLConnection) new URL(profilePic).openConnection();
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
+                try {
+                    is.close();
+                } catch (Exception e) {
+
+                }
+                try {
+                    conn.disconnect();
+                } catch (Exception e) {
+
+                }
+
                 Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
                 if (settings.roundContactImages) {
                     image = ImageUtils.getCircle(image, this);
@@ -828,12 +839,69 @@ public class TalonPullNotificationService extends Service {
             }
             if (wrapper == null) {
                 try {
-                    HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
+                    if (!imageUrl.contains(" ")) {
+                        HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
+                        Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
-                    mCache.put(imageUrl, image);
+                        try {
+                            is.close();
+                        } catch (Exception e) {
+
+                        }
+                        try {
+                            conn.disconnect();
+                        } catch (Exception e) {
+
+                        }
+
+                        mCache.put(imageUrl, image);
+                    } else {
+                        String[] pics = imageUrl.split(" ");
+                        Bitmap[] bitmaps = new Bitmap[pics.length];
+
+                        // need to download all of them, then combine them
+                        for (int i = 0; i < pics.length; i++) {
+                            String s = pics[i];
+
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
+
+                            try {
+                                is.close();
+                            } catch (Exception e) {
+
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
+
+                            }
+
+                            // Add to cache
+                            try {
+                                mCache.put(s, b);
+
+                                // throw it into our bitmap array for later
+                                bitmaps[i] = b;
+                            } catch (Exception e) {
+
+                            }
+                        }
+
+                        // now that we have all of them, we need to put them together
+                        Bitmap combined = ImageUtils.combineBitmaps(this, bitmaps);
+
+                        try {
+                            mCache.put(imageUrl, combined);
+                        } catch (Exception e) {
+
+                        }
+                    }
                 } catch (Throwable e) {
 
                 }
