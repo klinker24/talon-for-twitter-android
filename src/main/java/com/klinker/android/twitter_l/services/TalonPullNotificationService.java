@@ -808,7 +808,7 @@ public class TalonPullNotificationService extends Service {
                 InputStream is = new BufferedInputStream(conn.getInputStream());
 
                 Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-                
+
                 try {
                     is.close();
                 } catch (Exception e) {
