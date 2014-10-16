@@ -24,9 +24,6 @@ import twitter4j.Status;
 import twitter4j.User;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
-/**
- * Created by luke on 9/27/14.
- */
 public class PicturesGridAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> text;

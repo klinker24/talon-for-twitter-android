@@ -90,10 +90,6 @@ public class PreCacheService extends IntentService {
 
                         }
 
-                        if (settings.roundContactImages) {
-                            image = ImageUtils.getCircle(image, this);
-                        }
-
                         mCache.put(profilePic, image);
                     } catch (Throwable e) {
                         if (DEBUG) {

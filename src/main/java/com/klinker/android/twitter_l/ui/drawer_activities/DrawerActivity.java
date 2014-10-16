@@ -709,6 +709,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             status2Params.height = statusBarHeight;
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
+        } else if (getResources().getBoolean(R.bool.options_drawer) && MainActivity.isPopup) {
+            View drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
+            LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+            status2Params.height = Utils.getActionBarHeight(this);
+            drawerStatusBar.setLayoutParams(status2Params);
+            drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
 
