@@ -280,7 +280,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-                if (i == SCROLL_STATE_IDLE && oldFirstVisibleItem < 1) {
+                if (i == SCROLL_STATE_IDLE && oldFirstVisibleItem < 1 && canUseScrollStuff) {
                     showStatusBar();
                 }
             }
