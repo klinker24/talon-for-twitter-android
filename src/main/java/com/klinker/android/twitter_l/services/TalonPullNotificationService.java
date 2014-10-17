@@ -137,12 +137,13 @@ public class TalonPullNotificationService extends Service {
 
         mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(android.R.color.transparent)
+                        .setOngoing(true)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""))
                         .setContentText(text)
-                        .setOngoing(true)
-                        .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_icon));
-
+                        .setVisibility(Notification.VISIBILITY_SECRET)
+                        .setPriority(Notification.PRIORITY_MIN)
+                        .setCategory(Notification.CATEGORY_SERVICE);
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
@@ -155,11 +156,6 @@ public class TalonPullNotificationService extends Service {
         } catch (Exception e) { }
 
         mBuilder.setContentIntent(pendingIntent);
-
-        // priority flag is only available on api level 16 and above
-        if (getResources().getBoolean(R.bool.expNotifications)) {
-            mBuilder.setPriority(Notification.PRIORITY_MIN);
-        }
 
         mContext = getApplicationContext();
 

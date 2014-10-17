@@ -125,6 +125,7 @@ public class NotificationUtils {
                     .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
+                    .setCategory(Notification.CATEGORY_SOCIAL)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -653,6 +654,7 @@ public class NotificationUtils {
                 .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
+                .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
@@ -786,6 +788,7 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
+                .setCategory(Notification.CATEGORY_SOCIAL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         if (inbox == null) {
@@ -909,6 +912,7 @@ public class NotificationUtils {
                 .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
+                .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
@@ -1131,6 +1135,7 @@ public class NotificationUtils {
                 .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
                 .setTicker(title)
+                .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
