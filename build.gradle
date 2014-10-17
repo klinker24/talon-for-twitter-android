@@ -36,13 +36,14 @@ android {
         exclude 'META-INF/NOTICE'
 	exclude 'META-INF/DEPENDENCIES'
     }
-    compileSdkVersion "android-L"
-    buildToolsVersion "20.0.0"
+
+    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
-        minSdkVersion "L"
-        targetSdkVersion "L"
+        minSdkVersion Integer.parseInt(project.MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
