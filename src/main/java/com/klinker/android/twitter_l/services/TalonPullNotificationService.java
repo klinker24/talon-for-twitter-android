@@ -138,10 +138,10 @@ public class TalonPullNotificationService extends Service {
         mBuilder =
                 new NotificationCompat.Builder(this)
                         .setOngoing(true)
+                        .setVisibility(Notification.VISIBILITY_SECRET)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""))
                         .setContentText(text)
-                        .setVisibility(Notification.VISIBILITY_SECRET)
                         .setPriority(Notification.PRIORITY_MIN)
                         .setCategory(Notification.CATEGORY_SERVICE);
 
