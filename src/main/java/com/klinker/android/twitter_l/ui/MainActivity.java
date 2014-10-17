@@ -20,7 +20,6 @@ import android.support.v4.view.ViewPager;
 import android.transition.ChangeBounds;
 import android.transition.Explode;
 import android.transition.Fade;
-import android.transition.MoveImage;
 import android.transition.Slide;
 import android.util.Log;
 import android.view.*;

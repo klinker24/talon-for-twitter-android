@@ -58,8 +58,7 @@
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"
-                android:background="@drawable/pro_pic_clip"
-                android:viewName="profile_picture"/>
+                android:background="@drawable/pro_pic_clip"/>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -80,7 +79,6 @@
                     android:paddingTop="4dp"
                     android:singleLine="true"
                     android:gravity="top"
-                    android:viewName="person_name"
                     android:fontFamily="sans-serif-light"/>
 
                 <TextView
@@ -91,7 +89,6 @@
                     android:textColor="@color/dark_date"
                     android:singleLine="true"
                     android:gravity="bottom"
-                    android:viewName="person_handle"
                     android:fontFamily="sans-serif-light"/>
 
             </LinearLayout>

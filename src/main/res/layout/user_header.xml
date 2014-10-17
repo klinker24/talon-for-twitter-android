@@ -26,8 +26,7 @@
             android:layout_marginRight="2dp"
             android:background="@drawable/pro_pic_clip"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:viewName="profile_picture"/>
+            android:layout_marginTop="16dp"/>
 
     <LinearLayout
             android:orientation="horizontal"
@@ -57,8 +56,7 @@
                     android:shadowDy="1"
                     android:shadowRadius="3"
                     android:textSize="15sp"
-                    android:textColor="@android:color/white"
-                    android:viewName="person_name"/>
+                    android:textColor="@android:color/white"/>
 
             <TextView
                     android:id="@+id/screen_name"
@@ -70,8 +68,7 @@
                     android:shadowDy="1"
                     android:shadowRadius="3"
                     android:textSize="13sp"
-                    android:textColor="@android:color/white"
-                    android:viewName="person_handle"/>
+                    android:textColor="@android:color/white"/>
 
         </LinearLayout>
 

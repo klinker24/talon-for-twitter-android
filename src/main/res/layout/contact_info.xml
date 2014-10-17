@@ -26,8 +26,7 @@
                 android:contentDescription="Profile Picture"
                 android:layout_marginRight="2dp"
                 android:background="@drawable/pro_pic_clip"
-                android:layout_marginLeft="2dp"
-                    android:viewName="profile_picture"/>
+                android:layout_marginLeft="2dp"/>
 
             </LinearLayout>
 

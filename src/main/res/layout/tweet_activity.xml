@@ -41,8 +41,7 @@
                         android:layout_height="300dp"
                         android:id="@+id/profile_pic_contact"
                         android:scaleType="centerCrop"
-                        android:contentDescription="Profile Picture"
-                        android:viewName="profile_picture"/>
+                        android:contentDescription="Profile Picture"/>
 
                     <LinearLayout
                         android:id="@+id/send_layout"
@@ -92,8 +91,7 @@
                             android:singleLine="true"
                             android:textSize="24sp"
                             android:alpha=".87"
-                            android:textColor="@android:color/white"
-                            android:viewName="person_name"/>
+                            android:textColor="@android:color/white"/>
 
                         <TextView
                             android:id="@+id/screen_name"
@@ -102,8 +100,7 @@
                             android:singleLine="true"
                             android:textSize="16sp"
                             android:alpha=".87"
-                            android:textColor="@android:color/white"
-                            android:viewName="person_handle"/>
+                            android:textColor="@android:color/white"/>
 
 
                     </LinearLayout>
@@ -120,8 +117,7 @@
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:viewName="tweet_view">
+                        android:layout_height="wrap_content">
 
 
                         <include android:id="@+id/tweet_background"

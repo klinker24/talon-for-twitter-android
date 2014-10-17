@@ -141,6 +141,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 // already has an action bar supplied?? comes when you switch to landscape and back to portrait
             }
 
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
             toolbar.setNavigationIcon(resource);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1540,9 +1541,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         if (statusColor == -1) {
             statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
         }
-        if (whiteColor == -1) {
-            whiteColor = getResources().getColor(android.R.color.white);
-        }
 
         if (barsAreShowing) {
             return;
@@ -1550,7 +1548,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             barsAreShowing = true;
         }
 
-        ValueAnimator showStatus = ValueAnimator.ofInt(tranparentSystemBar, whiteColor, statusColor);
+        ValueAnimator showStatus = ValueAnimator.ofInt(tranparentSystemBar, statusColor);
         showStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -1580,7 +1578,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     private int tranparentSystemBar = -1;
     private int statusColor = -1;
-    private int whiteColor = -1;
     private ArgbEvaluator EVALUATOR = new ArgbEvaluator();
     private boolean barsAreShowing = true;
 
@@ -1593,9 +1590,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         if (statusColor == -1) {
             statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
         }
-        if (whiteColor == -1) {
-            whiteColor = getResources().getColor(android.R.color.white);
-        }
 
         if (!barsAreShowing) {
             return;
@@ -1603,7 +1597,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             barsAreShowing = false;
         }
 
-        ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, whiteColor, tranparentSystemBar);
+        ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, tranparentSystemBar);
         hideStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
