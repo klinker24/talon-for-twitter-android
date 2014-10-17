@@ -928,7 +928,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         animator.start();
     }
 
-    public static final int ANIMATION_DURATION = 200;
+    public static final int ANIMATION_DURATION = 300;
     public static final Interpolator ANIMATION_INTERPOLATOR = new PathInterpolator(.4f,0f,.2f,1f);
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {

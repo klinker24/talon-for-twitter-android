@@ -21,7 +21,7 @@ limitations under the License.
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
-        <item name="android:windowAllowExitTransitionOverlap">false</item>
+        <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
 
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
@@ -112,6 +112,8 @@ limitations under the License.
 
         <item name="ripple_background">@drawable/ripple_light</item>
         <item name="ripple_borderless">@drawable/ripple_light_borderless</item>
+
+        <item name="android:toolbarStyle">@style/ToolBarLight</item>
     </style>
 
     <style name="ActionBarStyle" parent="@android:style/Widget.Material.ActionBar">
@@ -171,6 +173,8 @@ limitations under the License.
     <style name="ToolBarLight" parent="android:Widget.Material.Toolbar">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:colorControlHighlight">@color/dark_ripple</item>
+        <item name="android:colorControlActivated">@color/dark_ripple</item>
+        <item name="android:colorControlNormal">@color/dark_ripple</item>
     </style>
 
     <style name="CircleOverflow.Light" parent="android:style/Widget.Holo.ActionButton.Overflow">

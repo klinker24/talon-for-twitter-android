@@ -21,7 +21,7 @@ limitations under the License.
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
-        <item name="android:windowAllowExitTransitionOverlap">false</item>
+        <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
 
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 

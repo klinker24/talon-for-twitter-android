@@ -48,7 +48,6 @@
                     android:layout_marginRight="20dp"
                     android:gravity="center"
                     android:focusableInTouchMode="true"
-                    android:viewName="compose"
                     android:focusable="true"
                     android:elevation="2dp" >
 

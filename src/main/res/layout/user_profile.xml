@@ -19,8 +19,7 @@
                 android:layout_height="345dp"
                 android:id="@+id/background_image"
                 android:scaleType="centerCrop"
-                android:contentDescription="Profile Picture"
-                android:viewName="profile_picture"/>
+                android:contentDescription="Profile Picture"/>
 
 
         <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
