@@ -43,7 +43,7 @@ public abstract class PopupLayout extends LinearLayout {
     public static final int LONG_ANIMATION_TIME = 200;
     public static final int SHORT_ANIMATION_TIME = 100;
     
-    private static final Interpolator INTERPOLATOR = new PathInterpolator(.4f,0f,.2f,1f);
+    private static final Interpolator INTERPOLATOR = new PathInterpolator(.1f,.1f,.2f,1f);
 
     private Drawable background;
     private TextView title;

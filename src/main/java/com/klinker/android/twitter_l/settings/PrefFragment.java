@@ -1265,6 +1265,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 worldPrefs.edit().putBoolean("sound", false).commit();
             }
 
+            if (set.contains("4")) {
+                sharedPrefs.edit().putBoolean("heads_up", true).commit();
+                worldPrefs.edit().putBoolean("heads_up", true).commit();
+            } else {
+                sharedPrefs.edit().putBoolean("heads_up", false).commit();
+                worldPrefs.edit().putBoolean("heads_up", false).commit();
+            }
+
         } else if (key.equals("timeline_set")) {
             Log.v("notification_set", "timeline being set");
             Set<String> set = sharedPrefs.getStringSet("timeline_set", null);

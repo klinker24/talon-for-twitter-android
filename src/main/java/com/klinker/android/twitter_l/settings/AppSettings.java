@@ -135,6 +135,7 @@ public class AppSettings {
     public boolean preCacheImages;
     public boolean fastTransitions;
     public boolean topDown;
+    public boolean headsUp;
 
     // notifications
     public boolean timelineNot;
@@ -227,6 +228,7 @@ public class AppSettings {
         led = sharedPrefs.getBoolean("led", true);
         sound = sharedPrefs.getBoolean("sound", true);
         vibrate = sharedPrefs.getBoolean("vibrate", true);
+        headsUp = sharedPrefs.getBoolean("heads_up", false);
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", false);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
@@ -301,7 +303,7 @@ public class AppSettings {
             useEmoji = false;
         }
 
-        String pull = sharedPrefs.getString("talon_pull", "2");
+        String pull = sharedPrefs.getString("talon_pull", "0");
         if (pull.equals("0")) {
             liveStreaming = false;
             pushNotifications = false;

@@ -29,8 +29,7 @@
                         android:id="@+id/tweet"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:fontFamily="sans-serif-light"
-                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-strong"
                         android:textSize="18sp"
                         android:textIsSelectable="true"
                         android:textColor="?textColor" />
