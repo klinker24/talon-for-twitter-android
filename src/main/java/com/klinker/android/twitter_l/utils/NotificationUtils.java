@@ -123,12 +123,15 @@ public class NotificationUtils {
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(R.drawable.ic_stat_icon)
                     .setContentIntent(resultPendingIntent)
-                    .setFullScreenIntent(resultPendingIntent, true)
                     .setAutoCancel(true)
                     .setCategory(Notification.CATEGORY_SOCIAL)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
-                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+
+            if (settings.headsUp) {
+                mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
+            }
 
             Bitmap b = getIcon(context, unreadCounts, title[1]);
             if (b != null) {
@@ -657,11 +660,14 @@ public class NotificationUtils {
                 .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                 .setSmallIcon(smallIcon)
                 .setContentIntent(resultPendingIntent)
-                .setFullScreenIntent(resultPendingIntent, true)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+
+        if (settings.headsUp) {
+            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -794,11 +800,14 @@ public class NotificationUtils {
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
                 .setContentIntent(resultPendingIntent)
-                .setFullScreenIntent(resultPendingIntent, true)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
-                .setCategory(Notification.CATEGORY_SOCIAL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setCategory(Notification.CATEGORY_SOCIAL);
+
+        if (settings.headsUp) {
+            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -923,11 +932,14 @@ public class NotificationUtils {
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
                 .setContentIntent(resultPendingIntent)
-                .setFullScreenIntent(resultPendingIntent, true)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+
+        if (settings.headsUp) {
+            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -1150,12 +1162,15 @@ public class NotificationUtils {
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
                 .setSmallIcon(icon)
                 .setContentIntent(resultPendingIntent)
-                .setFullScreenIntent(resultPendingIntent, true)
                 .setTicker(title)
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
+
+        if (settings.headsUp) {
+            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text)));
