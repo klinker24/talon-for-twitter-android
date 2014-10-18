@@ -153,6 +153,7 @@ public class ComposeDMActivity extends Compose {
             }
         }
 
+        attachButton.setVisibility(View.GONE);
         attachButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
