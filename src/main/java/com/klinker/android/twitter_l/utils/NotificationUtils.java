@@ -122,13 +122,18 @@ public class NotificationUtils {
                     .setContentTitle(title[0])
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(R.drawable.ic_stat_icon)
-                    .setLargeIcon(getIcon(context, unreadCounts, title[1]))
                     .setContentIntent(resultPendingIntent)
+                    .setFullScreenIntent(resultPendingIntent, true)
                     .setAutoCancel(true)
                     .setCategory(Notification.CATEGORY_SOCIAL)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+            Bitmap b = getIcon(context, unreadCounts, title[1]);
+            if (b != null) {
+                mBuilder.setLargeIcon(b);
+            }
 
             if (unreadCounts[1] > 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
                 // inbox style notification for mentions
@@ -488,7 +493,7 @@ public class NotificationUtils {
             }
         }
 
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
+        return null;//BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
     }
 
     public static void favUsersNotification(int account, Context context) {
@@ -633,7 +638,7 @@ public class NotificationUtils {
                 inbox.setSummaryText("+" + (tweets.size() - 5) + " " + context.getString(R.string.tweets));
             }
 
-            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+            largeIcon = null;
         }
 
         NotificationCompat.Builder mBuilder;
@@ -651,12 +656,16 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                 .setSmallIcon(smallIcon)
-                .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
+                .setFullScreenIntent(resultPendingIntent, true)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        if (largeIcon != null) {
+            mBuilder.setLargeIcon(largeIcon);
+        }
 
         if (inbox == null) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
@@ -768,7 +777,7 @@ public class NotificationUtils {
         } else { // more than one dm
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
-            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+            largeIcon = null;//BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
 
             inbox = getDMInboxStyle(numberNew, secondAccount, context, message);
         }
@@ -784,12 +793,16 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
-                .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
+                .setFullScreenIntent(resultPendingIntent, true)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        if (largeIcon != null) {
+            mBuilder.setLargeIcon(largeIcon);
+        }
 
         if (inbox == null) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
@@ -895,7 +908,7 @@ public class NotificationUtils {
         } else { // more than one mention
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
             messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
-            largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+            largeIcon = null;//BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
 
         Intent markRead = new Intent(context, MarkReadSecondAccService.class);
@@ -909,12 +922,16 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
-                .setLargeIcon(largeIcon)
                 .setContentIntent(resultPendingIntent)
+                .setFullScreenIntent(resultPendingIntent, true)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        if (largeIcon != null) {
+            mBuilder.setLargeIcon(largeIcon);
+        }
 
         if (numberNew == 1) {
             mBuilder.addAction(replyAction);
@@ -1115,6 +1132,8 @@ public class NotificationUtils {
             }
         }
 
+        icon = null;
+
         // set shorter text
         int total = newFavorites + newFollowers + newRetweets;
         if (total > 1) {
@@ -1132,13 +1151,17 @@ public class NotificationUtils {
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
                 .setSmallIcon(R.drawable.ic_stat_icon)
-                .setLargeIcon(icon)
                 .setContentIntent(resultPendingIntent)
+                .setFullScreenIntent(resultPendingIntent, true)
                 .setTicker(title)
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
+
+        if (icon != null) {
+            mBuilder.setLargeIcon(icon);
+        }
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text)));
