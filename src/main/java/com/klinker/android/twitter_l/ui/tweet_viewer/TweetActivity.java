@@ -273,6 +273,8 @@ public class TweetActivity extends YouTubeBaseActivity {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, frag);
             ft.commit();
+
+            Toast.makeText(this, "YouTube Player doesn't work on Lollipop yet. Waiting on an update from Google", Toast.LENGTH_LONG).show();
         }
 
         findViewById(R.id.youtube_divider).setVisibility(View.GONE);
