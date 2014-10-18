@@ -69,7 +69,7 @@ public class TalonPullNotificationService extends Service {
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
 
-    public NotificationCompat.Builder mBuilder;
+    public Notification.Builder mBuilder;
 
     public static boolean shuttingDown = false;
     public static boolean isRunning = false;
@@ -136,14 +136,13 @@ public class TalonPullNotificationService extends Service {
         }
 
         mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setOngoing(true)
+                new Notification.Builder(this)
                         .setVisibility(Notification.VISIBILITY_SECRET)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""))
                         .setContentText(text)
                         .setPriority(Notification.PRIORITY_MIN)
-                        .setCategory(Notification.CATEGORY_SERVICE);
+                        .setWhen(0);
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
@@ -151,11 +150,9 @@ public class TalonPullNotificationService extends Service {
             mBuilder.addAction(R.drawable.ic_send_dark, getResources().getString(R.string.tweet), composePending);
         }
 
-        try {
-            mBuilder.setWhen(0);
-        } catch (Exception e) { }
-
         mBuilder.setContentIntent(pendingIntent);
+
+        startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
 
@@ -211,8 +208,6 @@ public class TalonPullNotificationService extends Service {
                     ids.add(settings.myId);
 
                     idsLoaded = true;
-
-                    startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.START_PUSH"));
                 } catch (Exception e) {
