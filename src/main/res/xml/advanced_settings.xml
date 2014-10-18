@@ -14,12 +14,12 @@
             android:entryValues="@array/tweetmarker_inserted"
             />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="twitpic"
             android:title="@string/use_twitpic"
             android:summary="@string/twitpic_summary_l"
             android:defaultValue="false"
-            />
+            />-->
 
     </PreferenceCategory>
 
