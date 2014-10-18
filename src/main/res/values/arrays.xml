@@ -180,6 +180,7 @@
         <item>@string/led</item>
         <item>@string/wake_screen</item>
         <item>@string/sound</item>
+        <item>@string/heads_up</item>
     </string-array>
 
     <string-array name="alert_types_inserted">
@@ -187,6 +188,7 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string-array name="timeline_notifications">

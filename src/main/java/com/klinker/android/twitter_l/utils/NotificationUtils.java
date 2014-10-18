@@ -1078,7 +1078,7 @@ public class NotificationUtils {
         String title = "";
         String text = "";
         String smallText = "";
-        Bitmap icon = null;
+        int icon;
 
         AppSettings settings = AppSettings.getInstance(context);
 
@@ -1121,18 +1121,16 @@ public class NotificationUtils {
         }
 
         if (types > 1) {
-            icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
+            icon = R.drawable.ic_stat_icon;
         } else {
             if (newFavorites > 0) {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_important_dark);
+                icon = R.drawable.ic_action_important_dark;
             } else if (newRetweets > 0) {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_repeat_dark);
+                icon = R.drawable.ic_action_repeat_dark;
             } else {
-                icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
+                icon = R.drawable.drawer_user_dark;
             }
         }
-
-        icon = null;
 
         // set shorter text
         int total = newFavorites + newFollowers + newRetweets;
@@ -1150,7 +1148,7 @@ public class NotificationUtils {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
-                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setSmallIcon(icon)
                 .setContentIntent(resultPendingIntent)
                 .setFullScreenIntent(resultPendingIntent, true)
                 .setTicker(title)
@@ -1158,10 +1156,6 @@ public class NotificationUtils {
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
-
-        if (icon != null) {
-            mBuilder.setLargeIcon(icon);
-        }
 
         if(context.getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text)));

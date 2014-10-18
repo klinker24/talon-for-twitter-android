@@ -118,18 +118,22 @@ public class SearchPager extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
         View statusBar = findViewById(R.id.activity_status_bar);
+
+        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
         statusBar.setVisibility(View.VISIBLE);
-        statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+        statusBar.setBackgroundColor(settings.themeColors.primaryColor);
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
+        int actionBarHeight = Utils.getActionBarHeight(context);
 
         LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
-        statusParams.height = statusBarHeight;
+        statusParams.height = statusBarHeight + actionBarHeight;
         statusBar.setLayoutParams(statusParams);
 
         mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, onlyProfile, searchQuery, translucent);
@@ -148,8 +152,8 @@ public class SearchPager extends Activity {
         strip.setViewPager(mViewPager);
 
         int height = Utils.getActionBarHeight(this);
-        strip.setTranslationY(height);
-        mViewPager.setTranslationY(height);
+        //strip.setTranslationY(height);
+        //mViewPager.setTranslationY(height);
 
         mViewPager.setCurrentItem(1);
 
