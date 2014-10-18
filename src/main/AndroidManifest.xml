@@ -44,7 +44,7 @@
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
                   android:launchMode="singleTop"
-                  android:theme="@style/Theme.TalonLight.Orange" >
+                  android:theme="@style/Theme.TalonLight.Blue" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -67,7 +67,7 @@
                   android:label="@string/retweets"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
-                  android:theme="@style/Theme.TalonLight.Orange" >
+                  android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.manipulations.PhotoViewerDialog"
@@ -84,87 +84,87 @@
                   android:label="@string/favorite_tweets"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize"
-                  android:theme="@style/Theme.TalonLight.Orange" >
+                  android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.FavoriteUsersActivity"
             android:label="@string/favorite_users"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.lists.ViewUsers"
             android:label="@string/favorite_users"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager"
             android:label="@string/local_trends"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.scheduled_tweets.NewScheduledTweet"
             android:label="@string/scheduled_tweets"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets"
             android:label="@string/scheduled_tweets"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.SavedSearchesActivity"
             android:label="@string/saved_searches"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.lists.ChoosenListActivity"
             android:label="@string/lists"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.DirectMessageConversation"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             />
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ListChooser"
             android:label="@string/lists"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             />
 
         <activity android:name="com.klinker.android.twitter_l.ui.search.SearchPager"
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -228,7 +228,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -244,7 +244,7 @@
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleInstance"
             android:exported="true"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -257,37 +257,37 @@
         <activity android:name="com.klinker.android.twitter_l.ui.setup.LoginActivity"
                   android:label="@string/app_name_full"
                   android:configChanges="orientation|screenSize"
-                  android:theme="@style/Theme.TalonLight.Orange" >
+                  android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.setup.Version2Setup"
             android:label="@string/app_name_full"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.BrowserActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name_full"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.PlainTextBrowserActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/app_name_full"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.MainActivityPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Notif.Orange"
+            android:theme="@style/Theme.TalonLight.Notif.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.launcher_page.LauncherPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Notif.Orange"
+            android:theme="@style/Theme.TalonLight.Notif.Blue"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden" >
@@ -295,14 +295,14 @@
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToLauncherPopup"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden" >
@@ -310,35 +310,35 @@
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToTimeline"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToMentions"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToDMs"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.SwitchAccountsRedirect"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange" >
+            android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.compose.ComposeActivity"
@@ -428,21 +428,21 @@
             android:label="@string/faq"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.FeaturesActivity"
             android:label="@string/features_explained"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Tweet.Orange">
+                  android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.LauncherTweetActivity"
@@ -452,7 +452,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Tweet.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity"
@@ -461,14 +461,14 @@
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Tweet.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.discover.people.PeopleSearch"
             android:label="@string/suggested_users"
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivityWidget"
@@ -476,14 +476,14 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.TalonLight.Tweet.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Tweet.Orange">
+                  android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.LauncherProfilePager"
@@ -493,7 +493,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Tweet.Orange">
+            android:theme="@style/Theme.TalonLight.Tweet.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.SettingsActivity"
@@ -501,7 +501,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Orange">
+            android:theme="@style/Theme.TalonLight.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.PrefActivity"
@@ -509,7 +509,7 @@
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:launchMode="singleTop"
-                  android:theme="@style/Theme.TalonLight.Orange">
+                  android:theme="@style/Theme.TalonLight.Blue">
         </activity>
 
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">
@@ -647,7 +647,7 @@
         </receiver>
 
         <activity android:name="com.klinker.android.twitter_l.widget.WidgetProxyActivity"
-            android:theme="@style/Theme.TalonLight.Orange"/>
+            android:theme="@style/Theme.TalonLight.Blue"/>
         <service android:name="com.klinker.android.twitter_l.widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service android:name="com.klinker.android.twitter_l.widget.WidgetProvider$CardWidgetService2" />
@@ -671,7 +671,7 @@
 
         <activity android:name="com.klinker.android.twitter_l.settings.DashClockSettingsActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Orange"
+            android:theme="@style/Theme.TalonLight.Blue"
             android:exported="true" />
 
     </application>
