@@ -228,7 +228,7 @@ public class AppSettings {
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
-        twitpic = sharedPrefs.getBoolean("twitpic", false);
+        twitpic = false;//sharedPrefs.getBoolean("twitpic", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
@@ -505,7 +505,7 @@ public class AppSettings {
         autoInsertHashtags = sharedPrefs.getBoolean("auto_insert_hashtags", false);
         alwaysCompose = sharedPrefs.getBoolean("always_compose", false);
         twitlonger = sharedPrefs.getBoolean("twitlonger", true);
-        twitpic = sharedPrefs.getBoolean("twitpic", false);
+        twitpic = false;//sharedPrefs.getBoolean("twitpic", false);
         jumpingWorkaround = sharedPrefs.getBoolean("jumping_workaround", false);
         floatingCompose = sharedPrefs.getBoolean("floating_compose", true);
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
