@@ -19,10 +19,6 @@ limitations under the License.
 
     <style name="Theme.TalonLight.Base" parent="android:Theme.Material.Light.DarkActionBar">
 
-        <!-- enable window content transitions -->
-        <item name="android:windowContentTransitions">false</item>
-        <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
-
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
         <item name="android:windowBackground">@android:color/white</item>
