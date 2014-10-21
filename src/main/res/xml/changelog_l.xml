@@ -1,5 +1,15 @@
 <changelog>
 
+    <version name="1.0.2">
+        <text>Mooooar Material.</text>
+        <text>Better transition to photo viewing</text>
+        <text>Updated icons</text>
+    </version>
+
+    <version name="1.0.1">
+        <text>Disclaimer about YouTube Player not working yet</text>
+    </version>
+
     <version name = "1.0.0">
         <text>Initial Release of Talon for Twitter (Plus)</text>
     </version>

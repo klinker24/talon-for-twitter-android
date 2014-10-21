@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -446,6 +447,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
 
+                    /*ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity)context),
+                            Pair.create((View) (displayPic ? holder.profilePic : holder.image), "image"),
+                            Pair.create((View) holder.name, "name"),
+                            Pair.create((View) holder.screenTV, "screenname")
+                    );*/
+
+                    /*ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
+
                     context.startActivity(viewTweet);
                 }
             });
@@ -494,6 +504,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("proPic", profilePic);
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
+
+                    /*ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
+
+                    /*ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity)context),
+                            Pair.create((View) (displayPic ? holder.profilePic : holder.image), "image"),
+                            Pair.create((View) holder.name, "name"),
+                            Pair.create((View) holder.screenTV, "screenname")
+                    );*/
 
                     context.startActivity(viewTweet);
 
@@ -651,6 +670,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         .putLong("current_position_" + settings.currentAccount, holder.tweetId)
                                         .commit();
                             }
+
+                            /*ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
 
                             context.startActivity(viewTweet);
                         }

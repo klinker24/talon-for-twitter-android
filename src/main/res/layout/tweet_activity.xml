@@ -41,6 +41,7 @@
                         android:layout_height="300dp"
                         android:id="@+id/profile_pic_contact"
                         android:scaleType="centerCrop"
+                        android:transitionName="image"
                         android:contentDescription="Profile Picture"/>
 
                     <LinearLayout
@@ -91,6 +92,7 @@
                             android:singleLine="true"
                             android:textSize="24sp"
                             android:alpha=".87"
+                            android:transitionName="name"
                             android:textColor="@android:color/white"/>
 
                         <TextView
@@ -100,6 +102,7 @@
                             android:singleLine="true"
                             android:textSize="16sp"
                             android:alpha=".87"
+                            android:transitionName="screenname"
                             android:textColor="@android:color/white"/>
 
 
