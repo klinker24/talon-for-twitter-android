@@ -27,7 +27,9 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.transition.ChangeImageTransform;
 import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
@@ -123,6 +125,8 @@ public class TweetActivity extends YouTubeBaseActivity {
         } catch (Exception e) {
 
         }
+
+        Utils.setSharedContentTransition(this);
 
         if (getResources().getBoolean(R.bool.isTablet)) {
             setUpWindow(false);
@@ -1311,8 +1315,13 @@ public class TweetActivity extends YouTubeBaseActivity {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
-                        getWindow().setExitTransition(null);
-                        context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage));
+                        Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage);
+                        photo.putExtra("shared_trans", true);
+
+                        ActivityOptions options = ActivityOptions
+                                .makeSceneTransitionAnimation(((Activity)context), profilePic, "image");
+
+                        context.startActivity(photo, options.toBundle());
                     }
                 }
             });

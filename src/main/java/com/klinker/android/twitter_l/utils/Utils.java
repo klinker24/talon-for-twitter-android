@@ -11,10 +11,13 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.transition.ChangeImageTransform;
+import android.transition.Transition;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 
+import android.view.Window;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -219,6 +222,24 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static void setSharedContentTransition(Context context, Transition trans) {
+        Activity activity = (Activity) context;
+
+        // inside your activity (if you did not enable transitions in your theme)
+        activity.getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        activity.getWindow().setAllowEnterTransitionOverlap(true);
+        activity.getWindow().setAllowReturnTransitionOverlap(true);
+
+        activity.getWindow().setSharedElementEnterTransition(trans);
+        activity.getWindow().setSharedElementExitTransition(trans);
+        activity.getWindow().setSharedElementReenterTransition(trans);
+        activity.getWindow().setSharedElementReturnTransition(trans);
+    }
+
+    public static void setSharedContentTransition(Context context) {
+        setSharedContentTransition(context, new ChangeImageTransform());
     }
 
     public static void setUpTheme(Context context, AppSettings settings) {

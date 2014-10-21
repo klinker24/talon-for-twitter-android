@@ -61,6 +61,8 @@ public class ChoosenListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Utils.setSharedContentTransition(this);
+
         settings = AppSettings.getInstance(this);
 
         getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);

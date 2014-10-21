@@ -1,5 +1,7 @@
 package com.klinker.android.twitter_l.adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -57,9 +59,13 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pic = new Intent(context, PhotoViewerDialog.class);
-                pic.putExtra("url", url);
-                context.startActivity(pic);
+                Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", url);
+                photo.putExtra("shared_trans", true);
+
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(((Activity)context), holder.iv, "image");
+
+                context.startActivity(photo, options.toBundle());
             }
         });
 
