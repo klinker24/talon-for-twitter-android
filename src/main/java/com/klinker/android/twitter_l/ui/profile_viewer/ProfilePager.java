@@ -557,6 +557,8 @@ public class ProfilePager extends Activity {
     }
 
     private PicturesPopup picsPopup;
+    private ProfileFollowersPopup fol;
+    private ProfileFriendsPopup fri;
     private void showStats(User user) {
 
         Button pictures = (Button) findViewById(R.id.pictures_button);
@@ -607,7 +609,7 @@ public class ProfilePager extends Activity {
         }
 
         View openFollowers = findViewById(R.id.view_followers);
-        final ProfileFollowersPopup fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
 
         openFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -619,7 +621,7 @@ public class ProfilePager extends Activity {
         });
 
         View openFriends = findViewById(R.id.view_friends);
-        final ProfileFriendsPopup fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1420,6 +1422,10 @@ public class ProfilePager extends Activity {
             favoritesPopup.hide();
         } else if (picsPopup != null && picsPopup.isShowing()) {
             picsPopup.hide();
+        } else if (fol != null && fol.isShowing()) {
+            fol.hide();
+        } else if (fri != null && fri.isShowing()) {
+            fri.hide();
         } else {
             super.onBackPressed();
         }
