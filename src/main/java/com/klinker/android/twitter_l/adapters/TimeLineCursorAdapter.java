@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -681,7 +682,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();
                             } else {
-                                context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl));
+                                Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl);
+                                photo.putExtra("shared_trans", true);
+
+                                ActivityOptions options = ActivityOptions
+                                        .makeSceneTransitionAnimation(((Activity)context), holder.image, "image");
+
+                                context.startActivity(photo, options.toBundle());
                             }
                         }
                     });

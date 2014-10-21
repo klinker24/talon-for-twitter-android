@@ -93,7 +93,8 @@ public class ProfilePager extends Activity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         getWindow().setAllowEnterTransitionOverlap(true);
         getWindow().setAllowReturnTransitionOverlap(true);
-        Transition trans = new ChangeTransform();
+
+        Transition trans = new ChangeImageTransform();
         getWindow().setSharedElementEnterTransition(trans);
         getWindow().setSharedElementExitTransition(trans);
         getWindow().setSharedElementReenterTransition(trans);

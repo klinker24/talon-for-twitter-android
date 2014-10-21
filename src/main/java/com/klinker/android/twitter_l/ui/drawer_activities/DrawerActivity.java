@@ -21,7 +21,10 @@ import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
 import android.transition.Explode;
+import android.transition.Transition;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -109,6 +112,22 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public Toolbar toolbar = null;
     public static boolean hasToolbar = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // inside your activity (if you did not enable transitions in your theme)
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setAllowEnterTransitionOverlap(true);
+        getWindow().setAllowReturnTransitionOverlap(true);
+
+        Transition trans = new ChangeImageTransform();
+        getWindow().setSharedElementEnterTransition(trans);
+        getWindow().setSharedElementExitTransition(trans);
+        getWindow().setSharedElementReenterTransition(trans);
+        getWindow().setSharedElementReturnTransition(trans);
+    }
 
     public void setUpDrawer(int number, final String actName) {
 
