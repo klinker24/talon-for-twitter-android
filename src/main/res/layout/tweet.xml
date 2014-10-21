@@ -27,6 +27,7 @@
                        android:layout_height="match_parent"
                        android:scaleType="centerCrop"
                        android:background="@drawable/rounded_rect"
+                       android:transitionName="image"
                        android:id="@+id/image"/>
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
@@ -104,6 +105,7 @@
                     android:textColor="?textColor"
                     android:paddingTop="4dp"
                     android:singleLine="true"
+                    android:transitionName="name"
                     android:gravity="top"/>
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
@@ -113,6 +115,7 @@
                     android:layout_weight="1"
                     android:textColor="?dateColor"
                     android:singleLine="true"
+                    android:transitionName="screenname"
                     android:gravity="bottom"/>
 
             </LinearLayout>

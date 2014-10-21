@@ -403,6 +403,7 @@ public class ProfilePager extends Activity {
                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
                         v.getMeasuredWidth(), v.getMeasuredHeight());
                 compose.putExtra("user", "@" + screenName);
+                compose.putExtra("already_animated", true);
                 startActivity(compose, opts.toBundle());
             }
         });
