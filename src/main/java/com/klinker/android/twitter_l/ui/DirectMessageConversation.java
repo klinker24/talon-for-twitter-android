@@ -157,7 +157,7 @@ public class DirectMessageConversation extends Activity {
         }
 
         if (settings.advanceWindowed) {
-            setUpWindow();
+            //setUpWindow();
         }
 
         Utils.setUpPopupTheme(this, settings);
