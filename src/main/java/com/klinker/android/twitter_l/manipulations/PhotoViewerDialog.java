@@ -73,15 +73,7 @@ public class PhotoViewerDialog extends Activity {
         }
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-            getWindow().setAllowEnterTransitionOverlap(true);
-            getWindow().setAllowReturnTransitionOverlap(true);
-
-            Transition trans = new ChangeImageTransform();
-            getWindow().setSharedElementEnterTransition(trans);
-            getWindow().setSharedElementExitTransition(trans);
-            getWindow().setSharedElementReenterTransition(trans);
-            getWindow().setSharedElementReturnTransition(trans);
+            Utils.setSharedContentTransition(this);
         }
 
         url = getIntent().getStringExtra("url");

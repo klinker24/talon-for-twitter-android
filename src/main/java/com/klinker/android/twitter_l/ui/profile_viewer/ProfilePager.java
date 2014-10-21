@@ -89,16 +89,7 @@ public class ProfilePager extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // inside your activity (if you did not enable transitions in your theme)
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        getWindow().setAllowEnterTransitionOverlap(true);
-        getWindow().setAllowReturnTransitionOverlap(true);
-
-        Transition trans = new ChangeImageTransform();
-        getWindow().setSharedElementEnterTransition(trans);
-        getWindow().setSharedElementExitTransition(trans);
-        getWindow().setSharedElementReenterTransition(trans);
-        getWindow().setSharedElementReturnTransition(trans);
+        Utils.setSharedContentTransition(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
