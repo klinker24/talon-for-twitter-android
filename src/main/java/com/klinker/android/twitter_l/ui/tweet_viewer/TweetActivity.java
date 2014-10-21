@@ -50,6 +50,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
+import com.klinker.android.twitter_l.manipulations.profile_popups.PicturesPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -496,6 +497,9 @@ public class TweetActivity extends YouTubeBaseActivity {
             return true;
         } else if (convoPopup != null && convoPopup.isShowing()) {
             convoPopup.hide();
+            return true;
+        } else if (picsPopup != null && picsPopup.isShowing()) {
+            picsPopup.hide();
             return true;
         }
 
@@ -1978,6 +1982,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     }
 
     private Status status = null;
+    private MultiplePicsPopup picsPopup;
 
     public void getInfo(final TextView favoriteText, final TextView favCount, final TextView retweetCount, final long tweetId, final TextView retweetText) {
 
@@ -2099,10 +2104,10 @@ public class TweetActivity extends YouTubeBaseActivity {
                                         for (String x : images) {
                                             s += x + " ";
                                         }
-                                        MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), s);
-                                        popup.setFullScreen();
-                                        popup.setExpansionPointForAnim(view);
-                                        popup.show();
+                                        picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), s);
+                                        picsPopup.setFullScreen();
+                                        picsPopup.setExpansionPointForAnim(view);
+                                        picsPopup.show();
                                     }
                                 });
                             }

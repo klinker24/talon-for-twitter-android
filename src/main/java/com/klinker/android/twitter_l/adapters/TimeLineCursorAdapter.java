@@ -675,7 +675,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         .commit();
                             }
 
-                            if (holder.picUrl.contains(" ")) {
+                            if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
                                 MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), holder.picUrl);
                                 popup.setFullScreen();
                                 popup.setExpansionPointForAnim(view);

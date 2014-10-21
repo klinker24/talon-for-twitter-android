@@ -21,7 +21,7 @@
         android:padding="10dp"
         android:background="@drawable/fab_color"
         android:elevation="3dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="260dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="28dp"
         android:layout_gravity="right"
@@ -61,7 +61,7 @@
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
                     android:id="@+id/profile_pic"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="300dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"/>
 
