@@ -19,6 +19,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v7.widget.CardView;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -85,6 +88,16 @@ public class ProfilePager extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // inside your activity (if you did not enable transitions in your theme)
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setAllowEnterTransitionOverlap(true);
+        getWindow().setAllowReturnTransitionOverlap(true);
+        Transition trans = new ChangeTransform();
+        getWindow().setSharedElementEnterTransition(trans);
+        getWindow().setSharedElementExitTransition(trans);
+        getWindow().setSharedElementReenterTransition(trans);
+        getWindow().setSharedElementReturnTransition(trans);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
@@ -247,36 +260,6 @@ public class ProfilePager extends Activity {
         status.setVisibility(View.GONE);
         getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
 
-        /*if (!getResources().getBoolean(R.bool.isTablet)) {
-            status.setLayoutParams(params1);
-        } else {
-            status.setVisibility(View.INVISIBLE);
-        }*/
-
-        /*final int abHeight = Utils.getActionBarHeight(context);
-        final View header = findViewById(R.id.background_image);*/
-
-        /*View status = findViewById(R.id.status_bar);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
-        params.height = sbHeight;
-        status.setLayoutParams(params);
-
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            status.setVisibility(View.GONE);
-        }
-
-        View action = findViewById(R.id.actionbar_bar);
-        params = (LinearLayout.LayoutParams) action.getLayoutParams();
-        params.height = abHeight;
-        action.setLayoutParams(params);
-
-        if (settings.darkTheme) {
-            action.setBackgroundColor(settings.themeColors.primaryColor);
-            status.setBackgroundColor(settings.themeColors.primaryColorDark);
-        }*/
-
-        //insetsBackground.setAlpha(0f);
-
         final ObjectAnimator showToolbar = ObjectAnimator.ofFloat(insetsBackground, View.TRANSLATION_Y, -1 * toolbarHeight, 0);
         showToolbar.setDuration(250);
         showToolbar.setInterpolator(new DecelerateInterpolator());
@@ -306,9 +289,6 @@ public class ProfilePager extends Activity {
                     toolbarIsShowing = false;
                     hideToolbar.start();
                 }
-                //final int headerHeight = header.getHeight() - abHeight;
-                //final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                //insetsBackground.setAlpha(ratio);
             }
         });
 
@@ -360,35 +340,6 @@ public class ProfilePager extends Activity {
 
     public void setProfileCard(final User user) {
         final String backgroundImage = user.getProfileBannerIPadRetinaURL();
-        /*String color = user.getProfileBackgroundColor();
-
-        int brightness = ImageUtils.getBrightness(color);
-        Log.v("talon_profile_color", "brightness: " + brightness);
-
-        if (brightness < 240) {
-            int color1 = Color.parseColor("#" + color);
-            profileCounts.setBackgroundColor(color1);
-
-            if (brightness < 210) {
-                findViewById(R.id.status_bar).setBackgroundColor(color1);
-                findViewById(R.id.actionbar_bar).setBackgroundColor(color1);
-            } else {
-                findViewById(R.id.blacker_status_bar).setVisibility(View.GONE);
-            }
-
-            if (brightness > 128) {
-                followerCount.setTextColor(getResources().getColor(R.color.light_text));
-                followingCount.setTextColor(getResources().getColor(R.color.light_text));
-            }
-        }*/
-        //findViewById(R.id.status_bar).setBackgroundColor(settings.themeColors.primaryColorDark);
-        //findViewById(R.id.actionbar_bar).setBackgroundColor(settings.themeColors.primaryColor);
-        //profileCounts.setBackgroundColor(settings.themeColors.primaryColor);
-
-        /*if (ImageUtils.getBrightness(settings.themeColors.primaryColor) > 128) {
-            followerCount.setTextColor(getResources().getColor(R.color.light_text));
-            followingCount.setTextColor(getResources().getColor(R.color.light_text));
-        }*/
 
         if (backgroundImage != null) {
             background.loadImage(backgroundImage, true, null);
@@ -469,7 +420,12 @@ public class ProfilePager extends Activity {
             public void onClick(View view) {
                 Intent pic = new Intent(context, PhotoViewerDialog.class);
                 pic.putExtra("url", user.getOriginalProfileImageURL());
-                startActivity(pic);
+                pic.putExtra("shared_trans", true);
+
+                ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(ProfilePager.this, profilePic, "image");
+
+                startActivity(pic, options.toBundle());
             }
         });
 

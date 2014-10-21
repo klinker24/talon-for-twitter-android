@@ -17,6 +17,9 @@ import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,6 +72,17 @@ public class PhotoViewerDialog extends Activity {
 
         }
 
+        if (getIntent().getBooleanExtra("share_trans", false)) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            getWindow().setAllowEnterTransitionOverlap(true);
+            getWindow().setAllowReturnTransitionOverlap(true);
+            Transition trans = new ChangeTransform();
+            getWindow().setSharedElementEnterTransition(trans);
+            getWindow().setSharedElementExitTransition(trans);
+            getWindow().setSharedElementReenterTransition(trans);
+            getWindow().setSharedElementReturnTransition(trans);
+        }
+
         url = getIntent().getStringExtra("url");
 
         if (url == null) {
@@ -111,6 +125,10 @@ public class PhotoViewerDialog extends Activity {
         }
 
         picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
+
+        if (getIntent().getBooleanExtra("shared_trans", false)) {
+            picture.setPadding(0,0,0,0);
+        }
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
@@ -144,7 +162,7 @@ public class PhotoViewerDialog extends Activity {
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                ((Activity)context).finish();
+                onBackPressed();
             }
         });
 

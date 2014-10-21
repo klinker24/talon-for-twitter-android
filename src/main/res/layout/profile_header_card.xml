@@ -63,6 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_height="300dp"
                     android:layout_weight="1"
+                    android:transitionName="image"
                     android:scaleType="centerCrop"/>
 
         </LinearLayout>
