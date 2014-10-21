@@ -284,7 +284,7 @@ public class ProfilePager extends Activity {
         hideToolbar.setDuration(250);
         hideToolbar.setInterpolator(new DecelerateInterpolator());
 
-        final int headerSize = Utils.toDP(345, context);
+        final int headerSize = Utils.toDP(445, context);
 
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
@@ -444,6 +444,26 @@ public class ProfilePager extends Activity {
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
+        final View sendLayout = findViewById(R.id.send_layout);
+        final View sendButton = findViewById(R.id.send_button);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendLayout.callOnClick();
+            }
+        });
+        sendLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
+                compose.putExtra("user", "@" + screenName);
+                startActivity(compose, opts.toBundle());
+            }
+        });
+
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -523,26 +543,6 @@ public class ProfilePager extends Activity {
             findViewById(R.id.header_button_section).setVisibility(View.GONE);
         }
 
-        final View sendLayout = findViewById(R.id.send_layout);
-        final View sendButton = findViewById(R.id.send_button);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendLayout.callOnClick();
-            }
-        });
-        sendLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent compose = new Intent(context, ComposeActivity.class);
-                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
-                        v.getMeasuredWidth(), v.getMeasuredHeight());
-                compose.putExtra("user", "@" + screenName);
-                startActivity(compose, opts.toBundle());
-            }
-        });
-
         sendLayout.setVisibility(View.INVISIBLE);
 
         new Handler().postDelayed(new Runnable() {
@@ -557,6 +557,9 @@ public class ProfilePager extends Activity {
     }
 
     private PicturesPopup picsPopup;
+    private ProfileFollowersPopup fol;
+    private ProfileFriendsPopup fri;
+
     private void showStats(User user) {
 
         Button pictures = (Button) findViewById(R.id.pictures_button);
@@ -607,7 +610,7 @@ public class ProfilePager extends Activity {
         }
 
         View openFollowers = findViewById(R.id.view_followers);
-        final ProfileFollowersPopup fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
 
         openFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -619,7 +622,7 @@ public class ProfilePager extends Activity {
         });
 
         View openFriends = findViewById(R.id.view_friends);
-        final ProfileFriendsPopup fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1420,6 +1423,10 @@ public class ProfilePager extends Activity {
             favoritesPopup.hide();
         } else if (picsPopup != null && picsPopup.isShowing()) {
             picsPopup.hide();
+        } else if (fol != null && fol.isShowing()) {
+            fol.hide();
+        } else if (fri != null && fri.isShowing()) {
+            fri.hide();
         } else {
             super.onBackPressed();
         }
