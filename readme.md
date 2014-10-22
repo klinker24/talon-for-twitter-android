@@ -6,7 +6,21 @@ I made the majority of this app when I was 19 years old, with one high school ja
 
 As of now, it doesn't have to many comments throughout it, most of it is pretty easy to understand if you just dig for awhile, but as time goes on, I will go through and attempt to comment more of it.
 
-There are some pretty neat things in this app, not just twitter related either. Someone looking at this will get the full rundown of our theme engines, windowed advances, clickable links, emoji support, and some other gems that Jacob and I spent a lot of time on. Feel free to use this as a resource for that kind of thing, that's one of the reasons I wanted to open source it in the first place. Lots to learn from an app like this, and I think that is pretty important with the ever changing world of Android.
+
+### What you can use this for ###
+
+There are some pretty neat things in this app, not just twitter related either. Someone looking at this can get the full rundown of things like:
+1. theme engines
+2. windowed advances
+3. clickable links
+4. emoji support
+5. simple and extendable wearable app
+6. plenty of other gems that Jacob and I spent a lot of time on.
+
+
+Feel free to use this as a resource for those kinds of thing, that's one of the reasons I wanted to open source it in the first place. Lots to learn from a big project like this, and I think that is pretty important with the ever changing world of Android.
+
+I ask that you do not redistribute this application for your own gain though. If you make a build and want to share it with people, that's great, that's what this should be for. Do not charge them for that build though. I have spent a hard year creating this project and this is what I ask if you choose to make it for yourself.
 
 
 ### Compiling Talon ###
@@ -48,6 +62,8 @@ If you think something could be done better, then tell me. I am not saying that 
 There isn't to much more I have to say about this. I have put a ton of time and effort into this project and I truly hope that this helps someone out there. Take the leap, try something you never have before, see what you can learn from me and my mistakes.
 
 Let me know if you have questions and I will answer them to the best of my ability.
+
+Thanks and have fun with Talon!
 
 
 Luke Klinker (Klinker Apps Lead Developer)
