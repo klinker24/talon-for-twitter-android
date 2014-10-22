@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
+import com.klinker.android.twitter.APIKeys;
 import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
@@ -25,7 +26,7 @@ import twitter4j.Twitter;
 
 public class TweetMarkerHelper extends APIHelper {
 
-    public static final String TWEETMARKER_API_KEY = "***REMOVED***";
+    public static final String TWEETMARKER_API_KEY = APIKeys.TWEETMARKER_API_KEY;
 
     private int currentAccount;
     private String screenname;
