@@ -49,19 +49,22 @@ android {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
-    signingConfigs {
-        release {
-            storeFile file("keystore")
-            storePassword "klinker1127"
-            keyAlias "talon"
-            keyPassword "klinker1127"
+    File keystore = new File("keystore")
+    if (keystore.exists()) {
+        signingConfigs {
+            release {
+                storeFile file("keystore")
+                storePassword "klinker1127"
+                keyAlias "talon"
+                keyPassword "klinker1127"
+            }
         }
-    }
 
-    buildTypes {
-        release {
-            runProguard false
-            signingConfig signingConfigs.release
+        buildTypes {
+            release {
+                runProguard false
+                signingConfig signingConfigs.release
+            }
         }
     }
 
