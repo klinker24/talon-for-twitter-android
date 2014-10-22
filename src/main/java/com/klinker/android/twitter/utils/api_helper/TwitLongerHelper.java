@@ -1,6 +1,7 @@
 package com.klinker.android.twitter.utils.api_helper;
 
 import android.util.Log;
+import com.klinker.android.twitter.APIKeys;
 import com.klinker.android.twitter.settings.AppSettings;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -32,7 +33,7 @@ import twitter4j.Twitter;
  */
 public class TwitLongerHelper extends APIHelper {
 
-    public static final String TWITLONGER_API_KEY = "rU5qsRgK23glt5dcUQ55b4hsN8F5rak0";
+    public static final String TWITLONGER_API_KEY = APIKeys.TWITLONGER_API_KEY;
     public static final String POST_URL = "http://api.twitlonger.com/2/posts";
     public static final String PUT_URL = "http://api.twitlonger.com/2/posts/"; // will add the id to the end of this later
 

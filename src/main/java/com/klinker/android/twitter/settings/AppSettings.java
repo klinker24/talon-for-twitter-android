@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.APIKeys;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.util.Calendar;
@@ -32,10 +33,10 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
-    public static String TWITTER_CONSUMER_SECRET = "IHHoYqukYC951gsP8gkhr1RUSBJYYwhGO0P3uuCDkA";
+    public static String TWITTER_CONSUMER_KEY = APIKeys.TWITTER_CONSUMER_KEY;
+    public static String TWITTER_CONSUMER_SECRET = APIKeys.TWITTER_CONSUMER_SECRET;
 
-    public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
+    public static String YOUTUBE_API_KEY = APIKeys.YOUTUBE_API_KEY;
 
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
