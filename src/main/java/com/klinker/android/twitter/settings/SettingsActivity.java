@@ -1,3 +1,19 @@
+/*
+ * Copyright 2014 Luke Klinker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.klinker.android.twitter.settings;
 
 import android.app.ActionBar;
@@ -68,30 +84,6 @@ public class SettingsActivity extends Activity {
                 .replace(android.R.id.content, new MainPrefFrag())
                 .commit();
 
-        /*HoloTextView createdBy = (HoloTextView) findViewById(R.id.created_by);
-        HoloTextView versionNumber = (HoloTextView) findViewById(R.id.version_number);
-
-        try {
-            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-
-            String text = getResources().getString(R.string.created_by) + " Luke Klinker";
-            String text2 = getResources().getString(R.string.version) + " " + versionName;
-            createdBy.setText(text);
-            versionNumber.setText(text2);
-        } catch (Exception e) {
-            String text = getResources().getString(R.string.created_by) + " Luke Klinker";
-            String text2 = getResources().getString(R.string.version) + " 0.00";
-            createdBy.setText(text);
-            versionNumber.setText(text2);
-        }
-
-        LinearLayout description = (LinearLayout) findViewById(R.id.created_by_layout);
-        description.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Klinker+Apps")));
-            }
-        });*/
     }
 
     @Override
