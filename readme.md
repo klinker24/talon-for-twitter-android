@@ -1,5 +1,7 @@
 # Talon for Twitter (Classic) #
 
+![Main Drawer](/Other/'Promo Stuff'/Graphics/Classic/Screenshots/Phone/'Phone 1.png')
+
 This is the complete version of the Twitter client that I created for Android. It is 100% open source The only thing that you will have to do plug in is your own API keys.
 
 I made the majority of this app when I was 19 years old, with one high school java class and half of a college one, and you can tell at some places. I know it isn't the prettiest code that you have ever seen, but it works, and it works pretty well! So don't judge to hard on the code, it definitely got better over time :)
@@ -10,7 +12,8 @@ As of now, it doesn't have to many comments throughout it, most of it is pretty 
 ### What you can use this for ###
 
 There are some pretty neat things in this app, not just twitter related either. Someone looking at this can get the full rundown of things like:
-1. theme engines
+
+1. theme engine
 2. windowed advances
 3. clickable links
 4. emoji support
@@ -28,11 +31,13 @@ I ask that you do not redistribute this application for your own gain though. If
 Please don't try to compile it as an ANT build. I beg you, just use Android Studio or IntelliJ and compile it with Gradle. It will make your life so much easier and I will not be answering questions about dependencies and compiling for Eclipse. We spent a long time changing all of our projects over to Gradle and I want it to help some people.
 
 To compile it:
+
 1. Check out the project with a *git clone <clone path here>*
 2. You can compile it from the command line by CDing into the folder then *./gradlew assembleDebug*
 3. Import it to IntelliJ or Android Studio by going to File -> Import Project... then selecting the *build.gradle* file in the root of the project
 
 To get your Twitter API key, go through these steps:
+
 1. sign in on their developer site (https://apps.twitter.com/)
 2. Click *Create New App* You will have to implement a callback url.
 3. Choose a name, description, and website. These are all required and unique to your app, but it makes no difference what you call them. Anything will work here.
@@ -53,9 +58,11 @@ One of the reasons that I decided to open source this wasn't just because people
 
 I have done the absolute best I can with this app, but the more minds working on it, the better. Chances are if you are here and actually reading the readme, you have far more experience programming than me anyways and know how things can be improved.
 
+
 ### Issues ###
 
 If you think something could be done better, then tell me. I am not saying that I will agree with you on it or that it will ever be the way you think it should be, but there is no hurt in asking.
+
 
 ### Wrap Up ###
 
