@@ -59,6 +59,7 @@ public class PhotoViewerDialog extends Activity {
     public String url;
     public NetworkedCacheableImageView picture;
     public HoloTextView download;
+    public PhotoViewAttacher mAttacher;
 
 
     @Override
@@ -128,7 +129,7 @@ public class PhotoViewerDialog extends Activity {
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
         }
-        PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
+        mAttacher = new PhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
@@ -252,6 +253,12 @@ public class PhotoViewerDialog extends Activity {
         inflater.inflate(R.menu.photo_viewer, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mAttacher.cleanup();
+        super.onBackPressed();
     }
 
     @Override

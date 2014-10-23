@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.transition.ChangeImageTransform;
+import android.transition.ChangeTransform;
 import android.transition.Transition;
 import android.util.Log;
 import android.util.TypedValue;
@@ -244,7 +245,7 @@ public class Utils {
     }
 
     public static void setSharedContentTransition(Context context) {
-        setSharedContentTransition(context, new ChangeImageTransform());
+        setSharedContentTransition(context, new ChangeTransform());
     }
 
     public static void setUpTheme(Context context, AppSettings settings) {
