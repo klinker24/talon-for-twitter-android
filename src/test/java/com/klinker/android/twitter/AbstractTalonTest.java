@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Klinker Apps, Inc.
+ * Copyright 2014 Luke Klinker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package com.klinker.android.twitter;
 
 import org.junit.Before;
@@ -23,7 +24,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 @Ignore
-@RunWith(RobolectricTestRunner.class)
+@RunWith(TalonTestRunner.class)
 public abstract class AbstractTalonTest {
 
     @Before

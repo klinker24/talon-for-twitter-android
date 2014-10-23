@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Jacob Klinker
+ * Copyright 2014 Luke Klinker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD:shared_assets/src/main/java/com/klinker/android/twitter_l/util/IoUtils.java
 package com.klinker.android.twitter_l.util;
+=======
+
+package com.klinker.android.twitter.util;
+>>>>>>> master:shared_assets/src/main/java/com/klinker/android/twitter/util/IoUtils.java
 
 import android.graphics.Bitmap;
 
