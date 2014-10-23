@@ -36,6 +36,7 @@ import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
@@ -1640,10 +1641,15 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (TimeLineCursorAdapter.multPics != null && TimeLineCursorAdapter.multPics.isShowing()) {
+            TimeLineCursorAdapter.multPics.hide();
+            TimeLineCursorAdapter.multPics = null;
+        } else {
+            super.onBackPressed();
 
-        if (closeBtn != null) {
-            closeBtn.callOnClick();
+            if (closeBtn != null) {
+                closeBtn.callOnClick();
+            }
         }
     }
 }
