@@ -4,58 +4,51 @@
     - gallery of picture on searching
     - tweetmarker in lists
     - rotation on tweet viewer
-    - identify conversations from timeline
-    - transparent status bar xposed
     - Night mode for themes
     - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
-    - better url regex
     - better intent filter for the search so it doesn't get everything
+    - 1x1 widget for unread count on timeline
+    - seconds instead of 0m on timeline
+    - Pictures on the right for your send direct messages
 
 - Bugs:
     - browser doesn't always close when backing out of it (maybe add to a count or something to keep track of how many pages have been added)
     - switch mentions to save the position instead of current unread method
-    - duplicate followers and following with low numbers
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - html spacing on the tweet viewer
+    - look at pre caching and why sometimes the images won't load
+    - following status on your followers list doesn't work on L version
 
 
 -- For Release --
 
-    Version 2.5.0
-        - manual tweetmarker
+    Version 3.2.0
+        - conversation indicator on timeline
+
+    Version 3.3.0
+        - Theming options for the fab
+        - try to specify the text color for the action bar themes
         - mute users for a time period
 
-        - material design add on theme
-        - conversation indicator on timeline
-        - collage of images on the tweet viewer if there is more than one attached to the tweet
-        - remove the dependency on smoothie and roll it myself
-        - animate expanding the timeline
-
-
-    Version 2.6.0
+    Version 3.4.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
             - second account timeline page
             - favorite tweets fragment
             - Activity fragment
+<<<<<<< HEAD
 
 
 -- Launcher Page --
 
-    - still switches the timelines every once and awhile
-    - emoji support
-    - test ui extras on the normal page not showing and hiding the toast correctly
-    - get the circles to look better on the avatars (doesnt crop rectangle first)
-    - change the drawer to be more of an overlay for the L version
+    - tweetmarker settings
+    - regex from twitter
 
 
 
--- Talon "L" Version --
 
-    - Profiles
-    - remove the black behind the windows
-    - better viewing of multiple images on tweet viewer
-    - launcher page theme stuff
-    - put in aaron's default header image
+adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444
+=======
+>>>>>>> master

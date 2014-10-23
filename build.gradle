@@ -49,19 +49,22 @@ android {
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
-    signingConfigs {
-        release {
-            storeFile file("keystore")
-            storePassword "klinker1127"
-            keyAlias "talon"
-            keyPassword "klinker1127"
+    File keystore = new File("keystore")
+    if (keystore.exists()) {
+        signingConfigs {
+            release {
+                storeFile file("keystore")
+                storePassword "klinker1127"
+                keyAlias "talon"
+                keyPassword "klinker1127"
+            }
         }
-    }
 
-    buildTypes {
-        release {
-            runProguard false
-            signingConfig signingConfigs.release
+        buildTypes {
+            release {
+                runProguard false
+                signingConfig signingConfigs.release
+            }
         }
     }
 
@@ -90,10 +93,10 @@ dependencies {
             'org.hamcrest:hamcrest-library:1.1'
     androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.robolectric:robolectric:2.4-SNAPSHOT'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
     androidTestCompile 'org.mockito:mockito-all:1.9.5'
 
-    provided 'org.projectlombok:lombok:+'
+    provided 'org.projectlombok:lombok:1.14.8'
 
     compile 'com.android.support:support-v13:+'
     compile "com.android.support:cardview-v7:+"
@@ -103,14 +106,14 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
-    compile 'com.klinkerapps:launcher-apis:+'
+    compile 'com.klinkerapps:launcher-apis:1.1.0@aar'
 
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
 
     compile 'com.android.support:support-v13:20.0.0'
     compile 'com.google.android.gms:play-services:5.0.+'
-    compile 'com.google.android.support:wearable:+'
+    compile 'com.google.android.support:wearable:1.0.0'
 
     compile files('lib/httpmime-4.3.2.jar')
     compile files('lib/dashclock-api-r2.0.jar')

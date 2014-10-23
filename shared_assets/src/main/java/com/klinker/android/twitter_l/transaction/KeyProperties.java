@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Jacob Klinker
+ * Copyright 2014 Luke Klinker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
+<<<<<<< HEAD:shared_assets/src/main/java/com/klinker/android/twitter_l/transaction/KeyProperties.java
 package com.klinker.android.twitter_l.transaction;
+=======
+
+package com.klinker.android.twitter.transaction;
+>>>>>>> master:shared_assets/src/main/java/com/klinker/android/twitter/transaction/KeyProperties.java
 
 public class KeyProperties {
 
