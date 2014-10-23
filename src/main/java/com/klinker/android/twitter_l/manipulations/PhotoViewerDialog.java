@@ -72,6 +72,12 @@ public class PhotoViewerDialog extends Activity {
 
         }
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
+
         if (getIntent().getBooleanExtra("share_trans", false)) {
             Utils.setSharedContentTransition(this);
         }
@@ -129,33 +135,17 @@ public class PhotoViewerDialog extends Activity {
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
-                /*if (isRunning) {
-                    overridePendingTransition(0, 0);
-                    finish();
-                    Intent restart;
-                    if (fromLauncher) {
-                        restart = new Intent(context, LauncherPhotoViewerDialog.class);
-                    } else {
-                        restart = new Intent(context, PhotoViewerDialog.class);
-                    }
-                    if (url.contains("twitpic")) {
-                        Log.v("talon_picture", picture.getTag().toString());
-                        restart.putExtra("url", picture.getTag().toString());
-                    } else {
-                        restart.putExtra("url", url);
-                    }
-                    restart.putExtra("from_cache", true);
-                    restart.putExtra("restart", false);
-                    overridePendingTransition(0, 0);
-                    startActivity(restart);
-                }*/
             }
         }, 0, fromCache); // no transform
 
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                onBackPressed();
+                if (sysUiShown) {
+                    hideSystemUI();
+                } else {
+                    showSystemUI();
+                }
             }
         });
 
@@ -247,6 +237,13 @@ public class PhotoViewerDialog extends Activity {
             ab.setTitle("");
             ab.setIcon(transparent);
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideSystemUI();
+            }
+        }, 1000);
     }
 
     @Override
@@ -397,28 +394,27 @@ public class PhotoViewerDialog extends Activity {
     @Override
     public void onPause() {
         isRunning = false;
+
         unregisterReceiver(receiver);
         super.onPause();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    // This snippet hides the system bars.
+    private void hideSystemUI() {
+        sysUiShown = false;
 
-        overridePendingTransition(0, 0);
-        finish();
-        final Intent restart = new Intent(context, PhotoViewerDialog.class);
-        restart.putExtra("url", url);
-        restart.putExtra("config_changed", true);
-        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
 
-        // we have to delay it just a little bit so that it isn't consumed by the timeline changing orientation
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(restart);
-                overridePendingTransition(0, 0);
-            }
-        }, 250);
+    boolean sysUiShown = false;
+    private void showSystemUI() {
+        sysUiShown = true;
+
+        getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 }
