@@ -16,9 +16,14 @@
 
 <changelog>
 
+	<version name="3.3.0">
+		<text>Talon is now fully open source. View the project here: https://github.com/klinker24/Talon-for-Twitter</text>
+	</version>
+
     <version name="3.2.6">
         <text>Pre-Cache changes</text>
         <text>Bug fixes</text>
+        <text>Forced to remove TwitPic once again</text>
     </version>
 
     <version name="3.2.5">
