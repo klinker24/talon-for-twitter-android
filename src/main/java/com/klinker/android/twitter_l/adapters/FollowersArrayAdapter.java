@@ -41,9 +41,6 @@ import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
-/**
- * Created by luke on 10/3/14.
- */
 public class FollowersArrayAdapter extends ArrayAdapter<User> {
 
     public Context context;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/listeners/InteractionClickListener.java
 package com.klinker.android.twitter_l.listeners;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.listeners;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.listeners;
->>>>>>> master:src/main/java/com/klinker/android/twitter/listeners/InteractionClickListener.java
 
 import android.app.Activity;
 import android.app.AlertDialog;

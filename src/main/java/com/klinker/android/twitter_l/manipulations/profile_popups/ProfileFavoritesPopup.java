@@ -11,9 +11,7 @@ import twitter4j.User;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lucasklinker on 9/20/14.
- */
+
 public class ProfileFavoritesPopup extends ProfileListPopupLayout {
 
     public ProfileFavoritesPopup(Context context, View main, User user, boolean windowed) {

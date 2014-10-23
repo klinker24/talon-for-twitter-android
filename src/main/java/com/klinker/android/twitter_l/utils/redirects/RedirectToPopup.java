@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/redirects/RedirectToPopup.java
 package com.klinker.android.twitter_l.utils.redirects;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.utils.redirects;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.utils.redirects;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/redirects/RedirectToPopup.java
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/MainActivity.java
 package com.klinker.android.twitter_l.ui;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/MainActivity.java
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

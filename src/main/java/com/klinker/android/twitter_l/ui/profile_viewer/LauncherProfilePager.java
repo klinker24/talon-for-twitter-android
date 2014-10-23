@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/profile_viewer/LauncherProfilePager.java
 package com.klinker.android.twitter_l.ui.profile_viewer;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,8 +15,6 @@ package com.klinker.android.twitter_l.ui.profile_viewer;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.profile_viewer;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/profile_viewer/LauncherProfilePager.java
 
 import android.content.Context;
 import android.os.Bundle;

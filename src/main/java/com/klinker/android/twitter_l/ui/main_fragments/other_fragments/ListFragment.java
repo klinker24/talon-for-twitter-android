@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/main_fragments/other_fragments/ListFragment.java
 package com.klinker.android.twitter_l.ui.main_fragments.other_fragments;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.main_fragments.other_fragments;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.main_fragments.other_fragments;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/main_fragments/other_fragments/ListFragment.java
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

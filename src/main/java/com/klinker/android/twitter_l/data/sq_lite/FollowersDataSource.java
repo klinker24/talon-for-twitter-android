@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/data/sq_lite/FollowersDataSource.java
 package com.klinker.android.twitter_l.data.sq_lite;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.data.sq_lite;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.data.sq_lite;
->>>>>>> master:src/main/java/com/klinker/android/twitter/data/sq_lite/FollowersDataSource.java
 
 import android.content.ContentValues;
 import android.content.Context;

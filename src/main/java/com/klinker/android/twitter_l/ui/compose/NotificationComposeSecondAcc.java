@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/compose/NotificationComposeSecondAcc.java
 package com.klinker.android.twitter_l.ui.compose;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,8 +15,6 @@ package com.klinker.android.twitter_l.ui.compose;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.compose;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/compose/NotificationComposeSecondAcc.java
 
 import android.app.NotificationManager;
 import android.content.Context;

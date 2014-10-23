@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/drawer_activities/discover/people/PeopleSearch.java
 package com.klinker.android.twitter_l.ui.drawer_activities.discover.people;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover.people;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.drawer_activities.discover.people;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/drawer_activities/discover/people/PeopleSearch.java
 
 import android.app.ActionBar;
 import android.app.Activity;

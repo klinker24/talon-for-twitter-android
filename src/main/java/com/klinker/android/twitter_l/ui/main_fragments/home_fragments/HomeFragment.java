@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/main_fragments/home_fragments/HomeFragment.java
 package com.klinker.android.twitter_l.ui.main_fragments.home_fragments;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.main_fragments.home_fragments;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.main_fragments.home_fragments;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/main_fragments/home_fragments/HomeFragment.java
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

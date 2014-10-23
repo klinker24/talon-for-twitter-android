@@ -30,9 +30,6 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-/**
- * Created by luke on 9/26/14.
- */
 public class PicturesPopup extends PopupLayout {
 
     GridView listView;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter;
+package com.klinker.android.twitter_l;
 
 public class APIKeys {
 
@@ -30,8 +30,8 @@ public class APIKeys {
      *
      * For steps to creating an application, view the Readme.md
      */
-    public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
-    public static String TWITTER_CONSUMER_SECRET = "IHHoYqukYC951gsP8gkhr1RUSBJYYwhGO0P3uuCDkA";
+    public static String TWITTER_CONSUMER_KEY = "ByivySWf9pykD5CpamBNODii8";
+    public static String TWITTER_CONSUMER_SECRET = "ARKOhkKBSTeOl1fyhL2njfMMqRlDkDmlhFtEJZfD5jmgP7kttg";
 
     /**
      * For the In-App Youtube Player

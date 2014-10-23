@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/receivers/NotificationDeleteReceiverOne.java
 package com.klinker.android.twitter_l.receivers;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.receivers;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.receivers;
->>>>>>> master:src/main/java/com/klinker/android/twitter/receivers/NotificationDeleteReceiverOne.java
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

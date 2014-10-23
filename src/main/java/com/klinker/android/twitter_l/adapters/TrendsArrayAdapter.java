@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/adapters/TrendsArrayAdapter.java
 package com.klinker.android.twitter_l.adapters;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.adapters;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.adapters;
->>>>>>> master:src/main/java/com/klinker/android/twitter/adapters/TrendsArrayAdapter.java
 
 import android.app.SearchManager;
 import android.content.Context;

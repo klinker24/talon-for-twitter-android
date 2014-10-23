@@ -36,9 +36,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by lucasklinker on 9/18/14.
- */
 public class TweetView {
 
     Context context;

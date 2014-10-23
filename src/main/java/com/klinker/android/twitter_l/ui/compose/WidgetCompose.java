@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/compose/WidgetCompose.java
 package com.klinker.android.twitter_l.ui.compose;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.compose;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.compose;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/compose/WidgetCompose.java
 
 import android.content.Intent;
 import android.os.Bundle;

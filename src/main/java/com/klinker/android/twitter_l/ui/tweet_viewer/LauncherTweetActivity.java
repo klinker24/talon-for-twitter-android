@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/tweet_viewer/LauncherTweetActivity.java
 package com.klinker.android.twitter_l.ui.tweet_viewer;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,22 +15,13 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.tweet_viewer;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/tweet_viewer/LauncherTweetPager.java
 
 import android.content.Context;
 import android.os.Bundle;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/tweet_viewer/LauncherTweetActivity.java
-/**
- * Created by luke on 4/21/14.
- */
 public class LauncherTweetActivity extends TweetActivity {
-=======
-public class LauncherTweetPager extends TweetPager {
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/tweet_viewer/LauncherTweetPager.java
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

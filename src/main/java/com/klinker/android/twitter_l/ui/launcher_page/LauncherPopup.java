@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/launcher_page/LauncherPopup.java
 package com.klinker.android.twitter_l.ui.launcher_page;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.launcher_page;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.launcher_page;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/launcher_page/LauncherPopup.java
 
 import android.content.Intent;
 import android.view.View;

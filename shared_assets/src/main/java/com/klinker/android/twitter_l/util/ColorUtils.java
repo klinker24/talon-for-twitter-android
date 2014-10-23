@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-<<<<<<< HEAD:shared_assets/src/main/java/com/klinker/android/twitter_l/util/ColorUtils.java
 package com.klinker.android.twitter_l.util;
-=======
 
-package com.klinker.android.twitter.util;
->>>>>>> master:shared_assets/src/main/java/com/klinker/android/twitter/util/ColorUtils.java
 
 import android.graphics.Color;
 

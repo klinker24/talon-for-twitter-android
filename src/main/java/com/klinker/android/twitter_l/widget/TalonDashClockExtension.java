@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/widget/TalonDashClockExtension.java
 package com.klinker.android.twitter_l.widget;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.widget;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.widget;
->>>>>>> master:src/main/java/com/klinker/android/twitter/widget/TalonDashClockExtension.java
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
