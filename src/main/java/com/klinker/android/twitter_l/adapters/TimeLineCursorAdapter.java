@@ -100,6 +100,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    public static MultiplePicsPopup multPics;
+
     public static class ViewHolder {
         public TextView name;
         public TextView screenTV;
@@ -699,10 +701,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                                MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), holder.picUrl);
-                                popup.setFullScreen();
-                                popup.setExpansionPointForAnim(view);
-                                popup.show();
+                                multPics = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), holder.picUrl);
+                                multPics.setFullScreen();
+                                multPics.setExpansionPointForAnim(view);
+                                multPics.show();
                             } else {
                                 Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
