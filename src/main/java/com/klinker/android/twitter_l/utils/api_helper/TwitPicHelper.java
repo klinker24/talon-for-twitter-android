@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/TwitPicHelper.java
 package com.klinker.android.twitter_l.utils.api_helper;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,13 +15,10 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.utils.api_helper;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/TwitPicHelper.java
-
 import android.content.Context;
 import android.util.Log;
 
-import com.klinker.android.twitter.APIKeys;
+import com.klinker.android.twitter_l.APIKeys;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;

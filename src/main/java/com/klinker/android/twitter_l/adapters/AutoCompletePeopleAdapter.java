@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/adapters/AutoCompletePeopleAdapter.java
 package com.klinker.android.twitter_l.adapters;
-=======
 /*
  * Copyright 2013 Luke Klinker
  *
@@ -17,8 +15,6 @@ package com.klinker.android.twitter_l.adapters;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.adapters;
->>>>>>> master:src/main/java/com/klinker/android/twitter/adapters/AutoCompletePeopleAdapter.java
 
 import android.content.Context;
 import android.database.Cursor;

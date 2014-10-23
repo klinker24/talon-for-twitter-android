@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/manipulations/widgets/HTML5WebView.java
 package com.klinker.android.twitter_l.manipulations.widgets;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.manipulations.widgets;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.manipulations.widgets;
->>>>>>> master:src/main/java/com/klinker/android/twitter/manipulations/widgets/HTML5WebView.java
 
 import android.content.Intent;
 import android.net.Uri;

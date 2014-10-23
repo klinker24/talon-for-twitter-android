@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-<<<<<<< HEAD:shared_assets/src/main/java/com/klinker/android/twitter_l/util/IoUtils.java
 package com.klinker.android.twitter_l.util;
-=======
-
-package com.klinker.android.twitter.util;
->>>>>>> master:shared_assets/src/main/java/com/klinker/android/twitter/util/IoUtils.java
 
 import android.graphics.Bitmap;
 

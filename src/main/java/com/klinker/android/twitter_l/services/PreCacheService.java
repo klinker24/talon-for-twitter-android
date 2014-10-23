@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/services/PreCacheService.java
 package com.klinker.android.twitter_l.services;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.services;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.services;
->>>>>>> master:src/main/java/com/klinker/android/twitter/services/PreCacheService.java
 
 import android.app.IntentService;
 import android.content.Context;

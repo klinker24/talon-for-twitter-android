@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/search/TimelineSearchFragment.java
 package com.klinker.android.twitter_l.ui.search;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.search;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.search;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/search/TimelineSearchFragment.java
 
 import android.app.Activity;
 import android.app.Fragment;

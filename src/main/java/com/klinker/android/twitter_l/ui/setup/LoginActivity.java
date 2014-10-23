@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/setup/LoginActivity.java
 package com.klinker.android.twitter_l.ui.setup;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.setup;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.setup;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/setup/LoginActivity.java
 
 import android.app.Activity;
 import android.app.AlarmManager;

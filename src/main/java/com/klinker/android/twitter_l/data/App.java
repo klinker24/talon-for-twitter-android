@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/data/App.java
 package com.klinker.android.twitter_l.data;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.data;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.data;
->>>>>>> master:src/main/java/com/klinker/android/twitter/data/App.java
 
 import android.app.Application;
 import android.content.Context;

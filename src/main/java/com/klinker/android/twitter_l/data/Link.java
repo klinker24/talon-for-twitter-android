@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/data/Link.java
 package com.klinker.android.twitter_l.data;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.data;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
->>>>>>> master:src/main/java/com/klinker/android/twitter/data/Link.java
-
-package com.klinker.android.twitter.data;
 
 public class Link {
 

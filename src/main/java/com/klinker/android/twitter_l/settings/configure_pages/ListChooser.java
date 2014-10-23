@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/settings/configure_pages/ListChooser.java
 package com.klinker.android.twitter_l.settings.configure_pages;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.settings.configure_pages;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.settings.configure_pages;
->>>>>>> master:src/main/java/com/klinker/android/twitter/settings/configure_pages/ListChooser.java
 
 import android.app.ActionBar;
 import android.app.Activity;

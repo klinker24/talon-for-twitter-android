@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/APIHelper.java
 package com.klinker.android.twitter_l.utils.api_helper;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,8 +15,6 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.utils.api_helper;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/APIHelper.java
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/TweetMarkerHelper.java
 package com.klinker.android.twitter_l.utils.api_helper;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,23 +15,14 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.utils.api_helper;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/TweetMarkerHelper.java
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/TweetMarkerHelper.java
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-=======
-import com.klinker.android.twitter.APIKeys;
-import com.klinker.android.twitter.data.sq_lite.HomeContentProvider;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.settings.AppSettings;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/TweetMarkerHelper.java
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;

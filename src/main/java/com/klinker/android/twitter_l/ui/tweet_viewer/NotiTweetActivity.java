@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/tweet_viewer/NotiTweetActivity.java
 package com.klinker.android.twitter_l.ui.tweet_viewer;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -17,8 +15,6 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.ui.tweet_viewer;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/tweet_viewer/NotiTweetPager.java
 
 import android.content.Context;
 import android.content.SharedPreferences;

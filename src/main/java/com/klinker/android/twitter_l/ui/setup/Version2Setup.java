@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/setup/Version2Setup.java
 package com.klinker.android.twitter_l.ui.setup;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.setup;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.setup;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/setup/Version2Setup.java
 
 import android.app.Activity;
 import android.content.Context;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/tweet_viewer/TweetYouTubeFragment.java
 package com.klinker.android.twitter_l.ui.tweet_viewer;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.tweet_viewer.fragments;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/tweet_viewer/fragments/TweetYouTubeFragment.java
 
 import android.app.Activity;
 import android.content.Context;

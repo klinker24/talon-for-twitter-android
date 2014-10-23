@@ -1,8 +1,5 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/TwitLongerHelper.java
-package com.klinker.android.twitter_l.utils.api_helper;
 
-import android.util.Log;
-=======
+package com.klinker.android.twitter_l.utils.api_helper;
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -19,12 +16,8 @@ import android.util.Log;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.utils.api_helper;
-
 import android.util.Log;
-import com.klinker.android.twitter.APIKeys;
-import com.klinker.android.twitter.settings.AppSettings;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/TwitLongerHelper.java
+import com.klinker.android.twitter_l.APIKeys;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;

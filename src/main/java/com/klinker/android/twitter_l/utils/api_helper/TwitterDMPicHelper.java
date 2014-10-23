@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/utils/api_helper/TwitterDMPicHelper.java
 package com.klinker.android.twitter_l.utils.api_helper;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.utils.api_helper;
->>>>>>> master:src/main/java/com/klinker/android/twitter/utils/api_helper/TwitterDMPicHelper.java
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/manipulations/LauncherPhotoViewerDialog.java
 package com.klinker.android.twitter_l.manipulations;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.manipulations;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.manipulations;
->>>>>>> master:src/main/java/com/klinker/android/twitter/manipulations/LauncherPhotoViewerDialog.java
 
 /**
  * Used as a redirect for the windowed mode

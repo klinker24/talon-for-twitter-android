@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/adapters/DMCursorAdapter.java
 package com.klinker.android.twitter_l.adapters;
-=======
 /*
  * Copyright 2013 Luke Klinker
  *
@@ -17,18 +15,12 @@ package com.klinker.android.twitter_l.adapters;
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.adapters;
->>>>>>> master:src/main/java/com/klinker/android/twitter/adapters/DMCursorAdapter.java
-
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 
-/**
- * Created by luke on 1/20/14.
- */
 public class DMCursorAdapter extends TimeLineCursorAdapter {
     public DMCursorAdapter(Context context, Cursor cursor, boolean isDM) {
         super(context, cursor, isDM);

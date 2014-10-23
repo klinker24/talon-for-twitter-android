@@ -21,9 +21,6 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.util.ArrayList;
 
-/**
- * Created by lucasklinker on 9/27/14.
- */
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     private Context context;
     private String[] pics;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/settings/SectionsPagerAdapter.java
 package com.klinker.android.twitter_l.settings;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.settings;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.settings;
->>>>>>> master:src/main/java/com/klinker/android/twitter/settings/SectionsPagerAdapter.java
 
 import android.app.Fragment;
 import android.app.FragmentManager;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/drawer_activities/discover/trends/SearchedTrendsActivity.java
 package com.klinker.android.twitter_l.ui.drawer_activities.discover.trends;
-=======
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -16,9 +14,6 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover.trends;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.klinker.android.twitter.ui.drawer_activities.discover.trends;
->>>>>>> master:src/main/java/com/klinker/android/twitter/ui/drawer_activities/discover/trends/SearchedTrendsActivity.java
 
 import android.app.ActionBar;
 import android.app.Activity;

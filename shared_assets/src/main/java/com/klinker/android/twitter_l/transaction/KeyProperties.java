@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-<<<<<<< HEAD:shared_assets/src/main/java/com/klinker/android/twitter_l/transaction/KeyProperties.java
 package com.klinker.android.twitter_l.transaction;
-=======
-
-package com.klinker.android.twitter.transaction;
->>>>>>> master:shared_assets/src/main/java/com/klinker/android/twitter/transaction/KeyProperties.java
 
 public class KeyProperties {
 
