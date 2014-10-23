@@ -6,7 +6,7 @@
         android:orderInCategory="1"
         android:title="@string/search"
         android:showAsAction="always"
-        android:icon="?searchIcon"
+        android:icon="@drawable/action_bar_search"
         android:actionViewClass="android.widget.SearchView" />
 
     <item android:title="@string/compose_with_search"

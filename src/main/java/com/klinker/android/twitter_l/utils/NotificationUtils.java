@@ -223,7 +223,7 @@ public class NotificationUtils {
                             .build();
 
                     // Create the notification action
-                    NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
+                    NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_light,
                             context.getResources().getString(R.string.noti_reply), replyPending)
                             .addRemoteInput(remoteInput)
                             .build();
@@ -909,7 +909,7 @@ public class NotificationUtils {
                     .build();
 
             // Create the notification action
-            replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
+            replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_light,
                     context.getResources().getString(R.string.noti_reply), replyPending)
                     .addRemoteInput(remoteInput)
                     .build();
