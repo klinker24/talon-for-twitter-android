@@ -12,7 +12,7 @@
         android:minWidth="30dp"
         android:minHeight="30dp"
         android:background="@drawable/shape_notification_light"
-        android:src="@drawable/ic_action_notification_light"
+        android:src="@drawable/ic_action_notification_dark"
         android:text="0"
         android:textSize="16sp"
         android:textColor="?icon_color"

@@ -1210,7 +1210,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
             ImageView view = (ImageView) searchView.findViewById(searchImgId);
-            view.setImageResource(R.drawable.ic_action_search_dark);
+            view.setImageResource(R.drawable.action_bar_search);
 
         } catch (Exception e) {
 

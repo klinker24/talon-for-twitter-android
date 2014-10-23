@@ -80,8 +80,8 @@ limitations under the License.
         <item name="unread_button">@drawable/ic_action_unread_light</item>
         <item name="quote_button">@drawable/ic_action_reply_all_light</item>
         <item name="background_card">@drawable/send_card</item>
-        <item name="notification_button">@drawable/ic_action_notification_light</item>
-        <item name="notification_button_empty">@drawable/ic_action_notification_none_light</item>
+        <item name="notification_button">@drawable/ic_action_notification_dark</item>
+        <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
         <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
         <item name="bothAccounts">@drawable/both_accounts_light</item>
 

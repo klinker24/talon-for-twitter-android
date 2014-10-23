@@ -294,7 +294,7 @@ public class SearchPager extends Activity {
 
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(R.drawable.ic_action_search_dark);
+        view.setImageResource(R.drawable.action_bar_search);
 
         if (!settings.darkTheme) {
             try {
