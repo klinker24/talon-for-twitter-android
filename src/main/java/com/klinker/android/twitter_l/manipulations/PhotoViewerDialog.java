@@ -243,7 +243,7 @@ public class PhotoViewerDialog extends Activity {
             public void run() {
                 hideSystemUI();
             }
-        }, 1000);
+        }, 750);
     }
 
     @Override
