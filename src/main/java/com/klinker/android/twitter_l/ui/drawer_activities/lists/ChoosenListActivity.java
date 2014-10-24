@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
@@ -69,7 +70,7 @@ public class ChoosenListActivity extends Activity {
     private int listId;
     private String listName;
 
-    private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
+    private MaterialSwipeRefreshLayout mPullToRefreshLayout;
     private LinearLayout spinner;
 
     @Override
@@ -102,22 +103,25 @@ public class ChoosenListActivity extends Activity {
             finish();
         }
 
-        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+        mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
 
-        mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
+        mPullToRefreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+
+        /*mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
                 SwipeProgressBar.COLOR2,
                 settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);
+                SwipeProgressBar.COLOR3);*/
 
-        mPullToRefreshLayout.setFullScreen(true);
+        //mPullToRefreshLayout.setFullScreen(true);
 
         listView = (AsyncListView) findViewById(R.id.listView);
 

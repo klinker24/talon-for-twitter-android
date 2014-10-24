@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -56,6 +57,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -88,7 +90,7 @@ public class SearchedTrendsActivity extends Activity {
     private AsyncListView listView;
     private LinearLayout spinner;
 
-    private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
+    private MaterialSwipeRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,20 +127,16 @@ public class SearchedTrendsActivity extends Activity {
 
         setContentView(R.layout.ptr_list_layout);
 
-        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+        mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
 
-        mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
-                SwipeProgressBar.COLOR2,
-                settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);
-
-        mPullToRefreshLayout.setFullScreen(true);
+        mPullToRefreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
 
         listView = (AsyncListView) findViewById(R.id.listView);
 

@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
@@ -52,7 +54,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     protected View toastBar;
     protected TextView toastDescription;
     protected TextView toastButton;
-    protected FullScreenSwipeRefreshLayout refreshLayout;
+    protected MaterialSwipeRefreshLayout refreshLayout;
     protected LinearLayout spinner;
 
     public static BitmapLruCache mCache;
@@ -245,19 +247,22 @@ public abstract class MainFragment extends Fragment implements Expandable {
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
 
-        refreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        refreshLayout.setFullScreen(true);
-        refreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+        refreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
+        //refreshLayout.setFullScreen(true);
+        refreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
 
-        refreshLayout.setColorScheme(settings.themeColors.primaryColor,
+        refreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        refreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+
+        /*refreshLayout.setColorScheme(settings.themeColors.primaryColor,
                 SwipeProgressBar.COLOR2,
                 settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);
+                SwipeProgressBar.COLOR3);*/
 
         refreshLayout.setBarVisibilityWatcher(barVisibility);
 

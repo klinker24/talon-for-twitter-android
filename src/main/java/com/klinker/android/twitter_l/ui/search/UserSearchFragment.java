@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
+import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -66,7 +67,7 @@ public class UserSearchFragment extends Fragment {
     public String searchQuery;
     public boolean onlyProfile;
 
-    private FullScreenSwipeRefreshLayout mPullToRefreshLayout;
+    private MaterialSwipeRefreshLayout mPullToRefreshLayout;
 
     public UserSearchFragment() {
         this.translucent = false;
@@ -120,19 +121,23 @@ public class UserSearchFragment extends Fragment {
         inflater = LayoutInflater.from(context);
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
 
-        mPullToRefreshLayout = (FullScreenSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        mPullToRefreshLayout.setFullScreen(false);
-        mPullToRefreshLayout.setOnRefreshListener(new FullScreenSwipeRefreshLayout.OnRefreshListener() {
+        mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
+        //mPullToRefreshLayout.setFullScreen(false);
+        mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
 
-        mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
+
+        mPullToRefreshLayout.setProgressViewOffset(true, 0 ,toDP(15));
+        mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+
+        /*mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
                 SwipeProgressBar.COLOR2,
                 settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);
+                SwipeProgressBar.COLOR3);*/
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
