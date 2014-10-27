@@ -110,16 +110,20 @@ public class CategoryFragment extends Fragment {
                         }
                     });
 
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            listView.setAdapter(new CategoriesArrayAdapter(context, categories));
-                            listView.setVisibility(View.VISIBLE);
+                    try {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listView.setAdapter(new CategoriesArrayAdapter(context, categories));
+                                listView.setVisibility(View.VISIBLE);
 
-                            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-                            spinner.setVisibility(View.GONE);
-                        }
-                    });
+                                LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                                spinner.setVisibility(View.GONE);
+                            }
+                        });
+                    } catch (Exception e) {
+
+                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
                     ((Activity)context).runOnUiThread(new Runnable() {

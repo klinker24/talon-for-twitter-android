@@ -1405,6 +1405,10 @@ public class TweetActivity extends YouTubeBaseActivity {
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (sharedPrefs == null) {
+                                        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                                    }
                                     String current = sharedPrefs.getString("muted_clients", "");
                                     sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
                                     sharedPrefs.edit().putBoolean("refresh_me", true).commit();
@@ -1504,12 +1508,16 @@ public class TweetActivity extends YouTubeBaseActivity {
             sendString = extraNames;
         }
 
-        if (settings.autoInsertHashtags && hashtags != null) {
-            for (String s : hashtags) {
-                if (!s.equals("")) {
-                    sendString += "#" + s + " ";
+        try {
+            if (settings.autoInsertHashtags && hashtags != null) {
+                for (String s : hashtags) {
+                    if (!s.equals("")) {
+                        sendString += "#" + s + " ";
+                    }
                 }
             }
+        } catch (Exception e) {
+
         }
 
         final String fsendString = sendString;

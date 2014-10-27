@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="1.0.3">
+        <text>Material Design styled "Pull to Refresh"</text>
+        <text>Crash fixes</text>
+    </version>
+
     <version name="1.0.2">
         <text>Mooooar Material.</text>
         <text>Better photo viewing</text>

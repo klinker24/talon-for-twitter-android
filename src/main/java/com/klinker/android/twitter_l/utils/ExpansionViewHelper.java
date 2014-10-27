@@ -835,7 +835,9 @@ public class ExpansionViewHelper {
             int textColor = a.getResourceId(0, 0);
             a.recycle();
 
-            retweetText.setTextColor(context.getResources().getColor(textColor));
+            if (retweetText != null) {
+                retweetText.setTextColor(context.getResources().getColor(textColor));
+            }
 
             try {
                 if (deleted) {
