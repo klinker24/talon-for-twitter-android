@@ -1,7 +1,8 @@
 <changelog>
 
     <version name="1.0.3">
-        <text>Material Design styled "Pull to Refresh"</text>
+        <text>Material Design styled pull to refresh</text>
+        <text>New UI options under "UI Settings"</text>
         <text>Crash fixes</text>
     </version>
 

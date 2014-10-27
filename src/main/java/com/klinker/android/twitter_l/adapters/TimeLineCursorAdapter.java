@@ -358,11 +358,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
-        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+
+        if (!settings.bottomPictures) {
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+        } else {
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
+            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
+        }
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -415,7 +422,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
-        if((settings.reverseClickActions || expander == null || MainActivity.isPopup) && !isDM) {
+        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || settings.bottomPictures) && !isDM) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
