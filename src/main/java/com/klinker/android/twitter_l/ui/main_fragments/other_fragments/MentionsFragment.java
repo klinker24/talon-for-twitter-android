@@ -330,6 +330,10 @@ public class MentionsFragment extends MainFragment {
     public long mLength;
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (!settings.useSnackbar) {
+            return;
+        }
+
         if (quit) {
             infoBar = true;
         } else {
@@ -375,7 +379,7 @@ public class MentionsFragment extends MainFragment {
     public void hideToastBar(long length) {
         mLength = length;
 
-        if (!isToastShowing) {
+        if (!isToastShowing || !settings.useSnackbar) {
             return;
         }
 

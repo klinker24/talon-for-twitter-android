@@ -510,6 +510,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (!settings.useSnackbar) {
+            return;
+        }
 
         toastDescription.setText(description);
         toastButton.setText(buttonText);
@@ -553,7 +556,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void hideToastBar(long length) {
-        if (!isToastShowing) {
+        if (!isToastShowing || !settings.useSnackbar) {
             return;
         }
 
