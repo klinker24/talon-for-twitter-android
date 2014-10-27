@@ -354,7 +354,7 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
             this.drawTriangle(c, startAngle, sweepAngle, bounds);
             if(this.mAlpha < 255) {
                 this.mCirclePaint.setColor(this.mBackgroundColor);
-                this.mCirclePaint.setAlpha(255 - this.mAlpha);
+                this.mCirclePaint.setAlpha(0);//255 - this.mAlpha);
                 c.drawCircle(bounds.exactCenterX(), bounds.exactCenterY(), (float)(bounds.width() / 2), this.mCirclePaint);
             }
 

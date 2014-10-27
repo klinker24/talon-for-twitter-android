@@ -42,6 +42,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -112,7 +113,6 @@ public class TimelineSearchFragment extends Fragment {
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        //mPullToRefreshLayout.setFullScreen(false);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -120,13 +120,14 @@ public class TimelineSearchFragment extends Fragment {
             }
         });
 
-        mPullToRefreshLayout.setProgressViewOffset(true, 0 ,toDP(15));
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
+        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
+        mPullToRefreshLayout.setProgressViewOffset(true, 0, toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+        mPullToRefreshLayout.setProgressElevation(0);
 
-        /*mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
-                SwipeProgressBar.COLOR2,
-                settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);*/
+        mPullToRefreshLayout.setProgressBackgroundColor(android.R.color.transparent);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 

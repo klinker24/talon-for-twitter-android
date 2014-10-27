@@ -256,8 +256,13 @@ public abstract class MainFragment extends Fragment implements Expandable {
             }
         });
 
-        refreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        refreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
+        int size = Utils.getActionBarHeight(context) + (landscape || MainActivity.isPopup ? 0 : Utils.getStatusBarHeight(context));
+        refreshLayout.setProgressViewOffset(true, size, size + toDP(25));
         refreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+        refreshLayout.setProgressElevation(0);
+
+        refreshLayout.setProgressBackgroundColor(android.R.color.transparent);
 
         /*refreshLayout.setColorScheme(settings.themeColors.primaryColor,
                 SwipeProgressBar.COLOR2,
