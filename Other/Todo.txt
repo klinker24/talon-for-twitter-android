@@ -22,28 +22,18 @@
 
 -- For Release --
 
-    Version 3.1.0
+    Version 3.2.0
         - conversation indicator on timeline
 
-    Version 3.2.0
+    Version 3.3.0
         - Theming options for the fab
         - try to specify the text color for the action bar themes
         - mute users for a time period
 
-    Version 3.3.0
+    Version 3.4.0
         - More fragments to choose from
             - search fragment (with search box and saved search) on main timelines
             - second account mentions page on timeline
             - second account timeline page
             - favorite tweets fragment
             - Activity fragment
-
--- Launcher Page --
-
-    - tweetmarker settings
-    - regex from twitter
-
-
-
-
-adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444

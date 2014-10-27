@@ -40,20 +40,23 @@ android {
         versionName project.VERSION_NAME
     }
 
-    signingConfigs {
-        release {
-            storeFile file("../keystore")
-            storePassword "klinker1127"
-            keyAlias "talon"
-            keyPassword "klinker1127"
+    File keystore = new File("../keystore")
+    if (keystore.exists()) {
+        signingConfigs {
+            release {
+                storeFile file("../keystore")
+                storePassword project.RELEASE_KEY_SIGNATURE
+                keyAlias "talon"
+                keyPassword project.RELEASE_KEY_SIGNATURE
+            }
         }
-    }
 
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+        buildTypes {
+            release {
+                runProguard false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.release
+            }
         }
     }
 

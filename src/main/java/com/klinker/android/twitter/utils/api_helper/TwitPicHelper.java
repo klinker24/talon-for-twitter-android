@@ -1,8 +1,25 @@
+/*
+ * Copyright 2014 Luke Klinker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.klinker.android.twitter.utils.api_helper;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.klinker.android.twitter.APIKeys;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -29,9 +46,15 @@ import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
+/**
+ * NOTE: TwitPic has been SHUT DOWN. This class remains here as it can still be helpful
+ * to show HTTP POST requests with data along with authentication
+ *
+ * This is something I really struggled with when I started, so hopefully this will help someone.
+ */
 public class TwitPicHelper extends APIHelper {
 
-    public static final String TWITPIC_API_KEY = "8cd3757bb6acb94c61e3cbf840c91872";
+    public static final String TWITPIC_API_KEY = APIKeys.TWITPIC_API_KEY;
     public static final String POST_URL = "http://api.twitpic.com/2/upload.json";
 
     private Twitter twitter;
