@@ -49,10 +49,14 @@ class CircleImageView extends ImageView {
             this.setPadding(padding, padding, padding, padding);
         }
 
-        circle.getPaint().setColor(color);
+        circle.getPaint().setColor(getResources().getColor(android.R.color.transparent));//color);
         this.setBackgroundDrawable(circle);
     }
 
+    public void setBackgroundElevation(int elevation) {
+        float density = this.getContext().getResources().getDisplayMetrics().density;
+        ViewCompat.setElevation(this, elevation * density);
+    }
     private boolean elevationSupported() {
         return VERSION.SDK_INT >= 21;
     }

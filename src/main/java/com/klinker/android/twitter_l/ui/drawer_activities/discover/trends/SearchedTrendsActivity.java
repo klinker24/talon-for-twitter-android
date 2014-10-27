@@ -135,8 +135,12 @@ public class SearchedTrendsActivity extends Activity {
             }
         });
 
-        mPullToRefreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
+        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
+        mPullToRefreshLayout.setProgressViewOffset(true, size, size + toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+        mPullToRefreshLayout.setProgressElevation(0);
 
         listView = (AsyncListView) findViewById(R.id.listView);
 
@@ -160,7 +164,15 @@ public class SearchedTrendsActivity extends Activity {
             listView.setFooterDividersEnabled(false);
         }
 
-        listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
+        View header = new View(context);
+        header.setOnClickListener(null);
+        header.setOnLongClickListener(null);
+        ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+        header.setLayoutParams(params);
+        listView.addHeaderView(header);
+        listView.setHeaderDividersEnabled(false);
+        //listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);

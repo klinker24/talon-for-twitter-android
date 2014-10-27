@@ -105,6 +105,7 @@ public class ChoosenListActivity extends Activity {
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         spinner = (LinearLayout) findViewById(R.id.list_progress);
+        listView = (AsyncListView) findViewById(R.id.listView);
 
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -113,17 +114,12 @@ public class ChoosenListActivity extends Activity {
             }
         });
 
-        mPullToRefreshLayout.setProgressViewOffset(true, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + toDP(15));
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
+        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
+        mPullToRefreshLayout.setProgressViewOffset(true, size, size + toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
-
-        /*mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
-                SwipeProgressBar.COLOR2,
-                settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);*/
-
-        //mPullToRefreshLayout.setFullScreen(true);
-
-        listView = (AsyncListView) findViewById(R.id.listView);
+        mPullToRefreshLayout.setProgressElevation(0);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);
@@ -145,7 +141,15 @@ public class ChoosenListActivity extends Activity {
             listView.setFooterDividersEnabled(false);
         }
 
-        listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
+        View header = new View(context);
+        header.setOnClickListener(null);
+        header.setOnLongClickListener(null);
+        ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+        header.setLayoutParams(params);
+        listView.addHeaderView(header);
+        listView.setHeaderDividersEnabled(false);
+        //listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

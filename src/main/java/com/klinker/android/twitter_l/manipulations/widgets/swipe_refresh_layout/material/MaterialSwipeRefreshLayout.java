@@ -4,6 +4,7 @@ package com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout
 // (powered by Fernflower decompiler)
 //
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -18,12 +19,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Transformation;
+import android.view.animation.*;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.AbsListView;
 import com.klinker.android.twitter_l.utils.SystemBarVisibility;
+import com.klinker.android.twitter_l.utils.Utils;
 
 public class MaterialSwipeRefreshLayout extends ViewGroup {
     public static final int LARGE = 0;
@@ -195,6 +195,31 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
         this.mTotalDragDistance = this.mSpinnerFinalOffset;
     }
 
+    ValueAnimator translationAnimator = null;
+    public static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
+
+    protected void createTranslationAnimator(int offset) {
+        if (mTarget != null) {
+            translationAnimator = ValueAnimator.ofInt(offset, 0);
+            translationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    mTarget.setTranslationY(val);
+
+                    if (val == 0) {
+                        translationAnimator = null;
+                    }
+
+                }
+            });
+            translationAnimator.setDuration(250);
+            translationAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            translationAnimator.start();
+        }
+    }
+
     protected int getChildDrawingOrder(int childCount, int i) {
         return this.mCircleViewIndex < 0?i:(i == childCount - 1?this.mCircleViewIndex:(i >= this.mCircleViewIndex?i + 1:i));
     }
@@ -290,6 +315,10 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
         this.mCircleView.setAnimationListener(listener);
         this.mCircleView.clearAnimation();
         this.mCircleView.startAnimation(this.mScaleDownAnimation);
+
+        if (translationAnimator == null) {
+            createTranslationAnimator((int) mTarget.getTranslationY());
+        }
     }
 
     private void startProgressAlphaStartAnimation() {
@@ -320,6 +349,10 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
     public void setProgressBackgroundColor(int colorRes) {
         this.mCircleView.setBackgroundColor(colorRes);
         this.mProgress.setBackgroundColor(this.getResources().getColor(colorRes));
+    }
+
+    public void setProgressElevation(int elevation) {
+        this.mCircleView.setBackgroundElevation(elevation);
     }
 
     /** @deprecated */
@@ -353,6 +386,7 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
             for(int i = 0; i < this.getChildCount(); ++i) {
                 View child = this.getChildAt(i);
                 if(!child.equals(this.mCircleView)) {
+                    Log.v("talon_list", "ensuring: " + child.toString());
                     this.mTarget = child;
                     break;
                 }
@@ -603,6 +637,10 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
                         rotation = (-0.25F + 0.4F * adjustedPercent + tensionPercent * 2.0F) * 0.5F;
                         this.mProgress.setProgressRotation(rotation);
                         this.setTargetOffsetTopAndBottom(targetY - this.mCurrentTargetOffsetTop, true);
+                        int off = targetY - this.mOriginalOffsetTop;
+                        if (off < mCircleHeight / 1.25) {
+                            mTarget.setTranslationY(off);
+                        }
                     }
                 case 4:
                 default:
@@ -657,6 +695,9 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
         int targetTop1 = this.mFrom + (int)((float)(this.mOriginalOffsetTop - this.mFrom) * interpolatedTime);
         int offset = targetTop1 - this.mCircleView.getTop();
         this.setTargetOffsetTopAndBottom(offset, false);
+        if (translationAnimator == null) {
+            createTranslationAnimator((int) mTarget.getTranslationY());
+        }
     }
 
     private void startScaleDownReturnToStartAnimation(int from, AnimationListener listener) {
@@ -689,7 +730,7 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
         }
 
         this.mCircleView.bringToFront();
-        this.mCircleView.offsetTopAndBottom(offset);
+        this.mCircleView.offsetTopAndBottom(0);//offset);
         this.mCurrentTargetOffsetTop = this.mCircleView.getTop();
         if(requiresUpdate && VERSION.SDK_INT < 11) {
             this.invalidate();

@@ -135,7 +135,6 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        //mPullToRefreshLayout.setFullScreen(false);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -143,13 +142,13 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
             }
         });
 
-        mPullToRefreshLayout.setProgressViewOffset(true, 0 ,toDP(15));
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
+        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
+        mPullToRefreshLayout.setProgressViewOffset(true, 0, toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
+        mPullToRefreshLayout.setProgressElevation(0);
 
-        /*mPullToRefreshLayout.setColorScheme(settings.themeColors.primaryColor,
-                SwipeProgressBar.COLOR2,
-                settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);*/
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
