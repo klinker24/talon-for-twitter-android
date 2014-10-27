@@ -137,6 +137,8 @@ public class AppSettings {
     public boolean fastTransitions;
     public boolean topDown;
     public boolean headsUp;
+    public boolean useSnackbar;
+    public boolean bottomPictures;
 
     // notifications
     public boolean timelineNot;
@@ -262,6 +264,8 @@ public class AppSettings {
         openKeyboard = sharedPrefs.getBoolean("open_keyboard", false);
         preCacheImages = !sharedPrefs.getString("pre_cache", "1").equals("0");
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
+        useSnackbar = sharedPrefs.getBoolean("use_snackbar", true);
+        bottomPictures = sharedPrefs.getBoolean("bottom_pictures", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();

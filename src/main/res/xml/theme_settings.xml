@@ -48,6 +48,13 @@
             android:entryValues="@array/widget_themes_inserted"
             />
 
+        <CheckBoxPreference
+                android:key="use_snackbar"
+                android:title="@string/use_snackbar"
+                android:summary="@string/use_snackbar_summary"
+                android:defaultValue="true"
+                />
+
     </PreferenceCategory>
 
     <!--<PreferenceCategory
@@ -70,6 +77,14 @@
                 android:key="inline_pics"
                 android:title="@string/inline_pics"
                 android:defaultValue="true"
+                />
+
+        <CheckBoxPreference
+                android:key="bottom_pictures"
+                android:title="@string/bottom_pictures"
+                android:summary="@string/bottom_pictures_summary"
+                android:dependency="inline_pics"
+                android:defaultValue="false"
                 />
 
         <CheckBoxPreference
