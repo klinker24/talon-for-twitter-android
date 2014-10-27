@@ -58,9 +58,6 @@ android {
                 keyAlias "talon"
                 keyPassword project.RELEASE_KEY_SIGNATURE
             }
-            debug {
-                storeFile file("debug.keystore")
-            }
         }
 
         buildTypes {
