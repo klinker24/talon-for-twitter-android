@@ -434,12 +434,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
-        holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
-        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+
+        if (!settings.bottomPictures) {
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+        } else {
+            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
+            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
+            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
+        }
 
         holder.profilePic.setClipToOutline(true);
         holder.image.setClipToOutline(true);
