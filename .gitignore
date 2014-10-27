@@ -6,3 +6,4 @@ Other/Video/
 .gitignore~
 readme.md~
 local.properties
+*.mp4

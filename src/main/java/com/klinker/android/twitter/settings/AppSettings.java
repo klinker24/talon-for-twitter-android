@@ -1,3 +1,19 @@
+/*
+ * Copyright 2014 Luke Klinker
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.klinker.android.twitter.settings;
 
 import android.content.Context;
@@ -11,6 +27,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.klinker.android.twitter.APIKeys;
 import com.klinker.android.twitter.utils.EmojiUtils;
 
 import java.util.Calendar;
@@ -32,10 +49,10 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = "V9yijGrKf79jlYi0l3ekpA";
-    public static String TWITTER_CONSUMER_SECRET = "IHHoYqukYC951gsP8gkhr1RUSBJYYwhGO0P3uuCDkA";
+    public static String TWITTER_CONSUMER_KEY = APIKeys.TWITTER_CONSUMER_KEY;
+    public static String TWITTER_CONSUMER_SECRET = APIKeys.TWITTER_CONSUMER_SECRET;
 
-    public static String YOUTUBE_API_KEY = "AIzaSyCCL7Rem3uo1zPBpy88KANXIaX2_bYWEtM";
+    public static String YOUTUBE_API_KEY = APIKeys.YOUTUBE_API_KEY;
 
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
