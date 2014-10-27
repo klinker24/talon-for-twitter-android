@@ -369,7 +369,7 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
                     this.mArrow.reset();
                 }
 
-                float inset = (float)((int)this.mStrokeInset / 2) * this.mArrowScale;
+                float inset = (float)((int)this.mStrokeInset / 2.4) * this.mArrowScale;
                 float x = (float)(this.mRingCenterRadius * Math.cos(0.0D) + (double)bounds.exactCenterX());
                 float y = (float)(this.mRingCenterRadius * Math.sin(0.0D) + (double)bounds.exactCenterY());
                 this.mArrow.moveTo(0.0F, 0.0F);

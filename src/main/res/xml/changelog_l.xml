@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.0.4">
+        <text>Slight style fixes</text>
+        <text>Force close fixes</text>
+    </version>
     <version name="1.0.3">
         <text>Material Design styled pull to refresh</text>
         <text>New UI options under "UI Settings"</text>
