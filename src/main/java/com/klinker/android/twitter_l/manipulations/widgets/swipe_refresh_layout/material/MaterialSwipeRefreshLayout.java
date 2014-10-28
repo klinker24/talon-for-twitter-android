@@ -214,6 +214,7 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
 
                 }
             });
+            this.mProgress.stop();
             translationAnimator.setDuration(250);
             translationAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
             translationAnimator.start();
