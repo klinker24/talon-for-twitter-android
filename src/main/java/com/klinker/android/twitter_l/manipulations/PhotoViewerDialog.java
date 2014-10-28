@@ -239,12 +239,12 @@ public class PhotoViewerDialog extends Activity {
             ab.setIcon(transparent);
         }
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 hideSystemUI();
             }
-        }, 750);
+        }, 750);*/
     }
 
     @Override
