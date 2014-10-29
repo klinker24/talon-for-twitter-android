@@ -1280,7 +1280,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 worldPrefs.edit().putBoolean("sound", false).commit();
             }
 
-            if (set.contains("4")) {
+            if (set.contains("5")) {
                 sharedPrefs.edit().putBoolean("heads_up", true).commit();
                 worldPrefs.edit().putBoolean("heads_up", true).commit();
             } else {
