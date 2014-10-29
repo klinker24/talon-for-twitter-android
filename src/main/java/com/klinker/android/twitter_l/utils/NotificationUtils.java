@@ -144,7 +144,7 @@ public class NotificationUtils {
                     .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
 
             if (settings.headsUp) {
-                mBuilder.setFullScreenIntent(resultPendingIntent, true)
+                mBuilder//.setFullScreenIntent(resultPendingIntent, true)
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
             }
 
@@ -681,7 +681,7 @@ public class NotificationUtils {
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
 
         if (settings.headsUp) {
-            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+            mBuilder//.setFullScreenIntent(resultPendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
@@ -821,7 +821,7 @@ public class NotificationUtils {
                 .setCategory(Notification.CATEGORY_SOCIAL);
 
         if (settings.headsUp) {
-            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+            mBuilder//.setFullScreenIntent(resultPendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
@@ -953,7 +953,7 @@ public class NotificationUtils {
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
 
         if (settings.headsUp) {
-            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+            mBuilder//.setFullScreenIntent(resultPendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
@@ -1184,7 +1184,7 @@ public class NotificationUtils {
                 .setAutoCancel(true);
 
         if (settings.headsUp) {
-            mBuilder.setFullScreenIntent(resultPendingIntent, true)
+            mBuilder//.setFullScreenIntent(resultPendingIntent, true)
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
