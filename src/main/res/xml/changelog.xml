@@ -16,13 +16,16 @@
 
 <changelog>
 
+    <version name="3.3.1">
+        <text>Improve picture viewing on profiles and tweets with multiple images</text>
+    </version>
+    
 	<version name="3.3.0">
 		<text>Talon is now fully open source. View the project here: https://github.com/klinker24/Talon-for-Twitter</text>
 	</version>
 
     <version name="3.2.6">
         <text>Pre-Cache changes</text>
-        <text>Removed TwitPic... Again :(</text>
         <text>Bug fixes</text>
         <text>Forced to remove TwitPic once again</text>
     </version>
