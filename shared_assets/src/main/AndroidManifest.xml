@@ -14,10 +14,6 @@
   limitations under the License.
   -->
 
-<<<<<<< HEAD
-<manifest package="com.klinker.android.twitter_l.shared"/>
-=======
-<manifest package="com.klinker.android.twitter.shared">
+<manifest package="com.klinker.android.twitter_l.shared">
   <application/>
 </manifest>
->>>>>>> master
