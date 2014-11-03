@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.0.5">
+        <text>Few fixes for Nexus 9</text>
+    </version>
+
     <version name="1.0.4">
         <text>Slight style fixes</text>
         <text>Force close fixes</text>

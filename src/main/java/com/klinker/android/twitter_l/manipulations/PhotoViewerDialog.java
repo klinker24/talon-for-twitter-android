@@ -239,12 +239,12 @@ public class PhotoViewerDialog extends Activity {
             ab.setIcon(transparent);
         }
 
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 hideSystemUI();
             }
-        }, 750);*/
+        }, 3000);
     }
 
     @Override
@@ -416,7 +416,7 @@ public class PhotoViewerDialog extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    boolean sysUiShown = false;
+    boolean sysUiShown = true;
     private void showSystemUI() {
         sysUiShown = true;
 
