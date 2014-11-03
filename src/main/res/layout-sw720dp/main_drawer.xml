@@ -21,7 +21,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="?drawerBackground" >
+              android:background="?drawerBackground"
+              android:elevation="6dp" >
 
     <View android:id="@+id/drawer_status_bar"
         android:layout_width="match_parent"
