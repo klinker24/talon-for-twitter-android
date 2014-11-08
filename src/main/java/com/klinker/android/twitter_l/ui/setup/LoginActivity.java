@@ -262,7 +262,7 @@ public class LoginActivity extends Activity {
                     if (Utils.hasInternetConnection(context)) {
                         btnLoginTwitter.setEnabled(false);
 
-                        new AlertDialog.Builder(context)
+                        /*new AlertDialog.Builder(context)
                                 .setMessage("Twitter may display that Talon cannot authenticate any more users. " +
                                         "\n\n" +
                                         "If so, and you have logged into Talon in the past, simply hit the 'Sign In' button in the top right and it will allow you to log in as normal. " +
@@ -280,7 +280,7 @@ public class LoginActivity extends Activity {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/KG4AcH3YA2U")));
                                     }
                                 })
-                                .show();
+                                .show();*/
 
                         new RetreiveFeedTask().execute();
                     } else {
