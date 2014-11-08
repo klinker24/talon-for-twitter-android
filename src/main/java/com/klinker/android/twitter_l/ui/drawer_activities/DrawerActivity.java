@@ -722,12 +722,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);
-                if (getResources().getBoolean(R.bool.options_drawer)) {
-                    a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawer_options_background});
-                    int background = a.getResourceId(0, 0);
-                    a.recycle();
-                    footer.setBackgroundResource(background);
-                }
                 footer.setOnClickListener(null);
                 footer.setOnLongClickListener(null);
                 ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
@@ -1627,6 +1621,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     Handler toolBarVis;
 
     public void hideBars() {
+        Log.v("talon_bars", "hiding system bars");
         if (tranparentSystemBar == -1) {
             tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
         }

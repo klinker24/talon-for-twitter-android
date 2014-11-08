@@ -112,6 +112,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     names.add(getName(pageNames.get(i), pageTypes.get(i)));
                     break;
             }
+
+            ((MainFragment)frags.get(i)).addSystemBarVisibility(watcher);
         }
     }
 

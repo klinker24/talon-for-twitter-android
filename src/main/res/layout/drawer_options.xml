@@ -3,107 +3,115 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="?drawer_options_background"
               android:orientation="vertical"
               android:clickable="true">
 
+    <View android:layout_width="match_parent" android:layout_height="6dp" />
+
     <View android:layout_width="match_parent"
           android:layout_height="1dp"
           android:background="?drawerDividerColor"/>
 
+    <View android:layout_width="match_parent" android:layout_height="6dp" />
+    
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="onSettingsClicked">
+            android:onClick="onSettingsClicked"
+            android:gravity="center_vertical"
+            android:paddingLeft="6dp">
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="?advancedSettings"
-                android:id="@+id/settings_image"
-                android:scaleType="centerInside"
-                android:paddingLeft="16dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"/>
+                   android:src="?advancedSettings"
+                   android:id="@+id/settings_image"
+                   android:layout_height="28dp"
+                   android:layout_width="28dp"
+                   android:minHeight="28dp" android:minWidth="28dp"
+                   android:scaleType="fitXY" android:adjustViewBounds="true"
+                   android:maxHeight="28dp" android:maxWidth="28dp"
+                   android:layout_margin="10dp"/>
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/menu_settings"
                 android:id="@+id/settings_button"
-                style="@style/DrawerOptionsButton"
-                android:layout_toRightOf="@+id/settings_image"/>
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textColor="?textColor"
+                android:fontFamily="sans-serif"
+                android:layout_marginRight="16dp"
+                android:paddingStart="72dp"/>
+
 
     </RelativeLayout>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="?drawerDividerColor"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="onHelpClicked">
+            android:onClick="onHelpClicked"
+            android:paddingLeft="6dp">
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:src="?getHelp"
                 android:id="@+id/help_image"
-                android:scaleType="centerInside"
-                android:alpha=".8"
-                android:paddingLeft="16dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"/>
+                android:layout_height="28dp"
+                android:layout_width="28dp"
+                android:minHeight="28dp" android:minWidth="28dp"
+                android:scaleType="fitXY" android:adjustViewBounds="true"
+                android:maxHeight="28dp" android:maxWidth="28dp"
+                android:layout_margin="10dp"/>
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/help"
                 android:id="@+id/help_button"
-                style="@style/DrawerOptionsButton"
-                android:layout_toRightOf="@+id/help_image"/>
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textColor="?textColor"
+                android:fontFamily="sans-serif"
+                android:layout_marginRight="16dp"
+                android:paddingStart="72dp"/>
 
     </RelativeLayout>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="?drawerDividerColor"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="onFeedbackClicked">
+            android:onClick="onFeedbackClicked"
+            android:paddingLeft="6dp">
 
         <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:src="?feedback"
                 android:id="@+id/feedback_image"
-                android:scaleType="centerInside"
-                android:alpha=".8"
-                android:paddingLeft="16dp"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"/>
+                android:layout_height="28dp"
+                android:layout_width="28dp"
+                android:minHeight="28dp" android:minWidth="28dp"
+                android:scaleType="fitXY" android:adjustViewBounds="true"
+                android:maxHeight="28dp" android:maxWidth="28dp"
+                android:layout_margin="10dp"/>
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/send_feedback"
                 android:id="@+id/feedback_button"
-                style="@style/DrawerOptionsButton"
-                android:layout_toRightOf="@+id/feedback_image"/>
-
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textColor="?textColor"
+                android:fontFamily="sans-serif"
+                android:layout_marginRight="16dp"
+                android:paddingStart="72dp"/>
     </RelativeLayout>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="?drawerDividerColor"/>
 
 </LinearLayout>
