@@ -118,7 +118,19 @@ public abstract class DrawerActivity extends Activity {
     private NetworkedCacheableImageView backgroundPic;
     private NetworkedCacheableImageView profilePic;
 
+    public MainDrawerArrayAdapter adapter;
+
     public void setUpDrawer(int number, final String actName) {
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
+            String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
+            int type = sharedPrefs.getInt(pageIdentifier, AppSettings.PAGE_TYPE_NONE);
+
+            if (type != AppSettings.PAGE_TYPE_NONE) {
+                number++;
+            }
+        }
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -133,7 +145,8 @@ public abstract class DrawerActivity extends Activity {
 
         actionBar = getActionBar();
 
-        MainDrawerArrayAdapter.current = number;
+        adapter = new MainDrawerArrayAdapter(context);
+        MainDrawerArrayAdapter.setCurrent(context, number);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerIcon});
         int resource = a.getResourceId(0, 0);
@@ -189,7 +202,7 @@ public abstract class DrawerActivity extends Activity {
                         logoutVisible = false;
                     }
 
-                    if (MainDrawerArrayAdapter.current > 2) {
+                    if (MainDrawerArrayAdapter.current > adapter.pageTypes.size()) {
                         actionBar.setTitle(actName);
                     } else {
                         int position = mViewPager.getCurrentItem();
@@ -449,7 +462,6 @@ public abstract class DrawerActivity extends Activity {
             // empty path again
         }
 
-        MainDrawerArrayAdapter adapter = new MainDrawerArrayAdapter(context, new ArrayList<String>(Arrays.asList(MainDrawerArrayAdapter.getItems(context))));
         drawerList.setAdapter(adapter);
 
         drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
@@ -1049,7 +1061,7 @@ public abstract class DrawerActivity extends Activity {
         }
 
         // to first button in overflow instead of the toast
-        if (MainDrawerArrayAdapter.current > 2 || (settings.uiExtras && settings.useToast)) {
+        if (MainDrawerArrayAdapter.current > adapter.pageTypes.size() || (settings.uiExtras && settings.useToast)) {
             menu.getItem(TOFIRST).setVisible(false);
         } else {
             menu.getItem(TOFIRST).setVisible(true);
