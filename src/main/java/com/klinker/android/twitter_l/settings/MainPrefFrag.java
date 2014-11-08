@@ -58,6 +58,7 @@ public class MainPrefFrag extends PreferenceFragment {
             "notification_settings",
             "browser_settings",
             "advanced_settings",
+            "main_pages_and_drawer",
             "memory_management"
     };
 
