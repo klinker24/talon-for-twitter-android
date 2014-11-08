@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
+import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.FavoriteUsersActivity;
@@ -40,13 +41,20 @@ import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager
 import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {
 
     private Context context;
     private NotificationDrawerLayout drawer;
     private ViewPager viewPager;
     private boolean noWait;
-    private int extraPages = 0;
+    private int swipablePages = 0;
+
+    private String[] shownElements;
+    private Set<String> set;
 
     private SharedPreferences sharedPreferences;
 
@@ -61,25 +69,39 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 
-        int page1Type = sharedPreferences.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
-        int page2Type = sharedPreferences.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
+        for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
+            String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
+            int type = sharedPreferences.getInt(pageIdentifier, AppSettings.PAGE_TYPE_NONE);
 
-        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-            extraPages++;
+            if (type != AppSettings.PAGE_TYPE_NONE) {
+                swipablePages++;
+            }
         }
 
-        if (page2Type != AppSettings.PAGE_TYPE_NONE) {
-            extraPages++;
+        set = sharedPreferences.getStringSet("drawer_elements_shown_" + currentAccount, new HashSet<String>());
+        shownElements = new String[set.size()];
+        int i = 0;
+        for (Object o : set.toArray()) {
+            shownElements[i] = (String) o;
+            i++;
         }
-
-        Log.v("talon_lists", extraPages + " extra pages");
-
     }
+
+    int realPages = 0;
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-        if (i < 3) {
-            if (MainDrawerArrayAdapter.current < 3) {
+
+        // we will increment until we find one that is in the set of shown elements
+        for (int index = 0; index <= i; index++) {
+            if (!set.contains(index + "")) {
+                i++;
+            }
+        }
+
+        if (i < swipablePages) {
+            if (MainDrawerArrayAdapter.current < swipablePages) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -91,7 +113,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                     }
                 }, noWait ? 0 : 300);
 
-                viewPager.setCurrentItem(i + extraPages, true);
+                viewPager.setCurrentItem(i, true);
             } else {
                 final int pos = i;
                 try {
@@ -102,7 +124,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
 
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                intent.putExtra("page_to_open", pos + extraPages);
+                intent.putExtra("page_to_open", pos);
                 intent.putExtra("from_drawer", true);
 
                 sharedPreferences.edit().putBoolean("should_refresh", false).commit();
@@ -131,25 +153,18 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
             }
             Intent intent = null;
 
-            switch (pos) {
-                case 3:
-                    intent = new Intent(context, DiscoverPager.class);
-                    break;
-                case 4:
-                    intent = new Intent(context, ListsActivity.class);
-                    break;
-                case 5:
-                    intent = new Intent(context, FavoriteUsersActivity.class);
-                    break;
-                case 6:
-                    intent = new Intent(context, RetweetActivity.class);
-                    break;
-                case 7:
-                    intent = new Intent(context, FavoritesActivity.class);
-                    break;
-                case 8:
-                    intent = new Intent(context, SavedSearchesActivity.class);
-                    break;
+            if (pos == swipablePages) {
+                intent = new Intent(context, DiscoverPager.class);
+            } else if (pos == swipablePages + 1) {
+                intent = new Intent(context, ListsActivity.class);
+            } else if (pos == swipablePages + 2) {
+                intent = new Intent(context, FavoriteUsersActivity.class);
+            } else if (pos == swipablePages + 3) {
+                intent = new Intent(context, RetweetActivity.class);
+            } else if (pos == swipablePages + 4) {
+                intent = new Intent(context, FavoritesActivity.class);
+            } else if (pos == swipablePages + 5) {
+                intent = new Intent(context, SavedSearchesActivity.class);
             }
 
             final Intent fIntent = intent;

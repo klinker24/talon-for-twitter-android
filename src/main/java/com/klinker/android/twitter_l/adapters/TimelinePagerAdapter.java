@@ -34,24 +34,29 @@ import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsF
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.extentions.PicFragment;
 import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimelinePagerAdapter extends FragmentPagerAdapter {
+
+    // I chose two at this time for a balance between performance and usability. Adding more will slow it down,
+    // possibly dramatically. But there are obvious benefits as well.
+    // Keep that in mind if you choose to change this value.
+    public static final int MAX_EXTRA_PAGES = 5;
 
     private Context context;
     private SharedPreferences sharedPrefs;
     private boolean removeHome;
     private SystemBarVisibility watcher;
 
-    // list stuff
-    public long list1Id; // furthest left list
-    public long list2Id; // list next to the timeline
-    public int page1Type;
-    public int page2Type;
-    public String page1Name;
-    public String page2Name;
+    public List<Long> listIds = new ArrayList<Long>(); // 0 is the furthest to the left
+    public List<Integer> pageTypes = new ArrayList<Integer>();
+    public List<String> pageNames = new ArrayList<String>();
 
-    public int numExtraPages = 0;
+    public List<Fragment> frags = new ArrayList<Fragment>();
+    public List<String> names = new ArrayList<String>();
 
-    private Fragment[] frags;
+    public int mentionIndex = -1;
 
     // remove the home fragment to swipe to, since it is on the launcher
     public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome, SystemBarVisibility watcher) {
@@ -72,239 +77,57 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
             sharedPrefs.edit().putLong("account_1_list_2_long", sharedPrefs.getInt("account_2_list_2", 0)).commit();
         }
 
-        // List ID's
-        list1Id = sharedPrefs.getLong("account_" + currentAccount + "_list_1_long", 0l);
-        list2Id = sharedPrefs.getLong("account_" + currentAccount + "_list_2_long", 0l);
-        page1Type = sharedPreferences.getInt("account_" + currentAccount + "_page_1", AppSettings.PAGE_TYPE_NONE);
-        page2Type = sharedPreferences.getInt("account_" + currentAccount + "_page_2", AppSettings.PAGE_TYPE_NONE);
-        page1Name = sharedPreferences.getString("account_" + currentAccount + "_name_1", "");
-        page2Name = sharedPreferences.getString("account_" + currentAccount + "_name_2", "");
+        for (int i = 0; i < MAX_EXTRA_PAGES; i++) {
+            String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";
+            String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
+            String nameIdentifier = "account_" + currentAccount + "_name_" + (i + 1);
 
-        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-            numExtraPages++;
+            int type = sharedPrefs.getInt(pageIdentifier, AppSettings.PAGE_TYPE_NONE);
+
+            if (type != AppSettings.PAGE_TYPE_NONE &&
+                    !(removeHome && type == AppSettings.PAGE_TYPE_HOME)) {
+                pageTypes.add(type);
+                listIds.add(sharedPrefs.getLong(listIdentifier, 0l));
+                pageNames.add(sharedPrefs.getString(nameIdentifier, ""));
+            }
         }
 
-        if (page2Type != AppSettings.PAGE_TYPE_NONE) {
-            numExtraPages++;
-        }
-
-        if (!removeHome) {
-            frags = new Fragment[3 + numExtraPages];
-        } else {
-            frags = new Fragment[2 + numExtraPages];
+        for (int i = 0; i < pageTypes.size(); i++) {
+            switch (pageTypes.get(i)) {
+                case AppSettings.PAGE_TYPE_HOME:
+                    frags.add(new HomeFragment());
+                    names.add(context.getResources().getString(R.string.timeline));
+                    break;
+                case AppSettings.PAGE_TYPE_MENTIONS:
+                    frags.add(new MentionsFragment());
+                    names.add(context.getResources().getString(R.string.mentions));
+                    mentionIndex = i;
+                    break;
+                case AppSettings.PAGE_TYPE_DMS:
+                    frags.add(new DMFragment());
+                    names.add(context.getResources().getString(R.string.direct_messages));
+                    break;
+                default:
+                    frags.add(getFrag(pageTypes.get(i), listIds.get(i)));
+                    names.add(getName(pageNames.get(i), pageTypes.get(i)));
+                    break;
+            }
         }
     }
 
     @Override
     public Fragment getItem(int i) {
-        MainFragment frag = null;
-
-        if (!removeHome) {
-            if (numExtraPages == 2) {
-                switch (i) {
-                    case 0:
-                        frag = getFrag(page1Type, list1Id);
-                        break;
-                    case 1:
-                        frag = getFrag(page2Type, list2Id);
-                        break;
-                    case 2:
-                        frag = new HomeFragment();
-                        break;
-                    case 3:
-                        frag = new MentionsFragment();
-                        break;
-                    case 4:
-                        frag = new DMFragment();
-                        break;
-                }
-            } else if (numExtraPages == 1) {
-                switch (i) {
-                    case 0:
-                        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                            frag = getFrag(page1Type, list1Id);
-                        } else {
-                            frag = getFrag(page2Type, list2Id);
-                        }
-                        break;
-                    case 1:
-                        frag = new HomeFragment();
-                        break;
-                    case 2:
-                        frag = new MentionsFragment();
-                        break;
-                    case 3:
-                        frag = new DMFragment();
-                        break;
-                }
-            } else {
-                switch (i) {
-                    case 0:
-                        frag = new HomeFragment();
-                        break;
-                    case 1:
-                        frag = new MentionsFragment();
-                        break;
-                    case 2:
-                        frag = new DMFragment();
-                        break;
-                }
-            }
-        } else {
-            if (numExtraPages == 2) {
-                switch (i) {
-                    case 0:
-                        frag = getFrag(page1Type, list1Id);
-                        break;
-                    case 1:
-                        frag = getFrag(page2Type, list2Id);
-                        break;
-                    case 2:
-                        frag = new MentionsFragment();
-                        break;
-                    case 3:
-                        frag = new DMFragment();
-                        break;
-                }
-            } else if (numExtraPages == 1) {
-                switch (i) {
-                    case 0:
-                        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                            frag = getFrag(page1Type, list1Id);
-                        } else {
-                            frag = getFrag(page2Type, list2Id);
-                        }
-                        break;
-                    case 1:
-                        frag = new MentionsFragment();
-                        break;
-                    case 2:
-                        frag = new DMFragment();
-                        break;
-                }
-            } else {
-                switch (i) {
-                    case 0:
-                        frag = new MentionsFragment();
-                        break;
-                    case 1:
-                        frag = new DMFragment();
-                        break;
-                }
-            }
-        }
-
-        frag.addSystemBarVisibility(watcher);
-        frags[i] = frag;
-
-        return frag;
+        return frags.get(i);
     }
 
     @Override
     public CharSequence getPageTitle(int i) {
-        String frag = "";
-        if (!removeHome) {
-            if (numExtraPages == 2) {
-                switch (i) {
-                    case 0:
-                        frag = getName(page1Name, page1Type);
-                        break;
-                    case 1:
-                        frag = getName(page2Name, page2Type);
-                        break;
-                    case 2:
-                        frag = context.getResources().getString(R.string.timeline);
-                        break;
-                    case 3:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 4:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                }
-            } else if (numExtraPages == 1) {
-                switch (i) {
-                    case 0:
-                        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                            frag = getName(page1Name, page1Type);
-                        } else {
-                            frag = getName(page2Name, page2Type);
-                        }
-                        break;
-                    case 1:
-                        frag = context.getResources().getString(R.string.timeline);
-                        break;
-                    case 2:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 3:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                        break;
-                }
-            } else {
-                switch (i) {
-                    case 0:
-                        frag = context.getResources().getString(R.string.timeline);
-                        break;
-                    case 1:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 2:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                        break;
-                }
-            }
-        } else {
-            if (numExtraPages == 2) {
-                switch (i) {
-                    case 0:
-                        frag = getName(page1Name, page1Type);
-                        break;
-                    case 1:
-                        frag = getName(page2Name, page2Type);
-                        break;
-                    case 2:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 3:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                }
-            } else if (numExtraPages == 1) {
-                switch (i) {
-                    case 0:
-                        if (page1Type != AppSettings.PAGE_TYPE_NONE) {
-                            frag = getName(page1Name, page1Type);
-                        } else {
-                            frag = getName(page2Name, page2Type);
-                        }
-                        break;
-                    case 1:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 2:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                        break;
-                }
-            } else {
-                switch (i) {
-                    case 0:
-                        frag = context.getResources().getString(R.string.mentions);
-                        break;
-                    case 1:
-                        frag = context.getResources().getString(R.string.direct_messages);
-                        break;
-                }
-            }
-        }
-        return frag;
+        return names.get(i);
     }
 
     @Override
     public int getCount() {
-        if (!removeHome) {
-            return 3 + numExtraPages;
-        } else {
-            return 2 + numExtraPages;
-        }
+        return frags.size();
     }
 
     public MainFragment getFrag(int type, long listId) {
@@ -345,6 +168,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     }
 
     public Fragment getRealFrag(int i) {
-        return frags[i];
+        return frags.get(i);
     }
 }

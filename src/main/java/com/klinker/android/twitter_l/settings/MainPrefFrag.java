@@ -73,68 +73,7 @@ public class MainPrefFrag extends PreferenceFragment {
                     return false;
                 }
             });
-
-            /*Drawable d = p.getIcon();
-            if (d != null) {
-                d.setColorFilter(AppSettings.getInstance(getActivity()).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-                p.setIcon(d);
-            }*/
         }
-        /*findPreference("ui_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(0, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("timeline_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(1, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("sync_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(2, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("notification_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(3, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("browser_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(4, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("advanced_settings").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(5, preference.getTitle().toString());
-                return false;
-            }
-        });
-
-        findPreference("memory_management").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                showSettings(6, preference.getTitle().toString());
-                return false;
-            }
-        });*/
     }
 
     private void showSettings(int position, String title) {
