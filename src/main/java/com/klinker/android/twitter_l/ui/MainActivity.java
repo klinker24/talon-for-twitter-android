@@ -150,6 +150,8 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        UpdateUtils.checkUpdate(this);
+
         MainActivity.sendHandler = new Handler();
 
         context = this;
@@ -196,7 +198,6 @@ public class MainActivity extends DrawerActivity {
         });
 
         actionBar = getActionBar();
-        actionBar.setTitle(getResources().getString(R.string.timeline));
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
@@ -204,14 +205,9 @@ public class MainActivity extends DrawerActivity {
         }
 
         mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false), this);
-
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        mViewPager.setCurrentItem(mSectionsPagerAdapter.getCount() - 3);
-
-        if (getIntent().getBooleanExtra("from_launcher", false)) {
-            actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(getIntent().getIntExtra("launcher_page", 0)));
-        }
+        int currAccount = sharedPrefs.getInt("current_account", 1);
+        int defaultPage = sharedPrefs.getInt("default_timeline_page_" + currAccount, 0);
+        actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(defaultPage));
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
@@ -232,23 +228,25 @@ public class MainActivity extends DrawerActivity {
 
                 String title = "" + mSectionsPagerAdapter.getPageTitle(position);
 
-                if (title.equals(getResources().getString(R.string.mentions))) {
-                    MainDrawerArrayAdapter.current = 1;
-                } else if (title.equals(getResources().getString(R.string.direct_messages))) {
-                    MainDrawerArrayAdapter.current = 2;
-                } else if (title.equals(getResources().getString(R.string.timeline))) {
-                    MainDrawerArrayAdapter.current = 0;
-                } else {
-                    MainDrawerArrayAdapter.current = -1;
-                }
-
+                MainDrawerArrayAdapter.setCurrent(context, position);
                 drawerList.invalidateViews();
 
                 actionBar.setTitle(title);
             }
         });
 
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mViewPager.setCurrentItem(defaultPage);
+        MainDrawerArrayAdapter.setCurrent(this, defaultPage);
+
+        drawerList.invalidateViews();
+
+        if (getIntent().getBooleanExtra("from_launcher", false)) {
+            actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(getIntent().getIntExtra("launcher_page", 0)));
+        }
+
+        mViewPager.setOffscreenPageLimit(TimelinePagerAdapter.MAX_EXTRA_PAGES);
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
             getIntent().putExtra("tutorial", false);
@@ -312,7 +310,7 @@ public class MainActivity extends DrawerActivity {
         setLauncherPage();
 
         if (getIntent().getBooleanExtra("from_drawer", false)) {
-            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 3));
+            mViewPager.setCurrentItem(getIntent().getIntExtra("page_to_open", 1));
         }
 
         Log.v("talon_starting", "ending on create");
@@ -370,7 +368,7 @@ public class MainActivity extends DrawerActivity {
 
         if (sharedPrefs.getBoolean("open_a_page", false)) {
             sharedPrefs.edit().putBoolean("open_a_page", false).commit();
-            int page = sharedPrefs.getInt("open_what_page", 3);
+            int page = sharedPrefs.getInt("open_what_page", 1);
             String title = "" + mSectionsPagerAdapter.getPageTitle(page);
             actionBar.setTitle(title);
             mViewPager.setCurrentItem(page);

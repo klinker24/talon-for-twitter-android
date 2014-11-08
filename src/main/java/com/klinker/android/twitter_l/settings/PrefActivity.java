@@ -96,16 +96,18 @@ public class PrefActivity extends PreferenceActivity {
             ab.setIcon(R.drawable.drawer_notifications_dark);
         } else if (position == 5) {
             ab.setIcon(R.drawable.advanced_settings_dark);
-        } else if (position == 7) {
-            ab.setIcon(R.drawable.drawer_help_dark);
         } else if (position == 8) {
+            ab.setIcon(R.drawable.drawer_help_dark);
+        } else if (position == 9) {
             ab.setIcon(R.drawable.drawer_other_apps_dark);
-        } else if (position == 6) {
+        } else if (position == 7) {
             ab.setIcon(R.drawable.ic_action_sd_storage_dark);
         } else if (position == 4) {
             ab.setIcon(R.drawable.ic_links_dark);
-        } else if (position == 9) {
+        } else if (position == 10) {
             ab.setIcon(R.drawable.ic_action_place_dark);
+        } else if (position == 6) {
+            ab.setIcon(R.drawable.ic_settings_pages_dark);
         }
     }
 }
