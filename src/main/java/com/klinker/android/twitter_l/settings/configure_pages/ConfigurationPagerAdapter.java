@@ -52,7 +52,7 @@ public class ConfigurationPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return TimelinePagerAdapter.MAX_EXTRA_PAGES + 1;
+        return TimelinePagerAdapter.MAX_EXTRA_PAGES;
     }
 
     @Override

@@ -165,7 +165,7 @@
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Blue"
+            android:theme="@style/Theme.TalonLight.Tweet.Blue"
             />
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ListChooser"
