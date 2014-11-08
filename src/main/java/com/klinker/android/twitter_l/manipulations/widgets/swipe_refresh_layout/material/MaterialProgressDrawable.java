@@ -103,7 +103,7 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
     }
 
     public void updateSizes(@MaterialProgressDrawable.ProgressDrawableSize int size) {
-        if(size == 0l) {
+        if(size == 0) {
             this.setSizeParameters(56.0D, 56.0D, 12.5D, 3.0D, 12.0F, 6.0F);
         } else {
             this.setSizeParameters(40.0D, 40.0D, 8.75D, 2.5D, 10.0F, 5.0F);
@@ -354,7 +354,7 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
             this.drawTriangle(c, startAngle, sweepAngle, bounds);
             if(this.mAlpha < 255) {
                 this.mCirclePaint.setColor(this.mBackgroundColor);
-                this.mCirclePaint.setAlpha(0);//255 - this.mAlpha);
+                this.mCirclePaint.setAlpha(255 - this.mAlpha);
                 c.drawCircle(bounds.exactCenterX(), bounds.exactCenterY(), (float)(bounds.width() / 2), this.mCirclePaint);
             }
 
@@ -369,7 +369,7 @@ class MaterialProgressDrawable extends Drawable implements Animatable {
                     this.mArrow.reset();
                 }
 
-                float inset = (float)((int)this.mStrokeInset / 2.4) * this.mArrowScale;
+                float inset = (float)((int)this.mStrokeInset / 2) * this.mArrowScale;
                 float x = (float)(this.mRingCenterRadius * Math.cos(0.0D) + (double)bounds.exactCenterX());
                 float y = (float)(this.mRingCenterRadius * Math.sin(0.0D) + (double)bounds.exactCenterY());
                 this.mArrow.moveTo(0.0F, 0.0F);

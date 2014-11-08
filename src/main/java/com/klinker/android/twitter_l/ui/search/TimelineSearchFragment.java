@@ -122,12 +122,8 @@ public class TimelineSearchFragment extends Fragment {
 
         boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
-        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
-        mPullToRefreshLayout.setProgressViewOffset(true, 0, toDP(25));
+        mPullToRefreshLayout.setProgressViewOffset(false, -1 * toDP(64), toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
-        mPullToRefreshLayout.setProgressElevation(0);
-
-        mPullToRefreshLayout.setProgressBackgroundColor(android.R.color.transparent);
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
 
