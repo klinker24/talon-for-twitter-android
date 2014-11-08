@@ -11,12 +11,12 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
-import android.graphics.Shader.TileMode;
+import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
-import android.view.animation.Animation.AnimationListener;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 
 class CircleImageView extends ImageView {
@@ -25,21 +25,21 @@ class CircleImageView extends ImageView {
     private static final float X_OFFSET = 0.0F;
     private static final float Y_OFFSET = 1.75F;
     private static final float SHADOW_RADIUS = 3.5F;
-    private static final int SHADOW_ELEVATION = 0;
-    private AnimationListener mListener;
+    private static final int SHADOW_ELEVATION = 4;
+    private Animation.AnimationListener mListener;
     private int mShadowRadius;
 
     public CircleImageView(Context context, int color, float radius) {
         super(context);
         float density = this.getContext().getResources().getDisplayMetrics().density;
         int diameter = (int)(radius * density * 2.0F);
-        int shadowYOffset = (int)(density * Y_OFFSET);
-        int shadowXOffset = (int)(density * X_OFFSET);
-        this.mShadowRadius = (int)(density * SHADOW_RADIUS);
+        int shadowYOffset = (int)(density * 1.75F);
+        int shadowXOffset = (int)(density * 0.0F);
+        this.mShadowRadius = (int)(density * 3.5F);
         ShapeDrawable circle;
         if(this.elevationSupported()) {
             circle = new ShapeDrawable(new OvalShape());
-            ViewCompat.setElevation(this, SHADOW_ELEVATION * density);
+            ViewCompat.setElevation(this, 4.0F * density);
         } else {
             CircleImageView.OvalShadow oval = new CircleImageView.OvalShadow(this.mShadowRadius, diameter);
             circle = new ShapeDrawable(oval);
@@ -49,16 +49,12 @@ class CircleImageView extends ImageView {
             this.setPadding(padding, padding, padding, padding);
         }
 
-        circle.getPaint().setColor(getResources().getColor(android.R.color.transparent));//color);
+        circle.getPaint().setColor(color);
         this.setBackgroundDrawable(circle);
     }
 
-    public void setBackgroundElevation(int elevation) {
-        float density = this.getContext().getResources().getDisplayMetrics().density;
-        ViewCompat.setElevation(this, elevation * density);
-    }
     private boolean elevationSupported() {
-        return VERSION.SDK_INT >= 21;
+        return Build.VERSION.SDK_INT >= 21;
     }
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -69,7 +65,7 @@ class CircleImageView extends ImageView {
 
     }
 
-    public void setAnimationListener(AnimationListener listener) {
+    public void setAnimationListener(Animation.AnimationListener listener) {
         this.mListener = listener;
     }
 
@@ -106,7 +102,7 @@ class CircleImageView extends ImageView {
         public OvalShadow(int shadowRadius, int circleDiameter) {
             this.mShadowRadius = shadowRadius;
             this.mCircleDiameter = circleDiameter;
-            this.mRadialGradient = new RadialGradient((float)(this.mCircleDiameter / 2), (float)(this.mCircleDiameter / 2), (float)this.mShadowRadius, new int[]{1023410176, 0}, (float[])null, TileMode.CLAMP);
+            this.mRadialGradient = new RadialGradient((float)(this.mCircleDiameter / 2), (float)(this.mCircleDiameter / 2), (float)this.mShadowRadius, new int[]{1023410176, 0}, (float[])null, Shader.TileMode.CLAMP);
             this.mShadowPaint.setShader(this.mRadialGradient);
         }
 

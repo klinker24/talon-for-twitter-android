@@ -116,10 +116,8 @@ public class ChoosenListActivity extends Activity {
 
         boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         int size = Utils.getActionBarHeight(context) + (landscape ? 0 : Utils.getStatusBarHeight(context));
-        mPullToRefreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
-        mPullToRefreshLayout.setProgressViewOffset(true, size, size + toDP(25));
+        mPullToRefreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
-        mPullToRefreshLayout.setProgressElevation(0);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);

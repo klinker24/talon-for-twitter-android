@@ -248,27 +248,15 @@ public abstract class MainFragment extends Fragment implements Expandable {
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
 
         refreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
-        //refreshLayout.setFullScreen(true);
         refreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 onRefreshStarted();
             }
         });
-
-        refreshLayout.setSize(MaterialSwipeRefreshLayout.LARGE);
         int size = Utils.getActionBarHeight(context) + (landscape || MainActivity.isPopup ? 0 : Utils.getStatusBarHeight(context));
-        refreshLayout.setProgressViewOffset(true, size, size + toDP(25));
+        refreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
         refreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
-        refreshLayout.setProgressElevation(0);
-
-        refreshLayout.setProgressBackgroundColor(android.R.color.transparent);
-
-        /*refreshLayout.setColorScheme(settings.themeColors.primaryColor,
-                SwipeProgressBar.COLOR2,
-                settings.themeColors.primaryColorLight,
-                SwipeProgressBar.COLOR3);*/
-
         refreshLayout.setBarVisibilityWatcher(barVisibility);
 
         setUpHeaders();
