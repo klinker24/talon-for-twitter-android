@@ -332,7 +332,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
                     if (hasDrawer) {
                         getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
-                                (toolbar != null && toolbar.getAlpha() == 1f) ? settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                                (toolbar != null && toolbar.getAlpha() == 1f) ?
+                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
                     }
                 }
 
