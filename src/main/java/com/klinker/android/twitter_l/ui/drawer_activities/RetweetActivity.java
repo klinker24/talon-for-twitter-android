@@ -147,7 +147,7 @@ public class RetweetActivity extends DrawerActivity {
                     }
                 }
 
-                if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
+                if (!getResources().getBoolean(R.bool.options_drawer) && DrawerActivity.statusBar.getVisibility() != View.GONE) {
                     DrawerActivity.statusBar.setVisibility(View.GONE);
                 }
             }

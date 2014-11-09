@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -221,12 +222,16 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         if (highlightedCurrent == position) {
             holder.icon.setColorFilter(DrawerActivity.settings.themeColors.accentColor);
             holder.name.setTextColor(DrawerActivity.settings.themeColors.accentColor);
+
+            rowView.setBackgroundColor(Color.parseColor("#09000000"));
         } else {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
             int resource = a.getResourceId(0, 0);
 
             holder.icon.setColorFilter(context.getResources().getColor(resource));
             holder.name.setTextColor(context.getResources().getColor(resource));
+
+            rowView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
         }
 
         return rowView;
