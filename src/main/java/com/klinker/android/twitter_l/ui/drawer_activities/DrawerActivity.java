@@ -348,9 +348,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                     }
 
                     if (hasDrawer) {
-                        getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
+                        /*getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
                                 (toolbar != null && toolbar.getAlpha() == 1f) ?
-                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));*/
                     }
                 }
 
@@ -678,6 +678,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         }
 
         statusBar = findViewById(R.id.activity_status_bar);
+        statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
 
         statusBarHeight = Utils.getStatusBarHeight(context);
         navBarHeight = Utils.getNavBarHeight(context);
@@ -730,11 +731,15 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 drawerList.setFooterDividersEnabled(false);
             }
 
-            View drawerStatusBar = findViewById(R.id.drawer_status_bar);
-            LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
-            status2Params.height = statusBarHeight;
-            drawerStatusBar.setLayoutParams(status2Params);
-            drawerStatusBar.setVisibility(View.VISIBLE);
+            try {
+                View drawerStatusBar = findViewById(R.id.drawer_status_bar);
+                RelativeLayout.LayoutParams status2Params = (RelativeLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+                status2Params.height = statusBarHeight;
+                drawerStatusBar.setLayoutParams(status2Params);
+                drawerStatusBar.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
+
+            }
 
             try {
                 statusBar.setVisibility(View.VISIBLE);
@@ -742,8 +747,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 // using the toolbar, so unnecessary
             }
 
-            drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
-            status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
+            View drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
+            LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
             status2Params.height = statusBarHeight;
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
@@ -969,7 +974,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         Intent settings = new Intent(context, PrefActivity.class);
-        settings.putExtra("position", 7)
+        settings.putExtra("position", 8)
                 .putExtra("title",
                         getResources().getString(R.string.get_help_settings));
         finish();
@@ -1561,12 +1566,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                                     .parse("content://com.teslacoilsw.notifier/unread_count"),
                             cv);
                 } catch (IllegalArgumentException ex) {
-                    /* Fine, TeslaUnread is not installed. */
                 } catch (Exception ex) {
-                    /* Some other error, possibly because the format
-                       of the ContentValues are incorrect.
-
-                        Log but do not crash over this. */
                     ex.printStackTrace();
                 }
             }
@@ -1574,6 +1574,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     }
 
     public void showBars() {
+        if (statusBar.getVisibility() != View.VISIBLE) {
+            statusBar.setVisibility(View.VISIBLE);
+        }
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+
         if (tranparentSystemBar == -1) {
             tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
         }
@@ -1592,7 +1597,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                getWindow().setStatusBarColor(val);
+                statusBar.setBackgroundColor(val);
             }
         });
         showStatus.setDuration(250);
@@ -1623,7 +1628,9 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     Handler toolBarVis;
 
     public void hideBars() {
-        Log.v("talon_bars", "hiding system bars");
+        if (statusBar.getVisibility() != View.VISIBLE) {
+            statusBar.setVisibility(View.VISIBLE);
+        }
         if (tranparentSystemBar == -1) {
             tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
         }
@@ -1642,7 +1649,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                getWindow().setStatusBarColor(val);
+                statusBar.setBackgroundColor(val);
             }
         });
         hideStatus.setDuration(250);

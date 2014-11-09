@@ -28,7 +28,7 @@
         <View android:id="@+id/drawer_status_bar_2"
               android:layout_width="match_parent"
               android:layout_height="20dp"
-              android:background="@android:color/black"
+              android:background="@color/transparent_system_bar"
               android:visibility="gone"/>
 
         <View android:layout_height="?android:actionBarSize"
