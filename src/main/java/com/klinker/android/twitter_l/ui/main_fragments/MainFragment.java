@@ -473,10 +473,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void hideStatusBar() {
-        if (DrawerActivity.statusBar.getVisibility() != View.GONE) {
-            DrawerActivity.statusBar.setVisibility(View.GONE);
-        }
-
         if (visibilityChange == null) {
             visibilityChange = new Handler();
         }

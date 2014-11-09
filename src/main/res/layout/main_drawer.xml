@@ -22,17 +22,18 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" >
 
-    <View android:id="@+id/drawer_status_bar"
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:background="@android:color/black"
-          android:visibility="gone"/>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+        <include layout="@layout/user_header"
+                 android:id="@+id/header"
+                 android:layout_height="160dp"
+                 android:layout_width="match_parent"
+                 android:background="?drawerBackground"/>
 
-    <include layout="@layout/user_header"
-             android:id="@+id/header"
-             android:layout_height="140dp"
-             android:layout_width="match_parent"
-             android:background="?drawerBackground"/>
+        <View android:id="@+id/drawer_status_bar"
+              android:layout_width="match_parent"
+              android:layout_height="20dp"
+              android:background="@color/transparent_system_bar" />
+    </RelativeLayout>
 
 
     <LinearLayout
