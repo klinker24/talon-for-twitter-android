@@ -1583,10 +1583,15 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     }
 
     public void showBars() {
-        if (statusBar.getVisibility() != View.VISIBLE) {
-            statusBar.setVisibility(View.VISIBLE);
+
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+            if (statusBar.getVisibility() != View.VISIBLE) {
+                statusBar.setVisibility(View.VISIBLE);
+            }
+        } else {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
-        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
         if (tranparentSystemBar == -1) {
             tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
@@ -1637,7 +1642,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     Handler toolBarVis;
 
     public void hideBars() {
-        if (statusBar.getVisibility() != View.VISIBLE) {
+        if (getResources().getBoolean(R.bool.has_drawer) && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
         }
         if (tranparentSystemBar == -1) {
