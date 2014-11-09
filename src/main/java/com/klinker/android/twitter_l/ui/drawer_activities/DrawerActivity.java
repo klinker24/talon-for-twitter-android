@@ -64,6 +64,8 @@ import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager;
+import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -347,10 +349,13 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                         tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
                     }
 
-                    if (hasDrawer) {
-                        /*getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
+                    if (hasDrawer &&
+                            (context instanceof ListsActivity ||
+                             context instanceof DiscoverPager ||
+                             context instanceof SavedSearchesActivity)) {
+                        getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
                                 (toolbar != null && toolbar.getAlpha() == 1f) ?
-                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));*/
+                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
                     }
                 }
 
@@ -678,7 +683,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         }
 
         statusBar = findViewById(R.id.activity_status_bar);
-        statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+        try {
+            statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+        } catch (Exception e) {
+
+        }
 
         statusBarHeight = Utils.getStatusBarHeight(context);
         navBarHeight = Utils.getNavBarHeight(context);

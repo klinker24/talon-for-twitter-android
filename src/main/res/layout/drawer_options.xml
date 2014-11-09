@@ -42,7 +42,7 @@
                 android:singleLine="true"
                 android:textSize="14sp"
                 android:textColor="?textColor"
-                android:fontFamily="sans-serif"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginRight="16dp"
                 android:paddingStart="72dp"/>
 
@@ -76,7 +76,7 @@
                 android:singleLine="true"
                 android:textSize="14sp"
                 android:textColor="?textColor"
-                android:fontFamily="sans-serif"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginRight="16dp"
                 android:paddingStart="72dp"/>
 
@@ -109,7 +109,7 @@
                 android:singleLine="true"
                 android:textSize="14sp"
                 android:textColor="?textColor"
-                android:fontFamily="sans-serif"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginRight="16dp"
                 android:paddingStart="72dp"/>
     </RelativeLayout>

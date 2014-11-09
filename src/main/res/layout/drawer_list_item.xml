@@ -25,7 +25,8 @@
         android:layout_width="match_parent"
         android:singleLine="true"
         android:textSize="14sp"
-        android:fontFamily="sans-serif"
+        android:alpha=".87"
+        android:fontFamily="sans-serif-medium"
         android:layout_marginRight="16dp"
         android:paddingStart="72dp"/>
 
