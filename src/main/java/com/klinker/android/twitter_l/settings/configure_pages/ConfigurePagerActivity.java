@@ -67,6 +67,7 @@ public class ConfigurePagerActivity extends Activity {
         setUpDoneDiscard();
 
         actionBar = getActionBar();
+        actionBar.setElevation(0);
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);

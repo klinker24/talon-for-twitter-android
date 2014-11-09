@@ -60,6 +60,7 @@ public class DiscoverPager extends DrawerActivity {
 
         actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.trends));
+        actionBar.setElevation(0);
 
 
         if (!settings.isTwitterLoggedIn) {
