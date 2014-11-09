@@ -1,11 +1,11 @@
 <changelog>
 
     <version name="1.1.0">
-        <text>More Material</text>
+        <text>More Material... again :)</text>
         <text>Completely customize the swipe-able pages on your timeline</text>
         <text>Hold up to 6 pages on your timeline</text>
         <text>Edit what elements show up in the main navigation drawer</text>
-        <text>Better picture viewing for tweets with multiple pics and on profiles</text>
+        <text>Some bug and style fixes</text>
     </version>
 
     <version name="1.0.5">
