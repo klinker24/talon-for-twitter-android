@@ -288,7 +288,7 @@ public class NewScheduledTweet extends Activity {
             }
         }
 
-        if (!settings.useEmoji) {
+        if (true){//!settings.useEmoji) {
             emojiButton.setVisibility(View.GONE);
         } else {
             emojiKeyboard.setAttached((HoloEditText) mEditText);
