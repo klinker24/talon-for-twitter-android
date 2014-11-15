@@ -485,7 +485,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         final Preference showHandle = findPreference("display_screen_name");
-        if (sharedPrefs.getBoolean("both_handle_name", false)) {
+        if (sharedPrefs.getBoolean("both_handle_name", false) && showHandle != null) {
             showHandle.setEnabled(false);
         }
 
@@ -1178,16 +1178,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-        Preference pages = findPreference("pages");
-        pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent configurePages = new Intent(context, ConfigurePagerActivity.class);
-                startActivity(configurePages);
-                return false;
-            }
-        });
 
         final Preference emojis = findPreference("use_emojis");
         emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

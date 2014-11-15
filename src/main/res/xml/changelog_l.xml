@@ -1,5 +1,13 @@
 <changelog>
 
+    <version name="1.1.1">
+        <text>Open to internal or external browser when long clicking a link</text>
+        <text>img.ly support</text>
+        <text>Fix for interaction clicks</text>
+        <text>Bug/force close fixes</text>
+        <text>Updated translations</text>
+    </version>
+
     <version name="1.1.0">
         <text>More Material... again :)</text>
         <text>Completely customize the swipe-able pages on your timeline</text>

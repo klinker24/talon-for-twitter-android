@@ -44,12 +44,6 @@
         android:key="advanced_other"
         android:title="@string/other_options" >
 
-        <Preference
-            android:key="pages"
-            android:title="@string/configure_pages"
-            />
-
-
         <ListPreference
             android:key="quote_style"
             android:title="@string/quote_style"
