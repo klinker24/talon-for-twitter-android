@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.1.2">
+        <text>Better managing of TweetMarker refreshes</text>
+    </version>
+
     <version name="1.1.1">
         <text>Open to internal or external browser when long clicking a link</text>
         <text>img.ly support</text>
