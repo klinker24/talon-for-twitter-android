@@ -116,6 +116,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public AsyncListView replyList;
     public LinearLayout convoSpinner;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -486,6 +487,11 @@ public class TweetActivity extends YouTubeBaseActivity {
     @Override
     public void finish() {
         isRunning = false;
+
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+
         super.finish();
     }
 
