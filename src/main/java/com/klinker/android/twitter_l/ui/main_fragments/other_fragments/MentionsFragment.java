@@ -46,7 +46,6 @@ import java.util.List;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class MentionsFragment extends MainFragment {
 
@@ -54,7 +53,7 @@ public class MentionsFragment extends MainFragment {
 
     public int unread = 0;
 
-    public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
+    public BroadcastReceiver refreshMentions = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             getCursorAdapter(false);
@@ -196,11 +195,11 @@ public class MentionsFragment extends MainFragment {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
-        context.registerReceiver(refrehshMentions, filter);
+        context.registerReceiver(refreshMentions, filter);
 
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.NEW_MENTION");
-        context.registerReceiver(refrehshMentions, filter);
+        context.registerReceiver(refreshMentions, filter);
     }
 
     @Override
@@ -287,7 +286,7 @@ public class MentionsFragment extends MainFragment {
             unread = mUnread;
         }
 
-        context.unregisterReceiver(refrehshMentions);
+        context.unregisterReceiver(refreshMentions);
 
         super.onPause();
     }
