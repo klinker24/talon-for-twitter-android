@@ -64,6 +64,7 @@ import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.setup.TutorialActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 
 public class MainActivity extends DrawerActivity {
@@ -474,20 +475,12 @@ public class MainActivity extends DrawerActivity {
                     .commit();
         }
 
-        /*new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-
-                }
-                NotificationUtils.refreshNotification(context);
+                NotificationUtils.sendTestNotification(MainActivity.this);
             }
-        }).start();*/
-
-
-        Log.v("talon_starting", "ending onStart()");
+        }, 1000);
     }
 
     public Intent getRestartIntent() {
