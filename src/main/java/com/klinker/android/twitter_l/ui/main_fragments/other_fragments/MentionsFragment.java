@@ -44,8 +44,8 @@ import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class MentionsFragment extends MainFragment {
 
@@ -53,12 +53,16 @@ public class MentionsFragment extends MainFragment {
 
     public int unread = 0;
 
-    public BroadcastReceiver refrehshMentions = new BroadcastReceiver() {
+    public BroadcastReceiver refreshMentions = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             getCursorAdapter(false);
         }
     };
+
+    public Twitter getTwitter() {
+        return Utils.getTwitter(context, DrawerActivity.settings);
+    }
 
     @Override
     public void onRefreshStarted() {
@@ -75,7 +79,7 @@ public class MentionsFragment extends MainFragment {
             @Override
             protected Cursor doInBackground(Void... params) {
                 try {
-                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
+                    twitter = getTwitter();
 
                     long[] lastId = MentionsDataSource.getInstance(context).getLastIds(currentAccount);
 
@@ -128,7 +132,7 @@ public class MentionsFragment extends MainFragment {
                     context.startService(new Intent(context, SecondMentionsRefreshService.class));
                 }
 
-                return MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
+                return MentionsDataSource.getInstance(context).getCursor(currentAccount);
             }
 
             @Override
@@ -191,11 +195,11 @@ public class MentionsFragment extends MainFragment {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.REFRESH_MENTIONS");
-        context.registerReceiver(refrehshMentions, filter);
+        context.registerReceiver(refreshMentions, filter);
 
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.NEW_MENTION");
-        context.registerReceiver(refrehshMentions, filter);
+        context.registerReceiver(refreshMentions, filter);
     }
 
     @Override
@@ -206,7 +210,7 @@ public class MentionsFragment extends MainFragment {
     @Override
     public void onStop() {
         try {
-            MentionsDataSource.getInstance(context).markAllRead(sharedPrefs.getInt("current_account", 1));
+            MentionsDataSource.getInstance(context).markAllRead(currentAccount);
         } catch (Exception e) {
 
         }
@@ -226,7 +230,7 @@ public class MentionsFragment extends MainFragment {
             public void run() {
                 final Cursor cursor;
                 try {
-                    cursor = MentionsDataSource.getInstance(context).getCursor(sharedPrefs.getInt("current_account", 1));
+                    cursor = MentionsDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
                     MentionsDataSource.dataSource = null;
                     getCursorAdapter(true);
@@ -282,7 +286,7 @@ public class MentionsFragment extends MainFragment {
             unread = mUnread;
         }
 
-        context.unregisterReceiver(refrehshMentions);
+        context.unregisterReceiver(refreshMentions);
 
         super.onPause();
     }
