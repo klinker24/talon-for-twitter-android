@@ -105,6 +105,7 @@ public class HomeContentProvider extends ContentProvider {
                 PackageManager.GET_META_DATA);
 
         int launcherUid = 0;
+        int pageUid = 0;
         int twitterUid = 0;
 
         for (ApplicationInfo packageInfo : packages) {
@@ -116,9 +117,13 @@ public class HomeContentProvider extends ContentProvider {
                 //get the UID for the selected app
                 launcherUid = packageInfo.uid;
             }
+            if (packageInfo.packageName.equals("com.klinker.android.launcher.twitter_page")) {
+                //get the UID for the selected app
+                pageUid = packageInfo.uid;
+            }
         }
 
-        if (callingUid == launcherUid || callingUid == twitterUid) {
+        if (callingUid == launcherUid || callingUid == twitterUid || callingUid == pageUid) {
             return true;
         } else {
             return false;
@@ -264,18 +269,23 @@ public class HomeContentProvider extends ContentProvider {
     public synchronized Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
 
+        Log.v("talon_wearable", "querying");
+
         if (!checkUID(context)) {
-            return null;
+            //return null;
         }
 
-        Log.d(TAG, "query with uri: " + uri.toString());
-
-        //SQLiteDatabase db = helper.getWritableDatabase();
-
-        // A convenience class to help build the query
         HomeDataSource data = HomeDataSource.getInstance(context);
-        Cursor c = data.getCursor(Integer.parseInt(selectionArgs[0]));//qb.query(db,
-                //projection, HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + selectionArgs[0], null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        Cursor c;
+
+        if (selection != null) {
+            c = data.getWearCursor(Integer.parseInt(selectionArgs[0]));
+            Log.v("talon_wearable", "getting the wearable cursor, size: " + c.getCount());
+        } else {
+            c = data.getCursor(Integer.parseInt(selectionArgs[0]));
+            Log.v("talon_wearable", "getting the normal cursor, size: " + c.getCount());
+        }
+
         c.setNotificationUri(context.getContentResolver(), uri);
 
         return c;

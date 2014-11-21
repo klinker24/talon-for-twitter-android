@@ -4,10 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,6 +58,14 @@ public class PhotoViewerDialog extends Activity {
     public HoloTextView download;
     public PhotoViewAttacher mAttacher;
 
+    @Override
+    public void finish() {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+
+        super.finish();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

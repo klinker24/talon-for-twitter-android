@@ -1352,7 +1352,12 @@ public class ProfilePager extends Activity {
 
     @Override
     public void finish() {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+
         super.finish();
+
         try {
             if (isMyProfile) {
                 AppSettings.invalidate();

@@ -7,6 +7,7 @@
         <text>Slight update to the icon</text>
         <text>UI fixes when selecting swipable pages</text>
         <text>Fixed custom ringtones</text>
+        <text>Better managing of TweetMarker refreshes</text>
     </version>
 
     <version name="1.1.1">
