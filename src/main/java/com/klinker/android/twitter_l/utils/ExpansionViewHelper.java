@@ -41,6 +41,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
+import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -238,7 +239,12 @@ public class ExpansionViewHelper {
         composeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent compose = new Intent(context, ComposeActivity.class);
+                Intent compose;
+                if (!secondAcc) {
+                    compose = new Intent(context, ComposeActivity.class);
+                } else {
+                    compose = new Intent(context, ComposeSecAccActivity.class);
+                }
                 compose.putExtra("user", composeText);
                 compose.putExtra("id", id);
                 compose.putExtra("reply_to_text", tweetText);
@@ -471,7 +477,12 @@ public class ExpansionViewHelper {
                                 text = " RT @" + screenName + ": " + restoreLinks(text);
                             }
 
-                            Intent quote = new Intent(context, ComposeActivity.class);
+                            Intent quote;
+                            if (!secondAcc) {
+                                quote = new Intent(context, ComposeActivity.class);
+                            } else {
+                                quote = new Intent(context, ComposeSecAccActivity.class);
+                            }
                             quote.putExtra("user", text);
                             quote.putExtra("id", id);
                             quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
@@ -576,6 +587,19 @@ public class ExpansionViewHelper {
         return hidden;
     }
 
+    private boolean secondAcc = false;
+    public void setSecondAcc(boolean sec) {
+        secondAcc = sec;
+    }
+
+    private Twitter getTwitter() {
+        if (secondAcc) {
+            return Utils.getSecondTwitter(context);
+        } else {
+            return Utils.getTwitter(context, AppSettings.getInstance(context));
+        }
+    }
+
     public View getExpansion() {
         return expansion;
     }
@@ -595,7 +619,7 @@ public class ExpansionViewHelper {
             public void run() {
 
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
                     if (isFavorited) {
                         twitter.destroyFavorite(id);
                     } else {
@@ -627,7 +651,7 @@ public class ExpansionViewHelper {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
                     twitter.retweetStatus(id);
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -656,7 +680,7 @@ public class ExpansionViewHelper {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
 
                     status = twitter.showStatus(id);
 
@@ -729,7 +753,7 @@ public class ExpansionViewHelper {
             public void run() {
                 boolean retweetedByMe;
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
                     twitter4j.Status status = twitter.showStatus(id);
 
                     retweetedByMe = status.isRetweetedByMe();
@@ -766,7 +790,7 @@ public class ExpansionViewHelper {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
                     Status status = twitter.showStatus(id);
                     if (status.isRetweet()) {
                         Status retweeted = status.getRetweetedStatus();
@@ -816,7 +840,7 @@ public class ExpansionViewHelper {
         protected Boolean doInBackground(String... urls) {
             try {
                 AppSettings settings = AppSettings.getInstance(context);
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                Twitter twitter =  getTwitter();
                 ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
                 for (twitter4j.Status retweet : retweets) {
                     if(retweet.getUser().getId() == settings.myId)
@@ -859,7 +883,7 @@ public class ExpansionViewHelper {
                     return;
                 }
 
-                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                Twitter twitter = getTwitter();
                 replies = new ArrayList<twitter4j.Status>();
                 try {
 
@@ -947,7 +971,7 @@ public class ExpansionViewHelper {
                 }
 
                 ArrayList<twitter4j.Status> all = null;
-                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                Twitter twitter = getTwitter();
                 try {
                     Log.v("talon_replies", "looking for discussion");
 
@@ -1086,7 +1110,7 @@ public class ExpansionViewHelper {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, AppSettings.getInstance(context));
+                    Twitter twitter =  getTwitter();
 
                     Status stat = status;
                     if (stat.isRetweet()) {
@@ -1231,7 +1255,7 @@ public class ExpansionViewHelper {
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+            Twitter twitter = getTwitter();
 
             try {
 
@@ -1267,7 +1291,7 @@ public class ExpansionViewHelper {
     class MarkSpam extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+            Twitter twitter = getTwitter();
 
             try {
                 HomeDataSource.getInstance(context).deleteTweet(id);
