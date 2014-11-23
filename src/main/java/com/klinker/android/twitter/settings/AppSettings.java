@@ -75,6 +75,7 @@ public class AppSettings {
     public static final int PAGE_TYPE_HOME = 5;
     public static final int PAGE_TYPE_MENTIONS = 6;
     public static final int PAGE_TYPE_DMS = 7;
+    public static final int PAGE_TYPE_SECOND_MENTIONS = 8;
 
     public static final int LAYOUT_TALON = 0;
     public static final int LAYOUT_HANGOUT = 1;
@@ -278,6 +279,7 @@ public class AppSettings {
         }
 
         ringtone = defaultPrefs.getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
+        Log.v("talon_ringtone", ringtone);
 
         if (!pushNotifications) {
             liveStreaming = false;
