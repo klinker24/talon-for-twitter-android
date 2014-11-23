@@ -145,7 +145,7 @@ public class MentionsFragment extends MainFragment {
 
                 }
 
-                cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
+                cursorAdapter = setAdapter(cursor);
                 attachCursor();
 
                 try {
@@ -184,13 +184,23 @@ public class MentionsFragment extends MainFragment {
         }.execute();
     }
 
+    public TimeLineCursorAdapter setAdapter(Cursor c) {
+        return new TimeLineCursorAdapter(context, c, false, MentionsFragment.this);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
 
         if (sharedPrefs.getBoolean("refresh_me_mentions", false)) {
             getCursorAdapter(false);
-            sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+                }
+            },1000);
         }
 
         IntentFilter filter = new IntentFilter();

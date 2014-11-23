@@ -78,6 +78,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private SharedPreferences sharedPrefs;
     private int cancelButton;
     private int border;
+    private boolean secondAcc = false;
 
     private Handler[] mHandlers;
     private int currHandler;
@@ -130,16 +131,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return App.getInstance(context).getBitmapCache();
     }
 
-    public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
-        super(context, cursor, 0);
-
-        this.isHomeTimeline = isHomeTimeline;
-
-        this.cursor = cursor;
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.isDM = isDM;
-
+    public void init() {
+        init(true);
+    }
+    public void init(boolean cont) {
         settings = AppSettings.getInstance(context);
 
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -175,18 +170,31 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         display.getSize(size);
         contentHeight = size.y;
 
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
+        if (cont && context.getResources().getBoolean(R.bool.isTablet)) {
             // we need to take off the size of the action bar and status bar
             contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
         }
-
-        this.expander = expander;
 
         if (context.getResources().getBoolean(R.bool.isTablet) ||
                 context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             headerMultiplier = -25;
         }
     }
+
+    public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
+        super(context, cursor, 0);
+
+        this.isHomeTimeline = isHomeTimeline;
+
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = isDM;
+        this.expander = expander;
+
+        init();
+    }
+
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline) {
         super(context, cursor, 0);
 
@@ -197,50 +205,22 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
 
-        settings = AppSettings.getInstance(context);
+        init();
+    }
 
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+    public TimeLineCursorAdapter(Context context, Cursor cursor, Expandable expander, boolean secondAcc) {
+        super(context, cursor, 0);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
+        this.isHomeTimeline = false;
 
-        layout = R.layout.tweet;
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = false;
+        this.expander = expander;
+        this.secondAcc = secondAcc;
 
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
-
-        transparent = new ColorDrawable(android.R.color.transparent);
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
+        init();
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, Expandable expander) {
@@ -252,47 +232,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
-
-        settings = AppSettings.getInstance(context);
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
-
-        layout = R.layout.tweet;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
-
-        transparent = new ColorDrawable(android.R.color.transparent);
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
         this.expander = expander;
 
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
+        init();
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
@@ -305,44 +247,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
         
-        settings = AppSettings.getInstance(context);
-
-        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
-
-        layout = R.layout.tweet;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
-
-        transparent = new ColorDrawable(android.R.color.transparent);
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
+        init(false);
     }
 
     @Override
@@ -456,15 +361,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
 
-                    /*ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity)context),
-                            Pair.create((View) (displayPic ? holder.profilePic : holder.image), "image"),
-                            Pair.create((View) holder.name, "name"),
-                            Pair.create((View) holder.screenTV, "screenname")
-                    );*/
-
-                    /*ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
-
+                    if (secondAcc) {
+                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                        viewTweet.putExtra("second_account", true);
+                    }
                     context.startActivity(viewTweet);
                 }
             });
@@ -514,14 +415,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
 
-                    /*ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
-
-                    /*ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity)context),
-                            Pair.create((View) (displayPic ? holder.profilePic : holder.image), "image"),
-                            Pair.create((View) holder.name, "name"),
-                            Pair.create((View) holder.screenTV, "screenname")
-                    );*/
+                    if (secondAcc) {
+                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                        viewTweet.putExtra("second_account", true);
+                    }
 
                     context.startActivity(viewTweet);
 
@@ -974,9 +872,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         String extraNames = "";
         String replyStuff = "";
 
+        String screenNameToUse;
+
+        if (secondAcc) {
+            screenNameToUse = settings.secondScreenName;
+        } else {
+            screenNameToUse = settings.myScreenName;
+        }
+
         if (text.contains("@")) {
             for (String s : users.split("  ")) {
-                if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
+                if (!s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenname)) {
                     extraNames += "@" + s + " ";
                 }
             }
@@ -990,7 +896,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         }
 
-        if (!screenname.equals(settings.myScreenName)) {
+        if (!screenname.equals(screenNameToUse)) {
             replyStuff = "@" + screenname + " " + extraNames;
         } else {
             replyStuff = extraNames;
@@ -1007,12 +913,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
 
         final ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+        helper.setSecondAcc(secondAcc);
         helper.setBackground(holder.background);
         helper.setWebLink(otherLinks);
         helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
         helper.setUser(screenname);
         helper.setText(text);
         helper.setUpOverflow();
+
+        if (secondAcc) {
+            String t = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+            Toast.makeText(context, t, Toast.LENGTH_SHORT).show();
+        }
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
 
@@ -1122,10 +1034,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         //imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
     }
 
+    public Twitter getTwitter() {
+        if (secondAcc) {
+            return Utils.getSecondTwitter(context);
+        } else {
+            return Utils.getTwitter(context, settings);
+        }
+    }
+
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
+            Twitter twitter = getTwitter();
 
             try {
                 long tweetId = Long.parseLong(urls[0]);

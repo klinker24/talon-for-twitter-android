@@ -56,6 +56,7 @@ import com.klinker.android.twitter_l.manipulations.profile_popups.PicturesPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
+import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
@@ -105,6 +106,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public String linkString;
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
+    public boolean secondAcc = false;
 
     protected boolean fromLauncher = false;
 
@@ -649,6 +651,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         tweetId = from.getLongExtra("tweetid", 0);
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
+        secondAcc = from.getBooleanExtra("second_account", false);
 
         try {
             users = from.getStringExtra("users").split("  ");
@@ -709,6 +712,14 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
     }
 
+    public Twitter getTwitter() {
+        if (secondAcc) {
+            return Utils.getSecondTwitter(this);
+        } else {
+            return Utils.getTwitter(this, settings);
+        }
+    }
+
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected void onPreExecute() {
@@ -716,7 +727,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
+            Twitter twitter = getTwitter();
 
             try {
 
@@ -754,7 +765,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
+            Twitter twitter = getTwitter();
 
             try {
                 HomeDataSource.getInstance(context).deleteTweet(tweetId);
@@ -1495,20 +1506,28 @@ public class TweetActivity extends YouTubeBaseActivity {
         String text = tweet;
         String extraNames = "";
 
+        String screenNameToUse;
+
+        if (secondAcc) {
+            screenNameToUse = settings.secondScreenName;
+        } else {
+            screenNameToUse = settings.myScreenName;
+        }
+
         if (text.contains("@")) {
             for (String s : users) {
-                if (!s.equals(settings.myScreenName) && !extraNames.contains(s)  && !s.equals(screenName)) {
+                if (!s.equals(screenNameToUse) && !extraNames.contains(s)  && !s.equals(screenName)) {
                     extraNames += "@" + s + " ";
                 }
             }
         }
 
-        if (retweeter != null && !retweeter.equals("") && !retweeter.equals(settings.myScreenName) && !extraNames.contains(retweeter)) {
+        if (retweeter != null && !retweeter.equals("") && !retweeter.equals(screenNameToUse) && !extraNames.contains(retweeter)) {
             extraNames += "@" + retweeter + " ";
         }
 
         String sendString;
-        if (!screenName.equals(settings.myScreenName)) {
+        if (!screenName.equals(screenNameToUse)) {
             sendString = "@" + screenName + " " + extraNames;
         } else {
             sendString = extraNames;
@@ -1531,7 +1550,12 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
                 if (!hidePopups()) {
-                    Intent compose = new Intent(context, ComposeActivity.class);
+                    Intent compose;
+                    if (secondAcc) {
+                        compose = new Intent(context, ComposeSecAccActivity.class);
+                    } else {
+                        compose = new Intent(context, ComposeActivity.class);
+                    }
                     compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
@@ -1618,7 +1642,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     Status status = twitter.showStatus(tweetId);
                     if (status.isRetweet()) {
                         Status retweeted = status.getRetweetedStatus();
@@ -1667,7 +1691,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         protected Boolean doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                Twitter twitter =  getTwitter();
                 ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
                 for (twitter4j.Status retweet : retweets) {
                     if(retweet.getUser().getId() == settings.myId)
@@ -1745,7 +1769,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     return;
                 }
 
-                Twitter twitter = Utils.getTwitter(context, settings);
+                Twitter twitter = getTwitter();
                 replies = new ArrayList<twitter4j.Status>();
                 try {
 
@@ -1831,7 +1855,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 }
 
                 ArrayList<twitter4j.Status> all = null;
-                Twitter twitter = Utils.getTwitter(context, settings);
+                Twitter twitter = getTwitter();
                 try {
                     Log.v("talon_replies", "looking for discussion");
 
@@ -1952,7 +1976,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
 
                     long id = tweetId;
                     Status stat = status;
@@ -2017,7 +2041,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 long realTime = 0;
                 boolean retweetedByMe = false;
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter = getTwitter();
 
                     TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
                     status = twitter.showStatus(tweetId);
@@ -2155,7 +2179,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void run() {
                 boolean retweetedByMe;
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     twitter4j.Status status = twitter.showStatus(tweetId);
 
                     retweetedByMe = status.isRetweetedByMe();
@@ -2199,7 +2223,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void run() {
 
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     if (isFavorited) {
                         twitter.destroyFavorite(tweetId);
                     } else {
@@ -2231,7 +2255,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter = getTwitter();
                     twitter.retweetStatus(tweetId);
 
                     ((Activity)context).runOnUiThread(new Runnable() {
