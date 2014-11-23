@@ -79,6 +79,7 @@ public class ChooserFragment extends Fragment {
         list.add(context.getString(R.string.favorite_users));
         list.add(context.getString(R.string.link_page));
         list.add(context.getString(R.string.picture_page));
+        list.add(context.getString(R.string.second_acc_mentions));
 
         View layout = inflater.inflate(R.layout.configuration_page, null);
 
@@ -112,6 +113,9 @@ public class ChooserFragment extends Fragment {
                     case 7:
                         setType(AppSettings.PAGE_TYPE_PICS);
                         break;
+                    case 8:
+                        setType(AppSettings.PAGE_TYPE_SECOND_MENTIONS);
+                        break;
                     default:
                         setType(AppSettings.PAGE_TYPE_NONE);
                         break;
@@ -131,12 +135,6 @@ public class ChooserFragment extends Fragment {
 
 
         check = (CheckBox) layout.findViewById(R.id.default_page);
-        check.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
         final LinearLayout checkLayout = (LinearLayout) layout.findViewById(R.id.default_page_layout);
         checkLayout.setOnClickListener(new View.OnClickListener() {
             @Override

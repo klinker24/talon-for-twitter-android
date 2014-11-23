@@ -65,6 +65,7 @@ import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImage
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.ui.BrowserActivity;
 import com.klinker.android.twitter.ui.compose.ComposeActivity;
+import com.klinker.android.twitter.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter.ui.tweet_viewer.TweetPager;
 import com.klinker.android.twitter.manipulations.PhotoViewerDialog;
@@ -105,6 +106,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public Context context;
     public final LayoutInflater inflater;
     private boolean isDM = false;
+    private boolean secondAcc = false;
     private SharedPreferences sharedPrefs;
     private int cancelButton;
     private int border;
@@ -174,61 +176,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
 
-        settings = AppSettings.getInstance(context);
+        init();
+    }
 
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+    public TimeLineCursorAdapter(Context context, boolean secAccount, Cursor cursor) {
+        super(context, cursor, 0);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.cancelButton});
-        cancelButton = a.getResourceId(0, 0);
-        a.recycle();
+        this.isHomeTimeline = false;
 
-        talonLayout = settings.layout;
+        this.cursor = cursor;
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        this.isDM = false;
+        this.secondAcc = secAccount;
 
-        if (settings.addonTheme) {
-            try {
-                res = context.getPackageManager().getResourcesForApplication(settings.addonThemePackage);
-                addonLayout = res.getLayout(res.getIdentifier("tweet", "layout", settings.addonThemePackage));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        switch (talonLayout) {
-            case AppSettings.LAYOUT_TALON:
-                layout = R.layout.tweet;
-                break;
-            case AppSettings.LAYOUT_HANGOUT:
-                layout = R.layout.tweet_hangout;
-                break;
-            case AppSettings.LAYOUT_FULL_SCREEN:
-                layout = R.layout.tweet_full_screen;
-                break;
-        }
-
-        TypedArray b;
-        if (settings.roundContactImages) {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        } else {
-            b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.squareBorder});
-        }
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
-        mCache = getCache();
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
-        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
-        if (settings.militaryTime) {
-            timeFormatter = new SimpleDateFormat("kk:mm");
-        }
-
-        transparent = new ColorDrawable(android.R.color.transparent);
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
+        init();
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM) {
@@ -241,6 +203,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
         
+        init();
+    }
+
+    private void init() {
         settings = AppSettings.getInstance(context);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -488,6 +454,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     .commit();
                         }
 
+                        if (secondAcc) {
+                            String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                            viewTweet.putExtra("second_account", true);
+                        }
+
                         context.startActivity(viewTweet);
 
                         return true;
@@ -506,6 +478,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
+                            if (secondAcc) {
+                                String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                            }
+
                             addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
                             removeExpansionWithAnimation(holder);
@@ -555,6 +532,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     .commit();
                         }
 
+                        if (secondAcc) {
+                            String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                            viewTweet.putExtra("second_account", true);
+                        }
+
                         context.startActivity(viewTweet);
                     }
                 };
@@ -568,6 +552,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     public boolean onLongClick(View view) {
 
                         if (holder.expandArea.getVisibility() != View.VISIBLE) {
+                            if (secondAcc) {
+                                String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                            }
+
                             addExpansion(holder, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                         } else {
                             removeExpansionWithAnimation(holder);
@@ -851,7 +840,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         @Override
                         public void onClick(View view) {
                             if (!TouchableMovementMethod.touched) {
-                                Log.v("talon_clickable", "clicked in the cursor adapter");
                                 // we need to manually set the background for click feedback because the spannable
                                 // absorbs the click on the background
                                 if (!holder.preventNextClick) {
@@ -1015,9 +1003,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             String text = holder.tweet.getText().toString();
             String extraNames = "";
 
+            String screenNameToUse;
+
+            if (secondAcc) {
+                screenNameToUse = settings.secondScreenName;
+            } else {
+                screenNameToUse = settings.myScreenName;
+            }
+
             if (text.contains("@")) {
                 for (String s : users.split("  ")) {
-                    if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
+                    if (!s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenname)) {
                         extraNames += "@" + s + " ";
                     }
                 }
@@ -1031,7 +1027,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             }
 
-            if (!screenname.equals(settings.myScreenName)) {
+            if (!screenname.equals(screenNameToUse)) {
                 holder.reply.setText("@" + screenname + " " + extraNames);
             } else {
                 holder.reply.setText(extraNames);
@@ -1112,7 +1108,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 protected Boolean doInBackground(String... urls) {
                     try {
-                        Twitter twitter =  Utils.getTwitter(context, settings);
+                        Twitter twitter =  getTwitter();
                         ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
                         for (twitter4j.Status retweet : retweets) {
                             if(retweet.getUser().getId() == settings.myId)
@@ -1142,8 +1138,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent compose = new Intent(context, ComposeActivity.class);
+                Intent compose;
+
+                if (!secondAcc) {
+                    compose = new Intent(context, ComposeActivity.class);
+                } else {
+                    compose = new Intent(context, ComposeSecAccActivity.class);
+
+                    String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                }
                 String string = holder.reply.getText().toString();
+
                 try{
                     compose.putExtra("user", string.substring(0, string.length() - 1));
                 } catch (Exception e) {
@@ -1314,7 +1320,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.quoteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context, ComposeActivity.class);
+                    Intent intent;
+                    if (!secondAcc) {
+                        intent = new Intent(context, ComposeActivity.class);
+                    } else {
+                        intent = new Intent(context, ComposeSecAccActivity.class);
+                    }
                     intent.setType("text/plain");
                     String text = holder.tweet.getText().toString();
 
@@ -1434,7 +1445,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
-            Twitter twitter = Utils.getTwitter(context, settings);
+            Twitter twitter = getTwitter();
 
             try {
                 long tweetId = Long.parseLong(urls[0]);
@@ -1460,13 +1471,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
+    public Twitter getTwitter() {
+        if (secondAcc) {
+            return Utils.getSecondTwitter(context);
+        } else {
+            return Utils.getTwitter(context, settings);
+        }
+    }
+
     public void getFavoriteCount(final ViewHolder holder, final long tweetId) {
 
         Thread getCount = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     final Status status;
                     if (holder.retweeter.getVisibility() != View.GONE) {
                         status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
@@ -1523,7 +1542,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     final Status status;
                     if (holder.retweeter.getVisibility() != View.GONE) {
                         status = twitter.showStatus(holder.tweetId).getRetweetedStatus();
@@ -1591,7 +1610,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
                     twitter4j.Status status = twitter.showStatus(holder.tweetId);
                     final boolean retweetedByMe = status.isRetweetedByMe();
                     final String count = "" + status.getRetweetCount();
@@ -1645,7 +1664,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                Twitter twitter =  getTwitter();
                 if (holder.isFavorited) {
                     twitter.destroyFavorite(tweetId);
                 } else {
@@ -1679,7 +1698,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                Twitter twitter =  getTwitter();
                 twitter.retweetStatus(tweetId);
                 return null;
             } catch (Exception e) {
@@ -1716,7 +1735,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         protected Boolean doInBackground(String... urls) {
             try {
                 if (!dontgo) {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter =  getTwitter();
 
                     if (!isDM) {
                         twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(holder.reply.getText().toString());
@@ -1764,7 +1783,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         protected String doInBackground(String... urls) {
             try {
-                Twitter twitter =  Utils.getTwitter(context, settings);
+                Twitter twitter =  getTwitter();
                 twitter4j.Status status = twitter.showStatus(tweetId);
 
                 MediaEntity[] entities = status.getMediaEntities();
