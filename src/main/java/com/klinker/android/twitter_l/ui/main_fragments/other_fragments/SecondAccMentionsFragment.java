@@ -130,4 +130,9 @@ public class SecondAccMentionsFragment extends MentionsFragment {
     public TimeLineCursorAdapter setAdapter(Cursor c) {
         return new TimeLineCursorAdapter(context, c, SecondAccMentionsFragment.this, true);
     }
+
+    @Override
+    public void syncSecondMentions() {
+        // we won't do anything here
+    }
 }

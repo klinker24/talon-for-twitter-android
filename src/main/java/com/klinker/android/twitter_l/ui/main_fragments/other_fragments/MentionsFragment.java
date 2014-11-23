@@ -128,8 +128,7 @@ public class MentionsFragment extends MainFragment {
                     am.cancel(pendingIntent);
 
                 if (DrawerActivity.settings.syncSecondMentions) {
-                    // refresh the second account
-                    context.startService(new Intent(context, SecondMentionsRefreshService.class));
+                    syncSecondMentions();
                 }
 
                 return MentionsDataSource.getInstance(context).getCursor(currentAccount);
@@ -182,6 +181,11 @@ public class MentionsFragment extends MainFragment {
                 }
             }
         }.execute();
+    }
+
+    public void syncSecondMentions() {
+        // refresh the second account
+        context.startService(new Intent(context, SecondMentionsRefreshService.class));
     }
 
     public TimeLineCursorAdapter setAdapter(Cursor c) {
