@@ -1060,6 +1060,16 @@ public class ExpansionViewHelper {
                             });
                         }
 
+                        if (replies.size() >= 3) {
+                            // we will start showing them below the
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                }
+                            });
+                        }
+
                         try {
                             Thread.sleep(250);
                         } catch (Exception e) {
@@ -1069,8 +1079,9 @@ public class ExpansionViewHelper {
 
                         query = result.nextQuery();
 
-                        if (query != null)
+                        if (query != null) {
                             result = twitter.search(query);
+                        }
 
                     } while (query != null && isRunning);
 

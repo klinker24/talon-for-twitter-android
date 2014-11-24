@@ -144,7 +144,7 @@ public class DiscoverPager extends DrawerActivity {
         switch (item.getItemId()) {
             case R.id.location_settings:
                 Intent settings = new Intent(context, PrefActivity.class);
-                settings.putExtra("position", 9)
+                settings.putExtra("position", 10)
                         .putExtra("title",
                                 getResources().getString(R.string.location_settings));
                 finish();
