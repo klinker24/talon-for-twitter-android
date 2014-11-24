@@ -672,10 +672,12 @@ public class TweetActivity extends YouTubeBaseActivity {
             otherLinks = null;
         }
 
-        if (screenName.equals(settings.myScreenName)) {
-            isMyTweet = true;
-        } else if (screenName.equals(retweeter)) {
-            isMyRetweet = true;
+        if (screenName != null) {
+            if (screenName.equals(settings.myScreenName)) {
+                isMyTweet = true;
+            } else if (screenName.equals(retweeter)) {
+                isMyRetweet = true;
+            }
         }
 
         tweet = restoreLinks(tweet);
@@ -1527,7 +1529,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         String sendString;
-        if (!screenName.equals(screenNameToUse)) {
+        if (screenName != null && !screenName.equals(screenNameToUse)) {
             sendString = "@" + screenName + " " + extraNames;
         } else {
             sendString = extraNames;
@@ -1556,7 +1558,11 @@ public class TweetActivity extends YouTubeBaseActivity {
                     } else {
                         compose = new Intent(context, ComposeActivity.class);
                     }
-                    compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
+                    try {
+                        compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
+                    } catch (Exception e) {
+                        
+                    }
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
