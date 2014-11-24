@@ -125,6 +125,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String retweeterName;
 
         public boolean preventNextClick = false;
+
+        public ExpansionViewHelper expandHelper;
     }
 
     public BitmapLruCache getCache() {
@@ -778,6 +780,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public void removeExpansion(final ViewHolder holder, boolean anim) {
 
+        if (holder.expandHelper != null) {
+            holder.expandHelper.stop();
+        }
+
         ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
         translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
         translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
@@ -920,6 +926,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         helper.setUser(screenname);
         helper.setText(text);
         helper.setUpOverflow();
+        holder.expandHelper = helper;
 
         if (secondAcc) {
             String t = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);

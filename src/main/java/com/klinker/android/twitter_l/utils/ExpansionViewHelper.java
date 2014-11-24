@@ -214,7 +214,6 @@ public class ExpansionViewHelper {
             @Override
             public void onClick(View view) {
                 if (status != null) {
-                    getConversation();
                     if (convoPopup == null) {
                         convoPopup = new ConversationPopupLayout(context, convoLayout);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
@@ -684,6 +683,8 @@ public class ExpansionViewHelper {
 
                     status = twitter.showStatus(id);
 
+                    getConversation();
+
                     final String sfavCount;
                     if (status.isRetweet()) {
                         twitter4j.Status status2 = status.getRetweetedStatus();
@@ -873,6 +874,10 @@ public class ExpansionViewHelper {
                 // user has gone away from the window
             }
         }
+    }
+
+    public void stop() {
+        isRunning = false;
     }
 
     public void getConversation() {
@@ -1067,7 +1072,7 @@ public class ExpansionViewHelper {
                         if (query != null)
                             result = twitter.search(query);
 
-                    } while (query != null);
+                    } while (query != null && isRunning);
 
                 } catch (Exception e) {
                     e.printStackTrace();

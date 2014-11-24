@@ -219,4 +219,6 @@
         </LinearLayout>
     </LinearLayout>
 
+    <include layout="@layout/expansion_conversation" />
+
 </LinearLayout>
