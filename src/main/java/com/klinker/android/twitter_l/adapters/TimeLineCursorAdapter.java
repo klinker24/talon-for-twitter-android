@@ -919,6 +919,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
 
         final ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+        helper.setExpandingLayout(holder.expandArea);
         helper.setSecondAcc(secondAcc);
         helper.setBackground(holder.background);
         helper.setWebLink(otherLinks);
@@ -1008,7 +1009,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onAnimationEnd(Animator animation) {
                 holder.expandArea.setMinimumHeight(distance);
-                holder.expandArea.getLayoutParams().height = distance;
+                holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
                 View root = helper.getExpansion();

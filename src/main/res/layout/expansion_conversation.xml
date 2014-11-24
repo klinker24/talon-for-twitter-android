@@ -2,17 +2,17 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tweets_card"
+    android:id="@+id/convo_card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:maxWidth="300dp"
-    android:layout_marginTop="10dp"
     android:layout_marginRight="@dimen/user_profile_card_padding"
     android:layout_marginLeft="@dimen/user_profile_card_padding"
-    android:layout_marginBottom="16dp"
+    android:layout_marginTop="6dp"
+    android:elevation="2dp"
     card_view:cardCornerRadius="3dp"
     card_view:cardBackgroundColor="?windowBackground"
-    android:visibility="invisible">
+    android:visibility="gone">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,6 +32,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/conversation"
                 android:textAllCaps="true"
+                android:textColor="?android:colorAccent"
                 android:textSize="18sp"/>
 
             <Button
@@ -57,8 +58,7 @@
             android:id="@+id/tweets_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
         </LinearLayout>
 
