@@ -406,6 +406,20 @@ public class ExpansionViewHelper {
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.hideImage(true);
 
+            if (i != 0) {
+                tweetDivider = new View(context);
+                params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+                tweetDivider.setLayoutParams(params);
+
+                if (AppSettings.getInstance(context).darkTheme) {
+                    tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.dark_text_drawer));
+                } else {
+                    tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.light_text_drawer));
+                }
+
+                convoTweetArea.addView(tweetDivider);
+            }
+
             convoTweetArea.addView(v.getView());
         }
 
@@ -443,6 +457,7 @@ public class ExpansionViewHelper {
 
     private void showConvoCard() {
         final View v = convoCard;
+
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -463,14 +478,9 @@ public class ExpansionViewHelper {
             }
         });
 
-        anim.setStartOffset(150);
+        anim.setStartOffset(200);
         anim.setDuration(300);
         v.startAnimation(anim);
-    }
-
-    private LinearLayout expanding;
-    public void setExpandingLayout(LinearLayout expanding) {
-        this.expanding = expanding;
     }
 
     private void shareClick() {
