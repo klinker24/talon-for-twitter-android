@@ -146,7 +146,7 @@ public class ExpansionViewHelper {
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
 
-        repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.accentColorLight);
+        repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convoLayout.findViewById(R.id.listView);
@@ -397,13 +397,8 @@ public class ExpansionViewHelper {
         View tweetDivider = new View(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
         tweetDivider.setLayoutParams(params);
-        tweetDivider.setBackground(new ColorDrawable(AppSettings.getInstance(context).themeColors.accentColor));
 
-        if (AppSettings.getInstance(context).darkTheme) {
-            tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.dark_text_drawer));
-        } else {
-            tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.light_text_drawer));
-        }
+        tweetDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
         convoTweetArea.addView(tweetDivider);
         for (int i = 0; i < numTweets; i++) {
