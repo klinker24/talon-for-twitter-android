@@ -9,12 +9,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -23,6 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,6 +37,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.ConversationPopupLayout;
@@ -56,7 +63,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ExpansionViewHelper {
 
@@ -83,9 +89,10 @@ public class ExpansionViewHelper {
 
     // buttons at the bottom
     ImageButton webButton;
-    View repliesButton;
+    Button repliesButton;
     View composeButton;
     View overflowButton;
+    View quoteButton;
 
     AsyncListView replyList;
     LinearLayout convoSpinner;
@@ -95,6 +102,11 @@ public class ExpansionViewHelper {
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
+
+    ProgressBar convoProgress;
+    LinearLayout convoArea;
+    CardView convoCard;
+    LinearLayout convoTweetArea;
 
     boolean landscape;
 
@@ -129,9 +141,12 @@ public class ExpansionViewHelper {
         retweeters[2] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_3);
 
         webButton = (ImageButton) expansion.findViewById(R.id.web_button);
-        repliesButton = expansion.findViewById(R.id.conversation_button);
+        repliesButton = (Button)expansion.findViewById(R.id.show_all_tweets_button);
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
+        quoteButton = expansion.findViewById(R.id.quote_button);
+
+        repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.accentColorLight);
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convoLayout.findViewById(R.id.listView);
@@ -149,6 +164,10 @@ public class ExpansionViewHelper {
         }
         retweetersPopup.setHeightByPercent(.4f);
 
+        convoArea = (LinearLayout) expansion.findViewById(R.id.convo_area);
+        convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
+        convoCard = (CardView) expansion.findViewById(R.id.convo_card);
+        convoTweetArea = (LinearLayout) expansion.findViewById(R.id.tweets_content);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -207,6 +226,35 @@ public class ExpansionViewHelper {
                         .create()
                         .show();
                 return false;
+            }
+        });
+
+        quoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = tweet;
+
+                if (!AppSettings.getInstance(context).preferRT) {
+                    text = "\"@" + screenName + ": " + restoreLinks(text) + "\" ";
+                } else {
+                    text = " RT @" + screenName + ": " + restoreLinks(text);
+                }
+
+                Intent quote;
+                if (!secondAcc) {
+                    quote = new Intent(context, ComposeActivity.class);
+                } else {
+                    quote = new Intent(context, ComposeSecAccActivity.class);
+                }
+                quote.putExtra("user", text);
+                quote.putExtra("id", id);
+                quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
+
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
+                quote.putExtra("already_animated", true);
+
+                context.startActivity(quote, opts.toBundle());
             }
         });
 
@@ -335,6 +383,101 @@ public class ExpansionViewHelper {
         });
     }
 
+    private void showConvoCard(ArrayList<Status> tweets) {
+        int numTweets = 0;
+
+        if (tweets.size() >= 3) {
+            numTweets = 3;
+        } else if (tweets.size() == 2) {
+            numTweets = 2;
+        } else if (tweets.size() == 1) {
+            numTweets = 1;
+        }
+
+        View tweetDivider = new View(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+        tweetDivider.setLayoutParams(params);
+        tweetDivider.setBackground(new ColorDrawable(AppSettings.getInstance(context).themeColors.accentColor));
+
+        if (AppSettings.getInstance(context).darkTheme) {
+            tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.dark_text_drawer));
+        } else {
+            tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.light_text_drawer));
+        }
+
+        convoTweetArea.addView(tweetDivider);
+        for (int i = 0; i < numTweets; i++) {
+            TweetView v = new TweetView(context, tweets.get(i));
+            v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+            v.hideImage(true);
+
+            convoTweetArea.addView(v.getView());
+        }
+
+        hideConvoProgress();
+        if (numTweets != 0) {
+            showConvoCard();
+        }
+    }
+
+    private void hideConvoProgress() {
+        final View spinner = convoProgress;
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (spinner.getVisibility() != View.GONE) {
+                    spinner.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        anim.setDuration(250);
+        spinner.startAnimation(anim);
+    }
+
+    private void showConvoCard() {
+        final View v = convoCard;
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (v.getVisibility() != View.VISIBLE) {
+                    v.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        anim.setStartOffset(150);
+        anim.setDuration(300);
+        v.startAnimation(anim);
+    }
+
+    private LinearLayout expanding;
+    public void setExpandingLayout(LinearLayout expanding) {
+        this.expanding = expanding;
+    }
+
     private void shareClick() {
         String text1 = tweetText;
         text1 = text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + id;
@@ -448,13 +591,11 @@ public class ExpansionViewHelper {
         } else {
             // someone else's tweet
 
-            final int QUOTE_TWEET = 1;
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
             final int SHARE = 5;
 
-            menu.getMenu().add(Menu.NONE, QUOTE_TWEET, Menu.NONE, context.getString(R.string.menu_quote));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
@@ -467,29 +608,6 @@ public class ExpansionViewHelper {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
-                        case QUOTE_TWEET:
-                            String text = tweet;
-
-                            if (!AppSettings.getInstance(context).preferRT) {
-                                text = "\"@" + screenName + ": " + restoreLinks(text) + "\" ";
-                            } else {
-                                text = " RT @" + screenName + ": " + restoreLinks(text);
-                            }
-
-                            Intent quote;
-                            if (!secondAcc) {
-                                quote = new Intent(context, ComposeActivity.class);
-                            } else {
-                                quote = new Intent(context, ComposeSecAccActivity.class);
-                            }
-                            quote.putExtra("user", text);
-                            quote.putExtra("id", id);
-                            quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
-
-                            ((Activity)context).getWindow().setExitTransition(null);
-
-                            context.startActivity(quote);
-                            break;
                         case COPY_TEXT:
                             copyText();
                             break;
@@ -970,7 +1088,6 @@ public class ExpansionViewHelper {
         Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 if (!isRunning) {
                     return;
                 }
@@ -1006,7 +1123,7 @@ public class ExpansionViewHelper {
                         }
                         List<Status> tweets = result.getTweets();
 
-                        for(twitter4j.Status tweet : tweets){
+                        for (twitter4j.Status tweet : tweets) {
                             if (tweet.getInReplyToStatusId() == id) {
                                 all.add(tweet);
                                 Log.v("talon_replies", tweet.getText());
@@ -1021,7 +1138,7 @@ public class ExpansionViewHelper {
 
                             all.clear();
 
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                            ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     convoSpinner.setVisibility(View.GONE);
@@ -1034,38 +1151,21 @@ public class ExpansionViewHelper {
                                             } else {
                                                 adapter.notifyDataSetChanged();
                                             }
-                                        } else {
-                                            disableConvoButton();
-                                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
-                                            try {
-                                                convoPopup.hide();
-                                            } catch (Exception e) {
-
-                                            }
                                         }
                                     } catch (Exception e) {
                                         // none and it got the null object
                                         e.printStackTrace();
-                                        if (replies != null && replies.size() == 0) {
-                                            disableConvoButton();
-                                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
-                                            try {
-                                                convoPopup.hide();
-                                            } catch (Exception x) {
-
-                                            }
-                                        }
                                     }
                                 }
                             });
                         }
 
-                        if (replies.size() >= 3) {
-                            // we will start showing them below the
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                        if (replies.size() >= 3 && convoCard.getVisibility() == View.GONE) {
+                            // we will start showing them below the buttons
+                            ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-
+                                    showConvoCard(replies);
                                 }
                             });
                         }
@@ -1084,7 +1184,15 @@ public class ExpansionViewHelper {
                         }
 
                     } while (query != null && isRunning);
-
+                } catch (TwitterException e) {
+                    if (e.getMessage().contains("limit exceeded")) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Cannot find conversation - rate limit reached.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } catch (OutOfMemoryError e) {
@@ -1096,13 +1204,19 @@ public class ExpansionViewHelper {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            disableConvoButton();
-                            Toast.makeText(context, R.string.no_replies, Toast.LENGTH_SHORT).show();
+                            hideConvoProgress();
                             try {
                                 convoPopup.hide();
                             } catch (Exception e) {
 
                             }
+                        }
+                    });
+                } else if (replies.size() < 3) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showConvoCard(replies);
                         }
                     });
                 }
@@ -1112,13 +1226,6 @@ public class ExpansionViewHelper {
         getReplies.setPriority(8);
         getReplies.start();
 
-    }
-
-    public void disableConvoButton() {
-        if (repliesButton != null) {
-            repliesButton.setEnabled(false);
-            repliesButton.setAlpha(.5f);
-        }
     }
 
     public void getRetweeters() {

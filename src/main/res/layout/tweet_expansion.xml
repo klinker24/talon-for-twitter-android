@@ -162,11 +162,11 @@
                 android:gravity="center">
 
             <ImageButton
-                    android:id="@+id/conversation_button"
+                    android:id="@+id/quote_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="?directMessageItem"
-                    android:contentDescription="Open Web Page"
+                    android:src="?quote_button"
+                    android:contentDescription="Quote"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp"
@@ -219,6 +219,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/expansion_conversation" />
+    <LinearLayout
+        android:id="@+id/convo_area"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="match_parent">
+
+        <ProgressBar
+            android:id="@+id/convo_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            style="@android:style/Widget.Material.Light.ProgressBar"
+            android:indeterminateOnly="true" />
+
+        <include layout="@layout/expansion_conversation" />
+
+    </LinearLayout>
 
 </LinearLayout>
