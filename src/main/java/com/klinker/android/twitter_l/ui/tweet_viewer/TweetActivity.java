@@ -1561,7 +1561,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     try {
                         compose.putExtra("user", fsendString.substring(0, fsendString.length() - 1)); // for some reason it puts a extra space here
                     } catch (Exception e) {
-                        
+
                     }
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
