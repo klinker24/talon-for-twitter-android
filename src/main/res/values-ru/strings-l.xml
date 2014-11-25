@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Быстрые переходы</string>
+    <string name="help">Помощь</string>
+    <string name="send_feedback">Обратная связь</string>
+    <string name="to_top">Наверх</string>
+    <string name="show_all">Показать все</string>
+    <string name="stats">Статистика</string>
+    <string name="list_count">В %s списке(ах).</string>
+    <string name="joined_twitter">Зарегистрирован(а) в Twitter:</string>
+    <string name="top_down">Режим \"Сверху вниз\"</string>
+    <string name="top_down_summary">Лента никогда не будет сохранять вашу позицию. Она будет начинаться с самого верха.</string>
+    <string name="timeline_text_size">Размер текста ленты</string>
+    <string name="manage_mutes">Управление скрытыми пользователями</string>
+    <string name="quote_style">Стиль цитаты</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="location_settings">Настройки местоположения</string>
+    <string name="twitpic_summary_l">Все изображения будут загружаться через TwitPic</string>
+    <string name="interactions_only">Только отклики</string>
+    <string name="inter_stream">Отклики и Живое обновление</string>
+    <string name="dont_use_pull">Не использовать Talon Pull</string>
+    <string name="always">Всегда</string>
+    <string name="never">Никогда</string>
+    <string name="only_on_wifi">Только через WiFi</string>
+    <string name="only_on_data">Только через мобильную сеть</string>
+    <string name="contact_me">Связаться со мной</string>
+    <string name="my_google_plus">Мой Google+</string>
+    <string name="follow_progress">Следите за нашим прогрессом!</string>
+    <string name="general">Общее</string>
+    <string name="no_interactions">Нет откликов</string>
+    <string name="emojis_summary">Позволяет вам использовать iOS emojis, загрузив из Play Market нашу клавиатуру \"Sliding Emoji Keyboard - iOS\".</string>
+    <string name="replies">Ответы</string>
+    <string name="web">Веб</string>
+    <string name="heads_up">Heads Up</string>
+    <string name="use_snackbar">Использовать панель Snackbar</string>
+    <string name="use_snackbar_summary">Используется для отображения всплывающей панели \"Наверх\" в основных лентах.</string>
+    <string name="bottom_pictures">Изображения под твитами</string>
+    <string name="bottom_pictures_summary">При влючении этой опции твиты не будут открываться в отдельном окне по долгому нажатию.</string>
+</resources>
