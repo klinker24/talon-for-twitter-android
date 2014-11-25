@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="1.2.1">
+        <text>More material</text>
+        <text>Updated translations</text>
+        <text>Crash fixes</text>
+    </version>
+    
     <version name="1.2.0">
         <text>Improved expansion of tweets and conversations</text>
         <text>Added a swipable page for your second account's mentions</text>
