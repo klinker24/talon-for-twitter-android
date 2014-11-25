@@ -1013,10 +1013,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 View root = helper.getExpansion();
 
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
-                alpha.setDuration(ANIMATION_DURATION);
+                /*ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
+                alpha.setDuration(300);
                 alpha.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(alpha);
+                startAnimation(alpha);*/
+
+                helper.startFlowAnimation();
 
                 holder.expandArea.addView(root);
             }
@@ -1033,12 +1035,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorContent);
 
-    }
-
-    public void removeKeyboard(ViewHolder holder) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(holder.reply.getWindowToken(), 0);
     }
 
     public Twitter getTwitter() {

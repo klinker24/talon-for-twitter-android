@@ -1,5 +1,7 @@
 package com.klinker.android.twitter_l.utils;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -9,13 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -35,6 +32,7 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -49,7 +47,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableIma
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
-import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -57,10 +55,8 @@ import org.jsoup.select.Elements;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
-import twitter4j.conf.Configuration;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +100,7 @@ public class ExpansionViewHelper {
     WebPopupLayout webPopup;
 
     ProgressBar convoProgress;
-    LinearLayout convoArea;
+    RelativeLayout convoArea;
     CardView convoCard;
     LinearLayout convoTweetArea;
 
@@ -164,7 +160,7 @@ public class ExpansionViewHelper {
         }
         retweetersPopup.setHeightByPercent(.4f);
 
-        convoArea = (LinearLayout) expansion.findViewById(R.id.convo_area);
+        convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
         convoCard = (CardView) expansion.findViewById(R.id.convo_card);
         convoTweetArea = (LinearLayout) expansion.findViewById(R.id.tweets_content);
@@ -425,7 +421,7 @@ public class ExpansionViewHelper {
 
         hideConvoProgress();
         if (numTweets != 0) {
-            showConvoCard();
+            startAlphaAnimation(convoCard, 0, AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
         }
     }
 
@@ -453,34 +449,6 @@ public class ExpansionViewHelper {
 
         anim.setDuration(250);
         spinner.startAnimation(anim);
-    }
-
-    private void showConvoCard() {
-        final View v = convoCard;
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (v.getVisibility() != View.VISIBLE) {
-                    v.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        anim.setStartOffset(200);
-        anim.setDuration(300);
-        v.startAnimation(anim);
     }
 
     private void shareClick() {
@@ -535,6 +503,55 @@ public class ExpansionViewHelper {
 
         webButton.setEnabled(true);
         webButton.setAlpha(1.0f);
+    }
+
+    public void startFlowAnimation() {
+        favoriteButton.setVisibility(View.INVISIBLE);
+        retweetButton.setVisibility(View.INVISIBLE);
+        webButton.setVisibility(View.INVISIBLE);
+        quoteButton.setVisibility(View.INVISIBLE);
+        composeButton.setVisibility(View.INVISIBLE);
+        overflowButton.setVisibility(View.INVISIBLE);
+        convoProgress.setVisibility(View.INVISIBLE);
+
+        startAlphaAnimation(favoriteButton, 0);
+        startAlphaAnimation(retweetButton, 75);
+        startAlphaAnimation(webButton, 75);
+        startAlphaAnimation(quoteButton, 150);
+        startAlphaAnimation(convoProgress, 175);
+        startAlphaAnimation(composeButton, 225);
+        startAlphaAnimation(overflowButton, 250);
+    }
+
+    private void startAlphaAnimation(final View v, long offset) {
+        startAlphaAnimation(v, offset, 0f, 1.0f);
+    }
+
+    private void startAlphaAnimation(final View v, long offset, float finish) {
+        startAlphaAnimation(v, offset, 0f, finish);
+    }
+
+    private void startAlphaAnimation(final View v, long offset, float start, float finish) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, start, finish);
+        alpha.setDuration(1000);
+        alpha.setStartDelay(offset);
+        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        alpha.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                v.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) { }
+
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
+        alpha.start();
     }
 
     String tweetText = null;
@@ -1097,6 +1114,8 @@ public class ExpansionViewHelper {
                     return;
                 }
 
+                boolean cardShown = false;
+
                 ArrayList<twitter4j.Status> all = null;
                 Twitter twitter = getTwitter();
                 try {
@@ -1165,7 +1184,8 @@ public class ExpansionViewHelper {
                             });
                         }
 
-                        if (replies.size() >= 3 && convoCard.getVisibility() == View.GONE) {
+                        if (replies.size() >= 3 && !cardShown) {
+                            cardShown = true;
                             // we will start showing them below the buttons
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
@@ -1218,6 +1238,7 @@ public class ExpansionViewHelper {
                         }
                     });
                 } else if (replies.size() < 3) {
+                    cardShown = true;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
