@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Hurtig skift</string>
+    <string name="help">Hjælp</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="to_top">Til top</string>
+    <string name="show_all">Vis alle</string>
+    <string name="stats">Statistik</string>
+    <string name="list_count">I %s lister</string>
+    <string name="joined_twitter">Tilmeldt Twitter:</string>
+    <string name="top_down">Top udgave</string>
+    <string name="top_down_summary">Tidslinjen vil aldrig huske din position. Den vil starte i toppen</string>
+    <string name="timeline_text_size">Tidslinje tekst størrelse</string>
+    <string name="manage_mutes">Indstillinger for mute</string>
+    <string name="quote_style">Citat stil</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="location_settings">Indstillinger for lokation</string>
+    <string name="twitpic_summary_l">Alle uploads af billeder vil gå via Twitpic</string>
+    <string name="interactions_only">Kun interaktioner</string>
+    <string name="inter_stream">Interaktioner og live streaming</string>
+    <string name="dont_use_pull">Brug ikke Talon Pull</string>
+    <string name="always">Altid</string>
+    <string name="never">Aldrig</string>
+    <string name="only_on_wifi">Kun når WiFi</string>
+    <string name="only_on_data">Kun ved mobil data</string>
+    <string name="contact_me">Kontakt mig</string>
+    <string name="my_google_plus">Mit Google+</string>
+    <string name="follow_progress">Følg vores fremskridt!</string>
+    <string name="general">Generelt</string>
+    <string name="no_interactions">Ingen interaktioner</string>
+    <string name="emojis_summary">Tillader dig at bruge iOS emojis ved at downloade Sliding Emoji Keyboard - iOS</string>
+    <string name="replies">Svar</string>
+    <string name="web">Web</string>
+    <string name="heads_up">OBS</string>
+    <string name="use_snackbar">Brug aktiv toast bar</string>
+    <string name="use_snackbar_summary">Bruges ifbm. \'Til top\' funktionen ved tidslinjen</string>
+    <string name="bottom_pictures">Billeder under tweets</string>
+    <string name="bottom_pictures_summary">Tweets vil ikke udvides in-line ved valg af dette</string>
+</resources>

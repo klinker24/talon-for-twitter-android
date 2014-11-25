@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Snelle Overgangen</string>
+    <string name="help">Help</string>
+    <string name="send_feedback">Verzend Feedback</string>
+    <string name="to_top">Naar Boven</string>
+    <string name="show_all">Laat Alles Zien</string>
+    <string name="stats">Statistiek</string>
+    <string name="list_count">In %s lijsten.</string>
+    <string name="joined_twitter">Aangemeld Sinds:</string>
+    <string name="top_down">Onderste Boven Modus</string>
+    <string name="top_down_summary">De tijdlijn onthoud je positie niet. Hij begint altijd bovenaan.</string>
+    <string name="timeline_text_size">Tijdlijn Tekst Formaat</string>
+    <string name="manage_mutes">Demp Beheer</string>
+    <string name="quote_style">Quote Stijl</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="location_settings">Locatie Instellingen</string>
+    <string name="twitpic_summary_l">Alle afbeeldingen worden geupload naar Twitpic.</string>
+    <string name="interactions_only">Alleen Interacties</string>
+    <string name="inter_stream">Interacties en Live Stream</string>
+    <string name="dont_use_pull">Gebruik Talon Pull Niet</string>
+    <string name="always">Altijd</string>
+    <string name="never">Nooit</string>
+    <string name="only_on_wifi">Alleen op WiFi</string>
+    <string name="only_on_data">Alleen op Data</string>
+    <string name="contact_me">Contacteer Mij</string>
+    <string name="my_google_plus">Mijn Google+</string>
+    <string name="follow_progress">Volg onze Vooruitgang!</string>
+    <string name="general">Algemeen</string>
+    <string name="no_interactions">Geen Interacties</string>
+    <string name="emojis_summary">Staat toe om \"iOS emojis\" te gebruiken door onze \"Sliding Emoji Keyboard - iOS\" te downloaden.</string>
+    <string name="replies">Reacties</string>
+    <string name="web">Web</string>
+    <string name="heads_up">Heads Up</string>
+    <string name="use_snackbar">Gebruik Snackbar</string>
+    <string name="use_snackbar_summary">Gebruikt voor de \"Naar Boven\" functionaliteit op de hoofdtijdlijn.</string>
+    <string name="bottom_pictures">Foto\'s Onder Tweets</string>
+    <string name="bottom_pictures_summary">Tweets zullen met deze optie niet worden uitgebreid in de tijdlijn.</string>
+</resources>
