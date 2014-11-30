@@ -1,6 +1,13 @@
 <changelog>
 
+    <version name="1.2.1">
+        <text>More material</text>
+        <text>Updated translations</text>
+        <text>Crash fixes</text>
+    </version>
+
     <version name="1.2.0">
+        <text>Improved expansion of tweets and conversations</text>
         <text>Added a swipable page for your second account's mentions</text>
         <text>Improved the accuracy of timestamp to seconds</text>
         <text>Reduced the application size</text>
@@ -8,6 +15,7 @@
         <text>UI fixes when selecting swipable pages</text>
         <text>Fixed custom ringtones</text>
         <text>Better managing of TweetMarker refreshes</text>
+        <text>Other bug fixes</text>
     </version>
 
     <version name="1.1.1">

@@ -8,9 +8,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import org.lucasr.smoothie.AsyncListView;
 
-/**
- * Created by lucasklinker on 7/26/14.
- */
+
 public class ConversationPopupLayout extends PopupLayout {
 
     AsyncListView list;

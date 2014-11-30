@@ -1642,7 +1642,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     Handler toolBarVis;
 
     public void hideBars() {
-        if (getResources().getBoolean(R.bool.has_drawer) && statusBar.getVisibility() != View.VISIBLE) {
+        if (getResources().getBoolean(R.bool.has_drawer) && statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
         }
         if (tranparentSystemBar == -1) {
