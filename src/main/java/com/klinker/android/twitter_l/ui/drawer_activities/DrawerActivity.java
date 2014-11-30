@@ -781,6 +781,8 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                 // no drawer?
             }
         } else {
+            mDrawerLayout.setDrawerRightEdgeSize(this, .1f);
+
             try {
                 if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
                     View viewHeader2 = ((Activity) context).getLayoutInflater().inflate(R.layout.ab_header, null);
