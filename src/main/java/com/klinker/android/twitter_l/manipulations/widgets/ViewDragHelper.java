@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.manipulations.widgets;
+package com.klinker.android.twitter_l.manipulations.widgets;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
