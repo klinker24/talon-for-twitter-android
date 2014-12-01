@@ -1,4 +1,3 @@
-package com.klinker.android.twitter_l.ui;
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -15,6 +14,8 @@ package com.klinker.android.twitter_l.ui;
  * limitations under the License.
  */
 
+package com.klinker.android.twitter.ui;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,17 +23,21 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.*;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
-import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.Utils;
+import android.widget.Toast;
+
+import com.klinker.android.twitter.R;
+import com.klinker.android.twitter.manipulations.widgets.HTML5WebView;
+import com.klinker.android.twitter.settings.AppSettings;
+import com.klinker.android.twitter.utils.Utils;
 
 public class BrowserActivity extends Activity {
 
@@ -42,6 +47,11 @@ public class BrowserActivity extends Activity {
 
     public Context context;
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,13 +67,18 @@ public class BrowserActivity extends Activity {
             return;
         }
 
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
+
         context = this;
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
 
         settings = AppSettings.getInstance(this);
-
-        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
 
         url = getIntent().getStringExtra("url");
 
@@ -154,7 +169,7 @@ public class BrowserActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (browser != null && browser.canGoBack() && !browser.getUrl().equals(url)) {
+        if (browser.canGoBack() && !browser.getUrl().equals(url)) {
             browser.goBack();
         } else {
             super.onBackPressed();
