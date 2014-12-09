@@ -34,7 +34,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE'
-        exclude 'META-INF/DEPENDENCIES'
+	exclude 'META-INF/DEPENDENCIES'
     }
 
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
@@ -104,10 +104,6 @@ dependencies {
 
     provided 'org.projectlombok:lombok:1.14.8'
 
-    compile files('lib/YouTubeAndroidPlayerApi.jar')
-    compile(name: 'datetimepicker', ext: 'aar')
-    compile(name: 'bitmap-cache', ext: 'aar')
-
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
@@ -120,11 +116,15 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
 
+    compile 'org.apache.httpcomponents:httpmime:4.3.5'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
     compile 'org.jsoup:jsoup:1.7.3'
 
+    compile files('lib/YouTubeAndroidPlayerApi.jar')
+    compile(name: 'datetimepicker', ext: 'aar')
+    compile(name: 'bitmap-cache', ext: 'aar')
+
     compile(project(":shared_assets"))
-    compile project(path: ':backend', configuration: 'android-endpoints')
 }
 
 apply plugin: 'idea'
