@@ -578,7 +578,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
 
         if (background != null) {
-            background.performClick();
+            if (!settings.bottomPictures) {
+                background.performClick();
+            } else {
+                background.performLongClick();
+            }
             return false;
         }
 
