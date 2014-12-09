@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Gyors átmenetek</string>
+    <string name="help">Súgó</string>
+    <string name="send_feedback">Visszajelzés küldése</string>
+    <string name="to_top">Tetejéhez</string>
+    <string name="show_all">Mutassa mind</string>
+    <string name="stats">Statisztika</string>
+    <string name="list_count">%s listában.</string>
+    <string name="joined_twitter">Csatlakozott a Twitterhez:</string>
+    <string name="top_down">Fentről lefelé mód</string>
+    <string name="top_down_summary">Az idővonal pozíció soha nem lesz elmentve. Mindig a tetején fog kezdeni.</string>
+    <string name="timeline_text_size">Idővonal betűméret</string>
+    <string name="manage_mutes">Némítások kezelése</string>
+    <string name="quote_style">Idézés stílus</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="location_settings">Helybeállítások</string>
+    <string name="twitpic_summary_l">Az összes kép feltöltése TwitPic-en keresztül.</string>
+    <string name="interactions_only">Csak események</string>
+    <string name="inter_stream">Események és Élő közvetítés</string>
+    <string name="dont_use_pull">Ne használja a Talon Pull-t</string>
+    <string name="always">Mindig</string>
+    <string name="never">Soha</string>
+    <string name="only_on_wifi">Csak WiFi-n</string>
+    <string name="only_on_data">Csak mobilnettel</string>
+    <string name="contact_me">Kapcsolatfelvétel</string>
+    <string name="my_google_plus">Saját Google+</string>
+    <string name="follow_progress">Kövesse a haladásunkat!</string>
+    <string name="general">Általános</string>
+    <string name="no_interactions">Nincsenek események</string>
+    <string name="emojis_summary">Engedélyezi az iOS hangulatjelek használaták a Sliding Emoji Keyboard - iOS letöltésével.</string>
+    <string name="replies">Válaszok</string>
+    <string name="web">Web</string>
+    <string name="heads_up">Felugró értesítések</string>
+    <string name="use_snackbar">Felugró sáv használata</string>
+    <string name="use_snackbar_summary">A \"Tetejéhez\" funkció használatához az idővonalon.</string>
+    <string name="bottom_pictures">Képek a Tweetek alatt</string>
+    <string name="bottom_pictures_summary">Ezzel a beállítással a Tweetek nem lesznek kibontva.</string>
+</resources>
