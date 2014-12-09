@@ -23,10 +23,10 @@ import com.klinker.android.twitter.APIKeys;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
+/*import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.entity.mime.content.StringBody;*/
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
@@ -145,14 +145,14 @@ public class TwitPicHelper extends APIHelper {
                 Log.v("talon_twitpic", "already have the file, going right to send it");
             }
 
-            MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+            /*MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
             entity.addPart("key", new StringBody(TWITPIC_API_KEY));
             entity.addPart("media", new FileBody(file));
             entity.addPart("message", new StringBody(message));
 
             Log.v("talon_twitpic", "uploading now");
 
-            post.setEntity(entity);
+            post.setEntity(entity);*/
             HttpResponse response = client.execute(post);
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 

@@ -103,8 +103,6 @@ public class BrowserActivity extends Activity {
         } else {
             browser.loadUrl(url);
         }
-
-        browser.setWebViewClient(new WebClient());
     }
 
     @Override
@@ -164,24 +162,6 @@ public class BrowserActivity extends Activity {
             }
         } catch (Exception e) {
 
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (browser != null && browser.canGoBack() && !browser.getUrl().equals(url)) {
-            browser.goBack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    class WebClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-            webView.loadUrl(url);
-            getIntent().putExtra("url", url);
-            return true;
         }
     }
 }

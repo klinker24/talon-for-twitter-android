@@ -26,12 +26,12 @@ import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
+//import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntity;
+/*import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.entity.mime.content.StringBody;*/
 import org.apache.http.impl.DefaultHttpClientConnection;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
@@ -39,7 +39,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.params.SyncBasicHttpParams;
 import org.apache.http.protocol.*;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -297,11 +296,11 @@ public class TwitterMultipleImageHelper {
                     conn.bind(socket, params);
                     BasicHttpEntityEnclosingRequest request2 = new BasicHttpEntityEnclosingRequest("POST", twitter_endpoint_path);
 
-                    MultipartEntity reqEntity = new MultipartEntity();
+                    /*MultipartEntity reqEntity = new MultipartEntity();
                     reqEntity.addPart("media_ids", new StringBody(ids_string));
                     reqEntity.addPart("status", new StringBody(text));
                     reqEntity.addPart("trim_user", new StringBody("1"));
-                    request2.setEntity(reqEntity);
+                    request2.setEntity(reqEntity);*/
 
                     request2.setParams(params);
                     request2.addHeader("Authorization", authorization_header_string);
@@ -425,12 +424,12 @@ public class TwitterMultipleImageHelper {
                         BasicHttpEntityEnclosingRequest request2 = new BasicHttpEntityEnclosingRequest("POST", twitter_endpoint_path);
 
                         // need to add status parameter to this POST
-                        MultipartEntity reqEntity = new MultipartEntity();
+                        /*MultipartEntity reqEntity = new MultipartEntity();
 
                         FileBody sb_image = new FileBody(file);
                         reqEntity.addPart("media", sb_image);
 
-                        request2.setEntity(reqEntity);
+                        request2.setEntity(reqEntity);*/
                         request2.setParams(params);
 
                         request2.addHeader("Authorization", authorization_header_string);
