@@ -23,11 +23,12 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.Window;
+import android.util.Log;
+import android.view.*;
 
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -87,6 +88,8 @@ public class BrowserActivity extends Activity {
         } else {
             browser.loadUrl(url);
         }
+
+        browser.setWebViewClient(new WebClient());
     }
 
     @Override
@@ -146,6 +149,24 @@ public class BrowserActivity extends Activity {
             }
         } catch (Exception e) {
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (browser != null && browser.canGoBack() && !browser.getUrl().equals(url)) {
+            browser.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    class WebClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+            webView.loadUrl(url);
+            getIntent().putExtra("url", url);
+            return true;
         }
     }
 }

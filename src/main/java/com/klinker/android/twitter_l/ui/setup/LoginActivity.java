@@ -217,8 +217,7 @@ public class LoginActivity extends Activity {
         mWebView.getSettings().setAppCacheEnabled(false);
         mWebView.getSettings().setSavePassword(false);
         mWebView.getSettings().setSaveFormData(false);
-        mWebView.setWebViewClient(new WebViewClient()
-        {
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String url)
             {
