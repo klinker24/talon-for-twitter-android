@@ -56,7 +56,6 @@ import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.settings.SettingsActivity;
-import com.klinker.android.twitter.ui.GCMRegisterActivity;
 import com.klinker.android.twitter.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter.ui.search.SearchPager;
 import com.klinker.android.twitter.utils.MySuggestionsProvider;
@@ -82,7 +81,7 @@ import org.lucasr.smoothie.AsyncListView;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public abstract class DrawerActivity extends GCMRegisterActivity {
+public abstract class DrawerActivity extends Activity {
 
     public static AppSettings settings;
     public Activity context;
@@ -676,6 +675,8 @@ public abstract class DrawerActivity extends GCMRegisterActivity {
                 // no drawer?
             }
         } else {
+            mDrawerLayout.setDrawerRightEdgeSize(this, .1f);
+
             try {
                 if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
                     View viewHeader2 = ((Activity)context).getLayoutInflater().inflate(R.layout.ab_header, null);
