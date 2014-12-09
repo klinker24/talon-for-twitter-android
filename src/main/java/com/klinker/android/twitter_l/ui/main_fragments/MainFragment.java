@@ -275,12 +275,26 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
             int oldFirstVisibleItem = 0;
             int oldTop = 0;
+            Handler top;
 
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                if (i == SCROLL_STATE_IDLE && oldFirstVisibleItem < 1 && canUseScrollStuff) {
-                    showStatusBar();
+            public void onScrollStateChanged(final AbsListView absListView, final int i) {
+                if (top == null) {
+                    top = new Handler();
                 }
+                top.removeCallbacksAndMessages(null);
+                top.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (i == SCROLL_STATE_IDLE && absListView.getFirstVisiblePosition() == 0 && canUseScrollStuff) {
+                            showStatusBar();
+                            MainActivity.sendHandler.post(MainActivity.showSend);
+                        } else if (absListView.getFirstVisiblePosition() == 0 && !toTopPressed) {
+                            MainActivity.sendHandler.post(MainActivity.showSend);
+                        }
+                    }
+                }, 350);
+
             }
 
             @Override
@@ -382,8 +396,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     }
 
+    public boolean toTopPressed = false;
     public void toTop() {
         canUseScrollStuff = false;
+        toTopPressed = true;
         showStatusBar();
         hideToastBar(300);
 
@@ -397,12 +413,17 @@ public abstract class MainFragment extends Fragment implements Expandable {
             listView.smoothScrollToPosition(0);
         }
 
-        new Handler().postDelayed(new Runnable() {
+        if (expansionHandler == null) {
+            expansionHandler = new Handler();
+        }
+
+        expansionHandler.removeCallbacksAndMessages(null);
+        expansionHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 canUseScrollStuff = true;
             }
-        }, 500);
+        }, 1000);
     }
 
     public void onRefreshStarted() {
@@ -493,7 +514,14 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastButton.setTextColor(settings.themeColors.accentColorLight);
     }
 
+    public Handler removeToastHandler;
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
+        if (removeToastHandler == null) {
+            removeToastHandler = new Handler();
+        } else {
+            removeToastHandler.removeCallbacksAndMessages(null);
+        }
+
         if (!settings.useSnackbar) {
             return;
         }
@@ -519,7 +547,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     if (quit) {
-                        new Handler().postDelayed(new Runnable() {
+                        removeToastHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 hideToastBar(length);
@@ -542,6 +570,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public void hideToastBar(long length) {
         if (!isToastShowing || !settings.useSnackbar) {
             return;
+        }
+
+        if (removeToastHandler == null) {
+            removeToastHandler.removeCallbacksAndMessages(null);
         }
 
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
