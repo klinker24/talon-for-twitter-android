@@ -999,32 +999,29 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             }, 600);
         }
 
-        if (!sharedPrefs.getBoolean("from_activity", false)) {
-            if (settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
-                HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
-                HomeFragment.refreshHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fetchTweetMarker();
-                    }
-                }, 600);
-            } else if (!settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
-                HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
-                HomeFragment.refreshHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!actionBar.isShowing() && !isLauncher()) {
-                            showStatusBar();
-                            actionBar.show();
-                        }
 
-                        refreshOnStart();
+        if (settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
+            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
+            HomeFragment.refreshHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fetchTweetMarker();
+                }
+            }, 600);
+        } else if (!settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
+            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
+            HomeFragment.refreshHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!actionBar.isShowing() && !isLauncher()) {
+                        showStatusBar();
+                        actionBar.show();
                     }
-                }, 600);
-            }
+
+                    refreshOnStart();
+                }
+            }, 600);
         }
-
-        sharedPrefs.edit().putBoolean("from_activity", false).commit();
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }
