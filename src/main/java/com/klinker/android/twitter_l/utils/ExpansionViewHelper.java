@@ -452,7 +452,7 @@ public class ExpansionViewHelper {
     }
 
     private void shareClick() {
-        String text1 = tweetText;
+        String text1 = restoreLinks(tweetText);
         text1 = text1 + "\n\n" + "https://twitter.com/" + screenName + "/status/" + id;
         Log.v("my_text_on_share", text1);
         Intent share = new Intent(Intent.ACTION_SEND);
