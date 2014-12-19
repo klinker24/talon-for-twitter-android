@@ -171,6 +171,9 @@ public class TimelineRefreshService extends IntentService {
                 if (settings.preCacheImages) {
                     startService(new Intent(this, PreCacheService.class));
                 }
+
+                sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
+
             } else {
                 Log.v("talon_refresh", "sending broadcast to fragment");
                 sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));

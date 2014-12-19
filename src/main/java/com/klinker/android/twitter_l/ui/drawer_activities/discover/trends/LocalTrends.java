@@ -93,6 +93,15 @@ public class LocalTrends extends Fragment implements
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
+        } else if ((getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
+            View footer = new View(context);
+            footer.setOnClickListener(null);
+            footer.setOnLongClickListener(null);
+            ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
+                    (DrawerActivity.hasToolbar ? Utils.getStatusBarHeight(context) : 0));
+            footer.setLayoutParams(params);
+            listView.addFooterView(footer);
+            listView.setFooterDividersEnabled(false);
         }
 
         mLocationClient = new LocationClient(context, this, this);
