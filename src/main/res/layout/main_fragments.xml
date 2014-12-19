@@ -70,7 +70,8 @@
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="65dp"
-        android:gravity="bottom">
+        android:textDirection="ltr"
+        android:gravity="bottom|left">
 
         <LinearLayout
             android:id="@+id/toast_background"
