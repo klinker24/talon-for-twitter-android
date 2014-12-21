@@ -329,9 +329,9 @@ public class AppSettings {
         }
 
         // Integers
-        theme = sharedPrefs.getInt("material_theme", DEFAULT_THEME); // default is orange
-        layout = LAYOUT_FULL_SCREEN;
         currentAccount = sharedPrefs.getInt("current_account", 1);
+        theme = sharedPrefs.getInt("material_theme_" + currentAccount, DEFAULT_THEME);
+        layout = LAYOUT_FULL_SCREEN;
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));

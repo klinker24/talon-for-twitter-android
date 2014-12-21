@@ -758,18 +758,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         ThemeColor currentColor = colors.get(AppSettings.getInstance(getActivity()).theme);
         int position = (Integer) v.getTag();
         Log.v("talon_theme", "position: " + position);
-        AppSettings.getInstance(getActivity()).setValue("material_theme", position, getActivity());
-        //changeMaterialColors(currentColor, colors.get(position), false);
+        AppSettings settings = AppSettings.getInstance(getActivity());
+        settings.setValue("material_theme_" + settings.currentAccount, position, getActivity());
         dialog.dismiss();
         AppSettings.invalidate();
         getActivity().recreate();
-
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                settings.recreateFirstRunFile(getActivity());
-            }
-        }).start();*/
     }
 
     CheckBox getDarkThemeCheckbox(SharedPreferences sharedPrefs) {
