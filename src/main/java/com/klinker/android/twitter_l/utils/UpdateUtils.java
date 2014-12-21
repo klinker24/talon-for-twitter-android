@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 
@@ -171,6 +172,16 @@ public class UpdateUtils {
 
             e.putInt("default_timeline_page_" + 1, 0);
             e.putInt("default_timeline_page_" + 2, 0);
+
+            e.commit();
+        }
+
+        if (sharedPrefs.getBoolean("version_1.3.0", false)) {
+            SharedPreferences.Editor e = sharedPrefs.edit();
+
+            e.putBoolean("version_1.3.0", true);
+            e.putInt("material_theme_1", AppSettings.getInstance(context).theme);
+            e.putInt("material_theme_2", AppSettings.getInstance(context).theme);
 
             e.commit();
         }
