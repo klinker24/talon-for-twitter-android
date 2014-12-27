@@ -40,7 +40,7 @@
             android:supportsRtl="true" >
 
         <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/play_services_version" />
+                   android:value="@integer/google_play_services_version" />
 
         <provider
             android:name=".data.sq_lite.HomeContentProvider"
@@ -82,9 +82,13 @@
                   android:theme="@style/Theme.TalonDark" >
         </activity>
 
-        <activity android:name=".manipulations.PhotoViewerDialog"
+        <activity android:name=".manipulations.photo_viewer.PhotoViewerActivity"
                     android:configChanges="orientation|screenSize"
                     android:theme="@style/Theme.PhotoViewerDark" />
+
+        <activity android:name=".manipulations.photo_viewer.PhotoPagerActivity"
+                  android:configChanges="orientation|screenSize"
+                  android:theme="@style/Theme.PhotoViewerDark" />
 
         <activity android:name=".manipulations.LauncherPhotoViewerDialog"
             android:configChanges="orientation|screenSize"
