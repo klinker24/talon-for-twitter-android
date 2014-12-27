@@ -4,30 +4,25 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.utils.TweetLinkUtils;
-import twitter4j.Status;
-import twitter4j.User;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-
-import java.util.ArrayList;
 
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     private Context context;
     private String[] pics;
+    private String links;
     private int gridWidth;
 
     public MultipleTweetPicturesGridAdapter(Context context, String links, int gridWidth) {
         this.context = context;
+        this.links = links;
         pics = links.split(" ");
         this.gridWidth = gridWidth;
     }
@@ -56,13 +51,15 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", url);
-                photo.putExtra("shared_trans", true);
+
+                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+                viewImage.putExtra("url", links);
+                viewImage.putExtra("start_page", position);
 
                 ActivityOptions options = ActivityOptions
                         .makeSceneTransitionAnimation(((Activity)context), holder.iv, "image");
 
-                context.startActivity(photo, options.toBundle());
+                context.startActivity(viewImage/*, options.toBundle()*/);
             }
         });
 

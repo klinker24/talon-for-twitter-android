@@ -5,19 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v4.graphics.BitmapCompat;
 import android.text.Html;
 import android.text.Spannable;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
@@ -319,7 +316,7 @@ public class TweetView {
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();
                             } else {
-                                context.startActivity(new Intent(context, PhotoViewerDialog.class).putExtra("url", imageUrl));
+                                context.startActivity(new Intent(context, PhotoViewerActivity.class).putExtra("url", imageUrl));
                             }
                         }
                     });

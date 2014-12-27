@@ -19,9 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v7.widget.CardView;
-import android.transition.ChangeImageTransform;
-import android.transition.ChangeTransform;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -29,24 +26,20 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -64,7 +57,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-import org.lucasr.smoothie.AsyncListView;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -340,7 +332,7 @@ public class ProfilePager extends Activity {
             toolbarBackground.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent pic = new Intent(context, PhotoViewerDialog.class);
+                    Intent pic = new Intent(context, PhotoViewerActivity.class);
                     pic.putExtra("url", backgroundImage);
                     startActivity(pic);
                 }
@@ -349,7 +341,7 @@ public class ProfilePager extends Activity {
             background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent pic = new Intent(context, PhotoViewerDialog.class);
+                    Intent pic = new Intent(context, PhotoViewerActivity.class);
                     pic.putExtra("url", backgroundImage);
                     startActivity(pic);
                 }
@@ -411,7 +403,7 @@ public class ProfilePager extends Activity {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pic = new Intent(context, PhotoViewerDialog.class);
+                Intent pic = new Intent(context, PhotoViewerActivity.class);
                 pic.putExtra("url", user.getOriginalProfileImageURL());
                 pic.putExtra("shared_trans", true);
 
