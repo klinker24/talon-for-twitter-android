@@ -1,6 +1,5 @@
-package com.klinker.android.twitter.manipulations.photo_viewer;
+package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
@@ -20,9 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView;
-import com.klinker.android.twitter.utils.IOUtils;
+import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
+import com.klinker.android.twitter_l.utils.IOUtils;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -47,7 +46,6 @@ public class PhotoFragment extends Fragment {
     }
 
     String url;
-    NetworkedCacheableImageView picture;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class PhotoFragment extends Fragment {
 
         final View root = inflater.inflate(R.layout.photo_dialog_layout, container, false);
 
-        picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
+        NetworkedCacheableImageView picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
@@ -72,9 +70,20 @@ public class PhotoFragment extends Fragment {
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                getActivity().finish();
+                if (sysUiShown) {
+                    hideSystemUI();
+                } else {
+                    showSystemUI();
+                }
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideSystemUI();
+            }
+        }, 6000);
 
         return root;
     }
@@ -150,23 +159,7 @@ public class PhotoFragment extends Fragment {
     }
 
     public void shareImage() {
-        if (picture == null) {
-            return;
-        }
 
-        Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
-
-        // create the intent
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.setType("image/*");
-
-        // add the bitmap uri to the intent
-        Uri uri = getImageUri(getActivity(), bitmap);
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-
-        // start the chooser
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -247,5 +240,23 @@ public class PhotoFragment extends Fragment {
         }
 
         return inSampleSize;
+    }
+
+    private void hideSystemUI() {
+        sysUiShown = false;
+
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    boolean sysUiShown = true;
+    private void showSystemUI() {
+        sysUiShown = true;
+
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 }
