@@ -17,23 +17,19 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.*;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
@@ -47,7 +43,7 @@ import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -613,7 +609,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 multPics.setExpansionPointForAnim(view);
                                 multPics.show();
                             } else {
-                                Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl);
+                                Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
 
                                 ActivityOptions options = ActivityOptions

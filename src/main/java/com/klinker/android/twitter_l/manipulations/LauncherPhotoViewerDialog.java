@@ -15,9 +15,11 @@ package com.klinker.android.twitter_l.manipulations;
  * limitations under the License.
  */
 
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
+
 /**
  * Used as a redirect for the windowed mode
  */
-public class LauncherPhotoViewerDialog extends PhotoViewerDialog{
+public class LauncherPhotoViewerDialog extends PhotoViewerActivity {
 
 }

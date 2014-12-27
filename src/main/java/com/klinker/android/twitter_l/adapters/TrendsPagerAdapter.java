@@ -34,6 +34,7 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
         this.context = context;
     }
+
     @Override
     public Fragment getItem(int i) {
         switch (i) {

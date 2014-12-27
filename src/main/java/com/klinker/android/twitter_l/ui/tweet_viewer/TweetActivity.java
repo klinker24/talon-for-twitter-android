@@ -1,7 +1,5 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,9 +13,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -27,16 +23,11 @@ import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.transition.ChangeImageTransform;
-import android.transition.Slide;
-import android.transition.Transition;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -44,7 +35,6 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
@@ -52,13 +42,12 @@ import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
-import com.klinker.android.twitter_l.manipulations.profile_popups.PicturesPopup;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -1334,7 +1323,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
-                        Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", webpage);
+                        Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                         photo.putExtra("shared_trans", true);
 
                         ActivityOptions options = ActivityOptions

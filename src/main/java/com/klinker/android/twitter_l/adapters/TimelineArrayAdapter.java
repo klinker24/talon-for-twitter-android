@@ -39,7 +39,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableIma
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.manipulations.PhotoViewerDialog;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
@@ -756,7 +756,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();
                             } else {
-                                Intent photo = new Intent(context, PhotoViewerDialog.class).putExtra("url", holder.picUrl);
+                                Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
 
                                 ActivityOptions options = ActivityOptions

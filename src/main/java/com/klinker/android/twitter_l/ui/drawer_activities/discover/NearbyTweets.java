@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -34,8 +33,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
@@ -48,7 +47,6 @@ import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
 
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -59,17 +57,15 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import twitter4j.GeoLocation;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.ResponseList;
 import twitter4j.Status;
-import twitter4j.Trend;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class NearbyTweets extends Fragment implements
-        GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
-    private LocationClient mLocationClient;
+    private GoogleApiClient mGoogleApiClient;
     private boolean connected = false;
 
     private Context context;
@@ -79,6 +75,16 @@ public class NearbyTweets extends Fragment implements
     private View layout;
 
     private SharedPreferences sharedPrefs;
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        mGoogleApiClient.connect();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -144,38 +150,25 @@ public class NearbyTweets extends Fragment implements
             listView.setFooterDividersEnabled(false);
         }
 
-        mLocationClient = new LocationClient(context, this, this);
+        buildGoogleApiClient();
 
         getTweets();
 
         return layout;
     }
 
+    Location mLastLocation;
+
     @Override
     public void onConnected(Bundle bundle) {
         connected = true;
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
     }
 
     @Override
-    public void onDisconnected() {
-        connected = false;
-    }
+    public void onConnectionSuspended(int i) {
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mLocationClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        mLocationClient.disconnect();
-        super.onStop();
     }
 
     public Query query;
@@ -216,7 +209,7 @@ public class NearbyTweets extends Fragment implements
                         longitude = loc[1];
                     } else {
                         // set it from the location client
-                        Location location = mLocationClient.getLastLocation();
+                        Location location = mLastLocation;
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                     }
@@ -369,4 +362,8 @@ public class NearbyTweets extends Fragment implements
         return loc;
     }
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }

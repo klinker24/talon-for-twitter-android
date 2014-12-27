@@ -41,7 +41,7 @@
             android:largeHeap="true" >
 
         <meta-data android:name="com.google.android.gms.version"
-            android:value="@integer/play_services_version" />
+                   android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider"
@@ -83,7 +83,11 @@
                   android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
-        <activity android:name="com.klinker.android.twitter_l.manipulations.PhotoViewerDialog"
+        <activity android:name=".manipulations.photo_viewer.PhotoPagerActivity"
+                  android:configChanges="orientation|screenSize"
+                  android:theme="@style/Theme.TalonLight.ImageViewer" />
+
+        <activity android:name=".manipulations.photo_viewer.PhotoViewerActivity"
                     android:configChanges="orientation|screenSize"
                     android:theme="@style/Theme.TalonLight.ImageViewer" />
 
