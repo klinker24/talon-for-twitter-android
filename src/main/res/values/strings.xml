@@ -106,6 +106,7 @@
     <string name="fav_user_tweets">new favorite user tweets</string>
     <string name="sec_acc">Second Account</string>
     <string name="talon_pull">Talon Pull</string>
+    <string name="talon_pull_summary">WARNING: Enabling this option can cause significant battery drain on Android Lollipop.</string>
     <string name="listening">Listening</string>
     <string name="listening_for_mentions">Listening for interactions</string>
     <string name="refreshing">Refreshing</string>

@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.3.1">
+        <text>Fix force close on paging between pictures</text>
+    </version>
+
     <version name="1.3.0">
         <text>Swipe between multiple pictures</text>
         <text>Allow for different color schemes between accounts</text>

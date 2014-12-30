@@ -24,6 +24,7 @@
         <ListPreference
             android:key="talon_pull"
             android:title="@string/talon_pull"
+            android:summary="@string/talon_pull_summary"
             android:defaultValue="0"
             android:entries="@array/talon_pull"
             android:entryValues="@array/talon_pull_inserted"
