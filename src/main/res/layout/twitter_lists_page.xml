@@ -27,6 +27,7 @@
         <Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:elevation="5dp"
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
                 android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"/>
