@@ -65,6 +65,7 @@
         <View android:id="@+id/activity_status_bar"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:elevation="5dp"
             android:background="@android:color/black"/>
 
         <Toolbar
@@ -72,6 +73,7 @@
                 android:layout_height="0dp"
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
+                android:elevation="5dp"
                 android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"/>
 
     </RelativeLayout>

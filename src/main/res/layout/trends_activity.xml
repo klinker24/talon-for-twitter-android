@@ -30,6 +30,7 @@
                 android:layout_height="0dp"
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
+                android:elevation="5dp"
                 android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"/>
 
         <com.astuetz.PagerSlidingTabStrip
