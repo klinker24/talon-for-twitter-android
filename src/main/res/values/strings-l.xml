@@ -37,5 +37,5 @@
     <string name="use_snackbar_summary">Used for the \"To Top\" functionality on the main timelines.</string>
     <string name="bottom_pictures">Pictures Below Tweets</string>
     <string name="bottom_pictures_summary">Tweets will not expand in-line with this option.</string>
-
+    <string name="preparing_signin">Preparing Sign-In</string>
 </resources>

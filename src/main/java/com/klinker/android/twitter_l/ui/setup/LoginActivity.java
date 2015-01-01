@@ -15,10 +15,7 @@ package com.klinker.android.twitter_l.ui.setup;
  * limitations under the License.
  */
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -326,6 +323,7 @@ public class LoginActivity extends LVLActivity {
                     sharedPrefs.edit().putBoolean("need_clean_databases_version_1_3_0", false).commit();
                     sharedPrefs.edit().putBoolean("setup_v_two", true).commit();
                     sharedPrefs.edit().putBoolean("version_2_2_7_1", false).commit();
+                    sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
                     AppSettings.invalidate();
                     startActivity(timeline);
                 }
@@ -368,6 +366,18 @@ public class LoginActivity extends LVLActivity {
     private String callbackUrl;
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
+
+        ProgressDialog pDialog;
+        @Override
+        public void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(context);
+            pDialog.setMessage(getResources().getString(R.string.preparing_signin));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
 
         @Override
         protected Void doInBackground(String... urls) {
@@ -415,6 +425,13 @@ public class LoginActivity extends LVLActivity {
         }
 
         protected void onPostExecute(Void none) {
+
+            try {
+                pDialog.dismiss();
+            } catch (Exception e) {
+                // not attached to activity
+            }
+
             if (callbackUrl != null && licenced) {
                 showWebView();
 
