@@ -32,7 +32,7 @@ public class LVLActivity extends Activity {
     public boolean licenced = false;
     public boolean isCheckComplete = false;
 
-    private final static String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl0N0d4hUOVmXfBj468w3dylIN44rK19R0zxHZLDG6CHaBFF8qAYbIX2BoC0br/ET5JUVS4HTmk55lCCFb/t49Me7b5ywz2H+vZe2bmuYYTfNR2kUpxKaZM3Q3UdF+rvmIGypza5MVWcq7Q0qEeFc8efaPR1TyxDkmlSr8FVW/A/4QiDYva0vYtRLr4MBqUXaoAyobe9TTnDdeP45qFT5DBytZN+PtFdy7556OhUVv/DVvwQa5WPnPymrYfTQl6pwNlGmGjlDAf8nkXMOMPEQeMhWkpiE3rT/URZ4B/vd5sSlLMSXKlG5l9sOC5Uxz7TzuOsP/Z4pKJcsRF5432MS4wIDAQAB";
+    public final static String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAl0N0d4hUOVmXfBj468w3dylIN44rK19R0zxHZLDG6CHaBFF8qAYbIX2BoC0br/ET5JUVS4HTmk55lCCFb/t49Me7b5ywz2H+vZe2bmuYYTfNR2kUpxKaZM3Q3UdF+rvmIGypza5MVWcq7Q0qEeFc8efaPR1TyxDkmlSr8FVW/A/4QiDYva0vYtRLr4MBqUXaoAyobe9TTnDdeP45qFT5DBytZN+PtFdy7556OhUVv/DVvwQa5WPnPymrYfTQl6pwNlGmGjlDAf8nkXMOMPEQeMhWkpiE3rT/URZ4B/vd5sSlLMSXKlG5l9sOC5Uxz7TzuOsP/Z4pKJcsRF5432MS4wIDAQAB";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

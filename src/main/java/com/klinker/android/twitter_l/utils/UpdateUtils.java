@@ -28,10 +28,15 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.google.android.vending.licensing.LicenseChecker;
+import com.google.android.vending.licensing.LicenseCheckerCallback;
+import com.google.android.vending.licensing.Policy;
+import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.setup.LVLActivity;
 
 import java.io.File;
 import java.util.HashSet;
@@ -126,6 +131,80 @@ public class UpdateUtils {
                 .show();
     }
 
+    public static void checkLicense(final Context context) {
+        LicenseChecker mChecker = new LicenseChecker(
+                context, new StrictPolicy(),
+                LVLActivity.BASE64_PUBLIC_KEY  // Your public licensing key.
+        );
+
+        LicenseCheckerCallback mLicenseCheckerCallback =
+                new MyLicenseCheckerCallback(context, mChecker);
+
+        mChecker.checkAccess(mLicenseCheckerCallback);
+    }
+
+    protected static class MyLicenseCheckerCallback implements LicenseCheckerCallback {
+
+        private boolean checkedOnce = false;
+        private Context context;
+        private LicenseChecker checker;
+
+        public MyLicenseCheckerCallback(Context c, LicenseChecker checker) {
+            this.context = c;
+            this.checker = checker;
+        }
+
+        public void allow(int reason) {
+            // just won't do anything
+        }
+
+        public void dontAllow(int reason) {
+
+            if (reason == Policy.RETRY) {
+                if (!checkedOnce) {
+                    checkedOnce = true;
+                    checker.checkAccess(this);
+                } else {
+                    showError();
+                }
+            } else {
+                showError();
+            }
+        }
+
+        @Override
+        public void applicationError(int errorCode) {
+            if (!checkedOnce) {
+                checkedOnce = true;
+                checker.checkAccess(this);
+            } else {
+                showError();
+            }
+        }
+
+        public void showError() {
+            new AlertDialog.Builder(context)
+                    .setTitle("License Check Failed")
+                    .setMessage("Please go to the Play Store to purchase this app. It is not free.")
+                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+                            SharedPreferences.Editor e = sharedPrefs.edit();
+                            e.putBoolean("is_logged_in_1", false);
+                            e.putBoolean("is_logged_in_2", false);
+                            e.commit();
+
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+    }
+
     public static void checkUpdate(final Context context) {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -184,6 +263,19 @@ public class UpdateUtils {
             e.putInt("material_theme_2", AppSettings.getInstance(context).theme);
 
             e.commit();
+        }
+
+        if (sharedPrefs.getBoolean("version_1_3_2", true) && Utils.hasInternetConnection(context)) {
+
+            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    checkLicense(context);
+                }
+            }).start();
+
         }
     }
 }
