@@ -127,6 +127,7 @@ dependencies {
     compile(name: 'datetimepicker', ext: 'aar')
     compile(name: 'bitmap-cache', ext: 'aar')
 
+    compile project(':LicenseVerificationLibrary')
     compile(project(":shared_assets"))
 }
 

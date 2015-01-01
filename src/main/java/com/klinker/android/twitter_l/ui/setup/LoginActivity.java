@@ -19,11 +19,10 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,7 +81,7 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends LVLActivity {
 
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -222,7 +221,7 @@ public class LoginActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView webView, String url)
             {
                 Log.v("talon_login", "url: " + url);
-                if (url != null && url.startsWith("oauth:///talonforandroid")) {
+                if (callbackUrl != null && url != null && url.startsWith(callbackUrl)) {
                     handleTwitterCallback(url);
                 } else if (url.equals("https://twitter.com/")) {
                     webView.loadUrl(requestUrl);
@@ -260,26 +259,6 @@ public class LoginActivity extends Activity {
                 if (btnLoginTwitter.getText().toString().contains(getResources().getString(R.string.login_to_twitter))) {
                     if (Utils.hasInternetConnection(context)) {
                         btnLoginTwitter.setEnabled(false);
-
-                        /*new AlertDialog.Builder(context)
-                                .setMessage("Twitter may display that Talon cannot authenticate any more users. " +
-                                        "\n\n" +
-                                        "If so, and you have logged into Talon in the past, simply hit the 'Sign In' button in the top right and it will allow you to log in as normal. " +
-                                        "\n\n" +
-                                        "If you have never logged into Talon, then you will have to wait to login. Twitter seems to allow more users access every few hours.")
-                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("More Info", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/117432358268488452276/posts/KG4AcH3YA2U")));
-                                    }
-                                })
-                                .show();*/
 
                         new RetreiveFeedTask().execute();
                     } else {
@@ -342,8 +321,6 @@ public class LoginActivity extends Activity {
     }
 
     public void handleTwitterCallback(String url) {
-        Log.v("twitter_login_activity", "oauth");
-
         // oAuth verifier
         verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
 
@@ -374,11 +351,41 @@ public class LoginActivity extends Activity {
     }
 
     private String requestUrl;
+    private String callbackUrl;
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... urls) {
+
+            int counter = 0;
+            while (!isCheckComplete && counter < 10) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+                counter++;
+            }
+
+            if (counter == 10 && !isCheckComplete) {
+                // timeout on the license check
+                licenseTimeout();
+            }
+
+            callbackUrl = getCallbackUrl();
+
+            if (!licenced || callbackUrl == null) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        notLicenced();
+                    }
+                });
+
+                return null;
+            }
+
             try {
                 loginToTwitter();
                 return null;
@@ -394,20 +401,22 @@ public class LoginActivity extends Activity {
         }
 
         protected void onPostExecute(Void none) {
-            showWebView();
+            if (callbackUrl != null && licenced) {
+                showWebView();
 
-            if (requestToken != null) {
-                requestUrl = requestToken.getAuthenticationURL();
-                mWebView.loadUrl(requestUrl);
-                mWebView.requestFocus(View.FOCUS_UP|View.FOCUS_RIGHT);
-            } else {
-                restartLogin();
+                if (requestToken != null) {
+                    requestUrl = requestToken.getAuthenticationURL();
+                    mWebView.loadUrl(requestUrl);
+                    mWebView.requestFocus(View.FOCUS_UP | View.FOCUS_RIGHT);
+                } else {
+                    restartLogin();
+                }
             }
         }
 
         private void loginToTwitter() {
             try {
-                requestToken = twitter.getOAuthRequestToken("oauth:///talonforandroid");
+                requestToken = twitter.getOAuthRequestToken(callbackUrl);
             } catch (TwitterException ex) {
                 ex.printStackTrace();
                 try {
@@ -419,7 +428,6 @@ public class LoginActivity extends Activity {
             }
 
         }
-
     }
 
     class RetreiveoAuth extends AsyncTask<String, Void, AccessToken> {
