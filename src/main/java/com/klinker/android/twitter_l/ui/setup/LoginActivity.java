@@ -108,7 +108,7 @@ public class LoginActivity extends LVLActivity {
         super.onCreate(savedInstanceState);
 
         // used to get the signature so we can check it on the server
-        try {
+        /*try {
             Signature[] signatures =
                     getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures;
 
@@ -119,7 +119,7 @@ public class LoginActivity extends LVLActivity {
             clipboard.setPrimaryClip(clip);
         } catch (Exception e) {
 
-        }
+        }*/
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
