@@ -58,10 +58,10 @@ public class ViewScheduledTweets extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.scheduled_tweet_viewer);
-
         Utils.setUpTheme(this, AppSettings.getInstance(this));
 
+        setContentView(R.layout.scheduled_tweet_viewer);
+        
         final String text = getIntent().getStringExtra("text");
 
         listView = (ListView) findViewById(R.id.smsListView);
