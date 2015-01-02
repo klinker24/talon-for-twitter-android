@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.android.vending.licensing.LicenseChecker;
@@ -37,6 +38,10 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.setup.LVLActivity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.util.HashSet;
@@ -183,14 +188,46 @@ public class UpdateUtils {
         }
 
         public void showError() {
+            final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        AppSettings settings = new AppSettings(context);
+                        final String URL = "https://omega-jet-799.appspot.com/_ah/api/license/v1/addUnlicensedUser/";
+
+                        if (!TextUtils.isEmpty(settings.myScreenName)) {
+                            HttpClient client = new DefaultHttpClient();
+                            HttpPost post = new HttpPost(
+                                    URL + java.net.URLEncoder.encode(settings.myScreenName, "UTF-8")
+                            );
+
+                            client.execute(post);
+                        }
+
+                        if (!TextUtils.isEmpty(settings.secondScreenName)) {
+                            HttpClient client = new DefaultHttpClient();
+                            HttpPost post = new HttpPost(
+                                    URL +java.net.URLEncoder.encode(settings.secondScreenName, "UTF-8")
+                            );
+
+                            client.execute(post);
+                        }
+
+                    } catch (Exception e) {
+
+                    }
+                }
+            }).start();
+            
             new AlertDialog.Builder(context)
                     .setTitle("License Check Failed")
                     .setMessage("Please go to the Play Store to purchase this app. It is not free.")
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
                             SharedPreferences.Editor e = sharedPrefs.edit();
                             e.putBoolean("is_logged_in_1", false);
