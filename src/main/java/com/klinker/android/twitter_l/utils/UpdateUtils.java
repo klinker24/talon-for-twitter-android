@@ -221,7 +221,7 @@ public class UpdateUtils {
                     }
                 }
             }).start();
-            
+
             new AlertDialog.Builder(context)
                     .setTitle("License Check Failed")
                     .setMessage("Please go to the Play Store to purchase this app. It is not free.")
