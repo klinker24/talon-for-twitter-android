@@ -105,7 +105,7 @@ public class LoginActivity extends LVLActivity {
         super.onCreate(savedInstanceState);
 
         // used to get the signature so we can check it on the server
-        /*try {
+        try {
             Signature[] signatures =
                     getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures;
 
@@ -116,7 +116,7 @@ public class LoginActivity extends LVLActivity {
             clipboard.setPrimaryClip(clip);
         } catch (Exception e) {
 
-        }*/
+        }
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -368,6 +368,8 @@ public class LoginActivity extends LVLActivity {
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
 
         ProgressDialog pDialog;
+        boolean licenseTimeout = false;
+
         @Override
         public void onPreExecute() {
             super.onPreExecute();
@@ -385,7 +387,7 @@ public class LoginActivity extends LVLActivity {
             int counter = 0;
             while (!isCheckComplete && counter < 10) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
 
                 }
@@ -394,7 +396,7 @@ public class LoginActivity extends LVLActivity {
 
             if (counter == 10 && !isCheckComplete) {
                 // timeout on the license check
-                licenseTimeout();
+                return null;
             }
 
             callbackUrl = getCallbackUrl();
@@ -432,7 +434,9 @@ public class LoginActivity extends LVLActivity {
                 // not attached to activity
             }
 
-            if (callbackUrl != null && licenced) {
+            if (licenseTimeout) {
+                licenseTimeout();
+            } else if (callbackUrl != null && licenced) {
                 showWebView();
 
                 if (requestToken != null) {
