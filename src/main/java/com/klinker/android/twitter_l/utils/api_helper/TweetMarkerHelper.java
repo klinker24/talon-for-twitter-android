@@ -94,6 +94,8 @@ public class TweetMarkerHelper extends APIHelper {
                 response = client.execute(post);
                 responseCode = response.getStatusLine().getStatusCode();
                 Log.v("talon_tweetmarker", "sending response code: " + responseCode);
+                Log.v("talon_tweetmarker", "sending response mess: " + response.getStatusLine().getReasonPhrase());
+
 
                 if (responseCode == 200) {
                     // success, return true
@@ -130,6 +132,7 @@ public class TweetMarkerHelper extends APIHelper {
 
             HttpResponse response = client.execute(get);
             Log.v("talon_tweetmarker", "getting id response code: " + response.getStatusLine().getStatusCode() + " for " + screenname);
+            Log.v("talon_tweetmarker", "response mess: " + response.getStatusLine().getReasonPhrase());
 
             StatusLine statusLine = response.getStatusLine();
 

@@ -28,7 +28,7 @@
         android:title="@string/plain_text_browser"
         android:summary="@string/plain_text_summary"
         android:defaultValue="0"
-        android:entries="@array/pre_cache"
+        android:entries="@array/plain_text"
         android:entryValues="@array/talon_pull_inserted"
         />
 
