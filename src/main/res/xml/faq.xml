@@ -257,30 +257,27 @@
 
             Just remember though, we do get a ton of requests and chances are someone has requested the same thing as you already :) sooo, here is a list of requests/features that I would like to get done. Unfortunately I cannot provide a timetable on them at this point, not even an estimate:
 
-            1.) More extra pages (like saved searches, search, and favorite tweets)
-            2.) 1x1 widget to compose tweets
-            3.) Tweetmarker in lists
-            4.) Easier manipulation of lists and what lists a user is in from their profiles
-            5.) Mute users for a time period
-            6.) Instagram video support
-            7.) Conversation indicator on tweets
-            8.) QSlide for LG devices
-            9.) User's lists on their profiles
-            10.) Twitter Cards
-            11.) Show info on a linked tweet (ie: one tweet contains a link to another)
-            12.) Notifications for saved searches
-            13.) Expand the widget for multiple account support and mention support
+            1.) 1x1 widget to compose tweets
+            2.) Tweetmarker in lists
+            3.) Easier manipulation of lists and what lists a user is in from their profiles
+            4.) Mute users for a time period
+            5.) Instagram video support
+            6.) Conversation indicator on tweets
+            7.) User's lists on their profiles
+            8.) Twitter Cards
+            9.) Show info on a linked tweet (ie: one tweet contains a link to another)
+            10.) Notifications for saved searches
+            11.) Expand the widget for multiple account support and mention support
+            12.) Background refresh for lists
 
 
             Things requested that won't happen at this point:
 
             1.) Samsung multi-window support (it breaks some features and isn't something you can have an option for in settings)
-            2.) More extra pages (read the faq above)
-            3.) Viewing GIF support (check the faq above about GIFs)
-            4.) Integration with FaceBook or other social networks (this app will remain only a Twitter client)
-            5.) Vine support (they do not have a developer API to plug into at the moment)
-            6.) In-line pictures on profiles (They just didn't work with my style of profiles, the cards were way to big, so I went with style on this one)
-            7.) Images on the bottom of the tweets instead of the top (the style and expansion only work if it is on the top, the rest of the app must also have them on the top then for consistency)
+            2.) Viewing GIF support (check the faq above about GIFs)
+            3.) Integration with FaceBook or other social networks (this app will remain only a Twitter client)
+            4.) Vine support (they do not have a developer API to plug into at the moment)
+            5.) In-line pictures on profiles (They just didn't work with my style of profiles, the cards were way to big, so I went with style on this one)
         </text>
 
     </question>

@@ -231,7 +231,6 @@ public class LoginActivity extends LVLActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String url)
             {
-                Log.v("talon_login", "url: " + url);
                 if (callbackUrl != null && url != null && url.startsWith(callbackUrl)) {
                     handleTwitterCallback(url);
                 } else if (url.equals("https://twitter.com/")) {
