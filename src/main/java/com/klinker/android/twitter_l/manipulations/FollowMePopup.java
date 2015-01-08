@@ -50,7 +50,7 @@ public class FollowMePopup extends PopupLayout {
         googleIv = (NetworkedCacheableImageView) root.findViewById(R.id.google_picture);
 
         talonIv.loadImage("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", true, null);
-        lukeIv.loadImage("https://pbs.twimg.com/profile_images/497466110892331009/_iR38HDB.jpeg", true, null);
+        lukeIv.loadImage("https://pbs.twimg.com/profile_images/553283282431770624/Xv_h0aeM.jpeg", true, null);
         googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
 
         talonIv.setClipToOutline(true);
