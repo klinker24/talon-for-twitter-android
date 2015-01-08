@@ -1,4 +1,4 @@
-package com.klinker.android.twitter.ui.tweet_viewer.fragments;
+package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.klinker.android.twitter.R;
+import com.klinker.android.twitter_l.R;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,7 +33,6 @@ public class GIFVideoFragment extends Fragment {
     public String videoUrl;
 
     public VideoView video;
-    public LinearLayout spinner;
 
     public GIFVideoFragment() {
 
@@ -53,7 +52,6 @@ public class GIFVideoFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.gif_player, null, false);
         video = (VideoView) layout.findViewById(R.id.gif);
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
 
         getGif();
 
@@ -85,7 +83,6 @@ public class GIFVideoFragment extends Fragment {
                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
-                                        spinner.setVisibility(View.GONE);
 
                                         video.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
                                         mp.setLooping(true);
@@ -97,7 +94,7 @@ public class GIFVideoFragment extends Fragment {
                                 Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
-                            // fragment not attached
+                            // not attached to activity
                         }
                     }
                 });
