@@ -1,5 +1,13 @@
 <changelog>
 
+    <version name="1.4.0">
+        <text>View Twitter GIFs</text>
+        <text>Swipe between a users pictures from their profile</text>
+        <text>View user banners on profiles</text>
+        <text>Improve image quality from some sources</text>
+        <text>Lots of bug fixes</text>
+    </version>
+
     <version name="1.3.2">
         <text>Login backend changes.</text>
         <text>Few more touches of Material Design</text>
