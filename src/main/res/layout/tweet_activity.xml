@@ -204,7 +204,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:id="@+id/extra_content"
                     android:visibility="invisible">
@@ -235,6 +235,20 @@
                         android:adjustViewBounds="true"
                         android:layout_margin="5dp"
                         />
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="300dp"
+                                  android:id="@+id/gif_holder"
+                                  android:gravity="center">
+
+                        <VideoView
+                                android:id="@+id/gif"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="16dp"
+                                android:layout_centerInParent="true"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

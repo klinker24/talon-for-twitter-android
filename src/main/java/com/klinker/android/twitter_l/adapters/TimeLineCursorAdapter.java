@@ -119,6 +119,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String screenName;
         public String picUrl;
         public String retweeterName;
+        public String gifUrl = "";
 
         public boolean preventNextClick = false;
 
@@ -314,6 +315,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
         final String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
 
+        holder.gifUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF));
+
         final int position = cursor.getPosition();
 
         String retweeter;
@@ -358,6 +361,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("proPic", profilePic);
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
+                    viewTweet.putExtra("animated_gif", holder.gifUrl);
 
                     if (secondAcc) {
                         String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
@@ -373,7 +377,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            if (android.text.TextUtils.isEmpty(holder.gifUrl)) {
+                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            } else {
+                                holder.background.performClick();
+                            }
                         } else {
                             removeExpansion(holder, true);
                         }
@@ -412,6 +420,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     viewTweet.putExtra("proPic", profilePic);
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
+                    viewTweet.putExtra("animated_gif", holder.gifUrl);
 
                     if (secondAcc) {
                         String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
@@ -434,7 +443,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            if (android.text.TextUtils.isEmpty(holder.gifUrl)) {
+                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                            } else {
+                                holder.background.performLongClick();
+                            }
                         } else {
                             removeExpansion(holder, true);
                         }
@@ -569,6 +582,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             viewTweet.putExtra("users", users);
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
+                            viewTweet.putExtra("animated_gif", holder.gifUrl);
 
                             if (isHomeTimeline) {
                                 sharedPrefs.edit()

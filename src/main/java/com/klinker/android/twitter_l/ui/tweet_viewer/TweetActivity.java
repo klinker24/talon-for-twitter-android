@@ -16,6 +16,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
@@ -52,7 +53,9 @@ import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.DateFormat;
@@ -63,6 +66,10 @@ import java.util.Random;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import org.apache.http.*;
+import org.apache.http.client.*;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -96,6 +103,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public boolean isMyTweet = false;
     public boolean isMyRetweet = true;
     public boolean secondAcc = false;
+    public String gifVideo;
 
     protected boolean fromLauncher = false;
 
@@ -171,6 +179,9 @@ public class TweetActivity extends YouTubeBaseActivity {
             otherLinks = new String[0];
         }
 
+        if (gifVideo == null) {
+            gifVideo = "no gif video";
+        }
         boolean hasWebpage;
         if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
             for (String s : otherLinks) {
@@ -193,6 +204,14 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         } else {
             hasWebpage = false;
+        }
+
+        if (hasWebpage && webpages.size() == 1) {
+            if (webpages.get(0).contains(tweetId + "/photo/1")) {
+                hasWebpage = false;
+                gifVideo = webpages.get(0);
+            }
+
         }
 
         final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
@@ -261,6 +280,8 @@ public class TweetActivity extends YouTubeBaseActivity {
             webButton.setAlpha(.5f);
         }
 
+        findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
+
         // youtube player isn't working right now
         if (youtube) {
             TweetYouTubeFragment frag = new TweetYouTubeFragment();
@@ -274,9 +295,17 @@ public class TweetActivity extends YouTubeBaseActivity {
             Toast.makeText(this, "YouTube Player doesn't work on Lollipop yet. Waiting on an update from Google", Toast.LENGTH_LONG).show();
         }
 
+        VideoView gif = (VideoView) findViewById(R.id.gif);
+        Log.v("talon_gif", "gif video: " + gifVideo);
+        if (!android.text.TextUtils.isEmpty(gifVideo)) {
+            getGif(gif);
+        } else {
+            gif.setVisibility(View.GONE);
+            findViewById(R.id.gif_holder).setVisibility(View.GONE);
+        }
+
         findViewById(R.id.youtube_divider).setVisibility(View.GONE);
         findViewById(R.id.youtube_text).setVisibility(View.GONE);
-
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         ArrayListLoader loader = new ArrayListLoader(cache, context);
@@ -354,6 +383,89 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         nav.setLayoutParams(params);
+    }
+
+    public void getGif(final VideoView video) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (gifVideo.contains("/photo/1") && gifVideo.contains("twitter.com/")) {
+                    // this is before it was added to the api.
+                    // finds the video from the HTML on twitters website.
+
+                    gifVideo = getVideoUrl();
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (gifVideo != null) {
+
+                                final Uri videoUri = Uri.parse(gifVideo);
+
+                                video.setVideoURI(videoUri);
+                                video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                    @Override
+                                    public void onPrepared(MediaPlayer mp) {
+                                        video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+                                        mp.setLooping(true);
+                                    }
+                                });
+
+                                video.start();
+                            } else {
+                                Toast.makeText(TweetActivity.this, R.string.error_gif, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            // not attached to activity
+                        }
+                    }
+                });
+
+            }
+        }).start();
+    }
+
+    public String getVideoUrl() {
+        try {
+            org.apache.http.client.HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget = new HttpGet((gifVideo.contains("http") ? "" : "https://") + gifVideo);
+            org.apache.http.HttpResponse response = httpclient.execute(httpget);
+            HttpEntity entity = response.getEntity();
+            InputStream is = entity.getContent();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null)
+                sb.append(line + "\n");
+
+            String docHtml = sb.toString();
+
+            is.close();
+
+            Document doc = Jsoup.parse(docHtml);
+
+            if(doc != null) {
+                Elements elements = doc.getElementsByAttributeValue("class", "animated-gif");
+
+                for (Element e : elements) {
+                    for (Element x : e.getAllElements()) {
+                        if (x.nodeName().contains("source")) {
+                            return x.attr("video-src");
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void getTextFromSite(final String url, final HoloTextView browser, final View spinner, final ScrollView scroll) {
@@ -641,6 +753,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         picture = from.getBooleanExtra("picture", false);
         proPic = from.getStringExtra("proPic");
         secondAcc = from.getBooleanExtra("second_account", false);
+        gifVideo = from.getStringExtra("animated_gif");
 
         try {
             users = from.getStringExtra("users").split("  ");

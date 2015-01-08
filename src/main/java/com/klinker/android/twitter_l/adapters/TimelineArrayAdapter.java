@@ -121,6 +121,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public String screenName;
         public String picUrl;
         public String retweeterName;
+        public String animatedGif;
 
         public boolean preventNextClick = false;
     }
@@ -507,6 +508,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String hashtags = html[3];
         final String users = html[4];
 
+        holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl);
+
         if(settings.reverseClickActions || expander == null) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
@@ -540,6 +543,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("proPic", profilePic);
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
+                    viewTweet.putExtra("animated_gif", holder.animatedGif);
 
                     context.startActivity(viewTweet);
                 }
@@ -589,6 +593,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("proPic", profilePic);
                     viewTweet.putExtra("users", users);
                     viewTweet.putExtra("hashtags", hashtags);
+                    viewTweet.putExtra("animated_gif", holder.animatedGif);
 
                     context.startActivity(viewTweet);
 
@@ -729,6 +734,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             viewTweet.putExtra("users", users);
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
+                            viewTweet.putExtra("animated_gif", holder.animatedGif);
 
                             context.startActivity(viewTweet);
                         }
