@@ -791,7 +791,14 @@ public class ExpansionViewHelper {
             public void run() {
                 try {
                     Twitter twitter =  getTwitter();
-                    twitter.retweetStatus(id);
+
+                    // if they have a protected account, we want to still be able to retweet their retweets
+                    long idToRetweet = id;
+                    if (status != null && status.isRetweet()) {
+                        idToRetweet = status.getRetweetedStatus().getId();
+                    }
+
+                    twitter.retweetStatus(idToRetweet);
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override

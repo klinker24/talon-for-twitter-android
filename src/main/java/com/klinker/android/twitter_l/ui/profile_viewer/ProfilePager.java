@@ -31,6 +31,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -403,14 +404,13 @@ public class ProfilePager extends Activity {
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pic = new Intent(context, PhotoViewerActivity.class);
-                pic.putExtra("url", user.getOriginalProfileImageURL());
-                pic.putExtra("shared_trans", true);
+                Intent pic = new Intent(context, PhotoPagerActivity.class);
+                pic.putExtra("url", user.getOriginalProfileImageURL() + " " + user.getProfileBannerURL());
 
-                ActivityOptions options = ActivityOptions
-                        .makeSceneTransitionAnimation(ProfilePager.this, profilePic, "image");
+                /*ActivityOptions options = ActivityOptions
+                        .makeSceneTransitionAnimation(ProfilePager.this, profilePic, "image");*/
 
-                startActivity(pic, options.toBundle());
+                startActivity(pic/*, options.toBundle()*/);
             }
         });
 

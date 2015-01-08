@@ -8,17 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import twitter4j.Status;
 import twitter4j.User;
@@ -29,6 +26,7 @@ public class PicturesGridAdapter extends BaseAdapter {
     private ArrayList<String> text;
     private ArrayList<Status> statuses;
     private int gridWidth;
+    protected String pics = "";
 
     public PicturesGridAdapter(Context context, ArrayList<String> text, ArrayList<Status> statuses, int gridWidth) {
         this.context = context;
@@ -92,6 +90,10 @@ public class PicturesGridAdapter extends BaseAdapter {
         final String hashtags = html[3];
         final String users = html[4];
 
+        if (url.contains(" ")) {
+            url = url.split(" ")[0];
+        }
+
         holder.url = url;
 
         holder.iv.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
@@ -104,6 +106,18 @@ public class PicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setPics();
+
+                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+                viewImage.putExtra("url", pics);
+                viewImage.putExtra("start_page", position);
+                context.startActivity(viewImage);
+            }
+        });
+
+        holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 String link;
 
                 boolean displayPic = !picUrl.equals("");
@@ -127,8 +141,11 @@ public class PicturesGridAdapter extends BaseAdapter {
                 viewTweet.putExtra("proPic", profilePic);
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", "");
 
                 context.startActivity(viewTweet);
+
+                return false;
             }
         });
 
@@ -153,5 +170,20 @@ public class PicturesGridAdapter extends BaseAdapter {
     public static class ViewHolder {
         public NetworkedCacheableImageView iv;
         public String url;
+    }
+
+    public void setPics() {
+        pics = "";
+
+        for (Status s : statuses) {
+            String[] html = TweetLinkUtils.getLinksInStatus(s);
+            String pic = html[1];
+
+            if (pic.contains(" ")) {
+                pic = pic.split(" ")[0];
+            }
+
+            pics += pic + " ";
+        }
     }
 }

@@ -2364,7 +2364,14 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void run() {
                 try {
                     Twitter twitter = getTwitter();
-                    twitter.retweetStatus(tweetId);
+
+                    // if they have a protected account, we want to still be able to retweet their retweets
+                    long idToRetweet = tweetId;
+                    if (status != null && status.isRetweet()) {
+                        idToRetweet = status.getRetweetedStatus().getId();
+                    }
+
+                    twitter.retweetStatus(idToRetweet);
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
