@@ -57,6 +57,7 @@ public class TweetView {
     String otherUrl;
     String hashtags;
     String users;
+    String gifUrl;
 
     // layout components
     TextView nameTv;
@@ -132,6 +133,8 @@ public class TweetView {
         otherUrl = html[2];
         hashtags = html[3];
         users = html[4];
+
+        gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
     }
 
     public View getView() {
@@ -207,6 +210,7 @@ public class TweetView {
                 viewTweet.putExtra("proPic", profilePicUrl);
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", gifUrl);
 
                 context.startActivity(viewTweet);
             }
@@ -289,6 +293,7 @@ public class TweetView {
                             viewTweet.putExtra("users", users);
                             viewTweet.putExtra("hashtags", hashtags);
                             viewTweet.putExtra("clicked_youtube", true);
+                            viewTweet.putExtra("animated_gif", gifUrl);
 
                             context.startActivity(viewTweet);
                         }
