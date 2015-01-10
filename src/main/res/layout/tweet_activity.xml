@@ -236,7 +236,7 @@
                         android:layout_margin="5dp"
                         />
 
-                    <LinearLayout android:layout_width="match_parent"
+                    <RelativeLayout android:layout_width="match_parent"
                                   android:layout_height="300dp"
                                   android:id="@+id/gif_holder"
                                   android:gravity="center">
@@ -248,7 +248,21 @@
                                 android:layout_margin="16dp"
                                 android:layout_centerInParent="true"/>
 
-                    </LinearLayout>
+                        <LinearLayout android:id="@+id/spinner"
+                                      android:orientation="vertical"
+                                      android:layout_height="fill_parent"
+                                      android:layout_width="fill_parent"
+                                      android:gravity="center" >
+
+                            <ProgressBar
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                                    android:indeterminateOnly="true" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

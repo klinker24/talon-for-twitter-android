@@ -300,6 +300,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1"))) {
             getGif(gif);
         } else {
+            findViewById(R.id.spinner).setVisibility(View.GONE);
             gif.setVisibility(View.GONE);
             findViewById(R.id.gif_holder).setVisibility(View.GONE);
         }
@@ -409,6 +410,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
+                                        findViewById(R.id.spinner).setVisibility(View.GONE);
+
                                         video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                                         mp.setLooping(true);
                                     }
