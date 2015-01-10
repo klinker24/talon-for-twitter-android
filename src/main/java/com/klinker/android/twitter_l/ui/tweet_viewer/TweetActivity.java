@@ -297,7 +297,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         VideoView gif = (VideoView) findViewById(R.id.gif);
         Log.v("talon_gif", "gif video: " + gifVideo);
-        if (!android.text.TextUtils.isEmpty(gifVideo)) {
+        if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1"))) {
             getGif(gif);
         } else {
             gif.setVisibility(View.GONE);
