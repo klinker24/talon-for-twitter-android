@@ -437,28 +437,70 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
     }
 
+    public Handler upHandler;
+    public Handler downHandler;
+
+    public boolean emptyUpHandler = true;
+    public boolean emptyDownHandler = true;
+
     public void scrollUp() {
-        if (moveActionBar) {
-            hideStatusBar();
+        if (upHandler == null) {
+            upHandler = new Handler();
+            downHandler = new Handler();
         }
 
-        MainActivity.sendHandler.removeCallbacks(null);
-        MainActivity.sendHandler.post(MainActivity.hideSend);
+        downHandler.removeCallbacksAndMessages(null);
+        emptyDownHandler = true;
 
-        hideToastBar(300);
+        if (emptyUpHandler) {
+            emptyUpHandler = false;
+            upHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (moveActionBar) {
+                        hideStatusBar();
+                    }
+
+                    MainActivity.sendHandler.removeCallbacks(null);
+                    MainActivity.sendHandler.post(MainActivity.hideSend);
+
+                    hideToastBar(300);
+                }
+            }, 300);
+        }
+
     }
+
     public void scrollDown() {
-        if (moveActionBar) {
-            showStatusBar();
+        if (upHandler == null) {
+            upHandler = new Handler();
+            downHandler = new Handler();
         }
 
-        MainActivity.sendHandler.removeCallbacks(null);
-        MainActivity.sendHandler.post(MainActivity.showSend);
+        upHandler.removeCallbacksAndMessages(null);
+        emptyUpHandler = true;
 
-        int first = listView.getFirstVisiblePosition();
-        if (first > 3) {
-            showToastBar(first + " " + fromTop, jumpToTop, 300, false, toTopListener);
+        if (emptyDownHandler) {
+            emptyDownHandler = false;
+            downHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (moveActionBar) {
+                        showStatusBar();
+                    }
+
+                    MainActivity.sendHandler.removeCallbacks(null);
+                    MainActivity.sendHandler.post(MainActivity.showSend);
+
+                    int first = listView.getFirstVisiblePosition();
+                    if (first > 3) {
+                        showToastBar(first + " " + fromTop, jumpToTop, 300, false, toTopListener);
+                    }
+                }
+            }, 300);
         }
+
+        toastDescription.setText(listView.getFirstVisiblePosition() + " " + fromTop);
     }
 
     SystemBarVisibility barVisibility;
