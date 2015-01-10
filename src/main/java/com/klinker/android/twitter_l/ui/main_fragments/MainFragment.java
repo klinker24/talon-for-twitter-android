@@ -312,27 +312,23 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 int top = (view == null) ? 0 : view.getTop();
 
                 if (!settings.topDown) {
-                    //if (firstVisibleItem > 3) {
-                        if (firstVisibleItem == oldFirstVisibleItem) {
-                            if (top > oldTop) {
-                                // scrolling up
-                                scrollUp();
-                            } else if (top < oldTop) {
-                                // scrolling down
-                                scrollDown();
-                            }
-                        } else {
-                            if (firstVisibleItem < oldFirstVisibleItem) {
-                                // scrolling up
-                                scrollUp();
-                            } else {
-                                // scrolling down
-                                scrollDown();
-                            }
+                    if (firstVisibleItem == oldFirstVisibleItem) {
+                        if (top > oldTop) {
+                            // scrolling up
+                            scrollUp();
+                        } else if (top < oldTop) {
+                            // scrolling down
+                            scrollDown();
                         }
-                    //} else {
-                        //showStatusBar();
-                    //}
+                    } else {
+                        if (firstVisibleItem < oldFirstVisibleItem) {
+                            // scrolling up
+                            scrollUp();
+                        } else {
+                            // scrolling down
+                            scrollDown();
+                        }
+                    }
                 } else {
                     if (firstVisibleItem == 0) {
                         hideToastBar(300);
@@ -423,7 +419,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             public void run() {
                 canUseScrollStuff = true;
             }
-        }, 1000);
+        }, 3000);
     }
 
     public void onRefreshStarted() {
@@ -670,15 +666,14 @@ public abstract class MainFragment extends Fragment implements Expandable {
         expansionHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.v("talon_expander", "setting can scroll stuff to true");
                 canUseScrollStuff = true;
             }
         }, currentDistanceFromTop == -1 ? 0 : 500);
 
+        MainActivity.sendHandler.removeCallbacks(null);
+        MainActivity.sendHandler.post(MainActivity.showSend);
+
         if (listView.getFirstVisiblePosition() < 5) {
-            /*if (!actionBar.isShowing()) {
-                actionBar.show();
-            }*/
             showStatusBar();
         }
 
