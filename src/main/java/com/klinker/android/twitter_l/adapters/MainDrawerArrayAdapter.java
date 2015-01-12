@@ -191,7 +191,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             } else if (text.get(position).equals(context.getResources().getString(R.string.discover)) ||
                     text.get(position).equals(context.getString(R.string.world_trends)) ||
                     text.get(position).equals(context.getString(R.string.local_trends))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerTrends});
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
                 holder.icon.setImageResource(resource);
