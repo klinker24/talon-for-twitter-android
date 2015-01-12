@@ -33,8 +33,9 @@ import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.ListFragm
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.extentions.PicFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.SecondAccMentionsFragment;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.trends.LocalTrendsFragment;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.trends.WorldTrendsFragment;
 import com.klinker.android.twitter_l.utils.SystemBarVisibility;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +113,14 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 case AppSettings.PAGE_TYPE_DMS:
                     frags.add(new DMFragment());
                     names.add(context.getResources().getString(R.string.direct_messages));
+                    break;
+                case AppSettings.PAGE_TYPE_WORLD_TRENDS:
+                    frags.add(new WorldTrendsFragment());
+                    names.add(context.getString(R.string.world_trends));
+                    break;
+                case AppSettings.PAGE_TYPE_LOCAL_TRENDS:
+                    frags.add(new LocalTrendsFragment());
+                    names.add(context.getString(R.string.local_trends));
                     break;
                 default:
                     frags.add(getFrag(pageTypes.get(i), listIds.get(i)));
