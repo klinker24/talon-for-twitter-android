@@ -1,7 +1,7 @@
 <changelog>
 
     <version name="1.4.2">
-        <text>Notification of TweetMarker failure (causing long load times)</text>
+        <text>Better user notification for long or failed TweetMarker responses</text>
     </version>
 
     <version name="1.4.1">
