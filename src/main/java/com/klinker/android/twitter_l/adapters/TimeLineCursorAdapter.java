@@ -377,7 +377,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (android.text.TextUtils.isEmpty(holder.gifUrl)) {
+                            if (android.text.TextUtils.isEmpty(holder.gifUrl) && !tweetText.contains("vine.co/v/")) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performClick();
@@ -443,7 +443,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (android.text.TextUtils.isEmpty(holder.gifUrl)) {
+                            if (android.text.TextUtils.isEmpty(holder.gifUrl) && !tweetText.contains("vine.co/v/")) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performLongClick();

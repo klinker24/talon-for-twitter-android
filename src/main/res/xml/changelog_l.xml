@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.5.0">
+        <text>Native Vine support</text>
+    </version>
+
     <version name="1.4.2">
         <text>Better user notification for long or failed TweetMarker responses</text>
     </version>
