@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="1.4.2">
+        <text>Notification of TweetMarker failure (causing long load times)</text>
+    </version>
+
     <version name="1.4.1">
         <text>Bug fixes</text>
     </version>

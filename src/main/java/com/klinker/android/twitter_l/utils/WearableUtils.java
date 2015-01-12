@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter.utils;
+package com.klinker.android.twitter_l.utils;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Node;
