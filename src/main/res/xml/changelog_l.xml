@@ -1,7 +1,8 @@
 <changelog>
 
-    <version name="1.5.0">
-        <text>Native Vine support</text>
+    <version name="2.0.0">
+        <text>[New] Native Vine support</text>
+        <text>[Improved] Much better user auto-complete</text>
     </version>
 
     <version name="1.4.2">
