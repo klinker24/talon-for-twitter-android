@@ -660,7 +660,7 @@ public class LoginActivity extends LVLActivity {
 
                 try {
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
-                    PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), -1);
+                    PagableResponseList<User> friendsPaging = twitter.getFriendsList(user.getId(), -1, 200);
 
                     for (User friend : friendsPaging) {
                         followers.createUser(friend, currentAccount);
@@ -672,7 +672,7 @@ public class LoginActivity extends LVLActivity {
                             MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
 
                     while (nextCursor != -1) {
-                        friendsPaging = twitter.getFriendsList(user.getId(), nextCursor);
+                        friendsPaging = twitter.getFriendsList(user.getId(), nextCursor, 200);
 
                         for (User friend : friendsPaging) {
                             followers.createUser(friend, currentAccount);
