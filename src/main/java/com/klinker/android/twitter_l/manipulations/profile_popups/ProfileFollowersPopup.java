@@ -37,7 +37,7 @@ public class ProfileFollowersPopup extends ProfileUsersPopup {
     @Override
     public PagableResponseList<User> getData(Twitter twitter, long cursor) {
         try {
-            return twitter.getFollowersList(user.getId(), cursor);
+            return twitter.getFollowersList(user.getId(), cursor, 200);
         } catch (Exception e) {
             return null;
         }
