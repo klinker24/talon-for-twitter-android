@@ -26,7 +26,7 @@
 
     <TextView
             android:id="@+id/title"
-            android:textColor="@color/secondary_text_light"
+            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -38,6 +38,7 @@
     <TextView
             android:id="@+id/text"
             android:lineSpacingMultiplier=".92"
+            android:textColor="@color/secondary_text_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
