@@ -567,6 +567,9 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
         boolean updated = helper.getLastStatus("timeline", context);
 
+        // update settings just in case it was invalidated
+        settings = AppSettings.getInstance(getActivity());
+
         Log.v("talon_tweetmarker", "tweetmarker status: " + updated);
 
         if (updated) {
