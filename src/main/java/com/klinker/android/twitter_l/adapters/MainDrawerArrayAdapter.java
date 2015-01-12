@@ -105,6 +105,12 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 case AppSettings.PAGE_TYPE_SECOND_MENTIONS:
                     text.add(AppSettings.getInstance(context).secondScreenName);
                     break;
+                case AppSettings.PAGE_TYPE_WORLD_TRENDS:
+                    text.add(context.getResources().getString(R.string.world_trends));
+                    break;
+                case AppSettings.PAGE_TYPE_LOCAL_TRENDS:
+                    text.add(context.getString(R.string.local_trends));
+                    break;
                 default:
                     text.add(getName(pageNames.get(i), pageTypes.get(i)));
                     break;
@@ -182,8 +188,10 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
                 holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.discover))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerTrends});
+            } else if (text.get(position).equals(context.getResources().getString(R.string.discover)) ||
+                    text.get(position).equals(context.getString(R.string.world_trends)) ||
+                    text.get(position).equals(context.getString(R.string.local_trends))) {
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
                 holder.icon.setImageResource(resource);
