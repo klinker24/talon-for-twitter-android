@@ -67,6 +67,7 @@ import java.util.Random;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import org.apache.http.*;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -210,8 +211,10 @@ public class TweetActivity extends YouTubeBaseActivity {
             if (webpages.get(0).contains(tweetId + "/photo/1")) {
                 hasWebpage = false;
                 gifVideo = webpages.get(0);
+            } else if (webpages.get(0).contains("vine.co/v/")) {
+                hasWebpage = false;
+                gifVideo = webpages.get(0);
             }
-
         }
 
         final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
@@ -297,8 +300,8 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         VideoView gif = (VideoView) findViewById(R.id.gif);
         Log.v("talon_gif", "gif video: " + gifVideo);
-        if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1"))) {
-            getGif(gif);
+        if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))) {
+            getVideo(gif);
         } else {
             findViewById(R.id.spinner).setVisibility(View.GONE);
             gif.setVisibility(View.GONE);
@@ -386,16 +389,20 @@ public class TweetActivity extends YouTubeBaseActivity {
         nav.setLayoutParams(params);
     }
 
-    public void getGif(final VideoView video) {
+    public void getVideo(final VideoView video) {
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                if (gifVideo.contains("/photo/1") && gifVideo.contains("twitter.com/")) {
+                if (gifVideo.contains("vine.co")) {
+                    // have to get the html from the page and parse the video from there.
+
+                    gifVideo = getVineLink();
+                } else if (gifVideo.contains("/photo/1") && gifVideo.contains("twitter.com/")) {
                     // this is before it was added to the api.
                     // finds the video from the HTML on twitters website.
 
-                    gifVideo = getVideoUrl();
+                    gifVideo = getGifLink();
                 }
 
                 runOnUiThread(new Runnable() {
@@ -431,11 +438,11 @@ public class TweetActivity extends YouTubeBaseActivity {
         }).start();
     }
 
-    public String getVideoUrl() {
+    public Document getDoc() {
         try {
             org.apache.http.client.HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget = new HttpGet((gifVideo.contains("http") ? "" : "https://") + gifVideo);
-            org.apache.http.HttpResponse response = httpclient.execute(httpget);
+            HttpResponse response = httpclient.execute(httpget);
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
@@ -448,7 +455,15 @@ public class TweetActivity extends YouTubeBaseActivity {
 
             is.close();
 
-            Document doc = Jsoup.parse(docHtml);
+            return Jsoup.parse(docHtml);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String getGifLink() {
+        try {
+            Document doc = getDoc();
 
             if(doc != null) {
                 Elements elements = doc.getElementsByAttributeValue("class", "animated-gif");
@@ -459,6 +474,27 @@ public class TweetActivity extends YouTubeBaseActivity {
                             return x.attr("video-src");
                         }
                     }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public String getVineLink() {
+        try {
+            Document doc = getDoc();
+
+            if(doc != null) {
+                Elements elements = doc.getElementsByAttributeValue("property", "twitter:player:stream");
+
+                for (Element e : elements) {
+                    return e.attr("content");
                 }
             }
 
