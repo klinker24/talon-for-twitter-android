@@ -34,7 +34,6 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
-import com.klinker.android.twitter.utils.WearableUtils;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -43,8 +42,10 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 import com.klinker.android.twitter_l.ui.launcher_page.HandleScrollService;
 import com.klinker.android.twitter_l.util.IoUtils;
+import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.WearableUtils;
 import com.klinker.android.twitter_l.utils.api_helper.TweetMarkerHelper;
 
 
@@ -245,7 +246,7 @@ public class TweetWearableService extends WearableListenerService {
 
     public void sendImage(Bitmap image, String url, WearableUtils wearableUtils, GoogleApiClient googleApiClient) {
         PutDataMapRequest dataMap = PutDataMapRequest.create(KeyProperties.PATH);
-        byte[] bytes = new IoUtils().convertToByteArray(image);
+        byte[] bytes = new IOUtils().convertToByteArray(image);
         dataMap.getDataMap().putByteArray(KeyProperties.KEY_IMAGE_DATA, bytes);
         dataMap.getDataMap().putString(KeyProperties.KEY_IMAGE_NAME, url);
         for (String node : wearableUtils.getNodes(googleApiClient)) {
