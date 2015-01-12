@@ -77,22 +77,6 @@
     </question>
 
     <question
-        name="Auto-Complete Users"
-        description="Not all of them show up..">
-
-        <text>
-            With Talon, you have the ability to simply type "@", then the name of a user and they will appear so that you can add them to the tweet.
-
-            You might notice that not all of the people you follow are available to mention with this auto-complete though. This is due to Twitter's rate limiting. Talon is only able to find the newest 300 users you follow.
-
-            To add more users to this auto-complete list, simply visit their profile.
-
-            If you want to start fresh with the latest 300 people you follow, use the "Sync Users" option under "Sync Settings".
-        </text>
-
-    </question>
-
-    <question
             name="Logging into a second account"
             description="I got to many people to keep track of here...">
 
@@ -193,21 +177,6 @@
     </question>
 
     <question
-        name="Extra Pages"
-        description="Why only two? I need more!">
-
-        <text>
-            Unfortunately, every feature has it's consequences as well. I think the idea of user defined extra pages is awesome (access them from advanced settings by the way), but they also can potentially hog a ton of resources and slow things down...
-
-            Think about it, the more you have open and ready to view, as a single swipe away, the more resource intensive that activity will be. Talon is no exception.
-
-            I pride myself on the fact that Talon is one of the fastest and smoothest apps around. By allowing an unlimited number of extra pages or even increasing it to 5 would be a huge draw on the performance.
-
-            I chose two as a balance between functionality and performance, this is a decision I will be sticking with for the time being.
-        </text>
-    </question>
-
-    <question
         name="Multiple Pictures"
         description="Sometimes they do not show, why?">
 
@@ -260,7 +229,6 @@
 
             1.) Samsung multi-window support (it breaks some features and isn't something you can have an option for in settings)
             2.) Integration with Facebook or other social networks (this app will remain only a Twitter client)
-            3.) In-line pictures on profiles (They just didn't work with my style of profiles, the cards were way to big, so I went with style on this one)
         </text>
 
     </question>
