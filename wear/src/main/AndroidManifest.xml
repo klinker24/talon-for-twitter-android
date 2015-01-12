@@ -15,7 +15,7 @@
         <meta-data android:name="com.google.android.gms.version"
                    android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".wear.activity.WearActivity"
+        <activity android:name=".activity.WearActivity"
                   android:label="@string/wear_app_name"
                   android:allowEmbedded="true"
                   android:taskAffinity=""
