@@ -262,6 +262,8 @@ public class SearchedTrendsActivity extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            searchQuery += " -RT";
+
             String query = searchQuery;
 
             if (query.contains("\"")) {
@@ -379,6 +381,14 @@ public class SearchedTrendsActivity extends Activity {
     }
 
     private static final int SETTINGS_RESULT = 101;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem i = menu.findItem(R.id.menu_remove_rt);
+        i.setChecked(true);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
