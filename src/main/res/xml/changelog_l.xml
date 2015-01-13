@@ -2,7 +2,10 @@
 
     <version name="2.0.0">
         <text>[New] Native Vine support</text>
-        <text>[Improved] Much better user auto-complete</text>
+        <text>[New] World trends swipe-able page</text>
+        <text>[New] Local trends swipe-able page</text>
+        <text>[Improve] Much better auto-complete</text>
+        <text>[Improve] Saving of search queries</text>
     </version>
 
     <version name="1.4.2">
