@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -114,14 +115,16 @@ public class LVLActivity extends Activity {
 
             JSONObject object = new JSONObject(json);
             JSONArray array = object.getJSONArray("items");
-            if (array.length() > 0) {
+            if (array.length() == 2) {
                 String url = (String) array.get(0);
-                
-                if (url.contains("invalid")) {
-                    return null;
-                } else {
-                    return url;
-                }
+                String key = (String) array.get(1);
+
+                SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+                sharedPrefs.edit().putString("consumer_key_2", key).commit();
+
+                return url;
             } else {
                 return null;
             }
