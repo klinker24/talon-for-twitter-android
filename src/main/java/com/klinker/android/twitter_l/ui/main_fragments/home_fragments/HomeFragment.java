@@ -208,7 +208,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
                                 Utils.getTwitter(context, new AppSettings(context)),
-                                sharedPrefs);
+                                sharedPrefs,
+                                getActivity());
 
                         long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
                         helper.sendCurrentId("timeline", currentId);
@@ -563,7 +564,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                 sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
                 Utils.getTwitter(context, new AppSettings(context)),
-                sharedPrefs);
+                sharedPrefs,
+                getActivity());
 
         boolean updated = helper.getLastStatus("timeline", context);
 
@@ -905,7 +907,8 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
                     TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
                             sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                            Utils.getTwitter(context, new AppSettings(context)), sharedPrefs);
+                            Utils.getTwitter(context, new AppSettings(context)), sharedPrefs,
+                            getActivity());
 
                     long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
                     helper.sendCurrentId("timeline", currentId);

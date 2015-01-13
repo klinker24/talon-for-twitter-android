@@ -16,7 +16,28 @@
 
 package com.klinker.android.twitter_l;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class APIKeys {
+
+    public String consumerKey;
+    public String consumerSecret;
+
+    public APIKeys(Context c) {
+        SharedPreferences sharedPrefs = c.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        int currentAccount = sharedPrefs.getInt("current_account", 1);
+
+        if (sharedPrefs.getInt("key_version_" + currentAccount, 1) == 1) {
+            consumerKey = TWITTER_CONSUMER_KEY;
+            consumerSecret = TWITTER_CONSUMER_SECRET;
+        } else {
+            consumerKey = TWITTER_CONSUMER_KEY_2;
+            consumerSecret = TWITTER_CONSUMER_SECRET_2;
+        }
+    }
 
     /**
      * Twitter's API Keys
@@ -32,6 +53,9 @@ public class APIKeys {
      */
     public static String TWITTER_CONSUMER_KEY = "***REMOVED***";
     public static String TWITTER_CONSUMER_SECRET = "***REMOVED***";
+
+    public static String TWITTER_CONSUMER_KEY_2 = "***REMOVED***";
+    public static String TWITTER_CONSUMER_SECRET_2 = "***REMOVED***";
 
     /**
      * For the In-App Youtube Player

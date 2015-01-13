@@ -23,11 +23,8 @@ import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.Looper;
 import android.provider.SearchRecentSuggestions;
-import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -40,14 +37,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 
-import com.jakewharton.disklrucache.Util;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.FollowMePopup;
-import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
@@ -61,7 +57,6 @@ import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -120,12 +115,14 @@ public class LoginActivity extends LVLActivity {
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        int currAccount = sharedPrefs.getInt("current_account", 1);
+        sharedPrefs.edit().putInt("key_version_" + currAccount, 2).commit();
+
         context = this;
         settings = AppSettings.getInstance(context);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
-        //context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH"));
 
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.login_activity);
@@ -136,8 +133,9 @@ public class LoginActivity extends LVLActivity {
         layout.setPadding(0, Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), 0, Utils.getNavBarHeight(context));
 
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(settings.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(settings.TWITTER_CONSUMER_SECRET);
+        APIKeys keys = new APIKeys(this);
+        builder.setOAuthConsumerKey(keys.consumerKey);
+        builder.setOAuthConsumerSecret(keys.consumerSecret);
         Configuration configuration = builder.build();
 
         TwitterFactory factory = new TwitterFactory(configuration);
@@ -231,10 +229,10 @@ public class LoginActivity extends LVLActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String url)
             {
-                if (callbackUrl != null && url != null && url.startsWith(callbackUrl)) {
-                    handleTwitterCallback(url);
+                if (requestUrl != null && url != null && url.startsWith(requestUrl)) {
+                    handleRequest(url);
                 } else if (url.equals("https://twitter.com/")) {
-                    webView.loadUrl(requestUrl);
+                    webView.loadUrl(callbackUrl);
                 } else {
                     webView.loadUrl(url);
                 }
@@ -331,7 +329,7 @@ public class LoginActivity extends LVLActivity {
         });
     }
 
-    public void handleTwitterCallback(String url) {
+    public void handleRequest(String url) {
         // oAuth verifier
         verifier = Uri.parse(url).getQueryParameter("oauth_verifier");
 
@@ -361,8 +359,8 @@ public class LoginActivity extends LVLActivity {
 
     }
 
-    private String requestUrl;
     private String callbackUrl;
+    private String requestUrl;
 
     class RetreiveFeedTask extends AsyncTask<String, Void, Void> {
 
@@ -398,9 +396,9 @@ public class LoginActivity extends LVLActivity {
                 return null;
             }
 
-            callbackUrl = getCallbackUrl();
+            requestUrl = getUserUrl();
 
-            if (!licenced || callbackUrl == null) {
+            if (!licenced || requestUrl == null) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -435,12 +433,12 @@ public class LoginActivity extends LVLActivity {
 
             if (licenseTimeout) {
                 licenseTimeout();
-            } else if (callbackUrl != null && licenced) {
+            } else if (requestUrl != null && licenced) {
                 showWebView();
 
                 if (requestToken != null) {
-                    requestUrl = requestToken.getAuthenticationURL();
-                    mWebView.loadUrl(requestUrl);
+                    callbackUrl = requestToken.getAuthenticationURL();
+                    mWebView.loadUrl(callbackUrl);
                     mWebView.requestFocus(View.FOCUS_UP | View.FOCUS_RIGHT);
                 } else {
                     restartLogin();
@@ -450,7 +448,7 @@ public class LoginActivity extends LVLActivity {
 
         private void loginToTwitter() {
             try {
-                requestToken = twitter.getOAuthRequestToken(callbackUrl);
+                requestToken = twitter.getOAuthRequestToken(requestUrl);
             } catch (TwitterException ex) {
                 ex.printStackTrace();
                 try {

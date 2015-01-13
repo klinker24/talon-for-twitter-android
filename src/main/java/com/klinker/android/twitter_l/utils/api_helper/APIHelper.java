@@ -16,6 +16,8 @@ package com.klinker.android.twitter_l.utils.api_helper;
  */
 
 
+import android.content.Context;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.security.InvalidKeyException;
@@ -41,15 +43,17 @@ public abstract class APIHelper {
      * @param twitter Coming from Twitter.getInstance()
      * @return String of the header to be used with X-Verify-Credentials-Authorization
      */
-    public String getAuthrityHeader(Twitter twitter) {
+    public String getAuthrityHeader(Twitter twitter, Context c) {
         try {
             // gets the system time for the header
             long time = System.currentTimeMillis() / 1000;
             long millis = time + 12;
 
+            APIKeys keys = new APIKeys(c);
+
             // set the necessary parameters
             List<HttpParameter> oauthHeaderParams = new ArrayList<HttpParameter>(5);
-            oauthHeaderParams.add(new HttpParameter("oauth_consumer_key", AppSettings.TWITTER_CONSUMER_KEY));
+            oauthHeaderParams.add(new HttpParameter("oauth_consumer_key", keys.consumerKey));
             oauthHeaderParams.add(new HttpParameter("oauth_signature_method", "HMAC-SHA1"));
             oauthHeaderParams.add(new HttpParameter("oauth_timestamp", time + ""));
             oauthHeaderParams.add(new HttpParameter("oauth_nonce", millis + ""));
@@ -64,7 +68,7 @@ public abstract class APIHelper {
             base.append(HttpParameter.encode(normalizeRequestParameters(signatureBaseParams)));
 
             String oauthBaseString = base.toString();
-            String signature = generateSignature(oauthBaseString, twitter.getOAuthAccessToken());
+            String signature = generateSignature(oauthBaseString, twitter.getOAuthAccessToken(), keys.consumerKey);
 
             oauthHeaderParams.add(new HttpParameter("oauth_signature", signature));
 
@@ -82,12 +86,12 @@ public abstract class APIHelper {
      * @param token the user's access token
      * @return String of the signature to use in your header
      */
-    public String generateSignature(String data, AccessToken token) {
+    public String generateSignature(String data, AccessToken token, String key) {
         byte[] byteHMAC = null;
         try {
             Mac mac = Mac.getInstance("HmacSHA1");
             SecretKeySpec spec;
-            String oauthSignature = HttpParameter.encode(AppSettings.TWITTER_CONSUMER_SECRET) + "&" + HttpParameter.encode(token.getTokenSecret());
+            String oauthSignature = HttpParameter.encode(key) + "&" + HttpParameter.encode(token.getTokenSecret());
             spec = new SecretKeySpec(oauthSignature.getBytes(), "HmacSHA1");
             mac.init(spec);
             byteHMAC = mac.doFinal(data.getBytes());

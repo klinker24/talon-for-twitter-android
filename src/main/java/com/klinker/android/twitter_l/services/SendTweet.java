@@ -139,7 +139,7 @@ public class SendTweet extends Service {
 
             if (remainingChars < 0 && !pwiccer) {
                 // twitlonger goes here
-                TwitLongerHelper helper = new TwitLongerHelper(message, twitter);
+                TwitLongerHelper helper = new TwitLongerHelper(message, twitter, context);
                 helper.setInReplyToStatusId(tweetId);
 
                 return helper.createPost() != 0;
