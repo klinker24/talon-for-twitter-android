@@ -18,6 +18,14 @@ package com.klinker.android.twitter_l;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.util.Log;
+import com.google.android.vending.licensing.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 
 public class APIKeys {
 
@@ -34,8 +42,30 @@ public class APIKeys {
             consumerKey = TWITTER_CONSUMER_KEY;
             consumerSecret = TWITTER_CONSUMER_SECRET;
         } else {
-            consumerKey = TWITTER_CONSUMER_KEY_2;
+            consumerKey = getConsumerKey(c, sharedPrefs.getString("consumer_key_2", ""));
             consumerSecret = TWITTER_CONSUMER_SECRET_2;
+        }
+    }
+
+    private String getConsumerKey(Context c, String encrypted) {
+        try {
+            Signature[] signatures =
+                    c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
+            String sig = signatures[0].toCharsString();
+
+            String key = sig.substring(12,28);
+
+            Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+            Cipher cipher = Cipher.getInstance("AES");
+
+            cipher.init(Cipher.DECRYPT_MODE, aesKey);
+            byte[] decrypted = cipher.doFinal(Base64.decode(encrypted));
+
+            String decrypt = new String(decrypted);
+            return decrypt + TWITTER_CONSUMER_KEY_2_FINAL;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return encrypted;
         }
     }
 
@@ -54,7 +84,7 @@ public class APIKeys {
     public static String TWITTER_CONSUMER_KEY = "ByivySWf9pykD5CpamBNODii8";
     public static String TWITTER_CONSUMER_SECRET = "ARKOhkKBSTeOl1fyhL2njfMMqRlDkDmlhFtEJZfD5jmgP7kttg";
 
-    public static String TWITTER_CONSUMER_KEY_2 = "TgEfvliI1iBmVHr2vs2feUuRy";
+    public static String TWITTER_CONSUMER_KEY_2_FINAL = "vs2feUuRy";
     public static String TWITTER_CONSUMER_SECRET_2 = "DcKxlwIl9xrjMYxQd1oEc1HXqChP52L63uPZFsLIZVy3YGqpIu";
 
     /**
