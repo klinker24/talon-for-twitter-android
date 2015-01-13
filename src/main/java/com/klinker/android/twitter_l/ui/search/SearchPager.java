@@ -194,6 +194,8 @@ public class SearchPager extends Activity {
             } else {
                 suggestions.saveRecentQuery(searchQuery, null);
             }
+
+            searchQuery += " -RT";
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             String uriString = uri.toString();
@@ -212,12 +214,12 @@ public class SearchPager extends Activity {
                 }
                 searchQuery = id + "";
                 onlyStatus = true;
-            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) { // going to try searching for users i guess
+            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) {
+                // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
                 onlyProfile = true;
-                Log.v("talon_searching", "only profile");
             } else if (uriString.contains("q=")){
                 try {
                     String search = uri.getQueryParameter("q");
@@ -231,7 +233,10 @@ public class SearchPager extends Activity {
                             suggestions.saveRecentQuery(searchQuery.replaceAll("\"", ""), null);
                         } else {
                             suggestions.saveRecentQuery(searchQuery, null);
-                        }                    } else {
+                        }
+
+                        searchQuery += " -RT";
+                    } else {
                         searchQuery = "";
                     }
 
@@ -256,6 +261,8 @@ public class SearchPager extends Activity {
                         } else {
                             suggestions.saveRecentQuery(searchQuery, null);
                         }
+
+                        searchQuery += " -RT";
                     } else {
                         searchQuery = "";
                     }
@@ -385,9 +392,15 @@ public class SearchPager extends Activity {
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem i = menu.findItem(R.id.menu_remove_rt);
+        i.setChecked(true);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     public static final int SETTINGS_RESULT = 101;
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
