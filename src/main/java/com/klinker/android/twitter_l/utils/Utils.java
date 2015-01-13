@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.Display;
 
 import android.view.Window;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -39,10 +40,11 @@ public class Utils {
         if (settings == null) {
             settings = AppSettings.getInstance(context);
         }
+        APIKeys keys = new APIKeys(context);
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
-                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
+                .setOAuthConsumerKey(keys.consumerKey)
+                .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());
@@ -51,11 +53,12 @@ public class Utils {
 
     public static TwitterStream getStreamingTwitter(Context context, AppSettings settings) {
         settings = AppSettings.getInstance(context);
+        APIKeys keys = new APIKeys(context);
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
-                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
+                .setOAuthConsumerKey(keys.consumerKey)
+                .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
@@ -63,11 +66,12 @@ public class Utils {
     }
 
     public static Twitter getSecondTwitter(Context context) {
+        APIKeys keys = new APIKeys(context);
         AppSettings settings = AppSettings.getInstance(context);
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(AppSettings.TWITTER_CONSUMER_KEY)
-                .setOAuthConsumerSecret(AppSettings.TWITTER_CONSUMER_SECRET)
+                .setOAuthConsumerKey(keys.consumerKey)
+                .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.secondAuthToken)
                 .setOAuthAccessTokenSecret(settings.secondAuthTokenSecret);
         TwitterFactory tf = new TwitterFactory(cb.build());

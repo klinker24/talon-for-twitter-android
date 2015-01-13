@@ -1203,7 +1203,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         if (url.contains("ton.twitter.com")) {
                             // it is a direct message picture
                             TwitterDMPicHelper helper = new TwitterDMPicHelper();
-                            b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
+                            b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
                         } else {
 
                             // The bitmap isn't cached so download from the web

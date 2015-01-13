@@ -16,6 +16,7 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.util.Log;
 import com.klinker.android.twitter_l.APIKeys;
 import org.apache.http.HttpResponse;
@@ -56,6 +57,7 @@ public class TwitLongerHelper extends APIHelper {
     public long replyToStatusId = 0;
     public String replyToScreenname;
     public GeoLocation location;
+    public Context context;
 
     public Twitter twitter;
 
@@ -63,12 +65,13 @@ public class TwitLongerHelper extends APIHelper {
      * Used for a normal tweet, not a reply
      * @param tweetText the text of the tweet that you want to post
      */
-	public TwitLongerHelper(String tweetText, Twitter twitter) {
+	public TwitLongerHelper(String tweetText, Twitter twitter, Context context) {
         this.tweetText = tweetText;
         this.replyToId = 0;
         this.replyToScreenname = null;
 
         this.twitter = twitter;
+        this.context = context;
     }
 
     /**
@@ -76,12 +79,13 @@ public class TwitLongerHelper extends APIHelper {
      * @param tweetText the text of the tweet that you want to post
      * @param replyToId the id of the user your tweet is replying to
      */
-    public TwitLongerHelper(String tweetText, long replyToId, Twitter twitter) {
+    public TwitLongerHelper(String tweetText, long replyToId, Twitter twitter, Context context) {
         this.tweetText = tweetText;
         this.replyToId = replyToId;
         this.replyToScreenname = null;
 
         this.twitter = twitter;
+        this.context = context;
     }
 
     /**
@@ -89,12 +93,13 @@ public class TwitLongerHelper extends APIHelper {
      * @param tweetText the text of the tweet that you want to post
      * @param replyToScreenname the screenname of the user you are replying to
      */
-    public TwitLongerHelper(String tweetText, String replyToScreenname, Twitter twitter) {
+    public TwitLongerHelper(String tweetText, String replyToScreenname, Twitter twitter, Context c) {
         this.tweetText = tweetText;
         this.replyToScreenname = replyToScreenname;
         this.replyToId = 0;
 
         this.twitter = twitter;
+        this.context = c;
     }
 
     /**
@@ -154,7 +159,7 @@ public class TwitLongerHelper extends APIHelper {
             HttpPost post = new HttpPost(POST_URL);
             post.addHeader("X-API-KEY", TWITLONGER_API_KEY);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("content", tweetText));
@@ -209,7 +214,7 @@ public class TwitLongerHelper extends APIHelper {
             HttpPut put = new HttpPut(PUT_URL + status.getId());
             put.addHeader("X-API-KEY", TWITLONGER_API_KEY);
             put.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            put.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+            put.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("twitter_status_id", tweetId + ""));

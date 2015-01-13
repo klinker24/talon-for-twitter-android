@@ -135,7 +135,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                     if (url.contains("ton.twitter.com")) {
                         // it is a direct message picture
                         TwitterDMPicHelper helper = new TwitterDMPicHelper();
-                        b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)));
+                        b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
                     } else {
 
                         Log.v("talon_image_cache", "getting image, not from cache");

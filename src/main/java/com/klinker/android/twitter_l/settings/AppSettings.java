@@ -35,11 +35,6 @@ public class AppSettings {
 
     public SharedPreferences sharedPrefs;
 
-    public static String TWITTER_CONSUMER_KEY = APIKeys.TWITTER_CONSUMER_KEY;
-    public static String TWITTER_CONSUMER_SECRET = APIKeys.TWITTER_CONSUMER_SECRET;
-
-    public static String YOUTUBE_API_KEY = APIKeys.YOUTUBE_API_KEY;
-
     public static final int THEME_RED = 0;
     public static final int THEME_PINK = 1;
     public static final int THEME_PURPLE = 2;

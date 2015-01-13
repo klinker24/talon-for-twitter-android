@@ -15,9 +15,11 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import org.apache.http.*;
 import org.apache.http.impl.DefaultHttpClientConnection;
@@ -48,7 +50,7 @@ import java.util.UUID;
 
 public class TwitterDMPicHelper {
 
-    public Bitmap getDMPicture (String picUrl, Twitter twitter) {
+    public Bitmap getDMPicture (String picUrl, Twitter twitter, Context c) {
 
         try {
             AccessToken token = twitter.getOAuthAccessToken();
@@ -68,20 +70,22 @@ public class TwitterDMPicHelper {
             long ts = tempcal.getTimeInMillis();// get current time in milliseconds
             String oauth_timestamp = (new Long(ts/1000)).toString(); // then divide by 1000 to get seconds
 
+            APIKeys keys = new APIKeys(c);
+
             // the parameter string must be in alphabetical order, "text" parameter added at end
-            String parameter_string = "oauth_consumer_key=" + AppSettings.TWITTER_CONSUMER_KEY + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
+            String parameter_string = "oauth_consumer_key=" + keys.consumerKey + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
                     "&oauth_timestamp=" + oauth_timestamp + "&oauth_token=" + encode(oauth_token) + "&oauth_version=1.0";
 
             String twitter_endpoint = picUrl;
             String twitter_endpoint_host = picUrl.substring(0, picUrl.indexOf("1.1")).replace("https://", "").replace("/", "");
             String twitter_endpoint_path = picUrl.replace("ton.twitter.com", "").replace("https://", "");
             String signature_base_string = get_or_post + "&"+ encode(twitter_endpoint) + "&" + encode(parameter_string);
-            String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
+            String oauth_signature = computeSignature(signature_base_string, keys.consumerSecret + "&" + encode(oauth_token_secret));
 
             Log.v("talon_dm_image", "endpoint_host: " + twitter_endpoint_host);
             Log.v("talon_dm_image", "endpoint_path: " + twitter_endpoint_path);
 
-            String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
+            String authorization_header_string = "OAuth oauth_consumer_key=\"" + keys.consumerKey + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
                     "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
 
 

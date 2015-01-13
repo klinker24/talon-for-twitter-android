@@ -2196,7 +2196,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     ArrayList<String> i = new ArrayList<String>();
 
                     if (picture) {
-                        i = helper.getImageURLs(status, twitter);
+                        i = helper.getImageURLs(status, twitter, context);
                     }
 
                     final ArrayList<String> images = i;

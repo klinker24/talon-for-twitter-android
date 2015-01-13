@@ -100,7 +100,7 @@ public class SendQueue extends Service {
 
             if (size > 140 && settings.twitlonger) {
                 // twitlonger goes here
-                TwitLongerHelper helper = new TwitLongerHelper(message, twitter);
+                TwitLongerHelper helper = new TwitLongerHelper(message, twitter, context);
 
                 return helper.createPost() != 0;
             } else if (size <= 140) {

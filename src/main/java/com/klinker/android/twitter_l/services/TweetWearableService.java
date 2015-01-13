@@ -179,7 +179,8 @@ public class TweetWearableService extends WearableListenerService {
                                 TweetMarkerHelper helper = new TweetMarkerHelper(settings.currentAccount,
                                         sharedPrefs.getString("twitter_screen_name_" + settings.currentAccount, ""),
                                         Utils.getTwitter(TweetWearableService.this, settings),
-                                        sharedPrefs);
+                                        sharedPrefs,
+                                        TweetWearableService.this);
 
                                 helper.sendCurrentId("timeline", id);
 

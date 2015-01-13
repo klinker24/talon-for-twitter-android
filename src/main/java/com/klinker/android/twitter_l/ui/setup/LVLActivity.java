@@ -8,8 +8,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Log;
 import com.google.android.vending.licensing.*;
-import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.utils.Utils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -78,9 +79,9 @@ public class LVLActivity extends Activity {
         }
     }
 
-    private static final String CHECK_LICENSE = "https://omega-jet-799.appspot.com/_ah/api/license/v1/checkLicense/";
+    private static final String SAVE_USER = "https://omega-jet-799.appspot.com/_ah/api/license/v1/saveUser/";
 
-    public String getCallbackUrl() {
+    public String getUserUrl() {
         try {
             Signature[] signatures =
                     getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures;
@@ -89,13 +90,14 @@ public class LVLActivity extends Activity {
 
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(
-                    CHECK_LICENSE + sig
+                    SAVE_USER + sig
             );
 
             HttpResponse response = client.execute(post);
 
             int statusCode = response.getStatusLine().getStatusCode();
             StringBuilder builder = new StringBuilder();
+            Log.v("talon_auth", "statusCode: " + statusCode + " " + response.getStatusLine().getReasonPhrase());
             if (statusCode == 200) {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
@@ -115,7 +117,7 @@ public class LVLActivity extends Activity {
             JSONArray array = object.getJSONArray("items");
             if (array.length() > 0) {
                 String url = (String) array.get(0);
-
+                Log.v("talon_auth", url);
                 if (url.contains("invalid")) {
                     return null;
                 } else {

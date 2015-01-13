@@ -1027,7 +1027,7 @@ public abstract class Compose extends Activity implements
                     boolean isDone = false;
 
                     if (useAccOne) {
-                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter, context);
 
                         if (notiId != 0) {
                             helper.setInReplyToStatusId(notiId);
@@ -1047,7 +1047,7 @@ public abstract class Compose extends Activity implements
                     }
 
                     if (useAccTwo) {
-                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter2);
+                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter2, context);
 
                         if (notiId != 0) {
                             helper.setInReplyToStatusId(notiId);

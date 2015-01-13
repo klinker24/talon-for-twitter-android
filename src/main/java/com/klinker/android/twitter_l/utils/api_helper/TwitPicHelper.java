@@ -133,7 +133,7 @@ public class TwitPicHelper extends APIHelper {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(POST_URL);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
 
             if (file == null) {
                 // only the input stream was sent, so we need to convert it to a file

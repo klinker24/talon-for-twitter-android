@@ -51,13 +51,15 @@ public class TweetMarkerHelper extends APIHelper {
     private String screenname;
     private String postURL;
     private Twitter twitter;
+    private Context context;
     private SharedPreferences sharedPrefs;
 
-    public TweetMarkerHelper(int currentAccount, String screenname, Twitter twitter, SharedPreferences sharedPrefs) {
+    public TweetMarkerHelper(int currentAccount, String screenname, Twitter twitter, SharedPreferences sharedPrefs, Context c) {
         this.currentAccount = currentAccount;
         this.screenname = screenname;
         this.twitter = twitter;
         this.sharedPrefs = sharedPrefs;
+        this.context = c;
 
         postURL = "http://api.tweetmarker.net/v2/lastread?api_key=" + Uri.encode(TWEETMARKER_API_KEY) +
                 "&username=" + Uri.encode(screenname);
@@ -72,7 +74,7 @@ public class TweetMarkerHelper extends APIHelper {
         try {
             HttpPost post = new HttpPost(postURL);
             post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
 
             JSONObject json = new JSONObject();
             json.put("id", id);
@@ -132,7 +134,7 @@ public class TweetMarkerHelper extends APIHelper {
             long startTime = Calendar.getInstance().getTimeInMillis();
             HttpGet get = new HttpGet(postURL + "&" + collection);
             get.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            get.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter));
+            get.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
 
             HttpClient client = new DefaultHttpClient();
 

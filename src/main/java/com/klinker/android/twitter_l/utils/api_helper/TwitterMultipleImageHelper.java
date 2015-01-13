@@ -15,9 +15,11 @@ package com.klinker.android.twitter_l.utils.api_helper;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -75,7 +77,7 @@ import twitter4j.auth.AccessToken;
 
 public class TwitterMultipleImageHelper {
 
-    public ArrayList<String> getImageURLs (Status status, Twitter twitter) {
+    public ArrayList<String> getImageURLs (Status status, Twitter twitter, Context c) {
 
         ArrayList<String> images = TweetLinkUtils.getAllExternalPictures(status);
         try {
@@ -96,17 +98,19 @@ public class TwitterMultipleImageHelper {
             long ts = tempcal.getTimeInMillis();// get current time in milliseconds
             String oauth_timestamp = (new Long(ts/1000)).toString(); // then divide by 1000 to get seconds
 
+            APIKeys keys = new APIKeys(c);
+
             // the parameter string must be in alphabetical order, "text" parameter added at end
-            String parameter_string = "oauth_consumer_key=" + AppSettings.TWITTER_CONSUMER_KEY + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
+            String parameter_string = "oauth_consumer_key=" + keys.consumerKey + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
                     "&oauth_timestamp=" + oauth_timestamp + "&oauth_token=" + encode(oauth_token) + "&oauth_version=1.0";
 
             String twitter_endpoint = "https://api.twitter.com/1.1/statuses/show/" + status.getId() + ".json";
             String twitter_endpoint_host = "api.twitter.com";
             String twitter_endpoint_path = "/1.1/statuses/show/" + status.getId() + ".json";
             String signature_base_string = get_or_post + "&"+ encode(twitter_endpoint) + "&" + encode(parameter_string);
-            String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
+            String oauth_signature = computeSignature(signature_base_string, keys.consumerSecret + "&" + encode(oauth_token_secret));
 
-            String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
+            String authorization_header_string = "OAuth oauth_consumer_key=\"" + keys.consumerKey + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
                     "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
 
 
@@ -220,138 +224,7 @@ public class TwitterMultipleImageHelper {
         return new String(BASE64Encoder.encode(mac.doFinal(text))).trim();
     }
 
-    public boolean uploadPics(File[] pics, String text, Twitter twitter) {
-        JSONObject jsonresponse = new JSONObject();
-
-        final String ids_string = getMediaIds(pics, twitter);
-
-        if (ids_string == null) {
-            return false;
-        }
-
-        try {
-            AccessToken token = twitter.getOAuthAccessToken();
-            String oauth_token = token.getToken();
-            String oauth_token_secret = token.getTokenSecret();
-
-            // generate authorization header
-            String get_or_post = "POST";
-            String oauth_signature_method = "HMAC-SHA1";
-
-            String uuid_string = UUID.randomUUID().toString();
-            uuid_string = uuid_string.replaceAll("-", "");
-            String oauth_nonce = uuid_string; // any relatively random alphanumeric string will work here
-
-            // get the timestamp
-            Calendar tempcal = Calendar.getInstance();
-            long ts = tempcal.getTimeInMillis();// get current time in milliseconds
-            String oauth_timestamp = (new Long(ts / 1000)).toString(); // then divide by 1000 to get seconds
-
-            // the parameter string must be in alphabetical order, "text" parameter added at end
-            String parameter_string = "oauth_consumer_key=" + AppSettings.TWITTER_CONSUMER_KEY + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
-                    "&oauth_timestamp=" + oauth_timestamp + "&oauth_token=" + encode(oauth_token) + "&oauth_version=1.0";
-            System.out.println("Twitter.updateStatusWithMedia(): parameter_string=" + parameter_string);
-
-            String twitter_endpoint = "https://api.twitter.com/1.1/statuses/update.json";
-            String twitter_endpoint_host = "api.twitter.com";
-            String twitter_endpoint_path = "/1.1/statuses/update.json";
-            String signature_base_string = get_or_post + "&" + encode(twitter_endpoint) + "&" + encode(parameter_string);
-            String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
-
-            String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
-                    "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
-
-            HttpParams params = new BasicHttpParams();
-            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(params, "UTF-8");
-            HttpProtocolParams.setUserAgent(params, "HttpCore/1.1");
-            HttpProtocolParams.setUseExpectContinue(params, false);
-            HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpRequestInterceptor[] {
-                    // Required protocol interceptors
-                    new RequestContent(),
-                    new RequestTargetHost(),
-                    // Recommended protocol interceptors
-                    new RequestConnControl(),
-                    new RequestUserAgent(),
-                    new RequestExpectContinue()});
-
-            HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
-            HttpContext context = new BasicHttpContext(null);
-            HttpHost host = new HttpHost(twitter_endpoint_host,443);
-            DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
-
-            context.setAttribute(ExecutionContext.HTTP_CONNECTION, conn);
-            context.setAttribute(ExecutionContext.HTTP_TARGET_HOST, host);
-
-            try
-            {
-                try
-                {
-                    SSLContext sslcontext = SSLContext.getInstance("TLS");
-                    sslcontext.init(null, null, null);
-                    SSLSocketFactory ssf = sslcontext.getSocketFactory();
-                    Socket socket = ssf.createSocket();
-                    socket.connect(
-                            new InetSocketAddress(host.getHostName(), host.getPort()), 0);
-                    conn.bind(socket, params);
-                    BasicHttpEntityEnclosingRequest request2 = new BasicHttpEntityEnclosingRequest("POST", twitter_endpoint_path);
-
-                    MultipartEntity reqEntity = new MultipartEntity();
-                    reqEntity.addPart("media_ids", new StringBody(ids_string));
-                    reqEntity.addPart("status", new StringBody(text));
-                    reqEntity.addPart("trim_user", new StringBody("1"));
-                    request2.setEntity(reqEntity);
-
-                    request2.setParams(params);
-                    request2.addHeader("Authorization", authorization_header_string);
-                    httpexecutor.preProcess(request2, httpproc, context);
-                    HttpResponse response2 = httpexecutor.execute(request2, conn, context);
-                    response2.setParams(params);
-                    httpexecutor.postProcess(response2, httpproc, context);
-                    String responseBody = EntityUtils.toString(response2.getEntity());
-                    System.out.println("response=" + responseBody);
-                    // error checking here. Otherwise, status should be updated.
-                    jsonresponse = new JSONObject(responseBody);
-                    conn.close();
-                }
-                catch(HttpException he)
-                {
-                    System.out.println(he.getMessage());
-                    jsonresponse.put("response_status", "error");
-                    jsonresponse.put("message", "updateStatus HttpException message=" + he.getMessage());
-                }
-                catch(NoSuchAlgorithmException nsae)
-                {
-                    System.out.println(nsae.getMessage());
-                    jsonresponse.put("response_status", "error");
-                    jsonresponse.put("message", "updateStatus NoSuchAlgorithmException message=" + nsae.getMessage());
-                }
-                catch(KeyManagementException kme)
-                {
-                    System.out.println(kme.getMessage());
-                    jsonresponse.put("response_status", "error");
-                    jsonresponse.put("message", "updateStatus KeyManagementException message=" + kme.getMessage());
-                }
-                finally
-                {
-                    conn.close();
-                }
-            }
-            catch(JSONException jsone)
-            {
-                jsone.printStackTrace();
-            }
-            catch(IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
-        } catch (Exception e) {
-
-        }
-        return true;
-    }
-
-    public String getMediaIds(File[] pics, Twitter twitter) {
+    public String getMediaIds(File[] pics, Twitter twitter, Context c) {
         JSONObject jsonresponse = new JSONObject();
         String ids = "";
 
@@ -375,8 +248,10 @@ public class TwitterMultipleImageHelper {
                 long ts = tempcal.getTimeInMillis();// get current time in milliseconds
                 String oauth_timestamp = (new Long(ts / 1000)).toString(); // then divide by 1000 to get seconds
 
+                APIKeys keys = new APIKeys(c);
+
                 // the parameter string must be in alphabetical order, "text" parameter added at end
-                String parameter_string = "oauth_consumer_key=" + AppSettings.TWITTER_CONSUMER_KEY + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
+                String parameter_string = "oauth_consumer_key=" + keys.consumerKey + "&oauth_nonce=" + oauth_nonce + "&oauth_signature_method=" + oauth_signature_method +
                         "&oauth_timestamp=" + oauth_timestamp + "&oauth_token=" + encode(oauth_token) + "&oauth_version=1.0";
                 System.out.println("Twitter.updateStatusWithMedia(): parameter_string=" + parameter_string);
 
@@ -384,9 +259,9 @@ public class TwitterMultipleImageHelper {
                 String twitter_endpoint_host = "upload.twitter.com";
                 String twitter_endpoint_path = "/1.1/media/upload.json";
                 String signature_base_string = get_or_post + "&" + encode(twitter_endpoint) + "&" + encode(parameter_string);
-                String oauth_signature = computeSignature(signature_base_string, AppSettings.TWITTER_CONSUMER_SECRET + "&" + encode(oauth_token_secret));
+                String oauth_signature = computeSignature(signature_base_string, keys.consumerSecret + "&" + encode(oauth_token_secret));
 
-                String authorization_header_string = "OAuth oauth_consumer_key=\"" + AppSettings.TWITTER_CONSUMER_KEY + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
+                String authorization_header_string = "OAuth oauth_consumer_key=\"" + keys.consumerKey + "\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"" + oauth_timestamp +
                         "\",oauth_nonce=\"" + oauth_nonce + "\",oauth_version=\"1.0\",oauth_signature=\"" + encode(oauth_signature) + "\",oauth_token=\"" + encode(oauth_token) + "\"";
 
                 HttpParams params = new BasicHttpParams();

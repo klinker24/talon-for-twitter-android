@@ -27,6 +27,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -83,7 +84,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         error = (HoloTextView) layout.findViewById(R.id.error);
 
         try {
-            player.initialize(AppSettings.YOUTUBE_API_KEY, this);
+            player.initialize(APIKeys.YOUTUBE_API_KEY, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
