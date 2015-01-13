@@ -97,7 +97,6 @@ public class LVLActivity extends Activity {
 
             int statusCode = response.getStatusLine().getStatusCode();
             StringBuilder builder = new StringBuilder();
-            Log.v("talon_auth", "statusCode: " + statusCode + " " + response.getStatusLine().getReasonPhrase());
             if (statusCode == 200) {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
@@ -117,7 +116,7 @@ public class LVLActivity extends Activity {
             JSONArray array = object.getJSONArray("items");
             if (array.length() > 0) {
                 String url = (String) array.get(0);
-                Log.v("talon_auth", url);
+                
                 if (url.contains("invalid")) {
                     return null;
                 } else {
