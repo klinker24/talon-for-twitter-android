@@ -75,7 +75,7 @@ public class MentionsRefreshService extends IntentService {
             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
             sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-            if (settings.notifications && settings.mentionsNot && inserted > 0) {
+            if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot && inserted > 0) {
                 if (intent.getBooleanExtra("from_launcher", false)) {
                     NotificationUtils.refreshNotification(context, true);
                 } else {
@@ -84,7 +84,9 @@ public class MentionsRefreshService extends IntentService {
             }
 
             if (settings.syncSecondMentions) {
-                startService(new Intent(context, SecondMentionsRefreshService.class));
+                Intent second = new Intent(context, SecondMentionsRefreshService.class);
+                second.putExtra("no_notify", intent.getBooleanExtra("no_notify", false));
+                startService(second);
             }
 
         } catch (TwitterException e) {
