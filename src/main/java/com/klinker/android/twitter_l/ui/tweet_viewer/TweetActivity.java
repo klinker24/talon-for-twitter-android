@@ -128,9 +128,10 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         Utils.setSharedContentTransition(this);
+        getFromIntent();
 
         if (getResources().getBoolean(R.bool.isTablet)) {
-            setUpWindow(false);
+            setUpWindow(null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/")));
 
             getActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
 
@@ -157,8 +158,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         } catch (Exception ex) {
             // Ignore
         }
-
-        getFromIntent();
 
         Utils.setUpTweetTheme(context, settings);
 
