@@ -68,7 +68,7 @@ public abstract class APIHelper {
             base.append(HttpParameter.encode(normalizeRequestParameters(signatureBaseParams)));
 
             String oauthBaseString = base.toString();
-            String signature = generateSignature(oauthBaseString, twitter.getOAuthAccessToken(), keys.consumerKey);
+            String signature = generateSignature(oauthBaseString, twitter.getOAuthAccessToken(), keys.consumerSecret);
 
             oauthHeaderParams.add(new HttpParameter("oauth_signature", signature));
 

@@ -137,7 +137,6 @@ public class TwitLongerHelper extends APIHelper {
 
             postedStatus = twitter.updateStatus(update);
 
-
             statusId = postedStatus.getId();
             updateTwitlonger(status, statusId);
         } catch (Exception e) {
@@ -182,6 +181,7 @@ public class TwitLongerHelper extends APIHelper {
                 builder.append(line);
             }
 
+            Log.v("twitlonger", builder.toString());
             try {
                 // there is only going to be one thing returned ever
                 JSONObject jsonObject = new JSONObject(builder.toString());
