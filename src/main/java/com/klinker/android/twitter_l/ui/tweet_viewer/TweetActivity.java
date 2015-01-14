@@ -116,7 +116,6 @@ public class TweetActivity extends YouTubeBaseActivity {
     public AsyncListView replyList;
     public LinearLayout convoSpinner;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,11 +126,14 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         }
 
+        context = this;
+        settings = AppSettings.getInstance(this);
         Utils.setSharedContentTransition(this);
         getFromIntent();
 
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            setUpWindow(null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/")));
+        if (getResources().getBoolean(R.bool.isTablet) &&
+                !(null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/")))) {
+            setUpWindow(false);
 
             getActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
 
@@ -144,9 +146,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
-        context = this;
-        settings = AppSettings.getInstance(this);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);

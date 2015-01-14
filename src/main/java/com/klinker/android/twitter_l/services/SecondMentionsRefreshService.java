@@ -85,7 +85,7 @@ public class SecondMentionsRefreshService extends IntentService {
             if (numberNew > 0) {
                 sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
 
-                if (settings.notifications && settings.mentionsNot) {
+                if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot) {
                     NotificationUtils.notifySecondMentions(context, currentAccount);
                 }
 
