@@ -9,6 +9,8 @@
         <text>[Improve] Remove retweets from searches by default</text>
         <text>[Improve] Login</text>
         <text>[Improve] Interfacing with Blur Launcher page</text>
+        <text>[Fix] Replacing some links</text>
+        <text>[Fix] Truncated links when copying tweet</text>
     </version>
 
     <version name="1.4.2">

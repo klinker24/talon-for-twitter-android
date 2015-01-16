@@ -1278,6 +1278,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
 
         boolean changed = false;
+        int otherIndex = 0;
 
         if (otherLink.length > 0) {
             for (int i = 0; i < split.length; i++) {
@@ -1289,21 +1290,19 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     f = stripTrailingPeriods(f);
 
-                    for (int x = 0; x < otherLink.length; x++) {
-                        if (otherLink[x].toLowerCase().contains(f.toLowerCase())) {
-                            changed = true;
-                            // for some reason it wouldn't match the last "/" on a url and it was stopping it from opening
-                            try {
-                                if (otherLink[x].substring(otherLink[x].length() - 1, otherLink[x].length()).equals("/")) {
-                                    otherLink[x] = otherLink[x].substring(0, otherLink[x].length() - 1);
-                                }
-                                f = otherLink[x].replace("http://", "").replace("https://", "").replace("www.", "");
-                                otherLink[x] = "";
-                            } catch (Exception e) {
-                                // out of bounds exception?
+                    try {
+                        if (otherIndex < otherLinks.length) {
+                            if (otherLink[otherIndex].substring(otherLink[otherIndex].length() - 1, otherLink[otherIndex].length()).equals("/")) {
+                                otherLink[otherIndex] = otherLink[otherIndex].substring(0, otherLink[otherIndex].length() - 1);
                             }
-                            break;
+                            f = otherLink[otherIndex].replace("http://", "").replace("https://", "").replace("www.", "");
+                            otherLink[otherIndex] = "";
+                            otherIndex++;
+
+                            changed = true;
                         }
+                    } catch (Exception e) {
+
                     }
 
                     if (changed) {
@@ -1321,15 +1320,17 @@ public class TweetActivity extends YouTubeBaseActivity {
         if (!webpage.equals("")) {
             for (int i = 0; i < split.length; i++) {
                 String s = split[i];
-                s = s.replace("...", "");
+                if (s.contains("...")) {
+                    s = s.replace("...", "");
 
-                if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
-                    String replace = otherLinks[otherLinks.length - 1];
-                    if (replace.replace(" ", "").equals("")) {
-                        replace = webpage;
+                    if (Patterns.WEB_URL.matcher(s).find() && (s.startsWith("t.co/") || s.contains("twitter.com/"))) { // we know the link is cut off
+                        String replace = otherLinks[otherLinks.length - 1];
+                        if (replace.replace(" ", "").equals("")) {
+                            replace = webpage;
+                        }
+                        split[i] = replace;
+                        changed = true;
                     }
-                    split[i] = replace;
-                    changed = true;
                 }
             }
         }
