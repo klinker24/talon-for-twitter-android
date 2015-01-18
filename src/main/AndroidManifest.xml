@@ -177,6 +177,11 @@
             android:label="@string/lists"
             android:theme="@style/Theme.TalonLight.Blue"
             />
+S
+        <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.SearchChooser"
+            android:label="@string/saved_searches"
+            android:theme="@style/Theme.TalonLight.Blue"
+            />
 
         <activity android:name="com.klinker.android.twitter_l.ui.search.SearchPager"
             android:label="@string/search"
