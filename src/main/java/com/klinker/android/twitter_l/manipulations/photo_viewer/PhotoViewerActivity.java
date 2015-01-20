@@ -18,12 +18,7 @@ import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
 import android.transition.Transition;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -57,6 +52,8 @@ public class PhotoViewerActivity extends Activity {
     public NetworkedCacheableImageView picture;
     public HoloTextView download;
     public PhotoViewAttacher mAttacher;
+
+    public GestureDetector gestureDetector;
 
     @Override
     public void finish() {
@@ -144,9 +141,11 @@ public class PhotoViewerActivity extends Activity {
             }
         }, 0, fromCache); // no transform
 
+        final Handler sysUi = new Handler();
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
+                sysUi.removeCallbacksAndMessages(null);
                 if (sysUiShown) {
                     hideSystemUI();
                 } else {
@@ -165,7 +164,7 @@ public class PhotoViewerActivity extends Activity {
             ab.setIcon(transparent);
         }
 
-        new Handler().postDelayed(new Runnable() {
+        sysUi.postDelayed(new Runnable() {
             @Override
             public void run() {
                 hideSystemUI();
