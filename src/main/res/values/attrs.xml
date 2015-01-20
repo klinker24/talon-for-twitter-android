@@ -89,6 +89,7 @@
     <attr name="compose_window_background" format="reference"/>
     <attr name="ripple_background" format="reference"/>
     <attr name="ripple_borderless" format="reference"/>
+    <attr name="snackbar" format="reference"/>
 
     <!-- Drawer Icons -->
     <attr name="drawerTrends" format="reference"/>

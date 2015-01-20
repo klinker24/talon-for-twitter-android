@@ -77,7 +77,7 @@
             android:id="@+id/toast_background"
             android:layout_width="@dimen/snack_bar_size"
             android:layout_height="wrap_content"
-            android:background="@drawable/snack_bar"
+            android:background="?snackbar"
             android:baselineAligned="true"
             android:layout_marginLeft="20dp"
             android:orientation="horizontal"
