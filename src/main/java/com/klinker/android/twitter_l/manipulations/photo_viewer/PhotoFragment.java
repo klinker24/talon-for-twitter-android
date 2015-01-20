@@ -59,7 +59,7 @@ public class PhotoFragment extends Fragment {
         final View root = inflater.inflate(R.layout.photo_dialog_layout, container, false);
 
         picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
-        PhotoViewAttacher mAttacher = new PhotoViewAttacher(picture);
+        TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
