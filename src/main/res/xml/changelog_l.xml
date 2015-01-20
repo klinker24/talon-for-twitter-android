@@ -4,11 +4,13 @@
         <text>[New] Native Vine support</text>
         <text>[New] World trends swipe-able page</text>
         <text>[New] Local trends swipe-able page</text>
+        <text>[New] Swipe up or down to close the photo viewer</text>
         <text>[Improve] Much better auto-complete</text>
         <text>[Improve] Saving of search queries</text>
         <text>[Improve] Remove retweets from searches by default</text>
         <text>[Improve] Login</text>
         <text>[Improve] Interfacing with Blur Launcher page</text>
+        <text>[Improve] System UI visibility in photo viewer</text>
         <text>[Fix] Replacing some links</text>
         <text>[Fix] Truncated links when copying tweet</text>
     </version>
