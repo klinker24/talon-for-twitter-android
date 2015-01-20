@@ -110,6 +110,7 @@
 
         <item name="ripple_background">@drawable/ripple_light</item>
         <item name="ripple_borderless">@drawable/ripple_light_borderless</item>
+        <item name="snackbar">@drawable/snack_bar_light</item>
 
         <item name="android:toolbarStyle">@style/ToolBarLight</item>
     </style>
