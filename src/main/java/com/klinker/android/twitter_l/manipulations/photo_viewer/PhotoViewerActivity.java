@@ -51,9 +51,7 @@ public class PhotoViewerActivity extends Activity {
     public String url;
     public NetworkedCacheableImageView picture;
     public HoloTextView download;
-    public PhotoViewAttacher mAttacher;
-
-    public GestureDetector gestureDetector;
+    public TalonPhotoViewAttacher mAttacher;
 
     @Override
     public void finish() {
@@ -131,7 +129,7 @@ public class PhotoViewerActivity extends Activity {
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
         }
-        mAttacher = new PhotoViewAttacher(picture);
+        mAttacher = new TalonPhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
