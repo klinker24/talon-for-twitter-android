@@ -1347,7 +1347,7 @@ public class ProfilePager extends Activity {
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
         }
 
-        if (isFollowingSet) {
+        if (isFollowingSet || isMyProfile) {
             if (isMuffled) {
                 menu.getItem(MENU_MUFFLE).setVisible(false);
             } else {
