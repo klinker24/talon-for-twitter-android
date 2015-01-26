@@ -18,6 +18,7 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,6 +84,11 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         player = (YouTubePlayerView) layout.findViewById(R.id.youtube_view);
         error = (HoloTextView) layout.findViewById(R.id.error);
 
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layout.setPadding(150,150,150,0);
+        }
+
         try {
             player.initialize(APIKeys.YOUTUBE_API_KEY, this);
         } catch (Exception e) {
@@ -135,6 +141,17 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
         realPlayer = youTubePlayer;
 
+        realPlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+            @Override
+            public void onFullscreen(boolean b) {
+                if (b) { // is fullscreen
+                    canGoBack = false;
+                } else {
+                    canGoBack = true;
+                }
+            }
+        });
+
         try {
             getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
         } catch (Exception e) {
@@ -150,17 +167,6 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         error.setVisibility(View.VISIBLE);
 
         realPlayer = null;
-
-        realPlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
-            @Override
-            public void onFullscreen(boolean b) {
-                if (b) { // is fullscreen
-                    canGoBack = false;
-                } else {
-                    canGoBack = true;
-                }
-            }
-        });
     }
 
     public boolean onBack() {
