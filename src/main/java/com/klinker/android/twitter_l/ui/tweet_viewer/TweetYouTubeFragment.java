@@ -142,12 +142,34 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         }
     }
 
+    public boolean canGoBack = true;
+
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         player.setVisibility(View.GONE);
         error.setVisibility(View.VISIBLE);
 
         realPlayer = null;
+
+        realPlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+            @Override
+            public void onFullscreen(boolean b) {
+                if (b) { // is fullscreen
+                    canGoBack = false;
+                } else {
+                    canGoBack = true;
+                }
+            }
+        });
+    }
+
+    public boolean onBack() {
+        if (canGoBack) {
+            return true;
+        } else {
+            realPlayer.setFullscreen(false);
+            return false;
+        }
     }
 
     public static void pause() {

@@ -116,6 +116,8 @@ public class TweetActivity extends YouTubeBaseActivity {
     public AsyncListView replyList;
     public LinearLayout convoSpinner;
 
+    public TweetYouTubeFragment youTubeFrag;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -284,12 +286,12 @@ public class TweetActivity extends YouTubeBaseActivity {
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
 
         if (youtube) {
-            TweetYouTubeFragment frag = new TweetYouTubeFragment();
+            youTubeFrag = new TweetYouTubeFragment();
             Bundle b = new Bundle();
             b.putString("url", youtubeVideo);
-            frag.setArguments(b);
+            youTubeFrag.setArguments(b);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.youtube_view, frag);
+            ft.replace(R.id.youtube_view, youTubeFrag);
             ft.commit();
         }
 
@@ -597,9 +599,11 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!hidePopups()) {
-            hideExtraContent();
-            super.onBackPressed();
+        if (youTubeFrag.onBack()) {
+            if (!hidePopups()) {
+                hideExtraContent();
+                super.onBackPressed();
+            }
         }
     }
 
