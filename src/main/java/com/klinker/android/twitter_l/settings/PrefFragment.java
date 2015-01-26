@@ -518,6 +518,29 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             showHandle.setEnabled(false);
         }
 
+        final Preference muffle = findPreference("manage_muffles");
+        muffle.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                final Set<String> users = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems((String[]) users.toArray(), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String[] set = (String[]) users.toArray();
+                        users.remove(set[item]);
+                        sharedPrefs.edit().putStringSet("muffled_users", users).commit();
+
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return false;
+            }
+        });
         final Preference newRegexMute = findPreference("mute_regex");
         newRegexMute.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

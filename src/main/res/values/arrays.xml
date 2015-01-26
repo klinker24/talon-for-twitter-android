@@ -346,6 +346,7 @@
         <item>@string/favorite_user_text</item>
         <item>@string/mute_user</item>
         <item>@string/mute_retweets</item>
+        <item>@string/muffle_user</item>
         <item>@string/share_profile</item>
     </string-array>
 
