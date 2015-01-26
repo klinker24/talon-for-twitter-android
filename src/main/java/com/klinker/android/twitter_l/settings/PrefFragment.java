@@ -524,19 +524,29 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             public boolean onPreferenceClick(Preference preference) {
 
                 final Set<String> users = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
+                final String[] set = new String[users.size()];
+                final Object[] array = users.toArray();
+                for (int i = 0; i < set.length; i++) {
+                    set[i] = (String) array[i];
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setItems((String[]) users.toArray(), new DialogInterface.OnClickListener() {
+                builder.setItems(set, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        String[] set = (String[]) users.toArray();
                         users.remove(set[item]);
                         sharedPrefs.edit().putStringSet("muffled_users", users).commit();
 
                         dialog.dismiss();
                     }
                 });
+
                 AlertDialog alert = builder.create();
-                alert.show();
+
+                if (set.length == 0) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_users), Toast.LENGTH_SHORT).show();
+                } else {
+                    alert.show();
+                }
 
                 return false;
             }
