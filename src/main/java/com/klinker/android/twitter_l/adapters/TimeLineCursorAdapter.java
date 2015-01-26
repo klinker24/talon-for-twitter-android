@@ -333,6 +333,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             inAConversation = false;
         }
 
+        if (inAConversation) {
+            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+                holder.isAConversation.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (holder.isAConversation.getVisibility() != View.GONE) {
+                holder.isAConversation.setVisibility(View.GONE);
+            }
+        }
+
         final int position = cursor.getPosition();
 
         String retweeter;
