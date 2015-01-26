@@ -354,6 +354,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
+        holder.expandArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.background.performClick();
+            }
+        });
+
+        holder.expandArea.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                holder.background.performLongClick();
+                return false;
+            }
+        });
+
         if((settings.reverseClickActions || expander == null || MainActivity.isPopup || settings.bottomPictures) && !isDM) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
@@ -982,6 +997,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             translationYAnimator.setDuration(ANIMATION_DURATION);
             translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
             startAnimation(translationYAnimator);
+
+            ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
+            translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimatorExpansion);
         } else {
             int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);

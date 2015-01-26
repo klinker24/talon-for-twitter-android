@@ -17,6 +17,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
@@ -26,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="ltr"
-        android:layout_marginBottom="16dp" >
-        <!-- android:background="?android:attr/selectableItemBackground"> -->
+        android:paddingBottom="16dp"
+        android:background="?android:attr/selectableItemBackground">
 
         <FrameLayout android:layout_width="match_parent"
                      android:layout_height="@dimen/header_condensed_height"
@@ -54,30 +55,6 @@
                     android:scaleType="centerInside"
                     />
         </FrameLayout>
-
-        <!--<RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="275dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    />
-
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:id="@+id/play_button"
-                    android:src="@drawable/ic_action_play"
-                    android:layout_height="275dp"
-                    android:layout_width="match_parent"
-                    android:scaleType="centerInside"
-                    android:visibility="gone"
-                    android:layout_marginBottom="16dp"
-                    />
-
-        </RelativeLayout>-->
 
         <LinearLayout
             android:orientation="horizontal"
@@ -214,17 +191,17 @@
                     />
         </FrameLayout>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                android:layout_marginRight="16dp"
-                android:layout_marginLeft="16dp"
-                android:id="@+id/expansion"
-                android:visibility="gone">
+    </LinearLayout>
 
-        </LinearLayout>
-
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:gravity="top"
+            android:id="@+id/expansion"
+            android:visibility="gone">
 
     </LinearLayout>
 
