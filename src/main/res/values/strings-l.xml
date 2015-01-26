@@ -38,4 +38,10 @@
     <string name="bottom_pictures">Pictures Below Tweets</string>
     <string name="bottom_pictures_summary">Tweets will not expand in-line with this option.</string>
     <string name="preparing_signin">Preparing Sign-In</string>
+    <string name="manage_muffles">Manage Muffles</string>
+    <string name="muffle_definition">Muffing a user will remove the main portion of their tweet from your timelines. You will only see the name and a small chunk to give you extended access if you wish to see more.</string>
+    <string name="muffled_users">Muffled Users</string>
+    <string name="click_to_remove_muffle">Click a user to clear the muffle.</string>
+    <string name="muffle_user">Muffle User</string>
+    <string name="unmuffle_user">Un-Muffle User</string>
 </resources>

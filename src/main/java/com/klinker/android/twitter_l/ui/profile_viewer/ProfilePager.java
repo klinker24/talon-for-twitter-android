@@ -76,6 +76,7 @@ public class ProfilePager extends Activity {
     private boolean isFavorite;
     private boolean isMuted;
     private boolean isRTMuted;
+    private boolean isMuffled;
     private boolean isFollowingSet = false;
 
     @Override
@@ -877,6 +878,7 @@ public class ProfilePager extends Activity {
                         // put in the banner and profile pic to shared prefs
                         sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).commit();
                         sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).commit();
+                        isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
                     }
                 } else {
                     try {
@@ -889,7 +891,9 @@ public class ProfilePager extends Activity {
                         isBlocking = friendship.isSourceBlockingTarget();
                         isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
                         isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
+                        isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
                         isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(settings.currentAccount, otherUserName);
+
                         isFollowingSet = true;
 
                     } catch (Exception e) {
@@ -1295,6 +1299,8 @@ public class ProfilePager extends Activity {
         final int MENU_UNMUTE = 7;
         final int MENU_MUTE_RT = 8;
         final int MENU_UNMUTE_RT = 9;
+        final int MENU_MUFFLE = 10;
+        final int MENU_UNMUFFLE = 11;
 
         if (isMyProfile) {
             //menu.getItem(MENU_TWEET).setVisible(false);
@@ -1332,11 +1338,24 @@ public class ProfilePager extends Activity {
                 menu.getItem(MENU_UNMUTE).setVisible(false);
                 menu.getItem(MENU_MUTE_RT).setVisible(false);
                 menu.getItem(MENU_UNMUTE_RT).setVisible(false);
+                menu.getItem(MENU_MUFFLE).setVisible(false);
+                menu.getItem(MENU_UNMUFFLE).setVisible(false);
             }
 
             menu.getItem(MENU_CHANGE_BIO).setVisible(false);
             menu.getItem(MENU_CHANGE_BANNER).setVisible(false);
             menu.getItem(MENU_CHANGE_PICTURE).setVisible(false);
+        }
+
+        if (isFollowingSet) {
+            if (isMuffled) {
+                menu.getItem(MENU_MUFFLE).setVisible(false);
+            } else {
+                menu.getItem(MENU_UNMUFFLE).setVisible(false);
+            }
+        } else {
+            menu.getItem(MENU_MUFFLE).setVisible(false);
+            menu.getItem(MENU_UNMUFFLE).setVisible(false);
         }
 
         return true;
@@ -1473,6 +1492,24 @@ public class ProfilePager extends Activity {
                 String curr_muted = sharedPrefs.getString("muted_rts", "");
                 curr_muted = curr_muted.replace(screenName + " ", "");
                 sharedPrefs.edit().putString("muted_rts", curr_muted).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                finish();
+                return true;
+
+            case R.id.menu_muffle_user:
+                Set<String> muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
+                muffled.add(screenName);
+                sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                finish();
+                return true;
+
+            case R.id.menu_unmuffle_user:
+                muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
+                muffled.remove(screenName);
+                sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                 sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 finish();

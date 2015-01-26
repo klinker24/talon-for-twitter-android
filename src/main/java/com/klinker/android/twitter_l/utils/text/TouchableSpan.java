@@ -49,6 +49,9 @@ import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.Twitter;
 import twitter4j.User;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TouchableSpan extends ClickableSpan {
 
     public TouchableSpan(Context context, Link value, boolean extBrowser) {
@@ -358,7 +361,22 @@ public class TouchableSpan extends ClickableSpan {
                             ((Activity)mContext).recreate();
                         }
                         break;
-                    case 6: // share profile
+                    case 6: // muffle user
+                        Set<String> muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
+                        String name = full.replace("@", "");
+
+                        if (muffled.contains(name)) {
+                            muffled.add(name);
+                            sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
+                            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                            sharedPrefs.edit().putBoolean("just_muted", true).commit();
+
+                            if (mContext instanceof DrawerActivity) {
+                                ((Activity)mContext).recreate();
+                            }
+                        }
+                        break;
+                    case 7: // share profile
                         share("https://twitter.com/" + full.replace("@", "").replace(" ", ""));
                         break;
                 }

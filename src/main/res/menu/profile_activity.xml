@@ -77,4 +77,14 @@
         android:orderInCategory="16"
         android:title="@string/unmute_rt"
         android:showAsAction="never" />
+
+    <item android:id="@+id/menu_muffle_user"
+          android:orderInCategory="17"
+          android:title="@string/muffle_user"
+          android:showAsAction="never" />
+
+    <item android:id="@+id/menu_unmuffle_user"
+          android:orderInCategory="18"
+          android:title="@string/unmuffle_user"
+          android:showAsAction="never" />
 </menu>

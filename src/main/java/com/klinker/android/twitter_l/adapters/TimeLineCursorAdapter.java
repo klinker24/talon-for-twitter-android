@@ -57,6 +57,8 @@ import java.net.Proxy;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 import twitter4j.Twitter;
@@ -66,6 +68,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
 
+    public Set<String> muffledUsers = new HashSet<String>();
     public Cursor cursor;
     public AppSettings settings;
     public Context context;
@@ -102,6 +105,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public static class ViewHolder {
         public TextView name;
+        public TextView muffledName;
         public TextView screenTV;
         public ImageView profilePic;
         public TextView tweet;
@@ -186,6 +190,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 hasConvo = true;
             }
         }
+
+        muffledUsers = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
@@ -265,6 +271,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         v = inflater.inflate(layout, viewGroup, false);
 
         holder.name = (TextView) v.findViewById(R.id.name);
+        holder.muffledName = (TextView) v.findViewById(R.id.muffled_name);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
@@ -288,6 +295,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweet.setTextSize(settings.textSize);
         holder.screenTV.setTextSize(settings.textSize - 2);
         holder.name.setTextSize(settings.textSize + 4);
+        holder.muffledName.setTextSize(settings.textSize);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
 
@@ -354,6 +362,28 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetText = tweetTexts;
 
+        final boolean muffled;
+        if (muffledUsers.contains(screenname)) {
+            if (holder.background.getVisibility() != View.GONE) {
+                holder.background.setVisibility(View.GONE);
+                holder.muffledName.setVisibility(View.VISIBLE);
+            }
+            muffled = true;
+        } else {
+            if (holder.background.getVisibility() != View.VISIBLE) {
+                holder.background.setVisibility(View.VISIBLE);
+                holder.muffledName.setVisibility(View.GONE);
+            }
+            muffled = false;
+        }
+
+        holder.muffledName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.background.performClick();
+            }
+        });
+
         holder.expandArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -369,7 +399,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || settings.bottomPictures) && !isDM) {
+        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || settings.bottomPictures || muffled) && !isDM) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -564,6 +594,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
         holder.screenTV.setText("@" + screenname);
         holder.name.setText(name);
+        if (muffled) {
+            String t = "<b>@" + screenname + "</b>: " + tweetText;
+            holder.muffledName.setText(Html.fromHtml(t));
+        }
 
         if (!settings.absoluteDate) {
             holder.time.setText(Utils.getTimeAgo(longTime, context));

@@ -21,6 +21,19 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
+    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                android:id="@+id/muffled_name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="?textColor"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:background="?android:attr/selectableItemBackground" />
+
     <LinearLayout
         android:id="@+id/background"
         android:orientation="vertical"

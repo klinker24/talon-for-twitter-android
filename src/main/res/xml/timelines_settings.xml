@@ -64,4 +64,13 @@
             android:defaultValue="false"
             />
 
+    <PreferenceCategory
+        android:title="@string/manage_muffles">
+        <Preference android:title="@string/muffle_definition" />
+        <Preference
+                android:key="manage_muffles"
+                android:title="@string/muffled_users"
+                android:summary="@string/click_to_remove_muffle"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
