@@ -58,6 +58,7 @@ public class TweetView {
     String hashtags;
     String users;
     String gifUrl;
+    boolean isConvo = false;
 
     // layout components
     TextView nameTv;
@@ -70,6 +71,7 @@ public class TweetView {
     NetworkedCacheableImageView playButton;
     TextView screenTV;
     FrameLayout imageHolder;
+    ImageView isAConvo;
 
     public TweetView(Context context) {
         this.context = context;
@@ -135,6 +137,8 @@ public class TweetView {
         users = html[4];
 
         gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
+
+        isConvo = status.getInReplyToScreenName() != null;
     }
 
     public View getView() {
@@ -172,6 +176,7 @@ public class TweetView {
         playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
         imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+        isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
 
         profilePicIv.setClipToOutline(true);
         imageIv.setClipToOutline(true);
@@ -245,6 +250,10 @@ public class TweetView {
         if (retweeter != null) {
             retweeterTv.setText(retweetText);
             retweeterTv.setVisibility(View.VISIBLE);
+        }
+
+        if (isConvo) {
+            isAConvo.setVisibility(View.VISIBLE);
         }
 
         boolean picture = false;

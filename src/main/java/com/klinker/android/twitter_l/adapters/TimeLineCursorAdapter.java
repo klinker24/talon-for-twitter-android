@@ -98,6 +98,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public Expandable expander;
 
     public static MultiplePicsPopup multPics;
+    public boolean hasConvo = false;
 
     public static class ViewHolder {
         public TextView name;
@@ -110,6 +111,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public ImageView image;
         public LinearLayout background;
         public ImageView playButton;
+        public ImageView isAConversation;
         public FrameLayout imageHolder;
         public View rootView;
 
@@ -177,6 +179,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (context.getResources().getBoolean(R.bool.isTablet) ||
                 context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             headerMultiplier = -25;
+        }
+
+        for (String s : cursor.getColumnNames()) {
+            if (s.equals(HomeSQLiteHelper.COLUMN_CONVERSATION)) {
+                hasConvo = true;
+            }
         }
     }
 
@@ -264,6 +272,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
 
         if (!settings.bottomPictures) {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
@@ -316,6 +325,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
 
         holder.gifUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF));
+
+        boolean inAConversation;
+        if (hasConvo) {
+            inAConversation = cursor.getInt(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CONVERSATION)) == 1;
+        } else {
+            inAConversation = false;
+        }
 
         final int position = cursor.getPosition();
 

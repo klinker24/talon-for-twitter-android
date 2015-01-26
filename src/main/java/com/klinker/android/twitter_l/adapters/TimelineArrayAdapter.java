@@ -112,6 +112,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public ImageView image;
         public LinearLayout background;
         public ImageView playButton;
+        public ImageView isAConversation;
         public TextView screenTV;
         public FrameLayout imageHolder;
         public View rootView;
@@ -438,6 +439,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
+        holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
 
         if (!settings.bottomPictures) {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
@@ -509,6 +511,18 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String users = html[4];
 
         holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl);
+
+        final boolean inAConversation = thisStatus.getInReplyToScreenName() != null;
+
+        if (inAConversation) {
+            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+                holder.isAConversation.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (holder.isAConversation.getVisibility() != View.GONE) {
+                holder.isAConversation.setVisibility(View.GONE);
+            }
+        }
 
         if(settings.reverseClickActions || expander == null) {
             final String fRetweeter = retweeter;
