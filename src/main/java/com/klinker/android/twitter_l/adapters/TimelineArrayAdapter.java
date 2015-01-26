@@ -512,7 +512,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl);
 
-        final boolean inAConversation = thisStatus.getInReplyToScreenName() != null;
+        final boolean inAConversation = thisStatus.getInReplyToStatusId() != -1;
 
         if (inAConversation) {
             if (holder.isAConversation.getVisibility() != View.VISIBLE) {

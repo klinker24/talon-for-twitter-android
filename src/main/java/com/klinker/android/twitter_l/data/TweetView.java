@@ -138,7 +138,7 @@ public class TweetView {
 
         gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
 
-        isConvo = status.getInReplyToScreenName() != null;
+        isConvo = status.getInReplyToStatusId() != -1;
     }
 
     public View getView() {
