@@ -363,7 +363,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String tweetText = tweetTexts;
 
         final boolean muffled;
-        if (muffledUsers.contains(screenname)) {
+        if (!isDM && muffledUsers.contains(screenname)) {
             if (holder.background.getVisibility() != View.GONE) {
                 holder.background.setVisibility(View.GONE);
                 holder.muffledName.setVisibility(View.VISIBLE);
