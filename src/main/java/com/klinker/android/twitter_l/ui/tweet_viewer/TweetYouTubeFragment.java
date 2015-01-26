@@ -130,12 +130,16 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
             video = "";
         }
 
-        //youTubePlayer.loadVideo(video, 0);
-        youTubePlayer.setShowFullscreenButton(false);
+        youTubePlayer.loadVideo(video, 0);
+        youTubePlayer.setShowFullscreenButton(true);
 
         realPlayer = youTubePlayer;
 
-        getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
+        try {
+            getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
+        } catch (Exception e) {
+            // activity null
+        }
     }
 
     @Override
