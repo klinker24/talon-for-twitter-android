@@ -621,8 +621,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        recreate();
+        //super.onConfigurationChanged(newConfig);
     }
 
     @Override
