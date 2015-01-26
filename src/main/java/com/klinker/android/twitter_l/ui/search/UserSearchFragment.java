@@ -79,6 +79,7 @@ public class UserSearchFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             searchQuery = intent.getStringExtra("query");
+            searchQuery = searchQuery.replace(" -RT", "");
 
             doUserSearch(searchQuery);
         }
@@ -114,6 +115,7 @@ public class UserSearchFragment extends Fragment {
         this.translucent = getArguments().getBoolean("translucent", false);
         this.searchQuery = getArguments().getString("search").replaceAll("@", "");
         searchQuery = searchQuery.replace(" TOP", "");
+        searchQuery = searchQuery.replace(" -RT", "");
         this.onlyProfile = getArguments().getBoolean("only_profile", false);
 
         settings = AppSettings.getInstance(context);
@@ -200,6 +202,7 @@ public class UserSearchFragment extends Fragment {
             @Override
             public void run() {
                 try {
+
                     Twitter twitter = Utils.getTwitter(context, settings);
                     ResponseList<User> result = twitter.searchUsers(mQuery, userPage);
 
