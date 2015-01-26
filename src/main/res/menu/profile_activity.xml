@@ -38,10 +38,10 @@
           android:title="@string/menu_add_to_list"
           android:showAsAction="never" />
 
-    <!--<item android:id="@+id/menu_dm"
+    <item android:id="@+id/menu_dm"
           android:orderInCategory="9"
           android:title="@string/menu_dm"
-          android:showAsAction="never"  />-->
+          android:showAsAction="never"  />
 
     <item android:id="@+id/menu_change_picture"
           android:orderInCategory="10"

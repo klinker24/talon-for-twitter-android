@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -1291,23 +1292,23 @@ public class ProfilePager extends Activity {
         final int MENU_BLOCK = 0;
         final int MENU_UNBLOCK = 1;
         final int MENU_ADD_LIST = 2;
-        //final int MENU_DM = 4;
-        final int MENU_CHANGE_PICTURE = 3;
-        final int MENU_CHANGE_BANNER = 4;
-        final int MENU_CHANGE_BIO = 5;
-        final int MENU_MUTE = 6;
-        final int MENU_UNMUTE = 7;
-        final int MENU_MUTE_RT = 8;
-        final int MENU_UNMUTE_RT = 9;
-        final int MENU_MUFFLE = 10;
-        final int MENU_UNMUFFLE = 11;
+        final int MENU_DM = 3;
+        final int MENU_CHANGE_PICTURE = 4;
+        final int MENU_CHANGE_BANNER = 5;
+        final int MENU_CHANGE_BIO = 6;
+        final int MENU_MUTE = 7;
+        final int MENU_UNMUTE = 8;
+        final int MENU_MUTE_RT = 9;
+        final int MENU_UNMUTE_RT = 10;
+        final int MENU_MUFFLE = 11;
+        final int MENU_UNMUFFLE = 12;
 
         if (isMyProfile) {
             //menu.getItem(MENU_TWEET).setVisible(false);
             menu.getItem(MENU_BLOCK).setVisible(false);
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
-            //menu.getItem(MENU_DM).setVisible(false);
+            menu.getItem(MENU_DM).setVisible(false);
             menu.getItem(MENU_MUTE).setVisible(false);
             menu.getItem(MENU_UNMUTE).setVisible(false);
             menu.getItem(MENU_MUTE_RT).setVisible(false);
@@ -1427,11 +1428,11 @@ public class ProfilePager extends Activity {
                 startActivity(compose);
                 return true;*/
 
-            /*case R.id.menu_dm:
+            case R.id.menu_dm:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
                 dm.putExtra("screenname", screenName);
                 startActivity(dm);
-                return true;*/
+                return true;
 
             case R.id.menu_change_picture:
                 Intent photoPickerIntent = new Intent();
