@@ -66,7 +66,7 @@
 
     <PreferenceCategory
         android:title="@string/manage_muffles">
-        <Preference android:title="@string/muffle_definition" />
+        <Preference android:summary="@string/muffle_definition" />
         <Preference
                 android:key="manage_muffles"
                 android:title="@string/muffled_users"

@@ -365,7 +365,7 @@ public class TouchableSpan extends ClickableSpan {
                         Set<String> muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
                         String name = full.replace("@", "");
 
-                        if (muffled.contains(name)) {
+                        if (!muffled.contains(name)) {
                             muffled.add(name);
                             sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
                             sharedPrefs.edit().putBoolean("refresh_me", true).commit();
