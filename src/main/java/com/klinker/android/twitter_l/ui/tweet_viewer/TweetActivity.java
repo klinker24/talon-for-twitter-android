@@ -599,7 +599,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (youTubeFrag.onBack()) {
+        if (youTubeFrag == null || youTubeFrag.onBack()) {
             if (!hidePopups()) {
                 hideExtraContent();
                 super.onBackPressed();
