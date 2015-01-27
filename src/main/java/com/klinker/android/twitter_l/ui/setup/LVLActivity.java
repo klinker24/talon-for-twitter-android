@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.vending.licensing.*;
 import com.klinker.android.twitter_l.APIKeys;
@@ -160,6 +161,26 @@ public class LVLActivity extends Activity {
                 })
                 .create()
                 .show();
+    }
+
+    public void countUser(final String name) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final String URL = "https://omega-jet-799.appspot.com/_ah/api/license/v1/addLicensedUser/";
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpPost post = new HttpPost(
+                            URL + java.net.URLEncoder.encode(name, "UTF-8")
+                    );
+
+                    client.execute(post);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     protected class MyLicenseCheckerCallback implements LicenseCheckerCallback {
