@@ -526,7 +526,7 @@ public class LoginActivity extends LVLActivity {
                 User user = twitter.verifyCredentials();
 
                 countUser(user.getScreenName());
-                
+
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
                     sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).commit();
                     sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).commit();
