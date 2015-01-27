@@ -8,7 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import com.klinker.android.twitter.utils.TweetLinkUtils;
+import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import twitter4j.Status;
 
 import java.util.ArrayList;
