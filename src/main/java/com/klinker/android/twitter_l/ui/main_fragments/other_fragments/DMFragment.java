@@ -66,67 +66,6 @@ public class DMFragment extends MainFragment {
     }
 
     @Override
-    public void setUpListScroll() {
-        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
-
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            int mLastFirstVisibleItem = 0;
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                if (i == SCROLL_STATE_IDLE) {
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.hideSend);
-                    MainActivity.sendHandler.postDelayed(MainActivity.showSend, 600);
-                } else {
-                    MainActivity.sendHandler.removeCallbacks(MainActivity.showSend);
-                    MainActivity.sendHandler.postDelayed(MainActivity.hideSend, 300);
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, final int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (DrawerActivity.settings.uiExtras) {
-                    // show and hide the action bar
-                    if (firstVisibleItem != 0) {
-                        if (MainActivity.canSwitch) {
-                            // used to show and hide the action bar
-                            if (firstVisibleItem < 3) {
-
-                            } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                if(!landscape && !isTablet) {
-                                    actionBar.hide();
-                                }
-                            } else if (firstVisibleItem > mLastFirstVisibleItem) {
-                                if(!landscape && !isTablet) {
-                                    actionBar.show();
-                                }
-                            }
-
-                            mLastFirstVisibleItem = firstVisibleItem;
-                        }
-                    } else {
-                        if(!landscape && !isTablet) {
-                            actionBar.show();
-                        }
-                    }
-
-                    if (MainActivity.translucent && actionBar.isShowing()) {
-                        showStatusBar();
-                    } else if (MainActivity.translucent) {
-                        hideStatusBar();
-                    }
-                }
-
-                if (firstVisibleItem == 0) {
-                    showStatusBar();
-                }
-            }
-
-        });
-    }
-
-    @Override
     public void onRefreshStarted() {
         new AsyncTask<Void, Void, Void>() {
 
