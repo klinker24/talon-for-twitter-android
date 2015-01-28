@@ -143,6 +143,7 @@ public class AppSettings {
     public boolean headsUp;
     public boolean useSnackbar;
     public boolean bottomPictures;
+    public boolean crossAccActions;
 
     // notifications
     public boolean timelineNot;
@@ -177,6 +178,7 @@ public class AppSettings {
     public int timelineSize;
     public int mentionsSize;
     public int dmSize;
+    public int numberOfAccounts = 0;
     public int pageToOpen;
 
     public long timelineRefresh;
@@ -272,6 +274,7 @@ public class AppSettings {
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", true);
         bottomPictures = sharedPrefs.getBoolean("bottom_pictures", false);
+        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();
@@ -386,16 +389,16 @@ public class AppSettings {
             }
         }
 
-        int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
-            count++;
+            numberOfAccounts++;
         }
         if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
-            count++;
+            numberOfAccounts++;
         }
 
-        if(count != 2) {
+        if(numberOfAccounts != 2) {
             syncSecondMentions = false;
+            crossAccActions = false;
         }
 
         setColors(context);
