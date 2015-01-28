@@ -61,10 +61,9 @@ public class UpdateUtils {
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        if (rateItShown == 0l) {
-            // never shown, so write it in now.
-            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
-        } else if (currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
+        sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
+
+        if (rateItShown != 0l && currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
             // show dialog
             showRateItDialog(context, sharedPrefs);
         }
@@ -143,7 +142,7 @@ public class UpdateUtils {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.enjoying_talon)
                 .setMessage(R.string.give_a_rating)
-                .setPositiveButton(R.string.rate_it, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.rate_on_rating_dialog, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
@@ -158,7 +157,7 @@ public class UpdateUtils {
                         }
                     }
                 })
-                .setNeutralButton(R.string.menu_share, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.share_on_rating_dialog, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent share = new Intent(Intent.ACTION_SEND);
@@ -172,7 +171,7 @@ public class UpdateUtils {
                         sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
                     }
                 })
-                .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.ignore, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
