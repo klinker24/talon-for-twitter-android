@@ -679,7 +679,6 @@
     <string name="fav_rt_multiple_accounts_summary">If you have multiple accounts, this will let you select which account to perform the favorite or retweet with.</string>
 
 
-
     <!-- Long click methods -->
     <string name="open_profile">Open Profile</string>
     <string name="copy_handle">Copy Handle</string>
