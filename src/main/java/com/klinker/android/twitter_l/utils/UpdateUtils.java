@@ -64,7 +64,7 @@ public class UpdateUtils {
         if (rateItShown == 0l) {
             // never shown, so write it in now.
             sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
-        } else if (currentTime - rateItShown > SEC && sharedPrefs.getBoolean("show_rate_it", true)) {
+        } else if (currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
             // show dialog
             showRateItDialog(context, sharedPrefs);
         }
