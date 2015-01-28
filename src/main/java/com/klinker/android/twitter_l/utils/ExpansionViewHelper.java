@@ -63,6 +63,7 @@ import java.util.List;
 public class ExpansionViewHelper {
 
     Context context;
+    AppSettings settings;
     public long id;
 
     // root view
@@ -108,6 +109,7 @@ public class ExpansionViewHelper {
 
     public ExpansionViewHelper(Context context, long tweetId) {
         this.context = context;
+        this.settings = AppSettings.getInstance(context);
         this.id = tweetId;
 
         // get the base view
@@ -191,14 +193,48 @@ public class ExpansionViewHelper {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                favoriteStatus();
+                if (isFavorited || !settings.crossAccActions) {
+                    favoriteStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                } else if (settings.crossAccActions) {
+                    // dialog for favoriting
+                    String[] options = new String[3];
+
+                    options[0] = "@" + settings.myScreenName;
+                    options[1] = "@" + settings.secondScreenName;
+                    options[2] = context.getString(R.string.both_accounts);
+
+                    new AlertDialog.Builder(context)
+                            .setItems(options, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int item) {
+                                    favoriteStatus(item + 1);
+                                }
+                            })
+                            .create().show();
+                }
             }
         });
 
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retweetStatus();
+                if (!settings.crossAccActions) {
+                    retweetStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                } else {
+                    // dialog for favoriting
+                    String[] options = new String[3];
+
+                    options[0] = "@" + settings.myScreenName;
+                    options[1] = "@" + settings.secondScreenName;
+                    options[2] = context.getString(R.string.both_accounts);
+
+                    new AlertDialog.Builder(context)
+                            .setItems(options, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int item) {
+                                    retweetStatus(item + 1);
+                                }
+                            })
+                            .create().show();
+                }
             }
         });
 
@@ -743,14 +779,18 @@ public class ExpansionViewHelper {
         return expansion;
     }
 
+    private final int TYPE_ACC_ONE = 1;
+    private final int TYPE_ACC_TWO = 2;
+    private final int TYPE_BOTH_ACC = 3;
+
     boolean isFavorited = false;
     boolean isRetweeted = false;
 
-    public void favoriteStatus() {
-        if (!isFavorited) {
-            Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-        } else {
+    public void favoriteStatus(final int type) {
+        if (isFavorited) {
             Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
         }
 
         new Thread(new Runnable() {
@@ -758,11 +798,33 @@ public class ExpansionViewHelper {
             public void run() {
 
                 try {
-                    Twitter twitter =  getTwitter();
-                    if (isFavorited) {
-                        twitter.destroyFavorite(id);
+                    Twitter twitter = null;
+                    Twitter secTwitter = null;
+                    if (type == TYPE_ACC_ONE) {
+                        twitter = Utils.getTwitter(context, settings);
+                    } else if (type == TYPE_ACC_TWO) {
+                        secTwitter = Utils.getSecondTwitter(context);
                     } else {
-                        twitter.createFavorite(id);
+                        twitter = Utils.getTwitter(context, settings);
+                        secTwitter = Utils.getSecondTwitter(context);
+                    }
+
+                    if (isFavorited && twitter != null) {
+                        twitter.destroyFavorite(id);
+                    } else if (twitter != null) {
+                        try {
+                            twitter.createFavorite(id);
+                        } catch (TwitterException e) {
+                            // already been favorited by this account
+                        }
+                    }
+
+                    if (secTwitter != null) {
+                        try {
+                            secTwitter.createFavorite(id);
+                        } catch (Exception e) {
+
+                        }
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -783,22 +845,41 @@ public class ExpansionViewHelper {
         }).start();
     }
 
-    public void retweetStatus() {
+    public void retweetStatus(final int type) {
         Toast.makeText(context, context.getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Twitter twitter =  getTwitter();
-
                     // if they have a protected account, we want to still be able to retweet their retweets
                     long idToRetweet = id;
                     if (status != null && status.isRetweet()) {
                         idToRetweet = status.getRetweetedStatus().getId();
                     }
 
-                    twitter.retweetStatus(idToRetweet);
+                    Twitter twitter = null;
+                    Twitter secTwitter = null;
+                    if (type == TYPE_ACC_ONE) {
+                        twitter = Utils.getTwitter(context, settings);
+                    } else if (type == TYPE_ACC_TWO) {
+                        secTwitter = Utils.getSecondTwitter(context);
+                    } else {
+                        twitter = Utils.getTwitter(context, settings);
+                        secTwitter = Utils.getSecondTwitter(context);
+                    }
+
+                    if (twitter != null) {
+                        try {
+                            twitter.retweetStatus(idToRetweet);
+                        } catch (TwitterException e) {
+
+                        }
+                    }
+
+                    if (secTwitter != null) {
+                        secTwitter.retweetStatus(idToRetweet);
+                    }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override

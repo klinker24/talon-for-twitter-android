@@ -1601,7 +1601,24 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View view) {
                 if (!hidePopups()) {
-                    favoriteStatus(favoriteCount, favoriteText, tweetId);
+                    if (isFavorited || !settings.crossAccActions) {
+                        favoriteStatus(favoriteCount, favoriteText, tweetId, secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                    } else if (settings.crossAccActions) {
+                        // dialog for favoriting
+                        String[] options = new String[3];
+
+                        options[0] = "@" + settings.myScreenName;
+                        options[1] = "@" + settings.secondScreenName;
+                        options[2] = context.getString(R.string.both_accounts);
+
+                        new AlertDialog.Builder(context)
+                                .setItems(options, new DialogInterface.OnClickListener() {
+                                    public void onClick(final DialogInterface dialog, final int item) {
+                                        favoriteStatus(favoriteCount, favoriteText, tweetId, item + 1);
+                                    }
+                                })
+                                .create().show();
+                    }
                 }
             }
         });
@@ -1610,7 +1627,24 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View view) {
                 if (!hidePopups()) {
-                    retweetStatus(retweetCount, tweetId, retweetText);
+                    if (!settings.crossAccActions) {
+                        retweetStatus(retweetCount, tweetId, retweetText, secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                    } else {
+                        // dialog for favoriting
+                        String[] options = new String[3];
+
+                        options[0] = "@" + settings.myScreenName;
+                        options[1] = "@" + settings.secondScreenName;
+                        options[2] = context.getString(R.string.both_accounts);
+
+                        new AlertDialog.Builder(context)
+                                .setItems(options, new DialogInterface.OnClickListener() {
+                                    public void onClick(final DialogInterface dialog, final int item) {
+                                        retweetStatus(retweetCount, tweetId, retweetText, item + 1);
+                                    }
+                                })
+                                .create().show();
+                    }
                 }
             }
         });
@@ -2352,11 +2386,15 @@ public class TweetActivity extends YouTubeBaseActivity {
         }).start();
     }
 
-    public void favoriteStatus(final TextView favs, final TextView favoriteText, final long tweetId) {
-        if (!isFavorited) {
-            Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-        } else {
+    private final int TYPE_ACC_ONE = 1;
+    private final int TYPE_ACC_TWO = 2;
+    private final int TYPE_BOTH_ACC = 3;
+
+    public void favoriteStatus(final TextView favs, final TextView favoriteText, final long tweetId, final int type) {
+        if (isFavorited) {
             Toast.makeText(context, getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
         }
 
         new Thread(new Runnable() {
@@ -2364,11 +2402,33 @@ public class TweetActivity extends YouTubeBaseActivity {
             public void run() {
 
                 try {
-                    Twitter twitter =  getTwitter();
-                    if (isFavorited) {
-                        twitter.destroyFavorite(tweetId);
+                    Twitter twitter = null;
+                    Twitter secTwitter = null;
+                    if (type == TYPE_ACC_ONE) {
+                        twitter = Utils.getTwitter(context, settings);
+                    } else if (type == TYPE_ACC_TWO) {
+                        secTwitter = Utils.getSecondTwitter(context);
                     } else {
-                        twitter.createFavorite(tweetId);
+                        twitter = Utils.getTwitter(context, settings);
+                        secTwitter = Utils.getSecondTwitter(context);
+                    }
+
+                    if (isFavorited && twitter != null) {
+                        twitter.destroyFavorite(tweetId);
+                    } else if (twitter != null) {
+                        try {
+                            twitter.createFavorite(tweetId);
+                        } catch (TwitterException e) {
+                            // already been favorited by this account
+                        }
+                    }
+
+                    if (secTwitter != null) {
+                        try {
+                            secTwitter.createFavorite(tweetId);
+                        } catch (Exception e) {
+
+                        }
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -2389,22 +2449,41 @@ public class TweetActivity extends YouTubeBaseActivity {
         }).start();
     }
 
-    public void retweetStatus(final TextView retweetCount, final long tweetId, final TextView retweetText) {
+    public void retweetStatus(final TextView retweetCount, final long tweetId, final TextView retweetText, final int type) {
         Toast.makeText(context, getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Twitter twitter = getTwitter();
-
                     // if they have a protected account, we want to still be able to retweet their retweets
                     long idToRetweet = tweetId;
                     if (status != null && status.isRetweet()) {
                         idToRetweet = status.getRetweetedStatus().getId();
                     }
 
-                    twitter.retweetStatus(idToRetweet);
+                    Twitter twitter = null;
+                    Twitter secTwitter = null;
+                    if (type == TYPE_ACC_ONE) {
+                        twitter = Utils.getTwitter(context, settings);
+                    } else if (type == TYPE_ACC_TWO) {
+                        secTwitter = Utils.getSecondTwitter(context);
+                    } else {
+                        twitter = Utils.getTwitter(context, settings);
+                        secTwitter = Utils.getSecondTwitter(context);
+                    }
+
+                    if (twitter != null) {
+                        try {
+                            twitter.retweetStatus(idToRetweet);
+                        } catch (TwitterException e) {
+
+                        }
+                    }
+
+                    if (secTwitter != null) {
+                        secTwitter.retweetStatus(idToRetweet);
+                    }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
