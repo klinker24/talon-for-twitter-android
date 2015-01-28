@@ -18,15 +18,13 @@ package com.klinker.android.twitter_l.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.vending.licensing.LicenseChecker;
@@ -44,11 +42,144 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
 
 public class UpdateUtils {
+
+    private static final long SEC = 1000;
+    private static final long MIN = 60 * SEC;
+    private static final long HOUR = 60 * MIN;
+    private static final long DAY = 24 * HOUR;
+    private static final long RATE_IT_TIMEOUT = 2 * DAY;
+
+    public static void checkUpdate(final Context context) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+        if (rateItShown == 0l) {
+            // never shown, so write it in now.
+            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
+        } else if (currentTime - rateItShown > SEC && sharedPrefs.getBoolean("show_rate_it", true)) {
+            // show dialog
+            showRateItDialog(context, sharedPrefs);
+        }
+
+        if (sharedPrefs.getBoolean("3.1.5", true)) {
+            sharedPrefs.edit().putBoolean("3.1.5", false).commit();
+
+            // want to make sure if tweetmarker was on, it remains on.
+            if (sharedPrefs.getBoolean("tweetmarker", false)) {
+                sharedPrefs.edit().putString("tweetmarker_options", "1").commit();
+                AppSettings.invalidate();
+            }
+        }
+
+        if (sharedPrefs.getBoolean("3.4.0_1", true)) {
+            SharedPreferences.Editor e = sharedPrefs.edit();
+            e.putBoolean("3.4.0_1", false);
+
+            // show them all for now
+            Set<String> set = new HashSet<String>();
+            set.add("0"); // timeline
+            set.add("1"); // mentions
+            set.add("2"); // dm's
+            set.add("3"); // discover
+            set.add("4"); // lists
+            set.add("5"); // favorite users
+            set.add("6"); // retweets
+            set.add("7"); // favorite Tweets
+            set.add("8"); // saved searches
+
+            e.putStringSet("drawer_elements_shown_1", set);
+            e.putStringSet("drawer_elements_shown_2", set);
+
+            // reset their pages to just home,
+            String pageIdentifier = "account_" + 1 + "_page_";
+            e.putInt(pageIdentifier + 1, AppSettings.PAGE_TYPE_HOME);
+            e.putInt(pageIdentifier + 2, AppSettings.PAGE_TYPE_MENTIONS);
+            e.putInt(pageIdentifier + 3, AppSettings.PAGE_TYPE_DMS);
+
+            pageIdentifier = "account_" + 2 + "_page_";
+            e.putInt(pageIdentifier + 1, AppSettings.PAGE_TYPE_HOME);
+            e.putInt(pageIdentifier + 2, AppSettings.PAGE_TYPE_MENTIONS);
+            e.putInt(pageIdentifier + 3, AppSettings.PAGE_TYPE_DMS);
+
+            e.putInt("default_timeline_page_" + 1, 0);
+            e.putInt("default_timeline_page_" + 2, 0);
+
+            e.commit();
+        }
+
+        if (sharedPrefs.getBoolean("version_1.3.0", false)) {
+            SharedPreferences.Editor e = sharedPrefs.edit();
+
+            e.putBoolean("version_1.3.0", true);
+            e.putInt("material_theme_1", AppSettings.getInstance(context).theme);
+            e.putInt("material_theme_2", AppSettings.getInstance(context).theme);
+
+            e.commit();
+        }
+
+        if (sharedPrefs.getBoolean("version_1_3_2", true) && Utils.hasInternetConnection(context)) {
+
+            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    checkLicense(context);
+                }
+            }).start();
+
+        }
+    }
+
+    public static void showRateItDialog(final Context context, final SharedPreferences sharedPreferences) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.enjoying_talon)
+                .setMessage(R.string.give_a_rating)
+                .setPositiveButton(R.string.rate_it, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
+                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+
+                        try {
+                            context.startActivity(goToMarket);
+
+                            sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNeutralButton(R.string.menu_share, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_TEXT,
+                                "Have Android 5.0 Lollipop? Get the most out of your Twitter experience with Talon for Twitter!\n\n" +
+                                "http://klinkerapps.com/get-talon-plus");
+
+                        context.startActivity(share);
+
+                        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                    }
+                })
+                .setNegativeButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                    }
+                })
+                .create().show();
+    }
 
     public static void updateToGlobalPrefs(final Context context) {
         new AlertDialog.Builder(context)
@@ -242,77 +373,5 @@ public class UpdateUtils {
         }
     }
 
-    public static void checkUpdate(final Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        if (sharedPrefs.getBoolean("3.1.5", true)) {
-            sharedPrefs.edit().putBoolean("3.1.5", false).commit();
-
-            // want to make sure if tweetmarker was on, it remains on.
-            if (sharedPrefs.getBoolean("tweetmarker", false)) {
-                sharedPrefs.edit().putString("tweetmarker_options", "1").commit();
-                AppSettings.invalidate();
-            }
-        }
-
-        if (sharedPrefs.getBoolean("3.4.0_1", true)) {
-            SharedPreferences.Editor e = sharedPrefs.edit();
-            e.putBoolean("3.4.0_1", false);
-
-            // show them all for now
-            Set<String> set = new HashSet<String>();
-            set.add("0"); // timeline
-            set.add("1"); // mentions
-            set.add("2"); // dm's
-            set.add("3"); // discover
-            set.add("4"); // lists
-            set.add("5"); // favorite users
-            set.add("6"); // retweets
-            set.add("7"); // favorite Tweets
-            set.add("8"); // saved searches
-
-            e.putStringSet("drawer_elements_shown_1", set);
-            e.putStringSet("drawer_elements_shown_2", set);
-
-            // reset their pages to just home,
-            String pageIdentifier = "account_" + 1 + "_page_";
-            e.putInt(pageIdentifier + 1, AppSettings.PAGE_TYPE_HOME);
-            e.putInt(pageIdentifier + 2, AppSettings.PAGE_TYPE_MENTIONS);
-            e.putInt(pageIdentifier + 3, AppSettings.PAGE_TYPE_DMS);
-
-            pageIdentifier = "account_" + 2 + "_page_";
-            e.putInt(pageIdentifier + 1, AppSettings.PAGE_TYPE_HOME);
-            e.putInt(pageIdentifier + 2, AppSettings.PAGE_TYPE_MENTIONS);
-            e.putInt(pageIdentifier + 3, AppSettings.PAGE_TYPE_DMS);
-
-            e.putInt("default_timeline_page_" + 1, 0);
-            e.putInt("default_timeline_page_" + 2, 0);
-
-            e.commit();
-        }
-
-        if (sharedPrefs.getBoolean("version_1.3.0", false)) {
-            SharedPreferences.Editor e = sharedPrefs.edit();
-
-            e.putBoolean("version_1.3.0", true);
-            e.putInt("material_theme_1", AppSettings.getInstance(context).theme);
-            e.putInt("material_theme_2", AppSettings.getInstance(context).theme);
-
-            e.commit();
-        }
-
-        if (sharedPrefs.getBoolean("version_1_3_2", true) && Utils.hasInternetConnection(context)) {
-
-            sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    checkLicense(context);
-                }
-            }).start();
-
-        }
-    }
 }

@@ -44,4 +44,6 @@
     <string name="click_to_remove_muffle">Click a user to clear the muffle.</string>
     <string name="muffle_user">Muffle User</string>
     <string name="unmuffle_user">Un-Muffle User</string>
+    <string name="enjoying_talon">Enjoying Talon?</string>
+    <string name="give_a_rating">Consider giving it a rating or sharing it with your friends!\n\nYour 5 star reviews warm my heart :)</string>
 </resources>
