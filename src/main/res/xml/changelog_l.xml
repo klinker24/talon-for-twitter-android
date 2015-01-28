@@ -36,6 +36,7 @@
         <text>[Fix] Search UI in landscape</text>
         <text>[Fix] Saved searches not displaying results</text>
         <text>[Fix] Notification when sending Direct Message</text>
+        <text>[Fix] Some ow.ly links appearing as images</text>
         <text>[Fix] Compose button disappearing</text>
     </version>
 
