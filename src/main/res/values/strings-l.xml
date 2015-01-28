@@ -46,4 +46,7 @@
     <string name="unmuffle_user">Un-Muffle User</string>
     <string name="enjoying_talon">Enjoying Talon?</string>
     <string name="give_a_rating">Consider giving it a rating or sharing it with your friends!\n\nYour 5 star reviews warm my heart :)</string>
+    <string name="rate_on_rating_dialog">Rate</string>
+    <string name="share_on_rating_dialog">Share</string>
+    <string name="ignore">Ignore</string>
 </resources>
