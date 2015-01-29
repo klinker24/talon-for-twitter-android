@@ -152,6 +152,7 @@ public class AppSettings {
     public boolean followersNot;
     public boolean favoritesNot;
     public boolean retweetNot;
+    public boolean activityNot;
     public String ringtone;
 
     // theme stuff
@@ -184,6 +185,7 @@ public class AppSettings {
     public long timelineRefresh;
     public long mentionsRefresh;
     public long dmRefresh;
+    public long activityRefresh;
     public long myId;
 
 
@@ -227,8 +229,6 @@ public class AppSettings {
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
             myId = sharedPrefs.getLong("twitter_id_2", 0);
         }
-
-        Log.v("talon_pro_pic", myProfilePicUrl);
 
         // Booleans
         darkTheme = sharedPrefs.getBoolean("dark_theme", false);
@@ -275,6 +275,7 @@ public class AppSettings {
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", true);
         bottomPictures = sharedPrefs.getBoolean("bottom_pictures", false);
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
+        activityNot = sharedPrefs.getBoolean("activity_notifications", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();
@@ -346,6 +347,7 @@ public class AppSettings {
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "0"));
         dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "0"));
+        activityRefresh = Long.parseLong(sharedPrefs.getString("activity_sync_interval", "0"));
 
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);

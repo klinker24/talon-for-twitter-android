@@ -590,6 +590,9 @@ S
         <service android:name="com.klinker.android.twitter_l.services.DirectMessageRefreshService">
         </service>
 
+        <service android:name="com.klinker.android.twitter_l.services.ActivityRefreshService">
+        </service>
+
         <service android:name="com.klinker.android.twitter_l.services.SendScheduledTweet">
         </service>
 
