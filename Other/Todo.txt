@@ -6,12 +6,14 @@
     - Night mode for themes
     - easier manipulation of lists on users profiles (view all the lists they are apart of and add/remove them from them)
     - New retweets streaming methods (need twitter4j update)
+    - twitter videos (need twitter4j update probably)
 
 - Bugs:
     - switch mentions to save the position instead of current unread method
     - rotating device will sometimes jump to the top of timeline (better rotation on timeline!)
     - direct messages get lost if you receive one before sending and after pulling to refresh
     - following status on your followers list doesn't work on L version
+    - sent direct messages are saved over and over again
 
 
 -- Staged for Release (Roadmap) --
@@ -43,8 +45,7 @@ either, or ETA's, so please do not ask for them
             compare that against the currently installed version.
             If different, redirect them to the app page on the store.
 
-
-    Version 4.1 (Widget and backend)
+    Version 4.1 (Widget)
         - expand the widget for mentions and multiple account support
         - 1x1 "tweeting" widget just to compose a tweet
         - timestamp on widget
