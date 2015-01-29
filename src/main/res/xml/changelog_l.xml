@@ -16,6 +16,7 @@
         <text>[New] Send direct messages from profile</text>
         <text>[New] Update direct messages conversation automatically</text>
         <text>[New] Un-follow public lists</text>
+        <text>[New] Remove retweets from searches by default</text>
         <text>[New] App Promotion</text>
         <text>[Improve] Scrolling performance</text>
         <text>[Improve] Much better auto-complete</text>
@@ -23,7 +24,6 @@
         <text>[Improve] Saving of search queries</text>
         <text>[Improve] User searches not always working</text>
         <text>[Improve] Full screen YouTube</text>
-        <text>[Improve] Remove retweets from searches by default</text>
         <text>[Improve] Login</text>
         <text>[Improve] Interfacing with Blur Launcher page</text>
         <text>[Improve] System UI visibility in photo viewer</text>
