@@ -25,13 +25,9 @@ import android.util.Log;
 
 import com.klinker.android.twitter_l.data.ScheduledTweet;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
-import com.klinker.android.twitter_l.services.CatchupPull;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.SendScheduledTweet;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
-import com.klinker.android.twitter_l.services.TrimDataService;
+import com.klinker.android.twitter_l.services.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.ActivityFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
@@ -89,6 +85,19 @@ public class BootReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
 
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent);
+        }
+
+        if (settings.activityRefresh != 0) { // user only wants manual
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            long now = new Date().getTime();
+            long alarm = now + settings.activityRefresh;
+
+            Log.v("alarm_date", "activity " + new Date(alarm).toString());
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, ActivityFragment.ACTIVITY_REFRESH_ID, new Intent(context, ActivityRefreshService.class), 0);
+
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.activityRefresh, pendingIntent);
         }
 
         if (settings.autoTrim) { // user only wants manual
