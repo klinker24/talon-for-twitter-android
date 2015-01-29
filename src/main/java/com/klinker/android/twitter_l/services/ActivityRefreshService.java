@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 
 public class ActivityRefreshService extends IntentService {
 
@@ -18,6 +19,10 @@ public class ActivityRefreshService extends IntentService {
     public void onHandleIntent(Intent intent) {
         AppSettings settings = AppSettings.getInstance(this);
         ActivityUtils utils = new ActivityUtils(this);
+
+        if (Utils.getConnectionStatus(this) && !settings.syncMobile) {
+            return;
+        }
 
         boolean newActivity = utils.refreshActivity();
 
