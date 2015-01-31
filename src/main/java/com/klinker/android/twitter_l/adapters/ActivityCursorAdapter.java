@@ -83,11 +83,12 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.v("talon_activity", "users: " + users);
                         String[] userArray = users.split(" ");
 
                         if (userArray.length == 1) {
                             Intent viewProfile = new Intent(context, ProfilePager.class);
-                            viewProfile.putExtra("screenname", userArray[0]);
+                            viewProfile.putExtra("screenname", userArray[0].replace("@", "").replace(" ", ""));
 
                             context.startActivity(viewProfile);
                         } else {
@@ -233,7 +234,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         String s = users[i];
 
                         Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("screenname", s);
+                        viewProfile.putExtra("screenname", s.replace("@", "").replace(" ", ""));
 
                         context.startActivity(viewProfile);
                     }
