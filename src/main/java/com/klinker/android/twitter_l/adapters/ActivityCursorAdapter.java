@@ -37,13 +37,6 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
 
         TYPE_COL = cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_TYPE);
         TITLE_COL = cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_TITLE);
-
-        for (String s : cursor.getColumnNames()) {
-            Log.v("activity_columns", s);
-        }
-
-        Log.v("talon_adapter_act", "type col: " + TYPE_COL);
-        Log.v("talon_adapter_act", "title col: " + TITLE_COL);
     }
 
     @Override
@@ -67,8 +60,6 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
         holder.gifUrl = cursor.getString(GIF_COL);
         int type = cursor.getInt(TYPE_COL);
 
-        Log.v("talon_adapter_act", "title: " + title + " type: " + type + " tweetid: " + id);
-
         String retweeter;
         try {
             retweeter = cursor.getString(RETWEETER_COL);
@@ -82,7 +73,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
 
         Date date = new Date(longTime);
         holder.screenTV.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
-        
+
         holder.name.setSingleLine(true);
 
         switch (type) {
