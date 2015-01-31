@@ -7,10 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ActivityCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
@@ -36,7 +40,17 @@ public class ActivityFragment extends MainFragment {
         }
     };
 
+    public View getLayout(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.activity_fragment, null);
+    }
 
+    @Override
+    protected void setSpinner(View layout) {
+        spinner = (LinearLayout) layout.findViewById(R.id.no_content);
+
+        ImageView noActivityPic = (ImageView) spinner.findViewById(R.id.picture);
+        noActivityPic.getDrawable().setColorFilter(settings.themeColors.primaryColor, PorterDuff.Mode.MULTIPLY);
+    }
 
     @Override
     public void setUpListScroll() {
@@ -151,7 +165,6 @@ public class ActivityFragment extends MainFragment {
     public void getCursorAdapter(boolean showSpinner) {
         if (showSpinner) {
             try {
-                spinner.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
             } catch (Exception e) { }
         }
@@ -187,7 +200,6 @@ public class ActivityFragment extends MainFragment {
                         cursorAdapter = new ActivityCursorAdapter(context, cursor);
 
                         try {
-                            spinner.setVisibility(View.GONE);
                             listView.setVisibility(View.VISIBLE);
                         } catch (Exception e) { }
 
@@ -195,6 +207,12 @@ public class ActivityFragment extends MainFragment {
                             listView.setAdapter(cursorAdapter);
                         } catch (Exception e) {
 
+                        }
+
+                        if (cursor.getCount() == 0) {
+                            spinner.setVisibility(View.VISIBLE);
+                        } else {
+                            spinner.setVisibility(View.GONE);
                         }
 
                         try {

@@ -242,10 +242,14 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toMentions = getResources().getString(R.string.mentions);
     }
 
+    protected void setSpinner(View layout) {
+        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+    }
+
     public void setViews(View layout) {
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
-        spinner = (LinearLayout) layout.findViewById(R.id.spinner);
+        setSpinner(layout);
 
         refreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
         refreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
