@@ -176,7 +176,7 @@
         <item name="android:colorControlNormal">@color/dark_ripple</item>
     </style>
 
-    <style name="CircleOverflow.Light" parent="android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_circle_overflow_dark</item>
+    <style name="CircleOverflow.Light" parent="android:style/Widget.Material.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_circle_overflow</item>
     </style>
 </resources>
