@@ -15,9 +15,12 @@ import com.klinker.android.twitter_l.data.sq_lite.ActivitySQLiteHelper;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
+
+import java.util.Date;
 
 public class ActivityCursorAdapter extends TimeLineCursorAdapter {
 
@@ -77,6 +80,9 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
             retweeter = "";
         }
 
+        Date date = new Date(longTime);
+        holder.screenTV.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
+        
         holder.name.setSingleLine(true);
 
         switch (type) {
