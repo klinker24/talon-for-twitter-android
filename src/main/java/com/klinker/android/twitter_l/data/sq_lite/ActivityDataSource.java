@@ -202,8 +202,8 @@ public class ActivityDataSource {
         }
     }
 
-    public synchronized void insertNewFollower(User u, int account) {
-        ContentValues values = getNewFollowerValues(u, account);
+    public synchronized void insertNewFollowers(List<User> users, int account) {
+        ContentValues values = getNewFollowerValues(users, account);
 
         try {
             database.insert(ActivitySQLiteHelper.TABLE_ACTIVITY, null, values);
@@ -249,10 +249,6 @@ public class ActivityDataSource {
         values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
         values.put(ActivitySQLiteHelper.COLUMN_FAV_COUNT, status.getFavoriteCount());
         values.put(ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, status.getRetweetCount());
-
-        Log.v("ActivityUtils", "inserted mention");
-        Log.v("ActivityUtils", "title: " + values.getAsString(ActivitySQLiteHelper.COLUMN_TITLE));
-        Log.v("ActivityUtils", "type: " + values.getAsInteger(ActivitySQLiteHelper.COLUMN_TYPE));
 
         return values;
     }
@@ -326,20 +322,26 @@ public class ActivityDataSource {
 
     }
 
-    public ContentValues getNewFollowerValues(User user, int account) {
+    public ContentValues getNewFollowerValues(List<User> users, int account) {
         ContentValues values = new ContentValues();
 
-        values.put(ActivitySQLiteHelper.COLUMN_TITLE, "@" + user.getScreenName());
+        values.put(ActivitySQLiteHelper.COLUMN_TITLE, buildFollowersTitle(users));
         values.put(ActivitySQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(ActivitySQLiteHelper.COLUMN_TEXT, context.getString(R.string.followed_you));
-        values.put(ActivitySQLiteHelper.COLUMN_TWEET_ID, user.getId());
-        values.put(ActivitySQLiteHelper.COLUMN_NAME, user.getName());
-        values.put(ActivitySQLiteHelper.COLUMN_PRO_PIC, user.getOriginalProfileImageURL());
-        values.put(ActivitySQLiteHelper.COLUMN_SCREEN_NAME, user.getScreenName());
+        values.put(ActivitySQLiteHelper.COLUMN_PRO_PIC, users.get(0).getOriginalProfileImageURL());
         values.put(ActivitySQLiteHelper.COLUMN_TIME, Calendar.getInstance().getTimeInMillis());
+        values.put(ActivitySQLiteHelper.COLUMN_USERS, buildUserList(users));
         values.put(ActivitySQLiteHelper.COLUMN_TYPE, TYPE_NEW_FOLLOWER);
 
         return values;
+    }
+
+    public String buildUserList(List<User> users) {
+        String s = "";
+        for (User u : users) {
+            s+= "@" + u.getScreenName();
+        }
+        return s;
     }
 
     private String buildRetweetersTitle(List<Status> statuses) {
@@ -354,6 +356,23 @@ public class ActivityDataSource {
         } else {
             // size equals 1
             s = "@" + statuses.get(0).getUser().getScreenName();
+        }
+
+        return s;
+    }
+
+    private String buildFollowersTitle(List<User> users) {
+        String s = "";
+
+        if (users.size() > 1) {
+            s += "@" + users.get(0).getScreenName();
+            for (int i = 1; i < users.size() - 1; i++) {
+                s += ", @" + users.get(i).getScreenName();
+            }
+            s += " and @" + users.get(users.size() - 1).getScreenName();
+        } else {
+            // size equals 1
+            s = "@" + users.get(0).getScreenName();
         }
 
         return s;
