@@ -36,8 +36,6 @@ public class ActivityUtils {
         }
 
         this.originalTime = sharedPrefs.getLong("original_activity_refresh_" + currentAccount, 0l);
-
-        Log.v(TAG, "last refresh id: " + lastRefresh);
     }
 
     /**
