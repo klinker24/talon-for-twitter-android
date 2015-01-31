@@ -30,6 +30,7 @@ either, or ETA's, so please do not ask for them
         - Activity fragment (fragment/adapter, background service, settings)
             - notification stuff
 
+
     Version 4.1 (Widget)
         - expand the widget for mentions and multiple account support
         - 1x1 "tweeting" widget just to compose a tweet
