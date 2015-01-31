@@ -40,6 +40,7 @@
         <CheckBoxPreference
             android:key="interaction_drawer"
             android:title="@string/use_interaction_drawer"
+            android:summary="@string/when_talon_pull_on"
             android:defaultValue="true"
             />
 

@@ -49,4 +49,5 @@
     <string name="rate_on_rating_dialog">Rate</string>
     <string name="share_on_rating_dialog">Share</string>
     <string name="ignore">Ignore</string>
+    <string name="when_talon_pull_on">Applied when Talon Pull is turned on.</string>
 </resources>
