@@ -239,7 +239,11 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
                 holder.icon.setImageResource(resource);
-                holder.icon.setAlpha(.8f);
+                if (AppSettings.getInstance(context).darkTheme) {
+                     holder.icon.setAlpha(.8f);
+                } else {
+                    holder.icon.setAlpha(.6f);
+                }
             } else {
                 TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
                 int resource = a.getResourceId(0, 0);
