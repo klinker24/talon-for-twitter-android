@@ -90,7 +90,7 @@ public class ActivityDataSource {
     }
 
     public synchronized void insertMention(Status status, int account) {
-        ContentValues values = getValues(status, account, TYPE_MENTION);
+        ContentValues values = getValues(status, account);
 
         try {
             database.insert(ActivitySQLiteHelper.TABLE_ACTIVITY, null, values);

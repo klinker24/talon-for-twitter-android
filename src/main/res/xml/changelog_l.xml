@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="2.0.0">
+        <text>[New] Activity/Interactions swipe-able page</text>
         <text>[New] Muffle users tweets ("Minimize")</text>
         <text>[New] Cross account retweets and favorites</text>
         <text>[New] Native Vine support</text>
@@ -25,6 +26,7 @@
         <text>[Improve] User searches not always working</text>
         <text>[Improve] Full screen YouTube</text>
         <text>[Improve] Login</text>
+        <text>[Improve] Popup Size</text>
         <text>[Improve] Interfacing with Blur Launcher page</text>
         <text>[Improve] System UI visibility in photo viewer</text>
         <text>[Improve] Format when saving a search</text>
@@ -41,6 +43,7 @@
         <text>[Fix] Notification when sending Direct Message</text>
         <text>[Fix] Some ow.ly links appearing as images</text>
         <text>[Fix] Compose button disappearing</text>
+        <text>[Fix] Google Chrome intent filters</text>
     </version>
 
     <version name="1.4.2">
