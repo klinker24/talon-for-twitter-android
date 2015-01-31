@@ -250,6 +250,10 @@ public class ActivityDataSource {
         values.put(ActivitySQLiteHelper.COLUMN_FAV_COUNT, status.getFavoriteCount());
         values.put(ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, status.getRetweetCount());
 
+        Log.v("ActivityUtils", "inserted mention");
+        Log.v("ActivityUtils", "title: " + values.getAsString(ActivitySQLiteHelper.COLUMN_TITLE));
+        Log.v("ActivityUtils", "type: " + values.getAsInteger(ActivitySQLiteHelper.COLUMN_TYPE));
+
         return values;
     }
 
