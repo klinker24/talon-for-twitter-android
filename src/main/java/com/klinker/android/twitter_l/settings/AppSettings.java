@@ -144,6 +144,7 @@ public class AppSettings {
     public boolean useSnackbar;
     public boolean bottomPictures;
     public boolean crossAccActions;
+    public boolean useInteractionDrawer;
 
     // notifications
     public boolean timelineNot;
@@ -276,6 +277,7 @@ public class AppSettings {
         bottomPictures = sharedPrefs.getBoolean("bottom_pictures", false);
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
+        useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();

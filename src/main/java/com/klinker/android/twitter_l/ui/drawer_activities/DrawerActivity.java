@@ -36,10 +36,6 @@ import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.transition.ChangeImageTransform;
-import android.transition.ChangeTransform;
-import android.transition.Explode;
-import android.transition.Transition;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -54,14 +50,10 @@ import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager;
@@ -69,14 +61,12 @@ import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
-import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.manipulations.widgets.ActionBarDrawerToggle;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
@@ -87,7 +77,6 @@ import org.lucasr.smoothie.AsyncListView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
 
 public abstract class DrawerActivity extends Activity implements SystemBarVisibility {
 
@@ -774,7 +763,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
-        if (!settings.pushNotifications) {
+        if(!settings.pushNotifications || !settings.useInteractionDrawer) {
             try {
                 mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
             } catch (Exception e) {
@@ -1145,6 +1134,10 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         e.remove("new_favorites");
         e.remove("new_follows");
         e.remove("current_position_" + currentAccount);
+        e.remove("last_activity_refresh_" + currentAccount);
+        e.remove("original_activity_refresh_" + currentAccount);
+        e.remove("activity_follower_count_" + currentAccount);
+        e.remove("activity_latest_followers_" + currentAccount);
         e.commit();
 
         HomeDataSource homeSources = HomeDataSource.getInstance(context);
@@ -1161,6 +1154,12 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
+
+        ActivityDataSource activity = ActivityDataSource.getInstance(context);
+        activity.deleteAll(currentAccount);
+
+        FavoriteTweetsDataSource favTweets = FavoriteTweetsDataSource.getInstance(context);
+        favTweets.deleteAllTweets(currentAccount);
 
         try {
             long account1List1 = sharedPrefs.getLong("account_" + currentAccount + "_list_1", 0l);
@@ -1379,7 +1378,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             menu.getItem(DM).setVisible(false);
             menu.getItem(TOFIRST).setVisible(false);
 
-            if (settings.pushNotifications) {
+            if (settings.pushNotifications && settings.useInteractionDrawer) {
                 menu.getItem(NOTIFICATIONS).setVisible(true);
             } else {
                 menu.getItem(NOTIFICATIONS).setVisible(false);
@@ -1392,7 +1391,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             menu.getItem(COMPOSE).setVisible(true);
             menu.getItem(DM).setVisible(true);
 
-            if (!settings.pushNotifications) {
+            if (!settings.pushNotifications || !settings.useInteractionDrawer) {
                 menu.getItem(NOTIFICATIONS).setVisible(false);
             } else {
                 if (settings.floatingCompose || getResources().getBoolean(R.bool.isTablet)) {

@@ -74,20 +74,20 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public Context context;
     public final LayoutInflater inflater;
     private boolean isDM = false;
-    private SharedPreferences sharedPrefs;
+    protected SharedPreferences sharedPrefs;
     private int cancelButton;
     private int border;
     private boolean secondAcc = false;
 
-    private Handler[] mHandlers;
-    private int currHandler;
+    protected Handler[] mHandlers;
+    protected int currHandler;
 
     public boolean hasKeyboard = false;
 
     public int layout;
     private XmlResourceParser addonLayout = null;
     public Resources res;
-    private BitmapLruCache mCache;
+    protected BitmapLruCache mCache;
 
     private ColorDrawable transparent;
 
@@ -328,19 +328,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
-    private int TWEET_COL;
-    private int PRO_PIC_COL;
-    private int TEXT_COL;
-    private int NAME_COL;
-    private int SCREEN_NAME_COL;
-    private int PIC_COL;
-    private int TIME_COL;
-    private int URL_COL;
-    private int USER_COL;
-    private int HASHTAG_COL;
-    private int GIF_COL;
-    private int CONVO_COL;
-    private int RETWEETER_COL;
+    protected int TWEET_COL;
+    protected int PRO_PIC_COL;
+    protected int TEXT_COL;
+    protected int NAME_COL;
+    protected int SCREEN_NAME_COL;
+    protected int PIC_COL;
+    protected int TIME_COL;
+    protected int URL_COL;
+    protected int USER_COL;
+    protected int HASHTAG_COL;
+    protected int GIF_COL;
+    protected int CONVO_COL;
+    protected int RETWEETER_COL;
 
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
