@@ -119,7 +119,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     Bundle b = new Bundle();
                     b.putString("saved_search", searches.get(i));
                     f.setArguments(b);
-
                     frags.add(f);
                     names.add(searches.get(i));
                     break;
@@ -130,6 +129,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 case AppSettings.PAGE_TYPE_ACTIVITY:
                     frags.add(new ActivityFragment());
                     names.add(context.getString(R.string.activity));
+                    mentionIndex = i;
                     break;
                 default:
                     frags.add(getFrag(pageTypes.get(i), listIds.get(i)));

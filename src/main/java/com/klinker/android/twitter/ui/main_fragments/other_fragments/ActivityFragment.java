@@ -11,24 +11,17 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.adapters.ActivityCursorAdapter;
+import com.klinker.android.twitter.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter.services.ActivityRefreshService;
-import com.klinker.android.twitter.services.MentionsRefreshService;
-import com.klinker.android.twitter.services.SecondMentionsRefreshService;
-import com.klinker.android.twitter.ui.MainActivity;
 import com.klinker.android.twitter.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter.utils.ActivityUtils;
 import com.klinker.android.twitter.utils.Utils;
-import twitter4j.Paging;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 
 import java.util.Date;
-import java.util.List;
 
 public class ActivityFragment extends MainFragment {
 
@@ -83,7 +76,7 @@ public class ActivityFragment extends MainFragment {
                 else
                     am.cancel(pendingIntent);
 
-                return MentionsDataSource.getInstance(context).getCursor(currentAccount);
+                return ActivityDataSource.getInstance(context).getCursor(currentAccount);
             }
 
             @Override
@@ -106,8 +99,7 @@ public class ActivityFragment extends MainFragment {
 
                 try {
                     if (update) {
-                        CharSequence text = getResources().getString(R.string.new_mentions);
-                        showToastBar(text + "", "", 400, true, toTopListener);
+                        showToastBar(getString(R.string.new_activity), getString(R.string.ok), 400, true, toTopListener);
                     }
                 } catch (Exception e) {
                     // user closed the app before it was done
@@ -126,8 +118,8 @@ public class ActivityFragment extends MainFragment {
         }.execute();
     }
 
-    public TimeLineCursorAdapter setAdapter(Cursor c) {
-        return new TimeLineCursorAdapter(context, c, false);
+    public ActivityCursorAdapter setAdapter(Cursor c) {
+        return new ActivityCursorAdapter(context, c);
     }
 
     @Override
@@ -169,9 +161,9 @@ public class ActivityFragment extends MainFragment {
             public void run() {
                 final Cursor cursor;
                 try {
-                    cursor = MentionsDataSource.getInstance(context).getCursor(currentAccount);
+                    cursor = ActivityDataSource.getInstance(context).getCursor(currentAccount);
                 } catch (Exception e) {
-                    MentionsDataSource.dataSource = null;
+                    ActivityDataSource.dataSource = null;
                     getCursorAdapter(true);
                     return;
                 }
@@ -179,7 +171,7 @@ public class ActivityFragment extends MainFragment {
                 try {
                     Log.v("talon_databases", "mentions cursor size: " + cursor.getCount());
                 } catch (Exception e) {
-                    MentionsDataSource.dataSource = null;
+                    ActivityDataSource.dataSource = null;
                     getCursorAdapter(true);
                     return;
                 }
@@ -192,7 +184,7 @@ public class ActivityFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false);
+                        cursorAdapter = new ActivityCursorAdapter(context, cursor);
 
                         try {
                             spinner.setVisibility(View.GONE);

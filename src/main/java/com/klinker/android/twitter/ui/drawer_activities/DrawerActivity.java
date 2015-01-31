@@ -47,12 +47,7 @@ import com.klinker.android.twitter.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter.data.App;
-import com.klinker.android.twitter.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter.data.sq_lite.InteractionsDataSource;
-import com.klinker.android.twitter.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter.data.sq_lite.*;
 import com.klinker.android.twitter.listeners.InteractionClickListener;
 import com.klinker.android.twitter.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter.settings.SettingsActivity;
@@ -668,7 +663,7 @@ public abstract class DrawerActivity extends Activity {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
 
-        if(!settings.pushNotifications) {
+        if(!settings.pushNotifications || !settings.useInteractionDrawer) {
             try {
                 mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
             } catch (Exception e) {
@@ -870,6 +865,10 @@ public abstract class DrawerActivity extends Activity {
         e.remove("new_favorites");
         e.remove("new_follows");
         e.remove("current_position_" + currentAccount);
+        e.remove("last_activity_refresh_" + currentAccount);
+        e.remove("original_activity_refresh_" + currentAccount);
+        e.remove("activity_follower_count_" + currentAccount);
+        e.remove("activity_latest_followers_" + currentAccount);
         e.commit();
 
         HomeDataSource homeSources = HomeDataSource.getInstance(context);
@@ -886,6 +885,12 @@ public abstract class DrawerActivity extends Activity {
 
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
+
+        ActivityDataSource activity = ActivityDataSource.getInstance(context);
+        activity.deleteAll(currentAccount);
+
+        FavoriteTweetsDataSource favTweets = FavoriteTweetsDataSource.getInstance(context);
+        favTweets.deleteAllTweets(currentAccount);
 
         try {
             long account1List1 = sharedPrefs.getLong("account_" + currentAccount + "_list_1", 0l);
@@ -1038,7 +1043,7 @@ public abstract class DrawerActivity extends Activity {
             menu.getItem(DM).setVisible(false);
             menu.getItem(TOFIRST).setVisible(false);
 
-            if (settings.pushNotifications) {
+            if (settings.pushNotifications && settings.useInteractionDrawer) {
                 menu.getItem(NOTIFICATIONS).setVisible(true);
             } else {
                 menu.getItem(NOTIFICATIONS).setVisible(false);
@@ -1051,7 +1056,7 @@ public abstract class DrawerActivity extends Activity {
             menu.getItem(COMPOSE).setVisible(true);
             menu.getItem(DM).setVisible(true);
 
-            if (!settings.pushNotifications) {
+            if (!settings.pushNotifications || !settings.useInteractionDrawer) {
                 menu.getItem(NOTIFICATIONS).setVisible(false);
             } else {
                 if (settings.floatingCompose || getResources().getBoolean(R.bool.isTablet)) {
