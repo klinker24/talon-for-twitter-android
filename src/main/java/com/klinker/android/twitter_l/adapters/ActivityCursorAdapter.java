@@ -83,7 +83,6 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.v("talon_activity", "users: " + users);
                         String[] userArray = users.split(" ");
 
                         if (userArray.length == 1) {
