@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.View;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
@@ -28,11 +29,18 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
     private int TITLE_COL;
 
     @Override
-    public void init() {
-        super.init();
+    public void init(boolean cont) {
+        super.init(cont);
 
         TYPE_COL = cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_TYPE);
         TITLE_COL = cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_TITLE);
+
+        for (String s : cursor.getColumnNames()) {
+            Log.v("activity_columns", s);
+        }
+
+        Log.v("talon_adapter_act", "type col: " + TYPE_COL);
+        Log.v("talon_adapter_act", "title col: " + TITLE_COL);
     }
 
     @Override
@@ -54,6 +62,9 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
         final String users = cursor.getString(USER_COL);
         final String hashtags = cursor.getString(HASHTAG_COL);
         holder.gifUrl = cursor.getString(GIF_COL);
+        int type = cursor.getInt(TYPE_COL);
+
+        Log.v("talon_adapter_act", "title: " + title + " type: " + type + " tweetid: " + id);
 
         String retweeter;
         try {
@@ -66,10 +77,8 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
             retweeter = "";
         }
 
-        holder.tweet.setMaxLines(2);
         holder.name.setSingleLine(true);
 
-        int type = cursor.getInt(TYPE_COL);
         switch (type) {
             case ActivityDataSource.TYPE_NEW_FOLLOWER:
                 holder.background.setOnClickListener(new View.OnClickListener() {
