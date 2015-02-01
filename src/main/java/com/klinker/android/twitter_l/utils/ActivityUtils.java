@@ -122,8 +122,8 @@ public class ActivityUtils {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setContentTitle(notificationTitle);
         mBuilder.setSmallIcon(R.drawable.ic_stat_icon);
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.ic_action_notification_dark));
+        //mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                //R.drawable.ic_action_notification_dark));
 
         if (notificationItems.size() > 1) {
             // inbox style
@@ -165,6 +165,10 @@ public class ActivityUtils {
             mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsRedirect.class), 0));
         } else {
             mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0));
+        }
+
+        if (settings.headsUp) {
+            mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
         if (settings.vibrate) {
