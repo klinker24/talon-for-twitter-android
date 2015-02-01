@@ -38,8 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="ltr"
-        android:layout_marginBottom="16dp"
-        android:background="?android:attr/selectableItemBackground">
+        android:layout_marginBottom="16dp">
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="@dimen/header_condensed_height"
