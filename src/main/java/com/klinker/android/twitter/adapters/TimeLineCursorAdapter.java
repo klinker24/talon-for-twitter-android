@@ -480,13 +480,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             retweeter = "";
         }
 
-        if (inAConversation) {
-            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
-                holder.isAConversation.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (holder.isAConversation.getVisibility() != View.GONE) {
-                holder.isAConversation.setVisibility(View.GONE);
+        if (holder.isAConversation != null) {
+            if (inAConversation) {
+                if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+                    holder.isAConversation.setVisibility(View.VISIBLE);
+                }
+            } else {
+                if (holder.isAConversation.getVisibility() != View.GONE) {
+                    holder.isAConversation.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -2185,6 +2187,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         // now that we have all of them, we need to put them together
                         Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
+
+                        if (round) {
+                            combined = ImageUtils.getCircle(combined, context);
+                        }
 
                         try {
                             result = mCache.put(url, combined);
