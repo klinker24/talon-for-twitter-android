@@ -109,7 +109,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         }
                         String link = "";
 
-                        boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                        boolean displayPic = holder.picUrl != null && !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
                         if (displayPic) {
                             link = holder.picUrl;
                         } else {
