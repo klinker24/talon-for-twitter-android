@@ -137,11 +137,11 @@ public class ActivityUtils {
 
             if (notificationItems.size() <= 5) {
                 for (String s : notificationItems) {
-                    inbox.addLine(s);
+                    inbox.addLine(Html.fromHtml(s));
                 }
             } else {
                 for (int i = 0; i < 5; i++) {
-                    inbox.addLine(notificationItems.get(i));
+                    inbox.addLine(Html.fromHtml(notificationItems.get(i)));
                 }
 
                 int extra = notificationItems.size() - 5;
@@ -156,7 +156,7 @@ public class ActivityUtils {
         } else {
             // big text style
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
-            bigText.bigText(notificationItems.get(0));
+            bigText.bigText(Html.fromHtml(notificationItems.get(0)));
 
             mBuilder.setStyle(bigText);
         }
@@ -209,7 +209,8 @@ public class ActivityUtils {
 
     public void insertMentions(List<Status> mentions) {
         try {
-            ActivityDataSource.getInstance(context).insertMentions(mentions, currentAccount);
+            List<String> notis = ActivityDataSource.getInstance(context).insertMentions(mentions, currentAccount);
+            notificationItems.addAll(notis);
         } catch (Throwable t) {
 
         }
@@ -217,7 +218,8 @@ public class ActivityUtils {
 
     public void insertFollowers(List<User> users) {
         try {
-            ActivityDataSource.getInstance(context).insertNewFollowers(users, currentAccount);
+            String noti = ActivityDataSource.getInstance(context).insertNewFollowers(users, currentAccount);
+            notificationItems.add(noti);
         } catch (Throwable t) {
 
         }
@@ -225,7 +227,14 @@ public class ActivityUtils {
 
     public boolean tryInsertRetweets(Status status, Twitter twitter) {
         try {
-            return ActivityDataSource.getInstance(context).insertRetweeters(status, currentAccount, twitter);
+            String noti = ActivityDataSource.getInstance(context).insertRetweeters(status, currentAccount, twitter);
+
+            if (noti != null) {
+                notificationItems.add(noti);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Throwable t) {
             return false;
         }
@@ -233,7 +242,14 @@ public class ActivityUtils {
 
     public boolean tryInsertFavorites(Status status) {
         try {
-            return ActivityDataSource.getInstance(context).insertFavoriteCount(status, currentAccount);
+            String noti = ActivityDataSource.getInstance(context).insertFavoriteCount(status, currentAccount);
+
+            if (noti != null) {
+                notificationItems.add(noti);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Throwable t) {
             return false;
         }
