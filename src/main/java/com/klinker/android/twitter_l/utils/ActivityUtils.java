@@ -71,6 +71,8 @@ public class ActivityUtils {
                 currentAccount = 1;
             }
         }
+
+        this.notificationTitle = context.getString(R.string.new_activity);
     }
 
     /**
@@ -153,12 +155,15 @@ public class ActivityUtils {
             }
 
             mBuilder.setStyle(inbox);
+            mBuilder.setContentText(notificationItems.size() + " " + context.getString(R.string.items));
         } else {
             // big text style
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
             bigText.bigText(Html.fromHtml(notificationItems.get(0)));
-
+            bigText.setBigContentTitle(notificationTitle);
+            
             mBuilder.setStyle(bigText);
+            mBuilder.setContentText(Html.fromHtml(notificationItems.get(0)));
         }
 
         if (useSecondAccount) {
