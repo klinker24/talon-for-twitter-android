@@ -317,8 +317,7 @@ public class ActivityUtils {
             Log.v(TAG, "current follower count: " + me.getFollowersCount());
 
             List<User> newFollowers = new ArrayList<User>();
-            if (latestFollowers.size() != 0 &&
-                    me.getFollowersCount() > oldFollowerCount) {
+            if (latestFollowers.size() != 0) {
                 for (int i = 0; i < followers.size(); i++) {
                     if (!latestFollowers.contains(followers.get(i).getScreenName())) {
                         Log.v(TAG, "inserting @" + followers.get(i).getScreenName() + " as new follower");
@@ -333,7 +332,7 @@ public class ActivityUtils {
             insertFollowers(newFollowers);
 
             latestFollowers.clear();
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 50; i++) {
                 if (i < followers.size()) {
                     latestFollowers.add(followers.get(i).getScreenName());
                 } else {
