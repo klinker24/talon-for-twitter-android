@@ -386,6 +386,11 @@ S
             android:theme="@style/Theme.TalonLight.Blue" >
         </activity>
 
+        <activity android:name="com.klinker.android.twitter_l.utils.redirects.SwitchAccountsToActivity"
+                  android:label="@string/app_name"
+                  android:theme="@style/Theme.TalonLight.Blue" >
+        </activity>
+
         <activity android:name="com.klinker.android.twitter_l.ui.compose.ComposeActivity"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
