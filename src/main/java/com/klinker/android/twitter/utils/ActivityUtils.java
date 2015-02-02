@@ -18,6 +18,7 @@ import com.klinker.android.twitter.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter.settings.AppSettings;
 import com.klinker.android.twitter.utils.redirects.RedirectToActivity;
 import com.klinker.android.twitter.utils.redirects.SwitchAccountsRedirect;
+import com.klinker.android.twitter.utils.redirects.SwitchAccountsToActivity;
 import twitter4j.*;
 
 import java.util.*;
@@ -72,7 +73,7 @@ public class ActivityUtils {
 
         this.originalTime = sharedPrefs.getLong("original_activity_refresh_" + currentAccount, 0l);
 
-        this.notificationTitle = context.getString(R.string.new_activity);
+        this.notificationTitle = context.getString(R.string.new_activity) + " - @" + (useSecondAccount ? settings.secondScreenName : settings.myScreenName);
     }
 
     /**
@@ -167,7 +168,7 @@ public class ActivityUtils {
         }
 
         if (useSecondAccount) {
-            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsRedirect.class), 0));
+            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), 0));
         } else {
             mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0));
         }
