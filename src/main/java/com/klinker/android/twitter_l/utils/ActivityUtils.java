@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -16,9 +15,8 @@ import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToActivity;
-import com.klinker.android.twitter_l.utils.redirects.SwitchAccountsRedirect;
+import com.klinker.android.twitter_l.utils.redirects.SwitchAccountsToActivity;
 import twitter4j.*;
 
 import java.util.*;
@@ -73,7 +71,7 @@ public class ActivityUtils {
 
         this.originalTime = sharedPrefs.getLong("original_activity_refresh_" + currentAccount, 0l);
 
-        this.notificationTitle = context.getString(R.string.new_activity);
+        this.notificationTitle = context.getString(R.string.new_activity) + " - @" + (useSecondAccount ? settings.secondScreenName : settings.myScreenName);
     }
 
     /**
@@ -168,7 +166,7 @@ public class ActivityUtils {
         }
 
         if (useSecondAccount) {
-            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsRedirect.class), 0));
+            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), 0));
         } else {
             mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0));
         }
