@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">การแปลเร่งด่วน</string>
+    <string name="help">ช่วยเหลือ</string>
+    <string name="send_feedback">เสนอแนะ</string>
+    <string name="to_top">ขึ้นบนสุด</string>
+    <string name="show_all">แสดงทั้งหมด</string>
+    <string name="stats">เริ่ม</string>
+    <string name="top_down">โหมดบนลงล่าง</string>
+    <string name="top_down_summary">จะไม่จดจำตำแหน่งใน Timeline โดยจะเริ่ม ณ ตำแหน่งบนสุด</string>
+    <string name="timeline_text_size">ขนาดอักษรใน Timeline</string>
+    <string name="manage_mutes">จัดการ Mute</string>
+    <string name="quote_style">รูปแบบ Quate</string>
+    <string name="location_settings">ตั้งค่าตำแหน่ง</string>
+    <string name="twitpic_summary_l">รูปภาพทั้งหมดจะถุก upload ไปยัง TwitPic</string>
+    <string name="dont_use_pull">ไม่ใช้ Talon Pull</string>
+    <string name="always">ตลอดเวลา</string>
+    <string name="never">ไม่ใช้</string>
+    <string name="only_on_wifi">เมื่อใช้ WiFi เท่านั้น</string>
+    <string name="only_on_data">เมื่อใช้ Data เท่านั้น</string>
+    <string name="contact_me">ติดต่อผู้พัฒนา</string>
+    <string name="follow_progress">ติดตามความเคลื่อนไหวของเรา</string>
+    <string name="general">ทั่วไป</string>
+    <string name="emojis_summary">ใช้อีโมจิของ iOS ด้วยการดาวน์โหลด Sliding Emoji Keyboard</string>
+    <string name="replies">ตอบกลับ</string>
+    <string name="web">เว็บ</string>
+    <string name="heads_up">ส่วนหัว</string>
+    <string name="use_snackbar">ใช้ Snackbar</string>
+    <string name="bottom_pictures">ให้รูปภาพอยู่ใต้ทวีต</string>
+    <string name="bottom_pictures_summary">ทวีตจะไม่ขยายภายใต้บรรทัดเมื่อใช้ตัวเลือกนี้</string>
+</resources>

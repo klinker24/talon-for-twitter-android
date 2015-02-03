@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Nopeat siirtymät</string>
+    <string name="help">Ohjeet</string>
+    <string name="send_feedback">Lähetä palautetta</string>
+    <string name="to_top">Alkuun</string>
+    <string name="show_all">Näytä kaikki</string>
+    <string name="stats">Tilastot</string>
+    <string name="list_count">%s listoissa.</string>
+    <string name="joined_twitter">Liittynyt Twitteriin:</string>
+    <string name="top_down_summary">Aikajana ei koskaan tallenna sijaintiasi. Se alkaa yläreunassa.</string>
+    <string name="timeline_text_size">Aikajanan tekstin koko</string>
+    <string name="manage_mutes">Mykityksen hallinta</string>
+    <string name="quote_style">Lainauksen tyyli</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="location_settings">Sijainti</string>
+    <string name="twitpic_summary_l">Kaikki kuvat ladataan Twitpicin kautta.</string>
+    <string name="interactions_only">Vain vuorovaikutukset</string>
+    <string name="inter_stream">Vuorovaikutukset ja livestriimi</string>
+    <string name="dont_use_pull">Älä käytä Talon Pull -ominaisuutta</string>
+    <string name="always">Aina</string>
+    <string name="never">Ei koskaan</string>
+    <string name="only_on_wifi">Vain WiFin kautta</string>
+    <string name="contact_me">Ota yhteyttä</string>
+    <string name="my_google_plus">Google+-profiilini</string>
+    <string name="follow_progress">Seuraa edistymistämme!</string>
+    <string name="general">Yleinen</string>
+    <string name="no_interactions">Ei vuorovaikutuksia</string>
+    <string name="replies">Vastaukset</string>
+    <string name="web">Verkko</string>
+</resources>

@@ -37,4 +37,17 @@
     <string name="use_snackbar_summary">Используется для отображения всплывающей панели \"Наверх\" в основных лентах.</string>
     <string name="bottom_pictures">Изображения под твитами</string>
     <string name="bottom_pictures_summary">При влючении этой опции твиты не будут открываться в отдельном окне по долгому нажатию.</string>
+    <string name="preparing_signin">Подготовка к авторизации</string>
+    <string name="manage_muffles">Управление приглушенными пользователями</string>
+    <string name="muffle_definition">Приглушение пользователя удалит основную часть твитов пользователя из вашей ленты. Вы будете видеть только имя пользователя и небольшой фрагмент, из которого можно будет получить расширенный доступ, если вы захотите увидеть больше информации.</string>
+    <string name="muffled_users">Приглушенные пользователи</string>
+    <string name="click_to_remove_muffle">Нажмите на пользователя, чтобы удалить его из списка приглушенных</string>
+    <string name="muffle_user">Приглушить пользователя</string>
+    <string name="unmuffle_user">Не приглушать пользователя</string>
+    <string name="enjoying_talon">Нравится Talon?</string>
+    <string name="give_a_rating">Оцените приложение или поделитесь им с вашими друзьями!\n\nВаша оценка на 5 звезд согреет мое сердце :)</string>
+    <string name="rate_on_rating_dialog">Оценить</string>
+    <string name="share_on_rating_dialog">Поделиться</string>
+    <string name="ignore">Пропустить</string>
+    <string name="when_talon_pull_on">Применяется, когда включен Talon Pull.</string>
 </resources>
