@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Transitions rapides</string>
+    <string name="help">Aide</string>
+    <string name="to_top">Haut de page</string>
+    <string name="show_all">Tout afficher</string>
+    <string name="always">Toujours</string>
+    <string name="never">Jamais</string>
+    <string name="only_on_wifi">Seulement en Wifi</string>
+    <string name="general">Général</string>
+</resources>
