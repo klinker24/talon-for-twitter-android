@@ -1623,7 +1623,7 @@ public class ExpansionViewHelper {
             }
         }
 
-        if (!webLink.equals("")) {
+        if (webLink != null && !webLink.equals("")) {
             for (int i = split.length - 1; i >= 0; i--) {
                 String s = split[i];
                 if (Patterns.WEB_URL.matcher(s).find()) {
