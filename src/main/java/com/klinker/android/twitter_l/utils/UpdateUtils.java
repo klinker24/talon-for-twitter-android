@@ -61,11 +61,13 @@ public class UpdateUtils {
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
 
         if (rateItShown != 0l && currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
             // show dialog
             showRateItDialog(context, sharedPrefs);
+            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
+        } if (rateItShown == 0l) {
+            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
         }
 
         if (sharedPrefs.getBoolean("3.1.5", true)) {
@@ -115,7 +117,6 @@ public class UpdateUtils {
             e.putInt("default_timeline_page_" + 2, 1);
 
             e.commit();
-
 
             new Thread(new Runnable() {
                 @Override
