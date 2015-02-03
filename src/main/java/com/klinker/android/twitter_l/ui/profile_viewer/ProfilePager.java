@@ -317,7 +317,7 @@ public class ProfilePager extends Activity {
         tweetId = from.getLongExtra("tweetid", 0l);
         isRetweet = from.getBooleanExtra("retweet", false);
 
-        if (screenName.equalsIgnoreCase(settings.myScreenName)) {
+        if (screenName != null && screenName.equalsIgnoreCase(settings.myScreenName)) {
             isMyProfile = true;
         }
     }
