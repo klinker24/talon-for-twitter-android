@@ -143,18 +143,23 @@ public class PhotoFragment extends Fragment {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getActivity())
-                                    .setSmallIcon(R.drawable.ic_stat_icon)
-                                    .setTicker(getResources().getString(R.string.error) + "...")
-                                    .setContentTitle(getResources().getString(R.string.app_name))
-                                    .setContentText(getResources().getString(R.string.error) + "...")
-                                    .setProgress(100, 100, true)
-                                    .setLargeIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_action_save));
+                    try {
+                        NotificationCompat.Builder mBuilder =
+                                new NotificationCompat.Builder(getActivity())
+                                        .setSmallIcon(R.drawable.ic_stat_icon)
+                                        .setTicker(getResources().getString(R.string.error) + "...")
+                                        .setContentTitle(getResources().getString(R.string.app_name))
+                                        .setContentText(getResources().getString(R.string.error) + "...")
+                                        .setProgress(100, 100, true)
+                                        .setLargeIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_action_save));
 
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(6, mBuilder.build());
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                        mNotificationManager.notify(6, mBuilder.build());
+                    } catch (Exception x) {
+                        // not attached
+                    }
+
                 }
             }
         }).start();
