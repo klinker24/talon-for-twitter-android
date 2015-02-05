@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="2.0.2">
+        <text>Improve login</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="2.0.1">
         <text>Update translations</text>
         <text>Bug fixes from 4.0.0</text>
