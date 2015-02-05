@@ -31,7 +31,7 @@
         <LinearLayout
                       android:orientation="vertical"
                       android:layout_width="match_parent"
-                      android:layout_height="300dp"  >
+                      android:layout_height="142dp"  >
 
             <TextSwitcher
                     android:id="@+id/welcome"
@@ -78,23 +78,88 @@
 
         <!-- Twitter Login Button -->
         <LinearLayout
-                      android:orientation="horizontal"
+                      android:orientation="vertical"
                       android:layout_width="match_parent"
                       android:layout_height="fill_parent"
                       android:gravity="center">
+
+            <TextView
+                    android:id="@+id/follow_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:textColor="?textColor"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="4dp"
+                    android:visibility="invisible"
+                    android:text="@string/follow_progress"/>
+
+            <LinearLayout
+                    android:id="@+id/follow_me_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="25dp"
+                    android:visibility="invisible"
+                    android:gravity="center">
+
+                <LinearLayout
+                        android:id="@+id/follow_me_twitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:background="?android:selectableItemBackground">
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:id="@+id/twitter_bird"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"/>
+
+                    <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textSize="14dp"
+                            android:text="\@lukeklinker\n\@TalonAndroid" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/follow_me_google"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:layout_marginRight="15dp"
+                        android:background="?android:selectableItemBackground">
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                            android:id="@+id/google_plus"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"/>
+
+                    <TextView
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textSize="14dp"
+                            android:text="+Luke Klinker" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <Button android:id="@+id/btnLoginTwitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Progress through Login"
                 android:text="@string/login_to_twitter"/>
-
-            <Button android:id="@+id/dont_follow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Follow Talon"
-                android:text="@string/follow_me"
-                android:visibility="gone"/>
 
         </LinearLayout>
 
