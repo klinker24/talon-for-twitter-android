@@ -35,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.*;
@@ -117,25 +118,19 @@ public class TweetPager extends YouTubeBaseActivity {
 
         getFromIntent();
 
+        mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
+                name, screenName, tweet, time, retweeter, webpage, proPic, tweetId,
+                picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet, secondAcc, animatedGif);
+
         // methods for advancing windowed
         boolean settingsVal = settings.advanceWindowed;
         boolean fromWidget = getIntent().getBooleanExtra("from_widget", false);
         final boolean youtube;
-        if (webpage != null && linkString != null) {
-            youtube =
-                    webpage.contains("youtu")
-                    || linkString.contains("youtu")
-                    || linkString.contains("/photo/1")
-                    || linkString.contains(".mp4")
-                    || linkString.contains("vine.co/v/");
-        } else {
-            youtube = true;
-        }
 
-        // cases: (youtube will ALWAYS be full screen...)
-        // from widget
-        // the user set the preference to advance windowed
-        // has a webview and want to advance windowed
+        youtube = mSectionsPagerAdapter.getHasYoutube() ||
+                mSectionsPagerAdapter.getHasGif() ||
+                mSectionsPagerAdapter.hasVine();
+
         if (fromWidget || settingsVal) {
             setUpWindow(youtube);
         }
@@ -163,9 +158,6 @@ public class TweetPager extends YouTubeBaseActivity {
 
         setContentView(R.layout.tweet_pager);
         pager = (ViewPager) findViewById(R.id.pager);
-        mSectionsPagerAdapter = new TweetPagerAdapter(getFragmentManager(), context,
-                name, screenName, tweet, time, retweeter, webpage, proPic, tweetId,
-                picture, users, hashtags, otherLinks, isMyTweet, isMyRetweet, secondAcc, animatedGif);
         pager.setAdapter(mSectionsPagerAdapter);
         pager.setOffscreenPageLimit(5);
 
