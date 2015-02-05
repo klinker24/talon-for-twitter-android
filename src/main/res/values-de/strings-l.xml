@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Kurze Übergänge</string>
+    <string name="help">Hilfe</string>
+    <string name="send_feedback">" Feedback senden"</string>
+    <string name="show_all">Zeige alles</string>
+    <string name="stats">Statistiken</string>
+    <string name="joined_twitter">Hat nun Twitter:</string>
+    <string name="top_down_summary">Die Timeline speichert deine Position nicht. Sie wird immer oben starten!</string>
+    <string name="timeline_text_size">Timeline Text Größe</string>
+    <string name="location_settings">Positions Einstellung</string>
+    <string name="twitpic_summary_l">Alle Bilder werde über TweetPic hochgeladen.</string>
+    <string name="dont_use_pull">Nutze nicht Talon Pull</string>
+    <string name="always">Immer</string>
+    <string name="only_on_wifi">Nur mit WLAN</string>
+    <string name="only_on_data">Nur über 3G</string>
+    <string name="contact_me">Kontaktiere mich</string>
+    <string name="my_google_plus">Mein Google+</string>
+    <string name="no_interactions">Keine Aktivitäten</string>
+    <string name="replies">Antworten</string>
+    <string name="web">Internet</string>
+    <string name="bottom_pictures">Bilder unter Tweets</string>
+    <string name="muffled_users">Verkleinerte User</string>
+    <string name="enjoying_talon">Magst du Talon?</string>
+    <string name="rate_on_rating_dialog">Bewerte</string>
+    <string name="share_on_rating_dialog">Teilen</string>
+    <string name="ignore">Ignorieren</string>
+</resources>

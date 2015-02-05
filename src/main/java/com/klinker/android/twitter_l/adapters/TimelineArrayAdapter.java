@@ -714,7 +714,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
-                if (holder.picUrl.contains("youtube")) {
+                if (holder.picUrl.contains("youtube") || (holder.animatedGif != null && !android.text.TextUtils.isEmpty(holder.animatedGif))) {
 
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
