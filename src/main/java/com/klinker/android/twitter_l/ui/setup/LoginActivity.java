@@ -44,6 +44,7 @@ import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.FollowMePopup;
+import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
@@ -53,6 +54,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -83,17 +85,21 @@ public class LoginActivity extends LVLActivity {
     private static String verifier;
 
     private Button btnLoginTwitter;
-    private Button noThanks;
     private TextSwitcher title;
     private TextSwitcher summary;
     private TextSwitcher progDescription;
     private SmoothProgressBar progressBar;
     private WebView mWebView;
     private LinearLayout main;
+    private LinearLayout followMeLayout;
+    private LinearLayout googlePlus;
+    private LinearLayout followTwitter;
+    private NetworkedCacheableImageView googleIv;
+    private NetworkedCacheableImageView twitterIv;
+    private View followProgressText;
 
     private AppSettings settings;
 
-    private FollowMePopup popup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,12 +134,17 @@ public class LoginActivity extends LVLActivity {
         twitter = factory.getInstance();
 
         btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
-        noThanks = (Button) findViewById(R.id.dont_follow);
         title = (TextSwitcher) findViewById(R.id.welcome);
         summary = (TextSwitcher) findViewById(R.id.info);
         progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
         progressBar = (SmoothProgressBar) findViewById(R.id.progress_bar);
         main = (LinearLayout) findViewById(R.id.mainLayout);
+        followMeLayout = (LinearLayout) findViewById(R.id.follow_me_info);
+        followTwitter = (LinearLayout) findViewById(R.id.follow_me_twitter);
+        googlePlus = (LinearLayout) findViewById(R.id.follow_me_google);
+        twitterIv = (NetworkedCacheableImageView) findViewById(R.id.twitter_bird);
+        googleIv = (NetworkedCacheableImageView) findViewById(R.id.google_plus);
+        followProgressText = findViewById(R.id.follow_progress_text);
 
         progressBar.setSmoothProgressDrawableColors(new int[] {settings.themeColors.accentColorLight, settings.themeColors.accentColor});
         progressBar.setVisibility(View.GONE);
@@ -226,22 +237,26 @@ public class LoginActivity extends LVLActivity {
             }
         });
 
-        popup = new FollowMePopup(context);
-        int threeHundred = Utils.toDP(300, context);
-        popup.setWidth(threeHundred);
-        popup.setHeight(threeHundred + Utils.toDP(80, context));
+        googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
+        twitterIv.loadImage("https://g.twimg.com/Twitter_logo_blue.png", true, null);
 
-        noThanks.setText(getResources().getString(R.string.follow_progress));
-
-        noThanks.setOnClickListener(new View.OnClickListener() {
+        followTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new FollowMe().execute();
 
-                popup.setExpansionPointForAnim(view);
-                popup.setOnTopOfView(view);
+                view.setAlpha(.4f);
+                view.setEnabled(false);
+            }
+        });
 
-                popup.show();
+        googlePlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com/+LukeKlinker")));
 
+                view.setAlpha(.4f);
+                view.setEnabled(false);
             }
         });
 
@@ -337,6 +352,12 @@ public class LoginActivity extends LVLActivity {
             try {
                 twit.createFriendship("TalonAndroid");
             } catch (Exception x) {
+
+            }
+
+            try {
+                twit.createFriendship("lukeklinker");
+            } catch (Exception e) {
 
             }
 
@@ -692,7 +713,27 @@ public class LoginActivity extends LVLActivity {
 
             btnLoginTwitter.setEnabled(true);
             btnLoginTwitter.setText(getResources().getString(R.string.done_label));
-            noThanks.setVisibility(View.VISIBLE);
+
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    followMeLayout.setVisibility(View.VISIBLE);
+                    followProgressText.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            followMeLayout.startAnimation(anim);
+            followProgressText.startAnimation(anim);
 
             progressBar.progressiveStop();
 
@@ -790,8 +831,6 @@ public class LoginActivity extends LVLActivity {
                 btnLoginTwitter.setEnabled(true);
                 return;
             }
-        } else if (popup != null && popup.isShowing()) {
-            popup.hide();
         }
     }
 }

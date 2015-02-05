@@ -131,8 +131,8 @@
     <string name="back_to_timeline">Take me to my timeline!</string>
     <string name="initial_sync">Sync Now!</string>
     <string name="first_info">Before we get started, let\'s get you logged in. </string>
-    <string name="second_info">Great!\n\nNow we are going to get some initial data.\n\nThis may take some time depending on your internet connection.</string>
-    <string name="third_info">Hope you enjoy Talon!\n\n-- Luke Klinker</string>
+    <string name="second_info">Great! Now we are going to get you set up.</string>
+    <string name="third_info">Hope you enjoy Talon!</string>
     <string name="syncing_timeline">Syncing timeline...</string>
     <string name="syncing_mentions">Syncing mentions...</string>
     <string name="syncing_direct_messages">Syncing direct messages...</string>
