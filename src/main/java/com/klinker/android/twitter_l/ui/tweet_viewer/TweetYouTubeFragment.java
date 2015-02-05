@@ -141,6 +141,7 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
 
         realPlayer = youTubePlayer;
 
+<<<<<<< HEAD:src/main/java/com/klinker/android/twitter_l/ui/tweet_viewer/TweetYouTubeFragment.java
         realPlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
             @Override
             public void onFullscreen(boolean b) {
@@ -156,6 +157,12 @@ public class TweetYouTubeFragment extends YouTubePlayerFragment implements
             getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
         } catch (Exception e) {
             // activity null
+=======
+        try {
+            getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
+        } catch (Exception e) {
+            // activity is null
+>>>>>>> master:src/main/java/com/klinker/android/twitter/ui/tweet_viewer/fragments/TweetYouTubeFragment.java
         }
     }
 
