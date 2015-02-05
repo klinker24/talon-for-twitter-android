@@ -2,7 +2,7 @@
 <resources>
     <string name="fast_transitions">Transitions rapides</string>
     <string name="help">Aide</string>
-    <string name="to_top">Haut de page</string>
+    <string name="to_top">En Haut</string>
     <string name="show_all">Tout afficher</string>
     <string name="always">Toujours</string>
     <string name="never">Jamais</string>
