@@ -350,20 +350,19 @@ public class LoginActivity extends LVLActivity {
             Twitter twit = Utils.getTwitter(context, settings);
 
             try {
-                twit.createFriendship("TalonAndroid");
-            } catch (Exception x) {
-
-            }
-
-            try {
                 twit.createFriendship("lukeklinker");
             } catch (Exception e) {
 
             }
 
+            try {
+                twit.createFriendship("TalonAndroid");
+            } catch (Exception x) {
+
+            }
+
             return null;
         }
-
     }
 
     private String callbackUrl;
