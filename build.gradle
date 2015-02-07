@@ -124,7 +124,6 @@ dependencies {
     compile 'org.jsoup:jsoup:1.7.3'
 
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.1
-    compile files('lib/falcon.jar')
     compile(name: 'datetimepicker', ext: 'aar')
     compile(name: 'bitmap-cache', ext: 'aar')
 
