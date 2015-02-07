@@ -19,6 +19,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.*;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -117,13 +119,6 @@ public class UpdateUtils {
             e.putInt("default_timeline_page_" + 2, 1);
 
             e.commit();
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    checkLicense(context);
-                }
-            }).start();
         }
 
         if (sharedPrefs.getBoolean("version_1.3.0", false)) {
@@ -134,6 +129,23 @@ public class UpdateUtils {
             e.putInt("material_theme_2", AppSettings.getInstance(context).theme);
 
             e.commit();
+        }
+
+        runEveryUpdate(context, sharedPrefs);
+    }
+
+    public static void runEveryUpdate(final Context context, final SharedPreferences sharedPrefs) {
+        int storedAppVersion = sharedPrefs.getInt("app_version", 0);
+        int currentAppVersion = getAppVersion(context);
+
+        if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
+            sharedPrefs.edit().putInt("app_version", currentAppVersion).commit();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    checkLicense(context);
+                }
+            }).start();
         }
     }
 
@@ -371,5 +383,14 @@ public class UpdateUtils {
         }
     }
 
-
+    protected static int getAppVersion(Context c) {
+        try {
+            PackageInfo packageInfo = c.getPackageManager()
+                    .getPackageInfo(c.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // should never happen
+            return -1;
+        }
+    }
 }
