@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import com.jv.materialfalcon.fragment.dialog.FavoritersDialog;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.utils.IOUtils;
