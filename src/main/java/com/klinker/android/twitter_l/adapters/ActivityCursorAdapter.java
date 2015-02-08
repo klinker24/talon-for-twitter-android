@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
-import android.util.Log;
 import android.view.View;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;

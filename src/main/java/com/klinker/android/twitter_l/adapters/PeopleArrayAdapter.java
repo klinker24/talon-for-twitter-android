@@ -50,6 +50,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 import twitter4j.User;
@@ -62,7 +63,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
 
     public boolean openFirst = false;
 
-    public ArrayList<User> users;
+    public List<User> users;
 
     public LayoutInflater inflater;
     public AppSettings settings;
@@ -101,7 +102,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         mHandler = new Handler();
     }
 
-    public PeopleArrayAdapter(Context context, ArrayList<User> users) {
+    public PeopleArrayAdapter(Context context, List<User> users) {
         super(context, R.layout.tweet);
 
         this.context = context;
