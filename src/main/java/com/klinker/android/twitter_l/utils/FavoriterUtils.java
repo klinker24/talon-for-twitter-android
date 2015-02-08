@@ -27,11 +27,6 @@ public class FavoriterUtils {
         Twitter twitter =  Utils.getTwitter(context, null);
 
         try {
-            Status stat = twitter.showStatus(tweetId);
-            if (stat.isRetweet()) {
-                tweetId = stat.getRetweetedStatus().getId();
-            }
-
             long[] ids = getFavoritersIds(tweetId);
             users = twitter.lookupUsers(ids);
 
