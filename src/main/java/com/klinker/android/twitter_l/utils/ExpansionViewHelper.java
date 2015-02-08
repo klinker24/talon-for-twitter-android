@@ -38,10 +38,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.manipulations.ConversationPopupLayout;
-import com.klinker.android.twitter_l.manipulations.MobilizedWebPopupLayout;
-import com.klinker.android.twitter_l.manipulations.RetweetersPopupLayout;
-import com.klinker.android.twitter_l.manipulations.WebPopupLayout;
+import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -98,7 +95,7 @@ public class ExpansionViewHelper {
     View convoLayout;
 
     RetweetersPopupLayout retweetersPopup;
-    RetweetersPopupLayout favoritersPopup;
+    FavoritersPopupLayout favoritersPopup;
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
@@ -163,7 +160,7 @@ public class ExpansionViewHelper {
         }
         retweetersPopup.setHeightByPercent(.4f);
 
-        favoritersPopup = new RetweetersPopupLayout(context);
+        favoritersPopup = new FavoritersPopupLayout(context);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             favoritersPopup.setWidthByPercent(.4f);
         } else {

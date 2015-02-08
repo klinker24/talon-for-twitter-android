@@ -47,7 +47,13 @@ public class RetweetersPopupLayout extends PopupLayout {
 
         listView.setItemManager(builder.build());
 
+        setUserWindowTitle();
+
         return retweets;
+    }
+
+    public void setUserWindowTitle() {
+
     }
 
     public void setData(List<User> users) {

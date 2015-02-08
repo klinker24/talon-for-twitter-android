@@ -109,7 +109,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public WebPopupLayout webPopup = null;
     public MobilizedWebPopupLayout mobilizedPopup = null;
     public RetweetersPopupLayout retweetersPopup = null;
-    public RetweetersPopupLayout favoritersPopup = null;
+    public FavoritersPopupLayout favoritersPopup = null;
     public ConversationPopupLayout convoPopup = null;
 
     public AsyncListView replyList;
@@ -1399,7 +1399,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         retweeters.setClipToOutline(true);
         favoriters.setClipToOutline(true);
 
-        favoritersPopup = new RetweetersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
+        favoritersPopup = new FavoritersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
         if (getResources().getBoolean(R.bool.isTablet)) {
             favoritersPopup.setWidthByPercent(.4f);
         } else {
