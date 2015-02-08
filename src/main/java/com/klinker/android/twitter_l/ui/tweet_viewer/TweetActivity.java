@@ -49,9 +49,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
-import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.*;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -111,6 +109,7 @@ public class TweetActivity extends YouTubeBaseActivity {
     public WebPopupLayout webPopup = null;
     public MobilizedWebPopupLayout mobilizedPopup = null;
     public RetweetersPopupLayout retweetersPopup = null;
+    public RetweetersPopupLayout favoritersPopup = null;
     public ConversationPopupLayout convoPopup = null;
 
     public AsyncListView replyList;
@@ -636,7 +635,10 @@ public class TweetActivity extends YouTubeBaseActivity {
     }
 
     public boolean hidePopups() {
-        if (retweetersPopup != null && retweetersPopup.isShowing()) {
+        if (favoritersPopup != null && favoritersPopup.isShowing()) {
+            favoritersPopup.hide();
+            return true;
+        } else if (retweetersPopup != null && retweetersPopup.isShowing()) {
             retweetersPopup.hide();
             return true;
         } else if (webPopup != null && webPopup.isShowing()) {
@@ -712,7 +714,10 @@ public class TweetActivity extends YouTubeBaseActivity {
                 if (view instanceof ImageButton) {
                     return false;
                 }
-                if (retweetersPopup != null && retweetersPopup.isShowing()) {
+                if (favoritersPopup != null && favoritersPopup.isShowing()) {
+                    favoritersPopup.hide();
+                    return true;
+                } else if (retweetersPopup != null && retweetersPopup.isShowing()) {
                     retweetersPopup.hide();
                     return true;
                 } else if (webPopup != null && webPopup.isShowing()) {
@@ -1357,8 +1362,10 @@ public class TweetActivity extends YouTubeBaseActivity {
     }
 
     public NetworkedCacheableImageView profilePic;
-    public NetworkedCacheableImageView[] retweeters;
+    public NetworkedCacheableImageView retweeters;
+    public NetworkedCacheableImageView favoriters;
     public LinearLayout viewRetweeters;
+    public LinearLayout viewFavoriters;
 
     public void setUIElements(final View layout) {
         TextView nametv;
@@ -1370,7 +1377,6 @@ public class TweetActivity extends YouTubeBaseActivity {
         final LinearLayout retweetButton;
         final TextView favoriteCount;
         final TextView retweetCount;
-        retweeters = new NetworkedCacheableImageView[3];
 
         nametv = (TextView) layout.findViewById(R.id.name);
         screennametv = (TextView) layout.findViewById(R.id.screen_name);
@@ -1384,16 +1390,22 @@ public class TweetActivity extends YouTubeBaseActivity {
         retweetCount = (TextView) layout.findViewById(R.id.retweet_count);
         timetv = (TextView) layout.findViewById(R.id.time);
         viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
+        viewFavoriters = (LinearLayout) layout.findViewById(R.id.view_favoriters);
 
         final View sendLayout = findViewById(R.id.send_layout);
 
-        retweeters[0] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_1);
-        retweeters[1] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_2);
-        retweeters[2] = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeter_3);
+        retweeters = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeters);
+        favoriters = (NetworkedCacheableImageView) layout.findViewById(R.id.favoriters);
+        retweeters.setClipToOutline(true);
+        favoriters.setClipToOutline(true);
 
-        for (int i = 0; i < 3; i++) {
-            retweeters[i].setClipToOutline(true);
+        favoritersPopup = new RetweetersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            favoritersPopup.setWidthByPercent(.4f);
+        } else {
+            favoritersPopup.setWidthByPercent(.6f);
         }
+        favoritersPopup.setHeightByPercent(.4f);
 
         retweetersPopup = new RetweetersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
         if (getResources().getBoolean(R.bool.isTablet)) {
@@ -1407,10 +1419,23 @@ public class TweetActivity extends YouTubeBaseActivity {
             @Override
             public void onClick(View view) {
                 if (!hidePopups()) {
-                    if (retweetersPopup != null) {
+                    if (favoritersPopup != null) {
                         retweetersPopup.setOnTopOfView(viewRetweeters);
                         retweetersPopup.setExpansionPointForAnim(viewRetweeters);
                         retweetersPopup.show();
+                    }
+                }
+            }
+        });
+
+        viewFavoriters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!hidePopups()) {
+                    if (favoritersPopup != null) {
+                        favoritersPopup.setOnTopOfView(viewFavoriters);
+                        favoritersPopup.setExpansionPointForAnim(viewFavoriters);
+                        favoritersPopup.show();
                     }
                 }
             }
@@ -2170,8 +2195,8 @@ public class TweetActivity extends YouTubeBaseActivity {
                         urls.add(s.getUser().getBiggerProfileImageURL());
                     }
 
-                    if (urls.size() > 3) {
-                        urls.subList(0, 2);
+                    if (urls.size() > 4) {
+                        urls.subList(0, 3);
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -2179,12 +2204,16 @@ public class TweetActivity extends YouTubeBaseActivity {
                         public void run() {
                             retweetersPopup.setData(users);
 
-                            for (int i = 0; i < (getResources().getBoolean(R.bool.isTablet) ? 3 : 2); i++) {
-                                try {
-                                    retweeters[i].loadImage(urls.get(i), false, null);
-                                } catch (Exception e) {
-                                    retweeters[i].setVisibility(View.GONE);
-                                }
+                            String combined = "";
+                            for (int i = 0; i < urls.size(); i++) {
+                                combined += urls.get(i) + " ";
+                            }
+
+                            Log.v("retweeters_pics", combined);
+                            if (android.text.TextUtils.isEmpty(combined)) {
+                                retweeters.setVisibility(View.GONE);
+                            } else {
+                                retweeters.loadImage(combined, true, null);
                             }
                         }
                     });
@@ -2201,6 +2230,61 @@ public class TweetActivity extends YouTubeBaseActivity {
 
         getRetweeters.setPriority(Thread.MAX_PRIORITY);
         getRetweeters.start();
+    }
+
+    public void getFavoriters() {
+        Thread getFavoriters = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    long id = tweetId;
+                    Status stat = status;
+                    if (stat.isRetweet()) {
+                        id = stat.getRetweetedStatus().getId();
+                    }
+
+                    final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
+                    final ArrayList<String> urls = new ArrayList<String>();
+
+                    for (User s : users) {
+                        urls.add(s.getBiggerProfileImageURL());
+                    }
+
+                    if (urls.size() > 4) {
+                        urls.subList(0, 3);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            favoritersPopup.setData(users);
+
+                            String combined = "";
+                            for (int i = 0; i < urls.size(); i++) {
+                                combined += urls.get(i) + " ";
+                            }
+
+                            if (android.text.TextUtils.isEmpty(combined)) {
+                                favoriters.setVisibility(View.GONE);
+                            } else {
+                                favoriters.loadImage(combined, true, null);
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
+
+        getFavoriters.setPriority(Thread.MAX_PRIORITY);
+        getFavoriters.start();
     }
 
     private Status status = null;
@@ -2266,6 +2350,17 @@ public class TweetActivity extends YouTubeBaseActivity {
                             @Override
                             public void run() {
                                 viewRetweeters.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+                    if (status.getFavoriteCount() > 0) {
+                        getFavoriters();
+                    } else {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewFavoriters.setVisibility(View.GONE);
                             }
                         });
                     }
