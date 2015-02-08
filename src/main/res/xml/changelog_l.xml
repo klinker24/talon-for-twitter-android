@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.0.4">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="2.0.3">
         <text>Animated GIF preview images</text>
     </version>
