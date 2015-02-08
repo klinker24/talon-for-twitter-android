@@ -2211,9 +2211,12 @@ public class TweetActivity extends YouTubeBaseActivity {
                             }
 
                             if (android.text.TextUtils.isEmpty(combined)) {
-                                viewFavoriters.setVisibility(View.GONE);
+                                viewRetweeters.setVisibility(View.INVISIBLE);
+                                viewRetweeters.setEnabled(false);
                             } else {
                                 retweeters.loadImage(combined, true, null);
+                                viewRetweeters.setVisibility(View.VISIBLE);
+                                viewRetweeters.setEnabled(true);
                             }
                         }
                     });
@@ -2267,9 +2270,12 @@ public class TweetActivity extends YouTubeBaseActivity {
                             }
 
                             if (android.text.TextUtils.isEmpty(combined)) {
-                                viewFavoriters.setVisibility(View.GONE);
+                                viewFavoriters.setVisibility(View.INVISIBLE);
+                                viewFavoriters.setEnabled(false);
                             } else {
                                 favoriters.loadImage(combined, true, null);
+                                viewFavoriters.setVisibility(View.VISIBLE);
+                                viewFavoriters.setEnabled(true);
                             }
                         }
                     });
