@@ -15,6 +15,7 @@ import twitter4j.User;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RetweetersPopupLayout extends PopupLayout {
 
@@ -49,7 +50,7 @@ public class RetweetersPopupLayout extends PopupLayout {
         return retweets;
     }
 
-    public void setData(ArrayList<User> users) {
+    public void setData(List<User> users) {
         if (users != null) {
             listView.setAdapter(new PeopleArrayAdapter(getContext(), users));
         }

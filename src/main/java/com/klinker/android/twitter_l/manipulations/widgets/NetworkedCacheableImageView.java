@@ -137,34 +137,78 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                         TwitterDMPicHelper helper = new TwitterDMPicHelper();
                         b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
                     } else {
+                        if (!url.contains(" ")) {
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                        Log.v("talon_image_cache", "getting image, not from cache");
+                            b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
-                        // The bitmap isn't cached so download from the web
-                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                        InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                        b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
-
-                        if (b != null) {
-                            if (transform == BLUR) {
-                                b = ImageUtils.blur(b);
-                            } else if (transform == THUMBNAIL) {
-                                b = ImageUtils.overlayPlay(b, context);
-                            }
-
-                            // Add to cache
-                            try {
-                                if (fromCache) {
-                                    result = mCache.put(url, b);
-                                } else {
-                                    result = mCache.put("no_cache", b);
+                            if (b != null) {
+                                if (transform == BLUR) {
+                                    b = ImageUtils.blur(b);
+                                } else if (transform == THUMBNAIL) {
+                                    b = ImageUtils.overlayPlay(b, context);
                                 }
-                            } catch (NullPointerException e) {
-                                // the bitmap couldn't be found
+
+                                // Add to cache
+                                try {
+                                    if (fromCache) {
+                                        result = mCache.put(url, b);
+                                    } else {
+                                        result = mCache.put("no_cache", b);
+                                    }
+                                } catch (NullPointerException e) {
+                                    // the bitmap couldn't be found
+                                }
+                            } else {
+                                return null;
                             }
                         } else {
-                            return null;
+                            // there are multiple pictures... uh oh
+                            String[] pics = url.split(" ");
+                            Bitmap[] bitmaps = new Bitmap[pics.length];
+
+                            // need to download all of them, then combine them
+                            for (int i = 0; i < pics.length; i++) {
+                                String s = pics[i];
+
+                                // The bitmap isn't cached so download from the web
+                                HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
+                                InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                                Bitmap x = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
+
+                                try {
+                                    is.close();
+                                } catch (Exception e) {
+
+                                }
+                                try {
+                                    conn.disconnect();
+                                } catch (Exception e) {
+
+                                }
+
+                                // Add to cache
+                                try {
+                                    mCache.put(s, x);
+
+                                    // throw it into our bitmap array for later
+                                    bitmaps[i] = x;
+                                } catch (Exception e) {
+                                    result = null;
+                                }
+                            }
+
+                            // now that we have all of them, we need to put them together
+                            Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
+
+                            try {
+                                result = mCache.put(url, combined);
+                            } catch (Exception e) {
+
+                            }
                         }
                     }
 

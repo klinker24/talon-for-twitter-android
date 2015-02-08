@@ -81,8 +81,10 @@ public class ExpansionViewHelper {
     TextView retweetCount;
     TextView retweetText;
     View retweetButton; // linear layout
-    NetworkedCacheableImageView[] retweeters;
+    NetworkedCacheableImageView retweeters;
+    NetworkedCacheableImageView favoriters;
     View viewRetweeters;
+    View viewFavoriters;
 
     // buttons at the bottom
     ImageButton webButton;
@@ -96,6 +98,7 @@ public class ExpansionViewHelper {
     View convoLayout;
 
     RetweetersPopupLayout retweetersPopup;
+    RetweetersPopupLayout favoritersPopup;
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
@@ -123,8 +126,6 @@ public class ExpansionViewHelper {
     }
 
     private void setViews() {
-        retweeters = new NetworkedCacheableImageView[3];
-
         favCount = (TextView) expansion.findViewById(R.id.fav_count);
         favText = (TextView) expansion.findViewById(R.id.favorite_text);
         favoriteButton = expansion.findViewById(R.id.favorite);
@@ -133,10 +134,13 @@ public class ExpansionViewHelper {
         retweetText = (TextView) expansion.findViewById(R.id.retweet_text);
         retweetButton = expansion.findViewById(R.id.retweet);
         viewRetweeters = expansion.findViewById(R.id.view_retweeters);
+        viewFavoriters = expansion.findViewById(R.id.view_favoriters);
 
-        retweeters[0] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_1);
-        retweeters[1] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_2);
-        retweeters[2] = (NetworkedCacheableImageView) retweetButton.findViewById(R.id.retweeter_3);
+        retweeters = (NetworkedCacheableImageView) expansion.findViewById(R.id.retweeters);
+        retweeters.setClipToOutline(true);
+
+        favoriters = (NetworkedCacheableImageView) expansion.findViewById(R.id.favoriters);
+        favoriters.setClipToOutline(true);
 
         webButton = (ImageButton) expansion.findViewById(R.id.web_button);
         repliesButton = (Button)expansion.findViewById(R.id.show_all_tweets_button);
@@ -150,9 +154,6 @@ public class ExpansionViewHelper {
         replyList = (AsyncListView) convoLayout.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convoLayout.findViewById(R.id.spinner);
 
-        for (int i = 0; i < 3; i++) {
-            retweeters[i].setClipToOutline(true);
-        }
 
         retweetersPopup = new RetweetersPopupLayout(context);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
@@ -161,6 +162,14 @@ public class ExpansionViewHelper {
             retweetersPopup.setWidthByPercent(.6f);
         }
         retweetersPopup.setHeightByPercent(.4f);
+
+        favoritersPopup = new RetweetersPopupLayout(context);
+        if (context.getResources().getBoolean(R.bool.isTablet)) {
+            favoritersPopup.setWidthByPercent(.4f);
+        } else {
+            favoritersPopup.setWidthByPercent(.6f);
+        }
+        favoritersPopup.setHeightByPercent(.4f);
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
@@ -186,6 +195,17 @@ public class ExpansionViewHelper {
                     retweetersPopup.setOnTopOfView(viewRetweeters);
                     retweetersPopup.setExpansionPointForAnim(viewRetweeters);
                     retweetersPopup.show();
+                }
+            }
+        });
+
+        viewFavoriters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (favoritersPopup != null) {
+                    favoritersPopup.setOnTopOfView(viewFavoriters);
+                    favoritersPopup.setExpansionPointForAnim(viewFavoriters);
+                    favoritersPopup.show();
                 }
             }
         });
@@ -735,6 +755,14 @@ public class ExpansionViewHelper {
 
         }
         try {
+            if (favoritersPopup.isShowing()) {
+                favoritersPopup.hide();
+                hidden = true;
+            }
+        } catch (Exception e) {
+
+        }
+        try {
             if (convoLayout.isShown()) {
                 convoPopup.hide();
                 hidden = true;
@@ -932,6 +960,17 @@ public class ExpansionViewHelper {
                             @Override
                             public void run() {
                                 viewRetweeters.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
+                    if (status.getFavoriteCount() > 0) {
+                        getFavoriters();
+                    } else {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewFavoriters.setVisibility(View.GONE);
                             }
                         });
                     }
@@ -1365,8 +1404,8 @@ public class ExpansionViewHelper {
                         urls.add(s.getUser().getBiggerProfileImageURL());
                     }
 
-                    if (urls.size() > 3) {
-                        urls.subList(0, 2);
+                    if (urls.size() > 4) {
+                        urls.subList(0, 3);
                     }
 
                     ((Activity)context).runOnUiThread(new Runnable() {
@@ -1374,12 +1413,15 @@ public class ExpansionViewHelper {
                         public void run() {
                             retweetersPopup.setData(users);
 
-                            for (int i = 0; i < (context.getResources().getBoolean(R.bool.isTablet) ? 3 : 2); i++) {
-                                try {
-                                    retweeters[i].loadImage(urls.get(i), false, null);
-                                } catch (Exception e) {
-                                    retweeters[i].setVisibility(View.GONE);
-                                }
+                            String combined = "";
+                            for (int i = 0; i < urls.size(); i++) {
+                                combined += urls.get(i) + " ";
+                            }
+
+                            if (android.text.TextUtils.isEmpty(combined)) {
+                                retweeters.setVisibility(View.GONE);
+                            } else {
+                                retweeters.loadImage(combined, true, null);
                             }
                         }
                     });
@@ -1396,6 +1438,60 @@ public class ExpansionViewHelper {
 
         getRetweeters.setPriority(Thread.MAX_PRIORITY);
         getRetweeters.start();
+    }
+
+    public void getFavoriters() {
+        Thread getFavoriters = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    Status stat = status;
+                    if (stat.isRetweet()) {
+                        id = stat.getRetweetedStatus().getId();
+                    }
+
+                    final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
+                    final ArrayList<String> urls = new ArrayList<String>();
+
+                    for (User s : users) {
+                        urls.add(s.getBiggerProfileImageURL());
+                    }
+
+                    if (urls.size() > 4) {
+                        urls.subList(0, 3);
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            favoritersPopup.setData(users);
+
+                            String combined = "";
+                            for (int i = 0; i < urls.size(); i++) {
+                                combined += urls.get(i) + " ";
+                            }
+
+                            if (android.text.TextUtils.isEmpty(combined)) {
+                                favoriters.setVisibility(View.GONE);
+                            } else {
+                                favoriters.loadImage(combined, true, null);
+                            }
+                        }
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                } catch (OutOfMemoryError e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
+
+        getFavoriters.setPriority(Thread.MAX_PRIORITY);
+        getFavoriters.start();
     }
 
     private class HelloWebViewClient extends WebViewClient {
