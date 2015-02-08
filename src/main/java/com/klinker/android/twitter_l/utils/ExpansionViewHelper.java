@@ -938,14 +938,11 @@ public class ExpansionViewHelper {
 
                     getConversation();
 
-                    final String sfavCount;
                     if (status.isRetweet()) {
-                        twitter4j.Status status2 = status.getRetweetedStatus();
-
-                        sfavCount = status2.getFavoriteCount() + "";
-                    } else {
-                        sfavCount = status.getFavoriteCount() + "";
+                        status = status.getRetweetedStatus();
                     }
+
+                    final String sfavCount = status.getFavoriteCount() + "";
 
                     isRetweeted = status.isRetweetedByMe();
                     final String retCount = "" + status.getRetweetCount();
@@ -956,7 +953,7 @@ public class ExpansionViewHelper {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                viewRetweeters.setVisibility(View.GONE);
+                                viewRetweeters.setVisibility(View.INVISIBLE);
                             }
                         });
                     }
@@ -967,7 +964,7 @@ public class ExpansionViewHelper {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                viewFavoriters.setVisibility(View.GONE);
+                                viewFavoriters.setVisibility(View.INVISIBLE);
                             }
                         });
                     }
@@ -1448,9 +1445,7 @@ public class ExpansionViewHelper {
                 try {
 
                     Status stat = status;
-                    if (stat.isRetweet()) {
-                        id = stat.getRetweetedStatus().getId();
-                    }
+                    long id = stat.getId();
 
                     final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
                     List<String> urls = new ArrayList<String>();

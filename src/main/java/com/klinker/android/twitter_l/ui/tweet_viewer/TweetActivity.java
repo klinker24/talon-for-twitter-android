@@ -2178,7 +2178,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                 try {
                     Twitter twitter =  getTwitter();
 
-                    long id = tweetId;
+                    long id = status.getId();
                     Status stat = status;
                     if (stat.isRetweet()) {
                         id = stat.getRetweetedStatus().getId();
@@ -2243,9 +2243,6 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     long id = tweetId;
                     Status stat = status;
-                    if (stat.isRetweet()) {
-                        id = stat.getRetweetedStatus().getId();
-                    }
 
                     final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
                     List<String> urls = new ArrayList<String>();
@@ -2311,6 +2308,10 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     TwitterMultipleImageHelper helper = new TwitterMultipleImageHelper();
                     status = twitter.showStatus(tweetId);
+                    if (status.isRetweet()) {
+                        status = status.getRetweetedStatus();
+                        TweetActivity.this.tweetId = status.getId();
+                    }
 
                     ArrayList<String> i = new ArrayList<String>();
 
@@ -2336,16 +2337,8 @@ public class TweetActivity extends YouTubeBaseActivity {
 
                     via = android.text.Html.fromHtml(status.getSource()).toString();
 
-                    final String sfavCount;
-                    if (status.isRetweet()) {
-                        twitter4j.Status status2 = status.getRetweetedStatus();
-                        via = android.text.Html.fromHtml(status2.getSource()).toString();
-                        realTime = status2.getCreatedAt().getTime();
-                        sfavCount = status2.getFavoriteCount() + "";
-                    } else {
-                        realTime = status.getCreatedAt().getTime();
-                        sfavCount = status.getFavoriteCount() + "";
-                    }
+                    final String sfavCount = status.getFavoriteCount() + "";
+                    realTime = status.getCreatedAt().getTime();
 
                     retweetedByMe = status.isRetweetedByMe();
                     final String retCount = "" + status.getRetweetCount();
@@ -2356,7 +2349,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                viewRetweeters.setVisibility(View.GONE);
+                                viewRetweeters.setVisibility(View.INVISIBLE);
                             }
                         });
                     }
@@ -2367,7 +2360,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                viewFavoriters.setVisibility(View.GONE);
+                                viewFavoriters.setVisibility(View.INVISIBLE);
                             }
                         });
                     }
