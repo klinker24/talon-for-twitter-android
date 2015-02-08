@@ -2187,7 +2187,7 @@ public class TweetActivity extends YouTubeBaseActivity {
                     // can get 100 retweeters is all
                     ResponseList<twitter4j.Status> lists = twitter.getRetweets(id);
 
-                    final ArrayList<String> urls = new ArrayList<String>();
+                    List<String> urls = new ArrayList<String>();
                     final ArrayList<User> users = new ArrayList<User>();
 
                     for (Status s : lists) {
@@ -2196,22 +2196,22 @@ public class TweetActivity extends YouTubeBaseActivity {
                     }
 
                     if (urls.size() > 4) {
-                        urls.subList(0, 3);
+                        urls = urls.subList(0, 3);
                     }
 
+                    final List<String> furls = urls;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             retweetersPopup.setData(users);
 
                             String combined = "";
-                            for (int i = 0; i < urls.size(); i++) {
-                                combined += urls.get(i) + " ";
+                            for (int i = 0; i < furls.size(); i++) {
+                                combined += furls.get(i) + " ";
                             }
 
-                            Log.v("retweeters_pics", combined);
                             if (android.text.TextUtils.isEmpty(combined)) {
-                                retweeters.setVisibility(View.GONE);
+                                viewFavoriters.setVisibility(View.GONE);
                             } else {
                                 retweeters.loadImage(combined, true, null);
                             }
@@ -2245,28 +2245,29 @@ public class TweetActivity extends YouTubeBaseActivity {
                     }
 
                     final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
-                    final ArrayList<String> urls = new ArrayList<String>();
+                    List<String> urls = new ArrayList<String>();
 
                     for (User s : users) {
                         urls.add(s.getBiggerProfileImageURL());
                     }
 
                     if (urls.size() > 4) {
-                        urls.subList(0, 3);
+                        urls = urls.subList(0, 3);
                     }
 
+                    final List<String> furls = urls;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             favoritersPopup.setData(users);
 
                             String combined = "";
-                            for (int i = 0; i < urls.size(); i++) {
-                                combined += urls.get(i) + " ";
+                            for (int i = 0; i < furls.size(); i++) {
+                                combined += furls.get(i) + " ";
                             }
 
                             if (android.text.TextUtils.isEmpty(combined)) {
-                                favoriters.setVisibility(View.GONE);
+                                viewFavoriters.setVisibility(View.GONE);
                             } else {
                                 favoriters.loadImage(combined, true, null);
                             }
