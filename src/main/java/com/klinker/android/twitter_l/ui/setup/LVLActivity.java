@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -157,6 +159,15 @@ public class LVLActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                })
+                .setNegativeButton("Info", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri weburi = Uri.parse("https://plus.google.com/117432358268488452276/posts/aiQgceLKXiK");
+                        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+                        launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(launchBrowser);
                     }
                 })
                 .create()
