@@ -305,15 +305,12 @@ public class UpdateUtils {
         }
 
         public void dontAllow(int reason) {
-
             if (reason == Policy.RETRY) {
                 if (!checkedOnce) {
                     checkedOnce = true;
                     checker.checkAccess(this);
-                } else {
-                    showError();
                 }
-            } else {
+            } else if(reason == Policy.NOT_LICENSED) {
                 showError();
             }
         }
@@ -323,8 +320,6 @@ public class UpdateUtils {
             if (!checkedOnce) {
                 checkedOnce = true;
                 checker.checkAccess(this);
-            } else {
-                showError();
             }
         }
 
