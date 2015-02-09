@@ -445,7 +445,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     String link;
 
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                    boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -482,7 +482,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (android.text.TextUtils.isEmpty(holder.gifUrl) && !tweetText.contains("vine.co/v/")) {
+                            if (!tweetText.contains("vine.co/v/")) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performClick();
@@ -504,7 +504,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     String link;
 
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                    boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -548,7 +548,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (android.text.TextUtils.isEmpty(holder.gifUrl) && !tweetText.contains("vine.co/v/")) {
+                            if (!tweetText.contains("vine.co/v/")) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performLongClick();
@@ -670,7 +670,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         public void onClick(View view) {
                             String link;
 
-                            boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                            boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
                             if (displayPic) {
                                 link = holder.picUrl;
                             } else {
