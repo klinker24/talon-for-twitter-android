@@ -1059,23 +1059,25 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(translationXAnimator);
 
-        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-            translationYAnimator.setDuration(ANIMATION_DURATION);
-            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimator);
+        if (!settings.bottomPictures) {
+            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+                ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+                translationYAnimator.setDuration(ANIMATION_DURATION);
+                translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+                startAnimation(translationYAnimator);
 
-            ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-            translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
-            translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimatorExpansion);
-        } else {
-            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
-            translationYAnimator.setDuration(ANIMATION_DURATION);
-            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimator);
+                ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+                translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
+                translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
+                startAnimation(translationYAnimatorExpansion);
+            } else {
+                int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+                ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
+                translationYAnimator.setDuration(ANIMATION_DURATION);
+                translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+                startAnimation(translationYAnimator);
+            }
         }
 
         ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
