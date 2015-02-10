@@ -445,7 +445,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     String link;
 
-                    boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
+                    boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -504,7 +505,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     String link;
 
-                    boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
+                    boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
+                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -670,7 +672,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         public void onClick(View view) {
                             String link;
 
-                            boolean displayPic = !holder.picUrl.equals("") && holder.playButton.getVisibility() != View.VISIBLE;
+                            boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
+                            boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
                             if (displayPic) {
                                 link = holder.picUrl;
                             } else {

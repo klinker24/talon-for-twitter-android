@@ -250,7 +250,7 @@ public class ActivityUtils {
 
     public boolean tryInsertFavorites(Status status) {
         try {
-            String noti = ActivityDataSource.getInstance(context).insertFavoriteCount(status, currentAccount);
+            String noti = ActivityDataSource.getInstance(context).insertFavoriters(status, currentAccount);
 
             if (noti != null) {
                 notificationItems.add(noti);
