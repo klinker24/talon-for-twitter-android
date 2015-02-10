@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.1.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="2.1.0">
         <text>View favoriters on a status</text>
         <text>View who favorited your status from 'Activity' page</text>
