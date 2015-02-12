@@ -284,8 +284,8 @@ public class ActivityDataSource {
 
             values.put(ActivitySQLiteHelper.COLUMN_TITLE, buildUsersTitle(userList));
             values.put(ActivitySQLiteHelper.COLUMN_ACCOUNT, account);
-            values.put(ActivitySQLiteHelper.COLUMN_TEXT, userList.size() + " " +
-                    (userList.size() == 1 ?
+            values.put(ActivitySQLiteHelper.COLUMN_TEXT, status.getFavoriteCount() + " " +
+                    (status.getFavoriteCount() == 1 ?
                             context.getString(R.string.favorite_lower) :
                             context.getString(R.string.favorites_lower)) +
                     ": " + text);
@@ -340,8 +340,8 @@ public class ActivityDataSource {
 
                 values.put(ActivitySQLiteHelper.COLUMN_TITLE, buildUsersTitle(users));
                 values.put(ActivitySQLiteHelper.COLUMN_ACCOUNT, account);
-                values.put(ActivitySQLiteHelper.COLUMN_TEXT, users.size() + " " +
-                        (users.size() == 1 ?
+                values.put(ActivitySQLiteHelper.COLUMN_TEXT, status.getRetweetCount() + " " +
+                        (status.getRetweetCount() == 1 ?
                                 context.getString(R.string.retweet) :
                                 context.getString(R.string.retweets)) +
                         ": " + text);
@@ -637,11 +637,11 @@ public class ActivityDataSource {
     public synchronized void deleteItem(long id) {
         try {
             database.delete(HomeSQLiteHelper.TABLE_HOME, ActivitySQLiteHelper.COLUMN_ID
-                    + " = " + id, null);
+                    + " = ?", new String[] { id + "" });
         } catch (Exception e) {
             open();
             database.delete(HomeSQLiteHelper.TABLE_HOME, ActivitySQLiteHelper.COLUMN_ID
-                    + " = " + id, null);
+                    + " = ?", new String[] { id + "" });
         }
     }
 
