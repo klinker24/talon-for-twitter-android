@@ -67,8 +67,8 @@ public class PhotoPagerActivity extends Activity {
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);
-            ab.setDisplayHomeAsUpEnabled(false);
-            ab.setDisplayShowHomeEnabled(false);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(true);
             ab.setTitle("");
             ab.setIcon(transparent);
         }
@@ -122,6 +122,10 @@ public class PhotoPagerActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
             case R.id.menu_save_image:
                 ((PhotoFragment)adapter.getItem(pager.getCurrentItem())).saveImage();
                 return true;
