@@ -21,6 +21,8 @@ public class PhotoPagerActivity extends Activity {
     PhotoPagerAdapter adapter;
     ViewPager pager;
 
+    Handler sysVis;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,11 +91,20 @@ public class PhotoPagerActivity extends Activity {
 
             }
         });
+
+        sysVis = new Handler();
+        sysVis.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideSystemUI();
+            }
+        }, 6000);
     }
 
     ActionBar ab;
 
     public void setCurrentPageTitle(int page) {
+        page = page + 1;
         if (ab != null) {
             ab.setTitle(page + " of " + adapter.getCount());
         }
@@ -144,5 +155,36 @@ public class PhotoPagerActivity extends Activity {
                 overridePendingTransition(0, 0);
             }
         }, 250);
+    }
+
+    public void hideSystemUI() {
+        sysVis.removeCallbacksAndMessages(null);
+
+        sysUiShown = false;
+
+        try {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        } catch (Exception e) {
+            // fragment not attached to activity
+        }
+    }
+
+    public boolean sysUiShown = true;
+
+    public void showSystemUI() {
+        sysVis.removeCallbacksAndMessages(null);
+
+        sysUiShown = true;
+
+        try {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        } catch (Exception e) {
+            // fragment not attached to activity
+        }
     }
 }
