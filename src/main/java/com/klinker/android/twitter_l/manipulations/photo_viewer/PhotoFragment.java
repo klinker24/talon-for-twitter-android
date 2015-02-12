@@ -36,6 +36,8 @@ import java.util.Random;
 
 public class PhotoFragment extends Fragment {
 
+    public PhotoPagerActivity activity;
+
     public static PhotoFragment getInstance(String s) {
         Bundle b = new Bundle();
         b.putString("url", s);
@@ -52,6 +54,8 @@ public class PhotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        activity = (PhotoPagerActivity) getActivity();
 
         Bundle args = getArguments();
         url = args.getString("url");
@@ -72,20 +76,15 @@ public class PhotoFragment extends Fragment {
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
-                if (sysUiShown) {
-                    hideSystemUI();
+                if (activity.sysUiShown) {
+                    activity.hideSystemUI();
                 } else {
-                    showSystemUI();
+                    activity.showSystemUI();
                 }
             }
         });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideSystemUI();
-            }
-        }, 6000);
+
 
         return root;
     }
@@ -263,31 +262,5 @@ public class PhotoFragment extends Fragment {
         }
 
         return inSampleSize;
-    }
-
-    private void hideSystemUI() {
-        sysUiShown = false;
-
-        try {
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        } catch (Exception e) {
-            // fragment not attached to activity
-        }
-    }
-
-    boolean sysUiShown = true;
-    private void showSystemUI() {
-        sysUiShown = true;
-
-        try {
-            getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        } catch (Exception e) {
-            // fragment not attached to activity
-        }
     }
 }
