@@ -57,8 +57,6 @@ public class ListsActivity extends DrawerActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-
         setUpTheme();
         setContentView(R.layout.twitter_lists_page);
         setUpDrawer(1, getResources().getString(R.string.lists));

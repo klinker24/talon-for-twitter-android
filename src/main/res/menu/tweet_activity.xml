@@ -16,43 +16,44 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:talon="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_share"
         android:orderInCategory="1"
         android:title="@string/menu_share"
         android:icon="@drawable/ic_action_share_dark"
-        android:showAsAction="always"
-        android:actionProviderClass="com.klinker.android.twitter_l.manipulations.widgets.AlwaysLightShareActionProvider"/>
+        talon:showAsAction="always"
+        talon:actionProviderClass="com.klinker.android.twitter_l.manipulations.widgets.AlwaysLightShareActionProvider"/>
 
     <item android:id="@+id/menu_delete_tweet"
           android:orderInCategory="2"
           android:title="@string/menu_delete_tweet"
-          android:showAsAction="never"  />
+          talon:showAsAction="never"  />
 
     <item android:id="@+id/menu_quote"
           android:orderInCategory="3"
           android:title="@string/menu_quote"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_copy_text"
           android:orderInCategory="4"
           android:title="@string/menu_copy_text"
-          android:showAsAction="never"  />
+          talon:showAsAction="never"  />
 
     <item android:id="@+id/menu_save_image"
           android:orderInCategory="5"
           android:title="@string/menu_save_image"
-          android:showAsAction="never"  />
+          talon:showAsAction="never"  />
 
     <item android:id="@+id/menu_spam"
           android:title="@string/menu_spam"
           android:orderInCategory="6"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_translate"
         android:title="@string/menu_translate"
         android:orderInCategory="7"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
 </menu>
