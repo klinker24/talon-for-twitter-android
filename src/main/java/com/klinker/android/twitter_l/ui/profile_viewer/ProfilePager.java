@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.v7.app.*;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.*;
@@ -63,11 +64,11 @@ import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
-public class ProfilePager extends Activity {
+public class ProfilePager extends ActionBarActivity {
 
     private Context context;
     private AppSettings settings;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
     private BitmapLruCache mCache;
     private SharedPreferences sharedPrefs;
 
@@ -293,7 +294,7 @@ public class ProfilePager extends Activity {
     public void setUpTheme() {
         Utils.setUpTweetTheme(context, settings);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setTitle("");

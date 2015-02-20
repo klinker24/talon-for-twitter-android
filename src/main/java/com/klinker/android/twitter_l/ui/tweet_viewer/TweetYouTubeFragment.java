@@ -24,17 +24,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.*;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 
 
-public class TweetYouTubeFragment extends YouTubePlayerFragment implements
+public class TweetYouTubeFragment extends YouTubePlayerSupportFragment implements
         YouTubePlayer.OnInitializedListener {
 
     private AppSettings settings;

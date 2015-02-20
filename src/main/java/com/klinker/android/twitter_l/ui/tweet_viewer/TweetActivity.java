@@ -20,7 +20,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.*;
+import android.support.v4.view.MenuCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
@@ -35,6 +39,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 
+import android.widget.ShareActionProvider;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
@@ -78,7 +83,7 @@ import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class TweetActivity extends YouTubeBaseActivity {
+public class TweetActivity extends ActionBarActivity {
 
     public Context context;
     public AppSettings settings;
@@ -289,7 +294,7 @@ public class TweetActivity extends YouTubeBaseActivity {
             Bundle b = new Bundle();
             b.putString("url", youtubeVideo);
             youTubeFrag.setArguments(b);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, youTubeFrag);
             ft.commit();
         }
@@ -662,7 +667,7 @@ public class TweetActivity extends YouTubeBaseActivity {
 
     public void setUpTheme() {
 
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(android.R.color.transparent));
@@ -940,7 +945,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         }
     }
 
-    private ShareActionProvider mShareActionProvider;
+    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -952,7 +957,7 @@ public class TweetActivity extends YouTubeBaseActivity {
         MenuItem item = menu.findItem(R.id.menu_share);
 
         // Fetch and store ShareActionProvider
-        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+        mShareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(item);
         mShareActionProvider.setShareIntent(getShareIntent());
 
         return super.onCreateOptionsMenu(menu);

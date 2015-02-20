@@ -52,8 +52,6 @@ public class DiscoverPager extends DrawerActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-
         setUpTheme();
         setContentView(R.layout.trends_activity);
         setUpDrawer(0, getResources().getString(R.string.trends));
