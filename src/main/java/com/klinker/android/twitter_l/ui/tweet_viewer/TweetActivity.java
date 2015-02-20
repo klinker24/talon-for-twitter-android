@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.*;
+import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -294,7 +295,7 @@ public class TweetActivity extends ActionBarActivity {
             Bundle b = new Bundle();
             b.putString("url", youtubeVideo);
             youTubeFrag.setArguments(b);
-            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.youtube_view, youTubeFrag);
             ft.commit();
         }

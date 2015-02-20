@@ -73,7 +73,6 @@ public class NotifyScrollView extends ScrollView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         super.onTouchEvent(ev);
-        Log.i("VerticalScrollview", "onTouchEvent. action: " + ev.getAction());
         return true;
     }
 

@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.LinearLayout;
 import com.google.android.youtube.player.*;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
@@ -31,12 +32,10 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 
 
-public class TweetYouTubeFragment extends YouTubePlayerSupportFragment implements
+public class TweetYouTubeFragment extends YouTubePlayerFragment implements
         YouTubePlayer.OnInitializedListener {
 
-    private AppSettings settings;
-    private Context context;
-    public static View layout;
+    public static LinearLayout layout;
     private String url;
 
     private static YouTubePlayerView player;
@@ -49,12 +48,6 @@ public class TweetYouTubeFragment extends YouTubePlayerSupportFragment implement
 
     public TweetYouTubeFragment() {
 
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
     }
 
     @Override
@@ -72,14 +65,13 @@ public class TweetYouTubeFragment extends YouTubePlayerSupportFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+        player = (YouTubePlayerView) super.onCreateView(inflater, container, savedInstanceState);
 
-        settings = AppSettings.getInstance(getActivity());
         url = getArguments().getString("url");
 
-        layout = inflater.inflate(R.layout.youtube_fragment, null, false);
-        player = (YouTubePlayerView) layout.findViewById(R.id.youtube_view);
-        error = (HoloTextView) layout.findViewById(R.id.error);
+        layout = (LinearLayout) inflater.inflate(R.layout.youtube_fragment, null, false);
+
+        layout.addView(player);
 
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
