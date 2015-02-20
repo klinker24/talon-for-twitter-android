@@ -15,6 +15,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     protected SharedPreferences sharedPrefs;
     protected Activity context;
 
-    protected ActionBar actionBar;
+    protected android.support.v7.app.ActionBar actionBar;
     protected int mActionBarSize;
 
     protected int currentAccount;
@@ -145,7 +146,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-        actionBar = context.getActionBar();
+        actionBar = ((ActionBarActivity)context).getSupportActionBar();
     }
 
     @Override

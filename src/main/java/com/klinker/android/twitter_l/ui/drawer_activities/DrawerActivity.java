@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.*;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -42,6 +43,7 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.support.v7.widget.Toolbar;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
@@ -78,13 +80,13 @@ import org.lucasr.smoothie.AsyncListView;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public abstract class DrawerActivity extends Activity implements SystemBarVisibility {
+public abstract class DrawerActivity extends ActionBarActivity implements SystemBarVisibility {
 
     public static AppSettings settings;
     public Activity context;
     public SharedPreferences sharedPrefs;
 
-    public ActionBar actionBar;
+    public android.support.v7.app.ActionBar actionBar;
 
     public static ViewPager mViewPager;
     public TimelinePagerAdapter mSectionsPagerAdapter;
@@ -125,6 +127,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        actionBar = getSupportActionBar();
         Utils.setSharedContentTransition(this);
     }
 
@@ -152,8 +155,6 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             // Ignore
         }
 
-        actionBar = getActionBar();
-
         adapter = new MainDrawerArrayAdapter(context);
         MainDrawerArrayAdapter.setCurrent(context, number);
 
@@ -169,7 +170,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             try {
-                setActionBar(toolbar);
+                setSupportActionBar(toolbar);
                 DrawerActivity.hasToolbar = true;
             } catch (Exception e) {
                 // already has an action bar supplied?? comes when you switch to landscape and back to portrait
@@ -203,7 +204,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             toolbar.setBackgroundColor(settings.themeColors.primaryColor);
         }
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
 
         MainDrawerArrayAdapter.current = number;
 
@@ -342,9 +343,11 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
                             (context instanceof ListsActivity ||
                              context instanceof DiscoverPager ||
                              context instanceof SavedSearchesActivity)) {
-                        getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
-                                (toolbar != null && toolbar.getAlpha() == 1f) ?
-                                        settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
+                                    (toolbar != null && toolbar.getAlpha() == 1f) ?
+                                            settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
+                        }
                     }
                 }
 
@@ -604,6 +607,7 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
             });
         } else { // switch accounts
             proPic2.setClipToOutline(true);
+
             if (current == 1) {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
@@ -1555,12 +1559,16 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public void showStatusBar() {
         DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
     }
 
     public void hideStatusBar() {
         DrawerActivity.statusBar.setVisibility(View.GONE);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+        }
     }
 
     public void cancelTeslaUnread() {
@@ -1585,13 +1593,15 @@ public abstract class DrawerActivity extends Activity implements SystemBarVisibi
 
     public void showBars() {
 
-        if (getResources().getBoolean(R.bool.has_drawer)) {
-         getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-            if (statusBar.getVisibility() != View.VISIBLE) {
-                statusBar.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getResources().getBoolean(R.bool.has_drawer)) {
+                getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+                if (statusBar.getVisibility() != View.VISIBLE) {
+                    statusBar.setVisibility(View.VISIBLE);
+                }
+            } else {
+                getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
             }
-        } else {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
 
         if (tranparentSystemBar == -1) {

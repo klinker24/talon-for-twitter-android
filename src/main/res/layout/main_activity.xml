@@ -45,13 +45,15 @@
                 android:background="@android:color/black"
                 android:visibility="gone"/>
 
-            <Toolbar
+            <android.support.v7.widget.Toolbar
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/darker_primary"
                     android:id="@+id/toolbar"
                     android:elevation="5dp"
-                    android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"/>
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
             <LinearLayout
                     android:id="@+id/send_layout"

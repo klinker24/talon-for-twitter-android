@@ -58,7 +58,6 @@ public class DiscoverPager extends DrawerActivity {
         setContentView(R.layout.trends_activity);
         setUpDrawer(0, getResources().getString(R.string.trends));
 
-        actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.trends));
         actionBar.setElevation(0);
 

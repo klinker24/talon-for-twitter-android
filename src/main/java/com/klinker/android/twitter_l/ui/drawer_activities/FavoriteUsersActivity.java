@@ -78,7 +78,6 @@ public class FavoriteUsersActivity extends DrawerActivity {
         setContentView(R.layout.retweets_activity);
         setUpDrawer(2, getResources().getString(R.string.favorite_users));
 
-        actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.favorite_users));
 
 

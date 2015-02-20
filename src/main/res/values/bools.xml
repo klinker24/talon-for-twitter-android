@@ -17,7 +17,7 @@
 
 <resources>
     <bool name="isTablet">false</bool>
-    <bool name="expNotifications">false</bool>
+    <bool name="expNotifications">true</bool>
     <bool name="options_drawer">true</bool>
     <bool name="has_drawer">true</bool>
 </resources>

@@ -24,13 +24,15 @@
         android:layout_width="match_parent"
         android:orientation="vertical" >
 
-        <Toolbar
+        <android.support.v7.widget.Toolbar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:elevation="5dp"
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
-                android:theme="@android:style/ThemeOverlay.Material.Dark.ActionBar"/>
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <LinearLayout android:id="@+id/list_progress"
             android:orientation="vertical"
@@ -42,7 +44,7 @@
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:indeterminateOnly="true" />
         </LinearLayout>
 
