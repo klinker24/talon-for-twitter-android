@@ -198,8 +198,6 @@ public class MainActivity extends DrawerActivity {
             }
         });
 
-        actionBar = getActionBar();
-
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);
             startActivity(login);
@@ -424,8 +422,7 @@ public class MainActivity extends DrawerActivity {
         // check for night mode switching
         boolean dark = AppSettings.getCurrentTheme(sharedPrefs);
 
-        if (!getWindow().hasFeature(Window.FEATURE_ACTION_BAR_OVERLAY) ||
-                sharedPrefs.getBoolean("launcher_frag_switch", false) ||
+        if (sharedPrefs.getBoolean("launcher_frag_switch", false) ||
                 (dark != settings.darkTheme)) {
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)

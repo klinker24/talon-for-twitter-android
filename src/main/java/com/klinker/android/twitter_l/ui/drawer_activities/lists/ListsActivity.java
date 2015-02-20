@@ -63,7 +63,6 @@ public class ListsActivity extends DrawerActivity {
         setContentView(R.layout.twitter_lists_page);
         setUpDrawer(1, getResources().getString(R.string.lists));
 
-        actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
 

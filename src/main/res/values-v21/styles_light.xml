@@ -20,14 +20,13 @@
 
     <style name="Theme.TalonLight.Base" parent="Theme.AppCompat.Light.DarkActionBar">
 
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
         <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
 
-        <item name="colorControlHighlight">@color/light_ripple</item>
+        <item name="android:colorControlHighlight">@color/light_ripple</item>
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
@@ -118,7 +117,7 @@
 
     <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
-        <item name="colorControlHighlight">@color/dark_ripple</item>
+        <item name="android:colorControlHighlight">@color/dark_ripple</item>
         <item name="android:background">?android:colorPrimary</item>
     </style>
 
@@ -135,7 +134,7 @@
 
     <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight.Base">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
@@ -166,8 +165,8 @@
     </style>
 
     <style name="ActionBarPopup" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
-        <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.Light.ListView.DropDown</item>
+        <item name="android:popupMenuStyle">@android:style/Widget.Material.Light.PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Material.Light.ListView.DropDown</item>
     </style>
 
     <style name="ToolBarLight" parent="Widget.AppCompat.Toolbar">
@@ -177,7 +176,7 @@
         <item name="colorControlNormal">@color/dark_ripple</item>
     </style>
 
-    <style name="CircleOverflow.Light" parent="android:style/Widget.Material.ActionButton.Overflow">
+    <style name="CircleOverflow.Light" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_action_circle_overflow</item>
     </style>
 </resources>

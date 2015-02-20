@@ -66,7 +66,6 @@ public class SavedSearchesActivity extends DrawerActivity {
         setContentView(R.layout.twitter_lists_page);
         setUpDrawer(5, getResources().getString(R.string.saved_searches));
 
-        actionBar = getActionBar();
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
 
         listView = (AsyncListView) findViewById(R.id.listView);
