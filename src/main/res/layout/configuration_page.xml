@@ -29,7 +29,7 @@
 
     <LinearLayout android:id="@+id/default_page_layout"
             android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:descendantFocusability="blocksDescendants">

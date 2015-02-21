@@ -32,7 +32,7 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.Material.Light.ProgressBar.Large"
+            style="@style/Widget.AppCompat.ProgressBar"
             android:indeterminateOnly="true" />
 
     </LinearLayout>
