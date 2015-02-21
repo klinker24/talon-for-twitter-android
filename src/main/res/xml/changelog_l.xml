@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="2.2.0">
+        <text>Support for Android 4.4 (KitKat)</text>
+        <text>Improve startup theming</text>
+        <text>Improve swipe to close pictures</text>
+        <text>Improve GIF viewing on tablets</text>
+    </version>
     <version name="2.1.2">
         <text>Improvements for viewing multiple pictures</text>
         <text>FAQ updates</text>

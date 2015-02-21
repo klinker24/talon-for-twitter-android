@@ -30,8 +30,8 @@ public class TalonPhotoViewAttacher extends PhotoViewAttacher {
 
     @Override
     public void onFling(float startX, float startY, float velocityX, float velocityY) {
-        if ((velocityY > 5000 || velocityY < -5000) &&
-                (velocityX < 5000 && velocityX > -5000)) {
+        if ((velocityY > 3000 || velocityY < -3000) &&
+                (velocityX < 7000 && velocityX > -7000)) {
             ((Activity) getImageView().getContext()).onBackPressed();
         } else {
             super.onFling(startX, startY, velocityX, velocityY);
