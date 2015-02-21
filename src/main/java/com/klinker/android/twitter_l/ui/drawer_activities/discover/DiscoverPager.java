@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
@@ -83,6 +84,10 @@ public class DiscoverPager extends DrawerActivity {
         if (getResources().getBoolean(R.bool.has_drawer)) {
             mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
             strip.setTranslationY(Utils.getStatusBarHeight(this));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
 
         mViewPager.setOffscreenPageLimit(3);

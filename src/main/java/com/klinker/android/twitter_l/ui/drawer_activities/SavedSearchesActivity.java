@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -73,6 +74,10 @@ public class SavedSearchesActivity extends DrawerActivity {
             listView.setHeaderDividersEnabled(false);
         } else {
             listView.setTranslationY(Utils.getStatusBarHeight(context));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
 
         nothing = (LinearLayout) findViewById(R.id.no_content);
