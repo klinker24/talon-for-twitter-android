@@ -16,49 +16,50 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:talon="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_search"
         android:orderInCategory="1"
         android:title="@string/search"
-        android:showAsAction="always"
+        talon:showAsAction="always"
         android:icon="@drawable/action_bar_search"
-        android:actionViewClass="android.widget.SearchView" />
+        talon:actionViewClass="android.widget.SearchView" />
 
     <item android:title="@string/compose_with_search"
         android:id="@+id/menu_compose_with_search"
         android:orderInCategory="2"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
     <item android:title="@string/menu_save_search"
         android:id="@+id/menu_save_search"
         android:orderInCategory="3"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
     <item android:title="@string/menu_apply_picture_filter"
         android:id="@+id/menu_pic_filter"
         android:orderInCategory="4"
-        android:showAsAction="never"
+        talon:showAsAction="never"
         android:checkable="true"
         android:checked="false" />
 
     <item android:title="@string/menu_remove_rt"
         android:id="@+id/menu_remove_rt"
         android:orderInCategory="5"
-        android:showAsAction="never"
+        talon:showAsAction="never"
         android:checkable="true"
         android:checked="false"/>
 
     <item android:title="@string/menu_show_top_tweets"
         android:id="@+id/menu_show_top_tweets"
         android:orderInCategory="6"
-        android:showAsAction="never"
+        talon:showAsAction="never"
         android:checkable="true"
         android:checked="false"/>
 
     <item android:id="@+id/menu_settings"
         android:orderInCategory="7"
         android:title="@string/menu_settings"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
 </menu>

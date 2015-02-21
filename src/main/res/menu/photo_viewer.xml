@@ -16,16 +16,17 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:talon="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_share_image"
           android:orderInCategory="0"
           android:title="@string/menu_share_image"
           android:icon="@drawable/ic_action_share_dark"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_save_image"
         android:orderInCategory="1"
         android:title="@string/menu_save_image"
         android:icon="@drawable/ic_action_save"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 </menu>

@@ -43,3 +43,12 @@ either, or ETA's, so please do not ask for them
             - need a new database (stores just name and expiration time)
             - Just write in the names and when they should expire, then start a service when expiration goes off
             - Make sure the service runs on start too
+
+
+BACKPORT:
+    - Material dialogs
+    - circle image view
+    - get all the activities working
+    - weird coloring on some of the status bar
+    - make the status bar black on < Lollipop
+    - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)

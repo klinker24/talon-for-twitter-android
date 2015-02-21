@@ -16,7 +16,8 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:talon="http://schemas.android.com/apk/res-auto">
     <!--<item android:id="@+id/menu_tweet"
           android:orderInCategory="1"
           android:title="@string/menu_tweet"
@@ -26,65 +27,65 @@
     <item android:id="@+id/menu_block"
           android:orderInCategory="6"
           android:title="@string/menu_block"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unblock"
           android:orderInCategory="7"
           android:title="@string/menu_unblock"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_add_to_list"
           android:orderInCategory="8"
           android:title="@string/menu_add_to_list"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_dm"
           android:orderInCategory="9"
           android:title="@string/menu_dm"
-          android:showAsAction="never"  />
+          talon:showAsAction="never"  />
 
     <item android:id="@+id/menu_change_picture"
           android:orderInCategory="10"
           android:title="@string/menu_change_picture"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_change_banner"
           android:orderInCategory="11"
           android:title="@string/menu_change_banner"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_change_bio"
           android:orderInCategory="12"
           android:title="@string/menu_change_bio"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_mute"
           android:orderInCategory="13"
           android:title="@string/mute"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmute"
         android:orderInCategory="14"
         android:title="@string/unmute"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
     <item android:id="@+id/menu_mute_rt"
         android:orderInCategory="15"
         android:title="@string/mute_rt"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmute_rt"
         android:orderInCategory="16"
         android:title="@string/unmute_rt"
-        android:showAsAction="never" />
+        talon:showAsAction="never" />
 
     <item android:id="@+id/menu_muffle_user"
           android:orderInCategory="17"
           android:title="@string/muffle_user"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmuffle_user"
           android:orderInCategory="18"
           android:title="@string/unmuffle_user"
-          android:showAsAction="never" />
+          talon:showAsAction="never" />
 </menu>
