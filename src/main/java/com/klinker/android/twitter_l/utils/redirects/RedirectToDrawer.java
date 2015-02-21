@@ -21,9 +21,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.support.v7.app.ActionBarActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
 
-public class RedirectToDrawer extends Activity {
+public class RedirectToDrawer extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

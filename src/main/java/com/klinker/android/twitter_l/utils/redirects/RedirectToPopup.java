@@ -19,9 +19,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.app.ActionBarActivity;
 import com.klinker.android.twitter_l.ui.MainActivityPopup;
 
-public class RedirectToPopup extends Activity {
+public class RedirectToPopup extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

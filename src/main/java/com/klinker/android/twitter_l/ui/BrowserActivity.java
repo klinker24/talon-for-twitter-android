@@ -22,6 +22,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -64,7 +65,10 @@ public class BrowserActivity extends ActionBarActivity {
 
         settings = AppSettings.getInstance(this);
 
-        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+        }
 
         url = getIntent().getStringExtra("url");
 
