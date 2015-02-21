@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -78,12 +79,12 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class SearchedTrendsActivity extends Activity {
+public class SearchedTrendsActivity extends ActionBarActivity {
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -119,7 +120,7 @@ public class SearchedTrendsActivity extends Activity {
 
         Utils.setUpTheme(context, settings);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);

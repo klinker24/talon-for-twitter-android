@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
@@ -63,13 +64,6 @@ public class ListsActivity extends DrawerActivity {
 
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         listView = (AsyncListView) findViewById(R.id.listView);
 
         if (!getResources().getBoolean(R.bool.has_drawer)) {
@@ -78,6 +72,10 @@ public class ListsActivity extends DrawerActivity {
             listView.setHeaderDividersEnabled(false);
         } else {
             listView.setTranslationY(Utils.getStatusBarHeight(context));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {

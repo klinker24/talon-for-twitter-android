@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Launcher -->
+    <style name="Theme.TalonLight.Launcher" parent="Theme.TalonLight.Base">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Main.Launcher" parent="Theme.TalonLight.Main">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Tweet.Launcher" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Popup.Launcher" parent="Theme.TalonLight.Popup">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Notif.Launcher" parent="Theme.TalonLight.Popup.Notif">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.Launcher" parent="Theme.TalonLight.Settings">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
     <!-- Red -->
     <style name="Theme.TalonLight.Red" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/red_primary_color</item>
