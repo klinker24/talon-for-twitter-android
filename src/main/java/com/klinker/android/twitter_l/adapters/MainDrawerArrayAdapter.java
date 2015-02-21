@@ -220,7 +220,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 holder.icon.setImageResource(resource);
             } else if (text.get(position).equals(context.getResources().getString(R.string.saved_searches)) ||
                     pageTypes.get(position) == AppSettings.PAGE_TYPE_SAVED_SEARCH) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.searchIcon});
+                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.search_icon});
                 int resource = a.getResourceId(0, 0);
                 a.recycle();
                 holder.icon.setImageResource(resource);
