@@ -138,11 +138,55 @@ public class TweetActivity extends ActionBarActivity {
         Utils.setSharedContentTransition(this);
         getFromIntent();
 
+        ArrayList<String> webpages = new ArrayList<String>();
+
+        if (otherLinks == null) {
+            otherLinks = new String[0];
+        }
+
+        if (gifVideo == null) {
+            gifVideo = "no gif video";
+        }
+        boolean hasWebpage;
+        boolean youtube = false;
+        if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
+            for (String s : otherLinks) {
+                if (s.contains("youtu")) {
+                    youtubeVideo = s;
+                    youtube = true;
+                    break;
+                } else {
+                    if (!s.contains("pic.twitt")) {
+                        webpages.add(s);
+                    }
+                }
+            }
+
+            if (webpages.size() >= 1) {
+                hasWebpage = true;
+            } else {
+                hasWebpage = false;
+            }
+
+        } else {
+            hasWebpage = false;
+        }
+
+        if (hasWebpage && webpages.size() == 1) {
+            if (webpages.get(0).contains(tweetId + "/photo/1")) {
+                hasWebpage = false;
+                gifVideo = webpages.get(0);
+            } else if (webpages.get(0).contains("vine.co/v/")) {
+                hasWebpage = false;
+                gifVideo = webpages.get(0);
+            }
+        }
+
         if (getResources().getBoolean(R.bool.isTablet) &&
                 !(null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/")))) {
             setUpWindow(false);
 
-            getActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
 
             int currentOrientation = getResources().getConfiguration().orientation;
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -176,51 +220,6 @@ public class TweetActivity extends ActionBarActivity {
         setUpTheme();
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
-
-        boolean youtube = false;
-
-        ArrayList<String> webpages = new ArrayList<String>();
-
-        if (otherLinks == null) {
-            otherLinks = new String[0];
-        }
-
-        if (gifVideo == null) {
-            gifVideo = "no gif video";
-        }
-        boolean hasWebpage;
-        if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
-            for (String s : otherLinks) {
-                if (s.contains("youtu")) {
-                    youtubeVideo = s;
-                    youtube = true;
-                    break;
-                } else {
-                    if (!s.contains("pic.twitt")) {
-                        webpages.add(s);
-                    }
-                }
-            }
-
-            if (webpages.size() >= 1) {
-                hasWebpage = true;
-            } else {
-                hasWebpage = false;
-            }
-
-        } else {
-            hasWebpage = false;
-        }
-
-        if (hasWebpage && webpages.size() == 1) {
-            if (webpages.get(0).contains(tweetId + "/photo/1")) {
-                hasWebpage = false;
-                gifVideo = webpages.get(0);
-            } else if (webpages.get(0).contains("vine.co/v/")) {
-                hasWebpage = false;
-                gifVideo = webpages.get(0);
-            }
-        }
 
         final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
         if (hasWebpage && (settings.alwaysMobilize ||
