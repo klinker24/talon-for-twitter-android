@@ -231,7 +231,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                style="@android:style/Widget.Material.Light.ProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:indeterminateOnly="true" />
 
         </LinearLayout>

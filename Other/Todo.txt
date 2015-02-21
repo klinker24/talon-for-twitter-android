@@ -50,4 +50,5 @@ BACKPORT:
     - circle image view
     - make the status bar black on < Lollipop
     - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)
-    - spinners need to use app compat
+    - borderless for backgrounds (compose activity, compose dm, interaction footer 1, profile stats card,
+            tweet_activity, tweet expansion, tweet for fragment, user header)
