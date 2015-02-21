@@ -30,7 +30,7 @@
         android:title="@string/search"
         talon:showAsAction="always"
         android:icon="@drawable/action_bar_search"
-        android:actionViewClass="android.widget.SearchView" />
+        talon:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/menu_compose"
           android:orderInCategory="3"
