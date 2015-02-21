@@ -169,11 +169,13 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
+            Log.v("talon_toolbar", "toolbar not null");
             try {
                 setSupportActionBar(toolbar);
                 DrawerActivity.hasToolbar = true;
             } catch (Exception e) {
                 // already has an action bar supplied?? comes when you switch to landscape and back to portrait
+                e.printStackTrace();
             }
 
             toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));

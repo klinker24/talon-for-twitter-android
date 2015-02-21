@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -58,13 +59,13 @@ import java.lang.reflect.Method;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SearchPager extends Activity {
+public class SearchPager extends ActionBarActivity {
 
     private SearchPagerAdapter mSectionsPagerAdapter;
     public AppSettings settings;
     public Activity context;
     public SharedPreferences sharedPrefs;
-    public ActionBar actionBar;
+    public android.support.v7.app.ActionBar actionBar;
     public boolean translucent;
     public ViewPager mViewPager;
 
@@ -125,7 +126,7 @@ public class SearchPager extends Activity {
 
         setContentView(R.layout.search_pager);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);

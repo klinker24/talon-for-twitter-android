@@ -7,12 +7,13 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class PrefActivity extends PreferenceActivity {
+public class PrefActivity extends ActionBarActivity {
 
     @Override
     public void finish() {
@@ -48,7 +49,7 @@ public class PrefActivity extends PreferenceActivity {
                 .replace(android.R.id.content, fragment)
                 .commit();
 
-        ActionBar ab = getActionBar();
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
         ab.setTitle(getIntent().getStringExtra("title"));
@@ -85,7 +86,7 @@ public class PrefActivity extends PreferenceActivity {
         }
     }
 
-    public void setIcon(ActionBar ab, int position) {
+    public void setIcon(android.support.v7.app.ActionBar ab, int position) {
         if (position == 0) {
             ab.setIcon(R.drawable.drawer_theme_dark);
         } else if (position == 1) {
