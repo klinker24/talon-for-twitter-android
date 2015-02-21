@@ -9,12 +9,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
+import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.Utils;
 
-public class PhotoPagerActivity extends Activity {
+public class PhotoPagerActivity extends ActionBarActivity {
 
     String url = null;
 
@@ -63,7 +67,7 @@ public class PhotoPagerActivity extends Activity {
         pager.setAdapter(adapter);
         pager.setCurrentItem(startPage);
 
-        ab = getActionBar();
+        ab = getSupportActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);
@@ -101,7 +105,7 @@ public class PhotoPagerActivity extends Activity {
         }, 6000);
     }
 
-    ActionBar ab;
+    android.support.v7.app.ActionBar ab;
 
     public void setCurrentPageTitle(int page) {
         page = page + 1;

@@ -20,11 +20,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.app.ActionBarActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.launcher_page.LauncherPopup;
 
 
-public class RedirectToLauncherPopup extends Activity {
+public class RedirectToLauncherPopup extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
 import android.transition.Transition;
@@ -43,7 +44,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PhotoViewerActivity extends Activity {
+public class PhotoViewerActivity extends ActionBarActivity {
 
     public Context context;
     public HoloEditText text;
@@ -70,7 +71,7 @@ public class PhotoViewerActivity extends Activity {
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         getWindow().getDecorView().setSystemUiVisibility(
@@ -152,7 +153,7 @@ public class PhotoViewerActivity extends Activity {
             }
         });
 
-        ActionBar ab = getActionBar();
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);

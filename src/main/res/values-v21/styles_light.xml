@@ -148,6 +148,7 @@
 
     <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight.Base">
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">true</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >

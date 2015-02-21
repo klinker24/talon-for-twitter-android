@@ -48,8 +48,6 @@ either, or ETA's, so please do not ask for them
 BACKPORT:
     - Material dialogs
     - circle image view
-    - get all the activities working
     - make the status bar black on < Lollipop
     - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)
     - spinners need to use app compat
-    - action bar on image viewer (does it use the main theme as its base?)
