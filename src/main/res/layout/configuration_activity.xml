@@ -37,8 +37,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity"
-            android:paddingTop="?android:actionBarSize">
+            tools:context=".MainActivity">
 
             <android.support.v4.view.PagerTitleStrip
                 android:id="@+id/pager_title_strip"
