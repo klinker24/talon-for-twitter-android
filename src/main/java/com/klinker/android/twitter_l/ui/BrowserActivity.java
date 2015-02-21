@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 
@@ -34,7 +35,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class BrowserActivity extends Activity {
+public class BrowserActivity extends ActionBarActivity {
 
     public AppSettings settings;
     public String url;
@@ -47,7 +48,7 @@ public class BrowserActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
+        /*try {
             getWindow().requestFeature(Window.FEATURE_PROGRESS);
         } catch (Exception e) {
             // oops, something went wrong... don't quite know what though, or why
@@ -55,7 +56,7 @@ public class BrowserActivity extends Activity {
             overridePendingTransition(0,0);
             finish();
             return;
-        }
+        }*/
 
         context = this;
 
@@ -67,12 +68,12 @@ public class BrowserActivity extends Activity {
 
         url = getIntent().getStringExtra("url");
 
-        Utils.setUpTheme(this, settings);
+        Utils.setUpTweetTheme(this, settings);
         Utils.setActionBar(this);
 
         setUpLayout();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

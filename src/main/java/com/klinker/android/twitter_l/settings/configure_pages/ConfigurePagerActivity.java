@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
@@ -37,13 +38,13 @@ import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 
-public class ConfigurePagerActivity extends Activity {
+public class ConfigurePagerActivity extends ActionBarActivity {
 
     private ConfigurationPagerAdapter chooserAdapter;
     private Context context;
     private SharedPreferences sharedPrefs;
     private AppSettings settings;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
     private ViewPager mViewPager;
 
     @Override
@@ -66,14 +67,8 @@ public class ConfigurePagerActivity extends Activity {
 
         setUpDoneDiscard();
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setElevation(0);
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
 
         getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
 
@@ -108,7 +103,7 @@ public class ConfigurePagerActivity extends Activity {
     }
 
     public void setUpDoneDiscard() {
-        LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+        LayoutInflater inflater = (LayoutInflater) getSupportActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_done_discard, null);
@@ -152,12 +147,12 @@ public class ConfigurePagerActivity extends Activity {
                 });
 
         // Show the custom action bar view and hide the normal Home icon and title.
-        final ActionBar actionBar = getActionBar();
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
                         | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
+        actionBar.setCustomView(customActionBarView, new android.support.v7.app.ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }

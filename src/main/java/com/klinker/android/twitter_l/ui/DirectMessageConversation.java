@@ -32,11 +32,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
+import android.os.*;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -86,13 +84,13 @@ import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
-public class DirectMessageConversation extends Activity {
+public class DirectMessageConversation extends ActionBarActivity {
 
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private AsyncListView listView;
     private HoloEditText composeBar;
@@ -177,7 +175,7 @@ public class DirectMessageConversation extends Activity {
 
         Utils.setUpPopupTheme(this, settings);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
         setContentView(R.layout.dm_conversation);
@@ -248,6 +246,10 @@ public class DirectMessageConversation extends Activity {
         });
 
         Utils.setActionBar(context);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
     }
 
     public void setUpWindow() {

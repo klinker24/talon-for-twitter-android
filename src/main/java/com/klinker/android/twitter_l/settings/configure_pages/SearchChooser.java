@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -24,11 +25,11 @@ import twitter4j.ResponseList;
 import twitter4j.SavedSearch;
 import twitter4j.Twitter;
 
-public class SearchChooser extends Activity {
+public class SearchChooser extends ActionBarActivity {
 
     private Context context;
     private AppSettings settings;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private AsyncListView listView;
     private SearchChooserArrayAdapter adapter;
@@ -44,7 +45,7 @@ public class SearchChooser extends Activity {
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.list_chooser);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
         listView = (AsyncListView) findViewById(R.id.listView);

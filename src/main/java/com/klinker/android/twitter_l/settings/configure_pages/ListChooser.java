@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -41,12 +42,12 @@ import twitter4j.Twitter;
 import twitter4j.UserList;
 
 
-public class ListChooser extends Activity {
+public class ListChooser extends ActionBarActivity {
 
     private Context context;
     private SharedPreferences sharedPrefs;
     private AppSettings settings;
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private AsyncListView listView;
     private ListChooserArrayAdapter arrayAdapter;
@@ -64,7 +65,7 @@ public class ListChooser extends Activity {
         Utils.setUpTheme(context, settings);
         setContentView(R.layout.list_chooser);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
 
