@@ -16,11 +16,12 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:talon="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_open_web"
         android:orderInCategory="3"
         android:title="@string/menu_open_web"
         android:icon="@drawable/ic_links_dark"
-        android:showAsAction="always" />
+        talon:showAsAction="always" />
 </menu>
