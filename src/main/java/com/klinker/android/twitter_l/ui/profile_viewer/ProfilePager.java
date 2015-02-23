@@ -87,8 +87,6 @@ public class ProfilePager extends ActionBarActivity {
 
         Utils.setSharedContentTransition(this);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
         if (getResources().getBoolean(R.bool.isTablet)) {
             setUpWindow();
 
@@ -99,6 +97,9 @@ public class ProfilePager extends ActionBarActivity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             }
         }
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
 
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
