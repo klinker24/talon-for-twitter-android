@@ -42,6 +42,10 @@ import android.widget.*;
 
 import android.widget.ShareActionProvider;
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
@@ -290,12 +294,65 @@ public class TweetActivity extends ActionBarActivity {
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
 
         if (youtube) {
-            youTubeFrag = new TweetYouTubeFragment();
-            Bundle b = new Bundle();
-            b.putString("url", youtubeVideo);
-            youTubeFrag.setArguments(b);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.youtube_view, youTubeFrag);
+            View v = findViewById(R.id.youtube_view);
+            int currentOrientation = getResources().getConfiguration().orientation;
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                v.setPadding(150,150,150,0);
+            }
+
+            YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
+            fragment.initialize(APIKeys.YOUTUBE_API_KEY,
+                    new YouTubePlayer.OnInitializedListener() {
+
+                        @Override
+                        public void onInitializationSuccess(YouTubePlayer.Provider arg0,
+                                                            YouTubePlayer arg1, boolean arg2) {
+                            String url = youtubeVideo;
+                            String video = "";
+                            try {
+                                if (url.contains("youtube")) { // normal youtube link
+                                    // first get the youtube video code
+                                    int start = url.indexOf("v=") + 2;
+                                    int end;
+                                    if (url.substring(start).contains("&")) {
+                                        end = url.indexOf("&");
+                                        video = url.substring(start, end);
+                                    } else if (url.substring(start).contains("?")) {
+                                        end = url.indexOf("?");
+                                        video = url.substring(start, end);
+                                    } else {
+                                        video = url.substring(start);
+                                    }
+                                } else { // shortened youtube link
+                                    // first get the youtube video code
+                                    int start = url.indexOf(".be/") + 4;
+                                    int end;
+                                    if (url.substring(start).contains("&")) {
+                                        end = url.indexOf("&");
+                                        video = url.substring(start, end);
+                                    } else if (url.substring(start).contains("?")) {
+                                        end = url.indexOf("?");
+                                        video = url.substring(start, end);
+                                    } else {
+                                        video = url.substring(start);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                video = "";
+                            }
+
+                            arg1.loadVideo(video);
+                        }
+
+                        @Override
+                        public void onInitializationFailure(YouTubePlayer.Provider arg0,
+                                                            YouTubeInitializationResult arg1) {
+                        }
+
+                    }
+            );
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.youtube_view, fragment);
             ft.commit();
         }
 
