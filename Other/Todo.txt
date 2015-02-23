@@ -52,3 +52,8 @@ BACKPORT:
     - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)
     - borderless for backgrounds (compose activity, compose dm, interaction footer 1, profile stats card,
             tweet_activity, tweet expansion, tweet for fragment, user header)
+
+    - tablet
+        - put toolbars in all the main activities
+        - take out the drawer indicator icon on the toolbar
+        - Get the padding right on the drawer activities
