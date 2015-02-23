@@ -180,9 +180,11 @@ public class TweetActivity extends ActionBarActivity {
             }
         }
 
-        if (getResources().getBoolean(R.bool.isTablet) &&
-                !(null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/")))) {
-            setUpWindow(false);
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            setUpWindow((youtubeVideo != null && !android.text.TextUtils.isEmpty(youtubeVideo)) ||
+                    (null != gifVideo &&
+                            !android.text.TextUtils.isEmpty(gifVideo) &&
+                            (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))));
 
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
 
@@ -808,7 +810,7 @@ public class TweetActivity extends ActionBarActivity {
 
     public void setUpWindow(boolean youtube) {
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 

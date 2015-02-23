@@ -145,7 +145,7 @@ public class ProfilePager extends ActionBarActivity {
 
     public void setUpWindow() {
 
-        requestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
                 WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
