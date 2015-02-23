@@ -131,6 +131,7 @@
 
     <style name="Theme.TalonDark.Main" parent="Theme.AppCompat.NoActionBar">
 
+        <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
