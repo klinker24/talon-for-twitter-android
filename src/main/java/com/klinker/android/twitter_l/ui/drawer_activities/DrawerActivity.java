@@ -190,16 +190,23 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                     }
                 }
             });
+
+            boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
             try {
                 RelativeLayout.LayoutParams toolParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                toolbar.setTranslationY(Utils.getStatusBarHeight(context));
+                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                    toolParams.topMargin = Utils.getStatusBarHeight(context);
+                }
                 toolbar.setLayoutParams(toolParams);
             } catch (ClassCastException e) {
                 // they are linear layout here
                 LinearLayout.LayoutParams toolParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                toolbar.setTranslationY(Utils.getStatusBarHeight(context));
+                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                    toolParams.topMargin = Utils.getStatusBarHeight(context);
+                }
                 toolbar.setLayoutParams(toolParams);
             }
 
@@ -224,6 +231,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
 
         TextView name = (TextView) mDrawer.findViewById(R.id.name);
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
+        backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
         backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
         profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
@@ -374,11 +382,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             // landscape mode
         }
 
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            actionBar.setHomeButtonEnabled(false);
-        } else {
-            actionBar.setHomeButtonEnabled(true);
-        }
+        actionBar.setHomeButtonEnabled(true);
 
         showMoreDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -743,15 +747,14 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 RelativeLayout.LayoutParams status2Params = (RelativeLayout.LayoutParams) drawerStatusBar.getLayoutParams();
                 status2Params.height = statusBarHeight;
                 drawerStatusBar.setLayoutParams(status2Params);
+
                 drawerStatusBar.setVisibility(View.VISIBLE);
             } catch (Exception e) {
 
             }
 
-            try {
+            if (statusBar != null && !getResources().getBoolean(R.bool.isTablet)) {
                 statusBar.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                // using the toolbar, so unnecessary
             }
 
             View drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
@@ -759,17 +762,22 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             status2Params.height = statusBarHeight;
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
-        } else if (getResources().getBoolean(R.bool.options_drawer) && MainActivity.isPopup) {
-            View drawerStatusBar = findViewById(R.id.drawer_status_bar_2);
-            LinearLayout.LayoutParams status2Params = (LinearLayout.LayoutParams) drawerStatusBar.getLayoutParams();
-            status2Params.height = Utils.getActionBarHeight(this);
-            drawerStatusBar.setLayoutParams(status2Params);
-            drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
             actionBar.setDisplayHomeAsUpEnabled(false);
+            if (toolbar != null) {
+                toolbar.setNavigationIcon(null);
+            }
+
+            int amount = -1 * Utils.getActionBarHeight(context);
+            findViewById(R.id.header).setTranslationY(amount);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) drawerList.getLayoutParams();
+            params.topMargin = amount;
+            params.height = params.height - amount;
+            drawerList.setLayoutParams(params);
         }
 
         if(!settings.pushNotifications || !settings.useInteractionDrawer) {
@@ -780,16 +788,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             }
         } else {
             mDrawerLayout.setDrawerRightEdgeSize(this, .1f);
-
-            try {
-                if (Build.VERSION.SDK_INT < 18 && DrawerActivity.settings.uiExtras) {
-                    View viewHeader2 = ((Activity) context).getLayoutInflater().inflate(R.layout.ab_header, null);
-                    notificationList.addHeaderView(viewHeader2, null, false);
-                    notificationList.setHeaderDividersEnabled(false);
-                }
-            } catch (Exception e) {
-                // i don't know why it does this to be honest...
-            }
 
             Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
             notificationAdapter = new InteractionsCursorAdapter(context, c);
@@ -933,7 +931,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
                 @Override
                 public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
-                    Log.v("talon_interactions_delete", "position to delete: " + position);
                     InteractionsDataSource data = InteractionsDataSource.getInstance(context);
                     data.markRead(settings.currentAccount, position);
                     Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
@@ -1428,6 +1425,10 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setHomeButtonEnabled(false);
+
+            if (toolbar != null) {
+                toolbar.setNavigationIcon(null);
+            }
         }
 
         noti = menu.getItem(NOTIFICATIONS);

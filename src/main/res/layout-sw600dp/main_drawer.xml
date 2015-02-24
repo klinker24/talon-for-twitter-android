@@ -30,13 +30,9 @@
         android:background="@android:color/black"
         android:visibility="gone"/>
 
-    <include layout="@layout/ab_header"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content" />
-
     <include layout="@layout/user_header"
              android:id="@+id/header"
-             android:layout_height="170dp"
+             android:layout_height="60dp"
              android:layout_width="match_parent"/>
 
     <LinearLayout
