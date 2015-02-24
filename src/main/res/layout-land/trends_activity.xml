@@ -20,53 +20,69 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- The navigation drawer -->
-        <include layout="@layout/main_drawer"
-            android:id="@+id/left_drawer"
-            android:layout_width="74dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start" >
-
-        </include>
+        <android.support.v7.widget.Toolbar
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/toolbar"
+            android:elevation="5dp"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
 
-            <View android:id="@+id/activity_status_bar"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@android:color/black"
-                android:visibility="gone"/>
+            <!-- The navigation drawer -->
+            <include layout="@layout/main_drawer"
+                android:id="@+id/left_drawer"
+                android:layout_width="74dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start" >
 
-            <com.astuetz.PagerSlidingTabStrip
-                    android:layout_marginTop="?android:actionBarSize"
-                    android:id="@+id/pager_tab_strip"
-                    android:layout_width="match_parent"
-                    app:pstsDividerColor="@android:color/transparent"
-                    app:pstsUnderlineColor="@android:color/transparent"
-                    app:pstsTabBackground="?android:selectableItemBackground"
-                    app:pstsIndicatorHeight="2dp"
-                    app:pstsTabPaddingLeftRight="12dp"
-                    android:layout_height="48dp" />
+            </include>
 
-            <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/pager"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity">
+                android:orientation="vertical" >
 
-            </android.support.v4.view.ViewPager>
-            </LinearLayout>
+                <View android:id="@+id/activity_status_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@android:color/black"
+                    android:visibility="gone"/>
+
+                <com.astuetz.PagerSlidingTabStrip
+                        android:layout_marginTop="?android:actionBarSize"
+                        android:id="@+id/pager_tab_strip"
+                        android:layout_width="match_parent"
+                        app:pstsDividerColor="@android:color/transparent"
+                        app:pstsUnderlineColor="@android:color/transparent"
+                        app:pstsTabBackground="?android:selectableItemBackground"
+                        app:pstsIndicatorHeight="2dp"
+                        app:pstsTabPaddingLeftRight="12dp"
+                        android:layout_height="48dp" />
+
+                <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MainActivity">
+
+                </android.support.v4.view.ViewPager>
+                </LinearLayout>
 
 
+        </LinearLayout>
     </LinearLayout>
 
     <include layout="@layout/notification_drawer"
