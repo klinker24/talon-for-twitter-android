@@ -315,10 +315,6 @@ public class MainActivity extends DrawerActivity {
         Log.v("talon_starting", "ending on create");
     }
 
-    public void showStatusBar() {
-        context.getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-    }
-
     public void setLauncherPage() {
         // do nothing here
     }

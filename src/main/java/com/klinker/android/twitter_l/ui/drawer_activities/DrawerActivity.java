@@ -374,7 +374,11 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             // landscape mode
         }
 
-        actionBar.setHomeButtonEnabled(true);
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            actionBar.setHomeButtonEnabled(false);
+        } else {
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         showMoreDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
