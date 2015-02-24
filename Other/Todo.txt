@@ -46,14 +46,15 @@ either, or ETA's, so please do not ask for them
 
 
 BACKPORT:
+    - Test all layouts
+
     - Material dialogs
     - circle image view
     - make the status bar black on < Lollipop
     - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)
     - someplaces contain the borderless backgrounds for clicks (compose activity, compose dm, interaction footer 1, profile stats card,
             tweet_activity, tweet expansion, tweet for fragment, user header)
+    - drawer indicator in landscape? Is it there
 
     - tablet
-        - put toolbars in all the main activities
-        - take out the drawer indicator icon on the toolbar
         - Get the padding right on the drawer activities
