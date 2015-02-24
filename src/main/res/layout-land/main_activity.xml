@@ -20,90 +20,106 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="match_parent"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- The navigation drawer -->
-        <include layout="@layout/main_drawer"
-            android:id="@+id/left_drawer"
-            android:layout_width="64dp"
+        <android.support.v7.widget.Toolbar
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/toolbar"
+            android:elevation="5dp"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="match_parent"
-            android:layout_gravity="left" >
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
 
-        </include>
-
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="40dp"
-                android:background="@android:color/black" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="fill_parent"
-                android:background="?drawerDividerColor" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <android.support.v4.view.ViewPager
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
+            <!-- The navigation drawer -->
+            <include layout="@layout/main_drawer"
+                android:id="@+id/left_drawer"
+                android:layout_width="64dp"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity" />
+                android:layout_gravity="left" >
 
-
-            <View android:id="@+id/activity_status_bar"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@android:color/black"
-                android:visibility="gone"/>
+            </include>
 
             <LinearLayout
-                    android:id="@+id/send_layout"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    android:background="@drawable/fab_color"
-                    android:elevation="2dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="65dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:focusableInTouchMode="true"
-                    android:focusable="true" >
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
-                <ImageButton
-                        android:id="@+id/send_button"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:padding="16dp"
-                        android:minHeight="56dp" android:minWidth="56dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="56dp" android:maxHeight="56dp"
-                        android:src="@drawable/ic_action_new_dark"
-                        android:contentDescription="New Tweet"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/black" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="fill_parent"
+                    android:background="?drawerDividerColor" />
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
+                <android.support.v4.view.ViewPager
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MainActivity" />
+
+
+                <View android:id="@+id/activity_status_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@android:color/black"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                        android:id="@+id/send_layout"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="10dp"
+                        android:visibility="gone"
+                        android:background="@drawable/fab_color"
+                        android:elevation="2dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="65dp"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true" >
+
+                    <ImageButton
+                            android:id="@+id/send_button"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:padding="16dp"
+                            android:minHeight="56dp" android:minWidth="56dp"
+                            android:scaleType="fitCenter" android:adjustViewBounds="true"
+                            android:maxWidth="56dp" android:maxHeight="56dp"
+                            android:src="@drawable/ic_action_new_dark"
+                            android:contentDescription="New Tweet"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <include layout="@layout/notification_drawer"
