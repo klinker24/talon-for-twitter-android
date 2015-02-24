@@ -42,7 +42,7 @@
             android:layout_marginRight="2dp"
             android:background="@drawable/pro_pic_clip"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="36dp"/>
+            android:layout_marginTop="12dp"/>
 
     <LinearLayout
             android:orientation="horizontal"

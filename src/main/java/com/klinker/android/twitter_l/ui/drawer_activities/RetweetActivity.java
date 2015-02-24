@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -68,12 +69,6 @@ public class RetweetActivity extends DrawerActivity {
 
         actionBar.setTitle(getResources().getString(R.string.retweets));
 
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         listView = (AsyncListView) findViewById(R.id.listView);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
@@ -85,8 +80,16 @@ public class RetweetActivity extends DrawerActivity {
 
         listView.setItemManager(builder.build());
 
-        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
+
+        listView.setHeaderDividersEnabled(false);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);

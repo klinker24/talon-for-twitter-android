@@ -43,7 +43,7 @@
             <!-- The navigation drawer -->
             <include layout="@layout/main_drawer"
                 android:id="@+id/left_drawer"
-                android:layout_width="74dp"
+                android:layout_width="64dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start" >
 
@@ -61,7 +61,6 @@
                     android:visibility="gone"/>
 
                 <com.astuetz.PagerSlidingTabStrip
-                        android:layout_marginTop="?android:actionBarSize"
                         android:id="@+id/pager_tab_strip"
                         android:layout_width="match_parent"
                         app:pstsDividerColor="@android:color/transparent"

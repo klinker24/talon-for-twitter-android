@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -78,21 +79,22 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
         actionBar.setTitle(getResources().getString(R.string.favorite_users));
 
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         nothing = (LinearLayout) findViewById(R.id.no_content);
 
         listView = (AsyncListView) findViewById(R.id.listView);
         list = listView;
 
-        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
+
+        listView.setHeaderDividersEnabled(false);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);

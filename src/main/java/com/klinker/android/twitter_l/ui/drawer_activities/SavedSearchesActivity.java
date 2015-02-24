@@ -68,13 +68,6 @@ public class SavedSearchesActivity extends DrawerActivity {
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
 
         listView = (AsyncListView) findViewById(R.id.listView);
-        if (!getResources().getBoolean(R.bool.has_drawer)) {
-            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
-            listView.addHeaderView(viewHeader, null, false);
-            listView.setHeaderDividersEnabled(false);
-        } else {
-            listView.setTranslationY(Utils.getStatusBarHeight(context));
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);

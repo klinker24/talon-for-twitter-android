@@ -60,13 +60,6 @@ public class DiscoverPager extends DrawerActivity {
         actionBar.setTitle(getResources().getString(R.string.trends));
         actionBar.setElevation(0);
 
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         mSectionsPagerAdapter = new TrendsPagerAdapter(getFragmentManager(), context);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -81,9 +74,8 @@ public class DiscoverPager extends DrawerActivity {
         strip.setTextSize((int)getResources().getDimension(R.dimen.pager_tab_strip_text));
         strip.setViewPager(mViewPager);
 
-        if (getResources().getBoolean(R.bool.has_drawer)) {
-            mViewPager.setTranslationY(Utils.getStatusBarHeight(this));
-            strip.setTranslationY(Utils.getStatusBarHeight(this));
+        if (statusBar != null) {
+            statusBar.setVisibility(View.GONE);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
