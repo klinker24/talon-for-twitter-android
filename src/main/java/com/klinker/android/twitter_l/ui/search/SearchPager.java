@@ -136,7 +136,9 @@ public class SearchPager extends ActionBarActivity {
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 

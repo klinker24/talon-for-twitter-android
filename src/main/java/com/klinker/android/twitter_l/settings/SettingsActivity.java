@@ -25,6 +25,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
@@ -107,8 +108,10 @@ public class SettingsActivity extends ActionBarActivity {
 
         getWindow().getDecorView().setBackgroundResource(resource);
 
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+        }
     }
 
     @Override

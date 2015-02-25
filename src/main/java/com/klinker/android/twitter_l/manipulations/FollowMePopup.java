@@ -53,9 +53,6 @@ public class FollowMePopup extends PopupLayout {
         lukeIv.loadImage("https://pbs.twimg.com/profile_images/553283282431770624/Xv_h0aeM.jpeg", true, null);
         googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
 
-        talonIv.setClipToOutline(true);
-        lukeIv.setClipToOutline(true);
-
         talon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

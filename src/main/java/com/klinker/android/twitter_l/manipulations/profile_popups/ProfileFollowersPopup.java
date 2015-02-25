@@ -10,9 +10,6 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-/**
- * Created by lucasklinker on 9/27/14.
- */
 public class ProfileFollowersPopup extends ProfileUsersPopup {
 
     ArrayList<User> ids;

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -71,8 +72,10 @@ public class PrefActivity extends ActionBarActivity {
 
         getWindow().getDecorView().setBackgroundResource(resource);
 
-        getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
     }
 
     @Override

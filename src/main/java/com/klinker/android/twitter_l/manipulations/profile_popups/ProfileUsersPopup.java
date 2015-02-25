@@ -24,9 +24,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lucasklinker on 9/27/14.
- */
 public abstract class ProfileUsersPopup extends PopupLayout {
     protected AsyncListView list;
     protected LinearLayout spinner;
