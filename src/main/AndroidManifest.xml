@@ -560,7 +560,7 @@ S
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Launcher">
+            android:theme="@style/Theme.TalonLight.Settings.Blue">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.PrefActivity"
@@ -568,7 +568,7 @@ S
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
                   android:launchMode="singleTop"
-                  android:theme="@style/Theme.TalonLight.Launcher">
+                  android:theme="@style/Theme.TalonLight.Settings">
         </activity>
 
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">

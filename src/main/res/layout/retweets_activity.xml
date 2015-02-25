@@ -21,6 +21,7 @@
         android:layout_height="match_parent">
 
     <RelativeLayout android:layout_height="match_parent"
+                android:background="?windowBackground"
                   android:layout_width="match_parent"  >
 
         <LinearLayout android:id="@+id/list_progress"

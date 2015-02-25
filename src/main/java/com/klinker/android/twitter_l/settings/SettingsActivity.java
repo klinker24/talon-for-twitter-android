@@ -56,6 +56,10 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         if (SettingsActivity.useAnim) {
             overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
         }
