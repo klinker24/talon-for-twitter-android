@@ -20,6 +20,6 @@
     <alpha
             android:fromAlpha="0.0"
             android:toAlpha="1.0"
-            android:interpolator="@android:interpolator/fast_out_slow_in"
+            android:interpolator="@android:interpolator/decelerate_cubic"
             android:duration="300"/>
 </set>

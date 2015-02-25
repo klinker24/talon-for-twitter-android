@@ -46,9 +46,7 @@ either, or ETA's, so please do not ask for them
 
 
 BACKPORT:
-    - circle image view
-    - remove circle border light and dark
-    - take out all the references to Lollipop exclusive methods (status bar mostly and clip to outline)
+    - take out all the references to Lollipop exclusive methods (status bar mostly and transitions)
     - someplaces contain the borderless backgrounds for clicks (compose activity, compose dm, interaction footer 1, profile stats card,
             tweet_activity, tweet expansion, tweet for fragment, user header)
     - make the status bar black on < Lollipop

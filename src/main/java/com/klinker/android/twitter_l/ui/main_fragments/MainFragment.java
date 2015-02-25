@@ -94,6 +94,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             hideToastBar(300);
         }
     };
+
     public BroadcastReceiver showToast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
