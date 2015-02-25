@@ -32,7 +32,7 @@
     <attr name="action_bar_color" format="color" />
     <attr name="message_color" format="color" />
     <attr name="notificationBackground" format="color" />
-    <attr name="border_color" format="color" />
+    <attr name="borderColor" format="color" />
     <attr name="icon_color" format="color" />
     <attr name="drawer_subtext" format="color" />
     <attr name="drawer_options_background" format="color" />

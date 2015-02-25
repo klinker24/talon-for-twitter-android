@@ -374,26 +374,72 @@ public class ImageUtils {
                             }
                         }
 
-                        // The bitmap isn't cached so download from the web
-                        HttpURLConnection conn = (HttpURLConnection) new URL(mUrl).openConnection();
-                        InputStream is = new BufferedInputStream(conn.getInputStream());
+                        if (!url.contains(" ")) {
+                            // The bitmap isn't cached so download from the web
+                            HttpURLConnection conn = (HttpURLConnection) new URL(mUrl).openConnection();
+                            InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                        Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
+                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
-                        try {
-                            is.close();
-                        } catch (Exception e) {
+                            try {
+                                is.close();
+                            } catch (Exception e) {
 
-                        }
-                        try {
-                            conn.disconnect();
-                        } catch (Exception e) {
+                            }
+                            try {
+                                conn.disconnect();
+                            } catch (Exception e) {
 
-                        }
+                            }
 
-                        // Add to cache
-                        if (b != null) {
-                            result = mCache.put(mUrl, b);
+                            // Add to cache
+                            if (b != null) {
+                                result = mCache.put(mUrl, b);
+                            }
+                        } else {
+                            String[] pics = url.split(" ");
+                            Bitmap[] bitmaps = new Bitmap[pics.length];
+
+                            // need to download all of them, then combine them
+                            for (int i = 0; i < pics.length; i++) {
+                                String s = pics[i];
+
+                                // The bitmap isn't cached so download from the web
+                                HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
+                                InputStream is = new BufferedInputStream(conn.getInputStream());
+
+                                Bitmap x = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
+
+                                try {
+                                    is.close();
+                                } catch (Exception e) {
+
+                                }
+                                try {
+                                    conn.disconnect();
+                                } catch (Exception e) {
+
+                                }
+
+                                // Add to cache
+                                try {
+                                    mCache.put(s, x);
+
+                                    // throw it into our bitmap array for later
+                                    bitmaps[i] = x;
+                                } catch (Exception e) {
+                                    result = null;
+                                }
+                            }
+
+                            // now that we have all of them, we need to put them together
+                            Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
+
+                            try {
+                                result = mCache.put(url, combined);
+                            } catch (Exception e) {
+
+                            }
                         }
                     }
 

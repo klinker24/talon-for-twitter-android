@@ -45,9 +45,6 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
     private ArrayList<Status> statuses;
 
     private LayoutInflater inflater;
-    private AppSettings settings;
-
-    private Handler handler;
 
     public static class ViewHolder {
         public NetworkedCacheableImageView iv;
@@ -61,10 +58,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
         this.text = text;
         this.statuses = statuses;
 
-        settings = AppSettings.getInstance(context);
         inflater = LayoutInflater.from(context);
-
-        handler = new Handler();
     }
 
     @Override
@@ -206,12 +200,6 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
             holder.iv.setImageDrawable(null);
-
-            if (!settings.darkTheme) {
-                holder.iv.setBackgroundResource(R.drawable.rect_border_light);
-            } else {
-                holder.iv.setBackgroundResource(R.drawable.rect_border_dark);
-            }
         }
 
         if (statuses != null) {

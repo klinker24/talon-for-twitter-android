@@ -49,10 +49,8 @@ public class PeopleCursorAdapter extends CursorAdapter {
     public AppSettings settings;
 
     public int layout;
-    public XmlResourceParser addonLayout = null;
     public Resources res;
     public BitmapLruCache mCache;
-    public int border;
     public Handler mHandler;
 
     private SharedPreferences sharedPrefs;
@@ -84,13 +82,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
     public void setUpLayout() {
         mHandler = new Handler();
-
         layout = R.layout.person;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
         mCache = App.getInstance(context).getBitmapCache();
     }
 
@@ -105,8 +97,6 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.screenName = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
-
-        holder.picture.setClipToOutline(true);
 
         v.setTag(holder);
         return v;
@@ -165,7 +155,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
+            holder.picture.setImageDrawable(null);
         }
 
         bindView(v, context, cursor);

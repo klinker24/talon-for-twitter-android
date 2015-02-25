@@ -108,36 +108,33 @@
                             android:gravity="center_horizontal"
                             android:orientation="horizontal">
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:id="@+id/follower_1"
                                 android:minHeight="36dp" android:minWidth="36dp"
-                                android:scaleType="centerCrop" android:adjustViewBounds="true"
-                                android:maxWidth="36dp" android:maxHeight="36dp"
-                                android:background="@drawable/pro_pic_clip"/>
+                                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:id="@+id/follower_2"
                                 android:layout_marginLeft="-6dp"
                                 android:minHeight="36dp" android:minWidth="36dp"
-                                android:scaleType="centerCrop" android:adjustViewBounds="true"
-                                android:maxWidth="36dp" android:maxHeight="36dp"
-                                android:background="@drawable/pro_pic_clip"/>
+                                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
                     </LinearLayout>
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:id="@+id/follower_3"
                             android:layout_marginTop="-6dp"
                             android:minHeight="36dp" android:minWidth="36dp"
-                            android:scaleType="centerCrop" android:adjustViewBounds="true"
-                            android:maxWidth="36dp" android:maxHeight="36dp"
-                            android:background="@drawable/pro_pic_clip"/>
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -174,36 +171,33 @@
                             android:gravity="center_horizontal"
                             android:orientation="horizontal">
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:id="@+id/friend_1"
                                 android:minHeight="36dp" android:minWidth="36dp"
-                                android:scaleType="centerCrop" android:adjustViewBounds="true"
-                                android:maxWidth="36dp" android:maxHeight="36dp"
-                                android:background="@drawable/pro_pic_clip"/>
+                                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
                                 android:id="@+id/friend_2"
                                 android:layout_marginLeft="-6dp"
                                 android:minHeight="36dp" android:minWidth="36dp"
-                                android:scaleType="centerCrop" android:adjustViewBounds="true"
-                                android:maxWidth="36dp" android:maxHeight="36dp"
-                                android:background="@drawable/pro_pic_clip"/>
+                                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
                     </LinearLayout>
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:id="@+id/friend_3"
                             android:layout_marginTop="-6dp"
                             android:minHeight="36dp" android:minWidth="36dp"
-                            android:scaleType="centerCrop" android:adjustViewBounds="true"
-                            android:maxWidth="36dp" android:maxHeight="36dp"
-                            android:background="@drawable/pro_pic_clip"/>
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
 
                 </LinearLayout>
             </LinearLayout>

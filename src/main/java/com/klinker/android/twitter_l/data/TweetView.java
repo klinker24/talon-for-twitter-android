@@ -178,8 +178,9 @@ public class TweetView {
         imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
 
-        profilePicIv.setClipToOutline(true);
-        imageIv.setClipToOutline(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imageIv.setClipToOutline(true);
+        }
 
         // sets up the font sizes
         tweetTv.setTextSize(settings.textSize);

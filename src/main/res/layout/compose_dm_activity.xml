@@ -52,14 +52,14 @@
                         android:padding="14dp"
                         android:scaleType="fitCenter" />
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profile_pic"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
-                        android:background="@drawable/pro_pic_clip"
                         android:minHeight="42dp" android:minWidth="42dp"
-                        android:scaleType="centerCrop" android:adjustViewBounds="true"
-                        android:maxWidth="42dp" android:maxHeight="42dp" />
+                        android:maxWidth="42dp" android:maxHeight="42dp"
+                        app:border_width="0dp"/>
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:id="@+id/current_name"

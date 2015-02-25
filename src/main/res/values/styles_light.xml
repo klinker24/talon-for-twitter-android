@@ -45,7 +45,7 @@
         <item name="emojiDivider">@color/emoji_divider_light</item>
         <item name="circle_border">@color/circle_outline_light</item>
         <item name="message_color">@color/light_message</item>
-        <item name="border_color">@color/border_light</item>
+        <item name="borderColor">@color/border_light</item>
         <item name="icon_color">@color/icon_light</item>
         <item name="drawer_subtext">@color/drawer_subtext_light</item>
         <item name="drawer_options_background">@color/drawer_options_background_light</item>

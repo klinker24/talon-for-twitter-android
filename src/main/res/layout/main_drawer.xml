@@ -62,14 +62,12 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="@dimen/pro_pic_size"
                     android:layout_height="@dimen/pro_pic_size"
                     android:id="@+id/profile_pic_2"
-                    android:src="?circleBorder"
-                    android:background="@drawable/pro_pic_clip"
                     android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-                    android:scaleType="centerCrop" android:adjustViewBounds="true"
                     android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                     android:contentDescription="Profile Picture - Account 2"
                     android:layout_alignParentLeft="true"

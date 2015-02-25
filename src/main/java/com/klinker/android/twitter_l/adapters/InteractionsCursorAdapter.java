@@ -67,7 +67,6 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     public int layout;
     public Resources res;
     public BitmapLruCache mCache;
-    public int border;
     public ColorDrawable color;
     public ColorDrawable transparent;
 
@@ -98,18 +97,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
     public void setUpLayout() {
         layout = R.layout.interaction;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
         mCache = App.getInstance(context).getBitmapCache();
-
-        b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.message_color});
-        color = new ColorDrawable(context.getResources().getColor(b.getResourceId(0, 0)));
-        b.recycle();
-
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
     }
 
@@ -124,8 +112,6 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         holder.text = (TextView) v.findViewById(R.id.text);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.picture);
-
-        holder.picture.setClipToOutline(true);
 
         v.setTag(holder);
         return v;
@@ -186,7 +172,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
+            holder.picture.setImageDrawable(null);
         }
 
         bindView(v, context, cursor);
