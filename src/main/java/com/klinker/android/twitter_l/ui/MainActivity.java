@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -167,8 +168,6 @@ public class MainActivity extends DrawerActivity {
 
         }
 
-        getWindow().setSharedElementExitTransition(new ChangeBounds());
-
         sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
 
         setUpTheme();
@@ -179,7 +178,12 @@ public class MainActivity extends DrawerActivity {
 
         MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
         MainActivity.sendButton = (ImageView) findViewById(R.id.send_button);
-        MainActivity.sendLayout.setClipToOutline(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            MainActivity.sendLayout.setClipToOutline(true);
+            getWindow().setSharedElementExitTransition(new ChangeBounds());
+        }
+
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override

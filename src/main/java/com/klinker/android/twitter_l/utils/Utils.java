@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
 import android.transition.Transition;
@@ -233,7 +234,7 @@ public class Utils {
         Activity activity = (Activity) context;
 
         // inside your activity (if you did not enable transitions in your theme)
-        try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             activity.getWindow().setAllowEnterTransitionOverlap(true);
             activity.getWindow().setAllowReturnTransitionOverlap(true);
@@ -242,14 +243,14 @@ public class Utils {
             activity.getWindow().setSharedElementExitTransition(trans);
             activity.getWindow().setSharedElementReenterTransition(trans);
             activity.getWindow().setSharedElementReturnTransition(trans);
-        } catch (Exception e) {
-
         }
 
     }
 
     public static void setSharedContentTransition(Context context) {
-        setSharedContentTransition(context, new ChangeTransform());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedContentTransition(context, new ChangeTransform());
+        }
     }
 
     public static void setUpTheme(Context context, AppSettings settings) {

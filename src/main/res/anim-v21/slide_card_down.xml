@@ -5,5 +5,5 @@
         android:toYDelta="100%p"
         android:duration="300"
         android:zAdjustment="bottom"
-        android:interpolator="@android:interpolator/decelerate_cubic"/>
+        android:interpolator="@android:interpolator/fast_out_slow_in"/>
 </set>
