@@ -261,7 +261,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         });
         int size = Utils.getActionBarHeight(context) + (landscape || MainActivity.isPopup ? 0 : Utils.getStatusBarHeight(context));
 
-        if (!getResources().getBoolean(R.bool.isTablet)) {
+        if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
             refreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
         }
 
@@ -369,7 +369,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void setUpHeaders() {
-        if (!getResources().getBoolean(R.bool.isTablet)) {
+        if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
             View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
             listView.addHeaderView(viewHeader, null, false);
             listView.setHeaderDividersEnabled(false);
@@ -386,7 +386,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 listView.setFooterDividersEnabled(false);
             }
 
-            if (!MainActivity.isPopup && !getResources().getBoolean(R.bool.isTablet)) {
+            if (!MainActivity.isPopup && !getResources().getBoolean(R.bool.isTablet) && !landscape) {
                 View view = new View(context);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);
