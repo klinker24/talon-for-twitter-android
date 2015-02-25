@@ -113,7 +113,7 @@
                           android:orientation="horizontal"
                           android:gravity="center_vertical"
                           android:id="@+id/view_favoriters"
-                          android:background="?android:selectableItemBackground" >
+                          android:background="?android:selectableItemBackgroundBorderless" >
 
                 <View android:layout_width="8dp" android:layout_height="match_parent" />
 
@@ -163,7 +163,7 @@
                           android:orientation="horizontal"
                           android:gravity="center_vertical"
                           android:id="@+id/view_retweeters"
-                          android:background="?android:selectableItemBackground">
+                          android:background="?android:selectableItemBackgroundBorderless">
 
                 <View android:layout_width="8dp" android:layout_height="match_parent" />
 

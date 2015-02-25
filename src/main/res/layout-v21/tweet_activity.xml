@@ -156,7 +156,7 @@
                                 android:minHeight="48dp" android:minWidth="48dp"
                                 android:scaleType="center" android:adjustViewBounds="true"
                                 android:maxWidth="48dp" android:maxHeight="48dp"
-                                android:background="?android:attr/selectableItemBackground"/>
+                                android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -189,7 +189,7 @@
                                 android:minHeight="48dp" android:minWidth="48dp"
                                 android:scaleType="center" android:adjustViewBounds="true"
                                 android:maxWidth="48dp" android:maxHeight="48dp"
-                                android:background="?android:attr/selectableItemBackground"/>
+                                android:background="?android:attr/selectableItemBackgroundBorderless"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -229,7 +229,6 @@
                         android:alpha=".6"/>
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:id="@+id/youtube_view"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
@@ -258,7 +257,7 @@
                             <ProgressBar
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    style="@style/Widget.AppCompat.ProgressBar"
+                                    style="@android:style/Widget.Material.Light.ProgressBar.Large"
                                     android:indeterminateOnly="true" />
 
                         </LinearLayout>
