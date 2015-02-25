@@ -46,7 +46,7 @@ either, or ETA's, so please do not ask for them
 
 
 BACKPORT:
-    - fix the FAB on profiles and tweet viewer
+    - fix the FAB on tweet viewer
     - make the status bar black on < Lollipop
     - Material dialogs
 
