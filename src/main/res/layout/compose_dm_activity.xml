@@ -45,7 +45,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:contentDescription="Attach Image"
-                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:background="?android:selectableItemBackground"
                         android:src="?cancelButton"
                         android:gravity="center"
                         android:layout_gravity="center"

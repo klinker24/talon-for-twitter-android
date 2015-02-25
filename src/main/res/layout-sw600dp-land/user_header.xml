@@ -97,7 +97,7 @@
                     android:maxWidth="48dp" android:maxHeight="48dp"
                     android:scaleType="centerInside" android:adjustViewBounds="true"
                     android:minHeight="48dp" android:minWidth="48dp"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="Options"
                     />
         </LinearLayout>

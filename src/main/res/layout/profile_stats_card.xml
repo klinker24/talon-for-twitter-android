@@ -85,7 +85,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:background="?android:selectableItemBackground"
                     android:layout_weight="1">
 
                 <TextView
@@ -148,7 +148,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:background="?android:selectableItemBackground"
                     android:layout_weight="1">
 
                 <TextView

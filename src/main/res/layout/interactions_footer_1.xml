@@ -76,7 +76,7 @@
                 android:layout_marginRight="8dp"
                 android:src="?cancelButton"
                 android:layout_gravity="center_vertical"
-                android:background="?android:selectableItemBackgroundBorderless"/>
+                android:background="?android:selectableItemBackground"/>
 
     </LinearLayout>
 
