@@ -260,7 +260,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
             }
         });
         int size = Utils.getActionBarHeight(context) + (landscape || MainActivity.isPopup ? 0 : Utils.getStatusBarHeight(context));
-        refreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            refreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
+        }
+
         refreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
         refreshLayout.setBarVisibilityWatcher(barVisibility);
 
@@ -365,9 +369,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void setUpHeaders() {
-        View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
-        listView.addHeaderView(viewHeader, null, false);
-        listView.setHeaderDividersEnabled(false);
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            View viewHeader = context.getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+            listView.setHeaderDividersEnabled(false);
+        }
 
         if (DrawerActivity.translucent) {
             if (Utils.hasNavBar(context)) {
@@ -380,7 +386,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 listView.setFooterDividersEnabled(false);
             }
 
-            if (!MainActivity.isPopup) {
+            if (!MainActivity.isPopup && !getResources().getBoolean(R.bool.isTablet)) {
                 View view = new View(context);
                 view.setOnClickListener(null);
                 view.setOnLongClickListener(null);

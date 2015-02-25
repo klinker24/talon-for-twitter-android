@@ -85,14 +85,6 @@ public class FavoritesActivity extends DrawerActivity {
             listView.addHeaderView(viewHeader, null, false);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-
-            if (getResources().getBoolean(R.bool.isTablet) && toolbar != null) {
-                
-            }
-        }
-
         listView.setHeaderDividersEnabled(false);
 
         if (Utils.hasNavBar(context)) {
