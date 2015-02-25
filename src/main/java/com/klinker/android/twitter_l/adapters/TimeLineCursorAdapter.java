@@ -996,7 +996,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public static final int ANIMATION_DURATION = 300;
-    public static final Interpolator ANIMATION_INTERPOLATOR = new DecelerateInterpolator();//new PathInterpolator(.1f,.1f,.2f,1f);
+    public static Interpolator ANIMATION_INTERPOLATOR;
+
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ANIMATION_INTERPOLATOR = new PathInterpolator(.1f,.1f,.2f,1f);
+        } else {
+            ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
+        }
+    }
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
         final String text = holder.tweet.getText().toString();
