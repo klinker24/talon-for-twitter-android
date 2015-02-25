@@ -1458,8 +1458,6 @@ public class TweetActivity extends ActionBarActivity {
         viewRetweeters = (LinearLayout) layout.findViewById(R.id.view_retweeters);
         viewFavoriters = (LinearLayout) layout.findViewById(R.id.view_favoriters);
 
-        final View sendLayout = findViewById(R.id.send_layout);
-
         retweeters = (ImageView) layout.findViewById(R.id.retweeters);
         favoriters = (ImageView) layout.findViewById(R.id.favoriters);
 
@@ -1847,8 +1845,8 @@ public class TweetActivity extends ActionBarActivity {
             }
         };
 
+        final View sendLayout = findViewById(R.id.send_button);
         sendLayout.setOnClickListener(clickListener);
-        findViewById(R.id.send_button).setOnClickListener(clickListener);
 
         // we are going to do a little fade in thing with the top of this area
         /*final View darkBackgroundArea = findViewById(R.id.person_info);

@@ -384,16 +384,9 @@ public class ProfilePager extends ActionBarActivity {
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
-        final View sendLayout = findViewById(R.id.send_layout);
         final View sendButton = findViewById(R.id.send_button);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendLayout.callOnClick();
-            }
-        });
-        sendLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
@@ -488,13 +481,13 @@ public class ProfilePager extends ActionBarActivity {
             findViewById(R.id.header_button_section).setVisibility(View.GONE);
         }
 
-        sendLayout.setVisibility(View.INVISIBLE);
+        sendButton.setVisibility(View.INVISIBLE);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                sendLayout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_expand));
-                sendLayout.setVisibility(View.VISIBLE);
+                sendButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_expand));
+                sendButton.setVisibility(View.VISIBLE);
             }
         }, 450);
 
