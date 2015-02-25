@@ -115,7 +115,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
     public ImageView readButton;
 
     private NetworkedCacheableImageView backgroundPic;
-    private NetworkedCacheableImageView profilePic;
+    private ImageView profilePic;
 
     private LinearLayout noInteractions;
 
@@ -242,8 +242,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         TextView name = (TextView) mDrawer.findViewById(R.id.name);
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
         backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
-        backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
-        profilePic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.profile_pic_contact);
+        profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -574,8 +573,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             // empty path again
         }
 
-        profilePic.setClipToOutline(true);
-
         drawerList.setAdapter(adapter);
 
         drawerList.setOnItemClickListener(new MainDrawerClickListener(context, mDrawerLayout, mViewPager));
@@ -594,7 +591,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
         TextView name2 = (TextView) findViewById(R.id.name_2);
         TextView screenname2 = (TextView) findViewById(R.id.screen_name_2);
-        NetworkedCacheableImageView proPic2 = (NetworkedCacheableImageView) findViewById(R.id.profile_pic_2);
+        ImageView proPic2 = (ImageView) findViewById(R.id.profile_pic_2);
 
         name2.setTextSize(15);
         screenname2.setTextSize(15);
@@ -625,7 +622,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 }
             });
         } else { // switch accounts
-            proPic2.setClipToOutline(true);
 
             if (current == 1) {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));

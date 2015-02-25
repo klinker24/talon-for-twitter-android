@@ -80,18 +80,17 @@
             android:layout_marginLeft="16dp">
 
             <!-- The tweeters picture -->
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_pic"
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
-                android:id="@+id/profile_pic"
-                android:contentDescription="Profile Picture"
-                android:src="?circleBorder"
                 android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-                android:scaleType="centerCrop" android:adjustViewBounds="true"
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"
-                android:background="@drawable/pro_pic_clip"/>
+                app:border_width="0dp"
+                app:border_color="#FF000000"/>
 
             <LinearLayout
                 android:orientation="vertical"

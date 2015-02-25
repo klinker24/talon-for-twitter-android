@@ -1420,8 +1420,8 @@ public class TweetActivity extends ActionBarActivity {
     }
 
     public NetworkedCacheableImageView profilePic;
-    public NetworkedCacheableImageView retweeters;
-    public NetworkedCacheableImageView favoriters;
+    public ImageView retweeters;
+    public ImageView favoriters;
     public LinearLayout viewRetweeters;
     public LinearLayout viewFavoriters;
 
@@ -1452,8 +1452,8 @@ public class TweetActivity extends ActionBarActivity {
 
         final View sendLayout = findViewById(R.id.send_layout);
 
-        retweeters = (NetworkedCacheableImageView) layout.findViewById(R.id.retweeters);
-        favoriters = (NetworkedCacheableImageView) layout.findViewById(R.id.favoriters);
+        retweeters = (ImageView) layout.findViewById(R.id.retweeters);
+        favoriters = (ImageView) layout.findViewById(R.id.favoriters);
         retweeters.setClipToOutline(true);
         favoriters.setClipToOutline(true);
 
@@ -2272,7 +2272,7 @@ public class TweetActivity extends ActionBarActivity {
                                 viewRetweeters.setVisibility(View.INVISIBLE);
                                 viewRetweeters.setEnabled(false);
                             } else {
-                                retweeters.loadImage(combined, true, null);
+                                ImageUtils.loadImage(context, retweeters, combined, App.getInstance(context).getBitmapCache());
                                 viewRetweeters.setVisibility(View.VISIBLE);
                                 viewRetweeters.setEnabled(true);
                             }
@@ -2328,7 +2328,7 @@ public class TweetActivity extends ActionBarActivity {
                                 viewFavoriters.setVisibility(View.INVISIBLE);
                                 viewFavoriters.setEnabled(false);
                             } else {
-                                favoriters.loadImage(combined, true, null);
+                                ImageUtils.loadImage(context, favoriters, combined, App.getInstance(context).getBitmapCache());
                                 viewFavoriters.setVisibility(View.VISIBLE);
                                 viewFavoriters.setEnabled(true);
                             }

@@ -122,8 +122,6 @@ public class FollowersArrayAdapter extends ArrayAdapter<User> {
         holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
         holder.following = (TextView) v.findViewById(R.id.following);
 
-        holder.picture.setClipToOutline(true);
-
         v.setTag(holder);
         return v;
     }
@@ -190,7 +188,7 @@ public class FollowersArrayAdapter extends ArrayAdapter<User> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
+            holder.picture.setImageDrawable(null);
         }
 
         bindView(v, position, users.get(position));

@@ -73,23 +73,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public ArrayList<Status> statuses;
     public LayoutInflater inflater;
     public AppSettings settings;
-    public int border;
-
-    public static final String REGEX = "(http|ftp|https):\\/\\/([\\w\\-_]+(?:(?:\\.[\\w\\-_]+)+))([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?";
-    public static Pattern pattern = Pattern.compile(REGEX);
-
-    public boolean hasKeyboard = false;
-    public boolean isProfile = false;
 
     public int layout;
-    public XmlResourceParser addonLayout = null;
     public Resources res;
     public BitmapLruCache mCache;
 
     public ColorDrawable transparent;
 
     public Handler[] mHandler;
-    public Handler emojiHandler;
     public int currHandler = 0;
 
     public int type;
@@ -399,11 +390,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         layout = R.layout.tweet;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
         mCache = App.getInstance(context).getBitmapCache();
 
         transparent = new ColorDrawable(android.R.color.transparent);
@@ -451,8 +437,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
         }
 
-        holder.profilePic.setClipToOutline(true);
-        holder.image.setClipToOutline(true);
+        //holder.profilePic.setClipToOutline(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.image.setClipToOutline(true);
+        }
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -918,7 +906,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.profilePic.setImageDrawable(context.getResources().getDrawable(border));
+            holder.profilePic.setImageDrawable(null);
             if (holder.imageHolder.getVisibility() == View.VISIBLE) {
                 holder.imageHolder.setVisibility(View.GONE);
             }

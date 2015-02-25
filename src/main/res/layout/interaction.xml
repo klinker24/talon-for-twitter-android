@@ -27,15 +27,14 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
 
-    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/picture"
         android:layout_width="@dimen/pro_pic_size"
         android:layout_height="@dimen/pro_pic_size"
         android:contentDescription="Profile Picture"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
         android:layout_margin="8dp"
-        android:background="@drawable/pro_pic_clip"
+        app:border_width="0dp"
         />
 
     <LinearLayout

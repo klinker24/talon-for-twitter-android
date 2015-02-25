@@ -62,11 +62,8 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
     public AppSettings settings;
 
     public int layout;
-    public XmlResourceParser addonLayout = null;
     public Resources res;
-    public int talonLayout;
     public BitmapLruCache mCache;
-    public int border;
 
     public static class ViewHolder {
         public TextView name;
@@ -89,14 +86,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
     }
 
     public void setUpLayout() {
-
         layout = R.layout.person;
-
-        TypedArray b = context.getTheme().obtainStyledAttributes(new int[]{R.attr.circleBorder});
-
-        border = b.getResourceId(0, 0);
-        b.recycle();
-
         mCache = App.getInstance(context).getBitmapCache();
     }
 
@@ -115,8 +105,6 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
         holder.text = (TextView) v.findViewById(R.id.screen_name);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.picture = (ImageView) v.findViewById(R.id.profile_pic);
-
-        holder.picture.setClipToOutline(true);
 
         holder.text.setSingleLine(true);
 
@@ -194,7 +182,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
             final ViewHolder holder = (ViewHolder) v.getTag();
 
-            holder.picture.setImageDrawable(context.getResources().getDrawable(border));
+            holder.picture.setImageDrawable(null);
         }
 
         bindView(v, context, messages.get(position));

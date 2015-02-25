@@ -78,8 +78,8 @@ public class ExpansionViewHelper {
     TextView retweetCount;
     TextView retweetText;
     View retweetButton; // linear layout
-    NetworkedCacheableImageView retweeters;
-    NetworkedCacheableImageView favoriters;
+    ImageView retweeters;
+    ImageView favoriters;
     View viewRetweeters;
     View viewFavoriters;
 
@@ -133,11 +133,9 @@ public class ExpansionViewHelper {
         viewRetweeters = expansion.findViewById(R.id.view_retweeters);
         viewFavoriters = expansion.findViewById(R.id.view_favoriters);
 
-        retweeters = (NetworkedCacheableImageView) expansion.findViewById(R.id.retweeters);
-        retweeters.setClipToOutline(true);
+        retweeters = (ImageView) expansion.findViewById(R.id.retweeters);
 
-        favoriters = (NetworkedCacheableImageView) expansion.findViewById(R.id.favoriters);
-        favoriters.setClipToOutline(true);
+        favoriters = (ImageView) expansion.findViewById(R.id.favoriters);
 
         webButton = (ImageButton) expansion.findViewById(R.id.web_button);
         repliesButton = (Button)expansion.findViewById(R.id.show_all_tweets_button);
@@ -1417,7 +1415,7 @@ public class ExpansionViewHelper {
                                 viewRetweeters.setVisibility(View.INVISIBLE);
                                 viewRetweeters.setEnabled(false);
                             } else {
-                                retweeters.loadImage(combined, true, null);
+                                ImageUtils.loadImage(context, retweeters, combined, App.getInstance(context).getBitmapCache());
                                 viewRetweeters.setVisibility(View.VISIBLE);
                                 viewRetweeters.setEnabled(true);
                             }
@@ -1473,7 +1471,7 @@ public class ExpansionViewHelper {
                                 viewFavoriters.setVisibility(View.INVISIBLE);
                                 viewFavoriters.setEnabled(false);
                             } else {
-                                favoriters.loadImage(combined, true, null);
+                                ImageUtils.loadImage(context, favoriters, combined, App.getInstance(context).getBitmapCache());
                                 viewFavoriters.setVisibility(View.VISIBLE);
                                 viewFavoriters.setEnabled(true);
                             }

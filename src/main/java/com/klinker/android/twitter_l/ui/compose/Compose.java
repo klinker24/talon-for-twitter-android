@@ -68,10 +68,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter_l.ui.MainActivity;
@@ -385,11 +385,10 @@ public abstract class Compose extends Activity implements
             }
         });
 
-        NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        ImageView pic = (ImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
-        pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-        pic.setClipToOutline(true);
+        ImageUtils.loadImage(this, pic, settings.myProfilePicUrl, App.getInstance(this).getBitmapCache());
 
         currentName.setText("@" + settings.myScreenName);
 

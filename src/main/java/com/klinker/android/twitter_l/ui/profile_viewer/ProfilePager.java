@@ -43,6 +43,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -174,7 +175,7 @@ public class ProfilePager extends ActionBarActivity {
     public NetworkedCacheableImageView background;
     public NetworkedCacheableImageView profilePic;
     public NetworkedCacheableImageView toolbarBackground;
-    public NetworkedCacheableImageView toolbarProfilePic;
+    public ImageView toolbarProfilePic;
     public TextView toolbarName;
     public TextView toolbarRealName;
     public TextView followerCount;
@@ -182,8 +183,8 @@ public class ProfilePager extends ActionBarActivity {
     public TextView description;
     public TextView location;
     public TextView website;
-    public NetworkedCacheableImageView[] friends = new NetworkedCacheableImageView[3];
-    public NetworkedCacheableImageView[] followers = new NetworkedCacheableImageView[3];
+    public ImageView[] friends = new ImageView[3];
+    public ImageView[] followers = new ImageView[3];
     public View profileCounts;
 
     public void setUpContent() {
@@ -192,7 +193,7 @@ public class ProfilePager extends ActionBarActivity {
         profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
 
         toolbarBackground = (NetworkedCacheableImageView) findViewById(R.id.toolbar_background);
-        toolbarProfilePic = (NetworkedCacheableImageView) findViewById(R.id.toolbar_profile_pic);
+        toolbarProfilePic = (ImageView) findViewById(R.id.toolbar_profile_pic);
         toolbarName = (TextView) findViewById(R.id.toolbar_screenname);
         toolbarRealName = (TextView) findViewById(R.id.toolbar_name);
 
@@ -203,18 +204,13 @@ public class ProfilePager extends ActionBarActivity {
         website = (TextView) findViewById(R.id.user_webpage);
         profileCounts = findViewById(R.id.profile_counts);
 
-        friends[0] = (NetworkedCacheableImageView) findViewById(R.id.friend_1);
-        friends[1] = (NetworkedCacheableImageView) findViewById(R.id.friend_2);
-        friends[2] = (NetworkedCacheableImageView) findViewById(R.id.friend_3);
+        friends[0] = (ImageView) findViewById(R.id.friend_1);
+        friends[1] = (ImageView) findViewById(R.id.friend_2);
+        friends[2] = (ImageView) findViewById(R.id.friend_3);
 
-        followers[0] = (NetworkedCacheableImageView) findViewById(R.id.follower_1);
-        followers[1] = (NetworkedCacheableImageView) findViewById(R.id.follower_2);
-        followers[2] = (NetworkedCacheableImageView) findViewById(R.id.follower_3);
-
-        for (int i = 0; i < 3; i++) {
-            friends[i].setClipToOutline(true);
-            followers[i].setClipToOutline(true);
-        }
+        followers[0] = (ImageView) findViewById(R.id.follower_1);
+        followers[1] = (ImageView) findViewById(R.id.follower_2);
+        followers[2] = (ImageView) findViewById(R.id.follower_3);
 
         // set up the margin on the profile card so it is under the action bar and status bar
         int abHeight = Utils.getActionBarHeight(context);
@@ -376,8 +372,7 @@ public class ProfilePager extends ActionBarActivity {
 
         }
 
-        toolbarProfilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
-        toolbarProfilePic.setClipToOutline(true);
+        ImageUtils.loadImage(context, toolbarProfilePic, user.getOriginalProfileImageURL(), mCache);
 
         toolbarName.setText("@" + user.getScreenName());
         toolbarRealName.setText(user.getName());
@@ -1029,18 +1024,18 @@ public class ProfilePager extends ActionBarActivity {
             case 1:
                 for(int i = 0; i < 2; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                this.followers[2].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.followers[2], followers.get(0).getBiggerProfileImageURL(), mCache);
                 break;
             case 2:
                 for(int i = 0; i < 1; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                this.followers[1].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
-                this.followers[2].loadImage(followers.get(1).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.followers[1], followers.get(0).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.followers[2], followers.get(1).getBiggerProfileImageURL(), mCache);
                 break;
             case 3:
-                this.followers[0].loadImage(followers.get(0).getBiggerProfileImageURL(), false, null);
-                this.followers[1].loadImage(followers.get(1).getBiggerProfileImageURL(), false, null);
-                this.followers[2].loadImage(followers.get(2).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.followers[0], followers.get(0).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.followers[1], followers.get(1).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.followers[2], followers.get(2).getBiggerProfileImageURL(), mCache);
                 break;
         }
     }
@@ -1069,17 +1064,17 @@ public class ProfilePager extends ActionBarActivity {
             case 1:
                 for(int i = 0; i < 2; i++) // 0 and 1 are gone
                     this.friends[i].setVisibility(View.INVISIBLE);
-                this.friends[2].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.friends[2], friends.get(0).getBiggerProfileImageURL(), mCache);
                 break;
             case 2:
                 this.friends[0].setVisibility(View.INVISIBLE);
-                this.friends[1].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
-                this.friends[2].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.friends[1], friends.get(0).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.friends[2], friends.get(1).getBiggerProfileImageURL(), mCache);
                 break;
             case 3:
-                this.friends[0].loadImage(friends.get(0).getBiggerProfileImageURL(), false, null);
-                this.friends[1].loadImage(friends.get(1).getBiggerProfileImageURL(), false, null);
-                this.friends[2].loadImage(friends.get(2).getBiggerProfileImageURL(), false, null);
+                ImageUtils.loadImage(this, this.friends[0], friends.get(0).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.friends[1], friends.get(1).getBiggerProfileImageURL(), mCache);
+                ImageUtils.loadImage(this, this.friends[2], friends.get(2).getBiggerProfileImageURL(), mCache);
                 break;
         }
     }

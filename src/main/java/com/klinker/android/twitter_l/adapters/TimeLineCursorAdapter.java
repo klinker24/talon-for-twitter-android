@@ -61,6 +61,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -292,7 +293,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.muffledName = (TextView) v.findViewById(R.id.muffled_name);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
-        holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
+        holder.profilePic = (CircleImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
@@ -318,8 +319,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
 
-        holder.profilePic.setClipToOutline(true);
-        holder.image.setClipToOutline(true);
+        //holder.profilePic.setClipToOutline(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.image.setClipToOutline(true);
+        }
 
         holder.rootView = v;
 

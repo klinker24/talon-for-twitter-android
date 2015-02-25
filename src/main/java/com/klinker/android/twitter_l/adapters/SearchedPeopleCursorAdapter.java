@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.adapters;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,9 @@ public class SearchedPeopleCursorAdapter extends PeopleCursorAdapter {
         holder.name.setTextSize(settings.textSize + 4);
         holder.screenName.setTextSize(settings.textSize);
 
-        holder.picture.setClipToOutline(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            holder.picture.setClipToOutline(true);
+        }
 
         v.setTag(holder);
         return v;

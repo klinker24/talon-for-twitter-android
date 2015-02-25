@@ -31,17 +31,15 @@
             android:id="@+id/pro_pic_layout"
             android:gravity="center_vertical">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
                 android:id="@+id/profile_pic_contact"
-                android:src="?circleBorder"
                 android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-                android:scaleType="centerCrop" android:adjustViewBounds="true"
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:contentDescription="Profile Picture"
                 android:layout_marginRight="2dp"
-                android:background="@drawable/pro_pic_clip"
                 android:layout_marginLeft="2dp"/>
 
             </LinearLayout>
