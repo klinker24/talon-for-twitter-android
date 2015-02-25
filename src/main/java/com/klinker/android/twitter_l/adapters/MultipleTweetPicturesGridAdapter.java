@@ -56,10 +56,11 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
                 viewImage.putExtra("url", links);
                 viewImage.putExtra("start_page", position);
 
-                ActivityOptions options = ActivityOptions
+                /*ActivityOptions options = ActivityOptions
                         .makeSceneTransitionAnimation(((Activity)context), holder.iv, "image");
 
-                context.startActivity(viewImage/*, options.toBundle()*/);
+                context.startActivity(viewImage, options.toBundle());*/
+                context.startActivity(viewImage);
             }
         });
 

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -510,7 +511,9 @@ public class ExpansionViewHelper {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, text1);
 
-        ((Activity)context).getWindow().setExitTransition(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ((Activity)context).getWindow().setExitTransition(null);
+        }
 
         context.startActivity(share);
     }
@@ -696,7 +699,9 @@ public class ExpansionViewHelper {
                                 Intent browser = new Intent(Intent.ACTION_VIEW, uri);
                                 browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                                ((Activity)context).getWindow().setExitTransition(null);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    ((Activity)context).getWindow().setExitTransition(null);
+                                }
 
                                 context.startActivity(browser);
                             } catch (Exception e) {

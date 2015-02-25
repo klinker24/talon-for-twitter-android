@@ -770,10 +770,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
 
-                                ActivityOptions options = ActivityOptions
-                                        .makeSceneTransitionAnimation(((Activity)context), holder.image, "image");
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    ActivityOptions options = ActivityOptions
+                                            .makeSceneTransitionAnimation(((Activity)context), holder.image, "image");
 
-                                context.startActivity(photo, options.toBundle());
+                                    context.startActivity(photo, options.toBundle());
+                                } else {
+                                    context.startActivity(photo);
+                                }
                             }
                         }
                     });

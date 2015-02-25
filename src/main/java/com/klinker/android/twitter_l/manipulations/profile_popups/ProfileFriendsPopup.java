@@ -7,9 +7,6 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-/**
- * Created by lucasklinker on 9/27/14.
- */
 public class ProfileFriendsPopup extends ProfileUsersPopup {
 
     public ProfileFriendsPopup(Context context, User user) {
