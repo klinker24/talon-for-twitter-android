@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.WindowManager;
+
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -35,6 +37,10 @@ public class PrefActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
         setUpTheme();
 
