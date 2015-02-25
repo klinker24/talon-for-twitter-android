@@ -84,38 +84,19 @@
                     android:background="@android:color/black"
                     android:visibility="gone"/>
 
-                <LinearLayout
-                        android:id="@+id/send_layout"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:padding="10dp"
-                        android:visibility="gone"
-                        android:background="@drawable/fab_color"
-                        android:elevation="2dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginBottom="65dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center"
-                        android:focusableInTouchMode="true"
-                        android:focusable="true" >
-
-                    <ImageButton
-                            android:id="@+id/send_button"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:padding="16dp"
-                            android:minHeight="56dp" android:minWidth="56dp"
-                            android:scaleType="fitCenter" android:adjustViewBounds="true"
-                            android:maxWidth="56dp" android:maxHeight="56dp"
-                            android:src="@drawable/ic_action_new_dark"
-                            android:contentDescription="New Tweet"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"/>
-
-                </LinearLayout>
-
+                <at.markushi.ui.CircleButton
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/send_button"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_action_new_dark"
+                    app:cb_color="#99CC00"
+                    app:cb_pressedRingWidth="8dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="60dp"
+                    android:layout_marginRight="20dp"
+                    android:elevation="3dp"/>
 
             </RelativeLayout>
 

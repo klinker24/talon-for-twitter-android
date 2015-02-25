@@ -49,6 +49,7 @@ import android.widget.Toolbar;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
+import com.klinker.android.twitter_l.data.Circle;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
@@ -68,20 +69,21 @@ import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 
+import at.markushi.ui.CircleButton;
+
 public class MainActivity extends DrawerActivity {
 
     public static boolean isPopup;
     public static Context sContext;
 
-    public static ImageView sendButton;
-    public static LinearLayout sendLayout;
+    public static CircleButton sendButton;
     public static boolean showIsRunning = false;
     public static boolean hideIsRunning = false;
     public static Handler sendHandler;
     public static Runnable showSend = new Runnable() {
         @Override
         public void run() {
-            if (sendLayout.getVisibility() == View.GONE && !showIsRunning) {
+            if (sendButton.getVisibility() == View.GONE && !showIsRunning) {
 
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_expand);
                 anim.setAnimationListener(new Animation.AnimationListener() {
@@ -92,7 +94,7 @@ public class MainActivity extends DrawerActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        sendLayout.setVisibility(View.VISIBLE);
+                        sendButton.setVisibility(View.VISIBLE);
                         showIsRunning = false;
                     }
 
@@ -101,7 +103,7 @@ public class MainActivity extends DrawerActivity {
 
                     }
                 });
-                sendLayout.startAnimation(anim);
+                sendButton.startAnimation(anim);
 
                 // should create a circular reveal, but doesn't...
                 /*MainActivity.sendLayout.setVisibility(View.INVISIBLE);
@@ -124,7 +126,7 @@ public class MainActivity extends DrawerActivity {
     public static Runnable hideSend = new Runnable() {
         @Override
         public void run() {
-            if (sendLayout.getVisibility() == View.VISIBLE && !hideIsRunning) {
+            if (sendButton.getVisibility() == View.VISIBLE && !hideIsRunning) {
                 Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_hide);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -134,7 +136,7 @@ public class MainActivity extends DrawerActivity {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        sendLayout.setVisibility(View.GONE);
+                        sendButton.setVisibility(View.GONE);
                         hideIsRunning = false;
                     }
 
@@ -143,7 +145,7 @@ public class MainActivity extends DrawerActivity {
 
                     }
                 });
-                sendLayout.startAnimation(anim);
+                sendButton.startAnimation(anim);
             }
         }
     };
@@ -176,16 +178,16 @@ public class MainActivity extends DrawerActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
-        MainActivity.sendLayout = (LinearLayout) findViewById(R.id.send_layout);
-        MainActivity.sendButton = (ImageView) findViewById(R.id.send_button);
+        MainActivity.sendButton = (CircleButton) findViewById(R.id.send_button);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            MainActivity.sendLayout.setClipToOutline(true);
             getWindow().setSharedElementExitTransition(new ChangeBounds());
         }
 
+        MainActivity.sendButton.setColor(settings.themeColors.accentColor);
+
         MainActivity.sendHandler.postDelayed(showSend, 1000);
-        MainActivity.sendLayout.setOnClickListener(new View.OnClickListener() {
+        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
@@ -193,12 +195,6 @@ public class MainActivity extends DrawerActivity {
                         v.getMeasuredWidth(), v.getMeasuredHeight());
                 compose.putExtra("already_animated", true);
                 startActivity(compose, opts.toBundle());
-            }
-        });
-        MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.sendLayout.callOnClick();
             }
         });
 

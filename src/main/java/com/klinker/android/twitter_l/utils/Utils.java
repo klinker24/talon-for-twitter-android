@@ -234,7 +234,7 @@ public class Utils {
         Activity activity = (Activity) context;
 
         // inside your activity (if you did not enable transitions in your theme)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        try {
             activity.getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             activity.getWindow().setAllowEnterTransitionOverlap(true);
             activity.getWindow().setAllowReturnTransitionOverlap(true);
@@ -243,6 +243,8 @@ public class Utils {
             activity.getWindow().setSharedElementExitTransition(trans);
             activity.getWindow().setSharedElementReenterTransition(trans);
             activity.getWindow().setSharedElementReturnTransition(trans);
+        } catch (Exception e) {
+
         }
 
     }

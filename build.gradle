@@ -117,6 +117,7 @@ dependencies {
     compile 'com.google.android.apps.dashclock:dashclock-api:+'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'de.hdodenhof:circleimageview:+'
+    compile 'com.github.markushi:circlebutton:1.1'
 
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'org.twitter4j:twitter4j-stream:4.0.2'
