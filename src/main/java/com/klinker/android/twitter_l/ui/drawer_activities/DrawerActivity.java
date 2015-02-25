@@ -213,6 +213,16 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             toolbar.setBackgroundColor(settings.themeColors.primaryColor);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+
+            if (getResources().getBoolean(R.bool.isTablet) && toolbar != null) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+                params.topMargin = Utils.getStatusBarHeight(context);
+                toolbar.setLayoutParams(params);
+            }
+        }
+
         actionBar = getSupportActionBar();
 
         MainDrawerArrayAdapter.current = number;
