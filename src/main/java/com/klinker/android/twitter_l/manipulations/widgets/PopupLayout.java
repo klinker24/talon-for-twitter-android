@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
@@ -43,7 +44,15 @@ public abstract class PopupLayout extends LinearLayout {
     public static final int LONG_ANIMATION_TIME = 200;
     public static final int SHORT_ANIMATION_TIME = 100;
     
-    private static final Interpolator INTERPOLATOR = new PathInterpolator(.1f,.1f,.2f,1f);
+    private static Interpolator INTERPOLATOR;
+
+    static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            INTERPOLATOR = new PathInterpolator(.1f,.1f,.2f,1f);
+        } else {
+            INTERPOLATOR = new DecelerateInterpolator();
+        }
+    }
 
     private Drawable background;
     private TextView title;
@@ -80,11 +89,14 @@ public abstract class PopupLayout extends LinearLayout {
         screenHeight = size.y;
         screenWidth = size.x;
 
-        background = context.getDrawable(R.drawable.popup_background);
+        background = context.getResources().getDrawable(R.drawable.popup_background);
         setBackground(background);
-        setClipToOutline(true);
 
-        setElevation(3);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setClipToOutline(true);
+            setElevation(3);
+        }
+
         setPadding(10,10,10,10);
         setOrientation(VERTICAL);
 
@@ -159,11 +171,14 @@ public abstract class PopupLayout extends LinearLayout {
             }
         }
 
-        background = context.getDrawable(R.drawable.popup_background);
+        background = context.getResources().getDrawable(R.drawable.popup_background);
         setBackground(background);
-        setClipToOutline(true);
 
-        setElevation(3);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setClipToOutline(true);
+            setElevation(3);
+        }
+
         setPadding(10,10,10,10);
         setOrientation(VERTICAL);
 

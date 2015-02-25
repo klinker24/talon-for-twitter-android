@@ -727,7 +727,9 @@ public class TweetActivity extends ActionBarActivity {
         actionBar.setTitle("");
         actionBar.setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
 
-        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+        }
 
         insetsBackground = findViewById(R.id.actionbar_and_status_bar);
 
@@ -1077,7 +1079,9 @@ public class TweetActivity extends ActionBarActivity {
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, text1);
 
-                getWindow().setExitTransition(null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setExitTransition(null);
+                }
 
                 startActivity(share);
                 return true;
@@ -1189,7 +1193,9 @@ public class TweetActivity extends ActionBarActivity {
                 quote.putExtra("id", tweetId);
                 quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
-                getWindow().setExitTransition(null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setExitTransition(null);
+                }
 
                 startActivity(quote);
 
@@ -1314,7 +1320,9 @@ public class TweetActivity extends ActionBarActivity {
                     Intent browser = new Intent(Intent.ACTION_VIEW, uri);
                     browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    getWindow().setExitTransition(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setExitTransition(null);
+                    }
 
                     startActivity(browser);
                 } catch (Exception e) {
@@ -1454,8 +1462,6 @@ public class TweetActivity extends ActionBarActivity {
 
         retweeters = (ImageView) layout.findViewById(R.id.retweeters);
         favoriters = (ImageView) layout.findViewById(R.id.favoriters);
-        retweeters.setClipToOutline(true);
-        favoriters.setClipToOutline(true);
 
         favoritersPopup = new FavoritersPopupLayout(context, getResources().getBoolean(R.bool.isTablet));
         if (getResources().getBoolean(R.bool.isTablet)) {
@@ -1515,7 +1521,9 @@ public class TweetActivity extends ActionBarActivity {
                     intent.putExtra("user", text);
                     intent.putExtra("id", tweetId);
 
-                    getWindow().setExitTransition(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setExitTransition(null);
+                    }
 
                     startActivity(intent);
                 }
@@ -1533,7 +1541,9 @@ public class TweetActivity extends ActionBarActivity {
                     viewProfile.putExtra("tweetid", tweetId);
                     viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
 
-                    getWindow().setExitTransition(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setExitTransition(null);
+                    }
 
                     context.startActivity(viewProfile);
                 }
@@ -1555,10 +1565,14 @@ public class TweetActivity extends ActionBarActivity {
                         Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                         photo.putExtra("shared_trans", true);
 
-                        ActivityOptions options = ActivityOptions
-                                .makeSceneTransitionAnimation(((Activity)context), profilePic, "image");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context), profilePic, "image");
 
-                        context.startActivity(photo, options.toBundle());
+                            context.startActivity(photo, options.toBundle());
+                        } else {
+                            context.startActivity(photo);
+                        }
                     }
                 }
             });
@@ -1624,7 +1638,9 @@ public class TweetActivity extends ActionBarActivity {
                     Uri weburi = Uri.parse("http://" + data);
                     Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                     launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getWindow().setExitTransition(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setExitTransition(null);
+                    }
                     context.startActivity(launchBrowser);
                 }
             }
@@ -1818,7 +1834,9 @@ public class TweetActivity extends ActionBarActivity {
                     compose.putExtra("id", tweetId);
                     compose.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
 
-                    getWindow().setExitTransition(null);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setExitTransition(null);
+                    }
 
                     ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
                             v.getMeasuredWidth(), v.getMeasuredHeight());
