@@ -44,26 +44,14 @@
                         android:transitionName="image"
                         android:contentDescription="Profile Picture"/>
 
-                    <at.markushi.ui.CircleButton
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/send_button"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:src="@drawable/ic_send_fab"
-                        app:cb_color="#99CC00"
-                        app:cb_pressedRingWidth="8dp"
-                        android:layout_marginTop="-28dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="40dp"
-                        android:elevation="3dp"/>
-
-                    <LinearLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="96dp"
                         android:background="#34444b"
                         android:id="@+id/person_info"
-                        android:layout_marginTop="-29dp"
                         android:orientation="vertical"
-                        android:padding="20dp">
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp" >
 
                         <TextView
                             android:id="@+id/name"
@@ -87,6 +75,19 @@
 
 
                     </LinearLayout>
+
+                    <at.markushi.ui.CircleButton
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/send_button"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:src="@drawable/ic_send_fab"
+                            app:cb_color="#99CC00"
+                            app:cb_pressedRingWidth="8dp"
+                            android:layout_marginTop="-132dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="40dp"
+                            android:elevation="3dp"/>
 
                 </LinearLayout>
 

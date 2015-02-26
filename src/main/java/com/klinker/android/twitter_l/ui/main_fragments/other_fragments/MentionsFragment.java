@@ -151,7 +151,7 @@ public class MentionsFragment extends MainFragment {
                     if (update) {
                         CharSequence text = numberNew == 1 ?  numberNew + " " + getResources().getString(R.string.new_mention) :  numberNew + " " + getResources().getString(R.string.new_mentions);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
-                        int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                        int size = (getResources().getBoolean(R.bool.isTablet) ? 0 : mActionBarSize) + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                         try {
                             if (!settings.topDown) {
                                 listView.setSelectionFromTop(numberNew + listView.getHeaderViewsCount() -
@@ -320,7 +320,7 @@ public class MentionsFragment extends MainFragment {
 
         if (newTweets > 0) {
             unread = newTweets;
-            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+            int size = (getResources().getBoolean(R.bool.isTablet) ? 0 : mActionBarSize) + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
             try {
                 if (!settings.topDown) {
                     listView.setSelectionFromTop(newTweets + listView.getHeaderViewsCount() -

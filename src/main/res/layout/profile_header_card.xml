@@ -135,7 +135,7 @@
         android:src="@drawable/ic_send_fab"
         app:cb_color="#99CC00"
         app:cb_pressedRingWidth="8dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="254dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="28dp"
         android:layout_gravity="right"

@@ -29,64 +29,65 @@
 
                 <!-- This is the persons header with name, picture, and handle -->
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/pro_pic_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusableInTouchMode="true"
-                    android:gravity="right" >
+                        android:orientation="vertical"
+                        android:id="@+id/pro_pic_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="true"
+                        android:gravity="right" >
 
                     <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:id="@+id/profile_pic_contact"
-                        android:scaleType="centerCrop"
-                        android:transitionName="image"
-                        android:contentDescription="Profile Picture"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:id="@+id/profile_pic_contact"
+                            android:scaleType="centerCrop"
+                            android:transitionName="image"
+                            android:contentDescription="Profile Picture"/>
 
-                    <at.markushi.ui.CircleButton
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/send_button"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:src="@drawable/ic_send_fab"
-                        app:cb_color="#99CC00"
-                        app:cb_pressedRingWidth="8dp"
-                        android:layout_marginTop="-28dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="40dp"
-                        android:elevation="3dp"/>
-
-                    <LinearLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#34444b"
-                        android:id="@+id/person_info"
-                        android:layout_marginTop="-29dp"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="96dp"
+                            android:background="#34444b"
+                            android:id="@+id/person_info"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:paddingStart="20dp" >
 
                         <TextView
-                            android:id="@+id/name"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:singleLine="true"
-                            android:textSize="24sp"
-                            android:alpha=".87"
-                            android:transitionName="name"
-                            android:textColor="@android:color/white"/>
+                                android:id="@+id/name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:textSize="24sp"
+                                android:alpha=".87"
+                                android:transitionName="name"
+                                android:textColor="@android:color/white"/>
 
                         <TextView
-                            android:id="@+id/screen_name"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:singleLine="true"
-                            android:textSize="16sp"
-                            android:alpha=".87"
-                            android:transitionName="screenname"
-                            android:textColor="@android:color/white"/>
+                                android:id="@+id/screen_name"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:singleLine="true"
+                                android:textSize="16sp"
+                                android:alpha=".87"
+                                android:transitionName="screenname"
+                                android:textColor="@android:color/white"/>
 
 
                     </LinearLayout>
+
+                    <at.markushi.ui.CircleButton
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/send_button"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:src="@drawable/ic_send_fab"
+                            app:cb_color="#99CC00"
+                            app:cb_pressedRingWidth="8dp"
+                            android:layout_marginTop="-132dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="40dp"
+                            android:elevation="3dp"/>
 
                 </LinearLayout>
 
