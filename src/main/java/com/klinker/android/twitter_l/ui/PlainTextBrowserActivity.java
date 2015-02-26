@@ -96,7 +96,7 @@ public class PlainTextBrowserActivity extends BrowserActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            webText.setText(Html.fromHtml(article));
+                            webText.setText("\n" + Html.fromHtml(article));
                             webText.setMovementMethod(LinkMovementMethod.getInstance());
                             webText.setTextSize(settings.textSize);
 
