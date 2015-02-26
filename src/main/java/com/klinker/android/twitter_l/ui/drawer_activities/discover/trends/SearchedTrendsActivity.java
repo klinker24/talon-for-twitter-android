@@ -45,13 +45,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
@@ -130,6 +124,19 @@ public class SearchedTrendsActivity extends ActionBarActivity {
         actionBar.setIcon(null);
 
         setContentView(R.layout.ptr_list_layout);
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
+
+            if (kitkatStatusBar != null) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                params.height = Utils.getStatusBarHeight(context);
+                kitkatStatusBar.setLayoutParams(params);
+
+                kitkatStatusBar.setVisibility(View.VISIBLE);
+                kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
+            }
+        }
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
