@@ -20,12 +20,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout android:layout_height="match_parent"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:background="?windowBackground"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
+        <LinearLayout android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="?windowBackground"
+            android:orientation="vertical" >
+
+            <android.support.v7.widget.Toolbar
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -35,47 +39,55 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <LinearLayout android:id="@+id/list_progress"
-            android:orientation="vertical"
-            android:layout_height="0dp"
-            android:layout_width="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center" >
+            <LinearLayout android:id="@+id/list_progress"
+                android:orientation="vertical"
+                android:layout_height="0dp"
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center" >
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:indeterminateOnly="true" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:indeterminateOnly="true" />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/no_content"
+                android:orientation="vertical"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_content"/>
+            </LinearLayout>
+
+            <org.lucasr.smoothie.AsyncListView
+                android:id="@+id/listView"
+                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:divider="?drawerDividerColor"
+                android:dividerHeight="1dp"
+                android:scrollbars="vertical"
+                android:listSelector="@android:color/transparent"
+                android:visibility="gone"
+                />
+
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/no_content"
-            android:orientation="vertical"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_content"/>
-        </LinearLayout>
-
-        <org.lucasr.smoothie.AsyncListView
-            android:id="@+id/listView"
-            android:layout_height="fill_parent"
+        <View
+            android:id="@+id/kitkat_status_bar"
             android:layout_width="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:divider="?drawerDividerColor"
-            android:dividerHeight="1dp"
-            android:scrollbars="vertical"
-            android:listSelector="@android:color/transparent"
-            android:visibility="gone"
-            />
+            android:layout_height="20dp"
+            android:visibility="gone"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
     <!-- The navigation drawer -->
     <include layout="@layout/main_drawer"

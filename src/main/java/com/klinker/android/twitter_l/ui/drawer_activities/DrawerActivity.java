@@ -977,12 +977,24 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
 
             if (kitkatStatusBar != null) {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
-                params.height = Utils.getStatusBarHeight(context);
-                kitkatStatusBar.setLayoutParams(params);
+                try {
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                    params.height = Utils.getStatusBarHeight(context);
+                    kitkatStatusBar.setLayoutParams(params);
+                } catch (Exception e) {
+                    // frame layout on discover
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                    params.height = Utils.getStatusBarHeight(context);
+                    kitkatStatusBar.setLayoutParams(params);
+                }
+
 
                 kitkatStatusBar.setVisibility(View.VISIBLE);
                 kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
+            }
+
+            if (statusBar != null) {
+                statusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
             }
         }
     }
@@ -1630,11 +1642,20 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             }
         }
 
-        if (tranparentSystemBar == -1) {
-            tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
-        }
-        if (statusColor == -1) {
-            statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+            if (tranparentSystemBar == -1) {
+                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+            }
+            if (statusColor == -1) {
+                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+            }
+        } else {
+            if (tranparentSystemBar == -1) {
+                tranparentSystemBar = getResources().getColor(android.R.color.transparent);
+            }
+            if (statusColor == -1) {
+                statusColor = getResources().getColor(android.R.color.black);
+            }
         }
 
         if (barsAreShowing) {
@@ -1682,11 +1703,20 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         if (getResources().getBoolean(R.bool.has_drawer) && statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
         }
-        if (tranparentSystemBar == -1) {
-            tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
-        }
-        if (statusColor == -1) {
-            statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+            if (tranparentSystemBar == -1) {
+                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+            }
+            if (statusColor == -1) {
+                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+            }
+        } else {
+            if (tranparentSystemBar == -1) {
+                tranparentSystemBar = getResources().getColor(android.R.color.transparent);
+            }
+            if (statusColor == -1) {
+                statusColor = getResources().getColor(android.R.color.black);
+            }
         }
 
         if (!barsAreShowing) {
