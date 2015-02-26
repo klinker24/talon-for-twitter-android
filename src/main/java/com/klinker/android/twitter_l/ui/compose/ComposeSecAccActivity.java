@@ -2,10 +2,13 @@ package com.klinker.android.twitter_l.ui.compose;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 
 public class ComposeSecAccActivity extends ComposeActivity {
 
@@ -14,13 +17,9 @@ public class ComposeSecAccActivity extends ComposeActivity {
         useAccOne = false;
         useAccTwo = true;
 
-        NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        ImageView pic = (ImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
-        if (settings.roundContactImages) {
-            pic.loadImage(settings.secondProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-        } else {
-            pic.loadImage(settings.secondProfilePicUrl, false, null);
-        }
+        ImageUtils.loadImage(context, pic, settings.secondProfilePicUrl, App.getInstance(context).getBitmapCache());
         currentName.setText("@" + settings.secondScreenName);
 
         // for failed notification
