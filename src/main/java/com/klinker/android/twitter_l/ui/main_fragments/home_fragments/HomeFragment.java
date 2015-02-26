@@ -323,7 +323,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         if (viewPressed && !settings.topDown) {
-                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            int size = (getResources().getBoolean(R.bool.isTablet) ? 0 : mActionBarSize) + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
                                 listView.setSelectionFromTop(liveUnread + listView.getHeaderViewsCount() -
                                                 (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
@@ -334,7 +334,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             }
                         } else if (tweets != 0 ) {
                             unread = tweets;
-                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            int size = (getResources().getBoolean(R.bool.isTablet) ? 0 : mActionBarSize) + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
                                 if (!settings.topDown) {
                                     listView.setSelectionFromTop(tweets + listView.getHeaderViewsCount() -

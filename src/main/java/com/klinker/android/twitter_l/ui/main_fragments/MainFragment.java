@@ -700,7 +700,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         hideToastBar(300);
 
         if (getResources().getBoolean(R.bool.isTablet) || landscape) {
-            listView.smoothScrollBy(distanceFromTop - Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
+            listView.smoothScrollBy(distanceFromTop + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
         } else {
             listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
             hideStatusBar();
@@ -733,8 +733,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         if (currentDistanceFromTop != -1) {
             listView.smoothScrollBy(
-                    -1 * expandedDistanceFromTop + currentDistanceFromTop -
-                            (getResources().getBoolean(R.bool.isTablet) ? Utils.getActionBarHeight(context) : 0),
+                    -1 * expandedDistanceFromTop + currentDistanceFromTop,
                     TimeLineCursorAdapter.ANIMATION_DURATION
             );
         }

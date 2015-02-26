@@ -46,9 +46,5 @@ either, or ETA's, so please do not ask for them
 
 
 BACKPORT:
-    - fix the FAB on tweet viewer
     - make the status bar black on < Lollipop
     - Material dialogs
-
-    - tablet
-        - take out the offset when new tweets are loaded on the tablet's main timelines (action bar size... should be nothing)
