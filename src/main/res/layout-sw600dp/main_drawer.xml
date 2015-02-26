@@ -32,7 +32,7 @@
 
     <include layout="@layout/user_header"
              android:id="@+id/header"
-             android:layout_height="60dp"
+             android:layout_height="110dp"
              android:layout_width="match_parent"/>
 
     <LinearLayout
