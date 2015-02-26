@@ -20,7 +20,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="?windowBackground">
 
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"
@@ -68,7 +69,12 @@
             android:visibility="gone"
             />
 
-        </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
+    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
 
+    <View
+            android:id="@+id/kitkat_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:visibility="gone"/>
 
 </RelativeLayout>

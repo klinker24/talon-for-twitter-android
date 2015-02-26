@@ -35,6 +35,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
@@ -102,10 +103,17 @@ public class ChoosenListActivity extends ActionBarActivity {
 
         setContentView(R.layout.ptr_list_layout);
 
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
+
+            if (kitkatStatusBar != null) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                params.height = Utils.getStatusBarHeight(context);
+                kitkatStatusBar.setLayoutParams(params);
+
+                kitkatStatusBar.setVisibility(View.VISIBLE);
+                kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
+            }
         }
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
