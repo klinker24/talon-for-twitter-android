@@ -29,6 +29,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -71,13 +72,24 @@ public class ConfigurePagerActivity extends ActionBarActivity {
         actionBar = getSupportActionBar();
         actionBar.setElevation(0);
 
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        } else {
+            View status = findViewById(R.id.activity_status_bar);
+            status.setBackgroundColor(getResources().getColor(android.R.color.black));
+            status.setVisibility(View.VISIBLE);
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getStatusBarHeight(context);
+            status.setLayoutParams(params);
+
+            mViewPager.setPadding(0, Utils.getActionBarHeight(this), 0, 0);
         }
 
         chooserAdapter = new ConfigurationPagerAdapter(getFragmentManager(), context);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(chooserAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 

@@ -996,6 +996,12 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             if (statusBar != null) {
                 statusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
             }
+
+            View status = findViewById(R.id.drawer_status_bar);
+            status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+            status = findViewById(R.id.drawer_status_bar_2);
+            status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
     }
 
