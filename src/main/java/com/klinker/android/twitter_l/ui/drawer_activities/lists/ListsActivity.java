@@ -67,7 +67,14 @@ public class ListsActivity extends DrawerActivity {
         listView = (AsyncListView) findViewById(R.id.listView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            if (hasToolbar) {
+                getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+
+                kitkatStatusBar.setVisibility(View.VISIBLE);
+                kitkatStatusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+            } else {
+                getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            }
         }
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
