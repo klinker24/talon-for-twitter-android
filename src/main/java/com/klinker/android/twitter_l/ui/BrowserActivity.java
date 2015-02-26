@@ -31,6 +31,8 @@ import android.view.*;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -83,8 +85,31 @@ public class BrowserActivity extends ActionBarActivity {
 
     public void setUpLayout() {
 
+        FrameLayout frame = new FrameLayout(this);
+
+        ViewGroup.LayoutParams frameParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        frame.setLayoutParams(frameParams);
+
         browser = new HTML5WebView(this);
-        setContentView(browser.getLayout());
+        FrameLayout layout = browser.getLayout();
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            FrameLayout.LayoutParams browserParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            browserParams.topMargin  = Utils.getStatusBarHeight(this) + Utils.getActionBarHeight(this);
+            layout.setLayoutParams(browserParams);
+
+            View status = new View(context);
+            status.setBackgroundColor(getResources().getColor(android.R.color.black));
+
+            FrameLayout.LayoutParams statParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            statParams.height  = Utils.getStatusBarHeight(this);
+            status.setLayoutParams(statParams);
+
+            frame.addView(status);
+        }
+
+        frame.addView(layout);
+        setContentView(frame);
 
         browser.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
