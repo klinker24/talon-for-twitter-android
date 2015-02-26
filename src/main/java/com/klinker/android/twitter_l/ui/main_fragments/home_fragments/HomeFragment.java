@@ -989,7 +989,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             !MainActivity.isPopup &&
                             sharedPrefs.getBoolean("should_refresh", true) &&
                             (!settings.tweetmarker || settings.tweetmarkerManualOnly)) {
-                        if (!actionBar.isShowing() && !isLauncher()) {
+                        if (actionBar != null && !actionBar.isShowing() && !isLauncher()) {
                             showStatusBar();
                             actionBar.show();
                         }
