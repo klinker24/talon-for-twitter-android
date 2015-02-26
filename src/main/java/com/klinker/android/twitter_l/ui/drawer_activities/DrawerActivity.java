@@ -105,6 +105,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
 
     public static boolean canSwitch = true;
 
+    public View kitkatStatusBar;
     public static View statusBar;
     public static int statusBarHeight;
     public static int navBarHeight;
@@ -970,6 +971,19 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
 
             notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager));
+        }
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
+
+            if (kitkatStatusBar != null) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                params.height = Utils.getStatusBarHeight(context);
+                kitkatStatusBar.setLayoutParams(params);
+
+                kitkatStatusBar.setVisibility(View.VISIBLE);
+                kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
+            }
         }
     }
 
