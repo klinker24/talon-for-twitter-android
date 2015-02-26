@@ -359,16 +359,13 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                         tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
                     }
 
-                    if (hasDrawer &&
-                            (context instanceof ListsActivity ||
-                             context instanceof DiscoverPager ||
-                             context instanceof SavedSearchesActivity)) {
+                    /*if (hasDrawer) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             getWindow().setStatusBarColor((Integer) EVALUATOR.evaluate(slideOffset,
                                     (toolbar != null && toolbar.getAlpha() == 1f) ?
                                             settings.themeColors.primaryColorDark : tranparentSystemBar, Color.BLACK));
                         }
-                    }
+                    }*/
                 }
 
                 @Override
@@ -975,22 +972,23 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager));
         }
 
+        kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
+
+        if (kitkatStatusBar != null) {
+            try {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                params.height = Utils.getStatusBarHeight(context);
+                kitkatStatusBar.setLayoutParams(params);
+            } catch (Exception e) {
+                // frame layout on discover
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                params.height = Utils.getStatusBarHeight(context);
+                kitkatStatusBar.setLayoutParams(params);
+            }
+        }
+
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
-
             if (kitkatStatusBar != null) {
-                try {
-                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
-                    params.height = Utils.getStatusBarHeight(context);
-                    kitkatStatusBar.setLayoutParams(params);
-                } catch (Exception e) {
-                    // frame layout on discover
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
-                    params.height = Utils.getStatusBarHeight(context);
-                    kitkatStatusBar.setLayoutParams(params);
-                }
-
-
                 kitkatStatusBar.setVisibility(View.VISIBLE);
                 kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
             }

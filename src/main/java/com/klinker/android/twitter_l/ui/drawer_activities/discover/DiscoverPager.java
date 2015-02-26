@@ -29,6 +29,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
@@ -79,7 +81,14 @@ public class DiscoverPager extends DrawerActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            if (hasToolbar) {
+                getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+
+                kitkatStatusBar.setVisibility(View.VISIBLE);
+                kitkatStatusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+            } else {
+                getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            }
         }
 
         mViewPager.setOffscreenPageLimit(3);
