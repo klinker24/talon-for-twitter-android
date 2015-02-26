@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import android.widget.TextView;
@@ -75,7 +76,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
     public static class ViewHolder {
         public TextView title;
         public TextView text;
-        public NetworkedCacheableImageView picture;
+        public ImageView picture;
         public LinearLayout background;
         public String check;
     }
@@ -111,7 +112,7 @@ public class InteractionsCursorAdapter extends CursorAdapter {
         holder.title = (TextView) v.findViewById(R.id.title);
         holder.text = (TextView) v.findViewById(R.id.text);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
-        holder.picture = (NetworkedCacheableImageView) v.findViewById(R.id.picture);
+        holder.picture = (ImageView) v.findViewById(R.id.picture);
 
         v.setTag(holder);
         return v;

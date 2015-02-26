@@ -48,3 +48,5 @@ either, or ETA's, so please do not ask for them
 BACKPORT:
     - make the status bar black on < Lollipop
     - Material dialogs
+    - Some GIF's only loop once
+

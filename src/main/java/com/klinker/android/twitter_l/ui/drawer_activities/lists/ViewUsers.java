@@ -22,9 +22,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -47,13 +49,13 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-public class ViewUsers extends Activity {
+public class ViewUsers extends ActionBarActivity {
 
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private AsyncListView listView;
     private LinearLayout spinner;
@@ -75,14 +77,17 @@ public class ViewUsers extends Activity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         settings = AppSettings.getInstance(this);
 
-        getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         listName = getIntent().getStringExtra("list_name");
 
         Utils.setUpTheme(this, settings);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(listName);
 
         setContentView(R.layout.list_view_activity);
