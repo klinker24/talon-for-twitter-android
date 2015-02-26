@@ -28,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
+import at.markushi.ui.CircleButton;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -384,7 +385,8 @@ public class ProfilePager extends ActionBarActivity {
 
         profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
 
-        final View sendButton = findViewById(R.id.send_button);
+        final CircleButton sendButton = (CircleButton) findViewById(R.id.send_button);
+        sendButton.setColor(settings.themeColors.accentColor);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override

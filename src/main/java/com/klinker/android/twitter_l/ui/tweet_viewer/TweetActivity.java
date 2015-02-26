@@ -41,6 +41,7 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import android.widget.ShareActionProvider;
+import at.markushi.ui.CircleButton;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -1845,7 +1846,10 @@ public class TweetActivity extends ActionBarActivity {
             }
         };
 
-        final View sendLayout = findViewById(R.id.send_button);
+
+        final CircleButton sendLayout = (CircleButton) findViewById(R.id.send_button);
+        sendLayout.setColor(settings.themeColors.accentColor);
+
         sendLayout.setOnClickListener(clickListener);
 
         // we are going to do a little fade in thing with the top of this area
