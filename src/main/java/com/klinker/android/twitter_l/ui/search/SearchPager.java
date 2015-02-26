@@ -132,18 +132,20 @@ public class SearchPager extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(settings.themeColors.primaryColor));
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            statusBar.setBackgroundColor(settings.themeColors.primaryColorDark);
+        } else {
+            statusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
         }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
         statusBar.setVisibility(View.VISIBLE);
-        statusBar.setBackgroundColor(settings.themeColors.primaryColor);
 
         int statusBarHeight = Utils.getStatusBarHeight(context);
         int actionBarHeight = Utils.getActionBarHeight(context);

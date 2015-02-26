@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -152,12 +153,15 @@ public class TalonPullNotificationService extends Service {
 
         mBuilder =
                 new Notification.Builder(this)
-                        .setVisibility(Notification.VISIBILITY_SECRET)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.talon_pull) + (multAcc ? " - @" + settings.myScreenName : ""))
                         .setContentText(text)
                         .setPriority(Notification.PRIORITY_MIN)
                         .setWhen(0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setVisibility(Notification.VISIBILITY_SECRET);
+        }
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
             mBuilder.addAction(R.drawable.ic_cancel_dark, getApplicationContext().getResources().getString(R.string.stop), stopPending);
