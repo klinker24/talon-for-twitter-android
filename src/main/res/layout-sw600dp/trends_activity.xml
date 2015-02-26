@@ -38,7 +38,7 @@
             android:layout_height="0dp"
             android:id="@+id/toolbar"
             android:elevation="5dp"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

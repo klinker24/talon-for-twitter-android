@@ -17,39 +17,51 @@
   limitations under the License.
   -->
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout android:id="@+id/spinner"
-        android:orientation="vertical"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:gravity="center" >
+    <View
+        android:id="@+id/kitkat_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:visibility="gone"
+        android:background="@android:color/black" />
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:indeterminateOnly="true" />
-
-    </LinearLayout>
-
-    <ScrollView android:id="@+id/scrollview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:orientation="vertical">
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-            android:id="@+id/webpage_text"
+        <LinearLayout android:id="@+id/spinner"
+            android:orientation="vertical"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:indeterminateOnly="true" />
+
+        </LinearLayout>
+
+        <ScrollView android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="?textColor"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:visibility="gone">
 
-    </ScrollView>
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                android:id="@+id/webpage_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="?textColor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
 
-</LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</FrameLayout>
