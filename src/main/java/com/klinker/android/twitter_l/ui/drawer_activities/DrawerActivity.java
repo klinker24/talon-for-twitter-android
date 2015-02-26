@@ -1678,6 +1678,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         showStatus.setEvaluator(EVALUATOR);
         showStatus.start();
 
+
         if (toolbar != null) {
             if (toolBarVis == null) {
                 toolBarVis = new Handler();
@@ -1691,6 +1692,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             showToolbar.setDuration(250);
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
+        } else {
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
         }
     }
 
@@ -1755,6 +1758,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                     toolbar.setVisibility(View.GONE);
                 }
             }, 250);
+        } else {
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
         }
     }
 
