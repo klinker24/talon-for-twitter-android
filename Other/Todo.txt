@@ -42,8 +42,6 @@ either, or ETA's, so please do not ask for them
 
 
 BACKPORT:
-    - browser activity status bar
-    - Text color on the search view
     - Material dialogs
     - Some GIF's only loop once
 

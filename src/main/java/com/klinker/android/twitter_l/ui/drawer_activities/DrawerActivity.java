@@ -32,8 +32,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -43,8 +46,8 @@ import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.support.v7.widget.Toolbar;
 import android.widget.*;
+import android.widget.SearchView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
@@ -1290,7 +1293,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         try {
-            searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+            MenuItem searchItem = menu.findItem(R.id.menu_search);
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             // Assumes current activity is the searchable activity
             searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
             searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
@@ -1334,6 +1338,14 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
 
         } catch (Exception e) {
 
+        }
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            android.support.v7.widget.SearchView.SearchAutoComplete autoCompleteTextView = (android.support.v7.widget.SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+
+            if (autoCompleteTextView != null) {
+                autoCompleteTextView.setDropDownBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dark_background)));
+            }
         }
 
         return super.onCreateOptionsMenu(menu);

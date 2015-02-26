@@ -18,14 +18,17 @@ package com.klinker.android.twitter_l.ui;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,6 +47,19 @@ public class PlainTextBrowserActivity extends BrowserActivity {
         webText = (HoloTextView) findViewById(R.id.webpage_text);
         scrollView = (ScrollView) findViewById(R.id.scrollview);
         spinner = (LinearLayout) findViewById(R.id.spinner);
+
+        View statusBar = findViewById(R.id.kitkat_status_bar);
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            statusBar.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) statusBar.getLayoutParams();
+            params.height = Utils.getStatusBarHeight(this);
+            statusBar.setLayoutParams(params);
+
+            LinearLayout.LayoutParams linear = (LinearLayout.LayoutParams) scrollView.getLayoutParams();
+            linear.topMargin = Utils.getStatusBarHeight(this) + Utils.getActionBarHeight(this);
+            scrollView.setLayoutParams(linear);
+        }
 
         getTextFromSite();
     }
