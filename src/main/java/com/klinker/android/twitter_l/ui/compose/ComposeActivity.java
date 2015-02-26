@@ -35,6 +35,7 @@ import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
@@ -43,6 +44,7 @@ import com.klinker.android.twitter_l.manipulations.QustomDialogBuilder;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
@@ -89,7 +91,7 @@ public class ComposeActivity extends Compose {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(options, new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int item) {
-                            NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+                            ImageView pic = (ImageView) findViewById(R.id.profile_pic);
                             HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
                             switch (item) {
@@ -97,11 +99,7 @@ public class ComposeActivity extends Compose {
                                     useAccOne = true;
                                     useAccTwo = false;
 
-                                    if (settings.roundContactImages) {
-                                        pic.loadImage(settings.myProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-                                    } else {
-                                        pic.loadImage(settings.myProfilePicUrl, false, null);
-                                    }
+                                    ImageUtils.loadImage(context, pic, settings.myProfilePicUrl, App.getInstance(context).getBitmapCache());
                                     currentName.setText("@" + settings.myScreenName);
 
                                     break;
@@ -109,11 +107,7 @@ public class ComposeActivity extends Compose {
                                     useAccOne = false;
                                     useAccTwo = true;
 
-                                    if (settings.roundContactImages) {
-                                        pic.loadImage(settings.secondProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-                                    } else {
-                                        pic.loadImage(settings.secondProfilePicUrl, false, null);
-                                    }
+                                    ImageUtils.loadImage(context, pic, settings.secondProfilePicUrl, App.getInstance(context).getBitmapCache());
                                     currentName.setText("@" + settings.secondScreenName);
 
                                     break;
