@@ -20,4 +20,6 @@
     <bool name="expNotifications">true</bool>
     <bool name="options_drawer">true</bool>
     <bool name="has_drawer">true</bool>
+
+    <bool name="seven_inch_tablet">false</bool>
 </resources>
