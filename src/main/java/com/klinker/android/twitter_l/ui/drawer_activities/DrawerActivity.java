@@ -778,13 +778,15 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 toolbar.setNavigationIcon(null);
             }
 
-            int amount = -1 * Utils.getActionBarHeight(context);
-            findViewById(R.id.header).setTranslationY(amount);
+            if (!getResources().getBoolean(R.bool.seven_inch_tablet)) {
+                int amount = -1 * Utils.getActionBarHeight(context);
+                findViewById(R.id.header).setTranslationY(amount);
 
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) drawerList.getLayoutParams();
-            params.topMargin = amount;
-            params.height = params.height - amount;
-            drawerList.setLayoutParams(params);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) drawerList.getLayoutParams();
+                params.topMargin = amount;
+                params.height = params.height - amount;
+                drawerList.setLayoutParams(params);
+            }
         }
 
         if(!settings.pushNotifications || !settings.useInteractionDrawer) {

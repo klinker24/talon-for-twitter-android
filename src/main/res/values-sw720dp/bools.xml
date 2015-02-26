@@ -2,4 +2,6 @@
 <resources>
     <bool name="options_drawer">false</bool>
     <bool name="has_drawer">false</bool>
+
+    <bool name="seven_inch_tablet">false</bool>
 </resources>
