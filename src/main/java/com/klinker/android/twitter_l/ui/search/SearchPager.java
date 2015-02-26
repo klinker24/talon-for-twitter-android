@@ -133,6 +133,7 @@ public class SearchPager extends ActionBarActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         actionBar.setBackgroundDrawable(new ColorDrawable(settings.themeColors.primaryColor));
+        actionBar.setElevation(0);
 
         View statusBar = findViewById(R.id.activity_status_bar);
 
