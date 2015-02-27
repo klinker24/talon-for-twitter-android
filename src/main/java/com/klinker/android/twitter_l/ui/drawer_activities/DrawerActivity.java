@@ -1677,10 +1677,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             }
         }
 
-        if (barsAreShowing) {
+        if (toolbar == null || toolbar.getVisibility() == View.VISIBLE) {
             return;
-        } else {
-            barsAreShowing = true;
         }
 
         ValueAnimator showStatus = ValueAnimator.ofInt(tranparentSystemBar, statusColor);
@@ -1709,8 +1707,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             showToolbar.setDuration(250);
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
-        } else {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
         }
     }
 
@@ -1741,10 +1737,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             }
         }
 
-        if (!barsAreShowing) {
+        if (toolbar == null || toolbar.getVisibility() == View.GONE) {
             return;
-        } else {
-            barsAreShowing = false;
         }
 
         ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, tranparentSystemBar);
@@ -1775,8 +1769,6 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                     toolbar.setVisibility(View.GONE);
                 }
             }, 250);
-        } else {
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
         }
     }
 
