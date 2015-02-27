@@ -17,88 +17,101 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout android:id="@+id/list_progress"
-        android:orientation="vertical"
-        android:layout_height="0dp"
-        android:layout_width="fill_parent"
-        android:layout_weight="1"
-        android:gravity="center" >
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:indeterminateOnly="true" />
-    </LinearLayout>
-
-
-    <org.lucasr.smoothie.AsyncListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listView"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:divider="?drawerDividerColor"
-        android:dividerHeight="1dp"
-        android:scrollbars="vertical"
-        android:listSelector="@android:color/transparent"
-        android:visibility="gone"
-        />
-
-    <ImageView
-        android:id="@+id/attached_image"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:scaleType="fitCenter"
-        android:padding="10dp"
-        android:visibility="gone"/>
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
     <LinearLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?windowBackground">
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
-            android:id="@+id/tweet_content"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
+        <LinearLayout android:id="@+id/list_progress"
+            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
             android:layout_weight="1"
-            android:maxLines="5"
-            android:minLines="2"
-            android:hint="@string/compose_dm_hint"
-            android:inputType="textCapSentences|textMultiLine"/>
+            android:gravity="center" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:indeterminateOnly="true" />
+        </LinearLayout>
+
+
+        <org.lucasr.smoothie.AsyncListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/listView"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:divider="?drawerDividerColor"
+            android:dividerHeight="1dp"
+            android:scrollbars="vertical"
+            android:listSelector="@android:color/transparent"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/attached_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:visibility="gone"/>
 
         <LinearLayout
-            android:id="@+id/overflow"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                android:id="@+id/char_remaining"
-                android:layout_width="48dp"
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
+                android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
-                android:gravity="center"/>
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:maxLines="5"
+                android:minLines="2"
+                android:hint="@string/compose_dm_hint"
+                android:inputType="textCapSentences|textMultiLine"/>
 
-            <ImageButton
-                android:id="@+id/send_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:contentDescription="Send Message"
-                android:background="?android:selectableItemBackground"
-                android:src="?sendButton"
-                android:gravity="center"
-                android:textColor="?textColor" />
+            <LinearLayout
+                android:id="@+id/overflow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:id="@+id/char_remaining"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:gravity="center"/>
+
+                <ImageButton
+                    android:id="@+id/send_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="Send Message"
+                    android:background="?android:selectableItemBackground"
+                    android:src="?sendButton"
+                    android:gravity="center"
+                    android:textColor="?textColor" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@android:color/black"
+        android:id="@+id/kitkat_status_bar"
+        android:visibility="gone" />
+
+</FrameLayout>
