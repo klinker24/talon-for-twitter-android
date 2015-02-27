@@ -473,9 +473,15 @@ public class TweetActivity extends ActionBarActivity {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
                                         findViewById(R.id.spinner).setVisibility(View.GONE);
-
                                         video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                                        mp.setLooping(true);
+                                    }
+                                });
+
+                                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        mp.seekTo(0);
+                                        mp.start();
                                     }
                                 });
 

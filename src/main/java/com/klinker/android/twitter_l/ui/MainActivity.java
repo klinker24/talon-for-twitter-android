@@ -85,7 +85,7 @@ public class MainActivity extends DrawerActivity {
         public void run() {
             if (sendButton.getVisibility() == View.GONE && !showIsRunning) {
 
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_expand);
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_in);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -127,7 +127,7 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void run() {
             if (sendButton.getVisibility() == View.VISIBLE && !hideIsRunning) {
-                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_hide);
+                Animation anim = AnimationUtils.loadAnimation(sContext, R.anim.fab_out);
                 anim.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
