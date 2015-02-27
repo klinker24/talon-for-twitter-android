@@ -535,10 +535,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (visibilityChange == null) {
             visibilityChange = new Handler();
         }
-        if (!statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
+        if (!statusIsShown && /*!ignoreVisibilityChange &&*/ barVisibility != null) {
             statusIsShown = true;
             ignoreVisibilityChange = true;
-            visibilityChange.postDelayed(change, 250);
+            visibilityChange.postDelayed(change, 1000);
             barVisibility.showBars();
         }
     }
@@ -548,13 +548,13 @@ public abstract class MainFragment extends Fragment implements Expandable {
             visibilityChange = new Handler();
         }
 
-        if (!refreshLayout.isRefreshing() && statusIsShown && !ignoreVisibilityChange && barVisibility != null) {
+        if (!refreshLayout.isRefreshing() && statusIsShown && /*!ignoreVisibilityChange &&*/ barVisibility != null) {
             statusIsShown = false;
             ignoreVisibilityChange = true;
-            visibilityChange.postDelayed(change, 250);
+            visibilityChange.postDelayed(change, 1000);
             barVisibility.hideBars();
         }
-}
+    }
 
     public void setUpToastBar(View view) {
         toastBar = view.findViewById(R.id.toastBar);
