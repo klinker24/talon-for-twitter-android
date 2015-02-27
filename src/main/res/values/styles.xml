@@ -93,4 +93,11 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="MyToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.Light.ActionButton.Overflow</item>
+
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
 </resources>

@@ -31,7 +31,8 @@
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>
@@ -192,7 +193,8 @@
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
-        <item name="android:actionOverflowButtonStyle">@style/CircleOverflow.Light</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>

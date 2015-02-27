@@ -52,8 +52,7 @@
                     android:layout_height="0dp"
                     android:id="@+id/toolbar"
                     android:elevation="5dp"
-                    style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                    style="@style/MyToolbar"/>
 
             <at.markushi.ui.CircleButton
                 xmlns:app="http://schemas.android.com/apk/res-auto"

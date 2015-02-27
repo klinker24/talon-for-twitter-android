@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -340,6 +341,14 @@ public class SearchPager extends ActionBarActivity {
             }
         }
 
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
+            LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
+            LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
+            AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
+
+            autoComplete.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.background_card_dark));
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
