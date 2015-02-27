@@ -48,6 +48,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -146,13 +147,6 @@ public class DirectMessageConversation extends ActionBarActivity {
 
         countHandler = new Handler();
 
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
-
         context = this;
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -181,12 +175,6 @@ public class DirectMessageConversation extends ActionBarActivity {
         setContentView(R.layout.dm_conversation);
 
         attachImage = (ImageView) findViewById(R.id.attached_image);
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
 
         listView = (AsyncListView) findViewById(R.id.listView);
         sendButton = (ImageButton) findViewById(R.id.send_button);
@@ -249,6 +237,17 @@ public class DirectMessageConversation extends ActionBarActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        } else {
+            View status = findViewById(R.id.kitkat_status_bar);
+            status.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getStatusBarHeight(this);
+            status.setLayoutParams(params);
+
+            LinearLayout.LayoutParams listParams = (LinearLayout.LayoutParams) listView.getLayoutParams();
+            listParams.topMargin = Utils.getStatusBarHeight(this) + Utils.getActionBarHeight(this);
+            listView.setLayoutParams(listParams);
         }
     }
 

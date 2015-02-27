@@ -70,7 +70,7 @@ public class SavedSearchesActivity extends DrawerActivity {
         listView = (AsyncListView) findViewById(R.id.listView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (hasToolbar) {
+            if (getResources().getBoolean(R.bool.has_drawer)) {
                 getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
                 kitkatStatusBar.setVisibility(View.VISIBLE);

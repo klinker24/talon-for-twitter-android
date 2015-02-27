@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerTitleStrip;
@@ -81,7 +82,7 @@ public class DiscoverPager extends DrawerActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (hasToolbar) {
+            if (getResources().getBoolean(R.bool.has_drawer)) {
                 getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
                 kitkatStatusBar.setVisibility(View.VISIBLE);
