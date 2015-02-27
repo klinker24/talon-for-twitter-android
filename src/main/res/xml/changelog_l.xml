@@ -2,6 +2,7 @@
 
     <version name="2.2.0">
         <text>Support for Android 4.4 (KitKat)</text>
+        <text>Improve numerous layouts</text>
         <text>Improve startup theming</text>
         <text>Improve swipe to close pictures</text>
         <text>Improve GIF viewing on tablets</text>
