@@ -1648,6 +1648,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         }).start();
     }
 
+    int abOffset = -1;
+
     public void showBars() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1659,6 +1661,10 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             } else {
                 getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
             }
+        }
+
+        if (abOffset == -1) {
+            abOffset = Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context);
         }
 
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
@@ -1703,7 +1709,15 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 toolbar.setVisibility(View.VISIBLE);
             }
 
-            ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
+            ValueAnimator showToolbar = ValueAnimator.ofInt(-1 * abOffset, 0);
+            showToolbar.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int val = (Integer) animation.getAnimatedValue();
+                    toolbar.setTranslationY(val);
+                }
+            });
+            //ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
             showToolbar.setDuration(250);
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
@@ -1754,7 +1768,16 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         hideStatus.start();
 
         if (toolbar != null) {
-            ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
+            ValueAnimator hideToolbar = ValueAnimator.ofInt(0, -1 * abOffset);
+            hideToolbar.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int val = (Integer) animation.getAnimatedValue();
+                    toolbar.setTranslationY(val);
+                }
+            });
+
+            //ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
             hideToolbar.setDuration(250);
             //hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
