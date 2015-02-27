@@ -17,6 +17,7 @@ package com.klinker.android.twitter_l.ui.drawer_activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.*;
@@ -24,6 +25,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -45,6 +47,8 @@ import android.util.TypedValue;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.PathInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import android.widget.SearchView;
@@ -1695,7 +1699,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 statusBar.setBackgroundColor(val);
             }
         });
-        showStatus.setDuration(250);
+        showStatus.setDuration(ANIM_DURATION);
         showStatus.setEvaluator(EVALUATOR);
         showStatus.start();
 
@@ -1718,7 +1722,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 }
             });
             //ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
-            showToolbar.setDuration(250);
+            showToolbar.setDuration(ANIM_DURATION);
+            showToolbar.setInterpolator(INTERPOLATOR);
             //showToolbar.setEvaluator(EVALUATOR);
             showToolbar.start();
         }
@@ -1728,6 +1733,22 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
     private int statusColor = -1;
     private ArgbEvaluator EVALUATOR = new ArgbEvaluator();
     private boolean barsAreShowing = true;
+    private static final int ANIM_DURATION = 200;
+
+    private static TimeInterpolator INTERPOLATOR = new DecelerateInterpolator();
+
+    /*static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Path path = new Path();
+            path.lineTo(0.25f, 0.25f);
+            path.moveTo(0.25f, 0.5f);
+            path.lineTo(1f, 1f);
+
+            INTERPOLATOR = new PathInterpolator(path);
+        } else {
+            INTERPOLATOR = new DecelerateInterpolator();
+        }
+    }*/
 
     Handler toolBarVis;
 
@@ -1763,7 +1784,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 statusBar.setBackgroundColor(val);
             }
         });
-        hideStatus.setDuration(250);
+        hideStatus.setDuration(ANIM_DURATION);
         hideStatus.setEvaluator(EVALUATOR);
         hideStatus.start();
 
@@ -1778,7 +1799,8 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             });
 
             //ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
-            hideToolbar.setDuration(250);
+            hideToolbar.setDuration(ANIM_DURATION);
+            hideToolbar.setInterpolator(INTERPOLATOR);
             //hideToolbar.setEvaluator(EVALUATOR);
             hideToolbar.start();
 
@@ -1791,7 +1813,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 public void run() {
                     toolbar.setVisibility(View.GONE);
                 }
-            }, 250);
+            }, ANIM_DURATION);
         }
     }
 
