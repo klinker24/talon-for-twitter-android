@@ -86,6 +86,7 @@ public class BrowserActivity extends ActionBarActivity {
     public void setUpLayout() {
 
         FrameLayout frame = new FrameLayout(this);
+        frame.setBackgroundColor(getResources().getColor(android.R.color.white));
 
         ViewGroup.LayoutParams frameParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         frame.setLayoutParams(frameParams);
