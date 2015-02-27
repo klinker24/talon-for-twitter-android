@@ -76,8 +76,7 @@
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
                 android:elevation="5dp"
-                style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                style="@style/MyToolbar"/>
 
     </RelativeLayout>
 

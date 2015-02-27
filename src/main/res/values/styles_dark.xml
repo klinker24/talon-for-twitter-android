@@ -25,6 +25,9 @@
 
         <item name="colorControlHighlight">@color/dark_ripple</item>
 
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>
+
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
@@ -134,6 +137,9 @@
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>
 
         <item name="colorControlHighlight">@color/dark_ripple</item>
 

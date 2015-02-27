@@ -37,8 +37,7 @@
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
                 android:elevation="5dp"
-                style="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                style="@style/MyToolbar"/>
 
             <com.astuetz.PagerSlidingTabStrip
                 android:id="@+id/pager_tab_strip"
