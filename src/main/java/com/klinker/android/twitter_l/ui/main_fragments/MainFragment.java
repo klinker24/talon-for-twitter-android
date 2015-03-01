@@ -535,7 +535,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (visibilityChange == null) {
             visibilityChange = new Handler();
         }
-        if (!statusIsShown && /*!ignoreVisibilityChange &&*/ barVisibility != null) {
+        if (/*!statusIsShown && !ignoreVisibilityChange &&*/ barVisibility != null) {
             statusIsShown = true;
             ignoreVisibilityChange = true;
             visibilityChange.postDelayed(change, 1000);
@@ -548,7 +548,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             visibilityChange = new Handler();
         }
 
-        if (!refreshLayout.isRefreshing() && statusIsShown && /*!ignoreVisibilityChange &&*/ barVisibility != null) {
+        if (!refreshLayout.isRefreshing() && /*statusIsShown && !ignoreVisibilityChange &&*/ barVisibility != null) {
             statusIsShown = false;
             ignoreVisibilityChange = true;
             visibilityChange.postDelayed(change, 1000);
