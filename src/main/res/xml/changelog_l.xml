@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.2.1">
+        <text>Crash fixes</text>
+    </version>
+    
     <version name="2.2.0">
         <text>Support for Android 4.4 (KitKat)</text>
         <text>Improve layouts</text>
