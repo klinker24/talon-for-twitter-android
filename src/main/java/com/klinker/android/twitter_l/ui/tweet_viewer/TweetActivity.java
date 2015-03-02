@@ -226,7 +226,7 @@ public class TweetActivity extends ActionBarActivity {
         if (hasWebpage && (settings.alwaysMobilize ||
                 (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
 
-            final LinearLayout main = (LinearLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
+            final FrameLayout main = (FrameLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
             final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
             View spinner = main.findViewById(R.id.spinner);
             HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);

@@ -27,7 +27,6 @@ import com.klinker.android.twitter_l.R;
 public class DashClockSettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

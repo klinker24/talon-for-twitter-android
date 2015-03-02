@@ -588,7 +588,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
 
             @Override
             protected void onPreExecute() {
-                if (!isLauncher() && !actionBar.isShowing()) {
+                if (!isLauncher() && actionBar != null && !actionBar.isShowing()) {
                     showStatusBar();
                     actionBar.show();
                 }
@@ -1019,7 +1019,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
             HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (!actionBar.isShowing() && !isLauncher()) {
+                    if (actionBar != null && !actionBar.isShowing() && !isLauncher()) {
                         showStatusBar();
                         actionBar.show();
                     }
