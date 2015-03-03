@@ -365,7 +365,7 @@ public class ExpansionViewHelper {
                 if ((settings.alwaysMobilize ||
                         (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
 
-                    final LinearLayout main = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
+                    final FrameLayout main = (FrameLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
                     final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
                     View spinner = main.findViewById(R.id.spinner);
                     HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);
