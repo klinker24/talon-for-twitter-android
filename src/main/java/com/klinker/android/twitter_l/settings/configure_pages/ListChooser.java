@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -68,13 +69,6 @@ public class ListChooser extends ActionBarActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-
-        if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
-            startActivity(login);
-            finish();
-        }
-
         listView = (AsyncListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,6 +81,19 @@ public class ListChooser extends ActionBarActivity {
                 finish();
             }
         });
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View status = findViewById(R.id.activity_status_bar);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getStatusBarHeight(context);
+            status.setLayoutParams(params);
+
+            status.setVisibility(View.VISIBLE);
+
+            View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+            listView.addHeaderView(viewHeader, null, false);
+            listView.setHeaderDividersEnabled(false);
+        }
 
         new GetLists().execute();
     }
