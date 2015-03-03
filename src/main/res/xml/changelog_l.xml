@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.2.2">
+        <text>Bug fixes for KitKat</text>
+    </version>
+
     <version name="2.2.1">
         <text>Crash fixes</text>
     </version>
