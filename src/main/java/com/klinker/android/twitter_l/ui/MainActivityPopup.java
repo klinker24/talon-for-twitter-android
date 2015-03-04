@@ -42,11 +42,6 @@ public class MainActivityPopup extends MainActivity {
 
     @Override
     public void setUpWindow() {
-        try {
-            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        } catch (Exception e) {
-            recreate();
-        }
 
         setDim();
 
@@ -84,10 +79,10 @@ public class MainActivityPopup extends MainActivity {
         super.onStart();
         MainActivity.isPopup = true;
 
-        View toolbar = findViewById(R.id.toolbar);
+        /*View toolbar = findViewById(R.id.toolbar);
         if (toolbar != null && toolbar.getVisibility() != View.GONE) {
             toolbar.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override

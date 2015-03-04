@@ -40,7 +40,7 @@ public class AutoCompleteHelper {
 
         String textPart1 = tweetText.substring(0, startPosition);
         String textPart3 = tweetText.substring(endPosition, tweetText.length());
-        boolean space = !textPart3.equals("") && !textPart3.startsWith(" ");
+        boolean space = /*!textPart3.equals("") &&*/ !textPart3.startsWith(" ");
         String textPart2 = completeTo + (space ? " " : "");
         if (!textPart2.startsWith(type + "")) {
             textPart2 = type + textPart2;

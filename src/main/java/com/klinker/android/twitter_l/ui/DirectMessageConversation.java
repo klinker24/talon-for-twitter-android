@@ -163,10 +163,6 @@ public class DirectMessageConversation extends ActionBarActivity {
             // Ignore
         }
 
-        if (settings.advanceWindowed) {
-            //setUpWindow();
-        }
-
         Utils.setUpPopupTheme(this, settings);
 
         actionBar = getSupportActionBar();
