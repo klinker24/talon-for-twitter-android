@@ -73,6 +73,10 @@ public class ListChooser extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+                    i = i - 1;
+                }
+
                 UserList list = arrayAdapter.getItem(i);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("listId", list.getId());

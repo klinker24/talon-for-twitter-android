@@ -53,6 +53,10 @@ public class SearchChooser extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+                    i = i - 1;
+                }
+
                 String search = adapter.getSearch(i);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("search_query", search);
