@@ -1345,12 +1345,16 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         }
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
-            LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
-            LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
-            AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
+            try {
+                LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
+                LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
+                LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
+                AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
 
-            autoComplete.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.background_card_dark));
+                autoComplete.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.background_card_dark));
+            } catch (Exception e) {
+
+            }
         }
 
         return super.onCreateOptionsMenu(menu);

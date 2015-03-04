@@ -116,7 +116,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark.Base">
+    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark.Main">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
         <item name="android:windowContentOverlay">@null</item>

@@ -134,7 +134,7 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
+    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Main">
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
