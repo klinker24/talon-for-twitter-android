@@ -146,7 +146,13 @@ public class Utils {
         TypedValue tv = new TypedValue();
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             Log.v("talon_actionbar", "getting size from dimen");
-            return TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+            int value = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+                value += Utils.toDP(6, context);
+            }
+
+            return value;
         } else {
             return 48;
         }

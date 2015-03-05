@@ -229,7 +229,7 @@ public class DirectMessageConversation extends ActionBarActivity {
             }
         });
 
-        Utils.setActionBar(context);
+        //Utils.setActionBar(context);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
@@ -243,7 +243,7 @@ public class DirectMessageConversation extends ActionBarActivity {
 
             LinearLayout.LayoutParams listParams = (LinearLayout.LayoutParams) listView.getLayoutParams();
             listParams.topMargin = Utils.getStatusBarHeight(this) + Utils.getActionBarHeight(this);
-            listView.setLayoutParams(listParams);
+            //listView.setLayoutParams(listParams);
         }
     }
 
