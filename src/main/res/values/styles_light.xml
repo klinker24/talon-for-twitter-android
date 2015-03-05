@@ -134,7 +134,21 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Main">
+    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
+
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
+
+    <style name="Theme.TalonLight.NoActionBar.Popup" parent="@style/Theme.TalonLight.Main">
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
