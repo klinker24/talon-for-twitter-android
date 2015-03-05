@@ -163,7 +163,7 @@ public class DirectMessageConversation extends ActionBarActivity {
             // Ignore
         }
 
-        Utils.setUpPopupTheme(this, settings);
+        Utils.setUpTheme(this, settings);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
@@ -240,10 +240,6 @@ public class DirectMessageConversation extends ActionBarActivity {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) status.getLayoutParams();
             params.height = Utils.getStatusBarHeight(this);
             status.setLayoutParams(params);
-
-            LinearLayout.LayoutParams listParams = (LinearLayout.LayoutParams) listView.getLayoutParams();
-            listParams.topMargin = Utils.getStatusBarHeight(this) + Utils.getActionBarHeight(this);
-            //listView.setLayoutParams(listParams);
         }
     }
 
