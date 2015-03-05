@@ -116,7 +116,20 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark.Main">
+    <style name="Theme.TalonDark.Popup" parent="@style/Theme.TalonDark.Base">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
+
+    <style name="Theme.TalonDark.NoActionBar.Popup" parent="@style/Theme.TalonDark.Main">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
         <item name="android:windowContentOverlay">@null</item>
