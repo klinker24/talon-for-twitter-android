@@ -1713,9 +1713,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
                 toolBarVis = new Handler();
             }
             toolBarVis.removeCallbacksAndMessages(null);
-            if (!MainActivity.isPopup) {
-                toolbar.setVisibility(View.VISIBLE);
-            }
+            toolbar.setVisibility(View.VISIBLE);
 
             ValueAnimator showToolbar = ValueAnimator.ofInt(-1 * abOffset, 0);
             showToolbar.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
