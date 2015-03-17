@@ -341,7 +341,7 @@ public class NewScheduledTweet extends ActionBarActivity {
         });
 
         // Inflate a "Done/Discard" custom action bar view.
-        LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
+        LayoutInflater inflater = (LayoutInflater) getSupportActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
 
         final View customActionBarView = inflater.inflate(
@@ -371,12 +371,12 @@ public class NewScheduledTweet extends ActionBarActivity {
                 });
 
         // Show the custom action bar view and hide the normal Home icon and title.
-        final ActionBar actionBar = getActionBar();
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
                         | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView, new ActionBar.LayoutParams(
+        actionBar.setCustomView(customActionBarView, new android.support.v7.app.ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }

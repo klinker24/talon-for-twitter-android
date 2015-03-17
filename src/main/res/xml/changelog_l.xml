@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.2.4">
+        <text>Bug fixes and force closes</text>
+    </version>
+
     <version name="2.2.3.1">
         <text>Force close on some tablets</text>
     </version>
