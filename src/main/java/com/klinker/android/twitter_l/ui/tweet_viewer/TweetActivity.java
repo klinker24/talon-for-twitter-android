@@ -357,6 +357,8 @@ public class TweetActivity extends ActionBarActivity {
         Log.v("talon_gif", "gif video: " + gifVideo);
         if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))) {
             getVideo(gif);
+
+
         } else {
             findViewById(R.id.spinner).setVisibility(View.GONE);
             gif.setVisibility(View.GONE);
@@ -486,6 +488,12 @@ public class TweetActivity extends ActionBarActivity {
                                 });
 
                                 video.start();
+
+                                if (gifVideo.contains("video.twimg")) {
+                                    MediaController mediaController = new MediaController(context);
+                                    mediaController.setAnchorView(video);
+                                    video.setMediaController(mediaController);
+                                }
                             } else {
                                 Toast.makeText(TweetActivity.this, R.string.error_gif, Toast.LENGTH_SHORT).show();
                             }
