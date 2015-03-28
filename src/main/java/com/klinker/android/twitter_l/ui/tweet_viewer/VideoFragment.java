@@ -53,6 +53,12 @@ public class VideoFragment extends Fragment {
         View layout = inflater.inflate(R.layout.gif_player, null, false);
         video = (VideoView) layout.findViewById(R.id.gif);
 
+        if (tweetUrl.contains("video.twimg")) {
+            MediaController mediaController = new MediaController(getActivity());
+            mediaController.setAnchorView(video);
+            video.setMediaController(mediaController);
+        }
+
         getGif();
 
         return layout;
