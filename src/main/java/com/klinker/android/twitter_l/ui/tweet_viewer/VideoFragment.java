@@ -59,6 +59,12 @@ public class VideoFragment extends Fragment {
             video.setMediaController(mediaController);
         }
 
+        if (tweetUrl.contains("video.twimg")) {
+            MediaController mediaController = new MediaController(getActivity());
+            mediaController.setAnchorView(video);
+            video.setMediaController(mediaController);
+        }
+
         getGif();
 
         return layout;
