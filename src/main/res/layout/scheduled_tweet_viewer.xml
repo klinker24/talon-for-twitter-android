@@ -21,6 +21,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/status_bar"
+        android:background="@android:color/black" />
 
     <ListView
             android:id="@+id/smsListView"

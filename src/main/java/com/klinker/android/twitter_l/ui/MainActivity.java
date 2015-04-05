@@ -68,6 +68,7 @@ import com.klinker.android.twitter_l.ui.setup.TutorialActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import at.markushi.ui.CircleButton;
 
@@ -197,6 +198,10 @@ public class MainActivity extends DrawerActivity {
                 startActivity(compose, opts.toBundle());
             }
         });
+
+        if (!Utils.hasNavBar(this)) {
+            MainActivity.sendButton.setTranslationY(Utils.toDP(48, this));
+        }
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, LoginActivity.class);

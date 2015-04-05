@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -379,6 +380,28 @@ public class NewScheduledTweet extends ActionBarActivity {
         actionBar.setCustomView(customActionBarView, new android.support.v7.app.ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            View statusBar = findViewById(R.id.status_bar);
+            int statusSize = Utils.getStatusBarHeight(this);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) statusBar.getLayoutParams();
+            params.height = statusSize;
+            statusBar.setLayoutParams(params);
+
+            View buttons = findViewById(R.id.buttons);
+            params = (RelativeLayout.LayoutParams) buttons.getLayoutParams();
+            params.topMargin = statusSize + Utils.getActionBarHeight(this);
+            buttons.setLayoutParams(params);
+
+            if (Utils.hasNavBar(this)) {
+                View sendBar = findViewById(R.id.sendBar);
+
+                sendBar.setTranslationY(-1 * Utils.getNavBarHeight(context));
+                params = (RelativeLayout.LayoutParams) sendBar.getLayoutParams();
+                params.bottomMargin = Utils.getNavBarHeight(context);
+                sendBar.setLayoutParams(params);
+            }
+        }
     }
 
     // To-do: make a date object to display in different time formats, check out the messageArrayAdapter class, it works with the dates

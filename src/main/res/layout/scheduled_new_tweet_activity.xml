@@ -19,8 +19,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/status_bar"
+        android:background="@android:color/black" />
 
     <RelativeLayout
+            android:id="@+id/buttons"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
