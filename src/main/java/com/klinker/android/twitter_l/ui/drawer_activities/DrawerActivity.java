@@ -1775,6 +1775,7 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         }
 
         if (toolbar == null || toolbar.getVisibility() == View.GONE) {
+            Log.v("talon_app_bar", "toolbar is null");
             return;
         }
 
