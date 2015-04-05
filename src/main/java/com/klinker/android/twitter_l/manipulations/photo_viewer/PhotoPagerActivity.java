@@ -2,7 +2,9 @@ package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -26,6 +28,15 @@ public class PhotoPagerActivity extends ActionBarActivity {
     ViewPager pager;
 
     Handler sysVis;
+
+    @Override
+    public void finish() {
+        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+
+        super.finish();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
