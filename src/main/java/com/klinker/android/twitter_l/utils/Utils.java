@@ -19,6 +19,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
@@ -168,7 +171,7 @@ public class Utils {
     }
 
     public static boolean hasNavBar(Context context) {
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+        /*Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         Point realSize = new Point();
         display.getSize(size);
@@ -178,6 +181,15 @@ public class Utils {
             return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
         } catch (Exception e) {
             return false;
+        }*/
+        Resources resources = context.getResources();
+        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            return resources.getBoolean(id);
+        } else {    // Check for keys
+            boolean hasMenuKey = ViewConfiguration.get(context).hasPermanentMenuKey();
+            boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+            return !hasMenuKey && !hasBackKey;
         }
     }
 
