@@ -562,6 +562,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastButton = (TextView) view.findViewById(R.id.toastButton);
 
         toastButton.setTextColor(settings.themeColors.accentColorLight);
+
+        if (!Utils.hasNavBar(getActivity())) {
+            toastBar.setTranslationY(Utils.toDP(48, getActivity()));
+        }
     }
 
     public Handler removeToastHandler;
