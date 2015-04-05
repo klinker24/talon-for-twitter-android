@@ -102,6 +102,11 @@ public class ComposeActivity extends Compose {
                                     ImageUtils.loadImage(context, pic, settings.myProfilePicUrl, App.getInstance(context).getBitmapCache());
                                     currentName.setText("@" + settings.myScreenName);
 
+                                    String tweetText = reply.getText().toString();
+                                    tweetText = tweetText.replace("@" + settings.myScreenName, "");
+
+                                    reply.setText(tweetText);
+
                                     break;
                                 case 1:
                                     useAccOne = false;
@@ -109,6 +114,11 @@ public class ComposeActivity extends Compose {
 
                                     ImageUtils.loadImage(context, pic, settings.secondProfilePicUrl, App.getInstance(context).getBitmapCache());
                                     currentName.setText("@" + settings.secondScreenName);
+
+                                    tweetText = reply.getText().toString();
+                                    tweetText = tweetText.replace("@" + settings.secondScreenName, "");
+
+                                    reply.setText(tweetText);
 
                                     break;
                                 case 2:
