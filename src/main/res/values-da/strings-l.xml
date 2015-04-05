@@ -39,7 +39,7 @@
     <string name="bottom_pictures_summary">Tweets vil ikke udvides in-line ved valg af dette</string>
     <string name="preparing_signin">Forbereder log ind</string>
     <string name="manage_muffles">Rediger begrænsede</string>
-    <string name="muffle_definition">Ved at begrænse en bruger vil størstedelen af deres tweets blive skjult fra din Tidslinje. Du vil kun se navnet og en bid af indholdet, skulle du være interesseret i at se mere</string>
+    <string name="muffle_definition">Ved at begrænse en bruger vil størstedelen af deres tweets blive skjult fra din Tidslinje. Du vil kun se navnet og en bid af indholdet du kan tappe på, skulle du være interesseret i at se mere</string>
     <string name="muffled_users">Begrænsede brugere</string>
     <string name="click_to_remove_muffle">Tap på en bruger for at fjerne begrænsningen</string>
     <string name="muffle_user">Begræns bruger</string>

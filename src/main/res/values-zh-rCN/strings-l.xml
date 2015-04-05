@@ -7,6 +7,7 @@
     <string name="stats">详情</string>
     <string name="list_count">在 %s 个列表中.</string>
     <string name="joined_twitter">加入Twitter:</string>
+    <string name="top_down">自上而下模式</string>
     <string name="top_down_summary">Timeline不保存当前位置，将从顶端显示。</string>
     <string name="timeline_text_size">Timeline文字大小</string>
     <string name="manage_mutes">静音管理</string>
@@ -15,16 +16,17 @@
     <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">位置设定</string>
     <string name="twitpic_summary_l">使用Twitpic上传所有图片.</string>
-    <string name="interactions_only">交互</string>
+    <string name="interactions_only">仅交互</string>
     <string name="inter_stream">交互和实时流</string>
     <string name="dont_use_pull">不使用Talon Pull</string>
     <string name="always">总是</string>
     <string name="never">从不</string>
     <string name="only_on_wifi">只在WiFi下</string>
-    <string name="only_on_data">只在数据下</string>
+    <string name="only_on_data">只在数据网络下</string>
     <string name="contact_me">联系我</string>
     <string name="my_google_plus">我的Google+</string>
     <string name="follow_progress">关注我们的进程!</string>
+    <string name="no_interactions">没有互动</string>
     <string name="emojis_summary">通过下载Sliding Emoji Keyboard - iOS使用iOS颜文字</string>
     <string name="replies">会话</string>
     <string name="web">网页</string>
@@ -32,4 +34,16 @@
     <string name="use_snackbar_summary">在主Timeline上使用\"回到顶端\"功能</string>
     <string name="bottom_pictures">图片在推文下方</string>
     <string name="bottom_pictures_summary">此选项下推文下方不会扩展</string>
+    <string name="manage_muffles">管理折叠</string>
+    <string name="muffle_definition">折叠一个用户会把他们推文的主要内容从你的时间线上清楚掉。你将只能看到他的用户名和一个小型的块状折叠区域，点击该区域可以看到该条推特的全文。</string>
+    <string name="muffled_users">被折叠的用户</string>
+    <string name="click_to_remove_muffle">选择一个用户来取消折叠。</string>
+    <string name="muffle_user">折叠此用户</string>
+    <string name="unmuffle_user">取消折叠此用户</string>
+    <string name="enjoying_talon">喜欢Talon吗？</string>
+    <string name="give_a_rating">考虑一下评分或者分享给你的朋友吧！\n\n你的5分，暖我心田:)</string>
+    <string name="rate_on_rating_dialog">评分</string>
+    <string name="share_on_rating_dialog">分享</string>
+    <string name="ignore">忽略</string>
+    <string name="when_talon_pull_on">当Talon Pull被打开时可以启用。</string>
 </resources>
