@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="2.3.1">
+        <text>Bug fixes</text>
+        <text>Translation updates</text>
+    </version>
+
+    <version name="2.3.0">
+        <text>Twitter video support</text>
+    </version>
+
     <version name="2.2.4">
         <text>Bug fixes and force closes</text>
     </version>
