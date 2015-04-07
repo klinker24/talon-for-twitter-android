@@ -121,6 +121,15 @@ public class UpdateUtils {
             e.commit();
         }
 
+        if (sharedPrefs.getBoolean("need_quote_update", true)) {
+            SharedPreferences.Editor e = sharedPrefs.edit();
+
+            e.putBoolean("need_quote_update", false);
+            e.putString("quote_style", "0");
+
+            e.commit();
+        }
+
         if (sharedPrefs.getBoolean("version_1.3.0", false)) {
             SharedPreferences.Editor e = sharedPrefs.edit();
 
