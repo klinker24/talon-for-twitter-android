@@ -45,6 +45,7 @@
                     android:id="@+id/setDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?textColor"
                     android:layout_weight="1"
                     android:text="@string/pick_date"/>
             <Button
@@ -52,6 +53,7 @@
                     android:id="@+id/setTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="?textColor"
                     android:layout_weight="1"
                     android:text="@string/pick_time"/>
         </LinearLayout>
@@ -72,6 +74,7 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="1"
                     android:textSize="25sp"
+                    android:textColor="?dateColor"
                     android:gravity="center"/>
 
             <TextView
@@ -80,6 +83,7 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="1"
                     android:textSize="25sp"
+                    android:textColor="?dateColor"
                     android:gravity="center"/>
 
         </LinearLayout>
@@ -127,6 +131,7 @@
                     android:maxLines="8"
                     android:minHeight="50dp"
                     android:minLines="2"
+                    android:textColor="?textColor"
                     android:fontFamily="sans-serif-light"
                     android:textSize="17sp" />
 
@@ -136,6 +141,7 @@
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
                     android:textSize="10dp"
+                    android:textColor="?dateColor"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"/>
 
