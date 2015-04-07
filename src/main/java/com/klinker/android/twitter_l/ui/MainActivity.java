@@ -187,6 +187,7 @@ public class MainActivity extends DrawerActivity {
 
         MainActivity.sendButton.setColorNormal(settings.themeColors.accentColor);
         MainActivity.sendButton.setColorPressed(settings.themeColors.accentColor);
+        MainActivity.sendButton.setColorRippleResId(android.R.color.white);
 
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {

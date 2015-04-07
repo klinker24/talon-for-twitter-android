@@ -65,7 +65,7 @@
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_action_new_dark"
                 fab:fab_colorNormal="#99CC00"
-                fab:fab_colorRipple="@color/dark_ripple" />
+                fab:fab_colorRipple="@android:color/white" />
 
             <!--<LinearLayout
                     android:id="@+id/send_layout"
