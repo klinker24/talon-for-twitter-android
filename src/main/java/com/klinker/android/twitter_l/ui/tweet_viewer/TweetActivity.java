@@ -1197,10 +1197,16 @@ public class TweetActivity extends ActionBarActivity {
             case R.id.menu_quote:
                 String text = tweet;
 
-                if (!settings.preferRT) {
-                    text = "\"@" + screenName + ": " + text + "\" ";
-                } else {
-                    text = " RT @" + screenName + ": " + text;
+                switch (settings.quoteStyle) {
+                    case AppSettings.QUOTE_STYLE_TWITTER:
+                        text = " " + "https://twitter.com/" + screenName + "/status/" + tweetId;
+                        break;
+                    case AppSettings.QUOTE_STYLE_TALON:
+                        text = "\"@" + screenName + ": " + text + "\" ";
+                        break;
+                    case AppSettings.QUOTE_STYLE_RT:
+                        text = " RT @" + screenName + ": " + text;
+                        break;
                 }
 
                 Intent quote = new Intent(context, ComposeActivity.class);
@@ -1524,10 +1530,16 @@ public class TweetActivity extends ActionBarActivity {
                 public void onClick(View view) {
                     String text = tweet;
 
-                    if (!settings.preferRT) {
-                        text = "\"@" + screenName + ": " + text + "\" ";
-                    } else {
-                        text = " RT @" + screenName + ": " + text;
+                    switch (settings.quoteStyle) {
+                        case AppSettings.QUOTE_STYLE_TWITTER:
+                            text = " " + "https://twitter.com/" + screenName + "/status/" + tweetId;
+                            break;
+                        case AppSettings.QUOTE_STYLE_TALON:
+                            text = "\"@" + screenName + ": " + text + "\" ";
+                            break;
+                        case AppSettings.QUOTE_STYLE_RT:
+                            text = " RT @" + screenName + ": " + text;
+                            break;
                     }
 
                     Intent intent = new Intent(context, ComposeActivity.class);

@@ -282,10 +282,16 @@ public class ExpansionViewHelper {
             public void onClick(View v) {
                 String text = tweet;
 
-                if (!AppSettings.getInstance(context).preferRT) {
-                    text = "\"@" + screenName + ": " + restoreLinks(text) + "\" ";
-                } else {
-                    text = " RT @" + screenName + ": " + restoreLinks(text);
+                switch (AppSettings.getInstance(context).quoteStyle) {
+                    case AppSettings.QUOTE_STYLE_TWITTER:
+                        text = " " + "https://twitter.com/" + screenName + "/status/" + id;
+                        break;
+                    case AppSettings.QUOTE_STYLE_TALON:
+                        text = "\"@" + screenName + ": " + text + "\" ";
+                        break;
+                    case AppSettings.QUOTE_STYLE_RT:
+                        text = " RT @" + screenName + ": " + text;
+                        break;
                 }
 
                 Intent quote;
