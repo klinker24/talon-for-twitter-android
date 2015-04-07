@@ -41,7 +41,6 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import android.widget.ShareActionProvider;
-import at.markushi.ui.CircleButton;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -75,6 +74,8 @@ import java.util.Random;
 
 import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.melnykov.fab.FloatingActionButton;
+
 import org.apache.http.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.*;
@@ -1873,8 +1874,9 @@ public class TweetActivity extends ActionBarActivity {
         };
 
 
-        final CircleButton sendLayout = (CircleButton) findViewById(R.id.send_button);
-        sendLayout.setColor(settings.themeColors.accentColor);
+        final FloatingActionButton sendLayout = (FloatingActionButton) findViewById(R.id.send_button);
+        sendLayout.setColorNormal(settings.themeColors.accentColor);
+        sendLayout.setColorPressed(settings.themeColors.accentColor);
 
         sendLayout.setOnClickListener(clickListener);
 

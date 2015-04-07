@@ -95,14 +95,14 @@
                     android:layout_marginBottom="65dp"
                     android:layout_marginRight="20dp"/>
 
-                <at.markushi.ui.CircleButton
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.melnykov.fab.FloatingActionButton
+                    xmlns:fab="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/send_button"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:src="@drawable/ic_action_new_dark"
-                    app:cb_color="#99CC00"
-                    app:cb_pressedRingWidth="8dp"
+                    fab:fab_colorNormal="#99CC00"
+                    fab:fab_colorRipple="@color/dark_ripple"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="65dp"
