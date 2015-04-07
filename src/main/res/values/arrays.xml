@@ -157,16 +157,6 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="quote_style">
-        <item>@string/quote_style_talon</item>
-        <item>@string/quote_style_rt</item>
-    </string-array>
-
-    <string-array name="quote_style_inserted">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <string-array name="talon_pull">
         <item>@string/dont_use_pull</item>
         <item>@string/interactions_only</item>

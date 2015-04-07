@@ -13,8 +13,6 @@
     <string name="timeline_text_size">Timeline Text Size</string>
     <string name="manage_mutes">Mute Management</string>
     <string name="quote_style">Quote Style</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt"> RT \@lukeklinker &#8230;</string>
     <string name="location_settings">Location Settings</string>
     <string name="twitpic_summary_l">All image uploads will go through TwitPic.</string>
     <string name="interactions_only">Interactions Only</string>
