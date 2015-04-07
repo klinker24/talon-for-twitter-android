@@ -2,7 +2,9 @@
 
     <version name="2.4.0">
         <text>Support for new Twitter "quote" method</text>
+        <text>Layout Improvements</text>
     </version>
+
     <version name="2.3.1">
         <text>Layout fixes</text>
         <text>Bug fixes</text>

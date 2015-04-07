@@ -69,15 +69,15 @@ import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.melnykov.fab.FloatingActionButton;
 
-import at.markushi.ui.CircleButton;
 
 public class MainActivity extends DrawerActivity {
 
     public static boolean isPopup;
     public static Context sContext;
 
-    public static CircleButton sendButton;
+    public static FloatingActionButton sendButton;
     public static boolean showIsRunning = false;
     public static boolean hideIsRunning = false;
     public static Handler sendHandler;
@@ -179,13 +179,14 @@ public class MainActivity extends DrawerActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         setUpDrawer(0, getResources().getString(R.string.timeline));
 
-        MainActivity.sendButton = (CircleButton) findViewById(R.id.send_button);
+        MainActivity.sendButton = (FloatingActionButton) findViewById(R.id.send_button);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementExitTransition(new ChangeBounds());
         }
 
-        MainActivity.sendButton.setColor(settings.themeColors.accentColor);
+        MainActivity.sendButton.setColorNormal(settings.themeColors.accentColor);
+        MainActivity.sendButton.setColorPressed(settings.themeColors.accentColor);
 
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {
