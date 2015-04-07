@@ -389,6 +389,7 @@ public class ProfilePager extends ActionBarActivity {
         final FloatingActionButton sendButton = (FloatingActionButton) findViewById(R.id.send_button);
         sendButton.setColorNormal(settings.themeColors.accentColor);
         sendButton.setColorPressed(settings.themeColors.accentColor);
+        sendButton.setColorRippleResId(android.R.color.white);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override

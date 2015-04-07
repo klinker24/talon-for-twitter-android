@@ -1877,6 +1877,7 @@ public class TweetActivity extends ActionBarActivity {
         final FloatingActionButton sendLayout = (FloatingActionButton) findViewById(R.id.send_button);
         sendLayout.setColorNormal(settings.themeColors.accentColor);
         sendLayout.setColorPressed(settings.themeColors.accentColor);
+        sendLayout.setColorRippleResId(android.R.color.white);
 
         sendLayout.setOnClickListener(clickListener);
 

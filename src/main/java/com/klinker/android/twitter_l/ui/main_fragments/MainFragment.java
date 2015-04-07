@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -565,6 +566,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         if (!Utils.hasNavBar(getActivity())) {
             toastBar.setTranslationY(Utils.toDP(48, getActivity()));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toastBar.setElevation(Utils.toDP(6, getActivity()));
         }
     }
 
