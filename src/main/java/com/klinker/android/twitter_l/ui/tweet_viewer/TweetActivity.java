@@ -49,6 +49,7 @@ import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
@@ -223,9 +224,11 @@ public class TweetActivity extends ActionBarActivity {
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
+        String page = webpages.get(0);
         final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
         if (hasWebpage && (settings.alwaysMobilize ||
-                (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
+                (Utils.getConnectionStatus(context) && settings.mobilizeOnData)) &&
+                !page.contains("/status/")) {
 
             final FrameLayout main = (FrameLayout) getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
             final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
@@ -245,7 +248,7 @@ public class TweetActivity extends ActionBarActivity {
                     }
                 }
             });
-        } else if (hasWebpage) {
+        } else if (hasWebpage && !page.contains("/status/")) {
             final LinearLayout webLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
             final WebView web = (WebView) webLayout.findViewById(R.id.webview);
             web.loadUrl(webpages.get(0));
@@ -287,6 +290,37 @@ public class TweetActivity extends ActionBarActivity {
         } else {
             webButton.setEnabled(false);
             webButton.setAlpha(.5f);
+        }
+
+        if (hasWebpage && page.contains("/status/")) {
+            final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
+            final long embeddedId = TweetLinkUtils.getTweetIdFromLink(page);
+
+            if (embeddedId != 0l) {
+                view.setVisibility(View.INVISIBLE);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Twitter twitter = getTwitter();
+
+                        try {
+                            final Status s = twitter.showStatus(embeddedId);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TweetView v = new TweetView(context, s);
+                                    v.setCurrentUser(settings.myScreenName);
+                                    v.hideImage(true);
+
+                                    view.addView(v.getView());
+                                    view.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        } catch (Exception e) { }
+                    }
+                }).start();
+            }
         }
 
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
