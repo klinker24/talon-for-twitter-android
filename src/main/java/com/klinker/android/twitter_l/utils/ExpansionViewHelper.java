@@ -570,6 +570,10 @@ public class ExpansionViewHelper {
 
             if (webLink.contains("/status/")) {
                 embeddedTweetId = TweetLinkUtils.getTweetIdFromLink(webLink);
+
+                if (embeddedTweetId != 0l) {
+                    embeddedTweetCard.setVisibility(View.INVISIBLE);
+                }
             }
         }
 
@@ -1182,7 +1186,7 @@ public class ExpansionViewHelper {
                                 public void run() {
                                     TweetView v = new TweetView(context, embedded);
                                     v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
-                                    v.hideImage(false);
+                                    v.hideImage(true);
 
                                     showEmbeddedCard(v);
                                 }
