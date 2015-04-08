@@ -568,7 +568,7 @@ public class ExpansionViewHelper {
             webButton.setImageResource(resource);
             shareOnWeb = true;
 
-            if (webLink.contains("/status/")) {
+            if (webLink != null && webLink.contains("/status/")) {
                 embeddedTweetId = TweetLinkUtils.getTweetIdFromLink(webLink);
 
                 if (embeddedTweetId != 0l) {

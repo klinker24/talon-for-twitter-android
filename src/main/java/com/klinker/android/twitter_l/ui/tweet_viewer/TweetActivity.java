@@ -224,7 +224,7 @@ public class TweetActivity extends ActionBarActivity {
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
-        String page = webpages.get(0);
+        String page = webpages.size() > 0 ? webpages.get(0) : "";
         final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
         if (hasWebpage && (settings.alwaysMobilize ||
                 (Utils.getConnectionStatus(context) && settings.mobilizeOnData)) &&
