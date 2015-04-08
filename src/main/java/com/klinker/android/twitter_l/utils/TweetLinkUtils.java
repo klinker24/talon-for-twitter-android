@@ -551,4 +551,15 @@ public class TweetLinkUtils {
         // otherwise, lets just go with a blank string
         return "";
     }
+
+    public static long getTweetIdFromLink(String link) {
+        if (!link.contains("/status/")) {
+            return 0l;
+        } else {
+            int index = link.indexOf("/status/") + "/status/".length();
+
+            String id = link.substring(index);
+            return Long.parseLong(id);
+        }
+    }
 }

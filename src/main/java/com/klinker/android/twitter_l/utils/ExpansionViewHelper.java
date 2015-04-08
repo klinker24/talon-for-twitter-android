@@ -41,7 +41,6 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
@@ -104,6 +103,7 @@ public class ExpansionViewHelper {
     ProgressBar convoProgress;
     RelativeLayout convoArea;
     CardView convoCard;
+    CardView embeddedTweetCard;
     LinearLayout convoTweetArea;
 
     boolean landscape;
@@ -170,6 +170,7 @@ public class ExpansionViewHelper {
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
         convoCard = (CardView) expansion.findViewById(R.id.convo_card);
+        embeddedTweetCard = (CardView) expansion.findViewById(R.id.embedded_tweet_card);
         convoTweetArea = (LinearLayout) expansion.findViewById(R.id.tweets_content);
 
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
@@ -437,6 +438,12 @@ public class ExpansionViewHelper {
         });
     }
 
+    private void showEmbeddedCard(TweetView view) {
+        embeddedTweetCard.addView(view.getView());
+
+        startAlphaAnimation(embeddedTweetCard, 0, AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
+    }
+
     private void showConvoCard(ArrayList<Status> tweets) {
         int numTweets = 0;
 
@@ -525,6 +532,7 @@ public class ExpansionViewHelper {
     }
 
     String webLink = null;
+    long embeddedTweetId = 0l;
     public boolean shareOnWeb = false;
     public String[] otherLinks;
 
@@ -553,12 +561,16 @@ public class ExpansionViewHelper {
             webLink = null;
         }
 
-        if (webLink == null) {
+        if (webLink == null || webLink.contains("/status/")) {
             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.shareButton});
             int resource = a.getResourceId(0, 0);
             a.recycle();
             webButton.setImageResource(resource);
             shareOnWeb = true;
+
+            if (webLink.contains("/status/")) {
+                embeddedTweetId = TweetLinkUtils.getTweetIdFromLink(webLink);
+            }
         }
 
         webButton.setEnabled(true);
@@ -945,7 +957,7 @@ public class ExpansionViewHelper {
 
                     status = twitter.showStatus(id);
 
-                    getConversation();
+                    getConversationAndEmbeddedTweet();
 
                     if (status.isRetweet()) {
                         status = status.getRetweetedStatus();
@@ -1150,7 +1162,7 @@ public class ExpansionViewHelper {
         isRunning = false;
     }
 
-    public void getConversation() {
+    public void getConversationAndEmbeddedTweet() {
         Thread getConvo = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1159,6 +1171,25 @@ public class ExpansionViewHelper {
                 }
 
                 Twitter twitter = getTwitter();
+
+                try {
+                    if (embeddedTweetId != 0l) {
+                        final Status embedded = twitter.showStatus(embeddedTweetId);
+
+                        if (embedded != null) {
+                            ((Activity)context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TweetView v = new TweetView(context, embedded);
+                                    v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+                                    v.hideImage(false);
+
+                                    showEmbeddedCard(v);
+                                }
+                            });
+                        }
+                    }
+                } catch (Exception e) { }
                 replies = new ArrayList<twitter4j.Status>();
                 try {
 
