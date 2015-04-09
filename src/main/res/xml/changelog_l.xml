@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.4.0.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="2.4.0">
         <text>Support for new Twitter "quote" method</text>
         <text>Support for viewing embedded tweets</text>
