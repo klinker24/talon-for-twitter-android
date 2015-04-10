@@ -15,9 +15,8 @@
   -->
 
 <changelog>
-    
-    <version name="4.2.0">
-        <text>Twitter video support</text>
+    <version name="4.2.2">
+        <text>Support for Twitter's new "quote" method</text>
     </version>
 
     <version name="4.2.1">
