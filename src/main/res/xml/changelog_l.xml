@@ -3,6 +3,7 @@
     <version name="2.5.0">
         <text>Black theme option</text>
         <text>Option for transparent system bars under UI settings</text>
+        <text>Fix issue with muting clients</text>
     </version>
 
     <version name="2.4.0.1">
