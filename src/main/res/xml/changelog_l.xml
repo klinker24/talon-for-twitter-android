@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="2.5.0">
+        <text>Pick the accent color seperate from the main color</text>
         <text>Black theme option</text>
         <text>Option for transparent system bars under UI settings</text>
         <text>Fix issue with muting clients</text>
