@@ -4,6 +4,7 @@
         <text>Black theme option</text>
         <text>Option for transparent system bars under UI settings</text>
         <text>Fix issue with muting clients</text>
+        <text>Fix some layout issues</text>
     </version>
 
     <version name="2.4.0.1">

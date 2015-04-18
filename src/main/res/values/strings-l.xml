@@ -49,4 +49,5 @@
     <string name="when_talon_pull_on">Applied when Talon Pull is turned on.</string>
     <string name="transparent_system_bars">Use Transparent System Bars</string>
     <string name="transparent_system_bars_summary">Applied on the main drawer pages.</string>
+    <string name="accent_color">Accent Color</string>
 </resources>

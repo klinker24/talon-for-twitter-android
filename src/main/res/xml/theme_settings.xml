@@ -25,6 +25,10 @@
                     android:title="@string/theme"
                     />
 
+        <Preference android:key="accent_color"
+            android:title="@string/accent_color"
+            />
+
         <!--<ListPreference
             android:key="theme"
             android:title="@string/theme"
