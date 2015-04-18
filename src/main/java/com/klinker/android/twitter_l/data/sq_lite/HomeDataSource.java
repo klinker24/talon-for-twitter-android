@@ -403,6 +403,7 @@ public class HomeDataSource {
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
@@ -500,6 +501,7 @@ public class HomeDataSource {
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         if (!users.equals("")) {
             String[] split = users.split(" ");
@@ -604,6 +606,7 @@ public class HomeDataSource {
         String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
 
@@ -670,6 +673,7 @@ public class HomeDataSource {
         String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + HomeSQLiteHelper.COLUMN_UNREAD + " = ?";
 
@@ -746,6 +750,7 @@ public class HomeDataSource {
         String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_PIC_URL + " LIKE '%ht%'";
 
@@ -845,6 +850,7 @@ public class HomeDataSource {
         String clients = sharedPreferences.getString("muted_clients", "");
 
         expressions = expressions.replaceAll("'", "''");
+        clients = clients.replaceAll("'", "''");
 
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " + HomeSQLiteHelper.COLUMN_URL + " LIKE '%ht%'";
 

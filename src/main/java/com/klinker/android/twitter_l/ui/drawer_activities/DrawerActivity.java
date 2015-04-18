@@ -62,6 +62,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
@@ -1166,6 +1167,36 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         } catch (Exception e) {
             // landscape mode
         }
+
+        if (translucent) { // want to check translucent since some devices disable softkeys...
+            if (!settings.transpartSystemBars) {
+                new NavBarOverlayLayout(this).show();
+            }
+
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+                if (!settings.transpartSystemBars) {
+                    tranparentSystemBar = AppSettings.getInstance(this).themeColors.primaryColorDark;
+                } else {
+                    tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+                }
+                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+            } else {
+                if (!settings.transpartSystemBars) {
+                    tranparentSystemBar = getResources().getColor(android.R.color.black);
+                } else {
+                    tranparentSystemBar = getResources().getColor(android.R.color.transparent);
+                }
+                statusColor = getResources().getColor(android.R.color.black);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
+                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
+            } else {
+                tranparentSystemBar = getResources().getColor(android.R.color.transparent);
+                statusColor = getResources().getColor(android.R.color.black);
+            }
+        }
     }
 
     private void logoutFromTwitter() {
@@ -1672,24 +1703,17 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
             }
         }
 
-        if (abOffset == -1) {
-            abOffset = Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toolbar.setElevation(Utils.toDP(5, DrawerActivity.this));
+                }
+            }, ANIM_DURATION);
         }
 
-        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-            if (tranparentSystemBar == -1) {
-                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
-            }
-            if (statusColor == -1) {
-                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
-            }
-        } else {
-            if (tranparentSystemBar == -1) {
-                tranparentSystemBar = getResources().getColor(android.R.color.transparent);
-            }
-            if (statusColor == -1) {
-                statusColor = getResources().getColor(android.R.color.black);
-            }
+        if (abOffset == -1) {
+            abOffset = Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context);
         }
 
         if (toolbar == null || toolbar.getVisibility() == View.VISIBLE) {
@@ -1759,25 +1783,14 @@ public abstract class DrawerActivity extends ActionBarActivity implements System
         if (getResources().getBoolean(R.bool.has_drawer) && statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
         }
-        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-            if (tranparentSystemBar == -1) {
-                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
-            }
-            if (statusColor == -1) {
-                statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
-            }
-        } else {
-            if (tranparentSystemBar == -1) {
-                tranparentSystemBar = getResources().getColor(android.R.color.transparent);
-            }
-            if (statusColor == -1) {
-                statusColor = getResources().getColor(android.R.color.black);
-            }
-        }
 
         if (toolbar == null || toolbar.getVisibility() == View.GONE) {
             Log.v("talon_app_bar", "toolbar is null");
             return;
+        }
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            toolbar.setElevation(0);
         }
 
         ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, tranparentSystemBar);
