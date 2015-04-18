@@ -47,6 +47,7 @@ import android.widget.*;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.AccentPickerAdapter;
 import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.adapters.ColorPickerAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
@@ -757,6 +758,38 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
     }
 
+    protected void showAccentPickerDialog(SharedPreferences sharedPrefs) {
+        ScrollView scrollParent = new ScrollView(getActivity());
+        LinearLayout colorPickerLayout = new LinearLayout(getActivity());
+        colorPickerLayout.setOrientation(LinearLayout.VERTICAL);
+
+        int cols = 4;
+        float gridWidth = Utils.toPx(280, getActivity());
+        GridView grid = getGridView();
+        grid.setNumColumns(cols);
+
+        final List<ThemeColor> colors = getThemeColors();
+        final AlertDialog dialog = buildColorPickerDialog(scrollParent);
+
+        AccentPickerAdapter adapter = new AccentPickerAdapter(getActivity(), colors, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accentPickerItemClicked(v, colors, dialog);
+            }
+        });
+        grid.setAdapter(adapter);
+
+        int rows = (int) Math.ceil(colors.size() / (double) cols);
+        LinearLayout.LayoutParams gridParams = new LinearLayout.LayoutParams((int) gridWidth,
+                (int) (gridWidth/4 * rows));
+        gridParams.gravity = Gravity.CENTER;
+        gridParams.topMargin = (int) Utils.toPx(16, getActivity());
+        gridParams.bottomMargin = (int) Utils.toPx(16, getActivity());
+
+        colorPickerLayout.addView(grid, gridParams);
+        scrollParent.addView(colorPickerLayout);
+        dialog.show();
+    }
 
     protected void showColorPickerDialog(SharedPreferences sharedPrefs) {
         ScrollView scrollParent = new ScrollView(getActivity());
@@ -801,7 +834,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         String[] themePrefixes = getResources().getStringArray(R.array.theme_colors);
         final List<ThemeColor> colors = new ArrayList<ThemeColor>();
         for (String prefix : themePrefixes) {
-            colors.add(new ThemeColor(prefix, getActivity()));
+            colors.add(new ThemeColor(prefix, getActivity(), true));
         }
         return colors;
     }
@@ -818,14 +851,29 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     void themePickerItemClicked(View v, List<ThemeColor> colors, Dialog dialog) {
-        ThemeColor currentColor = colors.get(AppSettings.getInstance(getActivity()).theme);
         int position = (Integer) v.getTag();
-        Log.v("talon_theme", "position: " + position);
+
         AppSettings settings = AppSettings.getInstance(getActivity());
+
         settings.setValue("material_theme_" + settings.currentAccount, position, getActivity());
+        settings.setValue("material_accent_" + settings.currentAccount, -1, getActivity());
+        settings.setValue("material_accent_light_" + settings.currentAccount, -1, getActivity());
+
         dialog.dismiss();
         AppSettings.invalidate();
         getActivity().recreate();
+    }
+
+    void accentPickerItemClicked(View v, List<ThemeColor> colors, Dialog dialog) {
+        int position = (Integer) v.getTag();
+
+        AppSettings settings = AppSettings.getInstance(getActivity());
+
+        settings.setValue("material_accent_" + settings.currentAccount, colors.get(position).accentColor, getActivity());
+        settings.setValue("material_accent_light_" + settings.currentAccount, colors.get(position).accentColorLight, getActivity());
+
+        dialog.dismiss();
+        AppSettings.invalidate();
     }
 
     Spinner getSpinner(SharedPreferences sharedPrefs) {
@@ -867,6 +915,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 showColorPickerDialog(sharedPrefs);
+                return false;
+            }
+        });
+
+        final Preference accentPicker = findPreference("accent_color");
+        accentPicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showAccentPickerDialog(sharedPrefs);
                 return false;
             }
         });
