@@ -26,12 +26,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textColor="?dateColor"
         android:singleLine="true"/>
 
     <TextView
         android:id="@+id/tweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="?textColor"
         android:textSize="18sp"/>
 
 </LinearLayout>
