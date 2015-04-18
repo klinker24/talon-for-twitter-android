@@ -768,7 +768,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         GridView grid = getGridView();
         grid.setNumColumns(cols);
 
-        final List<ThemeColor> colors = getThemeColors();
+        final List<ThemeColor> colors = getAccentColors();
         final AlertDialog dialog = buildColorPickerDialog(scrollParent);
 
         AccentPickerAdapter adapter = new AccentPickerAdapter(getActivity(), colors, new View.OnClickListener() {
@@ -836,6 +836,34 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         for (String prefix : themePrefixes) {
             colors.add(new ThemeColor(prefix, getActivity(), true));
         }
+        return colors;
+    }
+
+    List<ThemeColor> getAccentColors() {
+        String[] themePrefixes = getResources().getStringArray(R.array.theme_colors);
+        final List<ThemeColor> colors = new ArrayList<ThemeColor>();
+        for (String prefix : themePrefixes) {
+            colors.add(new ThemeColor(prefix, getActivity(), true));
+        }
+
+        // some of the accents are duplicated. Lets remove those.
+        int i = 0;
+        while (i < colors.size()) {
+            boolean matched = false;
+            int accent = colors.get(i).accentColor;
+            for (int j = 0; j < colors.size(); j++) {
+                if (j != i && accent == colors.get(j).accentColor) {
+                    colors.remove(j);
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched) {
+                i++;
+            }
+        }
+
         return colors;
     }
 
