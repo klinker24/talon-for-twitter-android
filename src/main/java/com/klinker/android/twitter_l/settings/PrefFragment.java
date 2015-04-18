@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -52,7 +51,6 @@ import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.adapters.ColorPickerAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
-import com.klinker.android.twitter_l.data.Item;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -69,7 +67,6 @@ import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragmen
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -790,12 +787,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
 
         int padding = getResources().getDimensionPixelSize(R.dimen.settings_text_padding);
-        CheckBox darkTheme = getDarkThemeCheckbox(sharedPrefs);
+        Spinner mainTheme = getSpinner(sharedPrefs);
         LinearLayout.LayoutParams darkThemeParams = getLayoutParams(padding);
         darkThemeParams.bottomMargin = padding;
 
         colorPickerLayout.addView(grid, gridParams);
-        colorPickerLayout.addView(darkTheme, darkThemeParams);
+        colorPickerLayout.addView(mainTheme, darkThemeParams);
         scrollParent.addView(colorPickerLayout);
         dialog.show();
     }
@@ -831,19 +828,26 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         getActivity().recreate();
     }
 
-    CheckBox getDarkThemeCheckbox(SharedPreferences sharedPrefs) {
-        CheckBox darkTheme = new CheckBox(getActivity());
-        darkTheme.setChecked(sharedPrefs.getBoolean("dark_theme", false));
-        darkTheme.setText(R.string.theme_dark);
-        darkTheme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    Spinner getSpinner(SharedPreferences sharedPrefs) {
+        Spinner spinner = new Spinner(getActivity());
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_dropdown_item,
+                getActivity().getResources().getStringArray(R.array.choose_theme));
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AppSettings.getInstance(getActivity()).setValue("dark_theme", isChecked, getActivity());
-                //changeBackgroundColors(isChecked);
-                onCreate(null);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                AppSettings.getInstance(getActivity()).setValue("main_theme", position, getActivity());
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
-        return darkTheme;
+
+        spinner.setSelection(sharedPrefs.getInt("main_theme", 0));
+
+        return spinner;
     }
 
     LinearLayout.LayoutParams getLayoutParams(int padding) {

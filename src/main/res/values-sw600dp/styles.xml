@@ -5,6 +5,11 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.TalonBlack.Tweet" parent="@style/Theme.TalonBlack.Popup.Notif">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight.Popup.Notif">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
