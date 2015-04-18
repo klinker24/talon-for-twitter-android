@@ -29,6 +29,11 @@
         <item name="android:windowNoTitle">false</item>
     </style>
 
+    <style name="Theme.PhotoViewerBlack" parent="@style/Theme.Tutorial">
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
     <style name="Theme.PhotoViewerLight.Popup" parent="@style/Theme.Tutorial">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
@@ -43,6 +48,18 @@
     </style>
 
     <style name="Theme.PhotoViewerDark.Popup" parent="@style/Theme.Tutorial">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
+        <!-- <item name="android:windowAnimationStyle">@style/PopupAnimation</item> -->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="Theme.PhotoViewerBlack.Popup" parent="@style/Theme.Tutorial">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
         <item name="android:windowContentOverlay">@null</item>

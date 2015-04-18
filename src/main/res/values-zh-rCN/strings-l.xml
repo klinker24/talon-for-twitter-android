@@ -8,8 +8,8 @@
     <string name="list_count">在 %s 个列表中.</string>
     <string name="joined_twitter">加入Twitter:</string>
     <string name="top_down">自上而下模式</string>
-    <string name="top_down_summary">Timeline不保存当前位置，将从顶端显示。</string>
-    <string name="timeline_text_size">Timeline文字大小</string>
+    <string name="top_down_summary">时间线不会保存当前位置，将永远从顶端开始显示。</string>
+    <string name="timeline_text_size">时间线上的文字大小</string>
     <string name="manage_mutes">静音管理</string>
     <string name="quote_style">引用方式</string>
     <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
@@ -31,11 +31,11 @@
     <string name="replies">会话</string>
     <string name="web">网页</string>
     <string name="use_snackbar">使用Snackbar</string>
-    <string name="use_snackbar_summary">在主Timeline上使用\"回到顶端\"功能</string>
+    <string name="use_snackbar_summary">在主时间线上使用\"回到顶端\"功能</string>
     <string name="bottom_pictures">图片在推文下方</string>
     <string name="bottom_pictures_summary">此选项下推文下方不会扩展</string>
     <string name="manage_muffles">管理折叠</string>
-    <string name="muffle_definition">折叠一个用户会把他们推文的主要内容从你的时间线上清楚掉。你将只能看到他的用户名和一个小型的块状折叠区域，点击该区域可以看到该条推特的全文。</string>
+    <string name="muffle_definition">折叠一个用户会把他们推文的主要内容从你的时间线上清除掉。你将只能看到他的用户名和一个小型的块状折叠区域，点击该区域可以看到该条推特的全文。</string>
     <string name="muffled_users">被折叠的用户</string>
     <string name="click_to_remove_muffle">选择一个用户来取消折叠。</string>
     <string name="muffle_user">折叠此用户</string>

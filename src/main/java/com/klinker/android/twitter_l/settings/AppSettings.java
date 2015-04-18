@@ -102,6 +102,7 @@ public class AppSettings {
     public String favoriteUserNames;
 
     public boolean darkTheme;
+    public boolean blackTheme;
     public boolean isTwitterLoggedIn;
     public boolean reverseClickActions;
     public boolean advanceWindowed;
@@ -236,7 +237,21 @@ public class AppSettings {
         }
 
         // Booleans
-        darkTheme = sharedPrefs.getBoolean("dark_theme", false);
+        int mainTheme = sharedPrefs.getInt("main_theme", 0);
+        switch (mainTheme) {
+            case 0:
+                darkTheme = false;
+                blackTheme = false;
+                break;
+            case 1:
+                darkTheme = true;
+                blackTheme = false;
+                break;
+            case 2:
+                darkTheme = true;
+                blackTheme = true;
+                break;
+        }
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
@@ -413,7 +428,20 @@ public class AppSettings {
     }
 
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
-        boolean dark = sharedPrefs.getBoolean("dark_theme", false);
+        boolean dark = false;
+        int mainTheme = sharedPrefs.getInt("main_theme", 0);
+        switch (mainTheme) {
+            case 0:
+                dark = false;
+                break;
+            case 1:
+                dark = true;
+                break;
+            case 2:
+                dark = true;
+                break;
+        }
+
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
             int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
