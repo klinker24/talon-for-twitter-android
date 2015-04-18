@@ -128,6 +128,7 @@
                     android:textSize="16sp"
                     android:hint="@string/compose_tweet_hint"
                     android:gravity="top"
+                    android:textCursorDrawable="@null"
                     android:textColorHint="?dateColor"
                     android:background="@android:color/transparent"
                     android:inputType="textCapSentences|textMultiLine" />
