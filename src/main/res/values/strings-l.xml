@@ -47,4 +47,6 @@
     <string name="share_on_rating_dialog">Share</string>
     <string name="ignore">Ignore</string>
     <string name="when_talon_pull_on">Applied when Talon Pull is turned on.</string>
+    <string name="transparent_system_bars">Use Transparent System Bars</string>
+    <string name="transparent_system_bars_summary">Applied on the main drawer pages.</string>
 </resources>

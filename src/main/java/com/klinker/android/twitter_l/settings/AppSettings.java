@@ -101,6 +101,7 @@ public class AppSettings {
     public String secondProfilePicUrl;
     public String favoriteUserNames;
 
+    public boolean transpartSystemBars;
     public boolean darkTheme;
     public boolean blackTheme;
     public boolean isTwitterLoggedIn;
@@ -252,6 +253,7 @@ public class AppSettings {
                 blackTheme = true;
                 break;
         }
+
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
@@ -296,6 +298,7 @@ public class AppSettings {
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
+        transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();

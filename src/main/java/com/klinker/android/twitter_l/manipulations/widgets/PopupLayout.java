@@ -26,9 +26,6 @@ import com.klinker.android.twitter_l.manipulations.WebPopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-/**
- * Created by luke on 7/2/14.
- */
 public abstract class PopupLayout extends LinearLayout {
 
     // some default constants for initializing the ActionButton
