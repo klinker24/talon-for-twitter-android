@@ -148,7 +148,6 @@ public class Utils {
     public static int getActionBarHeight(Context context) {
         TypedValue tv = new TypedValue();
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            Log.v("talon_actionbar", "getting size from dimen");
             int value = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
 
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
