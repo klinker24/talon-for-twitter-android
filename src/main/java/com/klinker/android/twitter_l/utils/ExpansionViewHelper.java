@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -153,6 +154,46 @@ public class ExpansionViewHelper {
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convoLayout.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convoLayout.findViewById(R.id.spinner);
+
+        tweetSource.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (status != null) {
+                    // we allow them to mute the client
+                    final String client = android.text.Html.fromHtml(status.getSource()).toString();
+                    new AlertDialog.Builder(context)
+                            .setTitle(context.getResources().getString(R.string.mute_client) + "?")
+                            .setMessage(client)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                                    
+                                    String current = sharedPrefs.getString("muted_clients", "");
+                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
+                                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+
+                                    dialogInterface.dismiss();
+
+                                    ((Activity) context).finish();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    // tell them the client hasn't been found
+                    Toast.makeText(context, R.string.client_not_found, Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
 
 
         retweetersPopup = new RetweetersPopupLayout(context);

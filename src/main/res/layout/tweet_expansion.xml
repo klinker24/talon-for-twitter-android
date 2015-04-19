@@ -24,21 +24,23 @@
         card_view:cardBackgroundColor="?drawerBackground"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tweet_source"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="14sp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="sans-serif-light"
+        android:background="?android:selectableItemBackground"
+        android:textColor="?textColor"
+        android:alpha=".6"/>
+
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
                   android:paddingBottom="16dp">
-
-        <TextView
-            android:id="@+id/tweet_source"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            android:fontFamily="sans-serif-light"
-            android:background="?android:selectableItemBackground"
-            android:textColor="?textColor"
-            android:alpha=".6"/>
 
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
