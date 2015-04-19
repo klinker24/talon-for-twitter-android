@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?windowBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:id="@+id/notify_scroll_view"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <include android:id="@+id/tweet_background"
+                            layout="@layout/tweet_for_fragment"
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent" />
+
+
+                    </LinearLayout>
+
+                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/header_expanded_height"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/rounded_rect"
+                        android:transitionName="image"
+                        android:id="@+id/image"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/extra_content"
+                    android:visibility="invisible">
+
+                    <View android:layout_width="match_parent"
+                        android:id="@+id/youtube_divider"
+                        android:layout_height="1dp"
+                        android:background="?drawerDividerColor"
+                        android:layout_marginLeft="36dp"
+                        android:layout_marginTop="36dp"
+                        android:layout_marginBottom="36dp"/>
+
+                    <TextView android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/youtube_text"
+                        android:textAllCaps="true"
+                        android:text="@string/tweet_youtube"
+                        android:textSize="16sp"
+                        android:paddingLeft="36dp"
+                        android:layout_marginBottom="36dp"
+                        android:textColor="?textColor"
+                        android:alpha=".6"/>
+
+                    <LinearLayout
+                        android:id="@+id/youtube_view"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:adjustViewBounds="true"
+                        android:layout_margin="5dp"
+                        />
+
+                    <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:id="@+id/gif_holder"
+                        android:gravity="center">
+
+                        <VideoView
+                            android:id="@+id/gif"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:layout_centerInParent="true"/>
+
+                        <LinearLayout android:id="@+id/spinner"
+                            android:orientation="vertical"
+                            android:layout_height="fill_parent"
+                            android:layout_width="fill_parent"
+                            android:gravity="center" >
+
+                            <ProgressBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@android:style/Widget.Material.Light.ProgressBar.Large"
+                                android:indeterminateOnly="true" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <View android:layout_width="match_parent"
+                    android:id="@+id/nav_bar_seperator"
+                    android:layout_height="150dp" />
+
+
+            </LinearLayout>
+
+
+        </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
+
+        <!-- App bar contains the profile picture and name/screenname. This view is also the status bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/actionbar_and_status_bar"
+            android:elevation="4dp"
+            android:background="#fafafa">
+
+            <View android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/status_bar"
+                android:background="@android:color/black"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                android:orientation="horizontal"
+                android:id="@+id/actionbar_bar"
+                android:background="@android:color/transparent">
+
+                <FrameLayout
+                    android:layout_width="?android:actionBarSize"
+                    android:layout_height="?android:actionBarSize"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        app:border_width="1dp"
+                        app:border_color="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/profile_pic"
+                        android:contentDescription="Profile Picture"/>
+
+                </FrameLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/person_info"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:paddingStart="8dp" >
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:textSize="17sp"
+                        android:transitionName="name"
+                        android:textColor="@android:color/white"/>
+
+                    <TextView
+                        android:id="@+id/screen_name"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:textSize="13sp"
+                        android:alpha=".80"
+                        android:transitionName="screenname"
+                        android:textColor="@android:color/white"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- This view is the bottom bar along with the black background for the navigation bar if the device has one. -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:elevation="4dp"
+                android:id="@+id/bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:id="@+id/web_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageButton
+                        android:background="@android:color/transparent"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:clickable="false"
+                        android:src="@drawable/ic_tweet_web"
+                        android:contentDescription="Open Web Page"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:text="@string/web"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        android:fontFamily="sans-serif-light"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/conversation_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageButton
+                        android:background="@android:color/transparent"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_tweet_conversation"
+                        android:contentDescription="Conversation"
+                        android:clickable="false"
+                        android:minHeight="48dp" android:minWidth="48dp"
+                        android:scaleType="center" android:adjustViewBounds="true"
+                        android:maxWidth="48dp" android:maxHeight="48dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:text="@string/replies"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        android:visibility="gone"
+                        android:fontFamily="sans-serif-light"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@android:color/black"
+                android:id="@+id/navigation_bar" />
+
+        </LinearLayout>
+
+        <com.melnykov.fab.FloatingActionButton
+            xmlns:fab="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/send_button"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_send_fab"
+            fab:fab_colorNormal="#99CC00"
+            fab:fab_colorRipple="@color/dark_ripple"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:elevation="5dp"/>
+
+        <!-- used for the popups and dimming the foreground -->
+        <View android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:alpha=".6"
+            android:visibility="gone"
+            android:id="@+id/dim" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:id="@+id/landscape_nav_bar" />
+
+</LinearLayout>

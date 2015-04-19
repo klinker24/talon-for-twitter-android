@@ -88,6 +88,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -214,7 +216,7 @@ public class TweetActivity extends ActionBarActivity {
 
         Utils.setUpTweetTheme(context, settings);
 
-        setContentView(R.layout.tweet_activity);
+        setContentView(R.layout.tweet_activity_new);
 
         final View convo = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (AsyncListView) convo.findViewById(R.id.listView);
@@ -225,7 +227,7 @@ public class TweetActivity extends ActionBarActivity {
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
-        final ImageButton webButton = (ImageButton) findViewById(R.id.web_button);
+        final View webButton = findViewById(R.id.web_button);
         if (hasWebpage && (settings.alwaysMobilize ||
                 (Utils.getConnectionStatus(context) && settings.mobilizeOnData)) &&
                 !page.contains("/status/")) {
@@ -412,7 +414,7 @@ public class TweetActivity extends ActionBarActivity {
 
         replyList.setItemManager(builder.build());
 
-        viewReplyButton = (ImageButton) findViewById(R.id.conversation_button);
+        viewReplyButton =  findViewById(R.id.conversation_button);
         viewReplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -770,27 +772,36 @@ public class TweetActivity extends ActionBarActivity {
 
     public void setUpTheme() {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+        }
+
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(android.R.color.transparent));
         actionBar.setTitle("");
         actionBar.setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
+        actionBar.setHomeAsUpIndicator(new ColorDrawable(android.R.color.transparent));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
-        }
+        findViewById(R.id.bottom_bar).setBackgroundColor(settings.themeColors.primaryColor);
 
         insetsBackground = findViewById(R.id.actionbar_and_status_bar);
+        insetsBackground.setBackgroundColor(settings.themeColors.primaryColor);
 
-        ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
+        /*ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
         statusParams.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
         insetsBackground.setLayoutParams(statusParams);
-        insetsBackground.setAlpha(0);
+        insetsBackground.setAlpha(0);*/
 
         final int abHeight = Utils.getActionBarHeight(context);
         final int sbHeight = Utils.getStatusBarHeight(context);
-        final View header = findViewById(R.id.profile_pic_contact);
+
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            findViewById(R.id.content).setPadding(0, abHeight, 0, 0);
+        } else {
+            findViewById(R.id.content).setPadding(0, abHeight + sbHeight, 0, 0);
+        }
 
         View status = findViewById(R.id.status_bar);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
@@ -806,8 +817,8 @@ public class TweetActivity extends ActionBarActivity {
         params.height = abHeight;
         action.setLayoutParams(params);
 
-        action.setBackgroundColor(settings.themeColors.primaryColor);
-        status.setBackgroundColor(settings.themeColors.primaryColorDark);
+        //action.setBackgroundColor(settings.themeColors.primaryColor);
+        //status.setBackgroundColor(settings.themeColors.primaryColorDark);
 
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
@@ -847,13 +858,16 @@ public class TweetActivity extends ActionBarActivity {
 
         View navBarSeperator = findViewById(R.id.nav_bar_seperator);
         LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-        navBarSeperator.setLayoutParams(navBar);
+        findViewById(R.id.navigation_bar).setLayoutParams(navBar);
+
+        navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
 
         if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            navBarSeperator.setVisibility(View.VISIBLE);
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            navBarSeperator.setVisibility(View.GONE);
+            navBar.height = Utils.getNavBarHeight(context) + Utils.toDP(72, context);
+        } else {
+            navBar.height = Utils.toDP(72, context);
         }
+        navBarSeperator.setLayoutParams(navBar);
 
         if (getResources().getBoolean(R.bool.isTablet)) {
             navBarSeperator.setVisibility(View.GONE);
@@ -1111,7 +1125,7 @@ public class TweetActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                profilePic.performClick();
                 return true;
 
             case R.id.menu_delete_tweet:
@@ -1483,7 +1497,8 @@ public class TweetActivity extends ActionBarActivity {
         }
     }
 
-    public NetworkedCacheableImageView profilePic;
+    public CircleImageView profilePic;
+    public NetworkedCacheableImageView image;
     public ImageView retweeters;
     public ImageView favoriters;
     public LinearLayout viewRetweeters;
@@ -1504,7 +1519,8 @@ public class TweetActivity extends ActionBarActivity {
         screennametv = (TextView) layout.findViewById(R.id.screen_name);
         tweettv = (TextView) layout.findViewById(R.id.tweet);
         retweetertv = (TextView) layout.findViewById(R.id.retweeter);
-        profilePic = (NetworkedCacheableImageView) layout.findViewById(R.id.profile_pic_contact);
+        profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
+        image = (NetworkedCacheableImageView) layout.findViewById(R.id.image);
         favoriteButton = (LinearLayout) layout.findViewById(R.id.favorite);
         quote = (ImageButton) layout.findViewById(R.id.quote_button);
         retweetButton = (LinearLayout) layout.findViewById(R.id.retweet);
@@ -1610,15 +1626,17 @@ public class TweetActivity extends ActionBarActivity {
             }
         };
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
+        ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+        profilePic.setOnClickListener(viewPro);
+
+        findViewById(R.id.person_info).setOnClickListener(viewPro);
+        nametv.setOnClickListener(viewPro);
+        screennametv.setOnClickListener(viewPro);
 
         if (picture) { // if there is a picture already loaded
 
-            profilePic.loadImage(webpage, false, null);
-            profilePic.setOnClickListener(new View.OnClickListener() {
+            image.loadImage(webpage, false, null);
+            image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
@@ -1627,7 +1645,7 @@ public class TweetActivity extends ActionBarActivity {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context), profilePic, "image");
+                                    .makeSceneTransitionAnimation(((Activity) context), image, "image");
 
                             context.startActivity(photo, options.toBundle());
                         } else {
@@ -1637,35 +1655,13 @@ public class TweetActivity extends ActionBarActivity {
                 }
             });
 
-            View proPicContainer = findViewById(R.id.profile_pic_contact);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            if (!getResources().getBoolean(R.bool.isTablet)) {
-                params.height = (int) (height * .5);
-            } else {
-                params.height = (int) (height * .3);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                image.setClipToOutline(true);
             }
-            proPicContainer.setLayoutParams(params);
-
-            findViewById(R.id.person_info).setOnClickListener(viewPro);
-            nametv.setOnClickListener(viewPro);
-            screennametv.setOnClickListener(viewPro);
 
         } else {
-            profilePic.loadImage(proPic, false, null);
-            profilePic.setOnClickListener(viewPro);
-
-            View proPicContainer = findViewById(R.id.profile_pic_contact);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) proPicContainer.getLayoutParams();
-            if (!getResources().getBoolean(R.bool.isTablet)) {
-                params.height = (int) (height * .4);
-            } else {
-                params.height = (int) (height * .3);
-            }
-            proPicContainer.setLayoutParams(params);
-
-            findViewById(R.id.person_info).setOnClickListener(viewPro);
-            nametv.setOnClickListener(viewPro);
-            screennametv.setOnClickListener(viewPro);
+            // remove the picture
+            image.setVisibility(View.GONE);
         }
 
         nametv.setText(name);
@@ -1913,6 +1909,12 @@ public class TweetActivity extends ActionBarActivity {
         sendLayout.setColorPressed(settings.themeColors.accentColor);
         sendLayout.setColorRippleResId(android.R.color.white);
 
+        if (Utils.hasNavBar(context)) {
+            sendLayout.setTranslationY(-1 * (Utils.getNavBarHeight(context) + Utils.toDP(36, context)));
+        } else {
+            sendLayout.setTranslationY(-1 * Utils.toDP(36, context));
+        }
+
         sendLayout.setOnClickListener(clickListener);
 
         // we are going to do a little fade in thing with the top of this area
@@ -2067,7 +2069,6 @@ public class TweetActivity extends ActionBarActivity {
 
     public void hideExtraContent() {
         final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
-        final View back = findViewById(R.id.background);
         final View name = findViewById(R.id.person_info);
         if (extra.getVisibility() == View.VISIBLE) {
             Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
@@ -2080,7 +2081,7 @@ public class TweetActivity extends ActionBarActivity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     extra.setVisibility(View.INVISIBLE);
-                    back.setVisibility(View.INVISIBLE);
+                    //back.setVisibility(View.INVISIBLE);
                     name.setVisibility(View.INVISIBLE);
                 }
 
@@ -2093,7 +2094,6 @@ public class TweetActivity extends ActionBarActivity {
             if (!fromLauncher) {
                 name.startAnimation(anim);
                 extra.startAnimation(anim);
-                back.startAnimation(anim);
             }
         }
     }
@@ -2303,7 +2303,7 @@ public class TweetActivity extends ActionBarActivity {
 
     }
 
-    public ImageButton viewReplyButton;
+    public View viewReplyButton;
 
     public void disableConvoButton() {
         if (viewReplyButton != null) {
