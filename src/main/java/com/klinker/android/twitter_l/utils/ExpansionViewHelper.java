@@ -169,7 +169,7 @@ public class ExpansionViewHelper {
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                                                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                                    
+
                                     String current = sharedPrefs.getString("muted_clients", "");
                                     sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
                                     sharedPrefs.edit().putBoolean("refresh_me", true).commit();
