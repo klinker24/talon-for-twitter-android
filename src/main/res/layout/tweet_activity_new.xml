@@ -43,7 +43,8 @@
                             <FrameLayout
                                 android:layout_width="?android:actionBarSize"
                                 android:layout_height="?android:actionBarSize"
-                                android:padding="8dp" >
+                                android:padding="8dp"
+                                android:layout_marginLeft="-8dp">
 
                                 <de.hdodenhof.circleimageview.CircleImageView
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -75,16 +76,34 @@
                                     android:transitionName="name"
                                     android:textColor="?textColor"/>
 
-                                <TextView
-                                    android:id="@+id/screen_name"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="wrap_content"
-                                    android:singleLine="true"
-                                    android:textSize="13sp"
-                                    android:alpha=".80"
-                                    android:transitionName="screenname"
-                                    android:textColor="?dateColor"/>
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
 
+                                    <TextView
+                                        android:id="@+id/screen_name"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:singleLine="true"
+                                        android:textSize="13sp"
+                                        android:alpha=".80"
+                                        android:layout_gravity="start"
+                                        android:transitionName="screenname"
+                                        android:textColor="?dateColor"/>
+
+                                    <TextView
+                                        android:id="@+id/time"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:textSize="13sp"
+                                        android:singleLine="true"
+                                        android:layout_gravity="end"
+                                        android:textColor="?dateColor"
+                                        android:alpha=".8"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
