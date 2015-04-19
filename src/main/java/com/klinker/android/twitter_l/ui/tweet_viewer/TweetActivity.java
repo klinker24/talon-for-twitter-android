@@ -628,6 +628,7 @@ public class TweetActivity extends ActionBarActivity {
 
         if (getResources().getBoolean(R.bool.isTablet)) {
             navBarSeperator.setVisibility(View.GONE);
+            findViewById(R.id.navigation_bar).setVisibility(View.GONE);
         }
 
         if (settings.transpartSystemBars) {
