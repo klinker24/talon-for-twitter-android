@@ -94,6 +94,8 @@ public class ExpansionViewHelper {
     LinearLayout convoSpinner;
     View convoLayout;
 
+    TextView tweetSource;
+
     RetweetersPopupLayout retweetersPopup;
     FavoritersPopupLayout favoritersPopup;
     ConversationPopupLayout convoPopup;
@@ -143,6 +145,8 @@ public class ExpansionViewHelper {
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
+
+        tweetSource = (TextView) expansion.findViewById(R.id.tweet_source);
 
         repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
@@ -1021,6 +1025,9 @@ public class ExpansionViewHelper {
                                 favText.setTextColor(context.getResources().getColor(textColor));
                                 isFavorited = false;
                             }
+
+                            String via = context.getResources().getString(R.string.via) + " " + android.text.Html.fromHtml(status.getSource()).toString();
+                            tweetSource.setText(via);
                         }
                     });
                 } catch (Exception e) {
