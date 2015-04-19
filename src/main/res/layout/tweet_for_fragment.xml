@@ -96,17 +96,6 @@
                 android:id="@+id/image"/>
 
             <TextView
-                android:id="@+id/time"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif-light"
-                android:background="?android:selectableItemBackground"
-                android:textColor="?textColor"
-                android:alpha=".6"/>
-
-            <TextView
                 android:id="@+id/retweeter"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

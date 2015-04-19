@@ -33,7 +33,6 @@
         android:layout_marginLeft="6dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="6dp"
-        android:fontFamily="sans-serif-light"
         android:background="?android:selectableItemBackground"
         android:textColor="?textColor"
         android:alpha=".6"/>
