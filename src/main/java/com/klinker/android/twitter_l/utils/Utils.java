@@ -171,26 +171,34 @@ public class Utils {
     }
 
     public static boolean hasNavBar(Context context) {
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        Point realSize = new Point();
-        display.getSize(size);
-        display.getRealSize(realSize);
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
 
-        if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
-            return false;
-        }
+        if (hasBackKey && hasHomeKey) {
+            // no navigation bar, unless it is enabled in the settings
+            Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            Point realSize = new Point();
+            display.getSize(size);
+            display.getRealSize(realSize);
 
-        try {
-            return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
-        } catch (Exception e) {
-            Resources resources = context.getResources();
-            int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-            if (id > 0) {
-                return resources.getBoolean(id);
-            } else {
+            if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
                 return false;
             }
+
+            try {
+                return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+            } catch (Exception e) {
+                Resources resources = context.getResources();
+                int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+                if (id > 0) {
+                    return resources.getBoolean(id);
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return true;
         }
     }
 
