@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
@@ -139,6 +140,10 @@ public class ProfilePager extends ActionBarActivity {
         }
 
         nav.setLayoutParams(params);
+
+        if (!settings.transpartSystemBars) {
+            new NavBarOverlayLayout(this).show();
+        }
     }
 
     @Override
