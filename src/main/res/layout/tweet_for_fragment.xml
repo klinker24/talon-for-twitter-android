@@ -15,185 +15,106 @@
   limitations under the License.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/background"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:elevation="4dp"
-              android:background="?windowBackground">
+    android:id="@+id/background"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"  >
 
     <!-- Tweet's Content -->
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <!-- Tweet's Content -->
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
 
-            <!-- Tweet's Content -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tweet"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:fontFamily="sans-serif-strong"
+                android:textSize="18sp"
+                android:layout_marginBottom="6dp"
+                android:textIsSelectable="true"
+                android:textColor="?textColor" />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/extra_content"
+                android:visibility="invisible">
+
+                <LinearLayout
+                    android:id="@+id/youtube_view"
                     android:orientation="vertical"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?windowBackground"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="20dp">
+                    android:adjustViewBounds="true"
+                    android:layout_margin="5dp"
+                    />
 
-                <TextView
-                        android:id="@+id/tweet"
+                <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:id="@+id/gif_holder"
+                    android:gravity="center">
+
+                    <VideoView
+                        android:id="@+id/gif"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:fontFamily="sans-serif-strong"
-                        android:textSize="18sp"
-                        android:textIsSelectable="true"
-                        android:textColor="?textColor" />
+                        android:layout_centerInParent="true"/>
 
-                <TextView
-                        android:id="@+id/time"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="16dp"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-light"
-                        android:background="?android:selectableItemBackground"
-                        android:textColor="?textColor"
-                        android:alpha=".6"/>
+                    <LinearLayout android:id="@+id/spinner"
+                        android:orientation="vertical"
+                        android:layout_height="fill_parent"
+                        android:layout_width="fill_parent"
+                        android:gravity="center" >
 
-                <TextView
-                        android:id="@+id/retweeter"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-light"
-                        android:textColor="?textColor"
-                        android:visibility="gone"
-                        android:alpha=".6"/>
+                        <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.AppCompat.ProgressBar"
+                            android:indeterminateOnly="true" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/embedded_tweet_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="100dp"
-            android:maxWidth="300dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="12dp"
-            android:elevation="2dp"
-            card_view:cardCornerRadius="3dp"
-            card_view:cardBackgroundColor="?drawerBackground"
-            android:visibility="gone" />
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:paddingLeft="15dp"
-                      android:paddingRight="15dp"
-                      android:paddingBottom="16dp">
+            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/header_condensed_height"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_rect"
+                android:transitionName="image"
+                android:id="@+id/image"/>
 
+            <TextView
+                android:id="@+id/time"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-light"
+                android:background="?android:selectableItemBackground"
+                android:textColor="?textColor"
+                android:alpha=".6"/>
 
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:id="@+id/favorite"
-                          android:padding="12dp"
-                          android:background="?android:attr/selectableItemBackground" >
-
-                <TextView
-                        android:id="@+id/favorite_text"
-                        android:text="@string/favorite"
-                        android:textAllCaps="true"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="?textColor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <TextView
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:gravity="right"
-                        android:textColor="?textColor"
-                        android:fontFamily="sans-serif-light"
-                        android:alpha=".6"
-                        android:id="@+id/fav_count" />
-
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:orientation="horizontal"
-                          android:gravity="center_vertical"
-                          android:id="@+id/view_favoriters"
-                          android:background="?android:selectableItemBackground" >
-
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:id="@+id/favoriters"
-                        android:minHeight="36dp" android:minWidth="36dp"
-                        android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:id="@+id/retweet"
-                          android:padding="12dp"
-                          android:background="?android:attr/selectableItemBackground" >
-
-                <TextView
-                        android:id="@+id/retweet_text"
-                        android:text="@string/retweet_lower"
-                        android:textAllCaps="true"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="?textColor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <TextView
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:textSize="13sp"
-                        android:gravity="right"
-                        android:textColor="?textColor"
-                        android:fontFamily="sans-serif-light"
-                        android:alpha=".6"
-                        android:id="@+id/retweet_count" />
-
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:orientation="horizontal"
-                          android:gravity="center_vertical"
-                          android:id="@+id/view_retweeters"
-                          android:background="?android:selectableItemBackground">
-
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:id="@+id/retweeters"
-                        android:minHeight="36dp" android:minWidth="36dp"
-                        android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/retweeter"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?textColor"
+                android:visibility="gone"
+                android:alpha=".6"/>
 
         </LinearLayout>
 

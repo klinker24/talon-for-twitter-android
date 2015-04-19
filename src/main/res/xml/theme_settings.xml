@@ -62,7 +62,6 @@
         <CheckBoxPreference
             android:key="transparent_system_bars"
             android:title="@string/transparent_system_bars"
-            android:summary="@string/transparent_system_bars_summary"
             android:defaultValue="false"
             />
 
