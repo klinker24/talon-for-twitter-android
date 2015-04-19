@@ -61,7 +61,5 @@ public class NotiTweetActivity extends TweetActivity {
         } else if (screenName.equals(retweeter)) {
             isMyRetweet = true;
         }
-
-        tweet = restoreLinks(tweet);
     }
 }
