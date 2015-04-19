@@ -886,16 +886,23 @@ public class TweetActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
-                        Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
-                        photo.putExtra("shared_trans", true);
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context), image, "image");
-
-                            context.startActivity(photo, options.toBundle());
+                        if (webpage.contains(" ")) {
+                            picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), webpage);
+                            picsPopup.setFullScreen();
+                            picsPopup.setExpansionPointForAnim(view);
+                            picsPopup.show();
                         } else {
-                            context.startActivity(photo);
+                            Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
+                            photo.putExtra("shared_trans", true);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                ActivityOptions options = ActivityOptions
+                                        .makeSceneTransitionAnimation(((Activity) context), image, "image");
+
+                                context.startActivity(photo, options.toBundle());
+                            } else {
+                                context.startActivity(photo);
+                            }
                         }
                     }
                 }
