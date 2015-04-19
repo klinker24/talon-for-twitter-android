@@ -549,15 +549,29 @@ public class ComposeActivity extends Compose {
                     captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                     startActivityForResult(captureIntent, CAPTURE_IMAGE);
                 } else if (item == 1) { // attach picture
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(photoPickerIntent,
+                    try {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO);
+                    } catch (Exception e) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(Intent.createChooser(photoPickerIntent,
                                 "Select Picture"), SELECT_PHOTO);
+                    }
                 } else {
-                    Intent gifIntent = new Intent();
-                    gifIntent.setType("image/gif");
-                    gifIntent.setAction(Intent.ACTION_PICK);
-                    startActivityForResult(gifIntent, SELECT_GIF);
+                    try {
+                        Intent gifIntent = new Intent();
+                        gifIntent.setType("image/gif");
+                        gifIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(gifIntent, "Select GIF"), SELECT_GIF);
+                    } catch (Exception e) {
+                        Intent gifIntent = new Intent();
+                        gifIntent.setType("image/gif");
+                        gifIntent.setAction(Intent.ACTION_PICK);
+                        startActivityForResult(gifIntent, SELECT_GIF);
+                    }
                 }
             }
         });
