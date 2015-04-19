@@ -30,7 +30,7 @@ public class AlwaysLightShareActionProvider extends android.support.v7.widget.Sh
 
         // Set your drawable here
         Drawable icon =
-                mContext.getResources().getDrawable(R.drawable.ic_action_share_dark);
+                mContext.getResources().getDrawable(R.drawable.ic_tweet_share);
 
         Class clazz = chooserView.getClass();
 

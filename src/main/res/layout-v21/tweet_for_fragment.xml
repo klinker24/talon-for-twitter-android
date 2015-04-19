@@ -19,8 +19,7 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:elevation="4dp"
-              android:background="?windowBackground">
+              android:elevation="4dp" >
 
     <!-- Tweet's Content -->
     <LinearLayout
@@ -33,7 +32,6 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?windowBackground"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
