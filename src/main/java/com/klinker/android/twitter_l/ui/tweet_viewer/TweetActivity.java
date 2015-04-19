@@ -631,6 +631,10 @@ public class TweetActivity extends ActionBarActivity {
             findViewById(R.id.navigation_bar).setVisibility(View.GONE);
         }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            findViewById(R.id.navigation_bar).setVisibility(View.GONE);
+        }
+
         if (settings.transpartSystemBars) {
             navBarSeperator.setVisibility(View.INVISIBLE);
             status.setVisibility(View.INVISIBLE);
