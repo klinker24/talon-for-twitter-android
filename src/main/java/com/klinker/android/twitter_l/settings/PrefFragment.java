@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -918,8 +919,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && sharedPrefs.getInt("main_theme", 0) != 0) {
+            spinner.setPopupBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dark_background)));
+        }
 
         spinner.setSelection(sharedPrefs.getInt("main_theme", 0));
 
