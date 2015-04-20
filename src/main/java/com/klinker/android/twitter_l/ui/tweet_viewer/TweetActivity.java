@@ -990,7 +990,7 @@ public class TweetActivity extends ActionBarActivity {
             replyStuff = extraNames;
         }
 
-        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId);
+        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
         helper.setSecondAcc(secondAcc);
         helper.setBackground(findViewById(R.id.notify_scroll_view));
         helper.setWebLink(otherLinks);
