@@ -112,6 +112,10 @@ public class ExpansionViewHelper {
     boolean landscape;
 
     public ExpansionViewHelper(Context context, long tweetId) {
+        this(context, tweetId, false);
+    }
+
+    public ExpansionViewHelper(Context context, long tweetId, boolean windowedPopups) {
         this.context = context;
         this.settings = AppSettings.getInstance(context);
         this.id = tweetId;
@@ -121,12 +125,12 @@ public class ExpansionViewHelper {
 
         landscape = context.getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
-        setViews();
-        setClicks();
+        setViews(windowedPopups);
+        setClicks(windowedPopups);
         getInfo();
     }
 
-    private void setViews() {
+    private void setViews(boolean windowedPopups) {
         favCount = (TextView) expansion.findViewById(R.id.fav_count);
         favText = (TextView) expansion.findViewById(R.id.favorite_text);
         favoriteButton = expansion.findViewById(R.id.favorite);
@@ -196,7 +200,7 @@ public class ExpansionViewHelper {
         });
 
 
-        retweetersPopup = new RetweetersPopupLayout(context);
+        retweetersPopup = new RetweetersPopupLayout(context, windowedPopups);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             retweetersPopup.setWidthByPercent(.4f);
         } else {
@@ -204,7 +208,7 @@ public class ExpansionViewHelper {
         }
         retweetersPopup.setHeightByPercent(.4f);
 
-        favoritersPopup = new FavoritersPopupLayout(context);
+        favoritersPopup = new FavoritersPopupLayout(context, windowedPopups);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             favoritersPopup.setWidthByPercent(.4f);
         } else {
@@ -228,7 +232,7 @@ public class ExpansionViewHelper {
         replyList.setItemManager(builder.build());
     }
 
-    private void setClicks() {
+    private void setClicks(final boolean windowedPopups) {
 
         viewRetweeters.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,7 +367,7 @@ public class ExpansionViewHelper {
             public void onClick(View view) {
                 if (status != null) {
                     if (convoPopup == null) {
-                        convoPopup = new ConversationPopupLayout(context, convoLayout);
+                        convoPopup = new ConversationPopupLayout(context, convoLayout, windowedPopups);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 convoPopup.setWidthByPercent(.6f);
@@ -424,7 +428,7 @@ public class ExpansionViewHelper {
                     getTextFromSite(webLink, mobilizedBrowser, spinner, scrollView);
 
                     if (mobilizedPopup == null) {
-                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
+                        mobilizedPopup = new MobilizedWebPopupLayout(context, main, windowedPopups);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 mobilizedPopup.setWidthByPercent(.6f);
@@ -464,7 +468,7 @@ public class ExpansionViewHelper {
 
                     web.loadUrl(webLink);
                     if (webPopup == null) {
-                        webPopup = new WebPopupLayout(context, webLayout);
+                        webPopup = new WebPopupLayout(context, webLayout, windowedPopups);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 webPopup.setWidthByPercent(.6f);
