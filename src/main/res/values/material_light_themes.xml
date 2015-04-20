@@ -30,702 +30,702 @@
     <style name="Theme.TalonLight.Red" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Red" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Red" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Red" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Red" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Red" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/red_primary_color</item>
     </style>
 
     <!-- Pink -->
     <style name="Theme.TalonLight.Pink" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Pink" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Pink" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Pink" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Pink" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Pink" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
-        <item name="colorAccent">@color/pink_accent_color</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
     <!-- Purple -->
     <style name="Theme.TalonLight.Purple" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Purple" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Purple" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Purple" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Purple" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Purple" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
     </style>
 
     <!-- Deep Purple -->
     <style name="Theme.TalonLight.DeepPurple" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.DeepPurple" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.DeepPurple" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.DeepPurple" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.DeepPurple" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.DeepPurple" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
     <!-- Indigo -->
     <style name="Theme.TalonLight.Indigo" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Indigo" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Indigo" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Indigo" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Indigo" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Indigo" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
     </style>
 
     <!-- Blue -->
     <style name="Theme.TalonLight.Blue" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Blue" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Blue" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Blue" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Blue" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Blue" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
     <!-- Light Blue -->
     <style name="Theme.TalonLight.LightBlue" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.LightBlue" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.LightBlue" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.LightBlue" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.LightBlue" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.LightBlue" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/light_blue_accent_color</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
     </style>
 
     <!-- Cyan -->
     <style name="Theme.TalonLight.Cyan" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Cyan" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Cyan" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Cyan" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Cyan" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Cyan" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
-        <item name="colorAccent">@color/cyan_accent_color</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
     <!-- Teal -->
     <style name="Theme.TalonLight.Teal" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Teal" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Teal" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Teal" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Teal" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Teal" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/teal_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <!-- Green -->
     <style name="Theme.TalonLight.Green" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Green" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Green" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Green" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Green" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Green" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
     <!-- Light Green -->
     <style name="Theme.TalonLight.LightGreen" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.LightGreen" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.LightGreen" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.LightGreen" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.LightGreen" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.LightGreen" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
-        <item name="colorAccent">@color/light_green_accent_color</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
     </style>
 
     <!-- Lime -->
     <style name="Theme.TalonLight.Lime" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Lime" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Lime" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Lime" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Lime" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Lime" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
-        <item name="colorAccent">@color/lime_accent_color</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
     <!-- Yellow -->
     <style name="Theme.TalonLight.Yellow" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Yellow" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Yellow" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Yellow" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Yellow" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Yellow" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
-        <item name="colorAccent">@color/yellow_accent_color</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
     </style>
 
     <!-- Amber -->
     <style name="Theme.TalonLight.Amber" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Amber" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Amber" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Amber" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Amber" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Amber" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
-        <item name="colorAccent">@color/amber_accent_color</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
     <!-- Orange -->
     <style name="Theme.TalonLight.Orange" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Orange" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Orange" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Orange" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Orange" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Orange" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
     </style>
 
     <!-- Deep Orange -->
     <style name="Theme.TalonLight.DeepOrange" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.DeepOrange" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.DeepOrange" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.DeepOrange" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.DeepOrange" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.DeepOrange" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
     <!-- Brown -->
     <style name="Theme.TalonLight.Brown" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Brown" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Brown" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Brown" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Brown" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Brown" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/brown_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <!-- Grey -->
     <style name="Theme.TalonLight.Grey" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.Grey" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.Grey" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.Grey" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.Grey" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.Grey" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
-        <item name="colorAccent">@color/grey_accent_color</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
     <!-- Blue Grey -->
     <style name="Theme.TalonLight.BlueGrey" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.BlueGrey" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.BlueGrey" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.BlueGrey" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.BlueGrey" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.BlueGrey" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_grey_accent_color</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
 </resources>
