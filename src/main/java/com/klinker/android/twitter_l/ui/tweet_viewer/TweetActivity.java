@@ -626,12 +626,10 @@ public class TweetActivity extends ActionBarActivity {
         }
         navBarSeperator.setLayoutParams(navBar);
 
-        if (getResources().getBoolean(R.bool.isTablet)) {
+        if (getResources().getBoolean(R.bool.isTablet) ||
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                !Utils.hasNavBar(context)) {
             navBarSeperator.setVisibility(View.GONE);
-            findViewById(R.id.navigation_bar).setVisibility(View.GONE);
-        }
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             findViewById(R.id.navigation_bar).setVisibility(View.GONE);
         }
 
