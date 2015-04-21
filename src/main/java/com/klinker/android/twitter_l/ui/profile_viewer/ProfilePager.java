@@ -141,6 +141,10 @@ public class ProfilePager extends ActionBarActivity {
 
         nav.setLayoutParams(params);
 
+        if (!Utils.hasNavBar(context)) {
+            nav.setVisibility(View.GONE);
+        }
+
         if (!settings.transpartSystemBars) {
             new NavBarOverlayLayout(this).show();
         }
