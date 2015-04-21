@@ -552,8 +552,9 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent intent = new Intent();
                         intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO);
+                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(intent, SELECT_PHOTO);
                     } catch (Exception e) {
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                         photoPickerIntent.setType("image/*");
@@ -564,8 +565,9 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("image/gif");
-                        gifIntent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(gifIntent, "Select GIF"), SELECT_GIF);
+                        gifIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                        gifIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                        startActivityForResult(gifIntent, SELECT_GIF);
                     } catch (Exception e) {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("image/gif");
