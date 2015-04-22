@@ -37,6 +37,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.*;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -88,7 +89,7 @@ import org.lucasr.smoothie.AsyncListView;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public abstract class DrawerActivity extends ActionBarActivity implements SystemBarVisibility {
+public abstract class DrawerActivity extends AppCompatActivity implements SystemBarVisibility {
 
     public static AppSettings settings;
     public Activity context;

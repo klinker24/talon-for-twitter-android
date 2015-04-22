@@ -29,7 +29,7 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -74,7 +74,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class SearchedTrendsActivity extends ActionBarActivity {
+public class SearchedTrendsActivity extends AppCompatActivity {
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;

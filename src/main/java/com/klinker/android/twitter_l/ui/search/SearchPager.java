@@ -31,7 +31,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -61,7 +61,7 @@ import java.lang.reflect.Method;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SearchPager extends ActionBarActivity {
+public class SearchPager extends AppCompatActivity {
 
     private SearchPagerAdapter mSectionsPagerAdapter;
     public AppSettings settings;

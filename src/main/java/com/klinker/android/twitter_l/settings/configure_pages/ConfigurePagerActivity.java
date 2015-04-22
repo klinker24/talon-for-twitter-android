@@ -26,7 +26,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -40,7 +40,7 @@ import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 
-public class ConfigurePagerActivity extends ActionBarActivity {
+public class ConfigurePagerActivity extends AppCompatActivity {
 
     private ConfigurationPagerAdapter chooserAdapter;
     private Context context;

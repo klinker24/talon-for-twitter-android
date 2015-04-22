@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -26,7 +26,7 @@ import twitter4j.ResponseList;
 import twitter4j.SavedSearch;
 import twitter4j.Twitter;
 
-public class SearchChooser extends ActionBarActivity {
+public class SearchChooser extends AppCompatActivity {
 
     private Context context;
     private AppSettings settings;

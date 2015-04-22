@@ -24,7 +24,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 
@@ -38,7 +38,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class BrowserActivity extends ActionBarActivity {
+public class BrowserActivity extends AppCompatActivity {
 
     public AppSettings settings;
     public String url;

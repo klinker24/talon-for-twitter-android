@@ -11,7 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.*;
 import com.klinker.android.twitter_l.R;
@@ -20,7 +20,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class PhotoPagerActivity extends ActionBarActivity {
+public class PhotoPagerActivity extends AppCompatActivity {
 
     String url = null;
 

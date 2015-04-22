@@ -14,7 +14,7 @@ import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
 import android.transition.Transition;
@@ -44,7 +44,7 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PhotoViewerActivity extends ActionBarActivity {
+public class PhotoViewerActivity extends AppCompatActivity {
 
     public Context context;
     public HoloEditText text;

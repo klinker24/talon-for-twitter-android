@@ -34,7 +34,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -85,7 +85,7 @@ import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
-public class DirectMessageConversation extends ActionBarActivity {
+public class DirectMessageConversation extends AppCompatActivity {
 
     public AppSettings settings;
     private Context context;
