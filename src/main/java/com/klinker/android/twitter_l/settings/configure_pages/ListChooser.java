@@ -23,7 +23,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -43,7 +43,7 @@ import twitter4j.Twitter;
 import twitter4j.UserList;
 
 
-public class ListChooser extends ActionBarActivity {
+public class ListChooser extends AppCompatActivity {
 
     private Context context;
     private SharedPreferences sharedPrefs;

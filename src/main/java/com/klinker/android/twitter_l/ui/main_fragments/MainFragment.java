@@ -16,7 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -148,7 +148,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-        actionBar = ((ActionBarActivity)context).getSupportActionBar();
+        actionBar = ((AppCompatActivity)context).getSupportActionBar();
     }
 
     @Override

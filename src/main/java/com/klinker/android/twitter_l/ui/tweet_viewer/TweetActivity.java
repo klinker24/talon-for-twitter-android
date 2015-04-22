@@ -93,7 +93,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class TweetActivity extends ActionBarActivity {
+public class TweetActivity extends AppCompatActivity {
 
     public Context context;
     public AppSettings settings;

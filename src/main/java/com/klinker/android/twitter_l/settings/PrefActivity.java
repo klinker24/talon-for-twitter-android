@@ -8,7 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -16,7 +16,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class PrefActivity extends ActionBarActivity {
+public class PrefActivity extends AppCompatActivity {
 
     @Override
     public void finish() {

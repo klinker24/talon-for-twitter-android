@@ -28,7 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.AbsListView;
@@ -60,7 +60,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
-public class ChoosenListActivity extends ActionBarActivity {
+public class ChoosenListActivity extends AppCompatActivity {
 
     public AppSettings settings;
     private Context context;

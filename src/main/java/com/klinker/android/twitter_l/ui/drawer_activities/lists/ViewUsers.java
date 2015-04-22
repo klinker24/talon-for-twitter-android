@@ -26,7 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -49,7 +49,7 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-public class ViewUsers extends ActionBarActivity {
+public class ViewUsers extends AppCompatActivity {
 
     public AppSettings settings;
     private Context context;
