@@ -210,7 +210,7 @@ public class MainActivity extends DrawerActivity {
             startActivity(login);
         }
 
-        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false), this);
+        mSectionsPagerAdapter = new TimelinePagerAdapter(getFragmentManager(), context, sharedPrefs, getIntent().getBooleanExtra("from_launcher", false));
         int currAccount = sharedPrefs.getInt("current_account", 1);
         int defaultPage = sharedPrefs.getInt("default_timeline_page_" + currAccount, 0);
         actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(defaultPage));

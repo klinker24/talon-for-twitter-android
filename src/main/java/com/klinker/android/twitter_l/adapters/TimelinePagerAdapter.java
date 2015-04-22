@@ -56,12 +56,11 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     public int mentionIndex = -1;
 
     // remove the home fragment to swipe to, since it is on the launcher
-    public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome, SystemBarVisibility watcher) {
+    public TimelinePagerAdapter(FragmentManager fm, Context context, SharedPreferences sharedPreferences, boolean removeHome) {
         super(fm);
         this.context = context;
         this.sharedPrefs = sharedPreferences;
         this.removeHome = removeHome;
-        this.watcher = watcher;
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 
@@ -140,8 +139,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     names.add(getName(pageNames.get(i), pageTypes.get(i)));
                     break;
             }
-
-            ((MainFragment)frags.get(i)).addSystemBarVisibility(watcher);
         }
     }
 

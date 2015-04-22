@@ -1781,6 +1781,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     Handler toolBarVis;
 
     public void hideBars() {
+        Log.v("talon_app_bar", "hiding app bar");
+
         if (getResources().getBoolean(R.bool.has_drawer) && statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
         }

@@ -268,19 +268,34 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
 
         refreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
-        refreshLayout.setBarVisibilityWatcher(barVisibility);
+        refreshLayout.setBarVisibilityWatcher((MainActivity) getActivity());
 
         setUpHeaders();
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        setMoveActionBar();
+    }
+
+    private void setMoveActionBar() {
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        if (isTablet || landscape) {
+            moveActionBar = false;
+        } else {
+            moveActionBar = true;
+        }
+    }
+
     boolean moveActionBar = true;
     public void setUpListScroll() {
-        final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        if (isTablet || getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            moveActionBar = false;
-        }
+        setMoveActionBar();
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -297,7 +312,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 top.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (i == SCROLL_STATE_IDLE && absListView.getFirstVisiblePosition() == 0 && canUseScrollStuff) {
+                        if (i == SCROLL_STATE_IDLE && absListView.getFirstVisiblePosition() == 0 && cursorAdapter != null && !cursorAdapter.hasExpandedTweet) {
                             showStatusBar();
                             MainActivity.sendHandler.post(MainActivity.showSend);
                         } else if (absListView.getFirstVisiblePosition() == 0 && !toTopPressed) {
@@ -421,17 +436,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
             listView.smoothScrollToPosition(0);
         }
 
-        if (expansionHandler == null) {
-            expansionHandler = new Handler();
-        }
-
-        expansionHandler.removeCallbacksAndMessages(null);
-        expansionHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                canUseScrollStuff = true;
-            }
-        }, 3000);
     }
 
     public void onRefreshStarted() {
@@ -464,6 +468,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         downHandler.removeCallbacksAndMessages(null);
         emptyDownHandler = true;
 
+        setMoveActionBar();
+
         if (emptyUpHandler) {
             emptyUpHandler = false;
             upHandler.postDelayed(new Runnable() {
@@ -492,6 +498,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         upHandler.removeCallbacksAndMessages(null);
         emptyUpHandler = true;
 
+        setMoveActionBar();
+
         if (emptyDownHandler) {
             emptyDownHandler = false;
             downHandler.postDelayed(new Runnable() {
@@ -515,44 +523,16 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastDescription.setText(listView.getFirstVisiblePosition() + " " + fromTop);
     }
 
-    SystemBarVisibility barVisibility;
-
-    public void addSystemBarVisibility(SystemBarVisibility watcher) {
-        this.barVisibility = watcher;
-    }
-
-    public boolean statusIsShown = true;
-    public boolean ignoreVisibilityChange = false;
-    public Handler visibilityChange =  null;
-    public Runnable change = new Runnable() {
-        @Override
-        public void run() {
-            ignoreVisibilityChange = false;
-        }
-    };
 
     public void showStatusBar() {
-        if (visibilityChange == null) {
-            visibilityChange = new Handler();
-        }
-        if (/*!statusIsShown && !ignoreVisibilityChange &&*/ barVisibility != null) {
-            statusIsShown = true;
-            ignoreVisibilityChange = true;
-            visibilityChange.postDelayed(change, 1000);
-            barVisibility.showBars();
+        if (getActivity() != null) {
+            ((MainActivity)getActivity()).showBars();
         }
     }
 
     public void hideStatusBar() {
-        if (visibilityChange == null) {
-            visibilityChange = new Handler();
-        }
-
-        if (!refreshLayout.isRefreshing() && /*statusIsShown && !ignoreVisibilityChange &&*/ barVisibility != null) {
-            statusIsShown = false;
-            ignoreVisibilityChange = true;
-            visibilityChange.postDelayed(change, 1000);
-            barVisibility.hideBars();
+        if (getActivity() != null) {
+            ((MainActivity)getActivity()).hideBars();
         }
     }
 
@@ -680,8 +660,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     private int expandedDistanceFromTop = 0;
-    protected boolean canUseScrollStuff = true;
-    private Handler expansionHandler;
     private View background;
     private ExpansionViewHelper expansionHelper;
 
@@ -691,15 +669,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
             distanceFromTop = distanceFromTop + Utils.getStatusBarHeight(context);
         }
 
-        if (expansionHandler == null) {
-            expansionHandler = new Handler();
-        }
-        expansionHandler.removeCallbacks(null);
-
         background = root;
         expansionHelper = helper;
 
-        canUseScrollStuff = false;
         expandedDistanceFromTop = distanceFromTop;
 
         MainActivity.sendHandler.removeCallbacks(null);
@@ -717,20 +689,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     @Override
     public void expandViewClosed(int currentDistanceFromTop) {
-        if (expansionHandler == null) {
-            expansionHandler = new Handler();
-        }
 
         background = null;
         expansionHelper = null;
-
-        expansionHandler.removeCallbacks(null);
-        expansionHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                canUseScrollStuff = true;
-            }
-        }, currentDistanceFromTop == -1 ? 0 : 500);
 
         MainActivity.sendHandler.removeCallbacks(null);
         MainActivity.sendHandler.post(MainActivity.showSend);
