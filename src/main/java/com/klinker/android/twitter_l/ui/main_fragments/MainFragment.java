@@ -407,7 +407,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     public boolean toTopPressed = false;
     public void toTop() {
-        canUseScrollStuff = false;
         toTopPressed = true;
         showStatusBar();
         hideToastBar(300);

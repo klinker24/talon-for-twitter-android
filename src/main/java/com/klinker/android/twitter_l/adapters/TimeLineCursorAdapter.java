@@ -975,6 +975,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 public void run() {
                     holder.expandArea.setVisibility(View.GONE);
                     holder.expandArea.removeAllViews();
+                    hasExpandedTweet = false;
                 }
             }, ANIMATION_DURATION);
 
@@ -984,9 +985,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             holder.expandArea.setVisibility(View.GONE);
             expander.expandViewClosed(-1);
+            hasExpandedTweet = false;
         }
 
-        hasExpandedTweet = false;
     }
 
     protected void startAnimation(Animator animator) {
@@ -1005,6 +1006,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
+
+        hasExpandedTweet = true;
+
         final String text = holder.tweet.getText().toString();
         String extraNames = "";
         String replyStuff = "";
@@ -1160,7 +1164,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 holder.expandArea.addView(root);
 
-                hasExpandedTweet = true;
             }
 
             @Override
