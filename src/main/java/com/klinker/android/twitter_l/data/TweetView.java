@@ -51,6 +51,7 @@ public class TweetView {
     String profilePicUrl;
     String tweet;
     String time;
+    long longTime;
     String retweetText;
     String retweeter;
     String imageUrl;
@@ -102,6 +103,8 @@ public class TweetView {
     }
 
     public void setData(Status status) {
+
+        longTime = status.getCreatedAt().getTime();
 
         if (!settings.absoluteDate) {
             time = Utils.getTimeAgo(status.getCreatedAt().getTime(), context);
@@ -206,7 +209,7 @@ public class TweetView {
                 Intent viewTweet = new Intent(context, TweetActivity.class);
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenName);
-                viewTweet.putExtra("time", time);
+                viewTweet.putExtra("time", longTime);
                 viewTweet.putExtra("tweet", tweet);
                 viewTweet.putExtra("retweeter", retweeter);
                 viewTweet.putExtra("webpage", link);
