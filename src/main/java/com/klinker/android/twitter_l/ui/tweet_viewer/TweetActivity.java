@@ -1,53 +1,34 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.*;
-import android.app.FragmentTransaction;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
-import android.support.v4.app.*;
-import android.support.v4.view.MenuCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.text.Html;
 import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.*;
 
-import android.widget.ShareActionProvider;
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
@@ -57,8 +38,6 @@ import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.*;
 
@@ -66,32 +45,23 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
-import com.klinker.android.twitter_l.utils.api_helper.TwitterMultipleImageHelper;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.*;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class TweetActivity extends AppCompatActivity {
 
@@ -541,12 +511,18 @@ public class TweetActivity extends AppCompatActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         sharedPrefs.edit().putBoolean("from_activity", true).commit();
 
+        if (expansionHelper != null) {
+            expansionHelper.stop();
+        }
+
         super.finish();
     }
 
     public boolean hidePopups() {
         if (picsPopup != null && picsPopup.isShowing()) {
             picsPopup.hide();
+            return true;
+        } else if (expansionHelper != null && expansionHelper.hidePopups()) {
             return true;
         }
 
@@ -988,19 +964,21 @@ public class TweetActivity extends AppCompatActivity {
             replyStuff = extraNames;
         }
 
-        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
-        helper.setSecondAcc(secondAcc);
-        helper.setBackground(findViewById(R.id.notify_scroll_view));
-        helper.setWebLink(otherLinks);
-        helper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
-        helper.setUser(screenName);
-        helper.setText(text);
-        helper.setUpOverflow();
+        expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
+        expansionHelper.setSecondAcc(secondAcc);
+        expansionHelper.setBackground(findViewById(R.id.notify_scroll_view));
+        expansionHelper.setWebLink(otherLinks);
+        expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
+        expansionHelper.setUser(screenName);
+        expansionHelper.setText(text);
+        expansionHelper.setUpOverflow();
 
         LinearLayout ex = (LinearLayout) findViewById(R.id.expansion_area);
-        ex.addView(helper.getExpansion());
-        helper.startFlowAnimation();
+        ex.addView(expansionHelper.getExpansion());
+        expansionHelper.startFlowAnimation();
     }
+
+    private ExpansionViewHelper expansionHelper;
 
     public void hideExtraContent() {
         final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
