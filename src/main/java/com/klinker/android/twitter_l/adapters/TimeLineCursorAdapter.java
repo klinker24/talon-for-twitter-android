@@ -104,6 +104,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public static MultiplePicsPopup multPics;
     public boolean hasConvo = false;
 
+    public boolean hasExpandedTweet = false;
+
     public static class ViewHolder {
         public TextView name;
         public TextView muffledName;
@@ -350,7 +352,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
         if (holder.expandArea.getVisibility() != View.GONE) {
-            Log.v("talon_expander", "view is visible");
             removeExpansion(holder, false);
         }
 
@@ -973,27 +974,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 @Override
                 public void run() {
                     holder.expandArea.setVisibility(View.GONE);
+                    holder.expandArea.removeAllViews();
                 }
             }, ANIMATION_DURATION);
-        } else {
-            holder.expandArea.setVisibility(View.GONE);
-        }
 
-        if (anim) {
             // if they are just scrolling away from it, there is no reason to put them back at
             // their original position, so we don't call the expander method.
             expander.expandViewClosed((int) holder.rootView.getY());
         } else {
+            holder.expandArea.setVisibility(View.GONE);
             expander.expandViewClosed(-1);
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                holder.expandArea.removeAllViews();
-            }
-        }, ANIMATION_DURATION);
-
+        hasExpandedTweet = false;
     }
 
     protected void startAnimation(Animator animator) {
@@ -1166,6 +1159,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 helper.startFlowAnimation();
 
                 holder.expandArea.addView(root);
+
+                hasExpandedTweet = true;
             }
 
             @Override

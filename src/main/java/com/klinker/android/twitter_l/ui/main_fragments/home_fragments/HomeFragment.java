@@ -231,7 +231,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
         }
     };
 
-    public CursorAdapter returnAdapter(Cursor c) {
+    public TimeLineCursorAdapter returnAdapter(Cursor c) {
         return new TimeLineCursorAdapter(context, c, false, true, this);
     }
 
