@@ -52,7 +52,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     protected Twitter twitter;
 
     protected AsyncListView listView;
-    protected CursorAdapter cursorAdapter;
+    protected TimeLineCursorAdapter cursorAdapter;
     protected View toastBar;
     protected TextView toastDescription;
     protected TextView toastButton;
@@ -278,7 +278,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public void setUpListScroll() {
         final boolean isTablet = getResources().getBoolean(R.bool.isTablet);
 
-        if (isTablet || landscape) {
+        if (isTablet || getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             moveActionBar = false;
         }
 
@@ -310,7 +310,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int onScreen, int total) {
-                if (!canUseScrollStuff) {
+                if (cursorAdapter != null && cursorAdapter.hasExpandedTweet) {
 
                     if (expansionHelper != null) {
                         expansionHelper.hidePopups();
