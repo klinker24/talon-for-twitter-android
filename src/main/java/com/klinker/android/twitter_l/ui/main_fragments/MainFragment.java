@@ -285,7 +285,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
-        if (isTablet || landscape) {
+        if (isTablet || getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             moveActionBar = false;
         } else {
             moveActionBar = true;
@@ -522,7 +522,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         toastDescription.setText(listView.getFirstVisiblePosition() + " " + fromTop);
     }
-
 
     public void showStatusBar() {
         if (getActivity() != null) {
