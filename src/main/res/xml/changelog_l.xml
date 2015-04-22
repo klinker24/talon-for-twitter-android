@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.5.1">
+        <text>Fix issue with some timestamps</text>
+    </version>
+
     <version name="2.5.0">
         <text>New tweet viewer</text>
         <text>Pick the accent color separate from the main color</text>
