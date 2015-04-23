@@ -89,6 +89,10 @@ public class AppSettings {
     public static final int QUOTE_STYLE_TALON = 1;
     public static final int QUOTE_STYLE_RT = 2;
 
+    public static final int NAV_BAR_AUTOMATIC = 0;
+    public static final int NAV_BAR_PRESENT = 1;
+    public static final int NAV_BAR_NONE = 2;
+
     public String authenticationToken;
     public String authenticationTokenSecret;
     public String secondAuthToken;
@@ -188,6 +192,7 @@ public class AppSettings {
     public int numberOfAccounts = 0;
     public int pageToOpen;
     public int quoteStyle;
+    public int navBarOption;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -366,6 +371,7 @@ public class AppSettings {
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
+        navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));

@@ -542,7 +542,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         toastButton.setTextColor(settings.themeColors.accentColorLight);
 
-        if (!Utils.hasNavBar(getActivity())) {
+        if (!Utils.hasNavBar(getActivity()) ||
+                (!getResources().getBoolean(R.bool.isTablet) && landscape)) {
             toastBar.setTranslationY(Utils.toDP(48, getActivity()));
         }
 

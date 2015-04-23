@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.5.3">
+        <text>Option to manually specify whether you use a navigation bar (advanced settings)</text>
+    </version>
+
     <version name="2.5.2">
         <text>Bug fixes for tweet viewer</text>
         <text>Fix app bar not hiding correctly in some cases</text>
