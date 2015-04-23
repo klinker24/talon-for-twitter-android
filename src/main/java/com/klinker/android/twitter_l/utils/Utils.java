@@ -170,35 +170,45 @@ public class Utils {
     }
 
     public static boolean hasNavBar(Context context) {
-        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
+        switch (AppSettings.getInstance(context).navBarOption) {
+            case AppSettings.NAV_BAR_AUTOMATIC:
+                boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+                boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
 
-        if (hasBackKey && hasHomeKey) {
-            // no navigation bar, unless it is enabled in the settings
-            Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            Point realSize = new Point();
-            display.getSize(size);
-            display.getRealSize(realSize);
+                if (hasBackKey && hasHomeKey) {
+                    // no navigation bar, unless it is enabled in the settings
+                    Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    Point realSize = new Point();
+                    display.getSize(size);
+                    display.getRealSize(realSize);
 
-            if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
-                return false;
-            }
+                    if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
+                        return false;
+                    }
 
-            try {
-                return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
-            } catch (Exception e) {
-                Resources resources = context.getResources();
-                int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-                if (id > 0) {
-                    return resources.getBoolean(id);
+                    try {
+                        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+                    } catch (Exception e) {
+                        Resources resources = context.getResources();
+                        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+                        if (id > 0) {
+                            return resources.getBoolean(id);
+                        } else {
+                            return false;
+                        }
+                    }
                 } else {
-                    return false;
+                    return true;
                 }
-            }
-        } else {
-            return true;
+            case AppSettings.NAV_BAR_PRESENT:
+                return true;
+            case AppSettings.NAV_BAR_NONE:
+                return false;
+            default:
+                return true;
         }
+
     }
 
     // true if on mobile data

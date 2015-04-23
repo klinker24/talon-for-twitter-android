@@ -49,4 +49,9 @@
     <string name="when_talon_pull_on">Applied when Talon Pull is turned on.</string>
     <string name="transparent_system_bars">Use Transparent System Bars</string>
     <string name="accent_color">Accent Color</string>
+    <string name="nav_bar_option">Override Navigation Bar</string>
+    <string name="nav_bar_option_summary">Apps are not able to accurately find whether some devices have a navigation bar or not. Since Talon relies heavily on this for layouts, this option allows you to manually specify it.</string>
+    <string name="nav_bar_automatic">Automatically Determined</string>
+    <string name="nav_bar_present">Using a Nav Bar</string>
+    <string name="nav_bar_gone">Not Using a Nav Bar</string>
 </resources>

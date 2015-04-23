@@ -344,6 +344,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="nav_bar">
+        <item>@string/nav_bar_automatic</item>
+        <item>@string/nav_bar_present</item>
+        <item>@string/nav_bar_gone</item>
+    </string-array>
+
+    <string-array name="nav_bar_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="long_click_mentions">
         <item>@string/open_profile</item>
         <item>@string/copy_handle</item>
