@@ -201,7 +201,9 @@ public class MainActivity extends DrawerActivity {
             }
         });
 
-        if (!Utils.hasNavBar(this)) {
+        if (!Utils.hasNavBar(this) ||
+                (!getResources().getBoolean(R.bool.isTablet) &&
+                        getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
             MainActivity.sendButton.setTranslationY(Utils.toDP(48, this));
         }
 
