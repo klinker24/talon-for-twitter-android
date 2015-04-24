@@ -65,6 +65,16 @@
             android:defaultValue="false"
             />
 
+
+        <ListPreference
+            android:key="nav_bar_option"
+            android:title="@string/nav_bar_option"
+            android:summary="@string/nav_bar_option_summary"
+            android:defaultValue="0"
+            android:entries="@array/nav_bar"
+            android:entryValues="@array/nav_bar_inserted"
+            />
+
     </PreferenceCategory>
 
     <!--<PreferenceCategory
