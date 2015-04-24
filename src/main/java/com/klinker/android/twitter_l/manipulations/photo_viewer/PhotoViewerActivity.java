@@ -12,8 +12,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
@@ -169,6 +171,8 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 hideSystemUI();
             }
         }, 6000);
+
+        showDialogAboutSwiping();
     }
 
     public void downloadImage() {
@@ -418,5 +422,22 @@ public class PhotoViewerActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    private void showDialogAboutSwiping() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPrefs.getBoolean("show_swipe_dialog", true)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Tip:")
+                    .setMessage("You can close the photo viewer by swiping up or down on the picture!")
+                    .setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sharedPrefs.edit().putBoolean("show_swipe_dialog", false).commit();
+                        }
+                    })
+                    .show();
+        }
     }
 }
