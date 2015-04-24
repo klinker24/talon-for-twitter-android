@@ -72,9 +72,47 @@
             There are of course advantages to this page over Talon Pull's "Streaming" method as well. The foremost being battery and data saving.
 
             So pick the method you want and works best for you. On Lollipop, the battery effects of Talon Pull are unbearable, whereas they aren't nearly as severe on KitKat and below.﻿
+
+
+            What if it isn't working?
+            Some of what goes into the activity page depends on pieces outside if Twitter's API. I know some people have issues with it, unfortunately I don't think they will be fixed until Twitter opens things up more.﻿
         </text>
 
     </question>
+
+    <question
+            name="UI extras flying in and out of the screen"
+            description="Why do the app bar, snackbar, and floating action button hide the way they do?">
+
+        <text>
+            In the plus version of Talon, by default, these UI extras hide as you are scrolling up the timeline. This is different than many apps do it, but that is because Talon is designed to be used in a bottom up approach.
+
+            It is assumed that you are seeing all new tweets as you scroll up from your current position and that you have already gone over the tweets as you scroll down. So, when viewing the new tweets, Talon will give you the full screen, but when checking out old tweets, you will see these UI extras/navigation helpers on the screen as well.
+
+            If you would rather have the app use the top-down style (similar to Google+), there is an option for this under advanced settings.﻿
+        </text>
+    </question>
+
+    <question
+        name="Reverse long and short clicks on the timeline"
+        description="Can I do it?">
+
+        <text>
+            Lots of people have asked lately if there is a way to disable the expansion and go right to the tweet viewer when single tapping a tweet from your timeline.
+
+            While the plus version doesn't have a specific setting for this (and will never get a separate setting for this), if you use the Picture Below Tweet option under UI Settings, you will obtain this functionality.﻿
+        </text>
+    </question>
+
+    <question
+        name="Closing the picture viewer"
+        description="Why do I have to hit the back button?">
+
+        <text>
+            You don't have to hit the back button. The single click will always hide and show the navigation and status bars in the plus version of Talon. You do not have to press the back button to exit though, you can simply swipe up or down and it will close the picture.﻿
+        </text>
+    </question>
+
     <question
             name="Talon Pull Notification"
             description="I do not like it in the drawer, can I remove it?">
