@@ -1134,6 +1134,8 @@ public class ProfilePager extends AppCompatActivity {
 
     class FollowUser extends AsyncTask<String, Void, Boolean> {
 
+        private Exception e = null;
+
         protected Boolean doInBackground(String... urls) {
             try {
                 if (thisUser != null) {
@@ -1160,6 +1162,7 @@ public class ProfilePager extends AppCompatActivity {
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
+                this.e = e;
                 return null;
             }
         }
@@ -1177,7 +1180,7 @@ public class ProfilePager extends AppCompatActivity {
                     followText.setText(getString(R.string.menu_follow));
                 }
             } else {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             if(settings.liveStreaming) {

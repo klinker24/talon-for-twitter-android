@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.5.4">
+        <text>Improve FAQ</text>
+    </version>
+
     <version name="2.5.3">
         <text>Option to manually specify whether you use a navigation bar (advanced settings)</text>
     </version>
