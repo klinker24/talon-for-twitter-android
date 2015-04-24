@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 public class MainPrefFrag extends PreferenceFragment {
 
@@ -59,7 +60,8 @@ public class MainPrefFrag extends PreferenceFragment {
             "browser_settings",
             "advanced_settings",
             "main_pages_and_drawer",
-            "memory_management"
+            "memory_management",
+            "get_help"
     };
 
     public void setClicks() {
@@ -70,7 +72,11 @@ public class MainPrefFrag extends PreferenceFragment {
             p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    showSettings(num, preference.getTitle().toString());
+                    if (!titles[num].equals("get_help")) {
+                        showSettings(num, preference.getTitle().toString());
+                    } else {
+                        showGetHelp();
+                    }
                     return false;
                 }
             });
@@ -83,5 +89,9 @@ public class MainPrefFrag extends PreferenceFragment {
                 .putExtra("title", title));
 
         getActivity().finish();
+    }
+
+    private void showGetHelp() {
+        XmlFaqUtils.showFaqDialog(getActivity());
     }
 }

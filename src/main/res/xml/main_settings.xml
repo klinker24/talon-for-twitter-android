@@ -50,4 +50,8 @@
                 android:title="@string/memory_manage"
                 android:icon="?memManagement" />
 
+    <Preference android:key="get_help"
+        android:title="@string/faq"
+        android:icon="?getHelp" />
+
 </PreferenceScreen>
