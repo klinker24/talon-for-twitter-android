@@ -81,6 +81,19 @@
     </question>
 
     <question
+        name="Navigation bar covers the floating action button and snackbar"
+        description="I can't tweet right now...">
+
+        <text>
+            Unfortunately, there is not a direct method in Android to tell if the user is using a navigation bar on their device or if they have hardware buttons. Most of the time I am able to find it automatically, but on some devices this will never work.
+
+            Since some of Talon's layout depend pretty heavily on whether or not you have a navigation bar, Talon allows you to specify it manually from UI Settings.
+
+            If the automatic method is working for you, there is no reason to use this setting though.
+        </text>
+    </question>
+
+    <question
             name="UI extras flying in and out of the screen"
             description="Why do the app bar, snackbar, and floating action button hide the way they do?">
 
