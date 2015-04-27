@@ -1053,7 +1053,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
 
-        final ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
+        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId);
         helper.setSecondAcc(secondAcc);
         helper.setBackground(holder.background);
         helper.setWebLink(otherLinks);
@@ -1149,16 +1149,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+
+                if (holder.expandArea.getChildCount() > 0) {
+                    holder.expandArea.removeAllViews();
+                }
+                
                 holder.expandArea.setMinimumHeight(distance);
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
                 View root = helper.getExpansion();
 
-
                 helper.startFlowAnimation();
 
-                holder.expandArea.removeAllViews();
                 holder.expandArea.addView(root);
 
             }
