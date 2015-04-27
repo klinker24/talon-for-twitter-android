@@ -1155,13 +1155,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 View root = helper.getExpansion();
 
-                /*ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
-                alpha.setDuration(300);
-                alpha.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(alpha);*/
 
                 helper.startFlowAnimation();
 
+                holder.expandArea.removeAllViews();
                 holder.expandArea.addView(root);
 
             }
