@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
@@ -34,6 +35,7 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
@@ -57,11 +59,14 @@ import java.net.Proxy;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -69,6 +74,7 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
 
+    public Map<Long, Status> quotedTweets = new HashMap<>();
     public Set<String> muffledUsers = new HashSet<String>();
     public Cursor cursor;
     public AppSettings settings;
@@ -121,6 +127,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public ImageView isAConversation;
         public FrameLayout imageHolder;
         public View rootView;
+        public CardView embeddedTweet;
 
         public long tweetId;
         public boolean isFavorited;
@@ -302,6 +309,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
+        holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
 
         if (!settings.bottomPictures) {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
@@ -353,6 +361,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
+        }
+
+        if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
+            holder.embeddedTweet.removeAllViews();
+            holder.embeddedTweet.setVisibility(View.GONE);
         }
 
         final long id = cursor.getLong(TWEET_COL);
@@ -863,6 +876,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
+                    if (otherUrl.contains("/status/")) {
+                        loadEmbeddedTweet(holder, otherUrl);
+                    }
                 }
             }
         }, 400);
@@ -872,7 +888,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             currHandler = 0;
         }
 
-
+        if (otherUrl.contains("/status/")) {
+            holder.embeddedTweet.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -1061,6 +1079,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         helper.setUser(screenname);
         helper.setText(text);
         helper.setUpOverflow();
+        helper.showEmbedded(false);
         holder.expandHelper = helper;
 
         if (secondAcc) {
@@ -1215,6 +1234,53 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void loadEmbeddedTweet(final ViewHolder holder, final String otherUrls) {
+
+        holder.embeddedTweet.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Long embeddedId = 0l;
+                for (String u : otherUrls.split(" ")) {
+                    if (u.contains("/status/")) {
+                        embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
+                        break;
+                    }
+                }
+
+                if (embeddedId != 0l) {
+                    Status status = null;
+                    if (quotedTweets.containsKey(embeddedId)) {
+                        status = quotedTweets.get(embeddedId);
+                    } else {
+                        try {
+                            status = getTwitter().showStatus(embeddedId);
+                            quotedTweets.put(embeddedId, status);
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    final Status embedded = status;
+
+                    if (status != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TweetView v = new TweetView(context, embedded);
+                                v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+                                v.hideImage(true);
+
+                                holder.embeddedTweet.addView(v.getView());
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
     }
 
     // used to place images on the timeline

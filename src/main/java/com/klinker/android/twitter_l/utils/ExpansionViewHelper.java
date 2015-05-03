@@ -580,6 +580,14 @@ public class ExpansionViewHelper {
         context.startActivity(share);
     }
 
+
+    private boolean showEmbeddded = true;
+
+    public void showEmbedded(boolean show) {
+        showEmbeddded = show;
+        embeddedTweetCard.setVisibility(View.GONE);
+    }
+
     String webLink = null;
     long embeddedTweetId = 0l;
     public boolean shareOnWeb = false;
@@ -1229,7 +1237,7 @@ public class ExpansionViewHelper {
                 Twitter twitter = getTwitter();
 
                 try {
-                    if (embeddedTweetId != 0l) {
+                    if (embeddedTweetId != 0l && showEmbeddded) {
                         final Status embedded = twitter.showStatus(embeddedTweetId);
 
                         if (embedded != null) {
