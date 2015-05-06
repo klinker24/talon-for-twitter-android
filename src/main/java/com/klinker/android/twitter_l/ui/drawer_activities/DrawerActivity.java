@@ -1696,7 +1696,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (getResources().getBoolean(R.bool.has_drawer)) {
                 getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-                if (statusBar.getVisibility() != View.VISIBLE) {
+                if (statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
                     statusBar.setVisibility(View.VISIBLE);
                 }
             } else {

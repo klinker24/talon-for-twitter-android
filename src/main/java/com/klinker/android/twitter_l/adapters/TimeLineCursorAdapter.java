@@ -888,7 +888,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             currHandler = 0;
         }
 
-        if (otherUrl.contains("/status/")) {
+        if (otherUrl != null && otherUrl.contains("/status/")) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
         }
 
