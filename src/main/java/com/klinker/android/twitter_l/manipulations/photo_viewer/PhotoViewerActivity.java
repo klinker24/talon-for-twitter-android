@@ -431,7 +431,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("Tip:")
                     .setMessage("You can close the photo viewer by swiping up or down on the picture!")
-                    .setPositiveButton(R.id.ok, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             sharedPrefs.edit().putBoolean("show_swipe_dialog", false).commit();

@@ -1172,7 +1172,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (holder.expandArea.getChildCount() > 0) {
                     holder.expandArea.removeAllViews();
                 }
-                
+
                 holder.expandArea.setMinimumHeight(distance);
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
