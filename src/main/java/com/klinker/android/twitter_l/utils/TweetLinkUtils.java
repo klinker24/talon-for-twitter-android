@@ -561,7 +561,7 @@ public class TweetLinkUtils {
             String id = link.substring(index);
             id = id.substring(id.indexOf("?"));
             id = id.replace("?", "");
-            
+
             try {
                 return Long.parseLong(id);
             } catch (Exception e) {
