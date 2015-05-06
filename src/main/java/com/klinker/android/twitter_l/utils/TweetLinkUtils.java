@@ -559,7 +559,14 @@ public class TweetLinkUtils {
             int index = link.indexOf("/status/") + "/status/".length();
 
             String id = link.substring(index);
-            return Long.parseLong(id);
+            id = id.substring(id.indexOf("?"));
+            id = id.replace("?", "");
+            
+            try {
+                return Long.parseLong(id);
+            } catch (Exception e) {
+                return 0l;
+            }
         }
     }
 }
