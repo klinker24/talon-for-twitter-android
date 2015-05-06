@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="2.5.5">
+        <text>Improvements for embedded tweets</text>
+        <text>Bug fixes</text>
+    </version>
+    
     <version name="2.5.4">
         <text>Various improvements</text>
     </version>
