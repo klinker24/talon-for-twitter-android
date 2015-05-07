@@ -876,7 +876,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-                    if (otherUrl.contains("/status/")) {
+                    if (otherUrl != null && otherUrl.contains("/status/")) {
                         loadEmbeddedTweet(holder, otherUrl);
                     }
                 }

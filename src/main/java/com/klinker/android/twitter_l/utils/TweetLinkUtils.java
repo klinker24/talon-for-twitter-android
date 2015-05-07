@@ -559,8 +559,15 @@ public class TweetLinkUtils {
             int index = link.indexOf("/status/") + "/status/".length();
 
             String id = link.substring(index);
-            id = id.substring(id.indexOf("?"));
-            id = id.replace("?", "");
+
+            if (id.contains("?")) {
+                try {
+                    id = id.substring(id.indexOf("?"));
+                    id = id.replace("?", "");
+                } catch (Exception e) {
+
+                }
+            }
 
             try {
                 return Long.parseLong(id);
