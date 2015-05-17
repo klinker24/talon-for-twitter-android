@@ -100,6 +100,11 @@ public class SecondAccMentionsFragment extends MentionsFragment {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        if (!isAdded()) {
+                            return;
+                        }
+
                         Cursor c = null;
                         if (cursorAdapter != null) {
                             c = cursorAdapter.getCursor();
