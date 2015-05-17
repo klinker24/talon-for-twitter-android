@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="2.6.1">
+        <text>Bug fixes</text>
+        <text>Translation updates</text>
+    </version>
+
     <version name="2.6.0">
         <text>Return of the Android Wear app to view your timeline</text>
     </version>
