@@ -484,12 +484,16 @@ public class AppSettings {
     }
 
     protected void setValue(String key, int value, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        try {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        sharedPreferences.edit()
-                .putInt(key, value)
-                .commit();
+            sharedPreferences.edit()
+                    .putInt(key, value)
+                    .commit();
+        } catch (Exception e) {
+
+        }
 
     }
 

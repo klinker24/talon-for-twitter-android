@@ -220,6 +220,10 @@ public class FavoriteTweetsFragment extends MainFragment {
                     @Override
                     public void run() {
 
+                        if (!isAdded()) {
+                            return;
+                        }
+
                         Cursor c = null;
                         if (cursorAdapter != null) {
                             c = cursorAdapter.getCursor();

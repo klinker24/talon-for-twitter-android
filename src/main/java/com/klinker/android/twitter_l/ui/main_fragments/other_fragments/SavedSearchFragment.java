@@ -107,6 +107,11 @@ public class SavedSearchFragment extends MainFragment {
                         ((Activity)context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
+                                if (!isAdded()) {
+                                    return;
+                                }
+
                                 int top = 0;
                                 for (int i = 0; i < tweets.size(); i++) {
                                     if (tweets.get(i).getId() == topId) {
