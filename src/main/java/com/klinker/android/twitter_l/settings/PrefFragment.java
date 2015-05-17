@@ -770,7 +770,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         grid.setNumColumns(cols);
 
         final List<ThemeColor> colors = getAccentColors();
-        final AlertDialog dialog = buildColorPickerDialog(scrollParent);
+        final AlertDialog dialog = buildColorPickerDialog(scrollParent, getString(R.string.accent_color));
 
         AccentPickerAdapter adapter = new AccentPickerAdapter(getActivity(), colors, new View.OnClickListener() {
             @Override
@@ -803,7 +803,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         grid.setNumColumns(cols);
 
         final List<ThemeColor> colors = getThemeColors();
-        final AlertDialog dialog = buildColorPickerDialog(scrollParent);
+        final AlertDialog dialog = buildColorPickerDialog(scrollParent, getString(R.string.theme));
 
         ColorPickerAdapter adapter = new ColorPickerAdapter(getActivity(), colors, new View.OnClickListener() {
             @Override
@@ -872,10 +872,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         return new GridView(getActivity());
     }
 
-    AlertDialog buildColorPickerDialog(View layout) {
+    AlertDialog buildColorPickerDialog(View layout, String title) {
         return new AlertDialog.Builder(getActivity())
                 .setView(layout)
-                .setTitle(R.string.theme)
+                .setTitle(title)
                 .create();
     }
 

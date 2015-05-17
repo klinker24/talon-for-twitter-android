@@ -59,6 +59,7 @@ import com.klinker.android.twitter_l.adapters.CursorListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -240,6 +241,10 @@ public class DirectMessageConversation extends AppCompatActivity {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) status.getLayoutParams();
             params.height = Utils.getStatusBarHeight(this);
             status.setLayoutParams(params);
+        }
+
+        if (!settings.transpartSystemBars) {
+            new NavBarOverlayLayout(this).show();
         }
     }
 

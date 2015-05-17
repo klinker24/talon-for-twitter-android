@@ -49,6 +49,7 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -181,6 +182,10 @@ public class SearchPager extends AppCompatActivity {
 
         if (onlyProfile) {
             mViewPager.setCurrentItem(2);
+        }
+
+        if (!settings.transpartSystemBars) {
+            new NavBarOverlayLayout(this).show();
         }
     }
 
