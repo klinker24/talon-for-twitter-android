@@ -16,7 +16,7 @@
   limitations under the License.
   -->
 
-<com.klinker.android.twitter.view.WearableListItemLayout
+<com.klinker.android.twitter_l.view.WearableListItemLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -38,4 +38,4 @@
             android:fontFamily="sans-serif-condensed-light"
             android:lineSpacingExtra="-4sp"
             android:textSize="18sp"/>
-</com.klinker.android.twitter.view.WearableListItemLayout>
+</com.klinker.android.twitter_l.view.WearableListItemLayout>
