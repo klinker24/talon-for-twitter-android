@@ -1274,6 +1274,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.hideImage(true);
 
+                                holder.embeddedTweet.removeAllViews();
                                 holder.embeddedTweet.addView(v.getView());
                             }
                         });

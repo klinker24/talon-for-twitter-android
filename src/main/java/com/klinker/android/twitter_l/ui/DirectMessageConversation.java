@@ -242,10 +242,6 @@ public class DirectMessageConversation extends AppCompatActivity {
             params.height = Utils.getStatusBarHeight(this);
             status.setLayoutParams(params);
         }
-
-        if (!settings.transpartSystemBars) {
-            new NavBarOverlayLayout(this).show();
-        }
     }
 
     public void setUpWindow() {
