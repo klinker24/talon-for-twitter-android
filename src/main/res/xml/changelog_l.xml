@@ -2,6 +2,7 @@
 
     <version name="2.6.2">
         <text>Never open Meerkat and Periscope links to the internal browser.</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="2.6.1">
