@@ -4,6 +4,7 @@
         <text>Fix issue for refreshing the widget</text>
         <text>Fix 24 hour clock on the tweet viewer</text>
         <text>Fix weirdness when rotating YouTube video</text>
+        <text>Fix links when using the older quote styles</text>
         <text>Other various bug fixes</text>
     </version>
 
