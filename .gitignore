@@ -8,3 +8,4 @@ readme.md~
 local.properties
 **/.DS_STORE
 **/*.mp4
+*.DS_STORE
