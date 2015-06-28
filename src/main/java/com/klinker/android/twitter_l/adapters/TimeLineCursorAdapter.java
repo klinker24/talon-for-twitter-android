@@ -173,7 +173,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        transparent = new ColorDrawable(android.R.color.transparent);
+        transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
 
         mHandlers = new Handler[10];
         for (int i = 0; i < 10; i++) {

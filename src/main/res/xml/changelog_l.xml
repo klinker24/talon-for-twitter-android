@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="2.6.3">
+        <text>Fix issue for refreshing the widget</text>
+        <text>Fix 24 hour clock on the tweet viewer</text>
+    </version>
+
     <version name="2.6.2">
         <text>Never open Meerkat and Periscope links to the internal browser.</text>
         <text>Bug fixes</text>
