@@ -276,9 +276,13 @@ public class TweetActivity extends AppCompatActivity {
 
                     }
             );
+
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.youtube_view, fragment);
+
+            ft.replace(R.id.youtube_view, fragment);
             ft.commit();
+
+            image.setVisibility(View.GONE);
         }
 
         VideoView gif = (VideoView) findViewById(R.id.gif);

@@ -3,6 +3,8 @@
     <version name="2.6.3">
         <text>Fix issue for refreshing the widget</text>
         <text>Fix 24 hour clock on the tweet viewer</text>
+        <text>Fix weirdness when rotating YouTube video</text>
+        <text>Other various bug fixes</text>
     </version>
 
     <version name="2.6.2">
