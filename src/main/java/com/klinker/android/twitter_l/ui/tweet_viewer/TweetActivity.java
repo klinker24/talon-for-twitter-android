@@ -46,6 +46,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -907,9 +908,11 @@ public class TweetActivity extends AppCompatActivity {
         String timeDisplay;
 
         if (!settings.militaryTime) {
-            timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.US).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US).format(time);
+            timeDisplay = android.text.format.DateFormat.getDateFormat(context).format(time) + " " +
+                    android.text.format.DateFormat.getDateFormat(context).format(time);
         } else {
-            timeDisplay = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.GERMAN).format(time) + " " + DateFormat.getTimeInstance(DateFormat.SHORT, Locale.GERMAN).format(time);
+            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + " " +
+                    android.text.format.DateFormat.getDateFormat(context).format(time);
         }
 
         timetv.setText(timeDisplay);
