@@ -1317,6 +1317,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         e.commit();
 
         DrawerActivity.settings = AppSettings.getInstance(context);
+
+        if (!settings.pushNotifications || !settings.useInteractionDrawer) {
+            try {
+                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+            } catch (Exception x) {
+                // no drawer?
+            }
+        }
     }
 
     private SearchView searchView;
