@@ -337,9 +337,11 @@ public class ExpansionViewHelper {
                         text = " " + "https://twitter.com/" + screenName + "/status/" + id;
                         break;
                     case AppSettings.QUOTE_STYLE_TALON:
+                        text = restoreLinks(text);
                         text = "\"@" + screenName + ": " + text + "\" ";
                         break;
                     case AppSettings.QUOTE_STYLE_RT:
+                        text = restoreLinks(text);
                         text = " RT @" + screenName + ": " + text;
                         break;
                 }
