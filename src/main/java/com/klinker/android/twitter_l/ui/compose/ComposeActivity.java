@@ -103,7 +103,8 @@ public class ComposeActivity extends Compose {
                                     currentName.setText("@" + settings.myScreenName);
 
                                     String tweetText = reply.getText().toString();
-                                    tweetText = tweetText.replace("@" + settings.myScreenName, "");
+                                    tweetText = tweetText.replace("@" + settings.myScreenName + " ", "")
+                                                    .replace("@" + settings.myScreenName, "");
 
                                     reply.setText(tweetText);
 
@@ -116,7 +117,8 @@ public class ComposeActivity extends Compose {
                                     currentName.setText("@" + settings.secondScreenName);
 
                                     tweetText = reply.getText().toString();
-                                    tweetText = tweetText.replace("@" + settings.secondScreenName, "");
+                                    tweetText = tweetText.replace("@" + settings.secondScreenName + " ", "")
+                                                    .replace("@" + settings.secondScreenName, "");
 
                                     reply.setText(tweetText);
 
