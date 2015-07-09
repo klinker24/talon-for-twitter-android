@@ -912,7 +912,7 @@ public class TweetActivity extends AppCompatActivity {
         String timeDisplay;
 
         if (!settings.militaryTime) {
-            timeDisplay = android.text.format.DateFormat.getDateFormat(context).format(time) + " " +
+            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + " " +
                     android.text.format.DateFormat.getDateFormat(context).format(time);
         } else {
             timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + " " +

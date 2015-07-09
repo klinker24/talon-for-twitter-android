@@ -111,7 +111,12 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, HomeExtensionFragment.this);
+                        if (cursorAdapter != null) {
+                            TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, HomeExtensionFragment.this);
+                            cursorAdapter.setQuotedTweets(HomeExtensionFragment.this.cursorAdapter.getQuotedTweets());
+                            HomeExtensionFragment.this.cursorAdapter = cursorAdapter;
+                        }
+
                         if (bSpinner) {
                             try {
                                 spinner.setVisibility(View.GONE);

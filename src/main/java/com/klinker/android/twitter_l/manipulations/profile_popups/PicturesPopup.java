@@ -2,9 +2,13 @@ package com.klinker.android.twitter_l.manipulations.profile_popups;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -100,6 +104,31 @@ public class PicturesPopup extends PopupLayout {
         doSearch();
 
         content.addView(root);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (sharedPreferences.getBoolean("show_profile_pictures_helper_dialog", true)) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.tip_title)
+                    .setMessage(R.string.profile_pictures_helper_message)
+                    .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sharedPreferences.edit().putBoolean("show_profile_pictures_helper_dialog", false).commit();
+                        }
+                    })
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .create().show();
+        }
     }
 
     public void doSearch() {

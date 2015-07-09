@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.ui.main_fragments;
 
 import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -602,6 +603,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
             });
             anim.setDuration(length);
             toastBar.startAnimation(anim);
+
+            ObjectAnimator toastBarAlpha = ObjectAnimator.ofFloat(toastBar, View.ALPHA, 0f, 1f);
+            toastBarAlpha.setDuration(length);
+            toastBarAlpha.setInterpolator(anim.getInterpolator());
+            toastBarAlpha.start();
         }
     }
 

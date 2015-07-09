@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="2.6.4">
+        <text>Improve smoothness and fluidity on timeline</text>
+        <text>Improve efficiency of loading quoted tweets</text>
+        <text>Get real followers, friends, and tweets counts on profile by long clicking the buttons</text>
+        <text>Fix some instances of overlapping text on expansion</text>
+        <text>Fix bad dates on the tweet viewer</text>
+        <text>Added tip dialog when opening pictures on a users' profile</text>
+    </version>
+
     <version name="2.6.3">
         <text>Fix issue for refreshing the widget</text>
         <text>Fix 24 hour clock on the tweet viewer</text>

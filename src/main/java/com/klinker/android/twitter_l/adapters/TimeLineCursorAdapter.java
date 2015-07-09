@@ -66,6 +66,8 @@ import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import lombok.Getter;
+import lombok.Setter;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -74,7 +76,9 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
 
+    @Getter @Setter
     public Map<Long, Status> quotedTweets = new HashMap<>();
+
     public Set<String> muffledUsers = new HashSet<String>();
     public Cursor cursor;
     public AppSettings settings;
@@ -102,6 +106,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public java.text.DateFormat timeFormatter;
 
     public boolean isHomeTimeline;
+
+    public int embeddedTweetMinHeight = 0;
 
     public int contentHeight = 0;
     public int headerMultiplier = 0;
@@ -221,6 +227,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             CONVO_COL = -1;
         }
+
+        embeddedTweetMinHeight = Utils.toDP(140, context);
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
@@ -366,6 +374,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
+            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
         final long id = cursor.getLong(TWEET_COL);
@@ -876,7 +885,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-                    if (otherUrl != null && otherUrl.contains("/status/")) {
+                    if (otherUrl != null && otherUrl.contains("/status/") &&
+                            holder.embeddedTweet.getChildCount() == 0) {
                         loadEmbeddedTweet(holder, otherUrl);
                     }
                 }
@@ -890,8 +900,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (otherUrl != null && otherUrl.contains("/status/")) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
+            tryImmediateEmbeddedLoad(holder, otherUrl);
+        }
+    }
+
+    private void tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
+        Long embeddedId = 0l;
+        for (String u : otherUrl.split(" ")) {
+            if (u.contains("/status/")) {
+                embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
+                break;
+            }
         }
 
+        if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
+            Status status = quotedTweets.get(embeddedId);
+            TweetView v = new TweetView(context, status);
+            v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+            v.hideImage(true);
+
+            holder.embeddedTweet.removeAllViews();
+            holder.embeddedTweet.addView(v.getView());
+            holder.embeddedTweet.setMinimumHeight(0);
+        }
     }
 
     @Override
@@ -1012,16 +1043,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         animator.start();
     }
 
-    public static final int ANIMATION_DURATION = 300;
-    public static Interpolator ANIMATION_INTERPOLATOR;
-
-    static {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ANIMATION_INTERPOLATOR = new PathInterpolator(.1f,.1f,.2f,1f);
-        } else {
-            ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
-        }
-    }
+    public static final int ANIMATION_DURATION = 400;
+    public static Interpolator ANIMATION_INTERPOLATOR = new AccelerateInterpolator();
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
 
@@ -1129,7 +1152,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(widthAnimator);
 
-        final int headerHeight = (int) (contentHeight * .5);
+        final int headerHeight = (int) context.getResources().getDimension(R.dimen.header_expanded_height);//(int) (contentHeight * .5);
         ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
         heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1276,6 +1299,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                                 holder.embeddedTweet.removeAllViews();
                                 holder.embeddedTweet.addView(v.getView());
+
+                                holder.embeddedTweet.setMinimumHeight(0);
                             }
                         });
                     }

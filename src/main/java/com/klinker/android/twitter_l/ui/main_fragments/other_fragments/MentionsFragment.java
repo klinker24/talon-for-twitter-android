@@ -269,7 +269,11 @@ public class MentionsFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
+                        if (cursorAdapter != null) {
+                            TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
+                            cursorAdapter.setQuotedTweets(MentionsFragment.this.cursorAdapter.getQuotedTweets());
+                            MentionsFragment.this.cursorAdapter = cursorAdapter;
+                        }
 
                         try {
                             spinner.setVisibility(View.GONE);
