@@ -17,6 +17,7 @@ package com.klinker.android.twitter_l.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
@@ -105,22 +106,6 @@ public class MainActivity extends DrawerActivity {
                     }
                 });
                 sendButton.startAnimation(anim);
-
-                // should create a circular reveal, but doesn't...
-                /*MainActivity.sendLayout.setVisibility(View.INVISIBLE);
-                int cx = (MainActivity.sendLayout.getLeft() + MainActivity.sendLayout.getRight()) / 2;
-                int cy = (MainActivity.sendLayout.getTop() + MainActivity.sendLayout.getBottom()) / 2;
-                int finalRadius = MainActivity.sendLayout.getWidth();
-                ValueAnimator anim =
-                        ViewAnimationUtils.createCircularReveal(MainActivity.sendLayout, cx, cy, 0, finalRadius);
-                anim.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        MainActivity.sendLayout.setVisibility(View.VISIBLE);
-                    }
-                });
-                anim.start();*/
             }
         }
     };
@@ -146,6 +131,7 @@ public class MainActivity extends DrawerActivity {
 
                     }
                 });
+                anim.setDuration(ANIM_DURATION);
                 sendButton.startAnimation(anim);
             }
         }

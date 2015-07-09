@@ -513,7 +513,7 @@ public class ProfilePager extends AppCompatActivity {
     private ProfileFollowersPopup fol;
     private ProfileFriendsPopup fri;
 
-    private void showStats(User user) {
+    private void showStats(final User user) {
 
         Button pictures = (Button) findViewById(R.id.pictures_button);
         pictures.setTextColor(settings.themeColors.primaryColorLight);
@@ -573,6 +573,15 @@ public class ProfilePager extends AppCompatActivity {
                 fol.show();
             }
         });
+        openFollowers.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(ProfilePager.this,
+                        getString(R.string.followers) + ": " + user.getFollowersCount(),
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
 
         View openFriends = findViewById(R.id.view_friends);
         fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
@@ -582,6 +591,15 @@ public class ProfilePager extends AppCompatActivity {
                 fri.setExpansionPointForAnim(view);
                 fri.setOnTopOfView(view);
                 fri.show();
+            }
+        });
+        openFriends.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(ProfilePager.this,
+                        getString(R.string.following) + ": " + user.getFriendsCount(),
+                        Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
@@ -609,6 +627,15 @@ public class ProfilePager extends AppCompatActivity {
             public void onClick(View view) {
                 tweetsPopup.setExpansionPointForAnim(view);
                 tweetsPopup.show();
+            }
+        });
+        showAllTweets.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(ProfilePager.this,
+                        getString(R.string.tweets) + ": " + thisUser.getStatusesCount(),
+                        Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 

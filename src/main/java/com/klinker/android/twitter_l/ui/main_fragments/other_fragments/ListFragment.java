@@ -272,7 +272,13 @@ public class ListFragment extends MainFragment {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
                             return;
                         }
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
+
+                        if (cursorAdapter != null) {
+                            TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
+                            cursorAdapter.setQuotedTweets(ListFragment.this.cursorAdapter.getQuotedTweets());
+                            ListFragment.this.cursorAdapter = cursorAdapter;
+                        }
+
                         listView.setAdapter(cursorAdapter);
 
                         int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));

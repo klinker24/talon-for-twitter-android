@@ -1757,21 +1757,26 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                     toolbar.setTranslationY(val);
                 }
             });
-            //ObjectAnimator showToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
+            ObjectAnimator showToolbarAlpha = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 0f, 1f);
+
             showToolbar.setDuration(ANIM_DURATION);
+            showToolbarAlpha.setDuration(ANIM_DURATION);
+
             showToolbar.setInterpolator(INTERPOLATOR);
-            //showToolbar.setEvaluator(EVALUATOR);
+            showToolbarAlpha.setInterpolator(INTERPOLATOR);
+
+            //showToolbarAlpha.setEvaluator(EVALUATOR);
+
             showToolbar.start();
+            showToolbarAlpha.start();
         }
     }
 
     private int tranparentSystemBar = -1;
     private int statusColor = -1;
     private ArgbEvaluator EVALUATOR = new ArgbEvaluator();
-    private boolean barsAreShowing = true;
-    private static final int ANIM_DURATION = 200;
-
-    private static TimeInterpolator INTERPOLATOR = new DecelerateInterpolator();
+    public static final int ANIM_DURATION = 350;
+    public static TimeInterpolator INTERPOLATOR = new DecelerateInterpolator();
 
     /*static {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1825,12 +1830,18 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                     toolbar.setTranslationY(val);
                 }
             });
+            ObjectAnimator hideToolbarAlpha = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
 
-            //ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1f, 0f);
             hideToolbar.setDuration(ANIM_DURATION);
+            hideToolbarAlpha.setDuration(ANIM_DURATION);
+
             hideToolbar.setInterpolator(INTERPOLATOR);
-            //hideToolbar.setEvaluator(EVALUATOR);
+            hideToolbarAlpha.setInterpolator(INTERPOLATOR);
+
+            //hideToolbarAlpha.setEvaluator(EVALUATOR);
+
             hideToolbar.start();
+            hideToolbarAlpha.start();
 
             if (toolBarVis == null) {
                 toolBarVis = new Handler();

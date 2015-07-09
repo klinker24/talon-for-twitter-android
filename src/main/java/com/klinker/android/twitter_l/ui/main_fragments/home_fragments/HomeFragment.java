@@ -232,7 +232,11 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
     };
 
     public TimeLineCursorAdapter returnAdapter(Cursor c) {
-        return new TimeLineCursorAdapter(context, c, false, true, this);
+        TimeLineCursorAdapter adapter = new TimeLineCursorAdapter(context, c, false, true, this);
+        if (this.cursorAdapter != null)
+            adapter.setQuotedTweets(this.cursorAdapter.getQuotedTweets());
+
+        return adapter;
     }
 
     public boolean isLauncher() {

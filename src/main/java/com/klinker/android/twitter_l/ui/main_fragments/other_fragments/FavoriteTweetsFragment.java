@@ -28,6 +28,7 @@ import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,7 +239,13 @@ public class FavoriteTweetsFragment extends MainFragment {
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_FAVORITE"));
                             return;
                         }
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
+
+                        if (cursorAdapter != null) {
+                            TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
+                            cursorAdapter.setQuotedTweets(FavoriteTweetsFragment.this.cursorAdapter.getQuotedTweets());
+                            FavoriteTweetsFragment.this.cursorAdapter = cursorAdapter;
+                        }
+
                         listView.setAdapter(cursorAdapter);
 
                         try {
