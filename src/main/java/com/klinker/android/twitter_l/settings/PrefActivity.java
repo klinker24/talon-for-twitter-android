@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,7 +81,7 @@ public class PrefActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setStatusBarColor(Color.BLACK);
         }
     }
 

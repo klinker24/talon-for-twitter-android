@@ -22,6 +22,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -114,7 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setNavigationBarColor(Color.BLACK);
         }
     }
 
