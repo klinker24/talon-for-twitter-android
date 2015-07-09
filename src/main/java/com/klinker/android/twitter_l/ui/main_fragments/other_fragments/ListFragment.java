@@ -277,6 +277,8 @@ public class ListFragment extends MainFragment {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                             cursorAdapter.setQuotedTweets(ListFragment.this.cursorAdapter.getQuotedTweets());
                             ListFragment.this.cursorAdapter = cursorAdapter;
+                        } else {
+                            cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                         }
 
                         listView.setAdapter(cursorAdapter);

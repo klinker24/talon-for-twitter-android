@@ -114,6 +114,8 @@ public class SecondAccMentionsFragment extends MentionsFragment {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, SecondAccMentionsFragment.this, true);
                             cursorAdapter.setQuotedTweets(SecondAccMentionsFragment.this.cursorAdapter.getQuotedTweets());
                             SecondAccMentionsFragment.this.cursorAdapter = cursorAdapter;
+                        } else {
+                            cursorAdapter = new TimeLineCursorAdapter(context, cursor, SecondAccMentionsFragment.this, true);
                         }
 
                         try {

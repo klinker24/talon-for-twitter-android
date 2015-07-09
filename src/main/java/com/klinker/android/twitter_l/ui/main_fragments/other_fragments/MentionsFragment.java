@@ -273,6 +273,8 @@ public class MentionsFragment extends MainFragment {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
                             cursorAdapter.setQuotedTweets(MentionsFragment.this.cursorAdapter.getQuotedTweets());
                             MentionsFragment.this.cursorAdapter = cursorAdapter;
+                        } else {
+                            cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
                         }
 
                         try {
