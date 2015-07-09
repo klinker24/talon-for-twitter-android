@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.6.5">
+        <text>Links that finish a line of text could be clicked from the empty space on that line, which was bad.</text>
+    </version>
+
     <version name="2.6.4">
         <text>Improve smoothness and fluidity on timeline</text>
         <text>Improve efficiency of loading quoted tweets</text>
