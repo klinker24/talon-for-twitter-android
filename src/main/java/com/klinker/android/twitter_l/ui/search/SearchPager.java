@@ -314,7 +314,7 @@ public class SearchPager extends AppCompatActivity {
         }
     }
 
-    private SearchView searchView;
+    private android.support.v7.widget.SearchView searchView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -323,92 +323,12 @@ public class SearchPager extends AppCompatActivity {
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+        searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
-
-        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-        ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(R.drawable.action_bar_search);
-
-        if (!settings.darkTheme) {
-            try {
-                setSearchTextColour();
-            } catch (Exception e) {
-
-            }
-            try {
-                setSearchIcons();
-            } catch (Exception e) {
-
-            }
-        }
-
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
-            LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
-            LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
-            AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
-
-            autoComplete.setDropDownBackgroundDrawable(getResources().getDrawable(R.drawable.background_card_dark));
-        }
 
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private void setSearchTextColour() {
-        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
-        searchPlate.setTextColor(getResources().getColor(R.color.white));
-        searchPlate.setHintTextColor(getResources().getColor(R.color.white));
-        searchPlate.setBackgroundResource(android.R.color.transparent);
-        searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-
-        int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
-        View autoComplete = searchView.findViewById(queryTextViewId);
-
-        try {
-            Class<?> clazz = Class.forName("android.widget.SearchView$SearchAutoComplete");
-
-            SpannableStringBuilder stopHint = new SpannableStringBuilder("   ");
-            stopHint.append(getString(R.string.search));
-
-            // Add the icon as an spannable
-            Drawable searchIcon = getResources().getDrawable(R.drawable.ic_action_search_dark);
-            Method textSizeMethod = clazz.getMethod("getTextSize");
-            Float rawTextSize = (Float) textSizeMethod.invoke(autoComplete);
-            int textSize = (int) (rawTextSize * 1.25);
-            searchIcon.setBounds(0, 0, textSize, textSize);
-            stopHint.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            // Set the new hint text
-            Method setHintMethod = clazz.getMethod("setHint", CharSequence.class);
-            setHintMethod.invoke(autoComplete, stopHint);
-        } catch (Exception e) {
-
-        }
-    }
-
-
-    private void setSearchIcons() {
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            ImageView closeBtn = (ImageView) searchField.get(searchView);
-            closeBtn.setImageResource(R.drawable.tablet_close);
-
-            searchField = SearchView.class.getDeclaredField("mVoiceButton");
-            searchField.setAccessible(true);
-            ImageView voiceBtn = (ImageView) searchField.get(searchView);
-            voiceBtn.setImageResource(R.drawable.ic_voice_dark);
-
-        } catch (NoSuchFieldException e) {
-            Log.e("SearchView", e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            Log.e("SearchView", e.getMessage(), e);
-        }
     }
 
     @Override

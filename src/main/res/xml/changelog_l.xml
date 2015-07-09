@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="2.6.6">
+        <text>Improve and simplify search bar</text>
+        <text>Fix mixed up profile pictures when replying from second account</text>
+        <text>Bug fixes for compose screen</text>
+    </version>
+
     <version name="2.6.5">
         <text>Links that finish a line of text could be clicked from the empty space on that line, which was bad.</text>
     </version>
