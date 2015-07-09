@@ -1044,7 +1044,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public static final int ANIMATION_DURATION = 400;
-    public static Interpolator ANIMATION_INTERPOLATOR = new AccelerateInterpolator();
+    public static Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
 
     public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
 
