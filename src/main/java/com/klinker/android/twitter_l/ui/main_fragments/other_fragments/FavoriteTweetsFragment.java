@@ -244,6 +244,8 @@ public class FavoriteTweetsFragment extends MainFragment {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
                             cursorAdapter.setQuotedTweets(FavoriteTweetsFragment.this.cursorAdapter.getQuotedTweets());
                             FavoriteTweetsFragment.this.cursorAdapter = cursorAdapter;
+                        } else {
+                            cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
                         }
 
                         listView.setAdapter(cursorAdapter);
