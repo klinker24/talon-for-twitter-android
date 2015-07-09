@@ -385,7 +385,8 @@ public abstract class Compose extends Activity implements
         ImageView pic = (ImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
-        ImageUtils.loadImage(this, pic, settings.myProfilePicUrl, App.getInstance(this).getBitmapCache());
+        if (!(this instanceof ComposeSecAccActivity))
+            ImageUtils.loadImage(this, pic, settings.myProfilePicUrl, App.getInstance(this).getBitmapCache());
 
         currentName.setText("@" + settings.myScreenName);
 
