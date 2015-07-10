@@ -4,6 +4,7 @@
         <text>Improve popup layout animations</text>
         <text>Improve and simplify search bar</text>
         <text>Settings improvements</text>
+        <text>Fix issue with both video and thumbnail showing on tweet viewer</text>
         <text>Fix mixed up profile pictures when replying from second account</text>
         <text>Bug fixes for compose screen</text>
     </version>

@@ -289,6 +289,7 @@ public class TweetActivity extends AppCompatActivity {
         Log.v("talon_gif", "gif video: " + gifVideo);
         if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))) {
             getVideo(gif);
+            image.setVisibility(View.GONE);
         } else {
             findViewById(R.id.spinner).setVisibility(View.GONE);
             gif.setVisibility(View.GONE);
