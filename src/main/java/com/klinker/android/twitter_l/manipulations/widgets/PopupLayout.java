@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.manipulations.widgets;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -40,6 +41,8 @@ public abstract class PopupLayout extends LinearLayout {
 
     public static final int LONG_ANIMATION_TIME = 200;
     public static final int SHORT_ANIMATION_TIME = 100;
+
+    public static final int REAL_ANIMATION_TIME = 400;
     
     private static Interpolator INTERPOLATOR;
 
@@ -515,7 +518,7 @@ public abstract class PopupLayout extends LinearLayout {
                     setLayoutParams(layoutParams);
                 }
             });
-            widthExpander.setDuration(LONG_ANIMATION_TIME);
+            widthExpander.setDuration(REAL_ANIMATION_TIME); // was long
             widthExpander.setInterpolator(INTERPOLATOR);
 
             heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -527,26 +530,28 @@ public abstract class PopupLayout extends LinearLayout {
                     setLayoutParams(layoutParams);
                 }
             });
-            heightExpander.setDuration(SHORT_ANIMATION_TIME);
+            heightExpander.setDuration(REAL_ANIMATION_TIME); // was short
             heightExpander.setInterpolator(INTERPOLATOR);
 
-            xTranslation.setDuration(LONG_ANIMATION_TIME);
+            xTranslation.setDuration(REAL_ANIMATION_TIME); // was long
             xTranslation.setInterpolator(INTERPOLATOR);
 
-            yTranslation.setDuration(SHORT_ANIMATION_TIME);
+            yTranslation.setDuration(REAL_ANIMATION_TIME); // was short
             yTranslation.setInterpolator(INTERPOLATOR);
 
-            alpha.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
+            alpha.setDuration(REAL_ANIMATION_TIME); // was long + short
             alpha.setInterpolator(INTERPOLATOR);
 
             alpha.start();
             xTranslation.start();
             widthExpander.start();
+            yTranslation.start();
+            heightExpander.start();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    yTranslation.start();
-                    heightExpander.start();
+                    //yTranslation.start();
+                    //heightExpander.start();
                 }
             }, LONG_ANIMATION_TIME);
 
@@ -559,10 +564,10 @@ public abstract class PopupLayout extends LinearLayout {
                         title.setVisibility(View.VISIBLE);
 
                         ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 0.0f, 1.0f);
-                        animator.setDuration(LONG_ANIMATION_TIME);
+                        animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
                         animator.start();
                     }
-                }, LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
+                }, REAL_ANIMATION_TIME);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -571,10 +576,10 @@ public abstract class PopupLayout extends LinearLayout {
                         titleDivider.setVisibility(View.VISIBLE);
 
                         ObjectAnimator animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 0.0f, 1.0f);
-                        animator.setDuration(LONG_ANIMATION_TIME);
+                        animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
                         animator.start();
                     }
-                }, LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME + 30);
+                }, REAL_ANIMATION_TIME + 100); // was long + short + 30
             }
 
             new Handler().postDelayed(new Runnable() {
@@ -583,7 +588,7 @@ public abstract class PopupLayout extends LinearLayout {
                     // show the content
                     content.setVisibility(View.VISIBLE);
                     ObjectAnimator animator = ObjectAnimator.ofFloat(content, View.ALPHA, 0.0f, 1.0f);
-                    animator.setDuration(LONG_ANIMATION_TIME);
+                    animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
                     animator.start();
                     if (PopupLayout.this instanceof WebPopupLayout) {
                         new Handler().postDelayed(new Runnable() {
@@ -595,11 +600,11 @@ public abstract class PopupLayout extends LinearLayout {
                         }, 200);
                     }
                 }
-            }, LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME + 60);
+            }, REAL_ANIMATION_TIME + 200); // was long + short + 60
         }
 
         ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, 0.0f, .6f);
-        dimAnimator.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
+        dimAnimator.setDuration(DEFAULT_FADE_ANIMATION_TIME); // was long + short
         dimAnimator.start();
 
     }
@@ -616,7 +621,7 @@ public abstract class PopupLayout extends LinearLayout {
 
         isShowing = false;
 
-        if (animStartTop == -1) {
+        if (true /*animStartTop == -1*/) {
             ObjectAnimator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1.0f, 0.0f);
             animator.setDuration(DEFAULT_FADE_ANIMATION_TIME);
             animator.start();
@@ -625,20 +630,35 @@ public abstract class PopupLayout extends LinearLayout {
                 title.setVisibility(View.INVISIBLE);
 
                 ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 1.0f, 0.0f);
-                animator.setDuration(LONG_ANIMATION_TIME);
+                animator.setDuration(DEFAULT_FADE_ANIMATION_TIME); // was long
                 animator.start();
 
                 titleDivider.setVisibility(View.INVISIBLE);
 
                 animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 1.0f, 0.0f);
-                animator.setDuration(LONG_ANIMATION_TIME);
+                animator.setDuration(DEFAULT_FADE_ANIMATION_TIME); // was long
                 animator.start();
             }
 
             content.setVisibility(View.INVISIBLE);
 
             ObjectAnimator animator = ObjectAnimator.ofFloat(content, View.ALPHA, 1.0f, 0.0f);
-            animator.setDuration(LONG_ANIMATION_TIME);
+            animator.setDuration(DEFAULT_FADE_ANIMATION_TIME); // was long
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) { }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    content.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) { }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) { }
+            });
             animator.start();
 
             new Handler().postDelayed(new Runnable() {
@@ -660,7 +680,7 @@ public abstract class PopupLayout extends LinearLayout {
                             setLayoutParams(layoutParams);
                         }
                     });
-                    widthExpander.setDuration(LONG_ANIMATION_TIME);
+                    widthExpander.setDuration(REAL_ANIMATION_TIME); // was long
                     widthExpander.setInterpolator(INTERPOLATOR);
 
                     heightExpander.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -672,36 +692,39 @@ public abstract class PopupLayout extends LinearLayout {
                             setLayoutParams(layoutParams);
                         }
                     });
-                    heightExpander.setDuration(SHORT_ANIMATION_TIME);
+                    heightExpander.setDuration(REAL_ANIMATION_TIME); // was short
                     heightExpander.setInterpolator(INTERPOLATOR);
 
-                    xTranslation.setDuration(LONG_ANIMATION_TIME);
+                    xTranslation.setDuration(REAL_ANIMATION_TIME); // was long
                     xTranslation.setInterpolator(INTERPOLATOR);
 
-                    yTranslation.setDuration(SHORT_ANIMATION_TIME);
+                    yTranslation.setDuration(REAL_ANIMATION_TIME); // was short
                     yTranslation.setInterpolator(INTERPOLATOR);
 
-                    alpha.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
+                    alpha.setDuration(REAL_ANIMATION_TIME); // was long + short
                     alpha.setInterpolator(INTERPOLATOR);
 
                     alpha.start();
                     yTranslation.start();
                     heightExpander.start();
+                    xTranslation.start();
+                    widthExpander.start();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            xTranslation.start();
-                            widthExpander.start();
+                            //xTranslation.start();
+                            //widthExpander.start();
                         }
                     }, SHORT_ANIMATION_TIME);
                 }
-            }, LONG_ANIMATION_TIME);
+            }, DEFAULT_FADE_ANIMATION_TIME + 100);
         }
 
         ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, .6f, 0.0f);
 
-        dimAnimator.setDuration(LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME);
+        dimAnimator.setDuration(DEFAULT_FADE_ANIMATION_TIME); // was long + short
+        //dimAnimator.setStartDelay(DEFAULT_FADE_ANIMATION_TIME);
         dimAnimator.start();
 
         // After animation has finished, remove the ActionButton from the content frame
@@ -711,14 +734,13 @@ public abstract class PopupLayout extends LinearLayout {
                 parent.removeView(PopupLayout.this);
                 parent.removeView(dim);
             }
-        }, LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME + 300);
+        }, REAL_ANIMATION_TIME + DEFAULT_FADE_ANIMATION_TIME + 100);
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         super.onTouchEvent(ev);
-        Log.i("VerticalScrollview", "onTouchEvent. action: " + ev.getAction());
         return true;
     }
 }
