@@ -107,6 +107,7 @@ public class ComposeActivity extends Compose {
                                                     .replace("@" + settings.myScreenName, "");
 
                                     reply.setText(tweetText);
+                                    reply.setSelection(tweetText.length() - 1);
 
                                     break;
                                 case 1:
@@ -121,6 +122,7 @@ public class ComposeActivity extends Compose {
                                                     .replace("@" + settings.secondScreenName, "");
 
                                     reply.setText(tweetText);
+                                    reply.setSelection(tweetText.length() - 1);
 
                                     break;
                                 case 2:
