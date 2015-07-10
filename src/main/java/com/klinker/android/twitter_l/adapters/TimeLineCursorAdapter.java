@@ -26,6 +26,7 @@ import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -367,6 +368,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            holder.image.setTransitionName(null);
+        }
+
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
         }
@@ -500,7 +505,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                         viewTweet.putExtra("second_account", true);
                     }
-                    context.startActivity(viewTweet);
+
+                    viewTweet.putExtra("shared_trans", true);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        holder.profilePic.setTransitionName("pro_pic");
+                        holder.screenTV.setTransitionName("screen_name");
+                        holder.name.setTransitionName("name");
+                        holder.tweet.setTransitionName("tweet");
+
+                        ActivityOptions options = ActivityOptions
+                                .makeSceneTransitionAnimation(((Activity) context),
+
+                                        new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                        new Pair<View, String>(holder.screenTV, "screen_name"),
+                                        new Pair<View, String>(holder.name, "name"),
+                                        new Pair<View, String>(holder.tweet, "tweet"),
+                                        new Pair<View, String>(holder.image, "image")
+                                );
+
+                        context.startActivity(viewTweet, options.toBundle());
+                    } else {
+                        context.startActivity(viewTweet);
+                    }
                 }
             });
 
@@ -561,7 +588,28 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("second_account", true);
                     }
 
-                    context.startActivity(viewTweet);
+                    viewTweet.putExtra("shared_trans", true);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        holder.profilePic.setTransitionName("pro_pic");
+                        holder.screenTV.setTransitionName("screen_name");
+                        holder.name.setTransitionName("name");
+                        holder.tweet.setTransitionName("tweet");
+
+                        ActivityOptions options = ActivityOptions
+                                .makeSceneTransitionAnimation(((Activity) context),
+
+                                        new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                        new Pair<View, String>(holder.screenTV, "screen_name"),
+                                        new Pair<View, String>(holder.name, "name"),
+                                        new Pair<View, String>(holder.tweet, "tweet"),
+                                        new Pair<View, String>(holder.image, "image")
+                                );
+
+                        context.startActivity(viewTweet, options.toBundle());
+                    } else {
+                        context.startActivity(viewTweet);
+                    }
 
                     return true;
                 }
@@ -728,10 +776,28 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         .commit();
                             }
 
-                            /*ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context), displayPic ? holder.image : holder.profilePic, "image");*/
+                            viewTweet.putExtra("shared_trans", true);
 
-                            context.startActivity(viewTweet);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                holder.profilePic.setTransitionName("pro_pic");
+                                holder.screenTV.setTransitionName("screen_name");
+                                holder.name.setTransitionName("name");
+                                holder.tweet.setTransitionName("tweet");
+
+                                ActivityOptions options = ActivityOptions
+                                        .makeSceneTransitionAnimation(((Activity) context),
+
+                                                new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                                new Pair<View, String>(holder.screenTV, "screen_name"),
+                                                new Pair<View, String>(holder.name, "name"),
+                                                new Pair<View, String>(holder.tweet, "tweet"),
+                                                new Pair<View, String>(holder.image, "image")
+                                        );
+
+                                context.startActivity(viewTweet, options.toBundle());
+                            } else {
+                                context.startActivity(viewTweet);
+                            }
                         }
                     });
 

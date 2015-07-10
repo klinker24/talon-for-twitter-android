@@ -93,13 +93,19 @@ public class TweetActivity extends AppCompatActivity {
 
     public TweetYouTubeFragment youTubeFrag;
 
+    private boolean sharedTransition = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent().getBooleanExtra("share_trans", false)) {
+            sharedTransition = true;
+            Utils.setSharedContentTransition(this);
+        }
+
         context = this;
         settings = AppSettings.getInstance(this);
-        Utils.setSharedContentTransition(this);
         getFromIntent();
 
         ArrayList<String> webpages = new ArrayList<String>();
@@ -295,49 +301,6 @@ public class TweetActivity extends AppCompatActivity {
             gif.setVisibility(View.GONE);
             findViewById(R.id.gif_holder).setVisibility(View.GONE);
         }
-
-        // delay displaying the extra content just a little bit to get rid of some weird animations
-        final View extra = findViewById(R.id.extra_content);
-        final View name = findViewById(R.id.person_info);
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (extra.getVisibility() != View.VISIBLE) {
-                    extra.setVisibility(View.VISIBLE);
-                }
-                if (name.getVisibility() != View.VISIBLE) {
-                    name.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
-        anim.setStartOffset(400);
-        anim.setDuration(300);
-
-        if (settings.fastTransitions || fromLauncher) {
-            name.setVisibility(View.VISIBLE);
-        } else {
-            name.startAnimation(anim);
-        }
-        /*if (!fromLauncher) {
-            extra.startAnimation(anim);
-            name.startAnimation(anim);
-        } else {
-            name.setVisibility(View.VISIBLE);
-        }*/
-
 
         View nav = findViewById(R.id.landscape_nav_bar);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) nav.getLayoutParams();
@@ -814,23 +777,36 @@ public class TweetActivity extends AppCompatActivity {
         }
     }
 
+    private void setTransitionNames() {
+        profilePic.setTransitionName("pro_pic");
+        nametv.setTransitionName("name");
+        screennametv.setTransitionName("screen_name");
+        tweettv.setTransitionName("tweet");
+        image.setTransitionName("image");
+    }
+
     public CircleImageView profilePic;
     public NetworkedCacheableImageView image;
     public TextView retweetertv;
-    public TextView timetv;
+    public HoloTextView timetv;
+    public HoloTextView nametv;
+    public HoloTextView screennametv;
+    public HoloTextView tweettv;
 
     public void setUIElements(final View layout) {
-        TextView nametv;
-        TextView screennametv;
-        TextView tweettv;
 
-        nametv = (TextView) layout.findViewById(R.id.name);
-        screennametv = (TextView) layout.findViewById(R.id.screen_name);
-        tweettv = (TextView) layout.findViewById(R.id.tweet);
+        nametv = (HoloTextView) layout.findViewById(R.id.name);
+        screennametv = (HoloTextView) layout.findViewById(R.id.screen_name);
+        tweettv = (HoloTextView) layout.findViewById(R.id.tweet);
         retweetertv = (TextView) layout.findViewById(R.id.retweeter);
         profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
         image = (NetworkedCacheableImageView) layout.findViewById(R.id.image);
-        timetv = (TextView) layout.findViewById(R.id.time);
+        timetv = (HoloTextView) layout.findViewById(R.id.time);
+
+        tweettv.setTextSize(settings.textSize);
+        screennametv.setTextSize(settings.textSize - 2);
+        nametv.setTextSize(settings.textSize + 4);
+        timetv.setTextSize(settings.textSize - 3);
 
         View.OnClickListener viewPro = new View.OnClickListener() {
             @Override
@@ -913,10 +889,10 @@ public class TweetActivity extends AppCompatActivity {
         String timeDisplay;
 
         if (!settings.militaryTime) {
-            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + " " +
+            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + "\n" +
                     android.text.format.DateFormat.getDateFormat(context).format(time);
         } else {
-            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + " " +
+            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + "\n" +
                     android.text.format.DateFormat.getDateFormat(context).format(time);
         }
 
@@ -952,14 +928,19 @@ public class TweetActivity extends AppCompatActivity {
 
         // lets get a little scale in animation on that fab
         final LinearLayout content = (LinearLayout) findViewById(R.id.content);
-        content.setVisibility(View.INVISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                content.setVisibility(View.VISIBLE);
-            }
-        }, 200);
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            content.setVisibility(View.INVISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+                    content.setVisibility(View.VISIBLE);
+                }
+            }, 200);
+        } else {
+            setTransitionNames();
+        }
 
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, linkString, true);
@@ -1012,7 +993,7 @@ public class TweetActivity extends AppCompatActivity {
                 }
             });
             anim.setDuration(250);
-            if (!fromLauncher) {
+            if (!fromLauncher && !sharedTransition) {
                 name.startAnimation(anim);
                 extra.startAnimation(anim);
             }
