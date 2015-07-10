@@ -99,7 +99,9 @@
                 android:layout_marginLeft="13dp"
                 android:layout_marginStart="13dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/name"
@@ -110,7 +112,6 @@
                     android:textColor="?textColor"
                     android:paddingTop="4dp"
                     android:singleLine="true"
-                    android:transitionName="name"
                     android:gravity="top"/>
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
@@ -120,8 +121,7 @@
                     android:layout_weight="1"
                     android:textColor="?dateColor"
                     android:singleLine="true"
-                    android:transitionName="screenname"
-                    android:gravity="bottom"/>
+                    android:gravity="top"/>
 
             </LinearLayout>
 

@@ -67,43 +67,43 @@
                                 android:gravity="center_vertical"
                                 android:paddingStart="8dp" >
 
-                                <TextView
+                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                                     android:id="@+id/name"
+                                    android:layout_height="0dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:textColor="?textColor"
+                                    android:paddingTop="4dp"
+                                    android:singleLine="true"
+                                    android:gravity="bottom"/>
+
+                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                                    android:id="@+id/screen_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:textColor="?dateColor"
+                                    android:singleLine="true"
+                                    android:gravity="top"/>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginRight="6dp"
+                                android:layout_gravity="right|bottom">
+
+                                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                                    android:id="@+id/time"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
-                                    android:singleLine="true"
-                                    android:textSize="17sp"
-                                    android:transitionName="name"
-                                    android:textColor="?textColor"/>
-
-                                <LinearLayout
-                                    android:orientation="horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:id="@+id/screen_name"
-                                        android:layout_height="wrap_content"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:singleLine="true"
-                                        android:textSize="13sp"
-                                        android:alpha=".80"
-                                        android:layout_gravity="start"
-                                        android:transitionName="screenname"
-                                        android:textColor="?dateColor"/>
-
-                                    <TextView
-                                        android:id="@+id/time"
-                                        android:layout_height="wrap_content"
-                                        android:layout_width="wrap_content"
-                                        android:textSize="13sp"
-                                        android:singleLine="true"
-                                        android:layout_gravity="end"
-                                        android:textColor="?dateColor"
-                                        android:alpha=".8"/>
-
-                                </LinearLayout>
+                                    android:textColor="?dateColor"
+                                    android:gravity="right"
+                                    android:paddingBottom="14dp"/>
 
                             </LinearLayout>
 

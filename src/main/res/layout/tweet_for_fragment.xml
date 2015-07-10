@@ -30,15 +30,15 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
+            android:layout_height="match_parent" >
 
-            <TextView
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/tweet"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:fontFamily="sans-serif-strong"
                 android:textSize="18sp"
+                android:paddingTop="12dp"
                 android:layout_marginBottom="6dp"
                 android:textIsSelectable="true"
                 android:textColor="?textColor" />
