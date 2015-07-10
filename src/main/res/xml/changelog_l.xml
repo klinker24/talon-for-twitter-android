@@ -1,6 +1,7 @@
 <changelog>
 
-    <version name="2.6.6">
+    <version name="2.7.0">
+        <text>New transtions from timeline to tweet viewer</text>
         <text>Improve popup layout animations</text>
         <text>Improve and simplify search bar</text>
         <text>Settings improvements</text>
