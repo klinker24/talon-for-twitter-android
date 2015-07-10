@@ -1,12 +1,14 @@
 package com.klinker.android.twitter_l.data;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spannable;
+import android.util.Pair;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -221,7 +223,27 @@ public class TweetView {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
 
-                context.startActivity(viewTweet);
+                viewTweet.putExtra("shared_trans", true);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    profilePicIv.setTransitionName("pro_pic");
+                    screenTV.setTransitionName("screen_name");
+                    nameTv.setTransitionName("name");
+                    tweetTv.setTransitionName("tweet");
+                    ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(((Activity) context),
+
+                                    new Pair<View, String>(profilePicIv, "pro_pic"),
+                                    new Pair<View, String>(screenTV, "screen_name"),
+                                    new Pair<View, String>(nameTv, "name"),
+                                    new Pair<View, String>(tweetTv, "tweet")
+                            );
+
+                    context.startActivity(viewTweet, options.toBundle());
+                } else {
+                    context.startActivity(viewTweet);
+                }
+
             }
         });
 
@@ -308,7 +330,26 @@ public class TweetView {
                             viewTweet.putExtra("clicked_youtube", true);
                             viewTweet.putExtra("animated_gif", gifUrl);
 
-                            context.startActivity(viewTweet);
+                            viewTweet.putExtra("shared_trans", true);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                profilePicIv.setTransitionName("pro_pic");
+                                screenTV.setTransitionName("screen_name");
+                                nameTv.setTransitionName("name");
+                                tweetTv.setTransitionName("tweet");
+                                ActivityOptions options = ActivityOptions
+                                        .makeSceneTransitionAnimation(((Activity) context),
+
+                                                new Pair<View, String>(profilePicIv, "pro_pic"),
+                                                new Pair<View, String>(screenTV, "screen_name"),
+                                                new Pair<View, String>(nameTv, "name"),
+                                                new Pair<View, String>(tweetTv, "tweet")
+                                        );
+
+                                context.startActivity(viewTweet, options.toBundle());
+                            } else {
+                                context.startActivity(viewTweet);
+                            }
                         }
                     });
 

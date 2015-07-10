@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -548,7 +549,41 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("hashtags", hashtags);
                     viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                    context.startActivity(viewTweet);
+                    viewTweet.putExtra("shared_trans", true);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        holder.profilePic.setTransitionName("pro_pic");
+                        holder.screenTV.setTransitionName("screen_name");
+                        holder.name.setTransitionName("name");
+                        holder.tweet.setTransitionName("tweet");
+
+                        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context),
+
+                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                            new Pair<View, String>(holder.screenTV, "screen_name"),
+                                            new Pair<View, String>(holder.name, "name"),
+                                            new Pair<View, String>(holder.tweet, "tweet"),
+                                            new Pair<View, String>(holder.image, "image")
+                                    );
+
+                            context.startActivity(viewTweet, options.toBundle());
+                        } else {
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context),
+
+                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                            new Pair<View, String>(holder.screenTV, "screen_name"),
+                                            new Pair<View, String>(holder.name, "name"),
+                                            new Pair<View, String>(holder.tweet, "tweet")
+                                    );
+
+                            context.startActivity(viewTweet, options.toBundle());
+                        }
+                    } else {
+                        context.startActivity(viewTweet);
+                    }
                 }
             });
 
@@ -599,7 +634,41 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewTweet.putExtra("hashtags", hashtags);
                     viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                    context.startActivity(viewTweet);
+                    viewTweet.putExtra("shared_trans", true);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        holder.profilePic.setTransitionName("pro_pic");
+                        holder.screenTV.setTransitionName("screen_name");
+                        holder.name.setTransitionName("name");
+                        holder.tweet.setTransitionName("tweet");
+
+                        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context),
+
+                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                            new Pair<View, String>(holder.screenTV, "screen_name"),
+                                            new Pair<View, String>(holder.name, "name"),
+                                            new Pair<View, String>(holder.tweet, "tweet"),
+                                            new Pair<View, String>(holder.image, "image")
+                                    );
+
+                            context.startActivity(viewTweet, options.toBundle());
+                        } else {
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context),
+
+                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                            new Pair<View, String>(holder.screenTV, "screen_name"),
+                                            new Pair<View, String>(holder.name, "name"),
+                                            new Pair<View, String>(holder.tweet, "tweet")
+                                    );
+
+                            context.startActivity(viewTweet, options.toBundle());
+                        }
+                    } else {
+                        context.startActivity(viewTweet);
+                    }
 
                     return true;
                 }
@@ -741,7 +810,41 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             viewTweet.putExtra("clicked_youtube", true);
                             viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                            context.startActivity(viewTweet);
+                            viewTweet.putExtra("shared_trans", true);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                holder.profilePic.setTransitionName("pro_pic");
+                                holder.screenTV.setTransitionName("screen_name");
+                                holder.name.setTransitionName("name");
+                                holder.tweet.setTransitionName("tweet");
+
+                                if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+                                    ActivityOptions options = ActivityOptions
+                                            .makeSceneTransitionAnimation(((Activity) context),
+
+                                                    new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                                    new Pair<View, String>(holder.screenTV, "screen_name"),
+                                                    new Pair<View, String>(holder.name, "name"),
+                                                    new Pair<View, String>(holder.tweet, "tweet"),
+                                                    new Pair<View, String>(holder.image, "image")
+                                            );
+
+                                    context.startActivity(viewTweet, options.toBundle());
+                                } else {
+                                    ActivityOptions options = ActivityOptions
+                                            .makeSceneTransitionAnimation(((Activity) context),
+
+                                                    new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                                    new Pair<View, String>(holder.screenTV, "screen_name"),
+                                                    new Pair<View, String>(holder.name, "name"),
+                                                    new Pair<View, String>(holder.tweet, "tweet")
+                                            );
+
+                                    context.startActivity(viewTweet, options.toBundle());
+                                }
+                            } else {
+                                context.startActivity(viewTweet);
+                            }
                         }
                     });
 
