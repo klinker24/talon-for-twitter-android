@@ -56,4 +56,5 @@
     <string name="nav_bar_gone">Not Using a Nav Bar</string>
     <string name="tip_title">Tip:</string>
     <string name="profile_pictures_helper_message">To open the tweet that accompanies a picture, simply long click the picture on this grid.\n\nA normal click will open the picture viewer.</string>
+    <string name="quote_disclaimer">The twitter status link will be shown as an embedded tweet on modern Twitter clients. The link acts as the quoted tweet.</string>
 </resources>
