@@ -70,11 +70,11 @@ public abstract class ProfileUsersPopup extends PopupLayout {
         setTitle(getTitle());
 
         if (context.getResources().getBoolean(R.bool.isTablet)) {
-            setWidthByPercent(.4f);
+            setWidthByPercent(.5f);
         } else {
-            setWidthByPercent(.6f);
+            setWidthByPercent(.8f);
         }
-        setHeightByPercent(.4f);
+        setHeightByPercent(.6f);
 
         this.user = user;
 

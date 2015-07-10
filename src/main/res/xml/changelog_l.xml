@@ -2,6 +2,7 @@
 
     <version name="2.7.0">
         <text>New transitions from timeline to tweet viewer</text>
+        <text>Improve popup sizes</text>
         <text>Improve popup layout animations</text>
         <text>Improve and simplify search bar</text>
         <text>Settings improvements</text>

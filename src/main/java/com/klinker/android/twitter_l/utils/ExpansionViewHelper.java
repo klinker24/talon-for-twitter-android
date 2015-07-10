@@ -202,19 +202,19 @@ public class ExpansionViewHelper {
 
         retweetersPopup = new RetweetersPopupLayout(context, windowedPopups);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
-            retweetersPopup.setWidthByPercent(.4f);
+            retweetersPopup.setWidthByPercent(.5f);
         } else {
-            retweetersPopup.setWidthByPercent(.6f);
+            retweetersPopup.setWidthByPercent(.8f);
         }
-        retweetersPopup.setHeightByPercent(.4f);
+        retweetersPopup.setHeightByPercent(.6f);
 
         favoritersPopup = new FavoritersPopupLayout(context, windowedPopups);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
-            favoritersPopup.setWidthByPercent(.4f);
+            favoritersPopup.setWidthByPercent(.5f);
         } else {
             favoritersPopup.setWidthByPercent(.6f);
         }
-        favoritersPopup.setHeightByPercent(.4f);
+        favoritersPopup.setHeightByPercent(.8f);
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
