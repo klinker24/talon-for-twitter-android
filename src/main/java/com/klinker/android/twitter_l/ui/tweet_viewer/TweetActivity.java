@@ -102,7 +102,7 @@ public class TweetActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("share_trans", false)) {
             sharedTransition = true;
         }
-        
+
         Utils.setSharedContentTransition(this);
 
         context = this;
