@@ -249,6 +249,9 @@ public abstract class Compose extends Activity implements
             replyTo.setText(replyText);
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
             replyTo.setVisibility(View.VISIBLE);
+        } else if (reply.getText().toString().contains("/status/")) {
+            HoloTextView replyTo = (HoloTextView) findViewById(R.id.reply_to);
+            replyTo.setText(getString(R.string.quote_disclaimer));
         }
 
         new Handler().postDelayed(new Runnable() {
