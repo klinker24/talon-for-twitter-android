@@ -212,9 +212,9 @@ public class ExpansionViewHelper {
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             favoritersPopup.setWidthByPercent(.5f);
         } else {
-            favoritersPopup.setWidthByPercent(.6f);
+            favoritersPopup.setWidthByPercent(.8f);
         }
-        favoritersPopup.setHeightByPercent(.8f);
+        favoritersPopup.setHeightByPercent(.6f);
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
