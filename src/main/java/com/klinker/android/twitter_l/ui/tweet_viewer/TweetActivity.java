@@ -485,6 +485,24 @@ public class TweetActivity extends AppCompatActivity {
             expansionHelper.stop();
         }
 
+        try {
+            View gif = findViewById(R.id.gif);
+            if (gif.getVisibility() == View.VISIBLE) {
+                gif.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception e) {
+
+        }
+
+        try {
+            View youtube = findViewById(R.id.youtube_view);
+            if (youtube.getVisibility() == View.VISIBLE) {
+                youtube.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception e) {
+
+        }
+
         super.finish();
     }
 
