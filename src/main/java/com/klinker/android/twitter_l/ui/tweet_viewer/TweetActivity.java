@@ -894,7 +894,13 @@ public class TweetActivity extends AppCompatActivity {
 
         nametv.setText(name);
         screennametv.setText("@" + screenName);
-        tweettv.setText(tweet);
+
+        boolean replace = false;
+        if (settings.inlinePics && (tweet.contains("pic.twitter.com/") || tweet.contains(" twitter.com/"))) {
+            replace = true;
+        }
+
+        tweettv.setText(replace ? tweet.substring(0, tweet.length() - 25) : tweet);
         tweettv.setTextIsSelectable(true);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {

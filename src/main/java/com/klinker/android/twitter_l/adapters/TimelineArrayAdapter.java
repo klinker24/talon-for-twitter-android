@@ -759,7 +759,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        holder.tweet.setText(tweetText);
+        boolean replace = false;
+        if (settings.inlinePics && (tweetText.contains("pic.twitter.com/") || tweetText.contains(" twitter.com/"))) {
+            replace = true;
+        }
+
+        holder.tweet.setText(replace ? tweetText.substring(0, tweetText.length() - 25) : tweetText);
+
 
         boolean picture = false;
 
@@ -932,7 +938,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     }
 
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
-                        String text = holder.tweet.getText().toString();
+                        String text = tweetText;
                         if (EmojiUtils.emojiPattern.matcher(text).find()) {
                             final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
                             holder.tweet.setText(span);
