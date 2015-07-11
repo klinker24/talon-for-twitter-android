@@ -56,6 +56,7 @@ import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.utils.LocalTrendsUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
@@ -961,7 +962,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
         });
-        /*final Preference deviceFont = findPreference("font_type");
+
+        final Preference deviceFont = findPreference("font_type");
         deviceFont.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -970,7 +972,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 return true;
             }
-        });*/
+        });
 
 
         final Preference nightMode = findPreference("night_mode");

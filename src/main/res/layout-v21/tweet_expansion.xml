@@ -24,7 +24,7 @@
         card_view:cardBackgroundColor="?drawerBackground"
         android:visibility="gone" />
 
-    <TextView
+    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
         android:id="@+id/tweet_source"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

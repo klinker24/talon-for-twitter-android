@@ -95,7 +95,7 @@
                 android:transitionName="image"
                 android:id="@+id/image"/>
 
-            <TextView
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/retweeter"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

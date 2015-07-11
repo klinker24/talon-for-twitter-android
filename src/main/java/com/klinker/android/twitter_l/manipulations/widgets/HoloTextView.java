@@ -18,6 +18,7 @@ package com.klinker.android.twitter_l.manipulations.widgets;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -43,8 +44,7 @@ public class HoloTextView extends TextView {
 
     private void setTypeface(Context context) {
         if (typeface == null) {
-            String type = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+            String type = PreferenceManager.getDefaultSharedPreferences(context)
                     .getString("font_type", "1");
 
             useDeviceFont = type.equals("0");

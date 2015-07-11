@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
+import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -191,11 +192,11 @@ public class ProfilePager extends AppCompatActivity {
     public ImageView toolbarProfilePic;
     public TextView toolbarName;
     public TextView toolbarRealName;
-    public TextView followerCount;
-    public TextView followingCount;
-    public TextView description;
-    public TextView location;
-    public TextView website;
+    public HoloTextView followerCount;
+    public HoloTextView followingCount;
+    public HoloTextView description;
+    public HoloTextView location;
+    public HoloTextView website;
     public ImageView[] friends = new ImageView[3];
     public ImageView[] followers = new ImageView[3];
     public View profileCounts;
@@ -210,11 +211,11 @@ public class ProfilePager extends AppCompatActivity {
         toolbarName = (TextView) findViewById(R.id.toolbar_screenname);
         toolbarRealName = (TextView) findViewById(R.id.toolbar_name);
 
-        followerCount = (TextView) findViewById(R.id.followers_number);
-        followingCount = (TextView) findViewById(R.id.following_number);
-        description = (TextView) findViewById(R.id.user_description);
-        location = (TextView) findViewById(R.id.user_location);
-        website = (TextView) findViewById(R.id.user_webpage);
+        followerCount = (HoloTextView) findViewById(R.id.followers_number);
+        followingCount = (HoloTextView) findViewById(R.id.following_number);
+        description = (HoloTextView) findViewById(R.id.user_description);
+        location = (HoloTextView) findViewById(R.id.user_location);
+        website = (HoloTextView) findViewById(R.id.user_webpage);
         profileCounts = findViewById(R.id.profile_counts);
 
         friends[0] = (ImageView) findViewById(R.id.friend_1);
@@ -544,9 +545,9 @@ public class ProfilePager extends AppCompatActivity {
         statsTitle.setTextColor(settings.themeColors.primaryColor);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
 
-        TextView verified = (TextView) findViewById(R.id.verified);
-        TextView createdAt = (TextView) findViewById(R.id.created_at);
-        TextView listsCount = (TextView) findViewById(R.id.number_of_lists);
+        HoloTextView verified = (HoloTextView) findViewById(R.id.verified);
+        HoloTextView createdAt = (HoloTextView) findViewById(R.id.created_at);
+        HoloTextView listsCount = (HoloTextView) findViewById(R.id.number_of_lists);
 
         if (user.isVerified()) {
             verified.setVisibility(View.VISIBLE);
