@@ -77,7 +77,7 @@
 
     </PreferenceCategory>
 
-    <!--<PreferenceCategory
+    <PreferenceCategory
         android:title="@string/font_options" >
 
         <ListPreference
@@ -88,7 +88,7 @@
             android:entryValues="@array/font_type_inserted"
             />
 
-    </PreferenceCategory>-->
+    </PreferenceCategory>
 
     <PreferenceCategory
             android:title="@string/tweet_look_options" >

@@ -900,7 +900,9 @@ public class TweetActivity extends AppCompatActivity {
             replace = true;
         }
 
-        tweettv.setText(replace ? tweet.substring(0, tweet.length() - 25) : tweet);
+        tweettv.setText(replace ?
+                tweet.substring(0, tweet.length() - (tweet.contains(" twitter.com") ? 33 : 25)) :
+                tweet);
         tweettv.setTextIsSelectable(true);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
