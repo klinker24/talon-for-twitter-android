@@ -1,15 +1,16 @@
 <changelog>
 
     <version name="3.0.0">
-        <text>New transitions from timeline to tweet viewer</text>
-        <text>Improve popup sizes</text>
-        <text>Improve popup layout animations</text>
-        <text>Improve and simplify search bar</text>
-        <text>Settings improvements</text>
-        <text>Improvements to quoting tweets</text>
-        <text>Fix issue with both video and thumbnail showing on tweet viewer</text>
-        <text>Fix mixed up profile pictures when replying from second account</text>
-        <text>Bug fixes for compose screen</text>
+        <text>NEW: transitions from tweets to tweet viewer</text>
+        <text>NEW: Don't show twitter image or quoted tweet links anymore</text>
+        <text>IMPROVE: popup sizes</text>
+        <text>IMPROVE: popup layout animations</text>
+        <text>IMPROVE: and simplify search bar</text>
+        <text>IMPROVE: settings</text>
+        <text>IMPROVE: quoting tweets</text>
+        <text>FIX: issue with both video and thumbnail showing on tweet viewer</text>
+        <text>FIX: mixed up profile pictures when replying from second account</text>
+        <text>FIX: compose screen bugs</text>
     </version>
 
     <version name="2.6.5">
