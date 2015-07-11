@@ -29,50 +29,18 @@
             android:title="@string/accent_color"
             />
 
-        <!--<ListPreference
-            android:key="theme"
-            android:title="@string/theme"
-            android:defaultValue="0"
-            android:entries="@array/choose_theme"
-            android:entryValues="@array/choose_theme_inserted"
-            />-->
-
-        <CheckBoxPreference
-            android:key="night_mode"
-            android:title="@string/night_mode"
-            android:defaultValue="false"
-            />
-
         <ListPreference
             android:key="widget_theme"
             android:title="@string/widget_theme"
-            android:summary="@string/widget_theme_summary"
             android:defaultValue="3"
             android:entries="@array/widget_themes"
             android:entryValues="@array/widget_themes_inserted"
             />
 
         <CheckBoxPreference
-                android:key="use_snackbar"
-                android:title="@string/use_snackbar"
-                android:summary="@string/use_snackbar_summary"
-                android:defaultValue="true"
-                />
-
-        <CheckBoxPreference
-            android:key="transparent_system_bars"
-            android:title="@string/transparent_system_bars"
+            android:key="night_mode"
+            android:title="@string/night_mode"
             android:defaultValue="false"
-            />
-
-
-        <ListPreference
-            android:key="nav_bar_option"
-            android:title="@string/nav_bar_option"
-            android:summary="@string/nav_bar_option_summary"
-            android:defaultValue="0"
-            android:entries="@array/nav_bar"
-            android:entryValues="@array/nav_bar_inserted"
             />
 
     </PreferenceCategory>
@@ -88,10 +56,37 @@
             android:entryValues="@array/font_type_inserted"
             />
 
+        <ListPreference
+            android:key="text_size"
+            android:title="@string/timeline_text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size"
+            />
+
+        <CheckBoxPreference
+            android:key="military_time"
+            android:title="@string/timestamp"
+            android:defaultValue="false"
+            />
+
+        <CheckBoxPreference
+            android:key="absolute_date"
+            android:title="@string/absolute_date"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory
             android:title="@string/tweet_look_options" >
+
+
+        <CheckBoxPreference
+            android:key="transparent_system_bars"
+            android:title="@string/transparent_system_bars"
+            android:defaultValue="false"
+            />
 
         <CheckBoxPreference
                 android:key="inline_pics"
@@ -108,23 +103,19 @@
                 />
 
         <CheckBoxPreference
-                android:key="military_time"
-                android:title="@string/timestamp"
-                android:defaultValue="false"
-                />
-
-        <CheckBoxPreference
-                android:key="absolute_date"
-                android:title="@string/absolute_date"
-                android:defaultValue="false"
-                />
+            android:key="use_snackbar"
+            android:title="@string/use_snackbar"
+            android:summary="@string/use_snackbar_summary"
+            android:defaultValue="true"
+            />
 
         <ListPreference
-            android:key="text_size"
-            android:title="@string/timeline_text_size"
-            android:defaultValue="14"
-            android:entries="@array/text_size"
-            android:entryValues="@array/text_size"
+            android:key="nav_bar_option"
+            android:title="@string/nav_bar_option"
+            android:summary="@string/nav_bar_option_summary"
+            android:defaultValue="0"
+            android:entries="@array/nav_bar"
+            android:entryValues="@array/nav_bar_inserted"
             />
 
     </PreferenceCategory>

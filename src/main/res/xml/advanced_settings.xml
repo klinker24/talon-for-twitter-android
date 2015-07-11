@@ -45,17 +45,18 @@
             />
 
         <CheckBoxPreference
+            android:key="fav_rt_multiple_accounts"
+            android:title="@string/fav_rt_multiple_accounts"
+            android:summary="@string/fav_rt_multiple_accounts_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
             android:key="top_down_mode"
             android:title="@string/top_down"
             android:summary="@string/top_down_summary"
             android:defaultValue="false" />
 
-        <CheckBoxPreference
-                android:key="use_emojis"
-                android:title="@string/enable_emojis"
-                android:summary="@string/emojis_summary"
-                android:defaultValue="false"
-                />
 
         <CheckBoxPreference
             android:key="auto_insert_hashtags"
@@ -65,17 +66,16 @@
             />
 
         <CheckBoxPreference
+                android:key="use_emojis"
+                android:title="@string/enable_emojis"
+                android:defaultValue="false"
+                />
+
+        <CheckBoxPreference
             android:key="jumping_workaround"
             android:title="@string/jumping_workaround"
             android:summary="@string/jumping_workaround_summary"
             android:defaultValue="false"
-            />
-
-        <CheckBoxPreference
-            android:key="fav_rt_multiple_accounts"
-            android:title="@string/fav_rt_multiple_accounts"
-            android:summary="@string/fav_rt_multiple_accounts_summary"
-            android:defaultValue="true"
             />
 
     </PreferenceCategory>
