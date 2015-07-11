@@ -761,7 +761,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             replace = true;
         }
 
-        holder.tweet.setText(replace ? tweetText.substring(0, tweetText.length() - 25) : tweetText);
+        holder.tweet.setText(replace ?
+                tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
+                tweetText);
 
         boolean picture = false;
 
