@@ -41,7 +41,6 @@
             android:title="@string/show_pull_notification"
             android:summary="@string/show_pull_notification_summary"
             android:defaultValue="true"
-            android:dependency="push_notifications"
             />
 
         <CheckBoxPreference
