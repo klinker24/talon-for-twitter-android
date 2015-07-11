@@ -734,7 +734,7 @@ public abstract class PopupLayout extends LinearLayout {
                 parent.removeView(PopupLayout.this);
                 parent.removeView(dim);
             }
-        }, REAL_ANIMATION_TIME + DEFAULT_FADE_ANIMATION_TIME + 100);
+        }, REAL_ANIMATION_TIME + 100);
 
     }
 
