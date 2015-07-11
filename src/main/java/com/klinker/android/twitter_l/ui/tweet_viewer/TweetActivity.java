@@ -806,7 +806,7 @@ public class TweetActivity extends AppCompatActivity {
 
     public CircleImageView profilePic;
     public NetworkedCacheableImageView image;
-    public TextView retweetertv;
+    public HoloTextView retweetertv;
     public HoloTextView timetv;
     public HoloTextView nametv;
     public HoloTextView screennametv;
@@ -817,7 +817,7 @@ public class TweetActivity extends AppCompatActivity {
         nametv = (HoloTextView) layout.findViewById(R.id.name);
         screennametv = (HoloTextView) layout.findViewById(R.id.screen_name);
         tweettv = (HoloTextView) layout.findViewById(R.id.tweet);
-        retweetertv = (TextView) layout.findViewById(R.id.retweeter);
+        retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
         profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
         image = (NetworkedCacheableImageView) layout.findViewById(R.id.image);
         timetv = (HoloTextView) layout.findViewById(R.id.time);

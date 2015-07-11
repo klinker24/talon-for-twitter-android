@@ -55,7 +55,7 @@
               android:layout_height="1dp"
               android:layout_width="match_parent" />
 
-        <TextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:id="@+id/verified"
             android:drawableLeft="?acceptButton"
             android:drawablePadding="8dp"
@@ -88,7 +88,7 @@
                     android:background="?android:selectableItemBackground"
                     android:layout_weight="1">
 
-                <TextView
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/followers_number"
@@ -151,7 +151,7 @@
                     android:background="?android:selectableItemBackground"
                     android:layout_weight="1">
 
-                <TextView
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/following_number"
@@ -204,7 +204,7 @@
 
         </LinearLayout>
 
-        <TextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/created_at"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                 android:textSize="13sp"
                 android:paddingLeft="16dp"/>
 
-        <TextView
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/number_of_lists"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

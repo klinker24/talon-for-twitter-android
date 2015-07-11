@@ -95,7 +95,7 @@ public class ExpansionViewHelper {
     LinearLayout convoSpinner;
     View convoLayout;
 
-    TextView tweetSource;
+    HoloTextView tweetSource;
 
     RetweetersPopupLayout retweetersPopup;
     FavoritersPopupLayout favoritersPopup;
@@ -151,7 +151,7 @@ public class ExpansionViewHelper {
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
 
-        tweetSource = (TextView) expansion.findViewById(R.id.tweet_source);
+        tweetSource = (HoloTextView) expansion.findViewById(R.id.tweet_source);
 
         repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
