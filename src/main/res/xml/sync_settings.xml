@@ -36,6 +36,13 @@
                 android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
         </Preference>
 
+        <CheckBoxPreference
+            android:key="show_pull_notification"
+            android:title="@string/show_pull_notification"
+            android:summary="@string/show_pull_notification_summary"
+            android:defaultValue="true"
+            android:dependency="push_notifications"
+            />
 
         <CheckBoxPreference
             android:key="interaction_drawer"
