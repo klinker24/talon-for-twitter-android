@@ -21,6 +21,12 @@
     <PreferenceCategory
         android:title="@string/push_notification_options" >
 
+        <Preference
+            android:summary="@string/push_notification_warning" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
+        </Preference>
+
         <ListPreference
             android:key="talon_pull"
             android:title="@string/talon_pull"
@@ -29,12 +35,6 @@
             android:entries="@array/talon_pull"
             android:entryValues="@array/talon_pull_inserted"
             />
-
-        <Preference
-            android:summary="@string/push_notification_warning" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
-        </Preference>
 
         <CheckBoxPreference
             android:key="show_pull_notification"
@@ -55,13 +55,6 @@
     <PreferenceCategory
         android:key="auto_refresh_category"
         android:title="@string/auto_refresh_category" >
-
-        <CheckBoxPreference
-            android:key="sync_mobile_data"
-            android:title="@string/sync_mobile_data"
-            android:summary="@string/sync_mobile_data_summary"
-            android:defaultValue="true"
-            />
 
         <!-- Default of 30 mins -->
         <ListPreference
@@ -102,7 +95,19 @@
 
     <PreferenceCategory
         android:key="other_options"
-        android:title="@string/other_options" >
+        android:title="@string/sync_options" >
+
+        <CheckBoxPreference
+            android:key="sync_mobile_data"
+            android:title="@string/sync_mobile_data"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="refresh_on_start"
+            android:title="@string/refresh_on_startup"
+            android:defaultValue="false"
+            />
 
         <CheckBoxPreference
             android:key="sync_second_mentions"
@@ -111,10 +116,12 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
-            android:key="refresh_on_start"
-            android:title="@string/refresh_on_startup"
-            android:defaultValue="false"
+        <ListPreference
+            android:key="pre_cache"
+            android:title="@string/pre_cache_images"
+            android:defaultValue="1"
+            android:entries="@array/pre_cache"
+            android:entryValues="@array/talon_pull_inserted"
             />
 
         <ListPreference
@@ -125,14 +132,11 @@
             android:entries="@array/max_number"
             android:entryValues="@array/max_number_inserted"
             />
+    </PreferenceCategory>
 
-        <ListPreference
-            android:key="pre_cache"
-            android:title="@string/pre_cache_images"
-            android:defaultValue="1"
-            android:entries="@array/pre_cache"
-            android:entryValues="@array/talon_pull_inserted"
-            />
+    <PreferenceCategory
+        android:key="manual_options"
+        android:title="@string/sync_options" >
 
         <Preference
             android:key="sync_friends"
@@ -146,7 +150,7 @@
             android:summary="@string/fill_gaps_summary"
             />
 
-        </PreferenceCategory>
+    </PreferenceCategory>
 
 
 </PreferenceScreen>

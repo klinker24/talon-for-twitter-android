@@ -31,15 +31,6 @@
         android:dependency="notifications"
         />
 
-    <MultiSelectListPreference
-        android:key="alert_types"
-        android:title="@string/alert_types"
-        android:defaultValue="@array/alert_types_inserted"
-        android:entries="@array/alert_types"
-        android:entryValues="@array/alert_types_inserted"
-        android:dependency="notifications"
-        />
-
     <RingtonePreference
         android:key="ringtone"
         android:title="@string/custom_ringtone"
@@ -48,12 +39,23 @@
         android:defaultValue="content://settings/system/notification_sound"
         />
 
+    <MultiSelectListPreference
+        android:key="alert_types"
+        android:title="@string/alert_types"
+        android:summary="@string/alert_methods_summary"
+        android:defaultValue="@array/alert_types_inserted"
+        android:entries="@array/alert_types"
+        android:entryValues="@array/alert_types_inserted"
+        android:dependency="notifications"
+        />
+
     <PreferenceCategory
         android:title="@string/notification_types" >
 
         <MultiSelectListPreference
             android:key="timeline_set"
             android:title="@string/timeline_notifications"
+            android:summary="@string/timeline_notifications_summary"
             android:defaultValue="@array/interaction_notifications_inserted"
             android:entries="@array/timeline_notifications"
             android:entryValues="@array/interaction_notifications_inserted"
@@ -73,6 +75,7 @@
         <CheckBoxPreference
             android:key="favorite_users_notifications"
             android:title="@string/fav_users_notifications"
+            android:summary="@string/favorite_user_notifications_summary"
             android:defaultValue="true"
             android:dependency="notifications"
             />

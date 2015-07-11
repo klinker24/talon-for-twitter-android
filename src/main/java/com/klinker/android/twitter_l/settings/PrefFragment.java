@@ -1355,12 +1355,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     new AlertDialog.Builder(context)
                             .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
                             .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
-                            .setPositiveButton(R.string.get_android, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial")));
-                                }
-                            })
                             .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

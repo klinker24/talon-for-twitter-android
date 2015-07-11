@@ -270,7 +270,7 @@
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>
         <string name="theme_options">Theme Options</string>
-        <string name="font_options">Font Options</string>
+        <string name="font_options">Display Options</string>
         <string name="other_options">Other Options</string>
         <string name="theme">Theme</string>
         <string name="addon_themes">Add-on Themes</string>
@@ -300,12 +300,10 @@
         <string name="use_screen_name">Display Twitter Handle</string>
             <string name="use_screen_name_summary">Display the user\'s Twitter handle instead of their name on timelines.</string>
         <string name="timestamp">24-Hour Timestamp</string>
-        <string name="enable_emojis">Enable Emojis</string>
+        <string name="enable_emojis">Use iOS emojis</string>
         <string name="to_market">To Play Store</string>
-        <string name="get_android">Get Android Emojis</string>
-        <string name="get_ios">Get iOS Emojis</string>
-        <string name="emoji_dialog_summary">To enable emojis in this app, you must have the \"Sliding Emoji Keyboard\" or the \"Sliding Emoji Keyboard - iOS\" package installed from the play store.\n\n
-                You can switch between the two types of emojis by uninstalling one and installing the other. If both packages are installed, Talon will default to the Android emojis.\n\n
+        <string name="get_ios">Download Plug-in</string>
+        <string name="emoji_dialog_summary">To enable iOS emojis in this app, you must have our free \"Sliding Emoji Keyboard - iOS\" app installed from the play store.\n\n
                 NOTE: Emojis will continue to work in this app even if the trial has expired! That package is used as a plugin as well as a stand alone keyboard.</string>
 
         <string name="theme_light">Light Theme</string>
@@ -313,7 +311,7 @@
         <string name="theme_black">Black Theme</string>
 
     <string name="sync_settings">Sync Settings</string>
-        <string name="sync_mobile_data">Use Mobile Data</string>
+        <string name="sync_mobile_data">Sync Over Mobile Data</string>
         <string name="sync_mobile_data_summary">Auto-refresh timelines over both mobile data and WiFi.</string>
         <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
             <string name="notifications">Notifications</string>
@@ -321,7 +319,7 @@
             <string name="led">Flash LED</string>
             <string name="wake_screen">Wake Screen</string>
             <string name="sound">Notification Sound</string>
-            <string name="quiet_hours">Do Not Disturb</string>
+            <string name="quiet_hours">Do Not Disturb Mode</string>
         <string name="max_number_on_refresh">Max Tweets to Refresh</string>
         <string name="fav_users_notifications">Favorite User Notifications</string>
         <string name="sync_second_mentions">Sync Second Account</string>
@@ -341,7 +339,7 @@
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
             <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).</string>
-            <string name="push_notification_warning">To read more about this option, click this preference.</string>
+            <string name="push_notification_warning">To read more about Talon Pull, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
         <string name="pebble_notifications">Pebble Notifications</string>
@@ -431,7 +429,7 @@
     <string name="layout_hangouts">Hangouts</string>
 
     <!-- added after release -->
-    <string name="use_inapp_browser">In-App Browser on Links</string>
+    <string name="use_inapp_browser">Use In-App Browser</string>
     <string name="use_browser_on_tweet">Browser Page on Tweet</string>
     <string name="dismiss_all">Dismiss All</string>
     <string name="handle_and_name">Display Handle and Name</string>
@@ -476,7 +474,7 @@
     <string name="timeline_notifications">Timeline Notifications</string>
     <string name="interactions_notifications">Interaction Notifications</string>
     <string name="timelines_settings">Timelines Settings</string>
-    <string name="tweet_look_options">Tweet Look Options</string>
+    <string name="tweet_look_options">Timeline Options</string>
     <string name="limiting_options">Limiting Options</string>
     <string name="browser_options">Browser Options</string>
     <string name="custom_ringtone">Custom Ringtone</string>
@@ -573,7 +571,7 @@
     <string name="favorites">Favorites</string>
     <string name="load_pictures">Load Pictures</string>
     <string name="pic_search_disclaimer">Searches the user\'s timeline for pictures. Will take more time depending on how current their pictures are.</string>
-    <string name="widget_theme">Widget Theme</string>
+    <string name="widget_theme">Homescreen Widget Theme</string>
     <string name="widget_theme_summary">Applied to the homescreen widgets.</string>
     <string name="widget_light">Light Theme</string>
     <string name="widget_dark">Dark Theme</string>

@@ -64,7 +64,7 @@ public class PrefActivity extends AppCompatActivity {
         ab.setIcon(null);
         ab.setBackgroundDrawable(new ColorDrawable(AppSettings.getInstance(this).themeColors.primaryColor));
 
-        setIcon(ab, getIntent().getIntExtra("position", 0));
+        //setIcon(ab, getIntent().getIntExtra("position", 0));
     }
 
     public void setUpTheme() {

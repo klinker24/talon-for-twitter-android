@@ -13,6 +13,7 @@
         <text>FIX: issue with both video and thumbnail showing on tweet viewer</text>
         <text>FIX: mixed up profile pictures when replying from second account</text>
         <text>FIX: compose screen bugs</text>
+        <text>FIX: crash reports</text>
     </version>
 
     <version name="2.6.5">
