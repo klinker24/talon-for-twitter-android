@@ -3,6 +3,7 @@
     <version name="3.0.0">
         <text>NEW: transitions from tweets to tweet viewer</text>
         <text>NEW: Don't display twitter image or quoted tweet links anymore</text>
+        <text>NEW: Select font type from UI settings</text>
         <text>NEW: Option to disable Talon Pull notification. Read disclaimer on setting. Use extreme caution.</text>
         <text>IMPROVE: popup sizes</text>
         <text>IMPROVE: popup layout animations</text>

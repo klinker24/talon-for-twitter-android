@@ -80,8 +80,8 @@ public class PrefActivity extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundResource(resource);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
-            getWindow().setStatusBarColor(Color.BLACK);
+            getWindow().setNavigationBarColor(Color.BLACK);
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
     }
 
