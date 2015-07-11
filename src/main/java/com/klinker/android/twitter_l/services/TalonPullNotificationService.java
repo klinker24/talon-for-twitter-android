@@ -174,7 +174,8 @@ public class TalonPullNotificationService extends Service {
 
         mBuilder.setContentIntent(pendingIntent);
 
-        startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
+        if (showNotification)
+            startForeground(FOREGROUND_SERVICE_ID, mBuilder.build());
 
         mContext = getApplicationContext();
 
