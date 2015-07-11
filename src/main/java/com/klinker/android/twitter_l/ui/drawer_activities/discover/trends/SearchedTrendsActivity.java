@@ -30,6 +30,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.*;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -46,6 +47,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import android.widget.SearchView;
+
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
@@ -297,7 +300,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         }
     }
 
-    private SearchView searchView;
+    private android.support.v7.widget.SearchView searchView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -306,83 +309,12 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.menu_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
-        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-        ImageView view = (ImageView) searchView.findViewById(searchImgId);
-        view.setImageResource(R.drawable.action_bar_search);
-
-        if (!settings.darkTheme) {
-            try {
-                setSearchTextColour();
-            } catch (Exception e) {
-
-            }
-            try {
-                setSearchIcons();
-            } catch (Exception e) {
-
-            }
-        }
-
-
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private void setSearchTextColour() {
-        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
-        searchPlate.setTextColor(getResources().getColor(R.color.white));
-        searchPlate.setHintTextColor(getResources().getColor(R.color.white));
-        searchPlate.setBackgroundResource(android.R.color.transparent);
-        searchPlate.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-
-        int queryTextViewId = getResources().getIdentifier("android:id/search_src_text", null, null);
-        View autoComplete = searchView.findViewById(queryTextViewId);
-
-        try {
-            Class<?> clazz = Class.forName("android.widget.SearchView$SearchAutoComplete");
-
-            SpannableStringBuilder stopHint = new SpannableStringBuilder("   ");
-            stopHint.append(getString(R.string.search));
-
-            // Add the icon as an spannable
-            Drawable searchIcon = getResources().getDrawable(R.drawable.ic_action_search_dark);
-            Method textSizeMethod = clazz.getMethod("getTextSize");
-            Float rawTextSize = (Float) textSizeMethod.invoke(autoComplete);
-            int textSize = (int) (rawTextSize * 1.25);
-            searchIcon.setBounds(0, 0, textSize, textSize);
-            stopHint.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            // Set the new hint text
-            Method setHintMethod = clazz.getMethod("setHint", CharSequence.class);
-            setHintMethod.invoke(autoComplete, stopHint);
-        } catch (Exception e) {
-
-        }
-    }
-
-
-    private void setSearchIcons() {
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            ImageView closeBtn = (ImageView) searchField.get(searchView);
-            closeBtn.setImageResource(R.drawable.tablet_close);
-
-            searchField = SearchView.class.getDeclaredField("mVoiceButton");
-            searchField.setAccessible(true);
-            ImageView voiceBtn = (ImageView) searchField.get(searchView);
-            voiceBtn.setImageResource(R.drawable.ic_voice_dark);
-
-        } catch (NoSuchFieldException e) {
-            Log.e("SearchView", e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            Log.e("SearchView", e.getMessage(), e);
-        }
     }
 
     private static final int SETTINGS_RESULT = 101;
