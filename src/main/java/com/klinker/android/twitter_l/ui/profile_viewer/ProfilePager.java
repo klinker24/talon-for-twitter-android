@@ -918,6 +918,8 @@ public class ProfilePager extends AppCompatActivity {
                         sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).commit();
                         sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).commit();
                         isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
+                        isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
+                        isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
                     }
                 } else {
                     try {
@@ -1350,28 +1352,12 @@ public class ProfilePager extends AppCompatActivity {
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
             menu.getItem(MENU_DM).setVisible(false);
-            menu.getItem(MENU_MUTE).setVisible(false);
-            menu.getItem(MENU_UNMUTE).setVisible(false);
-            menu.getItem(MENU_MUTE_RT).setVisible(false);
-            menu.getItem(MENU_UNMUTE_RT).setVisible(false);
         } else {
             if (isFollowingSet) {
                 if (isBlocking) {
                     menu.getItem(MENU_BLOCK).setVisible(false);
                 } else {
                     menu.getItem(MENU_UNBLOCK).setVisible(false);
-                }
-
-                if (isMuted) {
-                    menu.getItem(MENU_MUTE).setVisible(false);
-                } else {
-                    menu.getItem(MENU_UNMUTE).setVisible(false);
-                }
-
-                if (isRTMuted) {
-                    menu.getItem(MENU_MUTE_RT).setVisible(false);
-                } else {
-                    menu.getItem(MENU_UNMUTE_RT).setVisible(false);
                 }
             } else {
                 menu.getItem(MENU_BLOCK).setVisible(false);
@@ -1395,9 +1381,24 @@ public class ProfilePager extends AppCompatActivity {
             } else {
                 menu.getItem(MENU_UNMUFFLE).setVisible(false);
             }
+            if (isMuted) {
+                menu.getItem(MENU_MUTE).setVisible(false);
+            } else {
+                menu.getItem(MENU_UNMUTE).setVisible(false);
+            }
+            if (isRTMuted) {
+                menu.getItem(MENU_MUTE_RT).setVisible(false);
+            } else {
+                menu.getItem(MENU_UNMUTE_RT).setVisible(false);
+            }
         } else {
             menu.getItem(MENU_MUFFLE).setVisible(false);
             menu.getItem(MENU_UNMUFFLE).setVisible(false);
+            menu.getItem(MENU_MUTE).setVisible(false);
+            menu.getItem(MENU_UNMUTE).setVisible(false);
+            menu.getItem(MENU_MUTE_RT).setVisible(false);
+            menu.getItem(MENU_UNMUTE_RT).setVisible(false);
+            menu.getItem(MENU_UNMUTE_RT).setVisible(false);
         }
 
         return true;
