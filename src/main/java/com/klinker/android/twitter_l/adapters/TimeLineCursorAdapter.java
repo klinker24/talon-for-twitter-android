@@ -1293,13 +1293,20 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorHeader);
 
-        final int distance;// = (int) context.getResources().getDimension(R.dimen.expansion_size);;
+        int d;
         if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-            distance = contentHeight - headerHeight;
+            d = contentHeight - headerHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();
         } else {
-            distance = contentHeight;
+            d = contentHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();
         }
-        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, distance);
+
+        if (holder.embeddedTweet.getVisibility() == View.VISIBLE) {
+            d -= holder.embeddedTweet.getHeight();
+        }
+
+        final int distance = d;
+
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, d);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
