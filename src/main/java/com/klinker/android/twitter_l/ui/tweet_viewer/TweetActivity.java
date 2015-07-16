@@ -51,6 +51,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 import org.apache.http.*;
 import org.apache.http.HttpResponse;
@@ -95,12 +99,18 @@ public class TweetActivity extends AppCompatActivity {
 
     private boolean sharedTransition = false;
 
+    private SlidrInterface slidr;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
             sharedTransition = true;
+        }
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            slidr = TalonSlidr.attach(this);
         }
 
         Utils.setSharedContentTransition(this);
@@ -865,7 +875,7 @@ public class TweetActivity extends AppCompatActivity {
                             picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);
-                            picsPopup.show();
+                            picsPopup.show(slidr);
                         } else {
                             Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                             photo.putExtra("shared_trans", true);
@@ -981,6 +991,7 @@ public class TweetActivity extends AppCompatActivity {
         }
 
         expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
+        expansionHelper.setSlidr(slidr);
         expansionHelper.setSecondAcc(secondAcc);
         expansionHelper.setBackground(findViewById(R.id.notify_scroll_view));
         expansionHelper.setWebLink(otherLinks);

@@ -25,7 +25,9 @@ import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.WebPopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.TalonSlidr;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 public abstract class PopupLayout extends LinearLayout {
 
@@ -443,12 +445,16 @@ public abstract class PopupLayout extends LinearLayout {
         return isShowing;
     }
 
+    public void show() {
+        show(null);
+    }
+
     /**
      * Animates the ActionButton onto the screen so that the user may interact.
      * Animation occurs from the bottom of the screen, moving up until it reaches the
      * appropriate distance from the bottom.
      */
-    public void show() {
+    public void show(SlidrInterface slidr) {
 
         if (isShowing) {
             return;
@@ -457,6 +463,10 @@ public abstract class PopupLayout extends LinearLayout {
 
         if (dontShow) {
             return;
+        }
+
+        if (slidr != null) {
+            slidr.lock();
         }
 
         final Activity activity = (Activity) getContext();
@@ -609,14 +619,23 @@ public abstract class PopupLayout extends LinearLayout {
 
     }
 
+    public void hide() {
+        hide(null);
+    }
+
     /**
      * Animates the ActionButton off of the screen. Animation will go from its current position and
      * down until it is no longer being shown to the user.
      */
-    public void hide() {
+    public void hide(SlidrInterface slidr) {
+
 
         if (!isShowing) {
             return;
+        }
+
+        if (slidr != null) {
+            slidr.unlock();
         }
 
         isShowing = false;
