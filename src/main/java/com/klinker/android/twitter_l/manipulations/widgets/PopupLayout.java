@@ -466,6 +466,7 @@ public abstract class PopupLayout extends LinearLayout {
         }
 
         if (slidr != null) {
+            this.slidr = slidr;
             slidr.lock();
         }
 
@@ -619,15 +620,12 @@ public abstract class PopupLayout extends LinearLayout {
 
     }
 
-    public void hide() {
-        hide(null);
-    }
-
+    private SlidrInterface slidr;
     /**
      * Animates the ActionButton off of the screen. Animation will go from its current position and
      * down until it is no longer being shown to the user.
      */
-    public void hide(SlidrInterface slidr) {
+    public void hide() {
 
 
         if (!isShowing) {
