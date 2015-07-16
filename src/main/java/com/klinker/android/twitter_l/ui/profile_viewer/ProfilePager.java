@@ -49,6 +49,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.TalonSlidr;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
@@ -66,6 +67,10 @@ import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.melnykov.fab.FloatingActionButton;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -88,9 +93,16 @@ public class ProfilePager extends AppCompatActivity {
     private boolean isMuffled;
     private boolean isFollowingSet = false;
 
+    private SlidrInterface slidr;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            slidr = TalonSlidr.attach(this);
+            slidr.lock();
+        }
 
         Utils.setSharedContentTransition(this);
 
@@ -524,7 +536,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 picsPopup.setExpansionPointForAnim(view);
-                picsPopup.show();
+                picsPopup.show(slidr);
             }
         });
 
@@ -571,7 +583,7 @@ public class ProfilePager extends AppCompatActivity {
             public void onClick(View view) {
                 fol.setExpansionPointForAnim(view);
                 fol.setOnTopOfView(view);
-                fol.show();
+                fol.show(slidr);
             }
         });
         openFollowers.setOnLongClickListener(new View.OnLongClickListener() {
@@ -591,7 +603,7 @@ public class ProfilePager extends AppCompatActivity {
             public void onClick(View view) {
                 fri.setExpansionPointForAnim(view);
                 fri.setOnTopOfView(view);
-                fri.show();
+                fri.show(slidr);
             }
         });
         openFriends.setOnLongClickListener(new View.OnLongClickListener() {
@@ -627,7 +639,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tweetsPopup.setExpansionPointForAnim(view);
-                tweetsPopup.show();
+                tweetsPopup.show(slidr);
             }
         });
         showAllTweets.setOnLongClickListener(new View.OnLongClickListener() {
@@ -701,7 +713,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mentionsPopup.setExpansionPointForAnim(view);
-                mentionsPopup.show();
+                mentionsPopup.show(slidr);
             }
         });
 
@@ -764,7 +776,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 favoritesPopup.setExpansionPointForAnim(view);
-                favoritesPopup.show();
+                favoritesPopup.show(slidr);
             }
         });
 
@@ -805,6 +817,8 @@ public class ProfilePager extends AppCompatActivity {
         } else {
             findViewById(R.id.favorites_card).setVisibility(View.GONE);
         }
+
+        slidr.unlock();
     }
 
     private View spinner;

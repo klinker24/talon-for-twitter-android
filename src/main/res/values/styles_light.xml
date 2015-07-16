@@ -23,7 +23,10 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
 
-        <item name="android:windowBackground">@android:color/white</item>
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
         <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
 
