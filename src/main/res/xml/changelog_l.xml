@@ -9,15 +9,19 @@
         <text>NEW: Notification of quoted tweets when using talon pull</text>
         <text>NEW: Option to disable Talon Pull notification. Read disclaimer on setting. Use extreme caution.</text>
         <text>NEW: Mute options on your own profile</text>
-        <text>NEW: Layout for small tablets is now similar to phone layout</text>
         <text>IMPROVE: Popup sizes</text>
         <text>IMPROVE: Popup layout animations</text>
         <text>IMPROVE: Search bar simplicity</text>
         <text>IMPROVE: Settings style</text>
         <text>IMPROVE: Settings options</text>
-        <text>IMPROVE:</text>
         <text>IMPROVE: Quoting tweets</text>
         <text>IMPROVE: Expansion height</text>
+        <text>IMPROVE: Animations</text>
+        <text>IMPROVE: Some tablet layouts</text>
+        <text>IMPROVE: Fluidity of some transitions</text>
+        <text>IMPROVE: Now officially "Designed for Tablets" on Play Store</text>
+        <text>IMRPOVE: Now officially "Designed for Android Wear" on Play Store</text>
+        <text>IMPROVE: Play store listing</text>
         <text>FIX: Issue with both video and thumbnail showing on tweet viewer</text>
         <text>FIX: Mixed up profile pictures when replying from second account</text>
         <text>FIX: Compose screen bugs</text>
