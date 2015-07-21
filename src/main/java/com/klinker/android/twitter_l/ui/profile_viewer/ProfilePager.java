@@ -107,6 +107,8 @@ public class ProfilePager extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+
         if (!getResources().getBoolean(R.bool.isTablet)) {
             slidr = TalonSlidr.attach(this);
             slidr.lock();
@@ -261,7 +263,7 @@ public class ProfilePager extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             profilePic.setVisibility(View.INVISIBLE);
         }
-        
+
         profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
@@ -828,7 +830,7 @@ public class ProfilePager extends AppCompatActivity {
         });
 
         anim.setStartOffset(150);
-        anim.setDuration(300);
+        anim.setDuration(450);
         v.startAnimation(anim);
     }
 
@@ -1377,6 +1379,7 @@ public class ProfilePager extends AppCompatActivity {
         sharedPrefs.edit().putBoolean("from_activity", true).commit();
 
         super.finish();
+        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         try {
             if (isMyProfile) {
