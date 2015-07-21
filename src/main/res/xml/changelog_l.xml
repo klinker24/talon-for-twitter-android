@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="3.0.0">
+        <text>NEW: User profile layout</text>
         <text>NEW: Transitions from tweets to tweet viewer (5.0+)</text>
         <text>NEW: Select font type from UI settings</text>
         <text>NEW: Swipe horizontally to close tweet and profile viewers</text>
@@ -14,6 +15,7 @@
         <text>IMPROVE: Search bar simplicity</text>
         <text>IMPROVE: Settings style</text>
         <text>IMPROVE: Settings options</text>
+        <text>IMPROVE:</text>
         <text>IMPROVE: Quoting tweets</text>
         <text>IMPROVE: Expansion height</text>
         <text>FIX: Issue with both video and thumbnail showing on tweet viewer</text>

@@ -9,9 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.*;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,9 +21,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
@@ -29,6 +33,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
+import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -74,6 +79,7 @@ import com.r0adkll.slidr.model.SlidrPosition;
 
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
+import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 
 public class ProfilePager extends AppCompatActivity {
@@ -118,7 +124,6 @@ public class ProfilePager extends AppCompatActivity {
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-
 
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
@@ -198,12 +203,7 @@ public class ProfilePager extends AppCompatActivity {
         }
     }
 
-    public NetworkedCacheableImageView background;
     public NetworkedCacheableImageView profilePic;
-    public NetworkedCacheableImageView toolbarBackground;
-    public ImageView toolbarProfilePic;
-    public TextView toolbarName;
-    public TextView toolbarRealName;
     public HoloTextView followerCount;
     public HoloTextView followingCount;
     public HoloTextView description;
@@ -213,15 +213,13 @@ public class ProfilePager extends AppCompatActivity {
     public ImageView[] followers = new ImageView[3];
     public View profileCounts;
 
+    public void setTransitionNames() {
+        profilePic.setTransitionName("pro_pic");
+    }
+
     public void setUpContent() {
         // first get all the views we need
-        background = (NetworkedCacheableImageView) findViewById(R.id.background_image);
         profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
-
-        toolbarBackground = (NetworkedCacheableImageView) findViewById(R.id.toolbar_background);
-        toolbarProfilePic = (ImageView) findViewById(R.id.toolbar_profile_pic);
-        toolbarName = (TextView) findViewById(R.id.toolbar_screenname);
-        toolbarRealName = (TextView) findViewById(R.id.toolbar_name);
 
         followerCount = (HoloTextView) findViewById(R.id.followers_number);
         followingCount = (HoloTextView) findViewById(R.id.following_number);
@@ -238,93 +236,51 @@ public class ProfilePager extends AppCompatActivity {
         followers[1] = (ImageView) findViewById(R.id.follower_2);
         followers[2] = (ImageView) findViewById(R.id.follower_3);
 
-        // set up the margin on the profile card so it is under the action bar and status bar
-        int abHeight = Utils.getActionBarHeight(context);
-        int sbHeight = Utils.getStatusBarHeight(context);
-        int navHeight = Utils.getNavBarHeight(context);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            setTransitionNames();
+        }
 
-        CardView headerCard = (CardView) findViewById(R.id.header_card);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
-        params.topMargin = abHeight + sbHeight + Utils.toDP(86, context);
-        headerCard.setLayoutParams(params);
+        final Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(CacheableBitmapDrawable result) {
+                toolbar.setLogo(result);
+            }
+        });
     }
 
     private int offsetSize = 0;
-    private boolean toolbarIsShowing = false;
     public void setUpInsets() {
-        final View insetsBackground = findViewById(R.id.actionbar_and_status_bar);
-
-        final int toolbarHeight = Utils.getActionBarHeight(this) +
-                (getResources().getBoolean(R.bool.isTablet) ? 0 : Utils.getStatusBarHeight(this));
-
-        ViewGroup.LayoutParams statusParams = insetsBackground.getLayoutParams();
-        statusParams.height = toolbarHeight;
-        insetsBackground.setLayoutParams(statusParams);
-        insetsBackground.setTranslationY(-1 * statusParams.height);
-
-        final int sbHeight = Utils.getStatusBarHeight(context);
-
-        View status = findViewById(R.id.darker_status);
-        RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) status.getLayoutParams();
-        params1.height = sbHeight;
-
-        status.setVisibility(View.GONE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
+            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
         }
 
-        final ObjectAnimator showToolbar = ObjectAnimator.ofFloat(insetsBackground, View.TRANSLATION_Y, -1 * toolbarHeight, 0);
-        showToolbar.setDuration(250);
-        showToolbar.setInterpolator(new DecelerateInterpolator());
-        final ObjectAnimator hideToolbar = ObjectAnimator.ofFloat(insetsBackground, View.TRANSLATION_Y, 0, -1 * toolbarHeight);
-        hideToolbar.setDuration(250);
-        hideToolbar.setInterpolator(new DecelerateInterpolator());
-
-        final int headerSize = Utils.toDP(445, context);
-
-        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
-        scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                if (t > offsetSize) {
-                    background.setTranslationY(-1f * (t - offsetSize));
-                }
-                if (t < offsetSize - 5 && t > offsetSize && (oldt - t)  < 5) {
-                    background.setTranslationY(0f);
-                }
-
-                float heightForToolbar = headerSize + background.getTranslationY();
-
-                if (toolbarHeight > heightForToolbar && !toolbarIsShowing) {
-                    toolbarIsShowing = true;
-                    showToolbar.start();
-                } else if (toolbarHeight < heightForToolbar && toolbarIsShowing) {
-                    toolbarIsShowing = false;
-                    hideToolbar.start();
-                }
-            }
-        });
+        int height = Utils.toDP(24 + 56, this);
+        View v = findViewById(R.id.nav_bar_seperator);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
+        v.setVisibility(View.VISIBLE);
 
         if (Utils.hasNavBar(context) && !getResources().getBoolean(R.bool.isTablet)) {
-            View v = findViewById(R.id.nav_bar_seperator);
-            v.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
-            params.height = Utils.getNavBarHeight(context);
+            params.height = Utils.getNavBarHeight(context) + height;
             v.setLayoutParams(params);
         } else {
-            findViewById(R.id.nav_bar_seperator).setVisibility(View.GONE);
+            params.height = height;
+            v.setLayoutParams(params);
         }
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
+        collapsingToolbarLayout.setTitle(name);
+        collapsingToolbarLayout.setStatusBarScrimColor(settings.themeColors.primaryColorDark);
+        collapsingToolbarLayout.setContentScrimColor(settings.themeColors.primaryColor);
+
+        Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void setUpTheme() {
-        Utils.setUpTweetTheme(context, settings);
-
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setTitle("");
-        actionBar.setIcon(null);
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        Utils.setUpMainTheme(context, settings);
     }
 
     private boolean isMyProfile = false;
@@ -339,7 +295,7 @@ public class ProfilePager extends AppCompatActivity {
 
         name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
-        proPic = from.getStringExtra("profilePicture");
+        proPic = from.getStringExtra("proPic");
         tweetId = from.getLongExtra("tweetid", 0l);
         isRetweet = from.getBooleanExtra("retweet", false);
 
@@ -352,67 +308,19 @@ public class ProfilePager extends AppCompatActivity {
     public TextView favoriteText;
 
     public void setProfileCard(final User user) {
-        final String backgroundImage = user.getProfileBannerIPadRetinaURL();
 
-        if (backgroundImage != null) {
-            background.loadImage(backgroundImage, true, null);
+        CardView headerCard = (CardView) findViewById(R.id.stats_card);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) headerCard.getLayoutParams();
+        params.topMargin = Utils.toDP(32, context);
+        headerCard.setLayoutParams(params);
 
-            toolbarBackground.loadImage(backgroundImage, true, null);
-            toolbarBackground.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent pic = new Intent(context, PhotoViewerActivity.class);
-                    pic.putExtra("url", backgroundImage);
-                    startActivity(pic);
-                }
-            });
-
-            background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent pic = new Intent(context, PhotoViewerActivity.class);
-                    pic.putExtra("url", backgroundImage);
-                    startActivity(pic);
-                }
-            });
-        } else {
-            //background.setImageDrawable(getDrawable(R.drawable.default_header_background));
-            CardView headerCard = (CardView) findViewById(R.id.header_card);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) headerCard.getLayoutParams();
-            params.topMargin = Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context) + Utils.toDP(15, context);
-            headerCard.setLayoutParams(params);
-
-            toolbarBackground.setBackgroundColor(settings.themeColors.primaryColor);
-            findViewById(R.id.darker_status).setBackgroundColor(settings.themeColors.primaryColorDark);
-            findViewById(R.id.darker_status).setVisibility(View.VISIBLE);
-
-            ValueAnimator hideStatus = ValueAnimator.ofInt(getResources().getColor(R.color.transparent_system_bar), getResources().getColor(android.R.color.white), getResources().getColor(android.R.color.transparent));
-            hideStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(val);
-                    }
-                }
-            });
-            hideStatus.setDuration(250);
-            hideStatus.setEvaluator(new ArgbEvaluator());
-            hideStatus.start();
-
-        }
-
-        ImageUtils.loadImage(context, toolbarProfilePic, user.getOriginalProfileImageURL(), mCache);
-
-        toolbarName.setText("@" + user.getScreenName());
-        toolbarRealName.setText(user.getName());
-
-        profilePic.loadImage(user.getOriginalProfileImageURL(), true, null);
-
-        final FloatingActionButton sendButton = (FloatingActionButton) findViewById(R.id.send_button);
-        sendButton.setColorNormal(settings.themeColors.accentColor);
-        sendButton.setColorPressed(settings.themeColors.accentColor);
-        sendButton.setColorRippleResId(android.R.color.white);
+        final android.support.design.widget.FloatingActionButton sendButton =
+                (android.support.design.widget.FloatingActionButton) findViewById(R.id.send_button);
+        sendButton.setRippleColor(getResources().getColor(android.R.color.white));
+        ColorStateList csl = new ColorStateList(
+                new int[][]{{}},
+                new int[]{settings.themeColors.accentColor});
+        sendButton.setBackgroundTintList(csl);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -509,25 +417,6 @@ public class ProfilePager extends AppCompatActivity {
             findViewById(R.id.header_button_section).setVisibility(View.GONE);
         }
 
-        sendButton.setVisibility(View.INVISIBLE);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendButton.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fab_expand));
-                sendButton.setVisibility(View.VISIBLE);
-            }
-        }, 450);
-
-        showCard(findViewById(R.id.header_card));
-    }
-
-    private PicturesPopup picsPopup;
-    private ProfileFollowersPopup fol;
-    private ProfileFriendsPopup fri;
-
-    private void showStats(final User user) {
-
         Button pictures = (Button) findViewById(R.id.pictures_button);
         pictures.setTextColor(settings.themeColors.primaryColorLight);
 
@@ -554,6 +443,7 @@ public class ProfilePager extends AppCompatActivity {
         TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
         View divider = findViewById(R.id.stats_text_divider);
 
+        statsTitle.setText("@" + user.getScreenName());
         statsTitle.setTextColor(settings.themeColors.primaryColor);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
 
@@ -617,6 +507,16 @@ public class ProfilePager extends AppCompatActivity {
         });
 
         showCard(findViewById(R.id.stats_card));
+    }
+
+    private PicturesPopup picsPopup;
+    private ProfileFollowersPopup fol;
+    private ProfileFriendsPopup fri;
+
+    private void showStats(final User user) {
+
+
+        //showCard(findViewById(R.id.stats_card));
     }
 
     public List<Status> tweets = new ArrayList<Status>();
@@ -818,7 +718,9 @@ public class ProfilePager extends AppCompatActivity {
             findViewById(R.id.favorites_card).setVisibility(View.GONE);
         }
 
-        slidr.unlock();
+        if (slidr != null) {
+            slidr.unlock();
+        }
     }
 
     private View spinner;

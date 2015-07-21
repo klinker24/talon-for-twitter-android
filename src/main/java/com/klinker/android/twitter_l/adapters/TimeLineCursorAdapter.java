@@ -370,6 +370,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             holder.image.setTransitionName(null);
+            holder.name.setTransitionName(null);
+            holder.screenTV.setTransitionName(null);
+            holder.profilePic.setTransitionName(null);
+            holder.tweet.setTransitionName(null);
         }
 
         if (holder.expandArea.getVisibility() != View.GONE) {
@@ -723,7 +727,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", name);
                 viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", profilePic);
+                viewProfile.putExtra("proPic", holder.proPicUrl);
                 viewProfile.putExtra("tweetid", holder.tweetId);
                 viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                 viewProfile.putExtra("long_click", false);
@@ -734,7 +738,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             .commit();
                 }
 
-                context.startActivity(viewProfile);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                    holder.profilePic.getVisibility() == View.VISIBLE) {
+
+                    /*holder.profilePic.setTransitionName("pro_pic");
+                    ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(((Activity) context),
+                                    new Pair<View, String>(holder.profilePic, "pro_pic")
+                            );
+
+                    context.startActivity(viewProfile, options.toBundle());*/
+                    context.startActivity(viewProfile);
+                } else {
+                    context.startActivity(viewProfile);
+                }
+
             }
         });
 
