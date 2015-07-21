@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
@@ -277,6 +278,8 @@ public class ProfilePager extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NestedScrollView scroller = (NestedScrollView) findViewById(R.id.nested_scroll_view);
     }
 
     public void setUpTheme() {

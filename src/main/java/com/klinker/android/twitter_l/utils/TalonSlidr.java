@@ -26,8 +26,8 @@ public class TalonSlidr extends Slidr {
 
         final SlidrConfig config = new SlidrConfig.Builder()
                 .position(SlidrPosition.HORIZONTAL)
-                .sensitivity(.5f)
-                .touchSize(-.1f)
+                .sensitivity(.25f)
+                .touchSize(.1f)
                 .build();
 
         // Hijack the decorview
