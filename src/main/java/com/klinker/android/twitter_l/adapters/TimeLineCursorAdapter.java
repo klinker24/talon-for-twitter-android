@@ -518,7 +518,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         holder.name.setTransitionName("name");
                         holder.tweet.setTransitionName("tweet");
 
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE && holder.profilePic.getVisibility() == View.VISIBLE) {
+                        if (holder.imageHolder.getVisibility() == View.VISIBLE &&
+                                holder.playButton.getVisibility() != View.VISIBLE &&
+                                holder.profilePic.getVisibility() == View.VISIBLE) {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
 
@@ -531,30 +533,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                             context.startActivity(viewTweet, options.toBundle());
                         } else {
-                            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                                ActivityOptions options = ActivityOptions
-                                        .makeSceneTransitionAnimation(((Activity) context),
+                            ActivityOptions options = ActivityOptions
+                                    .makeSceneTransitionAnimation(((Activity) context),
 
-                                                new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                                new Pair<View, String>(holder.screenTV, "screen_name"),
-                                                new Pair<View, String>(holder.name, "name"),
-                                                new Pair<View, String>(holder.tweet, "tweet"),
-                                                new Pair<View, String>(holder.image, "image")
-                                        );
+                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
+                                            new Pair<View, String>(holder.screenTV, "screen_name"),
+                                            new Pair<View, String>(holder.name, "name"),
+                                            new Pair<View, String>(holder.tweet, "tweet")
+                                    );
 
-                                context.startActivity(viewTweet, options.toBundle());
-                            } else {
-                                ActivityOptions options = ActivityOptions
-                                        .makeSceneTransitionAnimation(((Activity) context),
-
-                                                new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                                new Pair<View, String>(holder.screenTV, "screen_name"),
-                                                new Pair<View, String>(holder.name, "name"),
-                                                new Pair<View, String>(holder.tweet, "tweet")
-                                        );
-
-                                context.startActivity(viewTweet, options.toBundle());
-                            }
+                            context.startActivity(viewTweet, options.toBundle());
                         }
                     } else {
                         context.startActivity(viewTweet);
@@ -627,7 +615,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         holder.name.setTransitionName("name");
                         holder.tweet.setTransitionName("tweet");
 
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE && holder.profilePic.getVisibility() == View.VISIBLE) {
+                        if (holder.imageHolder.getVisibility() == View.VISIBLE &&
+                                holder.playButton.getVisibility() != View.VISIBLE &&
+                                holder.profilePic.getVisibility() == View.VISIBLE) {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
 
@@ -849,7 +839,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 holder.name.setTransitionName("name");
                                 holder.tweet.setTransitionName("tweet");
 
-                                if (holder.imageHolder.getVisibility() == View.VISIBLE && holder.profilePic.getVisibility() == View.VISIBLE) {
+                                if (holder.imageHolder.getVisibility() == View.VISIBLE &&
+                                        holder.playButton.getVisibility() != View.VISIBLE &&
+                                        holder.profilePic.getVisibility() == View.VISIBLE) {
                                     ActivityOptions options = ActivityOptions
                                             .makeSceneTransitionAnimation(((Activity) context),
 
