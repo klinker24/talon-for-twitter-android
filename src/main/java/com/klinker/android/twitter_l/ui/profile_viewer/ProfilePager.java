@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.ui.profile_viewer;
 
+import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -241,7 +242,49 @@ public class ProfilePager extends AppCompatActivity {
             setTransitionNames();
         }
 
-        profilePic.loadImage(proPic, true, null);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadProfilePicture();
+            }
+        }, 300);
+    }
+
+    private boolean loaded = false;
+
+    public void loadProfilePicture() {
+
+        if (loaded) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            profilePic.setVisibility(View.INVISIBLE);
+        }
+        
+        profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
+            @Override
+            public void onImageLoaded(CacheableBitmapDrawable result) {
+                loaded = true;
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                    View myView = profilePic;
+
+                    int cx = (myView.getLeft() + myView.getRight()) / 2;
+                    int cy = (myView.getTop() + myView.getBottom()) / 2;
+
+                    int finalRadius = (int) Math.sqrt(Math.pow(myView.getHeight(), 2) + Math.pow(myView.getWidth(), 2));
+
+                    Animator anim =
+                            ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+
+                    anim.setDuration(500);
+
+                    myView.setVisibility(View.VISIBLE);
+                    anim.start();
+                }
+            }
+        });
     }
 
     private int offsetSize = 0;
@@ -310,7 +353,7 @@ public class ProfilePager extends AppCompatActivity {
             proPic = user.getOriginalProfileImageURL();
             name = user.getName();
 
-            profilePic.loadImage(proPic, true, null);
+            loadProfilePicture();
 
             CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
             collapsingToolbarLayout.setTitle(name);
