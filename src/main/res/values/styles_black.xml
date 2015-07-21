@@ -166,9 +166,12 @@
 
     <style name="Theme.TalonBlack.Main" parent="Theme.AppCompat.NoActionBar">
 
-        <item name="android:windowBackground">@color/black_background</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
 
         <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>

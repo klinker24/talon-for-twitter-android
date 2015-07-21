@@ -105,8 +105,9 @@ dependencies {
 
     provided 'org.projectlombok:lombok:1.14.8'
 
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile "com.android.support:cardview-v7:22.1.0"
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:cardview-v7:22.2.1'
+    compile 'com.android.support:design:22.2.1'
 
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
