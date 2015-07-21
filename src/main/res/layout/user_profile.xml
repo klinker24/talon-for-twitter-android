@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                app:expandedTitleMarginStart="64dp"
+                app:expandedTitleMarginStart="24dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:src="@drawable/ic_action_new_dark"
+            android:src="@drawable/ic_add_fab"
             android:layout_marginEnd="16dp"
             app:backgroundTint="@android:color/white"
             app:layout_anchor="@+id/appbar"
