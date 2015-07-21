@@ -326,7 +326,9 @@ public class TweetActivity extends AppCompatActivity {
         nav.setVisibility(View.VISIBLE);
     }
 
+    public VideoView video;
     public void getVideo(final VideoView video) {
+        this.video = video;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -490,28 +492,6 @@ public class TweetActivity extends AppCompatActivity {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         sharedPrefs.edit().putBoolean("from_activity", true).commit();
-
-        if (expansionHelper != null) {
-            expansionHelper.stop();
-        }
-
-        try {
-            View gif = findViewById(R.id.gif);
-            if (gif.getVisibility() == View.VISIBLE) {
-                gif.setVisibility(View.INVISIBLE);
-            }
-        } catch (Exception e) {
-
-        }
-
-        try {
-            View youtube = findViewById(R.id.youtube_view);
-            if (youtube.getVisibility() == View.VISIBLE) {
-                youtube.setVisibility(View.INVISIBLE);
-            }
-        } catch (Exception e) {
-
-        }
 
         super.finish();
     }
@@ -1008,33 +988,28 @@ public class TweetActivity extends AppCompatActivity {
     private ExpansionViewHelper expansionHelper;
 
     public void hideExtraContent() {
-        final LinearLayout extra = (LinearLayout) findViewById(R.id.extra_content);
-        final View name = findViewById(R.id.person_info);
-        if (extra.getVisibility() == View.VISIBLE) {
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+        if (expansionHelper != null) {
+            expansionHelper.stop();
+        }
 
+        try {
+            LinearLayout videos = (LinearLayout) findViewById(R.id.extra_content);
+            if (videos.getVisibility() == View.VISIBLE) {
+                videos.removeAllViews();
+                videos.setVisibility(View.GONE);
+
+                if (this.video != null) {
+                    this.video.stopPlayback();
                 }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    extra.setVisibility(View.INVISIBLE);
-                    //back.setVisibility(View.INVISIBLE);
-                    name.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            anim.setDuration(250);
-            if (!fromLauncher && !sharedTransition) {
-                name.startAnimation(anim);
-                extra.startAnimation(anim);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (image.getVisibility() != View.VISIBLE) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) image.getLayoutParams();
+            params.height = 0;
+            image.setLayoutParams(params);
         }
     }
 
