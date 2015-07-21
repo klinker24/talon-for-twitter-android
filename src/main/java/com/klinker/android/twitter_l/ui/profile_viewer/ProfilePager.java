@@ -319,6 +319,14 @@ public class ProfilePager extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NestedScrollView scroller = (NestedScrollView) findViewById(R.id.nested_scroll_view);
+
+        final android.support.design.widget.FloatingActionButton sendButton =
+                (android.support.design.widget.FloatingActionButton) findViewById(R.id.send_button);
+        sendButton.setRippleColor(getResources().getColor(android.R.color.white));
+        ColorStateList csl = new ColorStateList(
+                new int[][]{{}},
+                new int[]{settings.themeColors.accentColor});
+        sendButton.setBackgroundTintList(csl);
     }
 
     public void setUpTheme() {
