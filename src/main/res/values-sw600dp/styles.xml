@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TalonDark.Tweet" parent="@style/Theme.TalonDark.Popup.Notif">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Tweet" parent="@style/Theme.TalonBlack.Popup.Notif">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight.Popup.Notif">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>
