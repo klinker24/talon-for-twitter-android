@@ -37,6 +37,7 @@ import android.location.Location;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -540,6 +541,11 @@ public abstract class Compose extends Activity implements
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
         Log.v("talon_composing_image", "rotation: " + orientation);
+
+        if (Build.MANUFACTURER.toLowerCase().contains("samsung") && Build.MODEL.toLowerCase().contains("s6")) {
+            Log.v("talon_composing_image", "S6 varient");
+            return bitmap;
+        }
 
         try{
             Matrix matrix = new Matrix();
