@@ -241,13 +241,7 @@ public class ProfilePager extends AppCompatActivity {
             setTransitionNames();
         }
 
-        final Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
-            @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                toolbar.setLogo(result);
-            }
-        });
+        profilePic.loadImage(proPic, true, null);
     }
 
     private int offsetSize = 0;
@@ -311,6 +305,16 @@ public class ProfilePager extends AppCompatActivity {
     public TextView favoriteText;
 
     public void setProfileCard(final User user) {
+
+        if (android.text.TextUtils.isEmpty(proPic)) {
+            proPic = user.getOriginalProfileImageURL();
+            name = user.getName();
+
+            profilePic.loadImage(proPic, true, null);
+
+            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
+            collapsingToolbarLayout.setTitle(name);
+        }
 
         CardView headerCard = (CardView) findViewById(R.id.stats_card);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) headerCard.getLayoutParams();
