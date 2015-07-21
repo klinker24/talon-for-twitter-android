@@ -2,11 +2,13 @@
 
     <version name="3.0.0">
         <text>NEW: Transitions from tweets to tweet viewer (5.0+)</text>
+        <text>NEW: Select font type from UI settings</text>
         <text>NEW: Swipe horizontally to close tweet and profile viewers</text>
         <text>NEW: Don't display twitter image or quoted tweet links anymore</text>
-        <text>NEW: Select font type from UI settings</text>
+        <text>NEW: Notification of quoted tweets when using talon pull</text>
         <text>NEW: Option to disable Talon Pull notification. Read disclaimer on setting. Use extreme caution.</text>
         <text>NEW: Mute options on your own profile</text>
+        <text>NEW: Layout for small tablets is now similar to phone layout</text>
         <text>IMPROVE: Popup sizes</text>
         <text>IMPROVE: Popup layout animations</text>
         <text>IMPROVE: Search bar simplicity</text>
