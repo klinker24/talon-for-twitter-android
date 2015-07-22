@@ -120,6 +120,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.TalonBlack.Profile" parent="@style/Theme.TalonBlack.Main">
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.TalonBlack.Popup" parent="@style/Theme.TalonBlack.Base">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">stateUnchanged</item>
@@ -156,13 +162,13 @@
         <item name="android:windowContentTransitions">false</item>
         <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
 
-        <!-- For Slidr -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-
         <item name="android:navigationBarColor">@color/transparent_system_bar</item>
 
         <item name="android:colorControlHighlight">@color/dark_ripple</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/black_background</item>
 
         <item name="textColor">@color/dark_text</item>
         <item name="action_bar_color">@color/action_bar_dark</item>

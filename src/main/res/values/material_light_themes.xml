@@ -14,6 +14,10 @@
         <item name="colorPrimaryDark">@color/black_background</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Launcher" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimaryDark">@color/black_background</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Launcher" parent="Theme.TalonLight.Popup">
         <item name="colorPrimaryDark">@color/black_background</item>
     </style>
@@ -40,6 +44,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Red" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/red_primary_color</item>
+        <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
+        <item name="colorAccent">@color/red_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Red" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/red_primary_color</item>
         <item name="colorPrimaryDark">@color/red_primary_color_dark</item>
         <item name="colorAccent">@color/red_primary_color</item>
@@ -82,6 +92,12 @@
         <item name="colorAccent">@color/pink_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Pink" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/pink_primary_color</item>
+        <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
+        <item name="colorAccent">@color/pink_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Pink" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/pink_primary_color</item>
         <item name="colorPrimaryDark">@color/pink_primary_color_dark</item>
@@ -114,6 +130,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Purple" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/purple_primary_color</item>
+        <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
+        <item name="colorAccent">@color/purple_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Purple" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
         <item name="colorAccent">@color/purple_primary_color</item>
@@ -156,6 +178,12 @@
         <item name="colorAccent">@color/deep_purple_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.DeepPurple" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/deep_purple_primary_color</item>
+        <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
+        <item name="colorAccent">@color/deep_purple_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.DeepPurple" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/deep_purple_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_purple_primary_color_dark</item>
@@ -188,6 +216,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Indigo" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/indigo_primary_color</item>
+        <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
+        <item name="colorAccent">@color/indigo_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Indigo" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/indigo_primary_color</item>
         <item name="colorPrimaryDark">@color/indigo_primary_color_dark</item>
         <item name="colorAccent">@color/indigo_primary_color</item>
@@ -230,6 +264,12 @@
         <item name="colorAccent">@color/blue_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Blue" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/blue_primary_color</item>
+        <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
+        <item name="colorAccent">@color/blue_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Blue" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/blue_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_primary_color_dark</item>
@@ -262,6 +302,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.LightBlue" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/light_blue_primary_color</item>
+        <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
+        <item name="colorAccent">@color/light_blue_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.LightBlue" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
         <item name="colorAccent">@color/light_blue_primary_color</item>
@@ -304,6 +350,12 @@
         <item name="colorAccent">@color/cyan_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Cyan" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/cyan_primary_color</item>
+        <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
+        <item name="colorAccent">@color/cyan_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Cyan" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/cyan_primary_color</item>
         <item name="colorPrimaryDark">@color/cyan_primary_color_dark</item>
@@ -336,6 +388,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Teal" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/teal_primary_color</item>
+        <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Teal" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
         <item name="colorAccent">@color/teal_primary_color</item>
@@ -378,6 +436,12 @@
         <item name="colorAccent">@color/green_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Green" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/green_primary_color</item>
+        <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
+        <item name="colorAccent">@color/green_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Green" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
@@ -410,6 +474,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.LightGreen" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/light_green_primary_color</item>
+        <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
+        <item name="colorAccent">@color/light_green_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.LightGreen" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/light_green_primary_color</item>
         <item name="colorPrimaryDark">@color/light_green_primary_color_dark</item>
         <item name="colorAccent">@color/light_green_primary_color</item>
@@ -452,6 +522,12 @@
         <item name="colorAccent">@color/lime_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Lime" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/lime_primary_color</item>
+        <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
+        <item name="colorAccent">@color/lime_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Lime" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/lime_primary_color</item>
         <item name="colorPrimaryDark">@color/lime_primary_color_dark</item>
@@ -484,6 +560,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Yellow" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/yellow_primary_color</item>
+        <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
+        <item name="colorAccent">@color/yellow_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Yellow" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/yellow_primary_color</item>
         <item name="colorPrimaryDark">@color/yellow_primary_color_dark</item>
         <item name="colorAccent">@color/yellow_primary_color</item>
@@ -526,6 +608,12 @@
         <item name="colorAccent">@color/amber_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Amber" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/amber_primary_color</item>
+        <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
+        <item name="colorAccent">@color/amber_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Amber" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/amber_primary_color</item>
         <item name="colorPrimaryDark">@color/amber_primary_color_dark</item>
@@ -558,6 +646,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Orange" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/orange_primary_color</item>
+        <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
+        <item name="colorAccent">@color/orange_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Orange" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
         <item name="colorAccent">@color/orange_primary_color</item>
@@ -600,6 +694,12 @@
         <item name="colorAccent">@color/deep_orange_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.DeepOrange" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/deep_orange_primary_color</item>
+        <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
+        <item name="colorAccent">@color/deep_orange_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.DeepOrange" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
@@ -632,6 +732,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.Brown" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/brown_primary_color</item>
+        <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.Brown" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
         <item name="colorAccent">@color/brown_primary_color</item>
@@ -674,6 +780,12 @@
         <item name="colorAccent">@color/grey_primary_color</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile.Grey" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/grey_primary_color</item>
+        <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
+        <item name="colorAccent">@color/grey_primary_color</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup.Grey" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/grey_primary_color</item>
         <item name="colorPrimaryDark">@color/grey_primary_color_dark</item>
@@ -706,6 +818,12 @@
     </style>
 
     <style name="Theme.TalonLight.Tweet.BlueGrey" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/blue_grey_primary_color</item>
+        <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
+        <item name="colorAccent">@color/blue_grey_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.BlueGrey" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
         <item name="colorAccent">@color/blue_grey_primary_color</item>
