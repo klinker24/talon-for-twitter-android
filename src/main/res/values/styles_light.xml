@@ -137,6 +137,12 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile" parent="@style/Theme.TalonLight.Main">
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
 
         <item name="android:windowIsFloating">false</item>
@@ -180,6 +186,10 @@
 
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">false</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
     </style>
 
     <style name="ActionBarPopup" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -205,13 +215,13 @@
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
         <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
 
-        <!-- For Slidr -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-
         <item name="colorControlHighlight">@color/light_ripple</item>
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
 
         <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>

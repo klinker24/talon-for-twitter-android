@@ -542,7 +542,7 @@ S
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Main.Launcher">
+                  android:theme="@style/Theme.TalonLight.Profile.Launcher">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.LauncherProfilePager"
@@ -552,7 +552,7 @@ S
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Main.Launcher">
+            android:theme="@style/Theme.TalonLight.Profile.Launcher">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.SettingsActivity"

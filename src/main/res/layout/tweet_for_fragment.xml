@@ -48,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/extra_content"
+                android:background="?windowBackground"
                 android:visibility="invisible">
 
                 <LinearLayout
@@ -66,6 +67,7 @@
 
                     <VideoView
                         android:id="@+id/gif"
+                        android:background="?windowBackground"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"/>

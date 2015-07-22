@@ -135,6 +135,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.TalonLight.Profile" parent="@style/Theme.TalonLight.Main">
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
 
         <item name="android:windowIsFloating">false</item>
@@ -175,6 +181,11 @@
     <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight.Base">
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#aa000000</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
+
     </style>
 
     <style name="ActionBarPopup" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -200,15 +211,15 @@
         <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
         <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
 
-        <!-- For Slidr -->
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-
         <item name="android:colorControlHighlight">@color/light_ripple</item>
 
         <item name="android:actionBarStyle">@style/ActionBarStyle</item>
 
         <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
 
         <item name="textColor">@color/light_text</item>
         <item name="action_bar_color">@color/action_bar_light</item>

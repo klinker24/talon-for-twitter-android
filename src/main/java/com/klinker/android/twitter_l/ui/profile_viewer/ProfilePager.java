@@ -256,7 +256,7 @@ public class ProfilePager extends AppCompatActivity {
 
     public void loadProfilePicture() {
 
-        if (loaded) {
+        if (loaded || android.text.TextUtils.isEmpty(proPic)) {
             return;
         }
 
@@ -330,7 +330,7 @@ public class ProfilePager extends AppCompatActivity {
     }
 
     public void setUpTheme() {
-        Utils.setUpMainTheme(context, settings);
+        Utils.setUpProfileTheme(context, settings);
     }
 
     private boolean isMyProfile = false;
