@@ -7,11 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 
 public class DownloadFragment extends Fragment {
 
@@ -26,10 +21,6 @@ public class DownloadFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         activity = (MaterialLogin) getActivity();
-
-        CookieSyncManager.createInstance(getActivity());
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
     }
 
     @Override

@@ -126,7 +126,7 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //startActivity(new Intent(this, MaterialLogin.class));
+        startActivity(new Intent(this, MaterialLogin.class));
 
         UpdateUtils.checkUpdate(this);
 
