@@ -128,11 +128,11 @@
     <string name="login_to_twitter">Login to Twitter</string>
     <string name="first_welcome">Welcome to Talon!</string>
     <string name="second_welcome">Syncing Data</string>
-    <string name="third_welcome">That\'s it!</string>
+    <string name="third_welcome">That\'s it - enjoy!</string>
     <string name="back_to_timeline">Take me to my timeline!</string>
     <string name="initial_sync">Sync Now!</string>
-    <string name="first_info">Before we get started, let\'s get you logged in. </string>
-    <string name="second_info">Great! Now we are going to get you set up.</string>
+    <string name="first_info">Before we get started, let\'s get you logged in and synced with Twitter.</string>
+    <string name="second_info">Great! We are now talking to Twitter to sync your account.</string>
     <string name="third_info">Hope you enjoy Talon!</string>
     <string name="syncing_timeline">Syncing timeline...</string>
     <string name="syncing_mentions">Syncing mentions...</string>
@@ -143,7 +143,7 @@
     <string name="no_network">You aren\'t connected to the internet</string>
     <string name="no_thanks">Not now</string>
     <string name="follow_me">Follow!</string>
-    <string name="follow_me_description">Follow @TalonAndroid and @lukeklinker for all the newest features and support!</string>
+    <string name="follow_me_description">Use the check button to auto-follow support accounts, or press the back button to skip this.</string>
 
     <!-- Compose New Activity -->
     <string name="compose_activity">New Tweet</string>
