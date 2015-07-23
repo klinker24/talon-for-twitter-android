@@ -35,6 +35,7 @@ import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
+import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -90,7 +91,7 @@ public class PeopleSearch extends Activity {
         setContentView(R.layout.ptr_list_layout);
 
         if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
+            Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
             finish();
         }
