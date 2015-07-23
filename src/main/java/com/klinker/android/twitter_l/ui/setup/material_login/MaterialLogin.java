@@ -1,18 +1,35 @@
 package com.klinker.android.twitter_l.ui.setup.material_login;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.TimelineRefreshService;
+import com.klinker.android.twitter_l.services.TrimDataService;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.utils.Utils;
+
+import java.util.Date;
+
+import twitter4j.Twitter;
 
 
 public class MaterialLogin extends MaterialLVLActivity {
@@ -82,7 +99,8 @@ public class MaterialLogin extends MaterialLVLActivity {
 
     @Override
     public void onDonePressed() {
-        finish();
+        followUsers();
+        startTimeline();
     }
 
     private AppIntroFragment welcomeFragment;
@@ -100,14 +118,15 @@ public class MaterialLogin extends MaterialLVLActivity {
         addSlide(loginFragment);
         addSlide(downloadFragment);
         addSlide(finishedFragment);
-
-        //addSlide(AppIntroFragment.newInstance("Welcome to Talon.", "Let's get you logged into the app", R.mipmap.ic_launcher, Color.parseColor("#00BCD4")));
-        //addSlide(AppIntroFragment.newInstance("Welcome to Talon.", "Let's get you logged into the app", R.mipmap.ic_launcher, Color.parseColor("#4CAF50")));
     }
 
     @Override
     public void onBackPressed() {
         // we don't want them to back out of the activity
+        if (pager.getCurrentItem() == 3) {
+            // final page
+            startTimeline();
+        }
     }
 
     public void restartLogin() {
@@ -124,5 +143,62 @@ public class MaterialLogin extends MaterialLVLActivity {
                 })
                 .create()
                 .show();
+    }
+
+    private void startTimeline() {
+        AppSettings settings = AppSettings.getInstance(this);
+        Context context = this;
+
+        if (settings.timelineRefresh != 0) { // user only wants manual
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            long now = new Date().getTime();
+            long alarm = now + settings.timelineRefresh;
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+
+            now = new Date().getTime();
+            alarm = now + settings.mentionsRefresh;
+
+            PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
+
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent2);
+
+            alarm = now + settings.dmRefresh;
+
+            PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
+        }
+
+        // set up the autotrim
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        long now = new Date().getTime();
+        long alarm = now + AlarmManager.INTERVAL_DAY;
+        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
+        PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
+        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+
+        finish();
+
+        Intent timeline = new Intent(context, MainActivity.class);
+        timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        timeline.putExtra("tutorial", true);
+        AppSettings.invalidate();
+        startActivity(timeline);
+    }
+
+    private void followUsers() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Twitter twitter = Utils.getTwitter(MaterialLogin.this, null);
+
+                try { twitter.createFriendship("TalonAndroid"); } catch (Exception e) { }
+                try { twitter.createFriendship("lukeklinker"); } catch (Exception e) { }
+                try { twitter.createFriendship("KlinkerApps"); } catch (Exception e) { }
+            }
+        }).start();
     }
 }

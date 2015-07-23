@@ -126,8 +126,6 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(this, MaterialLogin.class));
-
         UpdateUtils.checkUpdate(this);
 
         MainActivity.sendHandler = new Handler();
@@ -181,7 +179,7 @@ public class MainActivity extends DrawerActivity {
         }
 
         if (!settings.isTwitterLoggedIn) {
-            Intent login = new Intent(context, LoginActivity.class);
+            Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
         }
 

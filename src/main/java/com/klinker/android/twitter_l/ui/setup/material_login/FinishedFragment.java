@@ -11,6 +11,11 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 
 public class FinishedFragment extends Fragment {
 
@@ -29,6 +34,10 @@ public class FinishedFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        View root = inflater.inflate(R.layout.fragment_intro_finished, container, false);
+
+        ImageUtils.loadImage(activity, (ImageView) root.findViewById(R.id.image), "https://g.twimg.com/Twitter_logo_white.png",  App.getInstance(activity).getBitmapCache());
+
+        return root;
     }
 }
