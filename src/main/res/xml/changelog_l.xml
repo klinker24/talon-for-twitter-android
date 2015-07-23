@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.0.1">
+        <text>Reported bug fixes</text>
+    </version>
+
     <version name="3.0.0">
         <text>NEW: User profile layout</text>
         <text>NEW: Transition animations from timeline to tweet viewer (Android 5.0+)</text>
