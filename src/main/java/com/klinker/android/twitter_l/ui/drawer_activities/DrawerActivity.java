@@ -70,6 +70,7 @@ import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager;
 import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
+import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -632,7 +633,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
 
-                        Intent login = new Intent(context, LoginActivity.class);
+                        Intent login = new Intent(context, MaterialLogin.class);
                         AppSettings.invalidate();
                         finish();
                         startActivity(login);
@@ -1286,7 +1287,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         } else { // only the one account
             e.putInt("current_account", 1).commit();
             finish();
-            Intent login = new Intent(context, LoginActivity.class);
+            Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
         }
 
