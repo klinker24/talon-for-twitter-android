@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
@@ -103,16 +102,16 @@ public class MaterialLogin extends MaterialLVLActivity {
         startTimeline();
     }
 
-    private AppIntroFragment welcomeFragment;
+    private ImageFragment welcomeFragment;
     private LoginFragment loginFragment;
     private DownloadFragment downloadFragment;
-    private FinishedFragment finishedFragment;
+    private ImageFragment finishedFragment;
 
     private void addSlides() {
-        welcomeFragment = AppIntroFragment.newInstance(getString(R.string.first_welcome), getString(R.string.first_info), R.mipmap.ic_launcher, Color.parseColor("#5C6BC0"));
+        welcomeFragment = ImageFragment.newInstance(getString(R.string.first_welcome), getString(R.string.first_info), "https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", Color.parseColor("#5C6BC0"));
         loginFragment = LoginFragment.getInstance();
         downloadFragment = DownloadFragment.getInstance();
-        finishedFragment = FinishedFragment.getInstance();
+        finishedFragment = ImageFragment.newInstance(getString(R.string.third_welcome), getString(R.string.follow_me_description), "https://g.twimg.com/Twitter_logo_white.png", Color.parseColor("#4CAF50"));
 
         addSlide(welcomeFragment);
         addSlide(loginFragment);
