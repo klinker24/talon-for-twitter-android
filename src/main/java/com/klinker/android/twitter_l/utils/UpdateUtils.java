@@ -160,8 +160,8 @@ public class UpdateUtils {
                         Intent share = new Intent(Intent.ACTION_SEND);
                         share.setType("text/plain");
                         share.putExtra(Intent.EXTRA_TEXT,
-                                "Have Android 5.0 Lollipop? Get the most out of your Twitter experience with Talon for Twitter!\n\n" +
-                                "http://klinkerapps.com/get-talon-plus");
+                                "Have Android 5.0 Lollipop? Get the most out of your Twitter experience with @TalonAndroid!\n\n" +
+                                "http://www.talon.klinkerapps.com/");
 
                         context.startActivity(share);
 
