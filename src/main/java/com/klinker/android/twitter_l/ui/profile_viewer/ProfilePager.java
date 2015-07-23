@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -180,6 +181,26 @@ public class ProfilePager extends AppCompatActivity {
     }
 
     public void setUpWindow() {
+
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("show_windowed_helper_dialog", true)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.tip_title)
+                    .setMessage(R.string.windowed_helper_message)
+                    .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sharedPreferences.edit().putBoolean("show_windowed_helper_dialog", false).commit();
+                        }
+                    })
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .create().show();
+        }
 
         supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,

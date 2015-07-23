@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.*;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.v7.app.*;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
 import android.text.Html;
 import android.text.Spannable;
@@ -599,6 +601,26 @@ public class TweetActivity extends AppCompatActivity {
     }
 
     public void setUpWindow(boolean youtube) {
+
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("show_windowed_helper_dialog", true)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.tip_title)
+                    .setMessage(R.string.windowed_helper_message)
+                    .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sharedPreferences.edit().putBoolean("show_windowed_helper_dialog", false).commit();
+                        }
+                    })
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .create().show();
+        }
 
         supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
