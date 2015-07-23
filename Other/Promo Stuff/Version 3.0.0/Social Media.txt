@@ -1,0 +1,59 @@
+Tweet:
+------
+
+Introducing Talon 3.0.0
+
+Info: (Google+ link)
+Video: https://www.youtube.com/watch?v=k9bkO_HOVmo
+Download: https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l&hl=en
+
+Screenshots of profile page, intro page, and changelog
+
+
+
+Google+:
+--------
+
+*Introducing Talon for Twitter 3.0.0*
+
+Phew, today, I am excited to be releasing one of the biggest Talon Plus updates to date. Version 3.0.0 comes with a host of new layout, UI options, features, improvements, fixes, and, of course, _Material Design_.
+
+The little things and attention to detail are what I believe sets _Talon_ apart, and this update feels better than the app ever has in the past.
+
+Here is a full changelog to feast your eyes on:
+- NEW: User profile layout
+- NEW: Transition animations from timeline to tweet viewer (Android 5.0+)
+- NEW: Material Design login/setup layout
+- NEW: Select font type from UI settings
+- NEW: Swipe horizontally to close tweet and profile viewers
+- NEW: Don't display twitter image or quoted tweet links anymore
+- NEW: Notification of quoted tweets when using talon pull
+- NEW: Option to disable Talon Pull notification. Read disclaimer on setting. Use extreme caution.
+- NEW: Mute options on your own profile
+- IMPROVE: Popup sizes
+- IMPROVE: Popup layout animations
+- IMPROVE: Search bar simplicity
+- IMPROVE: Settings style
+- IMPROVE: Settings options
+- IMPROVE: Quoting tweets
+- IMPROVE: Expansion height
+- IMPROVE: Animations
+- IMPROVE: Some tablet layouts
+- IMPROVE: Fluidity of some transitions
+- IMPROVE: Now officially "Designed for Tablets" on Play Store
+- IMRPOVE: Now officially "Designed for Android Wear" on Play Store
+- IMPROVE: Play store listing
+- IMPROVE: Added a few more helpful tips throughout the app
+- FIX: Issue with both video and thumbnail showing on tweet viewer
+- FIX: Mixed up profile pictures when replying from second account
+- FIX: Compose screen bugs
+- FIX: Drawer allowing you to interact with the list behind it in some cases
+- FIX: Crash reports
+
+
+This version has been a long time coming and I am very happy to finally get it into the end user's hands. So, without further adoo, check out the YouTube video, or just head over to the Play Store and get your download started!
+
+YouTube Video: https://www.youtube.com/watch?v=k9bkO_HOVmo
+Play Store Download: https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l&hl=en
+
+Enjoy 'all. I feel great about how this one turned out and hope you all feel the same.
