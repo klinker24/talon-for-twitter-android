@@ -1,5 +1,8 @@
 package com.klinker.android.twitter_l.ui.setup.material_login;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 
 public class MaterialLogin extends MaterialLVLActivity {
@@ -104,5 +108,21 @@ public class MaterialLogin extends MaterialLVLActivity {
     @Override
     public void onBackPressed() {
         // we don't want them to back out of the activity
+    }
+
+    public void restartLogin() {
+        new AlertDialog.Builder(this)
+                .setMessage(getResources().getString(R.string.login_error))
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent restart = new Intent(MaterialLogin.this, MaterialLogin.class);
+                        finish();
+                        AppSettings.invalidate();
+                        startActivity(restart);
+                    }
+                })
+                .create()
+                .show();
     }
 }
