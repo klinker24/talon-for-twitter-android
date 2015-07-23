@@ -1,0 +1,28 @@
+NEW: User profile layout
+NEW: Transition animations from timeline to tweet viewer (Android 5.0+)
+NEW: Material Design login/setup layout
+NEW: Select font type from UI settings
+NEW: Swipe horizontally to close tweet and profile viewers
+NEW: Don't display twitter image or quoted tweet links anymore
+NEW: Notification of quoted tweets when using talon pull
+NEW: Option to disable Talon Pull notification. Read disclaimer on setting. Use extreme caution.
+NEW: Mute options on your own profile
+IMPROVE: Popup sizes
+IMPROVE: Popup layout animations
+IMPROVE: Search bar simplicity
+IMPROVE: Settings style
+IMPROVE: Settings options
+IMPROVE: Quoting tweets
+IMPROVE: Expansion height
+IMPROVE: Animations
+IMPROVE: Some tablet layouts
+IMPROVE: Fluidity of some transitions
+IMPROVE: Now officially "Designed for Tablets" on Play Store
+IMRPOVE: Now officially "Designed for Android Wear" on Play Store
+IMPROVE: Play store listing
+IMPROVE: Added a few more helpful tips throughout the app
+FIX: Issue with both video and thumbnail showing on tweet viewer
+FIX: Mixed up profile pictures when replying from second account
+FIX: Compose screen bugs
+FIX: Drawer allowing you to interact with the list behind it in some cases
+FIX: Crash reports
