@@ -23,6 +23,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import org.lucasr.smoothie.AsyncListView;
 
@@ -107,8 +108,8 @@ public class PicturesPopup extends PopupLayout {
     }
 
     @Override
-    public void show() {
-        super.show();
+    public void show(SlidrInterface slidrInterface) {
+        super.show(slidrInterface);
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPreferences.getBoolean("show_profile_pictures_helper_dialog", true)) {
