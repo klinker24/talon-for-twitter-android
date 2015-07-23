@@ -61,7 +61,7 @@
 
             <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:textSize="13sp"
                     android:gravity="right"
                     android:textColor="?textColor"
@@ -111,7 +111,7 @@
 
             <TextView
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:textSize="13sp"
                     android:gravity="right"
                     android:textColor="?textColor"
