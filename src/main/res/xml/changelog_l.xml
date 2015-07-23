@@ -25,6 +25,7 @@
         <text>FIX: Issue with both video and thumbnail showing on tweet viewer</text>
         <text>FIX: Mixed up profile pictures when replying from second account</text>
         <text>FIX: Compose screen bugs</text>
+        <text>FIX: Drawer allowing you to interact with the list behind it in some cases</text>
         <text>FIX: Crash reports</text>
     </version>
 

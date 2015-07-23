@@ -144,6 +144,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
     public void setUpDrawer(int number, final String actName) {
 
+        try {
+            findViewById(R.id.dividerView).setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return true;
+                }
+            });
+        } catch (Throwable t) {
+
+        }
+
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
             String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
