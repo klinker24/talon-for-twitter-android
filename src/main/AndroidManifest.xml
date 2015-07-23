@@ -291,6 +291,12 @@ S
                   android:theme="@style/Theme.TalonLight.Launcher" >
         </activity>
 
+        <activity android:name=".ui.setup.material_login.MaterialLogin"
+            android:label="@string/app_name_full"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
+        </activity>
+
         <activity android:name="com.klinker.android.twitter_l.ui.setup.Version2Setup"
             android:label="@string/app_name_full"
             android:configChanges="orientation|screenSize"
