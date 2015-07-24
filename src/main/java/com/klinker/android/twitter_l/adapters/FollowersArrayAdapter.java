@@ -144,7 +144,7 @@ public class FollowersArrayAdapter extends ArrayAdapter<User> {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        final String url = user.getBiggerProfileImageURL();
+        final String url = user.getOriginalProfileImageURL();
 
         mHandler.postDelayed(new Runnable() {
             @Override

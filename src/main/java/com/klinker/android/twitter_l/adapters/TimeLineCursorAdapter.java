@@ -512,15 +512,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     viewTweet.putExtra("shared_trans", true);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                         holder.profilePic.setTransitionName("pro_pic");
                         holder.screenTV.setTransitionName("screen_name");
                         holder.name.setTransitionName("name");
                         holder.tweet.setTransitionName("tweet");
 
                         if (holder.imageHolder.getVisibility() == View.VISIBLE &&
-                                holder.playButton.getVisibility() != View.VISIBLE &&
-                                holder.profilePic.getVisibility() == View.VISIBLE) {
+                                holder.playButton.getVisibility() != View.VISIBLE) {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
 
@@ -609,15 +608,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     viewTweet.putExtra("shared_trans", true);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                         holder.profilePic.setTransitionName("pro_pic");
                         holder.screenTV.setTransitionName("screen_name");
                         holder.name.setTransitionName("name");
                         holder.tweet.setTransitionName("tweet");
 
                         if (holder.imageHolder.getVisibility() == View.VISIBLE &&
-                                holder.playButton.getVisibility() != View.VISIBLE &&
-                                holder.profilePic.getVisibility() == View.VISIBLE) {
+                                holder.playButton.getVisibility() != View.VISIBLE) {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
 
@@ -833,15 +831,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                             viewTweet.putExtra("shared_trans", true);
 
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                                 holder.profilePic.setTransitionName("pro_pic");
                                 holder.screenTV.setTransitionName("screen_name");
                                 holder.name.setTransitionName("name");
                                 holder.tweet.setTransitionName("tweet");
 
                                 if (holder.imageHolder.getVisibility() == View.VISIBLE &&
-                                        holder.playButton.getVisibility() != View.VISIBLE &&
-                                        holder.profilePic.getVisibility() == View.VISIBLE) {
+                                        holder.playButton.getVisibility() != View.VISIBLE) {
                                     ActivityOptions options = ActivityOptions
                                             .makeSceneTransitionAnimation(((Activity) context),
 
@@ -1186,7 +1183,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         hasExpandedTweet = true;
 
-        final String text = holder.tweet.getText().toString();
+        String str = holder.tweet.getText().toString();
+        try {
+            if (!str.contains(webpage.substring(0, 18))) {
+                str = str + " " + webpage;
+            }
+        } catch (Exception e) {
+
+        }
+
+        final String text = str;
         String extraNames = "";
         String replyStuff = "";
 
