@@ -1180,12 +1180,9 @@ public class ExpansionViewHelper {
 
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
-        private long tweetId;
-        private TextView retweetText;
 
         public RemoveRetweet() {
-            this.tweetId = tweetId;
-            this.retweetText = retweetText;
+
         }
 
         protected void onPreExecute() {
@@ -1196,7 +1193,7 @@ public class ExpansionViewHelper {
             try {
                 AppSettings settings = AppSettings.getInstance(context);
                 Twitter twitter =  getTwitter();
-                ResponseList<twitter4j.Status> retweets = twitter.getRetweets(tweetId);
+                ResponseList<twitter4j.Status> retweets = twitter.getRetweets(id);
                 for (twitter4j.Status retweet : retweets) {
                     if(retweet.getUser().getId() == settings.myId)
                         twitter.destroyStatus(retweet.getId());
