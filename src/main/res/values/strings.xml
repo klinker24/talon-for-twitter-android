@@ -344,7 +344,7 @@
 
     <string name="notification_settings">Notification Settings</string>
         <string name="pebble_notifications">Pebble Notifications</string>
-        <string name="pebble_notifications_summary">Used with the Pebble smart watch.</string>
+        <string name="pebble_notifications_summary">Used for the Pebble smart watch. Disable this if you are getting two notifications on your watch.</string>
 
     <string name="advanced_settings">Advanced Settings</string>
         <string name="app_feel_category">App Feel Options</string>
