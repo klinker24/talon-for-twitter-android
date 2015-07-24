@@ -51,7 +51,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        final String url = user.getBiggerProfileImageURL();
+        final String url = user.getOriginalProfileImageURL();
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -68,7 +68,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
                 Intent viewProfile = new Intent(context, ProfilePager.class);
                 viewProfile.putExtra("name", user.getName());
                 viewProfile.putExtra("screenname", user.getScreenName());
-                viewProfile.putExtra("proPic", user.getBiggerProfileImageURL());
+                viewProfile.putExtra("proPic", user.getOriginalProfileImageURL());
                 //viewProfile.putExtra("tweetid", holder.tweetId);
                 viewProfile.putExtra("retweet", false);
 
