@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.0.3">
+        <text>Bug fixes</text>
+    </version>
+    
     <version name="3.0.2">
         <text>More reported bugs</text>
     </version>
