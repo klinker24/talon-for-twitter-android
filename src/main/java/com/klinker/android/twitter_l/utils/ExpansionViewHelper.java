@@ -1354,9 +1354,8 @@ public class ExpansionViewHelper {
                     long id = status.getId();
                     String screenname = status.getUser().getScreenName();
 
-                    query = new Query("@" + screenname + " since_id:" + id);
-
-                    Log.v("talon_replies", "query string: " + query.getQuery());
+                    query = new Query("to:" + screenname);
+                    query.sinceId(id);
 
                     try {
                         query.setCount(30);
