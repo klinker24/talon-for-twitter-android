@@ -2,6 +2,7 @@
 
     <version name="3.0.4">
         <text>Greatly improve speed of finding replies on tweets</text>
+        <text>More bug fixes</text>
     </version>
 
     <version name="3.0.3">
