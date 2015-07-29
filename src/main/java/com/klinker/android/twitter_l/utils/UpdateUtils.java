@@ -161,7 +161,7 @@ public class UpdateUtils {
                         share.setType("text/plain");
                         share.putExtra(Intent.EXTRA_TEXT,
                                 "Have Android 5.0 Lollipop? Get the most out of your Twitter experience with @TalonAndroid!\n\n" +
-                                "http://www.talon.klinkerapps.com/");
+                                "http://talon.klinkerapps.com/");
 
                         context.startActivity(share);
 
