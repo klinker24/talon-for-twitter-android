@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
@@ -18,7 +19,7 @@ public class TalonPhotoViewAttacher extends PhotoViewAttacher {
     public boolean onTouch(View v, MotionEvent ev) {
         try {
             return super.onTouch(v, ev);
-        } catch (Exception e) {
+        } catch (Throwable t) {
             return false;
         }
     }
