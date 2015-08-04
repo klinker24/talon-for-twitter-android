@@ -298,13 +298,17 @@ public class ProfilePager extends AppCompatActivity {
 
                     int finalRadius = (int) Math.sqrt(Math.pow(myView.getHeight(), 2) + Math.pow(myView.getWidth(), 2));
 
-                    Animator anim =
-                            ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+                    try {
+                        Animator anim =
+                                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
-                    anim.setDuration(500);
+                        anim.setDuration(500);
 
-                    myView.setVisibility(View.VISIBLE);
-                    anim.start();
+                        myView.setVisibility(View.VISIBLE);
+                        anim.start();
+                    } catch (Throwable e) {
+                        myView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });

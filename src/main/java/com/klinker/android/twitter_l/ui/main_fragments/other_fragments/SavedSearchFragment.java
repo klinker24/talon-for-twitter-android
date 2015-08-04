@@ -179,7 +179,10 @@ public class SavedSearchFragment extends MainFragment {
                             ((Activity)context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter.notifyDataSetChanged();
+                                    if (adapter != null) {
+                                        adapter.notifyDataSetChanged();
+                                    }
+
                                     refreshLayout.setRefreshing(false);
                                     canRefresh = true;
                                 }
