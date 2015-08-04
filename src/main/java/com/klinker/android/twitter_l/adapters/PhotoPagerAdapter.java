@@ -1,9 +1,9 @@
 package com.klinker.android.twitter_l.adapters;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoFragment;
 
 public class PhotoPagerAdapter extends FragmentPagerAdapter {

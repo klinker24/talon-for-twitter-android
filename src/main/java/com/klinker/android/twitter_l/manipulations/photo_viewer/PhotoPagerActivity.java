@@ -16,9 +16,6 @@ import android.text.TextUtils;
 import android.view.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.Utils;
 
 public class PhotoPagerActivity extends AppCompatActivity {
 
@@ -73,7 +70,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
         setContentView(R.layout.photo_pager_activity);
 
         pager = (ViewPager) findViewById(R.id.pager);
-        adapter = new PhotoPagerAdapter(getFragmentManager(), this, urlList);
+        adapter = new PhotoPagerAdapter(getSupportFragmentManager(), this, urlList);
 
         pager.setAdapter(adapter);
         pager.setCurrentItem(startPage);

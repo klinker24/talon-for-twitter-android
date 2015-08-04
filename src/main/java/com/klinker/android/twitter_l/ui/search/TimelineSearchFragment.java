@@ -209,7 +209,7 @@ public class TimelineSearchFragment extends Fragment {
                                 try {
                                     listView.setAdapter(adapter);
                                 } catch (Exception e) {
-                                    
+
                                 }
 
                                 listView.setVisibility(View.VISIBLE);
