@@ -764,12 +764,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         boolean replace = false;
         if (settings.inlinePics && (tweetText.contains("pic.twitter.com/") || tweetText.contains(" twitter.com"))) {
-            replace = true;
+            if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
+                replace = true;
+            }
         }
 
-        holder.tweet.setText(replace ?
-                tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
-                tweetText);
+        try {
+            holder.tweet.setText(replace ?
+                    tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
+                    tweetText);
+        } catch (Exception e) {
+            holder.tweet.setText(tweetText);
+        }
 
         boolean picture = false;
 
@@ -1582,20 +1588,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                             // The bitmap isn't cached so download from the web
                             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                            InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                            b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
 
                             try {
+                                InputStream is = new BufferedInputStream(conn.getInputStream());
+                                b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
                                 is.close();
                             } catch (Exception e) {
-
+                                b = null;
                             }
+
                             try {
                                 conn.disconnect();
-                            } catch (Exception e) {
-
-                            }
+                            } catch (Exception e) { }
                         }
 
                         try {

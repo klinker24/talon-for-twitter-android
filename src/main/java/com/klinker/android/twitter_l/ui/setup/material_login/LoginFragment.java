@@ -122,11 +122,15 @@ public class LoginFragment extends Fragment {
         public void onPreExecute() {
             super.onPreExecute();
 
-            pDialog = new ProgressDialog(getActivity());
-            pDialog.setMessage(getResources().getString(R.string.preparing_signin) + "...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
+            try {
+                pDialog = new ProgressDialog(getActivity());
+                pDialog.setMessage(getResources().getString(R.string.preparing_signin) + "...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(false);
+                pDialog.show();
+            } catch (Exception e) {
+
+            }
         }
 
         @Override
@@ -157,7 +161,7 @@ public class LoginFragment extends Fragment {
 
             requestToken = token;
 
-            pDialog.dismiss();
+            try { pDialog.dismiss(); } catch (Exception e) { }
 
             if (token == null) {
                 if (licenseTimeout) {

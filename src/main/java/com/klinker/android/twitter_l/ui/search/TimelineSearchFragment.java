@@ -206,7 +206,11 @@ public class TimelineSearchFragment extends Fragment {
                             public void run() {
                                 adapter = new TimeLineCursorAdapter(context, cursor, false);
 
-                                listView.setAdapter(adapter);
+                                try {
+                                    listView.setAdapter(adapter);
+                                } catch (Exception e) {
+                                    
+                                }
 
                                 listView.setVisibility(View.VISIBLE);
                                 spinner.setVisibility(View.GONE);
