@@ -22,6 +22,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 
 public class RedirectToDrawer extends AppCompatActivity {
@@ -34,7 +36,10 @@ public class RedirectToDrawer extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPrefs.edit().putBoolean("open_interactions", true).commit();
+
+        if (AppSettings.getInstance(this).useInteractionDrawer) {
+            sharedPrefs.edit().putBoolean("open_interactions", true).commit();
+        }
 
         finish();
 
