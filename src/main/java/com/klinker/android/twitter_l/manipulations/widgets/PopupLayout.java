@@ -84,6 +84,8 @@ public abstract class PopupLayout extends LinearLayout {
     public PopupLayout(Context context) {
         super(context);
 
+        setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -148,11 +150,14 @@ public abstract class PopupLayout extends LinearLayout {
                 return true;
             }
         });
+
     }
 
     // default constructor
     public PopupLayout(Context context, boolean windowed) {
         super(context);
+
+        setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         this.windowed = windowed;
 
