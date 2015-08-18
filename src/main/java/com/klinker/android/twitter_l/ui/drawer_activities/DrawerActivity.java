@@ -1024,6 +1024,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             status = findViewById(R.id.drawer_status_bar_2);
             status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setElevation(0);
+        }
     }
 
     public void onSettingsClicked(View v) {
@@ -1635,14 +1639,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             }
         }
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < 23) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     toolbar.setElevation(Utils.toDP(5, DrawerActivity.this));
                 }
             }, ANIM_DURATION);
-        }
+        }*/
 
         if (abOffset == -1) {
             abOffset = Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context);
@@ -1728,9 +1732,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             return;
         }
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             toolbar.setElevation(0);
-        }
+        }*/
 
         ValueAnimator hideStatus = ValueAnimator.ofInt(statusColor, tranparentSystemBar);
         hideStatus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
