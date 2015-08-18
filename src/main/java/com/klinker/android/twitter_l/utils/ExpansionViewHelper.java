@@ -126,10 +126,14 @@ public class ExpansionViewHelper {
 
         landscape = context.getResources().getConfiguration().orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
+        this.windowedPopups = windowedPopups;
+
         setViews(windowedPopups);
         setClicks(windowedPopups);
         getInfo();
     }
+
+    boolean windowedPopups;
 
     private SlidrInterface slidr;
     public void setSlidr(SlidrInterface slidr) {
@@ -778,22 +782,46 @@ public class ExpansionViewHelper {
                             shareClick();
                             break;
                         case TRANSLATE:
-                            try {
-                                String query = tweet.replaceAll(" ", "+");
-                                String url = "http://translate.google.com/#auto|en|" + tweet;
-                                Uri uri = Uri.parse(url);
+                            String url = "http://translate.google.com/#auto|en|" + tweet;
 
-                                Intent browser = new Intent(Intent.ACTION_VIEW, uri);
-                                browser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
+                            final WebView web = (WebView) webLayout.findViewById(R.id.webview);
 
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    ((Activity)context).getWindow().setExitTransition(null);
+                            web.getSettings().setBuiltInZoomControls(true);
+                            web.getSettings().setDisplayZoomControls(false);
+                            web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+                            web.getSettings().setUseWideViewPort(true);
+                            web.getSettings().setLoadWithOverviewMode(true);
+                            web.getSettings().setSavePassword(true);
+                            web.getSettings().setSaveFormData(true);
+                            web.getSettings().setJavaScriptEnabled(true);
+                            web.getSettings().setAppCacheEnabled(false);
+                            web.getSettings().setPluginState(WebSettings.PluginState.OFF);
+
+                            // enable navigator.geolocation
+                            web.getSettings().setGeolocationEnabled(true);
+                            web.getSettings().setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
+
+                            // enable Web Storage: localStorage, sessionStorage
+                            web.getSettings().setDomStorageEnabled(true);
+
+                            web.setWebViewClient(new HelloWebViewClient());
+
+                            web.loadUrl(url);
+                            if (webPopup == null) {
+                                webPopup = new WebPopupLayout(context, webLayout, windowedPopups);
+                                if (context.getResources().getBoolean(R.bool.isTablet)) {
+                                    if (landscape) {
+                                        webPopup.setWidthByPercent(.6f);
+                                        webPopup.setHeightByPercent(.8f);
+                                    } else {
+                                        webPopup.setWidthByPercent(.85f);
+                                        webPopup.setHeightByPercent(.68f);
+                                    }
+                                    webPopup.setCenterInScreen();
                                 }
-
-                                context.startActivity(browser);
-                            } catch (Exception e) {
-
                             }
+                            webPopup.show(slidr);
                             break;
                         case MARK_SPAM:
                             new MarkSpam().execute();
