@@ -760,13 +760,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         boolean replace = false;
-        if (settings.inlinePics && (tweetText.contains("pic.twitter.com/") || tweetText.contains(" twitter.com/"))) {
-            replace = true;
+        if (settings.inlinePics && tweetText.contains("pic.twitter.com/")) {
+            if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
+                replace = true;
+            }
         }
 
-        holder.tweet.setText(replace ?
-                tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
-                tweetText);
+        try {
+            holder.tweet.setText(replace ?
+                    tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
+                    tweetText);
+        } catch (Exception e) {
+            holder.tweet.setText(tweetText);
+        }
 
         boolean picture = false;
 
