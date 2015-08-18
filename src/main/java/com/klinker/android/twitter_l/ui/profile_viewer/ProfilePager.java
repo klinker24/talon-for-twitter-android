@@ -668,7 +668,7 @@ public class ProfilePager extends AppCompatActivity {
 
                 TweetView t = new TweetView(context, tweets.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
-                t.hideImage(true);
+                t.setSmallImage(true);
                 content.addView(t.getView());
             }
         } else {
@@ -727,7 +727,7 @@ public class ProfilePager extends AppCompatActivity {
 
                 TweetView t = new TweetView(context, mentions.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
-                t.hideImage(true);
+                t.setSmallImage(true);
                 content.addView(t.getView());
             }
         } else {
@@ -790,7 +790,7 @@ public class ProfilePager extends AppCompatActivity {
 
                 TweetView t = new TweetView(context, favorites.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
-                t.hideImage(true);
+                t.setSmallImage(true);
                 content.addView(t.getView());
             }
         } else {

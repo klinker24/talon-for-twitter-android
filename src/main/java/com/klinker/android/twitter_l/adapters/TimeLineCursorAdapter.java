@@ -1056,7 +1056,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Status status = quotedTweets.get(embeddedId);
             TweetView v = new TweetView(context, status);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
-            v.hideImage(true);
+            v.setSmallImage(true);
 
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
@@ -1450,7 +1450,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             public void run() {
                                 TweetView v = new TweetView(context, embedded);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
-                                v.hideImage(true);
+                                v.setSmallImage(true);
 
                                 holder.embeddedTweet.removeAllViews();
                                 holder.embeddedTweet.addView(v.getView());
