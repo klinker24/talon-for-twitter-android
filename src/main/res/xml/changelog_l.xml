@@ -3,6 +3,7 @@
     <version name="3.1.0" >
         <text>Built for Android Marshmallow</text>
         <text>Show images on quoted tweets</text>
+        <text>Handle links to compose tweets</text>
         <text>Direct Messages no longer have a character limit</text>
         <text>Show images on user profile pages</text>
         <text>Don't redirect to the external browser for translations</text>

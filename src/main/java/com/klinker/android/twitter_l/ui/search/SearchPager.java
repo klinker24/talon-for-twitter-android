@@ -56,8 +56,16 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
+import org.apache.http.NameValuePair;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -104,7 +112,11 @@ public class SearchPager extends AppCompatActivity {
             searchQuery = "";
         }
 
-        handleIntent(getIntent());
+        boolean done = handleIntent(getIntent());
+
+        if (done) {
+            return;
+        }
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             translucent = true;
@@ -193,7 +205,7 @@ public class SearchPager extends AppCompatActivity {
     private boolean onlyStatus = false;
     private boolean onlyProfile = false;
 
-    private void handleIntent(Intent intent) {
+    private boolean handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
@@ -211,6 +223,8 @@ public class SearchPager extends AppCompatActivity {
             Uri uri = intent.getData();
             String uriString = uri.toString();
             if (uriString.contains("status/")) {
+                Log.v("talon_search", "searching for status");
+
                 long id;
                 String replace = uriString.substring(uriString.indexOf("status")).replace("status/", "").replaceAll("photo/*", "");
                 if (replace.contains("/")) {
@@ -225,13 +239,17 @@ public class SearchPager extends AppCompatActivity {
                 }
                 searchQuery = id + "";
                 onlyStatus = true;
-            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D")) {
+            } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D") && !uriString.contains("/intent/tweet")) {
+                Log.v("talon_search", "user search from query");
+
                 // going to try searching for users i guess
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;
                 onlyProfile = true;
-            } else if (uriString.contains("q=")){
+            } else if (uriString.contains("q=")) {
+                Log.v("talon_search", "searching for query");
+
                 try {
                     String search = uri.getQueryParameter("q");
 
@@ -251,6 +269,35 @@ public class SearchPager extends AppCompatActivity {
                         searchQuery = "";
                     }
 
+                } catch (Exception e) {
+
+                }
+            } else if (uriString.contains("/intent/tweet")) {
+                Log.v("talon_search", "searching for intent to tweet");
+                try {
+                    String text = "";
+                    final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+                    final String[] pairs = uri.getQuery().split("&");
+                    for (String pair : pairs) {
+                        final int idx = pair.indexOf("=");
+                        final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
+                        if (!query_pairs.containsKey(key)) {
+                            query_pairs.put(key, new LinkedList<String>());
+                        }
+                        final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
+                        text += value + " ";
+                    }
+
+                    Intent compose = new Intent(this, ComposeActivity.class);
+                    compose.setAction(Intent.ACTION_SEND);
+                    compose.putExtra(Intent.EXTRA_TEXT, text);
+                    compose.setType("text/plain");
+
+                    startActivity(compose);
+
+                    finish();
+
+                    return true;
                 } catch (Exception e) {
 
                 }
@@ -284,6 +331,8 @@ public class SearchPager extends AppCompatActivity {
                 }
             }
         }
+
+        return false;
     }
 
     @Override
