@@ -522,7 +522,7 @@ public class ExpansionViewHelper {
         for (int i = 0; i < numTweets; i++) {
             TweetView v = new TweetView(context, tweets.get(i));
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
-            v.hideImage(true);
+            v.setSmallImage(true);
 
             if (i != 0) {
                 tweetDivider = new View(context);
@@ -1251,7 +1251,7 @@ public class ExpansionViewHelper {
                                 public void run() {
                                     TweetView v = new TweetView(context, embedded);
                                     v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
-                                    v.hideImage(true);
+                                    v.setSmallImage(true);
 
                                     showEmbeddedCard(v);
                                 }

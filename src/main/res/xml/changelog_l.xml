@@ -1,8 +1,10 @@
 <changelog>
 
-    <version name="3.0.5">
+    <version name="3.1.0" >
         <text>Built for Android Marshmallow</text>
+        <text>Show images on quoted tweets</text>
         <text>Direct Messages no longer have a character limit</text>
+        <text>Show images on user profile pages</text>
         <text>Some bug fixes for direct messages</text>
         <text>Bug fixes</text>
         <text>Update application dependencies</text>

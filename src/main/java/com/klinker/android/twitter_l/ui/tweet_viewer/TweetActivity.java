@@ -223,7 +223,7 @@ public class TweetActivity extends AppCompatActivity {
                                 public void run() {
                                     TweetView v = new TweetView(context, s);
                                     v.setCurrentUser(settings.myScreenName);
-                                    v.hideImage(true);
+                                    v.setSmallImage(true);
 
                                     view.addView(v.getView());
                                     view.setVisibility(View.VISIBLE);

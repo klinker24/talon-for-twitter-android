@@ -10,6 +10,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -151,10 +152,17 @@ public class TweetView {
         setComponents(tweet);
         bindData();
 
-        if (images) {
+        /*if (images) {
             imageHolder.setVisibility(View.VISIBLE);
         } else {
             imageHolder.setVisibility(View.GONE);
+        }*/
+
+        if (smallImage) {
+            ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
+            params.height = Utils.toDP(100, context);
+
+            imageHolder.setLayoutParams(params);
         }
 
         return tweet;
@@ -165,9 +173,15 @@ public class TweetView {
         return tweetView;
     }
 
-    private boolean images = true;
-    public void hideImage(boolean hide) {
+    //private boolean images = true;
+    private boolean smallImage = false;
+
+    /*public void hideImage(boolean hide) {
         images = !hide;
+    }*/
+
+    public void setSmallImage(boolean small) {
+        smallImage = small;
     }
 
     private void setComponents(View v) {
@@ -271,7 +285,21 @@ public class TweetView {
         screenTV.setText("@" + screenName);
         nameTv.setText(name);
         timeTv.setText(time);
-        tweetTv.setText(tweet);
+
+        boolean replace = false;
+        if (settings.inlinePics && (tweet.contains("pic.twitter.com/"))) {
+            if (tweet.lastIndexOf(".") == tweet.length() - 1) {
+                replace = true;
+            }
+        }
+
+        try {
+            tweetTv.setText(replace ?
+                    tweet.substring(0, tweet.length() - (tweet.contains(" twitter.com") ? 33 : 25)) :
+                    tweet);
+        } catch (Exception e) {
+            tweetTv.setText(tweet);
+        }
 
         if (retweeter != null) {
             retweeterTv.setText(retweetText);
