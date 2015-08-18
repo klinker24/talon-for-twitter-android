@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="3.0.5">
+        <text>Built for Android Marshmallow</text>
+        <text>Direct Messages no longer have a character limit</text>
+        <text>Some bug fixes for direct messages</text>
+        <text>Update application dependencies</text>
+    </version>
+    
     <version name="3.0.4">
         <text>Greatly improve speed of finding replies on tweets</text>
         <text>More bug fixes</text>
