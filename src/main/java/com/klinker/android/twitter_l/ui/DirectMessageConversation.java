@@ -178,6 +178,8 @@ public class DirectMessageConversation extends AppCompatActivity {
         composeBar = (HoloEditText) findViewById(R.id.tweet_content);
         charRemaining = (HoloTextView) findViewById(R.id.char_remaining);
 
+        charRemaining.setVisibility(View.GONE);
+
         BitmapLruCache cache = App.getInstance(context).getBitmapCache();
         CursorListLoader loader = new CursorListLoader(cache, context);
 
@@ -219,14 +221,11 @@ public class DirectMessageConversation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String status = composeBar.getText().toString();
-                if (Integer.parseInt(charRemaining.getText().toString()) >= 0) {
-                    new SendDirectMessage().execute(status);
-                    composeBar.setText("");
-                    attachImage.setVisibility(View.GONE);
-                    Toast.makeText(context, getString(R.string.sending), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, getString(R.string.tweet_to_long), Toast.LENGTH_SHORT).show();
-                }
+
+                new SendDirectMessage().execute(status);
+                composeBar.setText("");
+                attachImage.setVisibility(View.GONE);
+                Toast.makeText(context, getString(R.string.sending), Toast.LENGTH_SHORT).show();
             }
         });
 
