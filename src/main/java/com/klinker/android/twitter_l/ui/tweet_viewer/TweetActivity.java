@@ -203,10 +203,17 @@ public class TweetActivity extends AppCompatActivity {
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
+        String embedded = page;
 
-        if (hasWebpage && page.contains("/status/")) {
+        for (int i = 0; i < webpages.size(); i++) {
+            if (webpages.get(i).contains("/status/")) {
+                embedded = webpages.get(i);
+            }
+        }
+
+        if (hasWebpage && embedded.contains("/status/")) {
             final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
-            final long embeddedId = TweetLinkUtils.getTweetIdFromLink(page);
+            final long embeddedId = TweetLinkUtils.getTweetIdFromLink(embedded);
 
             if (embeddedId != 0l) {
                 view.setVisibility(View.INVISIBLE);
