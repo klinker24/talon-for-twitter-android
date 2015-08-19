@@ -954,10 +954,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         final boolean hasPicture = picture;
         mHandler[currHandler].removeCallbacksAndMessages(null);
-        /*mHandler[currHandler].postDelayed(new Runnable() {
+        mHandler[currHandler].postDelayed(new Runnable() {
             @Override
-            public void run() {*/
-                //if (holder.tweetId == id) {
+            public void run() {
+                if (holder.tweetId == id) {
                     if (hasPicture) {
                         loadImage(context, holder, holder.picUrl, mCache, id);
                     }
@@ -1014,25 +1014,53 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         });
                     }
 
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
                     if (otherUrl != null && otherUrl.contains("/status/") &&
                             holder.embeddedTweet.getChildCount() == 0) {
                         loadEmbeddedTweet(holder, otherUrl);
                     }
-                //}
-            /*}
-        }, 400);*/
+                }
+            }
+        }, 400);
         currHandler++;
 
         if (currHandler == 10) {
             currHandler = 0;
         }
 
+        // links are a problem on the array adapter popups... so lets do them immediately
+        TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
+
+        if (otherUrl != null && otherUrl.contains("/status/")) {
+            holder.embeddedTweet.setVisibility(View.VISIBLE);
+            tryImmediateEmbeddedLoad(holder, otherUrl);
+        }
+
         if (openFirst && position == 0) {
             holder.background.performClick();
             ((Activity)context).finish();
+        }
+    }
+
+    private void tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
+        Long embeddedId = 0l;
+        for (String u : otherUrl.split(" ")) {
+            if (u.contains("/status/")) {
+                embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
+                break;
+            }
+        }
+
+        if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
+            Status status = quotedTweets.get(embeddedId);
+            TweetView v = new TweetView(context, status);
+            v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+            v.setSmallImage(true);
+
+            holder.embeddedTweet.removeAllViews();
+            holder.embeddedTweet.addView(v.getView());
+            holder.embeddedTweet.setMinimumHeight(0);
         }
     }
 
