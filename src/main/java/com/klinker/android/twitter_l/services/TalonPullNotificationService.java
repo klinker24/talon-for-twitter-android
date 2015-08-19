@@ -95,6 +95,7 @@ public class TalonPullNotificationService extends Service {
     public boolean showNotification;
 
     public ArrayList<Long> ids;
+    public ArrayList<Long> blockedIds;
 
     @Override
     public void onCreate() {
@@ -214,21 +215,28 @@ public class TalonPullNotificationService extends Service {
                     Twitter twitter = Utils.getTwitter(mContext, settings);
                     long currCursor = -1;
                     IDs idObject;
-                    int rep = 0;
 
+                    ids = new ArrayList<Long>();
                     do {
                         idObject = twitter.getFriendsIDs(settings.myId, currCursor);
 
                         long[] lIds = idObject.getIDs();
-                        ids = new ArrayList<Long>();
                         for (int i = 0; i < lIds.length; i++) {
                             ids.add(lIds[i]);
                         }
-
-                        rep++;
-                    } while ((currCursor = idObject.getNextCursor()) != 0 && rep < 3);
-
+                    } while ((currCursor = idObject.getNextCursor()) != 0);
                     ids.add(settings.myId);
+
+                    currCursor = -1;
+                    blockedIds = new ArrayList<Long>();
+                    do {
+                        idObject = twitter.getBlocksIDs(currCursor);
+
+                        long[] lIds = idObject.getIDs();
+                        for (int i = 0; i < lIds.length; i++) {
+                            blockedIds.add(lIds[i]);
+                        }
+                    } while ((currCursor = idObject.getNextCursor()) != 0);
 
                     idsLoaded = true;
 
@@ -499,7 +507,7 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onStatus(final Status status) {
 
-            if (!thisInstanceOn) {
+            if (!thisInstanceOn || isUserBlocked(status.getUser().getId())) {
                 return;
             }
 
@@ -624,7 +632,7 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onFavorite(User source, User target, Status favoritedStatus) {
 
-            if (!thisInstanceOn) {
+            if (!thisInstanceOn || isUserBlocked(source.getId())) {
                 return;
             }
 
@@ -659,7 +667,7 @@ public class TalonPullNotificationService extends Service {
 
         @Override
         public void onQuotedTweet(User source, User target, Status status) {
-            if (!thisInstanceOn) {
+            if (!thisInstanceOn || isUserBlocked(source.getId())) {
                 return;
             }
 
@@ -1037,5 +1045,13 @@ public class TalonPullNotificationService extends Service {
         }
 
         return inSampleSize;
+    }
+
+    public boolean isUserBlocked(Long userId) {
+        try {
+            return blockedIds.contains(userId);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
