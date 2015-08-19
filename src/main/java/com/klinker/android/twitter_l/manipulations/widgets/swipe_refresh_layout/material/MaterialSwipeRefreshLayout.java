@@ -179,7 +179,8 @@ public class MaterialSwipeRefreshLayout extends ViewGroup {
             }
         };
         this.mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        this.mMediumAnimationDuration = this.getResources().getInteger(17694721);
+        int i = 17694721;
+        this.mMediumAnimationDuration = this.getResources().getInteger(i);
         this.setWillNotDraw(false);
         this.mDecelerateInterpolator = new DecelerateInterpolator(2.0F);
         TypedArray a = context.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
