@@ -8,6 +8,8 @@
         <text>Show images on user profile pages</text>
         <text>Don't stream blocked users with Talon Pull</text>
         <text>Don't redirect to the external browser for translations</text>
+        <text>Show embedded tweets rather than links in more places</text>
+        <text>Some performance improvements</text>
         <text>Some bug fixes for direct messages</text>
         <text>Fix duplicate tweets</text>
         <text>Various Bug fixes</text>
