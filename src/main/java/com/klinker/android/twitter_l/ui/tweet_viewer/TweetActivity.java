@@ -915,7 +915,9 @@ public class TweetActivity extends AppCompatActivity {
         screennametv.setText("@" + screenName);
 
         boolean replace = false;
-        if (settings.inlinePics && (tweet.contains("pic.twitter.com/") || tweet.contains(" twitter.com/"))) {
+        boolean embeddedTweetFound = TweetView.embeddedTweetPattern.matcher(tweet).find();
+
+        if (settings.inlinePics && (tweet.contains("pic.twitter.com/") || embeddedTweetFound)) {
             if (tweet.lastIndexOf(".") == tweet.length() - 1) {
                 replace = true;
             }
@@ -923,7 +925,7 @@ public class TweetActivity extends AppCompatActivity {
 
         try {
             tweettv.setText(replace ?
-                    tweet.substring(0, tweet.length() - (tweet.contains(" twitter.com") ? 33 : 25)) :
+                    tweet.substring(0, tweet.length() - (embeddedTweetFound ? 33 : 25)) :
                     tweet);
         } catch (Exception e) {
             tweettv.setText(tweet);

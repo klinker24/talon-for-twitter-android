@@ -778,7 +778,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         boolean replace = false;
-        if (settings.inlinePics && tweetText.contains("pic.twitter.com/") || tweetText.contains(" twitter.com")) {
+        boolean embeddedTweetFound = TweetView.embeddedTweetPattern.matcher(tweetText).find();
+        if (settings.inlinePics && tweetText.contains("pic.twitter.com/") || embeddedTweetFound) {
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
                 replace = true;
             }
@@ -786,7 +787,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         try {
             holder.tweet.setText(replace ?
-                    tweetText.substring(0, tweetText.length() - (tweetText.contains(" twitter.com") ? 33 : 25)) :
+                    tweetText.substring(0, tweetText.length() - (embeddedTweetFound ? 33 : 25)) :
                     tweetText);
         } catch (Exception e) {
             holder.tweet.setText(tweetText);

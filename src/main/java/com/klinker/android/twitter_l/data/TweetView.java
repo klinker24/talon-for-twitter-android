@@ -36,9 +36,11 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class TweetView {
 
+    public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");;
     Context context;
     AppSettings settings;
 
@@ -294,7 +296,8 @@ public class TweetView {
         timeTv.setText(time);
 
         boolean replace = false;
-        if (settings.inlinePics && (tweet.contains("pic.twitter.com/"))) {
+        boolean embeddedTweetFound = embeddedTweetPattern.matcher(tweet).find();
+        if (settings.inlinePics && (tweet.contains("pic.twitter.com/")) || embeddedTweetFound) {
             if (tweet.lastIndexOf(".") == tweet.length() - 1) {
                 replace = true;
             }
@@ -302,7 +305,7 @@ public class TweetView {
 
         try {
             tweetTv.setText(replace ?
-                    tweet.substring(0, tweet.length() - (tweet.contains(" twitter.com") ? 33 : 25)) :
+                    tweet.substring(0, tweet.length() - (embeddedTweetFound ? 33 : 25)) :
                     tweet);
         } catch (Exception e) {
             tweetTv.setText(tweet);
