@@ -331,11 +331,11 @@ public class MentionsDataSource {
         Cursor cursor;
         try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                    allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                    allColumns, where, null, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
             open();
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                    allColumns, where, null, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                    allColumns, where, null, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
 
         return cursor;
@@ -393,11 +393,11 @@ public class MentionsDataSource {
         Cursor cursor;
         try {
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                    allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                    allColumns, where, new String[] {account + "", "1"}, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         } catch (Exception e) {
             open();
             cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
-                    allColumns, where, new String[] {account + "", "1"}, null, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+                    allColumns, where, new String[] {account + "", "1"}, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " ASC");
         }
 
         return cursor;
@@ -516,7 +516,7 @@ public class MentionsDataSource {
 
         Cursor cursor;
         try {
-            cursor = getCursor(account);
+            cursor = getTrimmingCursor(account);
         } catch (Exception e) {
             return ids;
         }
