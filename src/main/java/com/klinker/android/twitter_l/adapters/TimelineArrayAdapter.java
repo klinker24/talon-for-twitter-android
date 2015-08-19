@@ -19,6 +19,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
@@ -35,6 +36,7 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -54,6 +56,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.regex.Pattern;
 
@@ -64,11 +68,15 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
+    public Map<Long, Status> quotedTweets = new HashMap<>();
+
     public boolean openFirst = false;
 
     public static final int NORMAL = 0;
     public static final int RETWEET = 1;
     public static final int FAVORITE = 2;
+
+    public int embeddedTweetMinHeight = 0;
 
     public Context context;
     public ArrayList<Status> statuses;
@@ -108,6 +116,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public TextView screenTV;
         public FrameLayout imageHolder;
         public View rootView;
+        public CardView embeddedTweet;
 
         public long tweetId;
         public boolean isFavorited;
@@ -400,6 +409,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             mHandler[i] = new Handler();
         }
         currHandler = 0;
+
+        embeddedTweetMinHeight = Utils.toDP(140, context);
     }
 
     @Override
@@ -427,6 +438,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
+        holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
 
         if (!settings.bottomPictures) {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
@@ -461,6 +473,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (holder.expandArea.getVisibility() == View.VISIBLE) {
             removeExpansion(holder, false);
+        }
+
+        if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
+            holder.embeddedTweet.removeAllViews();
+            holder.embeddedTweet.setVisibility(View.GONE);
+            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
         Status thisStatus;
@@ -998,6 +1016,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
+
+                    if (otherUrl != null && otherUrl.contains("/status/") &&
+                            holder.embeddedTweet.getChildCount() == 0) {
+                        loadEmbeddedTweet(holder, otherUrl);
+                    }
                 //}
             /*}
         }, 400);*/
@@ -1263,6 +1286,56 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, null);
 
+    }
+
+    public void loadEmbeddedTweet(final ViewHolder holder, final String otherUrls) {
+
+        holder.embeddedTweet.setVisibility(View.VISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Long embeddedId = 0l;
+                for (String u : otherUrls.split(" ")) {
+                    if (u.contains("/status/")) {
+                        embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
+                        break;
+                    }
+                }
+
+                if (embeddedId != 0l) {
+                    Status status = null;
+                    if (quotedTweets.containsKey(embeddedId)) {
+                        status = quotedTweets.get(embeddedId);
+                    } else {
+                        try {
+                            status = Utils.getTwitter(context, settings).showStatus(embeddedId);
+                            quotedTweets.put(embeddedId, status);
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+                    final Status embedded = status;
+
+                    if (status != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TweetView v = new TweetView(context, embedded);
+                                v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+                                v.setSmallImage(true);
+
+                                holder.embeddedTweet.removeAllViews();
+                                holder.embeddedTweet.addView(v.getView());
+
+                                holder.embeddedTweet.setMinimumHeight(0);
+                            }
+                        });
+                    }
+                }
+            }
+        }).start();
     }
 
     // used to place images on the timeline
