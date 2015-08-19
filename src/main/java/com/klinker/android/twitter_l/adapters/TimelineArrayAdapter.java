@@ -778,7 +778,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         boolean replace = false;
-        if (settings.inlinePics && tweetText.contains("pic.twitter.com/")) {
+        if (settings.inlinePics && tweetText.contains("pic.twitter.com/") || tweetText.contains(" twitter.com")) {
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
                 replace = true;
             }
