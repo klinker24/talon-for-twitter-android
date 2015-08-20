@@ -32,7 +32,6 @@ import com.klinker.android.twitter_l.adapter.TweetGridPagerAdapter;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 import com.klinker.android.twitter_l.view.CircularProgressBar;
 
-
 import java.util.List;
 
 public class WearActivity extends WearTransactionActivity {
@@ -85,32 +84,43 @@ public class WearActivity extends WearTransactionActivity {
 
     @Override
     public void updateDisplay() {
-        if (getNames().size() > 0) {
-            progressBar.setVisibility(View.GONE);
-            viewPager.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-            adapter = new TweetGridPagerAdapter(this);
-            viewPager.setAdapter(adapter);
+        progressBar.setVisibility(View.GONE);
+        viewPager.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
+        adapter = new TweetGridPagerAdapter(this);
+        viewPager.setAdapter(adapter);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        viewPager.setCurrentItem(adapter.getRowCount() - 3,0, adapter.getRowCount() > 20 ? false : true);
-                    } catch (Exception e) {
-                        viewPager.setCurrentItem(adapter.getRowCount() - 1,0, adapter.getRowCount() > 20 ? false : true);
-                    }
-                }
-            }, 500);
-        } else {
-            progressBar.setVisibility(View.GONE);
-            viewPager.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter.getRowCount() > 2)
+                    viewPager.setCurrentItem(adapter.getRowCount() - 3,0, adapter.getRowCount() > 20 ? false : true);
+            }
+        }, 500);
+    }
 
-            Drawable biker = getResources().getDrawable(R.drawable.ic_biker);
-            biker.setColorFilter(accentColor, PorterDuff.Mode.MULTIPLY);
-            emptyView.setCompoundDrawablesWithIntrinsicBounds(null, biker, null, null);
+    private static final int SPEECH_REQUEST_CODE = 101;
+
+    public void startSpeechRequest() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        startActivityForResult(intent, SPEECH_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+
+            sendComposeRequest(spokenText);
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private static final int SPEECH_REQUEST_CODE = 101;
