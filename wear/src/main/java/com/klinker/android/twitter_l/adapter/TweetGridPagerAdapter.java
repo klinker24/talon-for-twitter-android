@@ -20,11 +20,12 @@ import android.app.Fragment;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.view.Gravity;
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activity.WearTransactionActivity;
 import com.klinker.android.twitter_l.fragment.ComposeButtonFragment;
 import com.klinker.android.twitter_l.fragment.ExpandableCardFragment;
-import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.fragment.FavoriteButtonFragment;
+import com.klinker.android.twitter_l.fragment.ReplyButtonFragment;
 import com.klinker.android.twitter_l.fragment.RetweetButtonFragment;
 import com.klinker.android.twitter_l.fragment.SettingsButtonFragment;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
@@ -57,6 +58,11 @@ public class TweetGridPagerAdapter extends FragmentGridPagerAdapter {
             return FavoriteButtonFragment.create(Long.parseLong(context.getIds().get(row)));
         } else if (col == 2) {
             return RetweetButtonFragment.create(Long.parseLong(context.getIds().get(row)));
+        } else if (col == 3) {
+            return ReplyButtonFragment.create(
+                    Long.parseLong(context.getIds().get(row)),
+                    context.getScreennames().get(row)
+            );
         } else {
             if (context.getNames() == null || context.getNames().size() == 0) {
                 return CardFragment.create(context.getString(R.string.no_articles), "");
@@ -96,7 +102,7 @@ public class TweetGridPagerAdapter extends FragmentGridPagerAdapter {
                 row != getRowCount() - 2 &&
                 row != 0 &&
                 row != 1) {
-            return 3;
+            return 4;
         } else {
             return 1;
         }
