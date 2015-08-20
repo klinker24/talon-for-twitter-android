@@ -27,17 +27,11 @@ import android.speech.RecognizerIntent;
 import android.support.wearable.view.GridViewPager;
 import android.view.View;
 import android.widget.TextView;
-<<<<<<< HEAD:wear/src/main/java/com/klinker/android/twitter_l/activity/WearActivity.java
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapter.ArticleGridPagerAdapter;
+import com.klinker.android.twitter_l.adapter.TweetGridPagerAdapter;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 import com.klinker.android.twitter_l.view.CircularProgressBar;
-=======
-import com.klinker.android.twitter.R;
-import com.klinker.android.twitter.adapter.TweetGridPagerAdapter;
-import com.klinker.android.twitter.transaction.KeyProperties;
-import com.klinker.android.twitter.view.CircularProgressBar;
->>>>>>> 205f4d8... merged from github:wear/src/main/java/com/klinker/android/twitter/activity/WearActivity.java
+
 
 import java.util.List;
 
