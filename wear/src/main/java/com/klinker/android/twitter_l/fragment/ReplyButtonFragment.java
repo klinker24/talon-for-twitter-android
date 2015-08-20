@@ -10,26 +10,39 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.activity.SettingsActivity;
 import com.klinker.android.twitter_l.activity.WearActivity;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 
-public class ComposeButtonFragment extends Fragment {
+public class ReplyButtonFragment extends Fragment {
 
-    public static ComposeButtonFragment create() {
-        return new ComposeButtonFragment();
+    private static final String ARG_TWEET_ID = "tweet_id";
+    private static final String ARG_USER_SCREENNAME = "screenname";
+
+    public static ReplyButtonFragment create(long tweetId, String screenname) {
+        Bundle args = new Bundle();
+        args.putLong(ARG_TWEET_ID, tweetId);
+        args.putString(ARG_USER_SCREENNAME, screenname);
+
+        ReplyButtonFragment frag = new ReplyButtonFragment();
+        frag.setArguments(args);
+
+        return frag;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_compose_button, parent, false);
-        CircledImageView button = (CircledImageView) view.findViewById(R.id.compose_button);
+        View view = inflater.inflate(R.layout.fragment_favorite_button, parent, false);
+        CircledImageView button = (CircledImageView) view.findViewById(R.id.favorite_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((WearActivity) getActivity()).startComposeRequest();
+                ((WearActivity) getActivity()).startReplyRequest(
+                        getArguments().getString(ARG_USER_SCREENNAME),
+                        getArguments().getLong(ARG_TWEET_ID)
+                );
             }
         });
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int accentColor = sharedPreferences.getInt(KeyProperties.KEY_ACCENT_COLOR, getResources().getColor(R.color.orange_accent_color));
         button.setCircleColor(accentColor);
