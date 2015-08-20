@@ -25,12 +25,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical" >
 
-<<<<<<< HEAD
-    <TextView
-            android:id="@+id/title"
-            android:textColor="@android:color/black"
-            android:layout_width="match_parent"
-=======
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -49,7 +43,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_width="fill_parent"
->>>>>>> 205f4d8... merged from github
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" >
 
