@@ -921,7 +921,7 @@ public abstract class Compose extends Activity implements
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
-                        attachmentType = "video";
+                        attachmentType = "video/mp4";
 
                         attachButton.setEnabled(false);
                     } catch (Throwable e) {
@@ -1232,7 +1232,6 @@ public abstract class Compose extends Activity implements
                                     }
 
                                     media.setMediaIds(mediaIds);
-
                                 }
                             } else {
                                 // animated gif
