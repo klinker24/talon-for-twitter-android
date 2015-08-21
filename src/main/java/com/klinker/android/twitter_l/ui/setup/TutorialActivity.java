@@ -63,6 +63,7 @@ public class TutorialActivity extends Activity {
     public static final String ACTION_CLOSE_DRAWER = "com.klinker.android.evolve_sms.tutorial.CLOSE_DRAWER";
     public static final String ACTION_PAGE_RIGHT = "com.klinker.android.evolve_sms.tutorial.PAGE_RIGHT";
     public static final String ACTION_PAGE_LEFT = "com.klinker.adnroid.evolve_sms.tutorial.PAGE_LEFT";
+    public static final String ACTION_FINISH_TUTORIAL = "com.klinker.android.evolve_sms.tutorial.FINISH";
 
     private Bitmap logo;
     private DrawingThread thread;
@@ -349,10 +350,13 @@ public class TutorialActivity extends Activity {
                     }
                     break;
                 default:
+                    sendBroadcast(new Intent(ACTION_FINISH_TUTORIAL));
+
                     thread.setRunning(false);
                     finish();
                     overridePendingTransition(0, 0);
                     PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).edit().putBoolean("initial_tutorial", false).commit();
+
                     break;
             }
         }
