@@ -53,6 +53,7 @@ import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.ui.setup.TutorialActivity;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.melnykov.fab.FloatingActionButton;
@@ -227,6 +228,8 @@ public class MainActivity extends DrawerActivity {
 
         mViewPager.setOffscreenPageLimit(TimelinePagerAdapter.MAX_EXTRA_PAGES);
 
+        final PermissionModelUtils permissionUtils = new PermissionModelUtils(this);
+
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
             getIntent().putExtra("tutorial", false);
             sharedPrefs.edit().putBoolean("done_tutorial", true).commit();
@@ -282,8 +285,29 @@ public class MainActivity extends DrawerActivity {
                 }
             }, new IntentFilter(TutorialActivity.ACTION_PAGE_RIGHT));
 
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "finished");
+
+                        if (permissionUtils.needPermissionCheck()) {
+                            permissionUtils.showPermissionExplanationThenAuthorization();
+                        }
+
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_FINISH_TUTORIAL));
+
             startActivity(new Intent(context, TutorialActivity.class));
             overridePendingTransition(0, 0);
+        } else {
+            if (permissionUtils.needPermissionCheck()) {
+                permissionUtils.showPermissionExplanationThenAuthorization();
+            }
         }
 
         setLauncherPage();

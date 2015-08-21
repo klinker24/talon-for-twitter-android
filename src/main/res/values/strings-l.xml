@@ -64,4 +64,12 @@
     <string name="favorite_user_notifications_summary">A background refresh interval for the home timeline, or live streaming, must be enabled for favorite user notifications.</string>
     <string name="alert_methods_summary">How you want to be notified: vibrate, sound, LED, etc.</string>
     <string name="windowed_helper_message">To close a window on the tablet, simply click the dimmed area outside the window.\n\nThis ensures your timeline is never too far away!</string>
+    <string name="permission_check_title">Talon\'s Permissions:</string>
+    <string name="permission_check_message">Talon is about to ask you for authorization on two permissions: location and storage.\n\n
+
+        - Location is used to access local trends as well as tag your location in your tweets (if you request it too). I do not save your location at any time.\n
+        - Storage is used to save tweet images to the external storage and is used when uploading your images to Twitter.\n\n
+
+        Feel free to decline either permission. You now know the consequences.
+    </string>
 </resources>
