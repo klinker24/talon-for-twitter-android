@@ -68,8 +68,8 @@
     <string name="permission_check_message">Talon is about to ask you for authorization on two permissions: location and storage.\n\n
 
         - Location is used to access local trends as well as tag your location in your tweets (if you request it too). I do not save your location at any time.\n
-        - Storage is used to save tweet images to the external storage and is used when uploading your images to Twitter.\n\n
+        - Storage is used to save tweet images to the external storage (when requested) and is used when uploading your images to Twitter.\n\n
 
-        Feel free to decline either permission. You now know the consequences.
+        Feel free to decline either permission. You can manually access these from your system\'s app settings.
     </string>
 </resources>
