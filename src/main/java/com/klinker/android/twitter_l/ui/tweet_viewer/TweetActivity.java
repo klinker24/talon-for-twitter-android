@@ -106,7 +106,7 @@ public class TweetActivity extends SlidingActivity {
         context = this;
         settings = AppSettings.getInstance(this);
 
-        //disableHeader();
+        disableHeader();
         enableFullscreen();
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
@@ -561,6 +561,11 @@ public class TweetActivity extends SlidingActivity {
         }
         navBarSeperator.setLayoutParams(navBar);
 
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            View content = findViewById(R.id.content);
+            content.setPadding(content.getPaddingLeft(), content.getPaddingTop() + Utils.toDP(16, this), content.getPaddingRight(), content.getPaddingBottom());
+        }
+
     }
 
     public void getFromIntent() {
@@ -720,11 +725,11 @@ public class TweetActivity extends SlidingActivity {
     }
 
     private void setTransitionNames() {
-        /*profilePic.setTransitionName("pro_pic");
+        profilePic.setTransitionName("pro_pic");
         nametv.setTransitionName("name");
         screennametv.setTransitionName("screen_name");
         tweettv.setTransitionName("tweet");
-        image.setTransitionName("image");*/
+        image.setTransitionName("image");
     }
 
     public CircleImageView profilePic;
@@ -736,6 +741,8 @@ public class TweetActivity extends SlidingActivity {
     public HoloTextView tweettv;
 
     public void setUIElements(final View layout) {
+
+        //findViewById(R.id.content_container).setPadding(0,0,0,0);
 
         nametv = (HoloTextView) layout.findViewById(R.id.name);
         screennametv = (HoloTextView) layout.findViewById(R.id.screen_name);
