@@ -106,7 +106,7 @@ public class TweetActivity extends SlidingActivity {
         context = this;
         settings = AppSettings.getInstance(this);
 
-        disableHeader();
+        //disableHeader();
         enableFullscreen();
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
@@ -563,58 +563,6 @@ public class TweetActivity extends SlidingActivity {
 
     }
 
-    public void setUpWindow(boolean youtube) {
-
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("show_windowed_helper_dialog", true)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.tip_title)
-                    .setMessage(R.string.windowed_helper_message)
-                    .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            sharedPreferences.edit().putBoolean("show_windowed_helper_dialog", false).commit();
-                        }
-                    })
-                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .create().show();
-        }
-
-        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        // Params for the window.
-        // You can easily set the alpha and the dim behind the window from here
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 1.0f;    // lower than one makes it more transparent
-        if(!youtube) {
-            params.dimAmount = .4f;  // set it higher if you want to dim behind the window
-        } else {
-            params.dimAmount = 0f;
-        }
-        getWindow().setAttributes(params);
-
-        // Gets the display size so that you can set the window to a percent of that
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        // You could also easily used an integer value from the shared preferences to set the percent
-        if (height > width) {
-            getWindow().setLayout((int) (width * .85), (int) (height * .68));
-        } else {
-            getWindow().setLayout((int) (width * .6), (int) (height * .8));
-        }
-    }
-
     public void getFromIntent() {
         Intent from = getIntent();
 
@@ -862,7 +810,7 @@ public class TweetActivity extends SlidingActivity {
             }
 
             ViewGroup.LayoutParams layoutParams = image.getLayoutParams();
-            layoutParams.height = Utils.toDP(250, this);
+            layoutParams.height = (int) getResources().getDimension(R.dimen.header_condensed_height);
             image.setLayoutParams(layoutParams);
 
         } else {
