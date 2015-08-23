@@ -562,8 +562,8 @@ public class ExpansionViewHelper {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (spinner.getVisibility() != View.GONE) {
-                    spinner.setVisibility(View.GONE);
+                if (spinner.getVisibility() != View.INVISIBLE) {
+                    spinner.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -1338,7 +1338,7 @@ public class ExpansionViewHelper {
                                 replyList.setAdapter(adapter);
                                 replyList.setVisibility(View.VISIBLE);
                                 //adjustConversationSectionSize(replyList);
-                                convoSpinner.setVisibility(View.GONE);
+                                convoSpinner.setVisibility(View.INVISIBLE);
 
                             }
                         } catch (Exception e) {
@@ -1422,7 +1422,7 @@ public class ExpansionViewHelper {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    convoSpinner.setVisibility(View.GONE);
+                                    convoSpinner.setVisibility(View.INVISIBLE);
                                     try {
                                         if (replies.size() > 0) {
                                             if (adapter == null || adapter.getCount() == 0) {
@@ -1675,7 +1675,7 @@ public class ExpansionViewHelper {
                                 browser.setMovementMethod(LinkMovementMethod.getInstance());
                                 browser.setTextSize(AppSettings.getInstance(context).textSize);
                                 scroll.setVisibility(View.VISIBLE);
-                                spinner.setVisibility(View.GONE);
+                                spinner.setVisibility(View.INVISIBLE);
                             } catch (Exception e) {
                                 // fragment not attached
                             }

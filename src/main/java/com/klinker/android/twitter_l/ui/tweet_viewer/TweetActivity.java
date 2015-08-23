@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
+import android.animation.ValueAnimator;
 import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,8 +30,10 @@ import android.widget.*;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
@@ -53,10 +56,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrInterface;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import org.apache.http.*;
 import org.apache.http.HttpResponse;
@@ -70,7 +69,7 @@ import org.jsoup.select.Elements;
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
 
-public class TweetActivity extends AppCompatActivity {
+public class TweetActivity extends SlidingActivity {
 
     public Context context;
     public AppSettings settings;
@@ -101,24 +100,22 @@ public class TweetActivity extends AppCompatActivity {
 
     private boolean sharedTransition = false;
 
-    private SlidrInterface slidr;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init(Bundle savedInstanceState) {
+
+        context = this;
+        settings = AppSettings.getInstance(this);
+
+        disableHeader();
+        enableFullscreen();
+        setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
-            sharedTransition = true;
-        }
-
-        if (!getResources().getBoolean(R.bool.isTablet)) {
-            slidr = TalonSlidr.attach(this);
+            sharedTransition = false;
         }
 
         Utils.setSharedContentTransition(this);
 
-        context = this;
-        settings = AppSettings.getInstance(this);
         getFromIntent();
 
         ArrayList<String> webpages = new ArrayList<String>();
@@ -165,22 +162,6 @@ public class TweetActivity extends AppCompatActivity {
             }
         }
 
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            setUpWindow((youtubeVideo != null && !android.text.TextUtils.isEmpty(youtubeVideo)) ||
-                    (null != gifVideo &&
-                            !android.text.TextUtils.isEmpty(gifVideo) &&
-                            (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))));
-
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.tablet_close);
-
-            int currentOrientation = getResources().getConfiguration().orientation;
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            } else {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            }
-        }
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         try {
@@ -196,7 +177,7 @@ public class TweetActivity extends AppCompatActivity {
 
         Utils.setUpTweetTheme(context, settings);
 
-        setContentView(R.layout.tweet_activity_new);
+        setContent(R.layout.tweet_activity_new);
 
         setUpTheme();
 
@@ -317,7 +298,7 @@ public class TweetActivity extends AppCompatActivity {
             getVideo(gif);
             image.setVisibility(View.GONE);
         } else {
-            findViewById(R.id.spinner).setVisibility(View.GONE);
+            findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
             gif.setVisibility(View.GONE);
             findViewById(R.id.gif_holder).setVisibility(View.GONE);
         }
@@ -365,7 +346,7 @@ public class TweetActivity extends AppCompatActivity {
                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
-                                        findViewById(R.id.spinner).setVisibility(View.GONE);
+                                        findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
                                         video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                                     }
                                 });
@@ -542,15 +523,6 @@ public class TweetActivity extends AppCompatActivity {
             findViewById(R.id.content).setPadding(0, sbHeight + Utils.toDP(10, context), 0, 0);
         }
 
-        View status = findViewById(R.id.status_bar);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) status.getLayoutParams();
-        params.height = sbHeight;
-        status.setLayoutParams(params);
-
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            status.setVisibility(View.GONE);
-        }
-
         final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
         scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
             @Override
@@ -589,22 +561,6 @@ public class TweetActivity extends AppCompatActivity {
         }
         navBarSeperator.setLayoutParams(navBar);
 
-        if (getResources().getBoolean(R.bool.isTablet) ||
-                getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ||
-                !Utils.hasNavBar(context)) {
-            navBarSeperator.setVisibility(View.GONE);
-            findViewById(R.id.navigation_bar).setVisibility(View.GONE);
-        }
-
-        if (settings.transpartSystemBars) {
-            navBarSeperator.setVisibility(View.INVISIBLE);
-            status.setVisibility(View.INVISIBLE);
-            findViewById(R.id.navigation_bar).setVisibility(View.INVISIBLE);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !getResources().getBoolean(R.bool.isTablet)) {
-                getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
-            }
-        }
     }
 
     public void setUpWindow(boolean youtube) {
@@ -816,11 +772,11 @@ public class TweetActivity extends AppCompatActivity {
     }
 
     private void setTransitionNames() {
-        profilePic.setTransitionName("pro_pic");
+        /*profilePic.setTransitionName("pro_pic");
         nametv.setTransitionName("name");
         screennametv.setTransitionName("screen_name");
         tweettv.setTransitionName("tweet");
-        image.setTransitionName("image");
+        image.setTransitionName("image");*/
     }
 
     public CircleImageView profilePic;
@@ -884,7 +840,6 @@ public class TweetActivity extends AppCompatActivity {
                             picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);
-                            picsPopup.show(slidr);
                         } else {
                             Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                             photo.putExtra("shared_trans", true);
@@ -905,6 +860,10 @@ public class TweetActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 image.setClipToOutline(true);
             }
+
+            ViewGroup.LayoutParams layoutParams = image.getLayoutParams();
+            layoutParams.height = Utils.toDP(250, this);
+            image.setLayoutParams(layoutParams);
 
         } else {
             // remove the picture
@@ -1008,7 +967,6 @@ public class TweetActivity extends AppCompatActivity {
         }
 
         expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
-        expansionHelper.setSlidr(slidr);
         expansionHelper.setSecondAcc(secondAcc);
         expansionHelper.setBackground(findViewById(R.id.notify_scroll_view));
         expansionHelper.setWebLink(otherLinks);

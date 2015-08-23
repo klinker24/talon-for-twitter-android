@@ -129,6 +129,7 @@ dependencies {
     compile(name: 'bitmap-cache', ext: 'aar')
 
     compile project(':LicenseVerificationLibrary')
+    compile project(':library')
     compile(project(":shared_assets"))
 }
 

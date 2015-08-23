@@ -507,7 +507,7 @@ S
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.TalonLight.Tweet.Launcher">
+            android:theme="@style/Theme.Sliding.Light">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.LauncherTweetActivity"

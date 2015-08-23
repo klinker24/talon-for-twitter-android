@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?windowBackground">
 
         <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
             android:layout_width="match_parent"
@@ -141,11 +142,6 @@
 
 
         </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
-
-        <View android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/status_bar"
-            android:background="@android:color/black"/>
 
         <View
             android:layout_alignParentBottom="true"
