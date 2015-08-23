@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -509,10 +510,10 @@ public class TweetActivity extends SlidingActivity {
         actionBar.hide();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(new ColorDrawable(android.R.color.transparent));
+        actionBar.setIcon(new ColorDrawable(Color.TRANSPARENT));
         actionBar.setTitle("");
-        actionBar.setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
-        actionBar.setHomeAsUpIndicator(new ColorDrawable(android.R.color.transparent));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        actionBar.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));
 
         final int abHeight = Utils.getActionBarHeight(context);
         final int sbHeight = Utils.getStatusBarHeight(context);
@@ -548,9 +549,6 @@ public class TweetActivity extends SlidingActivity {
         });
 
         View navBarSeperator = findViewById(R.id.nav_bar_seperator);
-        RelativeLayout.LayoutParams navBarParams = (RelativeLayout.LayoutParams) findViewById(R.id.navigation_bar).getLayoutParams();
-        navBarParams.height = Utils.getNavBarHeight(context);
-        findViewById(R.id.navigation_bar).setLayoutParams(navBarParams);
 
         LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
 
@@ -566,6 +564,8 @@ public class TweetActivity extends SlidingActivity {
             content.setPadding(content.getPaddingLeft(), content.getPaddingTop() + Utils.toDP(16, this), content.getPaddingRight(), content.getPaddingBottom());
         }
 
+        if (!settings.transpartSystemBars)
+            new NavBarOverlayLayout(this).show();
     }
 
     public void getFromIntent() {

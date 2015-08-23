@@ -143,13 +143,6 @@
 
         </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
 
-        <View
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@android:color/black"
-            android:id="@+id/navigation_bar" />
-
         <!-- used for the popups and dimming the foreground -->
         <View android:layout_width="match_parent"
             android:layout_height="match_parent"
