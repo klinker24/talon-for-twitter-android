@@ -24,7 +24,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 public class LauncherTweetActivity extends TweetActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void init(Bundle savedInstanceState) {
 
         fromLauncher = true;
 
@@ -40,6 +40,6 @@ public class LauncherTweetActivity extends TweetActivity {
             AppSettings.invalidate();
         }
 
-        super.onCreate(savedInstanceState);
+        super.init(savedInstanceState);
     }
 }
