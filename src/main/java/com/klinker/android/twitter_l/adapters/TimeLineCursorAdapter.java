@@ -908,7 +908,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     ActivityOptions options = ActivityOptions
                                             .makeSceneTransitionAnimation(((Activity)context), holder.image, "image");
 
-                                    context.startActivity(photo/*, options.toBundle()*/);
+                                    context.startActivity(photo, options.toBundle());
                                 } else {
                                     context.startActivity(photo);
                                 }
