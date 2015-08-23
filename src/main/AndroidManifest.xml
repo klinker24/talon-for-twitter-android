@@ -517,7 +517,7 @@ S
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Tweet.Launcher">
+            android:theme="@style/Theme.Sliding.Light">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity"
@@ -526,7 +526,7 @@ S
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Tweet.Launcher">
+            android:theme="@style/Theme.Sliding.Light">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.drawer_activities.discover.people.PeopleSearch"
@@ -541,7 +541,7 @@ S
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.TalonLight.Tweet.Launcher">
+            android:theme="@style/Theme.Sliding.Light">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager"

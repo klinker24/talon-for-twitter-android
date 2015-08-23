@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2015 Jacob Klinker
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <dimen name="sliding_starting_empty_height">150dp</dimen>
+    <dimen name="sliding_maximum_title_size">26sp</dimen>
+    <dimen name="sliding_title_initial_margin">16dp</dimen>
+    <item name="sliding_landscape_photo_ratio" type="dimen" format="float">0.7</item>
+    <dimen name="sliding_dismiss_distance_on_release">40dp</dimen>
+    <dimen name="sliding_dismiss_distance_on_scroll">100dp</dimen>
+    <dimen name="sliding_snap_to_top_slop_height">33dp</dimen>
+    <dimen name="sliding_photo_container_height">180dp</dimen>
+    <dimen name="sliding_toolbar_elevation">4.5dp</dimen>
+    <dimen name="sliding_header_max_height">300dp</dimen>
+    <dimen name="first_card_marginTop">12dp</dimen>
+    <dimen name="fab_marginTop">-56dp</dimen>
+    <dimen name="fab_marginRight">0dp</dimen>
+    <dimen name="fab_marginBottom">0dp</dimen>
+
+</resources>
