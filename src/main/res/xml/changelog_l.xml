@@ -1,10 +1,12 @@
 <changelog>
 
     <version name="3.2.0">
-        <text>Revamp tweet and profile viewer styles and animations</text>
+        <text>Revamp tweet and profile viewer styles, animations, and flow</text>
         <text>Swipe down to close tweets and profiles</text>
         <text>Improve timeline animations and styles</text>
+        <text>Compose window follows text size in settings</text>
     </version>
+    
     <version name="3.1.0" >
         <text>Built for Android Marshmallow</text>
         <text>Revamp of Android Wear app layout</text>
