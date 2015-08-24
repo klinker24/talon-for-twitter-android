@@ -754,7 +754,7 @@ public class MultiShrinkScroller extends FrameLayout {
         animator.start();
     }
 
-    private OpenAnimation openAnimation;
+    private OpenAnimation openAnimation = OpenAnimation.SLIDE_UP;
 
     private int expansionLeftOffset;
     private int expansionTopOffset;
