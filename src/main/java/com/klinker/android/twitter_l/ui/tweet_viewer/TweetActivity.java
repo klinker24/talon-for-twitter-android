@@ -84,7 +84,6 @@ public class TweetActivity extends SlidingActivity {
     public AppSettings settings;
     public SharedPreferences sharedPrefs;
 
-
     public String name;
     public String screenName;
     public String tweet;
@@ -188,8 +187,6 @@ public class TweetActivity extends SlidingActivity {
                 gifVideo = webpages.get(0);
             }
         }
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -330,37 +327,15 @@ public class TweetActivity extends SlidingActivity {
             findViewById(R.id.gif_holder).setVisibility(View.GONE);
         }
 
-        View nav = findViewById(R.id.landscape_nav_bar);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) nav.getLayoutParams();
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) {
-            params.width = (int) (Utils.getNavBarHeight(context) * .9);
-        } else {
-            params.width = 0;
-        }
-
-        nav.setLayoutParams(params);
-        nav.setVisibility(View.VISIBLE);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 findViewById(R.id.holder).setVisibility(View.GONE);
 
-                final View scroll = findViewById(R.id.notify_scroll_view);
-                scroll.setVisibility(View.VISIBLE);
-
-                final ValueAnimator contentAlpha = ValueAnimator.ofFloat(0f, 1f);
-                contentAlpha.setInterpolator(new LinearInterpolator());
-                contentAlpha.setDuration(MultiShrinkScroller.ANIMATION_DURATION + 300);
-                contentAlpha.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float val = (float) animation.getAnimatedValue();
-                        scroll.setAlpha(val);
-                    }
-                });
-                contentAlpha.start();
+                final View content = findViewById(R.id.content);
+                content.setVisibility(View.VISIBLE);
+                content.setAlpha(0f);
+                content.animate().alpha(1f).start();
             }
         },300);
     }
@@ -570,25 +545,8 @@ public class TweetActivity extends SlidingActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         actionBar.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));
 
-        final int abHeight = Utils.getActionBarHeight(context);
-        final int sbHeight = Utils.getStatusBarHeight(context);
-
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            findViewById(R.id.content).setPadding(0, Utils.toDP(10, context), 0, 0);
-        } else {
-            findViewById(R.id.content).setPadding(0, sbHeight + Utils.toDP(10, context), 0, 0);
-        }
-
-        final NotifyScrollView scroll = (NotifyScrollView) findViewById(R.id.notify_scroll_view);
-        scroll.setOnScrollChangedListener(new NotifyScrollView.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                /*final int headerHeight = header.getHeight() - abHeight;
-                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-                insetsBackground.setAlpha(ratio);*/
-            }
-        });
-        scroll.setOnTouchListener(new View.OnTouchListener() {
+        final View content = findViewById(R.id.content);
+        content.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (view instanceof ImageButton) {
@@ -602,24 +560,6 @@ public class TweetActivity extends SlidingActivity {
                 }
             }
         });
-
-        View navBarSeperator = findViewById(R.id.nav_bar_seperator);
-
-        LinearLayout.LayoutParams navBar = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-
-        if (Utils.hasNavBar(context) && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            navBar.height = Utils.getNavBarHeight(context);
-        } else {
-            navBar.height = 0;
-        }
-        navBarSeperator.setLayoutParams(navBar);
-
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            View content = findViewById(R.id.content);
-            content.setPadding(content.getPaddingLeft(), content.getPaddingTop() + Utils.toDP(16, this), content.getPaddingRight(), content.getPaddingBottom());
-        }
-
-        new NavBarOverlayLayout(this).show();
     }
 
     public void getFromIntent() {
@@ -978,7 +918,7 @@ public class TweetActivity extends SlidingActivity {
 
         expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
         expansionHelper.setSecondAcc(secondAcc);
-        expansionHelper.setBackground(findViewById(R.id.notify_scroll_view));
+        expansionHelper.setBackground(findViewById(R.id.content));
         expansionHelper.setWebLink(otherLinks);
         expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
         expansionHelper.setUser(screenName);
@@ -991,29 +931,6 @@ public class TweetActivity extends SlidingActivity {
     }
 
     private ExpansionViewHelper expansionHelper;
-
-    public void hideExtraContent() {
-        try {
-            LinearLayout videos = (LinearLayout) findViewById(R.id.extra_content);
-            if (videos.getVisibility() == View.VISIBLE) {
-                videos.removeAllViews();
-                videos.setVisibility(View.GONE);
-
-                if (this.video != null) {
-                    this.video.stopPlayback();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (image.getVisibility() != View.VISIBLE) {
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) image.getLayoutParams();
-            params.height = 0;
-            image.setLayoutParams(params);
-        }
-    }
-
     private Status status = null;
     private MultiplePicsPopup picsPopup;
 
