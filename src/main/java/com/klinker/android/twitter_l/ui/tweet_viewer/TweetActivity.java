@@ -26,11 +26,13 @@ import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.*;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
@@ -343,8 +345,22 @@ public class TweetActivity extends SlidingActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                findViewById(R.id.holder).setVisibility(View.GONE);
 
-                findViewById(R.id.notify_scroll_view).setVisibility(View.VISIBLE);
+                final View scroll = findViewById(R.id.notify_scroll_view);
+                scroll.setVisibility(View.VISIBLE);
+
+                final ValueAnimator contentAlpha = ValueAnimator.ofFloat(0f, 1f);
+                contentAlpha.setInterpolator(new LinearInterpolator());
+                contentAlpha.setDuration(MultiShrinkScroller.ANIMATION_DURATION + 300);
+                contentAlpha.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float val = (float) animation.getAnimatedValue();
+                        scroll.setAlpha(val);
+                    }
+                });
+                contentAlpha.start();
             }
         },300);
     }
