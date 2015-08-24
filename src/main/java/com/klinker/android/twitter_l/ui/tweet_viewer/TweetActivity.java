@@ -507,7 +507,6 @@ public class TweetActivity extends SlidingActivity {
     public void onBackPressed() {
         if (youTubeFrag == null || youTubeFrag.onBack()) {
             if (!hidePopups()) {
-                hideExtraContent();
                 super.onBackPressed();
             }
         }
