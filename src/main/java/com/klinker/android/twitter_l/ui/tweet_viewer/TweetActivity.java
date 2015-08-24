@@ -604,8 +604,7 @@ public class TweetActivity extends SlidingActivity {
             content.setPadding(content.getPaddingLeft(), content.getPaddingTop() + Utils.toDP(16, this), content.getPaddingRight(), content.getPaddingBottom());
         }
 
-        if (!settings.transpartSystemBars)
-            new NavBarOverlayLayout(this).show();
+        new NavBarOverlayLayout(this).show();
     }
 
     public void getFromIntent() {
