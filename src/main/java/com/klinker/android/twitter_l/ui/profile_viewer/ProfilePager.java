@@ -129,7 +129,6 @@ public class ProfilePager extends SlidingActivity {
         getFromIntent();
         setContent(R.layout.user_profile);
         setUpContent();
-        setUpInsets();
         getUser();
     }
 
@@ -182,6 +181,13 @@ public class ProfilePager extends SlidingActivity {
                 loadProfilePicture();
             }
         }, 300);
+
+        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private boolean loaded = false;
@@ -197,16 +203,6 @@ public class ProfilePager extends SlidingActivity {
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 loaded = true;
                 setImage(result.getBitmap());
-            }
-        });
-    }
-
-    private int offsetSize = 0;
-    public void setUpInsets() {
-        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
     }
@@ -245,10 +241,10 @@ public class ProfilePager extends SlidingActivity {
             proPic = user.getOriginalProfileImageURL();
             name = user.getName();
 
-            setTitle(name);
-
             loadProfilePicture();
         }
+
+        setTitle(user.getName());
 
         CardView headerCard = (CardView) findViewById(R.id.stats_card);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) headerCard.getLayoutParams();
@@ -693,10 +689,6 @@ public class ProfilePager extends SlidingActivity {
             public void onAnimationEnd(Animation animation) {
                 if (v.getVisibility() != View.VISIBLE) {
                     v.setVisibility(View.VISIBLE);
-                }
-
-                if (offsetSize == 0) {
-                    offsetSize = ((LinearLayout) findViewById(R.id.lower_card)).getHeight() + Utils.toDP(30, context);
                 }
             }
 
