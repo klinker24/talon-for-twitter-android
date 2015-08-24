@@ -520,6 +520,10 @@ public class TweetActivity extends SlidingActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         sharedPrefs.edit().putBoolean("from_activity", true).commit();
 
+        if (expansionHelper != null) {
+            expansionHelper.stop();
+        }
+
         super.finish();
     }
 
@@ -974,10 +978,6 @@ public class TweetActivity extends SlidingActivity {
     private ExpansionViewHelper expansionHelper;
 
     public void hideExtraContent() {
-        if (expansionHelper != null) {
-            expansionHelper.stop();
-        }
-
         try {
             LinearLayout videos = (LinearLayout) findViewById(R.id.extra_content);
             if (videos.getVisibility() == View.VISIBLE) {
