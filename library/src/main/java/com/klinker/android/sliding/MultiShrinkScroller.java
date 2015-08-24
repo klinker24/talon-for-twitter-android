@@ -880,8 +880,6 @@ public class MultiShrinkScroller extends FrameLayout {
         translationX.setDuration(ANIMATION_DURATION);
         translationX.start();
 
-        scrollUp(getScroll());
-
         ObjectAnimator translationY = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, 0f, expansionTopOffset);
         translationY.setInterpolator(interpolator);
         translationY.setDuration(ANIMATION_DURATION);
