@@ -248,6 +248,8 @@ public class TweetView {
 
                 viewTweet.putExtra("shared_trans", true);
 
+                viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     profilePicIv.setTransitionName("pro_pic");
                     screenTV.setTransitionName("screen_name");
@@ -369,6 +371,9 @@ public class TweetView {
                             viewTweet.putExtra("animated_gif", gifUrl);
 
                             viewTweet.putExtra("shared_trans", true);
+
+                            viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
+
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 profilePicIv.setTransitionName("pro_pic");
@@ -515,5 +520,19 @@ public class TweetView {
                 }
             }
         }).start();
+    }
+
+    private Intent addDimensForExpansion(Intent i, View view) {
+        i.putExtra(TweetActivity.USE_EXPANSION, true);
+
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
+
+        return i;
     }
 }
