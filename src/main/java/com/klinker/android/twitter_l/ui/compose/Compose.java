@@ -256,6 +256,8 @@ public abstract class Compose extends Activity implements
             }
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
             replyTo.setVisibility(View.VISIBLE);
+
+            replyTo.setTextSize(settings.textSize);
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -278,6 +280,9 @@ public abstract class Compose extends Activity implements
                 }
             }
         }, 250);
+
+        contactEntry.setTextSize(settings.textSize);
+        reply.setTextSize(settings.textSize);
     }
 
     public void setUpWindow() {
