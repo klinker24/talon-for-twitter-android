@@ -99,7 +99,7 @@
                 android:title="@string/bottom_pictures"
                 android:summary="@string/bottom_pictures_summary"
                 android:dependency="inline_pics"
-                android:defaultValue="false"
+                android:defaultValue="true"
                 />
 
         <CheckBoxPreference
