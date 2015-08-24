@@ -299,7 +299,7 @@ public class AppSettings {
         preCacheImages = !sharedPrefs.getString("pre_cache", "1").equals("0");
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", true);
-        bottomPictures = sharedPrefs.getBoolean("bottom_pictures", false);
+        bottomPictures = sharedPrefs.getBoolean("bottom_pictures", true);
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
