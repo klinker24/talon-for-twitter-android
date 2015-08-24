@@ -72,6 +72,26 @@ public class UpdateUtils {
             sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
         }
 
+        if (sharedPrefs.getBoolean("bottom_pictures", true)) {
+            sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+        }
+
+        if (sharedPrefs.getBoolean("version_3_2", true)) {
+            sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+            sharedPrefs.edit().putBoolean("bottom_pictures", true).commit();
+            new AlertDialog.Builder(context)
+                    .setTitle("New Changes")
+                    .setMessage("Some stuff has changed on your timeline. With this version, Talon no longer uses the in-line expansion of tweets by default.\n\n" +
+                            "We have made some major revisions to the flow, style, and animations of both the tweet and profile viewers, which promped this change.\n\n" +
+                            "If you do not like this change after trying it, head to UI Settings and disable the 'Pictures Below Tweets' option to go back to the way it was before.")
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .create().show();
+        }
+
         runFirstInstalled(context, sharedPrefs);
         runEveryUpdate(context, sharedPrefs);
     }
