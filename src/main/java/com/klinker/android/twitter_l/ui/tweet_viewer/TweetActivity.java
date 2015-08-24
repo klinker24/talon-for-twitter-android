@@ -849,6 +849,7 @@ public class TweetActivity extends SlidingActivity {
                             picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);
+                            picsPopup.show();
                         } else {
                             Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                             photo.putExtra("shared_trans", true);
