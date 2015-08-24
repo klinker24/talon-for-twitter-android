@@ -23,7 +23,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class LauncherProfilePager extends ProfilePager {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void init(Bundle savedInstanceState) {
 
         int acc = getIntent().getIntExtra("current_account", 0);
 
@@ -37,6 +37,6 @@ public class LauncherProfilePager extends ProfilePager {
             AppSettings.invalidate();
         }
 
-        super.onCreate(savedInstanceState);
+        super.init(savedInstanceState);
     }
 }

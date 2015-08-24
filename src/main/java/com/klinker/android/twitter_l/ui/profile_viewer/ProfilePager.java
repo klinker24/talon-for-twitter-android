@@ -37,6 +37,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
 import com.jakewharton.disklrucache.Util;
+import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -74,18 +75,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-import com.melnykov.fab.FloatingActionButton;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrInterface;
-import com.r0adkll.slidr.model.SlidrPosition;
 
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 
-public class ProfilePager extends AppCompatActivity {
+public class ProfilePager extends SlidingActivity {
 
     private Context context;
     private AppSettings settings;
@@ -102,39 +98,21 @@ public class ProfilePager extends AppCompatActivity {
     private boolean isMuffled;
     private boolean isFollowingSet = false;
 
-    private SlidrInterface slidr;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
-
-        if (!getResources().getBoolean(R.bool.isTablet)) {
-            slidr = TalonSlidr.attach(this);
-            slidr.lock();
-        }
-
-        Utils.setSharedContentTransition(this);
-
-        if (getResources().getBoolean(R.bool.isTablet)) {
-            setUpWindow();
-
-            int currentOrientation = getResources().getConfiguration().orientation;
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-            } else {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-            }
-        }
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    public void init(Bundle savedInstanceState) {
 
         mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
+
+        setPrimaryColors(
+                settings.themeColors.primaryColor,
+                settings.themeColors.primaryColorDark
+        );
+
+        Utils.setSharedContentTransition(this);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -149,83 +127,16 @@ public class ProfilePager extends AppCompatActivity {
 
         setUpTheme();
         getFromIntent();
-        setContentView(R.layout.user_profile);
+        setContent(R.layout.user_profile);
         setUpContent();
         setUpInsets();
         getUser();
-
-        View nav = findViewById(R.id.landscape_nav_bar);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) nav.getLayoutParams();
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) {
-            params.width = (int) (Utils.getNavBarHeight(context) * .9);
-        } else {
-            params.width = 0;
-        }
-
-        nav.setLayoutParams(params);
-
-        if (!Utils.hasNavBar(context)) {
-            nav.setVisibility(View.GONE);
-        }
-
-        if (!settings.transpartSystemBars) {
-            new NavBarOverlayLayout(this).show();
-        }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         recreate();
-    }
-
-    public void setUpWindow() {
-
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("show_windowed_helper_dialog", true)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.tip_title)
-                    .setMessage(R.string.windowed_helper_message)
-                    .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            sharedPreferences.edit().putBoolean("show_windowed_helper_dialog", false).commit();
-                        }
-                    })
-                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .create().show();
-        }
-
-        supportRequestWindowFeature(Window.FEATURE_ACTION_BAR | Window.FEATURE_PROGRESS);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        // Params for the window.
-        // You can easily set the alpha and the dim behind the window from here
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .4f;  // set it higher if you want to dim behind the window
-        getWindow().setAttributes(params);
-
-        // Gets the display size so that you can set the window to a percent of that
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        // You could also easily used an integer value from the shared preferences to set the percent
-        if (height > width) {
-            getWindow().setLayout((int) (width * .85), (int) (height * .68));
-        } else {
-            getWindow().setLayout((int) (width * .6), (int) (height * .8));
-        }
     }
 
     public NetworkedCacheableImageView profilePic;
@@ -281,77 +192,23 @@ public class ProfilePager extends AppCompatActivity {
             return;
         }
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            profilePic.setVisibility(View.INVISIBLE);
-        }
-
         profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 loaded = true;
-
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                    View myView = profilePic;
-
-                    int cx = (myView.getLeft() + myView.getRight()) / 2;
-                    int cy = (myView.getTop() + myView.getBottom()) / 2;
-
-                    int finalRadius = (int) Math.sqrt(Math.pow(myView.getHeight(), 2) + Math.pow(myView.getWidth(), 2));
-
-                    try {
-                        Animator anim =
-                                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-
-                        anim.setDuration(500);
-
-                        myView.setVisibility(View.VISIBLE);
-                        anim.start();
-                    } catch (Throwable e) {
-                        myView.setVisibility(View.VISIBLE);
-                    }
-                }
+                setImage(result.getBitmap());
             }
         });
     }
 
     private int offsetSize = 0;
     public void setUpInsets() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        }
+        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        int height = Utils.toDP(24 + 56, this);
-        View v = findViewById(R.id.nav_bar_seperator);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) v.getLayoutParams();
-        v.setVisibility(View.VISIBLE);
-
-        if (Utils.hasNavBar(context) && !getResources().getBoolean(R.bool.isTablet)) {
-            params.height = Utils.getNavBarHeight(context) + height;
-            v.setLayoutParams(params);
-        } else {
-            params.height = height;
-            v.setLayoutParams(params);
-        }
-
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-        collapsingToolbarLayout.setTitle(name);
-        collapsingToolbarLayout.setStatusBarScrimColor(settings.themeColors.primaryColorDark);
-        collapsingToolbarLayout.setContentScrimColor(settings.themeColors.primaryColor);
-
-        Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        NestedScrollView scroller = (NestedScrollView) findViewById(R.id.nested_scroll_view);
-
-        final android.support.design.widget.FloatingActionButton sendButton =
-                (android.support.design.widget.FloatingActionButton) findViewById(R.id.send_button);
-        sendButton.setRippleColor(getResources().getColor(android.R.color.white));
-        ColorStateList csl = new ColorStateList(
-                new int[][]{{}},
-                new int[]{settings.themeColors.accentColor});
-        sendButton.setBackgroundTintList(csl);
+            }
+        });
     }
 
     public void setUpTheme() {
@@ -388,10 +245,9 @@ public class ProfilePager extends AppCompatActivity {
             proPic = user.getOriginalProfileImageURL();
             name = user.getName();
 
-            loadProfilePicture();
+            setTitle(name);
 
-            CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout);
-            collapsingToolbarLayout.setTitle(name);
+            loadProfilePicture();
         }
 
         CardView headerCard = (CardView) findViewById(R.id.stats_card);
@@ -399,15 +255,7 @@ public class ProfilePager extends AppCompatActivity {
         params.topMargin = Utils.toDP(32, context);
         headerCard.setLayoutParams(params);
 
-        final android.support.design.widget.FloatingActionButton sendButton =
-                (android.support.design.widget.FloatingActionButton) findViewById(R.id.send_button);
-        sendButton.setRippleColor(getResources().getColor(android.R.color.white));
-        ColorStateList csl = new ColorStateList(
-                new int[][]{{}},
-                new int[]{settings.themeColors.accentColor});
-        sendButton.setBackgroundTintList(csl);
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
@@ -510,7 +358,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 picsPopup.setExpansionPointForAnim(view);
-                picsPopup.show(slidr);
+                picsPopup.show();
             }
         });
 
@@ -558,7 +406,7 @@ public class ProfilePager extends AppCompatActivity {
             public void onClick(View view) {
                 fol.setExpansionPointForAnim(view);
                 fol.setOnTopOfView(view);
-                fol.show(slidr);
+                fol.show();
             }
         });
         openFollowers.setOnLongClickListener(new View.OnLongClickListener() {
@@ -578,7 +426,7 @@ public class ProfilePager extends AppCompatActivity {
             public void onClick(View view) {
                 fri.setExpansionPointForAnim(view);
                 fri.setOnTopOfView(view);
-                fri.show(slidr);
+                fri.show();
             }
         });
         openFriends.setOnLongClickListener(new View.OnLongClickListener() {
@@ -624,7 +472,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 tweetsPopup.setExpansionPointForAnim(view);
-                tweetsPopup.show(slidr);
+                tweetsPopup.show();
             }
         });
         showAllTweets.setOnLongClickListener(new View.OnLongClickListener() {
@@ -698,7 +546,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mentionsPopup.setExpansionPointForAnim(view);
-                mentionsPopup.show(slidr);
+                mentionsPopup.show();
             }
         });
 
@@ -761,7 +609,7 @@ public class ProfilePager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 favoritesPopup.setExpansionPointForAnim(view);
-                favoritesPopup.show(slidr);
+                favoritesPopup.show();
             }
         });
 
@@ -801,10 +649,6 @@ public class ProfilePager extends AppCompatActivity {
             showCard(findViewById(R.id.favorites_card));
         } else {
             findViewById(R.id.favorites_card).setVisibility(View.GONE);
-        }
-
-        if (slidr != null) {
-            slidr.unlock();
         }
     }
 
