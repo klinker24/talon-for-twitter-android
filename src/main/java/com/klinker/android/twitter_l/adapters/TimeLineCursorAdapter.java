@@ -512,6 +512,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     viewTweet.putExtra("shared_trans", true);
 
+                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                         holder.profilePic.setTransitionName("pro_pic");
                         holder.screenTV.setTransitionName("screen_name");
@@ -607,6 +609,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
 
                     viewTweet.putExtra("shared_trans", true);
+
+                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                         holder.profilePic.setTransitionName("pro_pic");
@@ -837,6 +841,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             viewTweet.putExtra("shared_trans", true);
+
+                            viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
                                 holder.profilePic.setTransitionName("pro_pic");
@@ -1754,5 +1760,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
             }
         }
+    }
+
+    private Intent addDimensForExpansion(Intent i, View view) {
+        i.putExtra(TweetActivity.USE_EXPANSION, true);
+
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
+
+        return i;
     }
 }
