@@ -22,17 +22,19 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -40,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -47,8 +50,6 @@ import android.view.animation.PathInterpolator;
 import android.widget.EdgeEffect;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -75,6 +76,10 @@ import android.widget.TextView;
  */
 public class MultiShrinkScroller extends FrameLayout {
 
+    public enum OpenAnimation {
+        SLIDE_UP, EXPAND_FROM_VIEW
+    }
+
     /**
      * 1000 pixels per millisecond. Ie, 1 pixel per second.
      */
@@ -83,7 +88,7 @@ public class MultiShrinkScroller extends FrameLayout {
     /**
      * The duration that the activity should take to animate onto screen.
      */
-    private static final int ANIMATION_DURATION = 300;
+    public static final int ANIMATION_DURATION = 300;
 
     /**
      * Length of the acceleration animations. This value was taken from ValueAnimator.java.
@@ -182,7 +187,7 @@ public class MultiShrinkScroller extends FrameLayout {
     /**
      * Listener for snapping the content to the bottom of the screen.
      */
-    private final AnimatorListener snapToBottomListener = new AnimatorListenerAdapter() {
+    private final AnimatorListener exitAnimationListner = new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
             if (getScrollUntilOffBottom() > 0 && listener != null) {
@@ -684,18 +689,23 @@ public class MultiShrinkScroller extends FrameLayout {
      * Scroll the activity off the bottom of the screen.
      */
     public void scrollOffBottom() {
-        isTouchDisabledForDismissAnimation = true;
-        final Interpolator interpolator = new AcceleratingFlingInterpolator(
-                EXIT_FLING_ANIMATION_DURATION_MS, getCurrentVelocity(),
-                getScrollUntilOffBottom());
-        scroller.forceFinished(true);
-        ObjectAnimator translateAnimation = ObjectAnimator.ofInt(this, "scroll",
-                getScroll() - getScrollUntilOffBottom());
-        translateAnimation.setRepeatCount(0);
-        translateAnimation.setInterpolator(interpolator);
-        translateAnimation.setDuration(EXIT_FLING_ANIMATION_DURATION_MS);
-        translateAnimation.addListener(snapToBottomListener);
-        translateAnimation.start();
+        if (openAnimation == OpenAnimation.SLIDE_UP) {
+            isTouchDisabledForDismissAnimation = true;
+            final Interpolator interpolator = new AcceleratingFlingInterpolator(
+                    EXIT_FLING_ANIMATION_DURATION_MS, getCurrentVelocity(),
+                    getScrollUntilOffBottom());
+            scroller.forceFinished(true);
+            ObjectAnimator translateAnimation = ObjectAnimator.ofInt(this, "scroll",
+                    getScroll() - getScrollUntilOffBottom());
+            translateAnimation.setRepeatCount(0);
+            translateAnimation.setInterpolator(interpolator);
+            translateAnimation.setDuration(EXIT_FLING_ANIMATION_DURATION_MS);
+            translateAnimation.addListener(exitAnimationListner);
+            translateAnimation.start();
+        } else {
+            reverseExpansionAnimation();
+        }
+
         if (listener != null) {
             listener.onStartScrollOffBottom();
         }
@@ -707,7 +717,7 @@ public class MultiShrinkScroller extends FrameLayout {
      * current position. Otherwise, will scroll from the bottom of the screen to the top of the
      * screen.
      */
-    public void scrollUpForEntranceAnimation(boolean scrollToCurrentPosition) {
+    public void performEntranceAnimation(OpenAnimation animation, boolean scrollToCurrentPosition) {
         final int currentPosition = getScroll();
         final int bottomScrollPosition = currentPosition
                 - (getHeight() - getTransparentViewHeight()) + 1;
@@ -733,7 +743,150 @@ public class MultiShrinkScroller extends FrameLayout {
                 }
             }
         });
+
+        if (animation == OpenAnimation.EXPAND_FROM_VIEW) {
+            animator.setDuration(0);
+            runExpansionAnimation();
+
+            openAnimation = animation;
+        }
+
         animator.start();
+    }
+
+    private OpenAnimation openAnimation;
+
+    private int expansionLeftOffset;
+    private int expansionTopOffset;
+    private int expansionViewWidth;
+    private int expansionViewHeight;
+
+    public void setExpansionPoints(int leftOffset, int topOffset, int viewWidth, int viewHeight) {
+        this.expansionLeftOffset = leftOffset;
+        this.expansionTopOffset = topOffset;
+        this.expansionViewWidth = viewWidth;
+        this.expansionViewHeight = viewHeight;
+    }
+
+    public void runExpansionAnimation() {
+
+        final Interpolator interpolator;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = AnimationUtils.loadInterpolator(getContext(),
+                    android.R.interpolator.linear_out_slow_in);
+        } else {
+            interpolator = new DecelerateInterpolator();
+        }
+
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenHeight = size.y;
+        int screenWidth = size.x;
+
+        final ValueAnimator heightExpansion = ValueAnimator.ofInt(expansionViewHeight, screenHeight);
+        heightExpansion.setInterpolator(interpolator);
+        heightExpansion.setDuration(ANIMATION_DURATION);
+        heightExpansion.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams params = getLayoutParams();
+                params.height = val;
+                setLayoutParams(params);
+            }
+        });
+        heightExpansion.start();
+
+        final ValueAnimator widthExpansion = ValueAnimator.ofInt(expansionViewWidth, getWidth());
+        widthExpansion.setInterpolator(interpolator);
+        widthExpansion.setDuration(ANIMATION_DURATION);
+        widthExpansion.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams params = getLayoutParams();
+                params.width = val;
+                setLayoutParams(params);
+            }
+        });
+        widthExpansion.start();
+
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, expansionLeftOffset, 0f);
+        translationX.setInterpolator(interpolator);
+        translationX.setDuration(ANIMATION_DURATION);
+        translationX.start();
+
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, expansionTopOffset, 0f);
+        translationY.setInterpolator(interpolator);
+        translationY.setDuration(ANIMATION_DURATION);
+        translationY.start();
+    }
+
+    public void reverseExpansionAnimation() {
+
+        final Interpolator interpolator;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            interpolator = AnimationUtils.loadInterpolator(getContext(),
+                    android.R.interpolator.linear_out_slow_in);
+        } else {
+            interpolator = new DecelerateInterpolator();
+        }
+
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenHeight = size.y;
+        int screenWidth = size.x;
+
+        final ValueAnimator heightExpansion = ValueAnimator.ofInt(screenHeight, expansionViewHeight);
+        heightExpansion.setInterpolator(interpolator);
+        heightExpansion.setDuration(ANIMATION_DURATION);
+        heightExpansion.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams params = getLayoutParams();
+                params.height = val;
+                setLayoutParams(params);
+            }
+        });
+        heightExpansion.start();
+
+        final ValueAnimator widthExpansion = ValueAnimator.ofInt(getWidth(), expansionViewWidth);
+        widthExpansion.setInterpolator(interpolator);
+        widthExpansion.setDuration(ANIMATION_DURATION);
+        widthExpansion.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int val = (int) animation.getAnimatedValue();
+
+                ViewGroup.LayoutParams params = getLayoutParams();
+                params.width = val;
+                setLayoutParams(params);
+            }
+        });
+        widthExpansion.start();
+
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, 0f, expansionLeftOffset);
+        translationX.setInterpolator(interpolator);
+        translationX.setDuration(ANIMATION_DURATION);
+        translationX.start();
+
+        scrollUp(getScroll());
+
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, 0f, expansionTopOffset);
+        translationY.setInterpolator(interpolator);
+        translationY.setDuration(ANIMATION_DURATION);
+        translationY.addListener(exitAnimationListner);
+        translationY.start();
     }
 
     /**

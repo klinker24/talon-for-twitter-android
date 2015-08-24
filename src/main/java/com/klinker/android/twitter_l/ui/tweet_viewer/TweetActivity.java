@@ -72,6 +72,12 @@ import twitter4j.*;
 
 public class TweetActivity extends SlidingActivity {
 
+    public static final String USE_EXPANSION = "use_expansion";
+    public static final String EXPANSION_DIMEN_LEFT_OFFSET = "left_offset";
+    public static final String EXPANSION_DIMEN_TOP_OFFSET = "top_offset";
+    public static final String EXPANSION_DIMEN_WIDTH = "view_width";
+    public static final String EXPANSION_DIMEN_HEIGHT = "view_height";
+
     public Context context;
     public AppSettings settings;
     public SharedPreferences sharedPrefs;
@@ -110,6 +116,24 @@ public class TweetActivity extends SlidingActivity {
         disableHeader();
         enableFullscreen();
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenHeight = size.y;
+        int screenWidth = size.x;
+
+        Intent intent = getIntent();
+
+        if (intent.getBooleanExtra(USE_EXPANSION, false)) {
+            expandFromPoints(
+                    intent.getIntExtra(EXPANSION_DIMEN_LEFT_OFFSET, 0),
+                    intent.getIntExtra(EXPANSION_DIMEN_TOP_OFFSET, 0),
+                    intent.getIntExtra(EXPANSION_DIMEN_WIDTH, 0),
+                    intent.getIntExtra(EXPANSION_DIMEN_HEIGHT, 0)
+            );
+        }
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
             sharedTransition = false;
