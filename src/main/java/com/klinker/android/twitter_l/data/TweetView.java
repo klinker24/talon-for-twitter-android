@@ -262,7 +262,7 @@ public class TweetView {
                                     new Pair<View, String>(tweetTv, "tweet")
                             );
 
-                    context.startActivity(viewTweet, options.toBundle());
+                    context.startActivity(viewTweet/*, options.toBundle()*/);
                 } else {
                     context.startActivity(viewTweet);
                 }
@@ -384,7 +384,7 @@ public class TweetView {
                                                 new Pair<View, String>(tweetTv, "tweet")
                                         );
 
-                                context.startActivity(viewTweet, options.toBundle());
+                                context.startActivity(viewTweet/*, options.toBundle()*/);
                             } else {
                                 context.startActivity(viewTweet);
                             }

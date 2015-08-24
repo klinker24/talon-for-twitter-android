@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:id="@+id/notify_scroll_view"
-            android:overScrollMode="never">
+            android:overScrollMode="never"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:orientation="vertical"
@@ -142,6 +143,11 @@
 
 
         </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
+
+        <View
+            android:id="@+id/holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <!-- used for the popups and dimming the foreground -->
         <View android:layout_width="match_parent"

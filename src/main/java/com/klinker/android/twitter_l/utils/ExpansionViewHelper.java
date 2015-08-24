@@ -1338,7 +1338,7 @@ public class ExpansionViewHelper {
                                 replyList.setAdapter(adapter);
                                 replyList.setVisibility(View.VISIBLE);
                                 //adjustConversationSectionSize(replyList);
-                                convoSpinner.setVisibility(View.INVISIBLE);
+                                convoSpinner.setVisibility(View.GONE);
 
                             }
                         } catch (Exception e) {
@@ -1422,7 +1422,7 @@ public class ExpansionViewHelper {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    convoSpinner.setVisibility(View.INVISIBLE);
+                                    convoSpinner.setVisibility(View.GONE);
                                     try {
                                         if (replies.size() > 0) {
                                             if (adapter == null || adapter.getCount() == 0) {
