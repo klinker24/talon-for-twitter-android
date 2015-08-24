@@ -586,7 +586,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                             new Pair<View, String>(holder.image, "image")
                                     );
 
-                            context.startActivity(viewTweet, options.toBundle());
+                            context.startActivity(viewTweet/*, options.toBundle()*/);
                         } else {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
@@ -597,7 +597,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                             new Pair<View, String>(holder.tweet, "tweet")
                                     );
 
-                            context.startActivity(viewTweet, options.toBundle());
+                            context.startActivity(viewTweet/*, options.toBundle()*/);
                         }
                     } else {
                         context.startActivity(viewTweet);
@@ -671,7 +671,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                             new Pair<View, String>(holder.image, "image")
                                     );
 
-                            context.startActivity(viewTweet, options.toBundle());
+                            context.startActivity(viewTweet/*, options.toBundle()*/);
                         } else {
                             ActivityOptions options = ActivityOptions
                                     .makeSceneTransitionAnimation(((Activity) context),
@@ -682,7 +682,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                             new Pair<View, String>(holder.tweet, "tweet")
                                     );
 
-                            context.startActivity(viewTweet, options.toBundle());
+                            context.startActivity(viewTweet/*, options.toBundle()*/);
                         }
                     } else {
                         context.startActivity(viewTweet);
@@ -861,7 +861,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                                     new Pair<View, String>(holder.image, "image")
                                             );
 
-                                    context.startActivity(viewTweet, options.toBundle());
+                                    context.startActivity(viewTweet/*, options.toBundle()*/);
                                 } else {
                                     ActivityOptions options = ActivityOptions
                                             .makeSceneTransitionAnimation(((Activity) context),
@@ -872,7 +872,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                                     new Pair<View, String>(holder.tweet, "tweet")
                                             );
 
-                                    context.startActivity(viewTweet, options.toBundle());
+                                    context.startActivity(viewTweet/*, options.toBundle()*/);
                                 }
                             } else {
                                 context.startActivity(viewTweet);

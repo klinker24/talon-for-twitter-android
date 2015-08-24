@@ -315,6 +315,18 @@ public class TweetActivity extends SlidingActivity {
 
         nav.setLayoutParams(params);
         nav.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                findViewById(R.id.notify_scroll_view).setVisibility(View.VISIBLE);
+            }
+        },300);
+    }
+
+    private void showView() {
+
     }
 
     public VideoView video;
