@@ -281,8 +281,13 @@ public abstract class Compose extends Activity implements
             }
         }, 250);
 
-        contactEntry.setTextSize(settings.textSize);
-        reply.setTextSize(settings.textSize);
+        if (contactEntry != null) {
+            contactEntry.setTextSize(settings.textSize);
+        }
+        
+        if (reply != null) {
+            reply.setTextSize(settings.textSize);
+        }
     }
 
     public void setUpWindow() {
