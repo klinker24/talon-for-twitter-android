@@ -153,89 +153,6 @@ public abstract class PopupLayout extends LinearLayout {
 
     }
 
-    // default constructor
-    public PopupLayout(Context context, boolean windowed) {
-        super(context);
-
-        setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-
-        this.windowed = windowed;
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        screenHeight = size.y;
-        screenWidth = size.x;
-
-        if (windowed) {
-            if (screenHeight > screenWidth) {
-                screenHeight = (int) (screenHeight * .68);
-                screenWidth = (int) (screenWidth * .85);
-            } else {
-                screenHeight = (int) (screenHeight * .8);
-                screenWidth = (int) (screenWidth * .6);
-            }
-        }
-
-        background = context.getResources().getDrawable(R.drawable.popup_background);
-        setBackground(background);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setClipToOutline(true);
-            setElevation(3);
-        }
-
-        setPadding(10,10,10,10);
-        setOrientation(VERTICAL);
-
-        title = new TextView(context);
-        title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        int fiveDP = Utils.toDP(7, context);
-        title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
-        title.setTextColor(AppSettings.getInstance(context).themeColors.primaryColor);
-        title.setAllCaps(true);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        title.setText(context.getResources().getString(R.string.retweets));
-
-        titleDivider = new View(context);
-        titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
-        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
-
-        content = new LinearLayout(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        params.weight = 1;
-        content.setLayoutParams(params);
-
-        addView(title);
-        addView(titleDivider);
-        addView(content);
-
-        View main = setMainLayout();
-        if (main != null) {
-            try {
-                content.addView(main);
-            } catch (Exception e) {
-                dontShow = true;
-            }
-        }
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-        int background = a.getResourceId(0, 0);
-        a.recycle();
-
-        setBackgroundResource(background);
-
-        dim = ((Activity) context).getLayoutInflater().inflate(R.layout.dim, null, false);
-        dim.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                hide();
-                return true;
-            }
-        });
-    }
-
     /**
      * Sets how far away from the top of the screen the button should be displayed.
      * Distance should be the value in PX
@@ -366,16 +283,6 @@ public abstract class PopupLayout extends LinearLayout {
             startY = screenHeight - height - 10;
         }
 
-        if (windowed) {
-            if (screenHeight > screenWidth) {
-                startY = (int) (startY * .84);
-                startX = (int) (startX * .8);
-            } else {
-                startY = (int) (startY * .9);
-                startX= (int) (startX * .6);
-            }
-        }
-
         setDistanceFromLeft(startX);
         setDistanceFromTop(startY);
     }
@@ -429,16 +336,6 @@ public abstract class PopupLayout extends LinearLayout {
 
         animStartLeft = fromLeft + (int) (viewWidth / 2.0);
         animStartTop = fromTop + (int) (viewHeight / 2.0);
-
-        if (windowed) {
-            if (screenHeight > screenWidth) {
-                animStartTop = (int) (animStartTop * .68);
-                animStartLeft = (int) (animStartLeft * .85);
-            } else {
-                animStartTop = (int) (animStartTop * .8);
-                animStartLeft= (int) (animStartLeft * .6);
-            }
-        }
     }
 
     /**

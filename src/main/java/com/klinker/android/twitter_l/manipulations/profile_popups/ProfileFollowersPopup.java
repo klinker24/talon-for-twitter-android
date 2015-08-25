@@ -18,10 +18,6 @@ public class ProfileFollowersPopup extends ProfileUsersPopup {
         super(context, user);
     }
 
-    public ProfileFollowersPopup(Context context, User user, boolean windowed) {
-        super(context, user, windowed);
-    }
-
     @Override
     public String getTitle() {
         return getContext().getResources().getString(R.string.followers);

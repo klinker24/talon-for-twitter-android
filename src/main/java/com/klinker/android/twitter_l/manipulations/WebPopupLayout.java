@@ -9,33 +9,12 @@ import android.widget.LinearLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 
-/**
- * Created by lucasklinker on 7/26/14.
- */
 public class WebPopupLayout extends PopupLayout {
 
     private View webView;
 
     public WebPopupLayout(Context context, View webView) {
         super(context);
-
-        this.webView = webView;
-
-        showTitle(false);
-        setFullScreen();
-
-        LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-        webView.setLayoutParams(params);
-
-        try {
-            content.addView(webView);
-        } catch (Exception e) {
-            dontShow = true;
-        }
-    }
-
-    public WebPopupLayout(Context context, View webView, boolean windowed) {
-        super(context, windowed);
 
         this.webView = webView;
 

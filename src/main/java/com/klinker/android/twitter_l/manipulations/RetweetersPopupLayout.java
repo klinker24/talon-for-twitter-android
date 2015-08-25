@@ -27,10 +27,6 @@ public class RetweetersPopupLayout extends PopupLayout {
         super(context);
     }
 
-    public RetweetersPopupLayout(Context context, boolean windowed) {
-        super(context, windowed);
-    }
-
     @Override
     public View setMainLayout() {
         View retweets = LayoutInflater.from(getContext()).inflate(R.layout.list_view_activity, null, false);

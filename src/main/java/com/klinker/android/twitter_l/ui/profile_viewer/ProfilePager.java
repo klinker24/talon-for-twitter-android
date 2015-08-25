@@ -349,7 +349,7 @@ public class ProfilePager extends SlidingActivity {
         Button pictures = (Button) findViewById(R.id.pictures_button);
         pictures.setTextColor(settings.themeColors.primaryColorLight);
 
-        picsPopup = new PicturesPopup(context, getResources().getBoolean(R.bool.isTablet), thisUser);
+        picsPopup = new PicturesPopup(context, thisUser);
         pictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,7 +395,7 @@ public class ProfilePager extends SlidingActivity {
         }
 
         View openFollowers = findViewById(R.id.view_followers);
-        fol = new ProfileFollowersPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fol = new ProfileFollowersPopup(context, user);
 
         openFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -416,7 +416,7 @@ public class ProfilePager extends SlidingActivity {
         });
 
         View openFriends = findViewById(R.id.view_friends);
-        fri = new ProfileFriendsPopup(context, user, getResources().getBoolean(R.bool.isTablet));
+        fri = new ProfileFriendsPopup(context, user);
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -462,7 +462,7 @@ public class ProfilePager extends SlidingActivity {
         showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
 
-        tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+        tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
 
         showAllTweets.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,7 +536,7 @@ public class ProfilePager extends SlidingActivity {
         showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
 
-        mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+        mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser);
 
         showAllMentions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -599,7 +599,7 @@ public class ProfilePager extends SlidingActivity {
         showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
 
-        favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser, getResources().getBoolean(R.bool.isTablet));
+        favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser);
 
         showAllfavorites.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,21 +12,6 @@ public class MobilizedWebPopupLayout extends PopupLayout {
 
     private View webView;
 
-    public MobilizedWebPopupLayout(Context context, View webView, boolean windowed) {
-        super(context, windowed);
-
-        this.webView = webView;
-
-        showTitle(false);
-        setFullScreen();
-
-        try {
-            content.addView(webView);
-        } catch (Exception e) {
-            dontShow = true;
-        }
-    }
-
     public MobilizedWebPopupLayout(Context context, View webView) {
         super(context);
 

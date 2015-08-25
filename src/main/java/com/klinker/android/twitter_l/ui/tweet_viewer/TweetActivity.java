@@ -786,7 +786,7 @@ public class TweetActivity extends SlidingActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (webpage.contains(" ")) {
-                            picsPopup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), webpage);
+                            picsPopup = new MultiplePicsPopup(context, webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);
                             picsPopup.show();

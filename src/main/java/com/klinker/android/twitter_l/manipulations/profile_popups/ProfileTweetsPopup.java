@@ -12,10 +12,6 @@ import java.util.List;
 
 public class ProfileTweetsPopup extends ProfileListPopupLayout {
 
-    public ProfileTweetsPopup(Context context, View main, User user, boolean windowed) {
-        super(context, main, user, windowed);
-    }
-
     public ProfileTweetsPopup(Context context, View main, User user) {
         super(context, main, user);
     }

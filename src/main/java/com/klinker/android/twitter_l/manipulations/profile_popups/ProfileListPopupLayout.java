@@ -40,22 +40,6 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
 
     protected boolean hasLoaded = false;
 
-    public ProfileListPopupLayout(Context context, View main, User user, boolean windowed) {
-        super(context, windowed);
-
-        list = (AsyncListView) main.findViewById(R.id.listView);
-        spinner = (LinearLayout) main.findViewById(R.id.spinner);
-
-        setTitle(getTitle());
-        setFullScreen();
-
-        this.user = user;
-
-        content.addView(main);
-
-        setUpList();
-    }
-
     public ProfileListPopupLayout(Context context, View main, User user) {
         super(context);
 

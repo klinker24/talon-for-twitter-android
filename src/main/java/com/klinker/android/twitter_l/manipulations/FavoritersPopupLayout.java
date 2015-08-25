@@ -8,10 +8,6 @@ public class FavoritersPopupLayout extends RetweetersPopupLayout {
         super(context);
     }
 
-    public FavoritersPopupLayout(Context context, boolean windowed) {
-        super(context, windowed);
-    }
-
     @Override
     public void setUserWindowTitle() {
         setTitle(getContext().getString(R.string.favorites));

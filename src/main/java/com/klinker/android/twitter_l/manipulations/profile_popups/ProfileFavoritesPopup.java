@@ -14,10 +14,6 @@ import java.util.List;
 
 public class ProfileFavoritesPopup extends ProfileListPopupLayout {
 
-    public ProfileFavoritesPopup(Context context, View main, User user, boolean windowed) {
-        super(context, main, user, windowed);
-    }
-
     public ProfileFavoritesPopup(Context context, View main, User user) {
         super(context, main, user);
     }

@@ -903,7 +903,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             if (holder.picUrl.contains(" ")) {
-                                MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), holder.picUrl);
+                                MultiplePicsPopup popup = new MultiplePicsPopup(context, holder.picUrl);
                                 popup.setFullScreen();
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();

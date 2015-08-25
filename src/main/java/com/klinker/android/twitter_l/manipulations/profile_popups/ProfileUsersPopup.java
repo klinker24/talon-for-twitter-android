@@ -61,30 +61,6 @@ public abstract class ProfileUsersPopup extends PopupLayout {
         setUpList();
     }
 
-    public ProfileUsersPopup(Context context, User user, boolean windowed) {
-        super(context, windowed);
-
-        View main = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
-
-        list = (AsyncListView) main.findViewById(R.id.listView);
-        spinner = (LinearLayout) main.findViewById(R.id.spinner);
-
-        setTitle(getTitle());
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            setWidthByPercent(.5f);
-        } else {
-            setWidthByPercent(.8f);
-        }
-        setHeightByPercent(.6f);
-
-        this.user = user;
-
-        content.addView(main);
-
-        setUpList();
-    }
-
     @Override
     public View setMainLayout() {
         return null;
