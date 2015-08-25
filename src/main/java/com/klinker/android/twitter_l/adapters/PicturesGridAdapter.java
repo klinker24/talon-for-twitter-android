@@ -95,6 +95,13 @@ public class PicturesGridAdapter extends BaseAdapter {
         });
 
         if (status == null) {
+            holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return true;
+                }
+            });
+            
             return convertView;
         }
 
