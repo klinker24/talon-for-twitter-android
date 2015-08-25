@@ -11,10 +11,6 @@ import java.util.List;
 
 public class ProfileMentionsPopup extends ProfileListPopupLayout {
 
-    public ProfileMentionsPopup(Context context, View main, User user, boolean windowed) {
-        super(context, main, user, windowed);
-    }
-
     public ProfileMentionsPopup(Context context, View main, User user) {
         super(context, main, user);
     }

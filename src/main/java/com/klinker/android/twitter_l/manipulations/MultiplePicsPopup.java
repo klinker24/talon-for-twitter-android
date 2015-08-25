@@ -36,14 +36,6 @@ public class MultiplePicsPopup extends PopupLayout {
         setUp();
     }
 
-    public MultiplePicsPopup(Context context, boolean windowed, String pics) {
-        super(context, windowed);
-
-        this.pics = pics;
-
-        setUp();
-    }
-
     @Override
     public View setMainLayout() {
         return null;

@@ -51,14 +51,6 @@ public class PicturesPopup extends PopupLayout {
         setUp();
     }
 
-    public PicturesPopup(Context context, boolean windowed, User user) {
-        super(context, windowed);
-
-        this.user = user;
-
-        setUp();
-    }
-
     @Override
     public View setMainLayout() {
         return null;

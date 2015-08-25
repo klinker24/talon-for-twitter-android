@@ -210,7 +210,7 @@ public class ExpansionViewHelper {
         });
 
 
-        retweetersPopup = new RetweetersPopupLayout(context, windowedPopups);
+        retweetersPopup = new RetweetersPopupLayout(context);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             retweetersPopup.setWidthByPercent(.5f);
         } else {
@@ -218,7 +218,7 @@ public class ExpansionViewHelper {
         }
         retweetersPopup.setHeightByPercent(.6f);
 
-        favoritersPopup = new FavoritersPopupLayout(context, windowedPopups);
+        favoritersPopup = new FavoritersPopupLayout(context);
         if (context.getResources().getBoolean(R.bool.isTablet)) {
             favoritersPopup.setWidthByPercent(.5f);
         } else {
@@ -379,7 +379,7 @@ public class ExpansionViewHelper {
             public void onClick(View view) {
                 if (status != null) {
                     if (convoPopup == null) {
-                        convoPopup = new ConversationPopupLayout(context, convoLayout, windowedPopups);
+                        convoPopup = new ConversationPopupLayout(context, convoLayout);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 convoPopup.setWidthByPercent(.6f);
@@ -440,7 +440,7 @@ public class ExpansionViewHelper {
                     getTextFromSite(webLink, mobilizedBrowser, spinner, scrollView);
 
                     if (mobilizedPopup == null) {
-                        mobilizedPopup = new MobilizedWebPopupLayout(context, main, windowedPopups);
+                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 mobilizedPopup.setWidthByPercent(.6f);
@@ -480,7 +480,7 @@ public class ExpansionViewHelper {
 
                     web.loadUrl(webLink);
                     if (webPopup == null) {
-                        webPopup = new WebPopupLayout(context, webLayout, windowedPopups);
+                        webPopup = new WebPopupLayout(context, webLayout);
                         if (context.getResources().getBoolean(R.bool.isTablet)) {
                             if (landscape) {
                                 webPopup.setWidthByPercent(.6f);
@@ -809,7 +809,7 @@ public class ExpansionViewHelper {
 
                             web.loadUrl(url);
                             if (webPopup == null) {
-                                webPopup = new WebPopupLayout(context, webLayout, windowedPopups);
+                                webPopup = new WebPopupLayout(context, webLayout);
                                 if (context.getResources().getBoolean(R.bool.isTablet)) {
                                     if (landscape) {
                                         webPopup.setWidthByPercent(.6f);

@@ -413,7 +413,7 @@ public class TweetView {
                         @Override
                         public void onClick(View view) {
                             if (imageUrl.contains(" ")) {
-                                MultiplePicsPopup popup = new MultiplePicsPopup(context, context.getResources().getBoolean(R.bool.isTablet), imageUrl);
+                                MultiplePicsPopup popup = new MultiplePicsPopup(context, imageUrl);
                                 popup.setFullScreen();
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();
