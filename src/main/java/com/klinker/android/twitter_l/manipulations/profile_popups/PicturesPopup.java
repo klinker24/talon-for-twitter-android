@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -93,7 +94,7 @@ public class PicturesPopup extends PopupLayout {
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
 
-                if(lastItem == totalItemCount && canRefresh) {
+                if (lastItem == totalItemCount && canRefresh) {
                     getMore();
                 }
             }
@@ -101,6 +102,14 @@ public class PicturesPopup extends PopupLayout {
 
         spinner.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
+
+        pics.add(user.getOriginalProfileImageURL());
+        tweetsWithPics.add(null);
+
+        if (!TextUtils.isEmpty(user.getProfileBannerURL())) {
+            pics.add(user.getProfileBannerURL());
+            tweetsWithPics.add(null);
+        }
 
         doSearch();
 

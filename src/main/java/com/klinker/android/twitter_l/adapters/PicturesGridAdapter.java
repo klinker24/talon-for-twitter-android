@@ -55,40 +55,19 @@ public class PicturesGridAdapter extends BaseAdapter {
         Status status = statuses.get(position);
         String url = text.get(position);
 
-        Status thisStatus;
+        final String retweeter;
+        final long time = status != null ? status.getCreatedAt().getTime() : 0;
+        final long originalTime;
 
-        String retweeter;
-        final long time = status.getCreatedAt().getTime();
-        long originalTime = 0;
-
-        if (status.isRetweet()) {
+        if (status != null && status.isRetweet()) {
             retweeter = status.getUser().getScreenName();
 
-            thisStatus = status.getRetweetedStatus();
-            originalTime = thisStatus.getCreatedAt().getTime();
+            status = status.getRetweetedStatus();
+            originalTime = status.getCreatedAt().getTime();
         } else {
             retweeter = "";
-
-            thisStatus = status;
+            originalTime = 0;
         }
-        final String fRetweeter = retweeter;
-
-        final long fOriginalTime = originalTime;
-
-        User user = thisStatus.getUser();
-
-        final long id = thisStatus.getId();
-        final String profilePic = user.getBiggerProfileImageURL();
-        String tweetTexts = thisStatus.getText();
-        final String name = user.getName();
-        final String screenname = user.getScreenName();
-
-        String[] html = TweetLinkUtils.getLinksInStatus(thisStatus);
-        final String tweetText = html[0];
-        final String picUrl = html[1];
-        final String otherUrl = html[2];
-        final String hashtags = html[3];
-        final String users = html[4];
 
         if (url.contains(" ")) {
             url = url.split(" ")[0];
@@ -115,6 +94,22 @@ public class PicturesGridAdapter extends BaseAdapter {
             }
         });
 
+        if (status == null) {
+            return convertView;
+        }
+
+        final long id = status != null ? status.getId() : 0;
+        final String profilePic = status != null ? status.getUser().getBiggerProfileImageURL() : "";
+        final String name = status != null ? status.getUser().getName() : "";
+        final String screenname = status != null ? status.getUser().getScreenName() : "";
+
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
+        final String tweetText = html[0];
+        final String picUrl = html[1];
+        final String otherUrl = html[2];
+        final String hashtags = html[3];
+        final String users = html[4];
+
         holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -133,7 +128,7 @@ public class PicturesGridAdapter extends BaseAdapter {
                 viewTweet.putExtra("screenname", screenname);
                 viewTweet.putExtra("time", time);
                 viewTweet.putExtra("tweet", tweetText);
-                viewTweet.putExtra("retweeter", fRetweeter);
+                viewTweet.putExtra("retweeter", retweeter);
                 viewTweet.putExtra("webpage", link);
                 viewTweet.putExtra("other_links", otherUrl);
                 viewTweet.putExtra("picture", displayPic);
@@ -142,6 +137,8 @@ public class PicturesGridAdapter extends BaseAdapter {
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", "");
+
+                viewTweet = addDimensForExpansion(viewTweet, holder.iv);
 
                 context.startActivity(viewTweet);
 
@@ -175,15 +172,34 @@ public class PicturesGridAdapter extends BaseAdapter {
     public void setPics() {
         pics = "";
 
-        for (Status s : statuses) {
-            String[] html = TweetLinkUtils.getLinksInStatus(s);
-            String pic = html[1];
+        for (int i = 0; i < text.size(); i++) {
+            Status s = statuses.get(i);
+            if (s == null) {
+                pics += text.get(i) + " ";
+            } else {
+                String[] html = TweetLinkUtils.getLinksInStatus(s);
+                String pic = html[1];
 
-            if (pic.contains(" ")) {
-                pic = pic.split(" ")[0];
+                if (pic.contains(" ")) {
+                    pic = pic.split(" ")[0];
+                }
+
+                pics += pic + " ";
             }
-
-            pics += pic + " ";
         }
+    }
+
+    private Intent addDimensForExpansion(Intent i, View view) {
+        i.putExtra(TweetActivity.USE_EXPANSION, true);
+
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
+        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
+
+        return i;
     }
 }
