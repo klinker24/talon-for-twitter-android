@@ -284,7 +284,7 @@ public abstract class Compose extends Activity implements
         if (contactEntry != null) {
             contactEntry.setTextSize(settings.textSize);
         }
-        
+
         if (reply != null) {
             reply.setTextSize(settings.textSize);
         }
