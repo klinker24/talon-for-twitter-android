@@ -8,6 +8,7 @@
         <text>Compose window follows text size from settings</text>
         <text>Add user's profile picture and banner to the pictures gallery on their profiles</text>
         <text>Fix some issues with the tweets below pictures option</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="3.1.0" >
