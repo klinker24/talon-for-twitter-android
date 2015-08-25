@@ -848,7 +848,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                             viewTweet.putExtra("shared_trans", true);
 
-                            viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
+                            if (!openFirst)
+                                viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 holder.profilePic.setTransitionName("pro_pic");
