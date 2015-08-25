@@ -115,7 +115,6 @@ public class TweetActivity extends SlidingActivity {
         settings = AppSettings.getInstance(this);
 
         disableHeader();
-        enableFullscreen();
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -127,14 +126,17 @@ public class TweetActivity extends SlidingActivity {
 
         Intent intent = getIntent();
 
-        if (intent.getBooleanExtra(USE_EXPANSION, false)) {
-            expandFromPoints(
-                    intent.getIntExtra(EXPANSION_DIMEN_LEFT_OFFSET, 0),
-                    intent.getIntExtra(EXPANSION_DIMEN_TOP_OFFSET, 0),
-                    intent.getIntExtra(EXPANSION_DIMEN_WIDTH, 0),
-                    intent.getIntExtra(EXPANSION_DIMEN_HEIGHT, 0)
-            );
+        if (getIntent().getBooleanExtra(USE_EXPANSION, false)) {
+            enableFullscreen();
         }
+
+        expandFromPoints(
+                intent.getIntExtra(EXPANSION_DIMEN_LEFT_OFFSET, 0),
+                intent.getIntExtra(EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
+                intent.getIntExtra(EXPANSION_DIMEN_WIDTH, screenWidth),
+                intent.getIntExtra(EXPANSION_DIMEN_HEIGHT, 0)
+        );
+
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
             sharedTransition = false;
