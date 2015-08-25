@@ -17,6 +17,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
@@ -113,6 +114,8 @@ public class TweetActivity extends SlidingActivity {
 
         context = this;
         settings = AppSettings.getInstance(this);
+        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         disableHeader();
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
@@ -136,6 +139,11 @@ public class TweetActivity extends SlidingActivity {
                 intent.getIntExtra(EXPANSION_DIMEN_WIDTH, screenWidth),
                 intent.getIntExtra(EXPANSION_DIMEN_HEIGHT, 0)
         );
+
+        if (!sharedPrefs.getBoolean("knows_about_tweet_swipedown", false)) {
+            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).commit();
+            Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
+        }
 
 
         if (getIntent().getBooleanExtra("share_trans", false)) {

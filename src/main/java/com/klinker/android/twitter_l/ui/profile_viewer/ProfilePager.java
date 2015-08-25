@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
@@ -111,6 +112,12 @@ public class ProfilePager extends SlidingActivity {
                 settings.themeColors.primaryColor,
                 settings.themeColors.primaryColorDark
         );
+
+
+        if (!sharedPrefs.getBoolean("knows_about_profile_swipedown", false)) {
+            sharedPrefs.edit().putBoolean("knows_about_profile_swipedown", true).commit();
+            Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
+        }
 
         Utils.setSharedContentTransition(this);
 

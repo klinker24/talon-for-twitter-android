@@ -72,4 +72,5 @@
 
         Feel free to decline either permission. You can manually access these from your system\'s app settings.
     </string>
+    <string name="tell_about_swipe_down">Tip: simply swipe down to close this screen.</string>
 </resources>
