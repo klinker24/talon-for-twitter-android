@@ -194,14 +194,22 @@ public class TweetView {
         profilePicIv = (ImageView) v.findViewById(R.id.profile_pic);
         timeTv = (TextView) v.findViewById(R.id.time);
         tweetTv = (TextView) v.findViewById(R.id.tweet);
-        imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image);
         retweeterTv = (TextView) v.findViewById(R.id.retweeter);
         backgroundLayout = (LinearLayout) v.findViewById(R.id.background);
         playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
-        imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
         embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+
+        if (!settings.bottomPictures) {
+            imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+        } else {
+            imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
+            playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
+            imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             imageIv.setClipToOutline(true);
