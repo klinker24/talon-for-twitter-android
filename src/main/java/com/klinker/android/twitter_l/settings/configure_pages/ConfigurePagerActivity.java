@@ -23,8 +23,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
@@ -58,12 +60,6 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         settings = AppSettings.getInstance(this);
 
-        try {
-            requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        } catch (Throwable e) {
-            // don't have a clue why
-        }
-
         Utils.setUpTweetTheme(context, settings);
         setContentView(R.layout.configuration_activity);
 
@@ -74,24 +70,17 @@ public class ConfigurePagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        } else {
-            View status = findViewById(R.id.activity_status_bar);
-            status.setBackgroundColor(getResources().getColor(android.R.color.black));
-            status.setVisibility(View.VISIBLE);
-
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
-            params.height = Utils.getStatusBarHeight(context);
-            status.setLayoutParams(params);
-
-            mViewPager.setPadding(0, Utils.getActionBarHeight(this), 0, 0);
-        }
-
         chooserAdapter = new ConfigurationPagerAdapter(getFragmentManager(), context);
 
         mViewPager.setAdapter(chooserAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setBackgroundColor(settings.themeColors.primaryColor);
+        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
+        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(mViewPager);
 
         mViewPager.setOffscreenPageLimit(6);
 
@@ -100,7 +89,7 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                     .setTitle("Timeline Tip")
                     .setMessage("With this version of Talon, you can completely customize your swipable timelines." +
                             "\n\n" +
-                            "You can place up to 6 swipeable pages on the main screen of Talon, including lists, mentions, direct messages, your 'home' timeline, and some filtered timelines.")
+                            "You can place up to 8 swipeable pages on the main screen of Talon, including lists, mentions, direct messages, your 'home' timeline, and some filtered timelines.")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
