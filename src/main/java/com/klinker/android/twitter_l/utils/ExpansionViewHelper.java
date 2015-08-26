@@ -61,6 +61,8 @@ import java.util.List;
 
 public class ExpansionViewHelper {
 
+    private static final long NETWORK_ACTION_DELAY = 200;
+
     Context context;
     AppSettings settings;
     public long id;
@@ -1049,6 +1051,13 @@ public class ExpansionViewHelper {
         Thread getInfo = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
                 try {
                     Twitter twitter =  getTwitter();
 
@@ -1263,6 +1272,13 @@ public class ExpansionViewHelper {
         Thread getConvo = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
                 if (!isRunning) {
                     return;
                 }
@@ -1368,6 +1384,13 @@ public class ExpansionViewHelper {
         Thread getReplies = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
                 if (!isRunning) {
                     return;
                 }
@@ -1516,6 +1539,12 @@ public class ExpansionViewHelper {
             @Override
             public void run() {
                 try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
+                try {
                     Twitter twitter =  getTwitter();
 
                     Status stat = status;
@@ -1578,6 +1607,12 @@ public class ExpansionViewHelper {
         Thread getFavoriters = new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
                 try {
 
                     Status stat = status;
@@ -1642,6 +1677,12 @@ public class ExpansionViewHelper {
         Thread getText = new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
+
                 try {
                     Document doc = Jsoup.connect(url).get();
 
