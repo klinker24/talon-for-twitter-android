@@ -344,22 +344,6 @@ public class TweetActivity extends SlidingActivity {
             gif.setVisibility(View.GONE);
             findViewById(R.id.gif_holder).setVisibility(View.GONE);
         }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.holder).setVisibility(View.GONE);
-
-                final View content = findViewById(R.id.content);
-                content.setVisibility(View.VISIBLE);
-                content.setAlpha(0f);
-                content.animate().alpha(1f).start();
-            }
-        },300);
-    }
-
-    private void showView() {
-
     }
 
     public VideoView video;
@@ -907,19 +891,7 @@ public class TweetActivity extends SlidingActivity {
             extraNames += "@" + retweeter + " ";
         }
 
-        // lets get a little scale in animation on that fab
-        final LinearLayout content = (LinearLayout) findViewById(R.id.content);
-
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            content.setVisibility(View.INVISIBLE);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                    content.setVisibility(View.VISIBLE);
-                }
-            }, 200);
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setTransitionNames();
         }
 
