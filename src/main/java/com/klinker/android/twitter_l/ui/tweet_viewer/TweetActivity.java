@@ -213,6 +213,10 @@ public class TweetActivity extends SlidingActivity {
 
         setContent(R.layout.tweet_activity_new);
 
+        if (settings.darkTheme || settings.blackTheme) {
+            findViewById(R.id.content_container).setBackgroundColor(getColor(R.color.dark_background));
+        }
+
         setUpTheme();
 
         setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
