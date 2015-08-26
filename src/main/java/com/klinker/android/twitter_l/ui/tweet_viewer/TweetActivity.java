@@ -75,6 +75,8 @@ import twitter4j.*;
 
 public class TweetActivity extends SlidingActivity {
 
+    private static final long NETWORK_ACTION_DELAY = 200;
+
     public static final String USE_EXPANSION = "use_expansion";
     public static final String EXPANSION_DIMEN_LEFT_OFFSET = "left_offset";
     public static final String EXPANSION_DIMEN_TOP_OFFSET = "top_offset";
@@ -214,11 +216,11 @@ public class TweetActivity extends SlidingActivity {
         setContent(R.layout.tweet_activity_new);
 
         if (settings.darkTheme) {
-            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.dark_background));
+            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.dark_background));
         } else if (settings.blackTheme){
-            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.black_background));
+            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.black_background));
         } else {
-            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.light_background));
+            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.light_background));
         }
 
         setUpTheme();
@@ -244,6 +246,10 @@ public class TweetActivity extends SlidingActivity {
                     @Override
                     public void run() {
                         Twitter twitter = getTwitter();
+
+                        try {
+                            Thread.sleep(NETWORK_ACTION_DELAY);
+                        } catch (Exception e) { }
 
                         try {
                             final Status s = twitter.showStatus(embeddedId);
@@ -334,10 +340,15 @@ public class TweetActivity extends SlidingActivity {
             image.setVisibility(View.GONE);
         }
 
-        VideoView gif = (VideoView) findViewById(R.id.gif);
+        final VideoView gif = (VideoView) findViewById(R.id.gif);
         Log.v("talon_gif", "gif video: " + gifVideo);
         if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))) {
-            getVideo(gif);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getVideo(gif);
+                }
+            }, NETWORK_ACTION_DELAY);
             image.setVisibility(View.GONE);
         } else {
             findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
@@ -611,6 +622,13 @@ public class TweetActivity extends SlidingActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+
+                    try {
+                        Thread.sleep(NETWORK_ACTION_DELAY);
+                    } catch (Exception e) {
+
+                    }
+
                     ArrayList<String> tags = new ArrayList<String>();
                     if (hashtags != null) {
                         for (String s : hashtags) {
@@ -773,7 +791,12 @@ public class TweetActivity extends SlidingActivity {
             }
         };
 
-        ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+            }
+        }, NETWORK_ACTION_DELAY);
         profilePic.setOnClickListener(viewPro);
 
         findViewById(R.id.person_info).setOnClickListener(viewPro);
@@ -782,7 +805,13 @@ public class TweetActivity extends SlidingActivity {
 
         if (picture) { // if there is a picture already loaded
 
-            image.loadImage(webpage, false, null);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    image.loadImage(webpage, false, null);
+                }
+            }, NETWORK_ACTION_DELAY);
+
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

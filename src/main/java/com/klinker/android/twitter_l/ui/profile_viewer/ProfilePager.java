@@ -84,6 +84,8 @@ import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class ProfilePager extends SlidingActivity {
 
+    private static final long NETWORK_ACTION_DELAY = 200;
+
     private Context context;
     private AppSettings settings;
     private android.support.v7.app.ActionBar actionBar;
@@ -205,13 +207,18 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                loaded = true;
-                setImage(result.getBitmap());
+            public void run() {
+                profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
+                    @Override
+                    public void onImageLoaded(CacheableBitmapDrawable result) {
+                        loaded = true;
+                        setImage(result.getBitmap());
+                    }
+                });
             }
-        });
+        }, NETWORK_ACTION_DELAY);
     }
 
     public void setUpTheme() {
@@ -716,6 +723,11 @@ public class ProfilePager extends SlidingActivity {
         Thread getUser = new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(NETWORK_ACTION_DELAY);
+                } catch (Exception e) {
+
+                }
 
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
@@ -804,6 +816,12 @@ public class ProfilePager extends SlidingActivity {
 
                 // if they aren't protected, then get their tweets, favorites, etc.
                 try {
+                    try {
+                        Thread.sleep(NETWORK_ACTION_DELAY);
+                    } catch (Exception e) {
+
+                    }
+
                     // tweets first
                     // this will error out if they are protected and we can't reach them
                     tweets = twitter.getUserTimeline(thisUser.getId(), new Paging(1, 20));
@@ -814,6 +832,12 @@ public class ProfilePager extends SlidingActivity {
                         }
                     });
 
+                    try {
+                        Thread.sleep(NETWORK_ACTION_DELAY);
+                    } catch (Exception e) {
+
+                    }
+
                     getMentions(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
@@ -821,6 +845,12 @@ public class ProfilePager extends SlidingActivity {
                             showMentions();
                         }
                     });
+
+                    try {
+                        Thread.sleep(NETWORK_ACTION_DELAY);
+                    } catch (Exception e) {
+
+                    }
 
                     favorites = twitter.getFavorites(thisUser.getId(), new Paging(1, 3));
                     ((Activity) context).runOnUiThread(new Runnable() {
@@ -842,7 +872,7 @@ public class ProfilePager extends SlidingActivity {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, getString(R.string.rate_limit_reached), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -888,6 +918,13 @@ public class ProfilePager extends SlidingActivity {
     }
 
     private void getFollowers(Twitter twitter) {
+
+        try {
+            Thread.sleep(NETWORK_ACTION_DELAY);
+        } catch (Exception e) {
+
+        }
+
         try {
             final List<User> followers = twitter.getFollowersList(thisUser.getId(), -1, 3);
 
@@ -928,6 +965,12 @@ public class ProfilePager extends SlidingActivity {
     }
 
     private void getFriends(Twitter twitter) {
+        try {
+            Thread.sleep(NETWORK_ACTION_DELAY);
+        } catch (Exception e) {
+
+        }
+
         try {
             final List<User> friends = twitter.getFriendsList(thisUser.getId(), -1, 3);
 
