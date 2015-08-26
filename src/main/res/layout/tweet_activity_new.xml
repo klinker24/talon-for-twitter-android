@@ -114,11 +114,6 @@
 
         </LinearLayout>
 
-    <View
-        android:id="@+id/holder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <!-- used for the popups and dimming the foreground -->
     <View android:layout_width="match_parent"
         android:layout_height="match_parent"
