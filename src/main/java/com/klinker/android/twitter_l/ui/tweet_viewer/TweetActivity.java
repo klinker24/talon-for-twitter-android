@@ -213,8 +213,12 @@ public class TweetActivity extends SlidingActivity {
 
         setContent(R.layout.tweet_activity_new);
 
-        if (settings.darkTheme || settings.blackTheme) {
-            findViewById(R.id.content_container).setBackgroundColor(getColor(R.color.dark_background));
+        if (settings.darkTheme) {
+            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.dark_background));
+        } else if (settings.blackTheme){
+            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.black_background));
+        } else {
+            findViewById(R.id.content_scroller).setBackgroundColor(getColor(R.color.light_background));
         }
 
         setUpTheme();
