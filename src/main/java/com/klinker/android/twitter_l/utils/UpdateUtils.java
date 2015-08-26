@@ -72,8 +72,10 @@ public class UpdateUtils {
             sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
         }
 
-        if (sharedPrefs.getBoolean("bottom_pictures", true)) {
-            sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+        if (sharedPrefs.contains("bottom_pictures")) {
+            if (sharedPrefs.getBoolean("bottom_pictures", true)) {
+                sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+            }
         }
 
         if (sharedPrefs.getBoolean("version_3_2", true)) {

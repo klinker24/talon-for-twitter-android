@@ -6,8 +6,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -119,6 +121,14 @@ public class MaterialLogin extends MaterialLVLActivity {
         addSlide(finishedFragment);
     }
 
+    @Override
+    public void finish() {
+        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+
+        super.finish();
+    }
     @Override
     public void onBackPressed() {
         // we don't want them to back out of the activity
