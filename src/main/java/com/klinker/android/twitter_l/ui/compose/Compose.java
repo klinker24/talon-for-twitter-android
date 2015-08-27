@@ -288,6 +288,10 @@ public abstract class Compose extends Activity implements
         if (reply != null) {
             reply.setTextSize(settings.textSize);
         }
+
+        if (this instanceof ComposeDMActivity) {
+            attachButton.setVisibility(View.GONE);
+        }
     }
 
     public void setUpWindow() {
