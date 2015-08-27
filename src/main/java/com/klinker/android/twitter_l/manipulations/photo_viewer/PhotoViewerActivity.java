@@ -108,7 +108,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
         Utils.setUpTweetTheme(this, settings);
 
         if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION|WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
         setContentView(R.layout.photo_dialog_layout);
@@ -132,28 +132,30 @@ public class PhotoViewerActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
         }
-        mAttacher = new TalonPhotoViewAttacher(picture);
+
+        final Handler sysUi = new Handler();
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
+
+                mAttacher = new TalonPhotoViewAttacher(picture);
+                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                    @Override
+                    public void onViewTap(View view, float x, float y) {
+                        sysUi.removeCallbacksAndMessages(null);
+                        if (sysUiShown) {
+                            hideSystemUI();
+                        } else {
+                            showSystemUI();
+                        }
+                    }
+                });
             }
         }, 0, fromCache); // no transform
 
-        final Handler sysUi = new Handler();
-        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                sysUi.removeCallbacksAndMessages(null);
-                if (sysUiShown) {
-                    hideSystemUI();
-                } else {
-                    showSystemUI();
-                }
-            }
-        });
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
