@@ -63,28 +63,27 @@ public class PhotoFragment extends Fragment {
         final View root = inflater.inflate(R.layout.photo_dialog_layout, container, false);
 
         picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
-        TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
 
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
+
+                TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
+
+                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                    @Override
+                    public void onViewTap(View view, float x, float y) {
+                        if (activity.sysUiShown) {
+                            activity.hideSystemUI();
+                        } else {
+                            activity.showSystemUI();
+                        }
+                    }
+                });
             }
         }, 0, true); // no transform
-
-        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                if (activity.sysUiShown) {
-                    activity.hideSystemUI();
-                } else {
-                    activity.showSystemUI();
-                }
-            }
-        });
-
-
 
         return root;
     }
