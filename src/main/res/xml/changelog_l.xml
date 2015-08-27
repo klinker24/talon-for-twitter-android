@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.2">
+        <text>Smoother animations for opening tweets and profiles</text>
+    </version>
+
     <version name="3.2.1">
         <text>Bug fix</text>
     </version>
