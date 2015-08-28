@@ -393,6 +393,10 @@ public class ExpansionViewHelper {
                             convoPopup.setCenterInScreen();
                         }
                     }
+
+                    isRunning = true;
+                    getDiscussion();
+
                     convoPopup.setExpansionPointForAnim(view);
                     convoPopup.show(slidr);
                 } else {
@@ -1378,6 +1382,8 @@ public class ExpansionViewHelper {
     public ArrayList<Status> replies;
     public TimelineArrayAdapter adapter;
     public Query query;
+    private boolean cardShown = false;
+    private boolean firstRun = true;
 
     public void getDiscussion() {
 
@@ -1391,11 +1397,9 @@ public class ExpansionViewHelper {
 
                 }
 
-                if (!isRunning) {
+                if (!isRunning || (!firstRun && query == null)) {
                     return;
                 }
-
-                boolean cardShown = false;
 
                 ArrayList<twitter4j.Status> all = null;
                 Twitter twitter = getTwitter();
@@ -1405,22 +1409,28 @@ public class ExpansionViewHelper {
                     long id = status.getId();
                     String screenname = status.getUser().getScreenName();
 
-                    query = new Query("to:" + screenname);
-                    query.sinceId(id);
+                    if (query == null) {
+                        query = new Query("to:" + screenname);
+                        query.sinceId(id);
 
-                    try {
-                        query.setCount(30);
-                    } catch (Throwable e) {
-                        // enlarge buffer error?
-                        query.setCount(30);
+                        try {
+                            query.setCount(30);
+                        } catch (Throwable e) {
+                            // enlarge buffer error?
+                            query.setCount(30);
+                        }
+                        firstRun = false;
                     }
 
                     QueryResult result = twitter.search(query);
-                    Log.v("talon_replies", "result: " + result.getTweets().size());
 
-                    all = new ArrayList<twitter4j.Status>();
+                    all = new ArrayList<>();
+
+                    int repsWithoutChange = 0;
 
                     do {
+                        boolean repliesChangedOnThisIteration = false;
+
                         Log.v("talon_replies", "do loop repetition");
                         if (!isRunning) {
                             return;
@@ -1430,14 +1440,15 @@ public class ExpansionViewHelper {
                         for (twitter4j.Status tweet : tweets) {
                             if (tweet.getInReplyToStatusId() == id) {
                                 all.add(tweet);
-                                Log.v("talon_replies", tweet.getText());
                             }
                         }
 
                         if (all.size() > 0) {
                             for (int i = all.size() - 1; i >= 0; i--) {
-                                Log.v("talon_replies", "inserting into arraylist:" + all.get(i).getText());
+                                Log.v("talon_replies", all.get(i).getText());
                                 replies.add(all.get(i));
+
+                                repliesChangedOnThisIteration = true;
                             }
 
                             all.clear();
@@ -1464,8 +1475,15 @@ public class ExpansionViewHelper {
                             });
                         }
 
+                        query = result.nextQuery();
+
+                        if (query != null) {
+                            result = twitter.search(query);
+                        }
+
                         if (replies.size() >= 3 && !cardShown) {
                             cardShown = true;
+                            isRunning = false;
                             // we will start showing them below the buttons
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
@@ -1473,6 +1491,8 @@ public class ExpansionViewHelper {
                                     showConvoCard(replies);
                                 }
                             });
+
+                            return;
                         }
 
                         try {
@@ -1482,13 +1502,11 @@ public class ExpansionViewHelper {
                             // gets updated before continuing
                         }
 
-                        query = result.nextQuery();
-
-                        if (query != null) {
-                            result = twitter.search(query);
+                        if (!repliesChangedOnThisIteration) {
+                            repsWithoutChange++;
                         }
 
-                    } while (query != null && isRunning);
+                    } while (query != null && isRunning && repsWithoutChange < 5);
                 } catch (TwitterException e) {
                     if (e.getMessage().contains("limit exceeded")) {
                         ((Activity)context).runOnUiThread(new Runnable() {
