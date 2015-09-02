@@ -514,7 +514,7 @@ public class TweetActivity extends SlidingActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        //super.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override

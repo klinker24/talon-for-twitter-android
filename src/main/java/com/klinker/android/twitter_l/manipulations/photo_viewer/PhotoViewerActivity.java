@@ -259,7 +259,10 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        mAttacher.cleanup();
+        if (mAttacher != null) {
+            mAttacher.cleanup();
+        }
+
         super.onBackPressed();
     }
 
@@ -279,6 +282,10 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                 // get the bitmap
                 if (picture == null) {
+                    return false;
+                }
+
+                if (picture.getDrawable() == null) {
                     return false;
                 }
 
