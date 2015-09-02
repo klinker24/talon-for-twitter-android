@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 
 public class TweetView {
 
+    private static final int MAX_EMBEDDED_TWEETS = 2;
+
     public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");;
     Context context;
     AppSettings settings;
@@ -82,7 +84,13 @@ public class TweetView {
     ImageView isAConvo;
     CardView embeddedTweet;
 
+    int embeddedTweets = 0;
+
     public TweetView(Context context) {
+        this(context, 0);
+    }
+
+    public TweetView(Context context, int embedded) {
         this.context = context;
         this.settings = AppSettings.getInstance(context);
 
@@ -91,9 +99,15 @@ public class TweetView {
         if (settings.militaryTime) {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
+
+        embeddedTweets = embedded + 1;
     }
 
     public TweetView(Context context, Status status) {
+        this(context, status, 0);
+    }
+
+    public TweetView(Context context, Status status, int embedded) {
         this.context = context;
         this.settings = AppSettings.getInstance(context);
 
@@ -102,6 +116,8 @@ public class TweetView {
         if (settings.militaryTime) {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
+
+        this.embeddedTweets = embedded + 1;
 
         setData(status);
     }
@@ -306,7 +322,7 @@ public class TweetView {
         timeTv.setText(time);
 
         boolean replace = false;
-        boolean embeddedTweetFound = embeddedTweetPattern.matcher(tweet).find();
+        boolean embeddedTweetFound = embeddedTweets < MAX_EMBEDDED_TWEETS ? embeddedTweetPattern.matcher(tweet).find() : false;
         if (settings.inlinePics && (tweet.contains("pic.twitter.com/")) || embeddedTweetFound) {
             if (tweet.lastIndexOf(".") == tweet.length() - 1) {
                 replace = true;
@@ -486,6 +502,10 @@ public class TweetView {
 
     public void loadEmbeddedTweet(final String otherUrls) {
 
+        if (embeddedTweets > MAX_EMBEDDED_TWEETS) {
+            return;
+        }
+
         embeddedTweet.setVisibility(View.VISIBLE);
 
         new Thread(new Runnable() {
@@ -514,7 +534,8 @@ public class TweetView {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TweetView v = new TweetView(context, embedded);
+                                TweetView v = new TweetView(context, embedded, embeddedTweets);
+
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 
