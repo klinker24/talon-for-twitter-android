@@ -137,7 +137,7 @@ public class LoginFragment extends Fragment {
         protected RequestToken doInBackground(String... urls) {
 
             int counter = 0;
-            while (!activity.isCheckComplete && counter < 10) {
+            while ((activity == null || !activity.isCheckComplete) && counter < 10) {
                 try { Thread.sleep(2000); } catch (InterruptedException e) { }
                 counter++;
             }
