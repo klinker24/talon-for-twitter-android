@@ -104,6 +104,7 @@ public class WebIntentBuilder {
         if (sharedPreferences.getBoolean("shown_disclaimer_for_custom_tabs", false)) {
             context.startActivity(intent);
         } else {
+            sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs", true).commit();
             new AlertDialog.Builder(context)
                     .setTitle(R.string.custom_tab_title)
                     .setMessage(R.string.custom_tab_message)
