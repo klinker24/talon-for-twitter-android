@@ -46,6 +46,8 @@ import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.WebIntentBuilder;
+
 import twitter4j.Twitter;
 import twitter4j.User;
 
@@ -71,23 +73,6 @@ public class TouchableSpan extends ClickableSpan {
         fromLauncher = false;
     }
 
-    public TouchableSpan(Context context, Link value, boolean extBrowser, AppSettings settings) {
-        mContext = context;
-        mValue = value.getShort();
-        full = value.getLong();
-        this.extBrowser = true;
-
-        this.settings = settings;
-
-        mThemeColor = settings.themeColors.accentColor;
-        mColorString = Color.argb(70, Color.red(mThemeColor), Color.green(mThemeColor), Color.blue(mThemeColor));
-
-        // getconnectionstatus() is true if on mobile data, false otherwise
-        mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(context));
-
-        fromLauncher = true;
-    }
-
     private AppSettings settings;
     public final Context mContext;
     private final String mValue;
@@ -100,36 +85,14 @@ public class TouchableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
-        Log.v("talon_clickable", "clicked on the span");
-        Log.v("talon_link", full);
         if (Patterns.WEB_URL.matcher(mValue).find()) {
-            // open the in-app browser or the regular browser
-            if (mValue.contains("play.google.com") || mValue.contains("youtu") || mValue.contains("twitter.com") || mValue.contains("periscope") || mValue.contains("mkr.tv")) {
-                // open to the play store
-                String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
-                Intent intent = new Intent(Intent.ACTION_VIEW).setData(
-                        Uri.parse("http://" + data)
-                );
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-            } else {
-                if (extBrowser || !settings.inAppBrowser) {
-                    String data = full.replace("http://", "").replace("https://", "").replace("\"", "");
-                    Uri weburi = Uri.parse("http://" + data);
-                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                    launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        mContext.startActivity(launchBrowser);
-                    } catch (Exception e) {
-                        Toast.makeText(mContext, "No browser found.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    String data = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
-                    Intent launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
-                    launchBrowser.putExtra("url", data);
-                    mContext.startActivity(launchBrowser);
-                }
-            }
+            String url = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
+
+            new WebIntentBuilder(mContext)
+                    .setUrl(url)
+                    .setShouldForceExternal(extBrowser)
+                    .build().start();
+
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
             // found a hashtag, so open the hashtag search
             Intent search;
