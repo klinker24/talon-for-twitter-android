@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.4">
+        <text>Support for Chrome Custom Tabs</text>
+    </version>
+
     <version name="3.2.3">
         <text>Bug fixes when looking for replies to a tweet</text>
         <text>Crash fixes</text>
