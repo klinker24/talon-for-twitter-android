@@ -51,6 +51,8 @@ public class DashClockSettingsActivity extends PreferenceActivity implements Sha
 
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.dashclock_settings);
+
+        findViewById(android.R.id.content).setBackgroundColor(getResources().getColor(R.color.light_background));
     }
 
     @Override
