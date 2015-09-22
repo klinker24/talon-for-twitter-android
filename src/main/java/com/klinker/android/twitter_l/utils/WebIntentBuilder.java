@@ -1,10 +1,13 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -72,27 +75,28 @@ public class WebIntentBuilder {
             throw new RuntimeException("URL cannot be null.");
         }
 
-        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
-
         if (forceExternal || !settings.inAppBrowser || shouldAlwaysForceExternal(webpage)) {
             // request the external browser
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else if (!mobilizedBrowser) {
+            intent = new Intent("android.intent.action.MAIN");
+            intent.setComponent(new ComponentName(CHROME_PACKAGE, "org.chromium.chrome.browser.customtabs.CustomTabActivity"));
+            intent.setData(Uri.parse(webpage));
+
+            // request a chrome custom tab
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+            intent.putExtras(extras);
+
+            intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
+
         } else {
-            if (systemSupportsCustomTabs() && !mobilizedBrowser) {
-                // request a chrome custom tab
-                Bundle extras = new Bundle();
-                extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-                intent.putExtras(extras);
-
-                intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
-            } else {
-                // fallback to in app browser
-                intent = new Intent(context, mobilizedBrowser ?
-                        PlainTextBrowserActivity.class : BrowserActivity.class);
-                intent.putExtra("url", webpage);
-                intent.setFlags(0);
-            }
-
+            // fallback to in app browser
+            intent = new Intent(context, mobilizedBrowser ?
+                    PlainTextBrowserActivity.class : BrowserActivity.class);
+            intent.putExtra("url", webpage);
+            intent.setFlags(0);
         }
 
         return this;
@@ -101,17 +105,17 @@ public class WebIntentBuilder {
     public void start() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (sharedPreferences.getBoolean("shown_disclaimer_for_custom_tabs", false)) {
-            context.startActivity(intent);
+        if (sharedPreferences.getBoolean("shown_disclaimer_for_custom_tabs_2", false)) {
+            startActivity();
         } else {
-            sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs", true).commit();
+            sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_2", true).commit();
             new AlertDialog.Builder(context)
                     .setTitle(R.string.custom_tab_title)
                     .setMessage(R.string.custom_tab_message)
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            context.startActivity(intent);
+                            startActivity();
                         }
                     })
                     .setNegativeButton(R.string.learn_more, new DialogInterface.OnClickListener() {
@@ -127,6 +131,51 @@ public class WebIntentBuilder {
         }
     }
 
+    private void startActivity() {
+        if (isChromeInstalled()) {
+            context.startActivity(intent);
+        } else {
+            intent = new Intent(context, mobilizedBrowser ?
+                    PlainTextBrowserActivity.class : BrowserActivity.class);
+            intent.putExtra("url", webpage);
+            intent.setFlags(0);
+
+            context.startActivity(intent);
+        }
+    }
+
+    final String CHROME_PREF = "is_chrome_installed";
+    private boolean isChromeInstalled() {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        if (sharedPreferences.contains(CHROME_PREF)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    isPackageInstalled(sharedPreferences);
+                }
+            }).start();
+
+            return sharedPreferences.getBoolean(CHROME_PREF, true);
+        } else {
+            return isPackageInstalled(sharedPreferences);
+        }
+    }
+
+    private boolean isPackageInstalled(SharedPreferences sharedPreferences) {
+        PackageManager pm = context.getPackageManager();
+
+        boolean installed = true;
+        try {
+            pm.getPackageInfo(CHROME_PACKAGE,PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            installed = false;
+        }
+
+        sharedPreferences.edit().putBoolean(CHROME_PREF, installed).commit();
+        return installed;
+    }
+
     private boolean shouldAlwaysForceExternal(String url) {
         for (String s : ALWAYS_EXTERNAL)
             if (url.contains(s))
@@ -135,17 +184,11 @@ public class WebIntentBuilder {
         return false;
     }
 
-    private boolean systemSupportsCustomTabs() {
-        // lets just assume true for now.
-        // PackageManager isn't thread safe, so there isn't a great way to do this.
-        // need a way to persist whether or not they have chrome installed.
-
-        return true;
-    }
-
     /**
      * Chrome Custom Tab Extras
      */
+
+    private static final String CHROME_PACKAGE = "com.android.chrome";
 
     // REQUIRED. Must use an extra bundle with this. Even if the contense is null.
     private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
