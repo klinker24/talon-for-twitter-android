@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +20,8 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
+
+import java.util.List;
 
 /**
  * Used to handle URLs.
@@ -53,6 +57,8 @@ public class WebIntentBuilder {
     private String webpage;
     private boolean forceExternal;
 
+    private boolean tryCustomTabs = false;
+
     public WebIntentBuilder(Context context) {
         this.context = context;
         this.settings = AppSettings.getInstance(context);
@@ -80,6 +86,8 @@ public class WebIntentBuilder {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else if (!mobilizedBrowser) {
+            tryCustomTabs = true;
+
             intent = new Intent("android.intent.action.MAIN");
             intent.setComponent(new ComponentName(CHROME_PACKAGE, "org.chromium.chrome.browser.customtabs.CustomTabActivity"));
             intent.setData(Uri.parse(webpage));
@@ -103,36 +111,63 @@ public class WebIntentBuilder {
     }
 
     public void start() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (sharedPreferences.getBoolean("shown_disclaimer_for_custom_tabs_2", false)) {
-            startActivity();
+        if (tryCustomTabs) {
+            final UseTabs tabs = isChromeInstalled();
+            if (tabs.chromeInstalled && tabs.tabsExported) {
+                context.startActivity(intent);
+            } else {
+                if (sharedPreferences.getBoolean("shown_disclaimer_for_custom_tabs_4", false)) {
+                    fallbackToInternal(sharedPreferences);
+                } else {
+                    sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_4", true).commit();
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.custom_tab_title)
+                            .setMessage(R.string.custom_tab_message)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sharedPreferences.edit().putBoolean("is_chrome_default", true).commit();
+                                    fallbackToInternal(sharedPreferences);
+                                }
+                            })
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sharedPreferences.edit().putBoolean("is_chrome_default", false).commit();
+                                    fallbackToInternal(sharedPreferences);
+                                }
+                            })
+                            .setNeutralButton(R.string.learn_more, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                                            Uri.parse("http://android-developers.blogspot.com/2015/09/chrome-custom-tabs-smooth-transition.html"));
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                }
+                            })
+                            .create().show();
+                }
+
+            }
         } else {
-            sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_2", true).commit();
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.custom_tab_title)
-                    .setMessage(R.string.custom_tab_message)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity();
-                        }
-                    })
-                    .setNegativeButton(R.string.learn_more, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("http://android-developers.blogspot.com/2015/09/chrome-custom-tabs-smooth-transition.html"));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    })
-                    .create().show();
+            context.startActivity(intent);
         }
     }
 
-    private void startActivity() {
-        if (isChromeInstalled()) {
+    private void fallbackToInternal(SharedPreferences sharedPreferences) {
+        if (sharedPreferences.getBoolean("is_chrome_default", false)) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
+
+            // request a chrome custom tab
+            Bundle extras = new Bundle();
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
+            intent.putExtras(extras);
+
+            intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
+
             context.startActivity(intent);
         } else {
             intent = new Intent(context, mobilizedBrowser ?
@@ -144,36 +179,23 @@ public class WebIntentBuilder {
         }
     }
 
-    final String CHROME_PREF = "is_chrome_installed";
-    private boolean isChromeInstalled() {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        if (sharedPreferences.contains(CHROME_PREF)) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    isPackageInstalled(sharedPreferences);
-                }
-            }).start();
-
-            return sharedPreferences.getBoolean(CHROME_PREF, true);
-        } else {
-            return isPackageInstalled(sharedPreferences);
-        }
-    }
-
-    private boolean isPackageInstalled(SharedPreferences sharedPreferences) {
+    private UseTabs isChromeInstalled() {
         PackageManager pm = context.getPackageManager();
 
-        boolean installed = true;
+        UseTabs tabs = new UseTabs();
         try {
-            pm.getPackageInfo(CHROME_PACKAGE,PackageManager.GET_META_DATA);
-        } catch (PackageManager.NameNotFoundException e) {
-            installed = false;
+            ActivityInfo activityInfo = intent.resolveActivityInfo(pm, intent.getFlags());
+            if (!activityInfo.exported) {
+                Log.v("talon_intent", "activity not exported");
+                tabs.tabsExported = false;
+            }
+
+        } catch (Exception e) {
+            Log.v("talon_intent", "activity not found");
+            tabs.chromeInstalled = false;
         }
 
-        sharedPreferences.edit().putBoolean(CHROME_PREF, installed).commit();
-        return installed;
+        return tabs;
     }
 
     private boolean shouldAlwaysForceExternal(String url) {
@@ -204,4 +226,13 @@ public class WebIntentBuilder {
     // Optional. Use a bundle for parameters if an the action button is specified.
     public static final String EXTRA_CUSTOM_TABS_ACTION_BUTTON_BUNDLE = "android.support.customtabs.extra.ACTION_BUNDLE_BUTTON";
 
+    private static class UseTabs {
+        public boolean chromeInstalled;
+        public boolean tabsExported;
+
+        public UseTabs() {
+            chromeInstalled = true;
+            tabsExported = true;
+        }
+    }
 }
