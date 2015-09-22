@@ -1,7 +1,7 @@
 <changelog>
 
     <version name="3.2.5">
-        <text>Chrome Custom Tabs no longer need Google Chrome to be your default browser</text>
+        <text>Chrome Custom Tabs no longer need Google Chrome to be your default browser for devices where it is possible.</text>
         <text>Bug fixes</text>
     </version>
 
