@@ -189,7 +189,6 @@ public class WebIntentBuilder {
                 Log.v("talon_intent", "activity not exported");
                 tabs.tabsExported = false;
             }
-
         } catch (Exception e) {
             Log.v("talon_intent", "activity not found");
             tabs.chromeInstalled = false;
