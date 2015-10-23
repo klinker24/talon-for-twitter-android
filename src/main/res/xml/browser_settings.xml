@@ -23,6 +23,11 @@
         android:defaultValue="true"
         />
 
+    <Preference
+        android:key="chrome_custom_tabs"
+        android:title="@string/custom_tab_title"
+        android:dependency="inapp_browser" />
+
     <ListPreference
         android:key="plain_text_browser"
         android:title="@string/plain_text_browser"
