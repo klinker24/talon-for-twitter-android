@@ -35,6 +35,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.text.Spanned;
@@ -165,7 +166,39 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     public void setUpBrowserSettings() {
-
+        final SharedPreferences sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(context);
+        Preference customTabs = findPreference("chrome_custom_tabs");
+        customTabs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.custom_tab_title)
+                        .setMessage(R.string.custom_tab_message)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences.edit().putBoolean("is_chrome_default", true).commit();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences.edit().putBoolean("is_chrome_default", false).commit();
+                            }
+                        })
+                        .setNeutralButton(R.string.learn_more, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("http://android-developers.blogspot.com/2015/09/chrome-custom-tabs-smooth-transition.html"));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
+                        })
+                        .create().show();
+                return false;
+            }
+        });
     }
 
     public void setUpPageSettings() {

@@ -416,6 +416,7 @@ public class AppSettings {
             int currentMinutes = hour * 60 + minutes;
 
             if (!(currentMinutes > quietEndMinutes && quietStartMinutes > currentMinutes)) {
+                //Log.v("quiet_hours", "quiet hours on");
                 notifications = false;
                 timelineNot = false;
                 mentionsNot = false;
