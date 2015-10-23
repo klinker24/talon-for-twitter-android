@@ -417,7 +417,13 @@ public class AppSettings {
 
             if (!(currentMinutes > quietEndMinutes && quietStartMinutes > currentMinutes)) {
                 notifications = false;
-                //Log.v("quiet_hours", "quiet hours set now");
+                timelineNot = false;
+                mentionsNot = false;
+                favoritesNot = false;
+                retweetNot = false;
+                followersNot = false;
+                dmsNot = false;
+                activityNot = false;
             }
         }
 
