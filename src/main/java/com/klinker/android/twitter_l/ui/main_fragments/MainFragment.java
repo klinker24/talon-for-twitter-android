@@ -39,6 +39,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
+import com.klinker.android.twitter_l.utils.PixelScrollDetector;
 import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -384,6 +385,36 @@ public abstract class MainFragment extends Fragment implements Expandable {
                 oldFirstVisibleItem = firstVisibleItem;
             }
         });
+
+        listView.setOnScrollListener(new PixelScrollDetector(new PixelScrollDetector.PixelScrollListener() {
+            @Override
+            public void onScroll(AbsListView view, float deltaY) {
+                //Log.v("pixel_scrolling", "deltaY: " + deltaY);
+                // negative deltaY is when we are scrolling down
+
+                if (listView.getFirstVisiblePosition() < 2) {
+                    scrollDown();
+                    hideToastBar(300);
+                    return;
+                }
+
+                if (Math.abs(deltaY) > 20) {
+                    if (settings.topDown) {
+                        if (deltaY < 0) {
+                            scrollUp();
+                        } else {
+                            scrollDown();
+                        }
+                    } else {
+                        if (deltaY < 0) {
+                            scrollDown();
+                        } else {
+                            scrollUp();
+                        }
+                    }
+                }
+            }
+        }));
     }
 
     public void setUpHeaders() {
