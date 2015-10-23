@@ -447,7 +447,7 @@ public abstract class Compose extends Activity implements
         String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
         if (sharedText != null) {
             if (!isDM) {
-                if (subject != null && !subject.equals(sharedText)) {
+                if (subject != null && !subject.equals(sharedText) && !sharedText.contains(subject)) {
                     reply.setText(subject + " - " + sharedText);
                 } else {
                     reply.setText(sharedText);

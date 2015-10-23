@@ -61,6 +61,15 @@ import java.util.List;
 
 public class ExpansionViewHelper {
 
+    public interface TweetLoaded {
+        void onLoad(Status status);
+    }
+
+    private TweetLoaded loadedCallback;
+    public void setLoadCallback(TweetLoaded callback) {
+        this.loadedCallback = callback;
+    }
+
     private static final long NETWORK_ACTION_DELAY = 200;
 
     Context context;
@@ -1073,6 +1082,8 @@ public class ExpansionViewHelper {
                         status = status.getRetweetedStatus();
                     }
 
+
+
                     final String sfavCount = status.getFavoriteCount() + "";
 
                     isRetweeted = status.isRetweetedByMe();
@@ -1105,6 +1116,10 @@ public class ExpansionViewHelper {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
+                            if (loadedCallback != null) {
+                                loadedCallback.onLoad(status);
+                            }
 
                             TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
                             int textColor = a.getResourceId(0, 0);
