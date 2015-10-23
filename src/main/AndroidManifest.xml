@@ -38,6 +38,7 @@
             android:label="@string/app_name"
             android:icon="@mipmap/ic_launcher"
             android:hardwareAccelerated="true"
+            android:fullBackupContent="@xml/backup_content"
             android:supportsRtl="true"
             android:largeHeap="true" >
 
