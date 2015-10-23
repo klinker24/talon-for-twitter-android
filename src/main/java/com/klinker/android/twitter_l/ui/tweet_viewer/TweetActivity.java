@@ -358,6 +358,8 @@ public class TweetActivity extends SlidingActivity {
     }
 
     public VideoView video;
+    public boolean videoError = false;
+
     public void getVideo(final VideoView video) {
         this.video = video;
         new Thread(new Runnable() {
@@ -391,12 +393,22 @@ public class TweetActivity extends SlidingActivity {
                                         video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                                     }
                                 });
+                                video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                                    @Override
+                                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                                        Toast.makeText(TweetActivity.this, "Couldn't play video.", Toast.LENGTH_SHORT).show();
+                                        videoError = true;
+                                        return true;
+                                    }
+                                });
 
                                 video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                     @Override
                                     public void onCompletion(MediaPlayer mp) {
-                                        mp.seekTo(0);
-                                        mp.start();
+                                        if (!videoError) {
+                                            mp.seekTo(0);
+                                            mp.start();
+                                        }
                                     }
                                 });
 
@@ -880,17 +892,7 @@ public class TweetActivity extends SlidingActivity {
         }
 
         //Date tweetDate = new Date(time);
-        String timeDisplay;
-
-        if (!settings.militaryTime) {
-            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + "\n" +
-                    android.text.format.DateFormat.getDateFormat(context).format(time);
-        } else {
-            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + "\n" +
-                    android.text.format.DateFormat.getDateFormat(context).format(time);
-        }
-
-        timetv.setText(timeDisplay);
+        setTime(time);
 
         if (retweeter != null && retweeter.length() > 0) {
             retweetertv.setText(getResources().getString(R.string.retweeter) + retweeter);
@@ -943,10 +945,30 @@ public class TweetActivity extends SlidingActivity {
         expansionHelper.setUser(screenName);
         expansionHelper.setText(text);
         expansionHelper.setUpOverflow();
+        expansionHelper.setLoadCallback(new ExpansionViewHelper.TweetLoaded() {
+            @Override
+            public void onLoad(Status status) {
+                setTime(status.getCreatedAt().getTime());
+            }
+        });
 
         LinearLayout ex = (LinearLayout) findViewById(R.id.expansion_area);
         ex.addView(expansionHelper.getExpansion());
         expansionHelper.startFlowAnimation();
+    }
+
+    private void setTime(long time) {
+        String timeDisplay;
+
+        if (!settings.militaryTime) {
+            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + "\n" +
+                    android.text.format.DateFormat.getDateFormat(context).format(time);
+        } else {
+            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + "\n" +
+                    android.text.format.DateFormat.getDateFormat(context).format(time);
+        }
+
+        timetv.setText(timeDisplay);
     }
 
     private ExpansionViewHelper expansionHelper;
