@@ -132,7 +132,7 @@ public class NetworkedCacheableImageView extends CacheableImageView {
                 if (null == result) {
 
                     Bitmap b;
-                    if (url.contains("ton.twitter.com")) {
+                    if (url.contains("ton.twitter.com") || url.contains("twitter.com/messages/")) {
                         // it is a direct message picture
                         TwitterDMPicHelper helper = new TwitterDMPicHelper();
                         b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);

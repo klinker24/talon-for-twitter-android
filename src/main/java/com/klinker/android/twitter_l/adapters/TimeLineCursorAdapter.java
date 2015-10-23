@@ -798,7 +798,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.imageHolder.setVisibility(View.VISIBLE);
                 }
 
-                if (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl))) {
+                if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
@@ -1587,7 +1587,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     if (!url.contains(" ")) {
                         Bitmap b;
-                        if (url.contains("ton.twitter.com")) {
+                        if (url.contains("ton.twitter.com") || url.contains("twitter.com/messages/")) {
                             // it is a direct message picture
                             TwitterDMPicHelper helper = new TwitterDMPicHelper();
                             b = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
