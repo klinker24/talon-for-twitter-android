@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help">Помощ</string>
+    <string name="send_feedback">Изпрати Отзиви</string>
+    <string name="to_top">Към върха</string>
+    <string name="show_all">Покажи Всички</string>
+    <string name="list_count">В %s списъка.</string>
+    <string name="top_down_summary">Лентата никога няма да запази позицията ви, а ще започва от върха.</string>
+    <string name="quote_style">Стил на Цитатите</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="always">Винаги</string>
+    <string name="never">Никога</string>
+    <string name="my_google_plus">Моят Google+</string>
+    <string name="follow_progress">Последвай нашия Прогрес!</string>
+    <string name="enjoying_talon">Харесва ли ти Talon?</string>
+    <string name="rate_on_rating_dialog">Оцени</string>
+    <string name="share_on_rating_dialog">Сподели</string>
+    <string name="ignore">Игнорирай</string>
+</resources>
