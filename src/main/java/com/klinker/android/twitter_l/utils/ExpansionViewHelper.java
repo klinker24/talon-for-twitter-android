@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -85,11 +87,13 @@ public class ExpansionViewHelper {
     // manage the favorite stuff
     TextView favCount;
     TextView favText;
+    ImageView favoriteIcon;
     View favoriteButton; // linear layout
 
     // manage the retweet stuff
     TextView retweetCount;
     TextView retweetText;
+    ImageView retweetIcon;
     View retweetButton; // linear layout
     ImageView retweeters;
     ImageView favoriters;
@@ -154,11 +158,13 @@ public class ExpansionViewHelper {
     private void setViews(boolean windowedPopups) {
         favCount = (TextView) expansion.findViewById(R.id.fav_count);
         favText = (TextView) expansion.findViewById(R.id.favorite_text);
+        favoriteIcon = (ImageView) expansion.findViewById(R.id.heart_icon);
         favoriteButton = expansion.findViewById(R.id.favorite);
 
         retweetCount = (TextView) expansion.findViewById(R.id.retweet_count);
         retweetText = (TextView) expansion.findViewById(R.id.retweet_text);
         retweetButton = expansion.findViewById(R.id.retweet);
+        retweetIcon = (ImageView) expansion.findViewById(R.id.retweet_icon);
         viewRetweeters = expansion.findViewById(R.id.view_retweeters);
         viewFavoriters = expansion.findViewById(R.id.view_favoriters);
 
@@ -1129,17 +1135,21 @@ public class ExpansionViewHelper {
 
                             if (isRetweeted) {
                                 retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+                                retweetIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
+                                retweetIcon.clearColorFilter();
                             }
 
                             favCount.setText(" " + sfavCount);
 
                             if (fStatus.isFavorited()) {
                                 favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+                                favoriteIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
                                 isFavorited = true;
                             } else {
                                 favText.setTextColor(context.getResources().getColor(textColor));
+                                favoriteIcon.clearColorFilter();
                                 isFavorited = false;
                             }
 
@@ -1184,8 +1194,10 @@ public class ExpansionViewHelper {
 
                             if (fRet) {
                                 retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+                                retweetIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
                             } else {
                                 retweetText.setTextColor(context.getResources().getColor(textColor));
+                                retweetIcon.clearColorFilter();
                             }
                         }
                     });
@@ -1220,9 +1232,11 @@ public class ExpansionViewHelper {
 
                             if (fStatus.isFavorited()) {
                                 favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+                                favoriteIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
                                 isFavorited = true;
                             } else {
                                 favText.setTextColor(context.getResources().getColor(textColor));
+                                favoriteIcon.clearColorFilter();
                                 isFavorited = false;
                             }
                         }

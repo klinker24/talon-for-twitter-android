@@ -65,7 +65,7 @@
     <string name="mentions">Mentions</string>
     <string name="direct_messages">Direct Messages</string>
     <string name="retweets">Retweets</string>
-    <string name="favorite_tweets">Favorite Tweets</string>
+    <string name="favorite_tweets">Liked Tweets</string>
     <string name="favorite_users">Favorite Users</string>
     <string name="favorite_users_tweets">Favorite User Tweets</string>
     <string name="trends">Trending</string>
@@ -117,11 +117,11 @@
     <string name="new_interactions_lower">new interactions</string>
     <string name="new_interactions">New Interactions</string>
     <string name="retweeted">retweeted your status</string>
-    <string name="favorited">favorited your status</string>
+    <string name="favorited">liked your status</string>
     <string name="quoted">quoted your status</string>
     <string name="followed">followed you</string>
     <string name="new_retweets">retweets</string>
-    <string name="new_favorites">favorites</string>
+    <string name="new_favorites">likes</string>
     <string name="new_quotes">quotes</string>
     <string name="new_tweets_upper">New Tweets</string>
 
@@ -244,7 +244,7 @@
     <string name="saving_picture">Saving the Picture</string>
     <string name="saved_picture">Picture Saved Successfully</string>
     <string name="retweet_success">Retweet Successful</string>
-    <string name="favorite_success">Favorite Successful</string>
+    <string name="favorite_success">Like Successful</string>
     <string name="success">Success</string>
 
     <!-- User Lists -->
@@ -342,7 +342,7 @@
         <string name="sync_failed">Sync Failed</string>
         <string name="push_notification_options">\"Push Notification\" Options</string>
         <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, favorites, retweets, or new followers).</string>
+            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, likes, retweets, or new followers).</string>
             <string name="push_notification_warning">To read more about Talon Pull, click this preference.</string>
 
     <string name="notification_settings">Notification Settings</string>
@@ -439,7 +439,7 @@
     <string name="handle_and_name">Display Handle and Name</string>
     <string name="notification_types">Notification Types</string>
     <string name="with_talon_pull">Accessed through \"Talon Pull\".</string>
-    <string name="favorited_tweet">Favorites on your tweets</string>
+    <string name="favorited_tweet">Likes on your tweets</string>
     <string name="new_followers">New followers</string>
     <string name="discussion">Discussion</string>
     <string name="no_replies">No Replies</string>
@@ -501,7 +501,7 @@
     <string name="pull_to_refresh">Pull to Refresh</string>
     <string name="removing_retweet">Removing Retweet</string>
     <string name="retweeting_status">Retweeting Status</string>
-    <string name="removing_favorite">Removing Favorite</string>
+    <string name="removing_favorite">Removing Like</string>
     <string name="favoriting_status">Favoriting Status</string>
     <string name="jumping_workaround">Jumping Workaround</string>
     <string name="jumping_workaround_summary">Enable this if your timeline jumps down one spot after you refresh your feed.</string>
@@ -525,7 +525,7 @@
     <string name="use_shortening_service">Use Shortening Service</string>
     <string name="use_shortening_service_summary">You will be able to select either TwitLonger or Pwiccer (a service that converts your long tweet to an image for posting).</string>
     <string name="view_retweeters">Retweeters</string>
-    <string name="view_favoriters">Favoriters</string>
+    <string name="view_favoriters">Likes</string>
     <string name="no_tweets">No Tweets</string>
     <string name="only_7_days">Only 7 days available</string>
     <string name="saved_searches">Saved Searches</string>
@@ -572,7 +572,7 @@
     <string name="open_keyboard_summary">Automatically open the keyboard to reply in the tweet viewer.</string>
     <string name="no_retweets">No retweets</string>
     <string name="profile">Profile</string>
-    <string name="favorites">Favorites</string>
+    <string name="favorites">Likes</string>
     <string name="load_pictures">Load Pictures</string>
     <string name="pic_search_disclaimer">Searches the user\'s timeline for pictures. Will take more time depending on how current their pictures are.</string>
     <string name="widget_theme">Homescreen Widget Theme</string>
@@ -647,7 +647,7 @@
     <string name="no_clients">No Clients</string>
     <string name="muted_clients_summary">Allows you to mute all tweets coming from a specific application.</string>
     <string name="client_not_found">Client not found!</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">Like</string>
     <string name="menu_share_image">Share Image</string>
     <string name="pick_time">Pick Time</string>
     <string name="pick_date">Pick Date</string>
@@ -683,13 +683,13 @@
     <string name="activity">Activity</string>
     <string name="sending_direct_message">Sending Direct Message</string>
     <string name="fav_rt_multiple_accounts">Cross Account Actions</string>
-    <string name="fav_rt_multiple_accounts_summary">If you have multiple accounts, this will let you select which account to perform the favorite or retweet with.</string>
+    <string name="fav_rt_multiple_accounts_summary">If you have multiple accounts, this will let you select which account to perform the like or retweet with.</string>
     <string name="talon_pull_notifications">Talon Pull (Instant) Notifications</string>
     <string name="talon_pull_turned_on">Talon Pull must be turned on from Sync Settings to use this feature.</string>
     <string name="activity_sync_interval">Activity Refresh Rate</string>
     <string name="mentioned_you">mentioned you</string>
-    <string name="favorites_lower">Favorites</string>
-    <string name="favorite_lower">Favorite</string>
+    <string name="favorites_lower">Likes</string>
+    <string name="favorite_lower">Like</string>
     <string name="retweeted_your_status">Retweeted your status</string>
     <string name="followed_you">Followed you</string>
     <string name="new_activity">New Activity</string>
@@ -697,14 +697,14 @@
     <string name="use_interaction_drawer_summary">The contents of this drawer is filled by Talon Pull (Streaming).</string>
     <string name="no_activity_yet">No activity yet!</string>
     <string name="no_activity_yet_desc"> This section will be filled as you interact more on Twitter.\n\n
-        Mentions, new followers, and retweets/favorites on your statuses will start to show up here.</string>
+        Mentions, new followers, and retweets/likes on your statuses will start to show up here.</string>
     <string name="retweet">Retweet</string>
     <string name="new_follower_lower">new follower</string>
     <string name="new_followers_lower">new followers</string>
     <string name="item">item</string>
     <string name="items">items</string>
     <string name="and">and</string>
-    <string name="no_favorites">No favorites</string>
+    <string name="no_favorites">No likes</string>
     <string name="quote_style">Quote Style</string>
     <string name="quote_style_twitter">Twitter Style (Link to tweet)</string>
     <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>

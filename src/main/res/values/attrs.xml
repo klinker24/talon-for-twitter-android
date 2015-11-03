@@ -84,6 +84,7 @@
     <attr name="bothAccounts" format="reference"/>
     <attr name="replies" format="reference"/>
     <attr name="settings_pages" format="reference"/>
+    <attr name="heart_button" format="reference"/>
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>
