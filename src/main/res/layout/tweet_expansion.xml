@@ -38,18 +38,32 @@
         android:alpha=".6"/>
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:paddingBottom="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="24dp">
 
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      android:id="@+id/favorite"
-                      android:padding="12dp"
-                      android:background="?android:attr/selectableItemBackground" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/favorite"
+            android:padding="12dp"
+            android:background="?android:attr/selectableItemBackground" >
 
-            <TextView
+            <ImageView
+                android:id="@+id/heart_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="?heart_button"
+                android:layout_marginRight="12dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
                     android:id="@+id/favorite_text"
                     android:text="@string/favorite"
                     android:textAllCaps="true"
@@ -59,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            <TextView
+                <TextView
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:textSize="13sp"
@@ -68,38 +82,51 @@
                     android:fontFamily="sans-serif-light"
                     android:alpha=".6"
                     android:id="@+id/fav_count" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:id="@+id/view_favoriters"
-                      android:background="?android:selectableItemBackground" >
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/view_favoriters"
+            android:background="?android:selectableItemBackgroundBorderless" >
 
             <View android:layout_width="8dp" android:layout_height="match_parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:id="@+id/favoriters"
-                    android:minHeight="36dp" android:minWidth="36dp"
-                    android:maxWidth="36dp" android:maxHeight="36dp"/>
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:id="@+id/favoriters"
+                android:minHeight="36dp" android:minWidth="36dp"
+                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
             <View android:layout_width="8dp" android:layout_height="match_parent" />
 
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      android:id="@+id/retweet"
-                      android:padding="12dp"
-                      android:background="?android:attr/selectableItemBackground" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/retweet"
+            android:padding="12dp"
+            android:background="?android:attr/selectableItemBackground" >
 
-            <TextView
+            <ImageView
+                android:id="@+id/retweet_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="?retweetButton"
+                android:layout_marginRight="12dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
                     android:id="@+id/retweet_text"
                     android:text="@string/retweet_lower"
                     android:textAllCaps="true"
@@ -109,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            <TextView
+                <TextView
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:textSize="13sp"
@@ -118,25 +145,26 @@
                     android:fontFamily="sans-serif-light"
                     android:alpha=".6"
                     android:id="@+id/retweet_count" />
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:id="@+id/view_retweeters"
-                      android:background="?android:selectableItemBackground">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:id="@+id/view_retweeters"
+            android:background="?android:selectableItemBackgroundBorderless">
 
             <View android:layout_width="8dp" android:layout_height="match_parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:id="@+id/retweeters"
-                    android:minHeight="36dp" android:minWidth="36dp"
-                    android:maxWidth="36dp" android:maxHeight="36dp"/>
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:id="@+id/retweeters"
+                android:minHeight="36dp" android:minWidth="36dp"
+                android:maxWidth="36dp" android:maxHeight="36dp"/>
 
             <View android:layout_width="8dp" android:layout_height="match_parent" />
 

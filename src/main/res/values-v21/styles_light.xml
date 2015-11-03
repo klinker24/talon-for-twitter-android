@@ -89,6 +89,7 @@
         <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
         <item name="bothAccounts">@drawable/both_accounts_light</item>
         <item name="settings_pages">@drawable/ic_settings_pages_light</item>
+        <item name="heart_button">@drawable/ic_heart_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
@@ -277,6 +278,7 @@
         <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
         <item name="bothAccounts">@drawable/both_accounts_light</item>
         <item name="settings_pages">@drawable/ic_settings_pages_light</item>
+        <item name="heart_button">@drawable/ic_heart_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
