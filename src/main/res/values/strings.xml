@@ -502,7 +502,7 @@
     <string name="removing_retweet">Removing Retweet</string>
     <string name="retweeting_status">Retweeting Status</string>
     <string name="removing_favorite">Removing Like</string>
-    <string name="favoriting_status">Favoriting Status</string>
+    <string name="favoriting_status">Liking Status</string>
     <string name="jumping_workaround">Jumping Workaround</string>
     <string name="jumping_workaround_summary">Enable this if your timeline jumps down one spot after you refresh your feed.</string>
     <string name="menu_share_link">Share Link</string>
