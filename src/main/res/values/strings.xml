@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
+    <!--
   Copyright 2014 Luke Klinker
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +14,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon for Twitter</string>
     <string name="extension_description">Displays the number of unread tweets, mentions and direct messages as they are updated.</string>
-
     <!-- Action Bar -->
     <string name="menu_refresh">Refresh Timeline</string>
     <string name="menu_compose">New Tweet</string>
@@ -41,7 +39,6 @@
     <string name="menu_unfavorite">Un-Favorite User</string>
     <string name="menu_create_list">Create New List</string>
     <string name="menu_spam">Mark as Spam</string>
-
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">just now</string>
@@ -51,13 +48,11 @@
     <string name="hours_ago">%s hours ago</string>
     <string name="yesterday">yesterday</string>
     <string name="days_ago">%s days ago</string>
-
     <!-- Muting -->
     <string name="mute">Mute</string>
     <string name="unmute">Un-Mute</string>
     <string name="muted_users">Muted Users</string>
     <string name="no_users">No Users</string>
-
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Pictures</string>
@@ -90,7 +85,6 @@
     <string name="all_read">All Read!</string>
     <string name="view_new">Load?</string>
     <string name="old_interactions">All Interactions</string>
-
     <!-- Notifications -->
     <string name="tweet">Tweet</string>
     <string name="tweets">Tweets</string>
@@ -124,7 +118,6 @@
     <string name="new_favorites">likes</string>
     <string name="new_quotes">quotes</string>
     <string name="new_tweets_upper">New Tweets</string>
-
     <!-- Login Screen -->
     <string name="setup_talon">Setup Talon</string>
     <string name="login_to_twitter">Login to Twitter</string>
@@ -162,11 +155,9 @@
     <string name="tweet_failed">Error sending tweet</string>
     <string name="tap_to_retry">Tap to retry</string>
     <string name="one_recepient">You can only send Direct Messages to one user!</string>
-
     <!-- Actionbar Done-Discard -->
     <string name="discard">Discard</string>
     <string name="send">Send</string>
-
     <!-- Other -->
     <string name="placeholder">Placeholder</string>
     <string name="reply">Reply...</string>
@@ -193,7 +184,6 @@
     <string name="save">Save</string>
     <string name="stop">Stop</string>
     <string name="tweeted">tweeted</string>
-
     <!-- User Profile Activity -->
     <string name="followers">Followers</string>
     <string name="following">Following</string>
@@ -218,12 +208,10 @@
     <string name="url_char_length">URL: 100 character limit</string>
     <string name="location_char_length">Location: 30 character limit</string>
     <string name="description_char_length">Description: 160 character limit</string>
-
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweets</string>
     <string name="retweet_lower">retweet</string>
     <string name="retweeter">retweeted by @</string>
-
     <!-- Tweet Activity -->
     <string name="menu_open_web">Open Web Link</string>
     <string name="menu_copy_text">Copy Tweet Text</string>
@@ -246,7 +234,6 @@
     <string name="retweet_success">Retweet Successful</string>
     <string name="favorite_success">Like Successful</string>
     <string name="success">Success</string>
-
     <!-- User Lists -->
     <string name="view_users">View Users</string>
     <string name="delete_list">Delete List</string>
@@ -264,152 +251,142 @@
     <string name="finding_lists">Finding Lists...</string>
     <string name="choose_list">Choose List</string>
     <string name="added_to_list">Added to list</string>
-
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nAccess features\nby tapping items\nin the\nnavigation\ndrawer!</string>
     <string name="part_1_phone">\nPull open the\nnavigation drawer\nwith a left\nside swipe!</string>
     <string name="part_2">\nPage between\ntimelines with\na swipe either\nway from the middle\nof the screen!</string>
     <string name="part_3">That\'s it!\n\nTouch the\nscreen to\nstart!</string>
-
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>
-        <string name="theme_options">Theme Options</string>
-        <string name="font_options">Display Options</string>
-        <string name="other_options">Other Options</string>
-        <string name="theme">Theme</string>
-        <string name="addon_themes">Add-on Themes</string>
-        <string name="addon_note">Click here to find new themes.\n\nNOTES:\n- This will disable the use of the built-in emoji keyboard when replying to a tweet.\n- Please do not report bugs unless you can confirm them WITHOUT a custom theme applied.</string>
-        <string name="use_addon_themes">Use Add-On Theme</string>
-        <string name="make_a_theme">Make a Theme</string>
-        <string name="layout">Layout</string>
-            <string name="themeing_complete">Applied Theme</string>
-            <string name="themeing_complete_summary">\"Talon\" will now close.\n\n
+    <string name="theme_options">Theme Options</string>
+    <string name="font_options">Display Options</string>
+    <string name="other_options">Other Options</string>
+    <string name="theme">Theme</string>
+    <string name="addon_themes">Add-on Themes</string>
+    <string name="addon_note">Click here to find new themes.\n\nNOTES:\n- This will disable the use of the built-in emoji keyboard when replying to a tweet.\n- Please do not report bugs unless you can confirm them WITHOUT a custom theme applied.</string>
+    <string name="use_addon_themes">Use Add-On Theme</string>
+    <string name="make_a_theme">Make a Theme</string>
+    <string name="layout">Layout</string>
+    <string name="themeing_complete">Applied Theme</string>
+    <string name="themeing_complete_summary">\"Talon\" will now close.\n\n
                 You will have to swipe \"Talon\" out of your recent apps to see the changes fully take affect on your timelines.\n\n
                 If your profile pictures don\'t show up the way they should (i.e. circle or square), you will have to remove and re-add the widget.</string>
     <string name="layout_summary">Changing this will clear the app\'s cache.</string>
-        <string name="text_size">Text Size</string>
-        <string name="night_mode">Night Mode</string>
-            <string name="night_mode_night">Select Nighttime Start</string>
-            <string name="night_mode_day">Select Daytime Start</string>
-            <string name="night_mode_theme">Select Theme for Night Mode</string>
-        <string name="device_font">Use Device Font</string>
-            <string name="device_font_summary">Regular \"Roboto\" on most devices. Talon\'s default font is \"Roboto Light\".</string>
-        <string name="ui_extras">UI Extras</string>
-            <string name="ui_extras_summary">Includes:\n
+    <string name="text_size">Text Size</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="night_mode_night">Select Nighttime Start</string>
+    <string name="night_mode_day">Select Daytime Start</string>
+    <string name="night_mode_theme">Select Theme for Night Mode</string>
+    <string name="device_font">Use Device Font</string>
+    <string name="device_font_summary">Regular \"Roboto\" on most devices. Talon\'s default font is \"Roboto Light\".</string>
+    <string name="ui_extras">UI Extras</string>
+    <string name="ui_extras_summary">Includes:\n
                 - Hiding Action Bar\n
                 - Actionable Toast Bar\n
                 - Transparent System Bars (Android 4.4 only)\n\n
                 Enabling this setting will affect scrolling performance.</string>
-        <string name="inline_pics">Display In-Line Pictures</string>
-        <string name="use_screen_name">Display Twitter Handle</string>
-            <string name="use_screen_name_summary">Display the user\'s Twitter handle instead of their name on timelines.</string>
-        <string name="timestamp">24-Hour Timestamp</string>
-        <string name="enable_emojis">Use iOS emojis</string>
-        <string name="to_market">To Play Store</string>
-        <string name="get_ios">Download Plug-in</string>
-        <string name="emoji_dialog_summary">To enable iOS emojis in this app, you must have our free \"Sliding Emoji Keyboard - iOS\" app installed from the play store.\n\n
+    <string name="inline_pics">Display In-Line Pictures</string>
+    <string name="use_screen_name">Display Twitter Handle</string>
+    <string name="use_screen_name_summary">Display the user\'s Twitter handle instead of their name on timelines.</string>
+    <string name="timestamp">24-Hour Timestamp</string>
+    <string name="enable_emojis">Use iOS emojis</string>
+    <string name="to_market">To Play Store</string>
+    <string name="get_ios">Download Plug-in</string>
+    <string name="emoji_dialog_summary">To enable iOS emojis in this app, you must have our free \"Sliding Emoji Keyboard - iOS\" app installed from the play store.\n\n
                 NOTE: Emojis will continue to work in this app even if the trial has expired! That package is used as a plugin as well as a stand alone keyboard.</string>
-
-        <string name="theme_light">Light Theme</string>
-        <string name="theme_dark">Dark Theme</string>
-        <string name="theme_black">Black Theme</string>
-
+    <string name="theme_light">Light Theme</string>
+    <string name="theme_dark">Dark Theme</string>
+    <string name="theme_black">Black Theme</string>
     <string name="sync_settings">Sync Settings</string>
-        <string name="sync_mobile_data">Sync Over Mobile Data</string>
-        <string name="sync_mobile_data_summary">Auto-refresh timelines over both mobile data and WiFi.</string>
-        <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
-            <string name="notifications">Notifications</string>
-            <string name="vibrate">Vibrate</string>
-            <string name="led">Flash LED</string>
-            <string name="wake_screen">Wake Screen</string>
-            <string name="sound">Notification Sound</string>
-            <string name="quiet_hours">Do Not Disturb Mode</string>
-        <string name="max_number_on_refresh">Max Tweets to Refresh</string>
-        <string name="fav_users_notifications">Favorite User Notifications</string>
-        <string name="sync_second_mentions">Sync Second Account</string>
-            <string name="sync_second_mentions_summary">Automatically check and notify for new mentions and direct messages on your second account along with the first.</string>
-        <string name="max_number_summary">Higher max means a slower refresh.</string>
-        <string name="auto_refresh_category">Auto-Refresh Options</string>
-            <string name="refresh_on_startup">Refresh on Startup</string>
-            <string name="timeline_sync_interval">Home Timeline Refresh Rate</string>
-            <string name="mentions_sync_interval">Mentions Refresh Rate</string>
-            <string name="dm_sync_interval">Direct Messages Refresh Rate</string>
-        <string name="sync_friends">Sync Friends Data</string>
-        <string name="sync_friends_summary2">Re-sync friends data to use when composing tweets.</string>
-        <string name="sync_friends_summary">Manually sync friends list.\n\nThis was done at login for you, and they are automatically added when you follow someone from Talon, but this option will pull all of your latest "following".\n\n
+    <string name="sync_mobile_data">Sync Over Mobile Data</string>
+    <string name="sync_mobile_data_summary">Auto-refresh timelines over both mobile data and WiFi.</string>
+    <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
+    <string name="notifications">Notifications</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="led">Flash LED</string>
+    <string name="wake_screen">Wake Screen</string>
+    <string name="sound">Notification Sound</string>
+    <string name="quiet_hours">Do Not Disturb Mode</string>
+    <string name="max_number_on_refresh">Max Tweets to Refresh</string>
+    <string name="fav_users_notifications">Favorite User Notifications</string>
+    <string name="sync_second_mentions">Sync Second Account</string>
+    <string name="sync_second_mentions_summary">Automatically check and notify for new mentions and direct messages on your second account along with the first.</string>
+    <string name="max_number_summary">Higher max means a slower refresh.</string>
+    <string name="auto_refresh_category">Auto-Refresh Options</string>
+    <string name="refresh_on_startup">Refresh on Startup</string>
+    <string name="timeline_sync_interval">Home Timeline Refresh Rate</string>
+    <string name="mentions_sync_interval">Mentions Refresh Rate</string>
+    <string name="dm_sync_interval">Direct Messages Refresh Rate</string>
+    <string name="sync_friends">Sync Friends Data</string>
+    <string name="sync_friends_summary2">Re-sync friends data to use when composing tweets.</string>
+    <string name="sync_friends_summary">Manually sync friends list.\n\nThis was done at login for you, and they are automatically added when you follow someone from Talon, but this option will pull all of your latest \"following\".\n\n
                     This data is used when searching for users when composing a tweet.</string>
-        <string name="sync_success">Sync Successful</string>
-        <string name="sync_failed">Sync Failed</string>
-        <string name="push_notification_options">\"Push Notification\" Options</string>
-        <string name="push_notifications">Talon Pull</string>
-            <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, likes, retweets, or new followers).</string>
-            <string name="push_notification_warning">To read more about Talon Pull, click this preference.</string>
-
+    <string name="sync_success">Sync Successful</string>
+    <string name="sync_failed">Sync Failed</string>
+    <string name="push_notification_options">"\"Push Notification\" Options"</string>
+    <string name="push_notifications">Talon Pull</string>
+    <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, likes, retweets, or new followers).</string>
+    <string name="push_notification_warning">To read more about Talon Pull, click this preference.</string>
     <string name="notification_settings">Notification Settings</string>
-        <string name="pebble_notifications">Pebble Notifications</string>
-        <string name="pebble_notifications_summary">Used for the Pebble smart watch. Disable this if you are getting two notifications on your watch.</string>
-
+    <string name="pebble_notifications">Pebble Notifications</string>
+    <string name="pebble_notifications_summary">Used for the Pebble smart watch. Disable this if you are getting two notifications on your watch.</string>
     <string name="advanced_settings">Advanced Settings</string>
-        <string name="app_feel_category">App Feel Options</string>
-            <string name="advance_windowed">Advance Windowed</string>
-                <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines.</string>
-            <string name="full_screen_browsers">Full Screen Browsers</string>
-                <string name="full_screen_browsers_summary">Open tweets containing a web page in full screen mode.</string>
-            <string name="reverse_click_actions">Reverse Click Actions</string>
-                <string name="reverse_click_actions_summary">Reverse the click actions on tweets.\n\n
+    <string name="app_feel_category">App Feel Options</string>
+    <string name="advance_windowed">Advance Windowed</string>
+    <string name="advance_windowed_summary">Open profiles and tweets in a \"windowed\" view above the timelines.</string>
+    <string name="full_screen_browsers">Full Screen Browsers</string>
+    <string name="full_screen_browsers_summary">Open tweets containing a web page in full screen mode.</string>
+    <string name="reverse_click_actions">Reverse Click Actions</string>
+    <string name="reverse_click_actions_summary">Reverse the click actions on tweets.\n\n
                     Default (when disabled):\n
                     - Long click to open tweet\n
                     - Short click to expand tweet</string>
-            <string name="extra_pages">Use Extra Pages</string>
-                <string name="extra_pages_summary">Add links and pictures pages to the left of the timeline.</string>
-            <string name="live_streaming">Live Streaming</string>
-        <string name="memory_management">Memory Management Options</string>
-            <string name="delete_cache">Delete Cache Now</string>
-            <string name="cache_dialog">Delete Cache?</string>
-            <string name="not_cache">This does not apply to the app cache.</string>
-            <string name="current_cache_size">Current cache size</string>
-                <string name="cache_dialog_summary">This action cannot be un-done.</string>
-            <string name="timeline_size">Home Size</string>
-                <string name="timeline_size_summary">Max number of tweets to store in the database.</string>
-            <string name="mentions_size">Mentions Size</string>
-                <string name="mentions_size_summary">Max number of mentions to store in the database.</string>
-            <string name="dm_size">Direct Messages Size</string>
-                <string name="dm_size_summary">Max number of direct messages to store in the database.</string>
-            <string name="auto_trim">Auto-Trim Databases</string>
-            <string name="trim_now">Trim Databases Now</string>
-                <string name="trim_dialog">Trim databases now?</string>
-                <string name="trimming">Trimming...</string>
-                <string name="trim_success">Trim successful</string>
-                <string name="trim_fail">Trim failed</string>
-        <string name="backup_category">Backup and Restore Options</string>
-            <string name="backup_settings">Backup Settings</string>
-                <string name="backup_settings_dialog">Create new backup?</string>
-                <string name="backup_settings_dialog_summary">This will override all previous backups.</string>
-                <string name="backup_success">Backup Successful</string>
-                <string name="restore_success">Restore Successful</string>
-            <string name="restore_settings">Restore Settings</string>
-                <string name="restore_settings_summary">Will clear the cache to apply any theme changes.</string>
-
-
+    <string name="extra_pages">Use Extra Pages</string>
+    <string name="extra_pages_summary">Add links and pictures pages to the left of the timeline.</string>
+    <string name="live_streaming">Live Streaming</string>
+    <string name="memory_management">Memory Management Options</string>
+    <string name="delete_cache">Delete Cache Now</string>
+    <string name="cache_dialog">Delete Cache?</string>
+    <string name="not_cache">This does not apply to the app cache.</string>
+    <string name="current_cache_size">Current cache size</string>
+    <string name="cache_dialog_summary">This action cannot be un-done.</string>
+    <string name="timeline_size">Home Size</string>
+    <string name="timeline_size_summary">Max number of tweets to store in the database.</string>
+    <string name="mentions_size">Mentions Size</string>
+    <string name="mentions_size_summary">Max number of mentions to store in the database.</string>
+    <string name="dm_size">Direct Messages Size</string>
+    <string name="dm_size_summary">Max number of direct messages to store in the database.</string>
+    <string name="auto_trim">Auto-Trim Databases</string>
+    <string name="trim_now">Trim Databases Now</string>
+    <string name="trim_dialog">Trim databases now?</string>
+    <string name="trimming">Trimming...</string>
+    <string name="trim_success">Trim successful</string>
+    <string name="trim_fail">Trim failed</string>
+    <string name="backup_category">Backup and Restore Options</string>
+    <string name="backup_settings">Backup Settings</string>
+    <string name="backup_settings_dialog">Create new backup?</string>
+    <string name="backup_settings_dialog_summary">This will override all previous backups.</string>
+    <string name="backup_success">Backup Successful</string>
+    <string name="restore_success">Restore Successful</string>
+    <string name="restore_settings">Restore Settings</string>
+    <string name="restore_settings_summary">Will clear the cache to apply any theme changes.</string>
     <string name="get_help_settings">Get Help</string>
-        <string name="rerun_tutorial">Run Startup Tutorial</string>
-        <string name="faq">Frequently Asked Questions</string>
-        <string name="features_explained">Features Explained</string>
-        <string name="youtube">YouTube Video</string>
-        <string name="google_plus">Google+ Community</string>
-        <string name="xda_thread">XDA Thread</string>
-        <string name="email_me">Email Me</string>
-        <string name="tweet_me">Tweet at Me</string>
-        <string name="follow_talon">Follow Talon on Twitter</string>
-        <string name="credits">Credits</string>
-        <string name="disclaimer">Disclaimer</string>
-
+    <string name="rerun_tutorial">Run Startup Tutorial</string>
+    <string name="faq">Frequently Asked Questions</string>
+    <string name="features_explained">Features Explained</string>
+    <string name="youtube">YouTube Video</string>
+    <string name="google_plus">Google+ Community</string>
+    <string name="xda_thread">XDA Thread</string>
+    <string name="email_me">Email Me</string>
+    <string name="tweet_me">Tweet at Me</string>
+    <string name="follow_talon">Follow Talon on Twitter</string>
+    <string name="credits">Credits</string>
+    <string name="disclaimer">Disclaimer</string>
     <string name="other_apps">Our Other Apps</string>
     <string name="whats_new">What\'s New</string>
     <string name="rate_it">Rate Talon</string>
     <string name="talon_settings">Talon Settings</string>
     <string name="feature_requests">Feature Requests</string>
-
     <!-- Emoji Keyboard -->
     <string name="recent">Recents</string>
     <string name="people">People</string>
@@ -417,7 +394,6 @@
     <string name="nature">Nature</string>
     <string name="places">Places</string>
     <string name="symbols">Symbols</string>
-
     <!-- Array value for translation -->
     <string name="five_mins">5 minutes</string>
     <string name="ten_mins">10 minutes</string>
@@ -429,9 +405,7 @@
     <string name="three_hours">3 hours</string>
     <string name="four_hours">4 hours</string>
     <string name="manual">Manual</string>
-
     <string name="layout_hangouts">Hangouts</string>
-
     <!-- added after release -->
     <string name="use_inapp_browser">Use In-App Browser</string>
     <string name="use_browser_on_tweet">Browser Page on Tweet</string>
@@ -661,16 +635,13 @@
     <string name="rate_limit_reached">Rate Limit Reached</string>
     <string name="info">Info</string>
     <string name="help_and_feedback">Help/Feedback</string>
-    <string name="faq_first">
-        Hey there, glad you want to help me improve Talon!\n\n
+    <string name="faq_first">Hey there, glad you want to help me improve Talon!\n\n
         Feel free to email or send me a tweet of your feedback or any questions you might have, but before you do so, have you checked out the FAQ section?\n\n
         Talon has a pretty extensive list of support topics and requests built right into the app. Check it out before worrying about waiting on a response from me! (Although I try to get back to you as quickly as a one man operation can..)\n\n
-        Hope you are enjoying my work!
-    </string>
+        Hope you are enjoying my work!</string>
     <string name="contact">Contact</string>
     <string name="follow">Follow</string>
-    <string name="menu_number_of_pages">Number of Extra Pages</string>
-    <!-- %s will be replaced with a number for the currently selected page -->
+    <string name="menu_number_of_pages">Number of Extra Pages</string> <!-- %s will be replaced with a number for the currently selected page -->
     <string name="page">Page %s</string>
     <string name="set_as_default">Set as Default</string>
     <string name="main_pages_and_drawer">Main Pages and Drawer</string>
@@ -708,13 +679,12 @@
     <string name="quote_style">Quote Style</string>
     <string name="quote_style_twitter">Twitter Style (Link to tweet)</string>
     <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt"> RT \@lukeklinker &#8230;</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="show_pull_notification">Show Persistent Notification</string>
     <string name="show_pull_notification_summary">If you disable this notification, the Android system could shut down the stream at any time. Use extreme caution.</string>
     <string name="custom_tab_title">Chrome Custom Tabs</string>
     <string name="custom_tab_message">Your system is not allowing Talon to automatically start Chrome Custom Tabs. To use this feature, you will be required to set chrome as your default system browser, otherwise, Talon will continue to use it\'s original in app browser.\n\nPlease select \"Yes\" if Chrome will be your default browser or \"No\" if you will not use it as default.</string>
     <string name="learn_more">Learn More</string>
-
     <!-- Long click methods -->
     <string name="open_profile">Open Profile</string>
     <string name="copy_handle">Copy Handle</string>
@@ -733,4 +703,8 @@
     <string name="copy_cashtag">Copy Cashtag</string>
     <string name="copied">Copied Text</string>
     <string name="favorite_user_text">Favorite User</string>
+    <string name="open_to_web">Open to Webpage</string>
+    <string name="open_to_web_summary">If a tweet contains a web url, it will open directly to that url instead of the tweet itself.</string>
+    <string name="open_webpage">Open Link</string>
+    <string name="get_android">Get Android Emojis</string>
 </resources>
