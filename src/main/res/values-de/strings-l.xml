@@ -52,7 +52,4 @@
     <string name="sync_options">Synchronisierungseinstellungen</string>
     <string name="manual_syncs">Manuelle Synchronisation</string>
     <string name="permission_check_title">Talons Berechtigungen:</string>
-    <string name="quote_style">Zitat-Aussehen</string>
-    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

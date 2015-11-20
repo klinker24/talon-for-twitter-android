@@ -59,7 +59,4 @@
     <string name="manual_syncs">手动同步</string>
     <string name="alert_methods_summary">通知方式：震动、铃声、LED等</string>
     <string name="permission_check_title">Talon 权限：</string>
-    <string name="quote_style">引用方式</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
