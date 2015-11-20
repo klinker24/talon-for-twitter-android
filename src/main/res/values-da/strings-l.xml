@@ -72,7 +72,4 @@
 
         Du vælger selv om du vil tillade eller afvise hver anmodning. Du kan tilgå dem selv til enhver tid, via indstillinger</string>
     <string name="tell_about_swipe_down">Tip: Swipe ned for at lukke dette vindue</string>
-    <string name="quote_style">Citat stil</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

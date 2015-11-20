@@ -72,7 +72,4 @@
 
 Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáférést a rendszer alkalmazás beállításainál.</string>
     <string name="tell_about_swipe_down">Tipp: egyszerűen csúsztasson le a képernyő bezárásához.</string>
-    <string name="quote_style">Idézés stílus</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
