@@ -12,9 +12,6 @@
     <string name="top_down_summary">Az idővonal pozíció soha nem lesz elmentve. Mindig a tetején fog kezdeni.</string>
     <string name="timeline_text_size">Idővonal betűméret</string>
     <string name="manage_mutes">Némítások kezelése</string>
-    <string name="quote_style">Idézés stílus</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">Helybeállítások</string>
     <string name="twitpic_summary_l">Az összes kép feltöltése TwitPic-en keresztül.</string>
     <string name="interactions_only">Csak események</string>
@@ -38,6 +35,7 @@
     <string name="bottom_pictures">Képek a Tweetek alatt</string>
     <string name="bottom_pictures_summary">Ezzel a beállítással a Tweetek nem lesznek kibontva.</string>
     <string name="preparing_signin">Bejelentkezés előkészítése</string>
+    <string name="verifying_login">Bejelentkezés ellenőrzése</string>
     <string name="manage_muffles">Halkítások kezelése</string>
     <string name="muffle_definition">Egy felhasználó halkításával eltávolításra kerül az idővonalról a tweetjeinek nagy része. Csak a neve és egy kis rész lesz látható, amit ki lehet nyitni, ha a többi részét is látni szeretné.</string>
     <string name="muffled_users">Elhalkított felhasználók</string>
@@ -50,4 +48,31 @@
     <string name="share_on_rating_dialog">Megosztás</string>
     <string name="ignore">Kihagy</string>
     <string name="when_talon_pull_on">Akkor érvényesül, ha a Talon Pull be van kapcsolva.</string>
+    <string name="transparent_system_bars">Átlátszó rendszersávok használata</string>
+    <string name="accent_color">Kiemelés színe</string>
+    <string name="nav_bar_option">Navigációs sáv felülírása</string>
+    <string name="nav_bar_option_summary">Az alkalmazások nem képesek pontosan megállapítani, hogy egy eszköznek van-e navigációs sávja vagy nincs. Mivel a Talon erősen ezen az elrendezésen alapul, ezért ez a beállítás lehetővé teszi, hogy kézzel adja meg.</string>
+    <string name="nav_bar_automatic">Automatikusan meghatározott</string>
+    <string name="nav_bar_present">Navigációs sáv használata</string>
+    <string name="nav_bar_gone">Nincs navigációs sáv</string>
+    <string name="tip_title">Tipp:</string>
+    <string name="profile_pictures_helper_message">A képet követő tweet megnyitásához egyszerűen kattintson hosszan ezen a rácson.\n\nA normál kattintás a képnézőt fogja megnyitni.</string>
+    <string name="quote_disclaimer">A modern Twitter kliensekben a twitter állapot hivatkozás beágyazott tweetként fog látszódni. A hivatkozás úgy működik, mint egy idézett tweet.</string>
+    <string name="sync_options">Szinkronizálás beállítások</string>
+    <string name="manual_syncs">Kézi szinkronizálás</string>
+    <string name="timeline_notifications_summary">A háttérben történő frissítések időköze bekapcsolva kell legyenek ezeknél az értesítéseknél.</string>
+    <string name="favorite_user_notifications_summary">Az idővonal háttérben történő frissítésének időköze, vagy az élő közvetítés engedélyezve kell legyen a kedvenc felhasználó értesítésekhez.</string>
+    <string name="alert_methods_summary">Hogyan akar értesülni: rezgés, hang, LED, stb.</string>
+    <string name="windowed_helper_message">Táblagépen az ablak bezárásához egyszerűen kattintson az ablakon kívüli elsötétített részre.\n\nÍgy biztosja, hogy az idővonal soha nem lesz túl távol!</string>
+    <string name="permission_check_title">Talon engedélyek:</string>
+    <string name="permission_check_message">A Talon két hozzáféréshez kér engedélyt: hely és tárhely.\n\n
+
+- A hely a helyi trendek és a tweetek hely címkéinek hozzáféréséhez kell (ha ezt is kéri). Mi soha nem tároljuk a helyzetét.\n
+- A tárhely a tweet képek külső tárolóra való mentéséhez kell (ha kérte), valamint a képek feltöltéséhez a Twitterre.\n\n
+
+Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáférést a rendszer alkalmazás beállításainál.</string>
+    <string name="tell_about_swipe_down">Tipp: egyszerűen csúsztasson le a képernyő bezárásához.</string>
+    <string name="quote_style">Idézés stílus</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

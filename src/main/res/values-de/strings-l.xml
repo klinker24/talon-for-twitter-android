@@ -12,10 +12,7 @@
     <string name="top_down_summary">Die Timeline speichert Deine Position nicht. Sie wird immer oben starten!</string>
     <string name="timeline_text_size">Text-Größe der Timeline</string>
     <string name="manage_mutes">Einstellungen zum Stummschalten</string>
-    <string name="quote_style">Zitat-Aussehen</string>
-    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
-    <string name="location_settings">Positions-Einstellung</string>
+    <string name="location_settings">Standort-Einstellungen</string>
     <string name="twitpic_summary_l">Alle Bilder werde über TweetPic hochgeladen.</string>
     <string name="interactions_only">"Nur Interaktionen "</string>
     <string name="inter_stream">Interaktionen und Live-Stream</string>
@@ -40,14 +37,22 @@
     <string name="preparing_signin">Bereite den Login vor</string>
     <string name="manage_muffles">Verkleinerungseinstellungen</string>
     <string name="muffle_definition">Einen Nutzer verkleinern wird den Großteil seines Tweets von Deiner Timeline entfernen. Du wirst nur den Namen und einen schmalen Ausschnitt sehen, den Du vergrößern kannst, wenn Du mehr sehen möchtest.</string>
-    <string name="muffled_users">Verkleinerte User</string>
+    <string name="muffled_users">Verkleinerte Nutzer</string>
     <string name="click_to_remove_muffle">Klicke auf einen Benutzer um die Verkleinerung aufzuheben.</string>
-    <string name="muffle_user">Benutzer verkleinern</string>
-    <string name="unmuffle_user">Benutzer wieder vergrößern</string>
+    <string name="muffle_user">Nutzer verkleinern</string>
+    <string name="unmuffle_user">Nutzer wieder vergrößern</string>
     <string name="enjoying_talon">Magst Du Talon?</string>
     <string name="give_a_rating">Überlege Dir, der App vielleicht eine Bewertung zu geben, oder sie mit Deinen Freunden zu teilen!\n\nDeine 5-Sterne-Bewertung würde mein Herz erwärmen! :)</string>
     <string name="rate_on_rating_dialog">Bewerte</string>
     <string name="share_on_rating_dialog">Teilen</string>
     <string name="ignore">Ignorieren</string>
     <string name="when_talon_pull_on">Angewandt, wenn Talon Pull aktiv ist.</string>
+    <string name="nav_bar_automatic">Automatisch festgelegt</string>
+    <string name="tip_title">Tipp:</string>
+    <string name="sync_options">Synchronisierungseinstellungen</string>
+    <string name="manual_syncs">Manuelle Synchronisation</string>
+    <string name="permission_check_title">Talons Berechtigungen:</string>
+    <string name="quote_style">Zitat-Aussehen</string>
+    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
