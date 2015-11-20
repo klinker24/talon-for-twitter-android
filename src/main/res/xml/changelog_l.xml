@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.8">
+        <text>Update Translations</text>
+    </version>
+
     <version name="3.2.7">
         <text>Twitter loves us. Instead of 'favoriting' statuses, you now 'like' them!</text>
     </version>
