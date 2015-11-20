@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="verifying_login">ログインの確認</string>
+    <string name="transparent_system_bars">透明なシステムバーを使用</string>
+    <string name="accent_color">アクセントカラー (強調色)</string>
+    <string name="nav_bar_option">ナビゲーションバーを無効化</string>
+    <string name="nav_bar_option_summary">Talonは正確にデバイスがナビゲーションバーを持っているかどうかを見つけることができません。
+Talonは、レイアウトに大きな影響を及ぼすので、このオプションは、手動で指定することができます。</string>
+    <string name="nav_bar_automatic">自動的に決定</string>
+    <string name="nav_bar_present">ナビゲーションバーを使用</string>
+    <string name="nav_bar_gone">ナビゲーションバーを使用しません</string>
+    <string name="tip_title">ヒント：</string>
+    <string name="profile_pictures_helper_message">画像といっしょにつぶやきを開くには、画像を長押ししてください。\n\n短いタップでは、画像だけを開きます。</string>
+    <string name="quote_disclaimer">Twitterのリンクは、Talon for Twitterに組み込まれたブラウザで表示されます。
+リンクは引用符で囲まれたつぶやきとして機能します。</string>
+    <string name="sync_options">同期オプション</string>
+    <string name="manual_syncs">手動で同期</string>
+    <string name="timeline_notifications_summary">背景の更新間隔が発生するために、これらの通知をオンにする必要があります。</string>
+    <string name="favorite_user_notifications_summary">タイムライン、またはバックグラウンドの更新間隔は、お気に入りのユーザーの通知を有効にする必要があります。</string>
+    <string name="alert_methods_summary">どのように通知する？ : 振動、音、LED、</string>
+    <string name="windowed_helper_message">ポップアップウィンドウを閉じるには、ウィンドウの外側をエリアをクリックします。\n\nこれは、あなたのタイムラインがあまりにも遠くなることはありません保証します！</string>
+    <string name="permission_check_title">Talon for Twitterの権限：</string>
+</resources>
