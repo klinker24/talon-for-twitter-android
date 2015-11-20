@@ -9,12 +9,9 @@
     <string name="list_count">I %s lister</string>
     <string name="joined_twitter">Tilmeldt Twitter:</string>
     <string name="top_down">Top udgave</string>
-    <string name="top_down_summary">Din position på tidslinjen vil ikke blive gemt. Den vil starte i toppen</string>
-    <string name="timeline_text_size">Tidslinje tekst størrelse</string>
+    <string name="top_down_summary">Din position på tidslinjen bliver ikke gemt. Den vil starte i toppen</string>
+    <string name="timeline_text_size">Tekst størrelse</string>
     <string name="manage_mutes">Indstillinger for mute</string>
-    <string name="quote_style">Citat stil</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">Indstillinger for lokation</string>
     <string name="twitpic_summary_l">Alle uploads af billeder vil gå via Twitpic</string>
     <string name="interactions_only">Kun interaktioner</string>
@@ -26,10 +23,10 @@
     <string name="only_on_data">Kun ved mobil data</string>
     <string name="contact_me">Kontakt mig</string>
     <string name="my_google_plus">Mit Google+</string>
-    <string name="follow_progress">Følg vores fremskridt!</string>
+    <string name="follow_progress">Tap for at følge vores fremskridt:</string>
     <string name="general">Generelt</string>
     <string name="no_interactions">Ingen interaktioner</string>
-    <string name="emojis_summary">Tillader dig at bruge iOS emojis ved at downloade Sliding Emoji Keyboard - iOS</string>
+    <string name="emojis_summary">Gør brug af iOS emojis ved at downloade Sliding Emoji Keyboard - iOS</string>
     <string name="replies">Svar</string>
     <string name="web">Web</string>
     <string name="heads_up">OBS!</string>
@@ -38,6 +35,7 @@
     <string name="bottom_pictures">Billeder under tweets</string>
     <string name="bottom_pictures_summary">Tweets vil ikke udvides in-line ved valg af dette</string>
     <string name="preparing_signin">Forbereder log ind</string>
+    <string name="verifying_login">Verificerer log ind</string>
     <string name="manage_muffles">Rediger begrænsede</string>
     <string name="muffle_definition">Ved at begrænse en profil vil størstedelen af deres tweets blive skjult fra din tidslinje. Du vil kun se navnet og en bid af indholdet du kan tappe på, skulle du være interesseret i at se mere</string>
     <string name="muffled_users">Begrænsede profiler</string>
@@ -50,4 +48,31 @@
     <string name="share_on_rating_dialog">Del</string>
     <string name="ignore">Ignorer</string>
     <string name="when_talon_pull_on">Aktiveret når Talon Pull bruges</string>
+    <string name="transparent_system_bars">Vis transparente system bar</string>
+    <string name="accent_color">Sekundær farve</string>
+    <string name="nav_bar_option">Overstyr navigationsbar</string>
+    <string name="nav_bar_option_summary">Nogle applikationer kan ikke selv detektere om alle enheder har navigationsbar. Eftersom Talon er kraftigt afhængig af en sådan, tillader denne mulighed at specificere det manuelt</string>
+    <string name="nav_bar_automatic">Bestemt automatisk</string>
+    <string name="nav_bar_present">Bruger navigationsbar</string>
+    <string name="nav_bar_gone">Bruger ikke navigationsbar</string>
+    <string name="tip_title">Tip:</string>
+    <string name="profile_pictures_helper_message">Tap og hold for at åbne tweetet der indeholder et billede\n\nEt normalt kort tap vil vise billedet</string>
+    <string name="quote_disclaimer">Twitter´s link vil vises med status indlejret i moderne twitter clienter. Linket virker som når tweet citéres</string>
+    <string name="sync_options">Synkroniserings indstillinger</string>
+    <string name="manual_syncs">Manuelt synk.</string>
+    <string name="timeline_notifications_summary">Interval for opdater i baggrunden skal vælges, for at få vist disse notifikationer</string>
+    <string name="favorite_user_notifications_summary">Interval for opdater i baggrunden skal vælges for tidslinjen eller live streaming, for at modtage notifikationer om favoritter</string>
+    <string name="alert_methods_summary">Måder at modtage notifikationer på: vibrer, lyd, LED m.m.</string>
+    <string name="windowed_helper_message">For at lukke et vindue på skærmen, tap i området uden for vinduet\n\nDet sikrer at din tidslinje aldrig er langt væk!</string>
+    <string name="permission_check_title">Talon´s tilladelser</string>
+    <string name="permission_check_message">Talon vil anmode dig om to nye tilladelser: lokation og hukommelse\n\n
+
+        - Lokation bruges til at tilgå lokale trends samt til at lokalisere din position i dine tweets (hvis du beder om det) Ellers gemmes din lokation ikke\n
+        - Hukommelse bruges til at gemme billeder til den eksterne hukommelse (når du beder om det) samt til når du oploader dine billeder til Twitter\n\n
+
+        Du vælger selv om du vil tillade eller afvise hver anmodning. Du kan tilgå dem selv til enhver tid, via indstillinger</string>
+    <string name="tell_about_swipe_down">Tip: Swipe ned for at lukke dette vindue</string>
+    <string name="quote_style">Citat stil</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="fast_transitions">快速切换</string>
     <string name="help">帮助</string>
     <string name="send_feedback">反馈</string>
     <string name="to_top">回到顶端</string>
@@ -11,9 +12,6 @@
     <string name="top_down_summary">时间线不会保存当前位置，将永远从顶端开始显示。</string>
     <string name="timeline_text_size">时间线上的文字大小</string>
     <string name="manage_mutes">静音管理</string>
-    <string name="quote_style">引用方式</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">位置设定</string>
     <string name="twitpic_summary_l">使用Twitpic上传所有图片.</string>
     <string name="interactions_only">仅交互</string>
@@ -25,25 +23,43 @@
     <string name="only_on_data">只在数据网络下</string>
     <string name="contact_me">联系我</string>
     <string name="my_google_plus">我的Google+</string>
-    <string name="follow_progress">关注我们的进程!</string>
+    <string name="follow_progress">关注我们的进展!</string>
+    <string name="general">通用</string>
     <string name="no_interactions">没有互动</string>
     <string name="emojis_summary">通过下载Sliding Emoji Keyboard - iOS使用iOS颜文字</string>
     <string name="replies">会话</string>
     <string name="web">网页</string>
+    <string name="heads_up">悬浮式通知</string>
     <string name="use_snackbar">使用Snackbar</string>
     <string name="use_snackbar_summary">在主时间线上使用\"回到顶端\"功能</string>
     <string name="bottom_pictures">图片在推文下方</string>
     <string name="bottom_pictures_summary">此选项下推文下方不会扩展</string>
+    <string name="preparing_signin">正在准备登录</string>
+    <string name="verifying_login">验证登录中</string>
     <string name="manage_muffles">管理折叠</string>
     <string name="muffle_definition">折叠一个用户会把用户加入“灰名单”，Talon不会显示该用户推文的全部内容，但你仍能看到一行屏蔽提示语，提示语以用户名开头并包含该条推文的概要，点击提示语可看到全文。</string>
     <string name="muffled_users">被折叠的用户</string>
     <string name="click_to_remove_muffle">选择一个用户来取消折叠。</string>
-    <string name="muffle_user">折叠该用户</string>
-    <string name="unmuffle_user">取消折叠该用户</string>
+    <string name="muffle_user">折叠用户</string>
+    <string name="unmuffle_user">取消折叠用户</string>
     <string name="enjoying_talon">喜欢Talon吗？</string>
     <string name="give_a_rating">考虑一下评分或者分享给你的朋友吧！\n\n你的5分，暖我心田:)</string>
     <string name="rate_on_rating_dialog">评分</string>
     <string name="share_on_rating_dialog">分享</string>
     <string name="ignore">忽略</string>
     <string name="when_talon_pull_on">打开Talon Pull后可以启用。</string>
+    <string name="transparent_system_bars">使用透明状态栏</string>
+    <string name="accent_color">强调色</string>
+    <string name="nav_bar_option">覆盖导航栏</string>
+    <string name="nav_bar_automatic">自动判断</string>
+    <string name="nav_bar_present">使用导航栏</string>
+    <string name="nav_bar_gone">未使用导航栏</string>
+    <string name="tip_title">提示：</string>
+    <string name="sync_options">同步选项</string>
+    <string name="manual_syncs">手动同步</string>
+    <string name="alert_methods_summary">通知方式：震动、铃声、LED等</string>
+    <string name="permission_check_title">Talon 权限：</string>
+    <string name="quote_style">引用方式</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

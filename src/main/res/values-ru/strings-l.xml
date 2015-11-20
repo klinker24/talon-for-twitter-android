@@ -10,11 +10,8 @@
     <string name="joined_twitter">Зарегистрирован(а) в Twitter:</string>
     <string name="top_down">Режим \"Сверху вниз\"</string>
     <string name="top_down_summary">Лента никогда не будет сохранять вашу позицию. Она будет начинаться с самого верха.</string>
-    <string name="timeline_text_size">Размер текста ленты</string>
+    <string name="timeline_text_size">Размер текста</string>
     <string name="manage_mutes">Управление скрытыми пользователями</string>
-    <string name="quote_style">Стиль цитаты</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">Настройки местоположения</string>
     <string name="twitpic_summary_l">Все изображения будут загружаться через TwitPic</string>
     <string name="interactions_only">Только отклики</string>
@@ -26,7 +23,7 @@
     <string name="only_on_data">Только через мобильную сеть</string>
     <string name="contact_me">Связаться со мной</string>
     <string name="my_google_plus">Мой Google+</string>
-    <string name="follow_progress">Следите за нашим прогрессом!</string>
+    <string name="follow_progress">Нажмите, чтобы следить за нашим прогрессом:</string>
     <string name="general">Общее</string>
     <string name="no_interactions">Нет откликов</string>
     <string name="emojis_summary">Позволяет вам использовать iOS emojis, загрузив из Play Market нашу клавиатуру \"Sliding Emoji Keyboard - iOS\".</string>
@@ -38,6 +35,7 @@
     <string name="bottom_pictures">Изображения под твитами</string>
     <string name="bottom_pictures_summary">При влючении этой опции твиты не будут открываться в отдельном окне по долгому нажатию.</string>
     <string name="preparing_signin">Подготовка к авторизации</string>
+    <string name="verifying_login">Подтверждаем вход</string>
     <string name="manage_muffles">Управление приглушенными пользователями</string>
     <string name="muffle_definition">Приглушение пользователя удалит основную часть твитов пользователя из вашей ленты. Вы будете видеть только имя пользователя и небольшой фрагмент твита, нажав на который, можно будет увидеть его целиком.</string>
     <string name="muffled_users">Приглушенные пользователи</string>
@@ -50,4 +48,32 @@
     <string name="share_on_rating_dialog">Поделиться</string>
     <string name="ignore">Пропустить</string>
     <string name="when_talon_pull_on">Применяется, когда включен Talon Pull.</string>
+    <string name="transparent_system_bars">Использовать прозрачные системные панели</string>
+    <string name="accent_color">Цвет акцента</string>
+    <string name="nav_bar_option">Переопределить панель навигации</string>
+    <string name="nav_bar_option_summary">Приложения не могут точно определить, имеют ли некоторые устройства панель навигации или нет. Т.к. Talon важно знать это для правильного отображения, эта опция позволяет вам установить это вручную.</string>
+    <string name="nav_bar_automatic">Определено автоматически</string>
+    <string name="nav_bar_present">Используется панель навигации</string>
+    <string name="nav_bar_gone">Не используется панель навигации</string>
+    <string name="tip_title">Совет:</string>
+    <string name="profile_pictures_helper_message">Чтобы открыть твит, который содержит изображение, просто долго удерживайте на изображении.\n\nПростой клик откроет просмотрщик изображения.</string>
+    <string name="quote_disclaimer">Ссылка на статус Twitter будет показана как встроенный твит на современных Twitter-клиентах. Ссылка выступает как процитированный твит.</string>
+    <string name="sync_options">Настройки синхронизации</string>
+    <string name="manual_syncs">Ручная синхронизация</string>
+    <string name="timeline_notifications_summary">Чтобы эти уведомления происходили, должен быть включен интервал фонового обновления.</string>
+    <string name="favorite_user_notifications_summary">Интервал фонового обновления для ленты или живое обновление должны быть включены для уведомлений от избранных пользователей.</string>
+    <string name="alert_methods_summary">Как вы хотите быть уведомлены: вибрация, звук, LED и т.д.</string>
+    <string name="windowed_helper_message">Чтобы закрыть окно на планшете, просто нажмите на затемненную область вокруг окна.\n\nЭта обеспечивает быструю доступность ленты!</string>
+    <string name="permission_check_title">Разрешения Talon:</string>
+    <string name="permission_check_message">Talon сейчас попросит у вас авторизации по двум разрешениям:
+для местоположения и памяти.\n\n
+
+- Местоположение используется для доступа к локальным трендам, а также для добавления вашего местоположения к вашим твитам (если вы используете данную опцию). Я никогда не сохраняю данные о вашем местоположении.\n
+- Память используется, чтобы сохранять изображения твитов на внешнюю память (когда требуется), а также используется при загрузке ваших изображений в Twitter.\n\n
+
+Не бойтесь отклонить любое из разрешений. Вы можете изменять их вручную из ваших системных настроек приложений.</string>
+    <string name="tell_about_swipe_down">Совет: просто сделайте свайп вниз, чтобы закрыть этот экран.</string>
+    <string name="quote_style">Стиль цитаты</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
