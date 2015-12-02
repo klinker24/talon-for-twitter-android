@@ -1,7 +1,5 @@
 package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +14,14 @@ import android.text.TextUtils;
 import android.view.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
+import com.klinker.android.twitter_l.manipulations.widgets.HackyViewPager;
 
 public class PhotoPagerActivity extends AppCompatActivity {
 
     String url = null;
 
     PhotoPagerAdapter adapter;
-    ViewPager pager;
+    HackyViewPager pager;
 
     Handler sysVis;
 
@@ -69,7 +68,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
         setContentView(R.layout.photo_pager_activity);
 
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (HackyViewPager) findViewById(R.id.pager);
         adapter = new PhotoPagerAdapter(getSupportFragmentManager(), this, urlList);
 
         pager.setAdapter(adapter);

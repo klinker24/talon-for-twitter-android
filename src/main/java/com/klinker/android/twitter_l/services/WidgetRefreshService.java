@@ -98,7 +98,9 @@ public class WidgetRefreshService  extends IntentService {
             return;
         }
 
-        paging.setSinceId(id);
+        if (id != 0) {
+            paging.setSinceId(id);
+        }
 
         for (int i = 0; i < settings.maxTweetsRefresh; i++) {
             try {
