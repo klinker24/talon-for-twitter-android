@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.2.9">
+        <text>Crash fixes</text>
+    </version>
+
     <version name="3.2.8">
         <text>Update Translations</text>
     </version>
