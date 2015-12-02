@@ -352,7 +352,11 @@ class Linkify {
 
     private static void applyLink(Context context, TextView tv, final View holder, Link url, final int start, final int end, final Spannable text, boolean extBrowser) {
         TouchableSpan span = new TouchableSpan(context, url, extBrowser);
-        text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        try {
+            text.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String makeUrl(String url, Matcher m, TransformFilter filter) {

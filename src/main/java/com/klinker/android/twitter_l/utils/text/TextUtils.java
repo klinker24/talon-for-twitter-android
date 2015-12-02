@@ -94,8 +94,12 @@ public class TextUtils {
             if (startSpan < 0)
                 break;
             endSpan = startSpan + target.length();
-            spanRange.setSpan(foreColour, startSpan, endSpan,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            try {
+                spanRange.setSpan(foreColour, startSpan, endSpan,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } catch (IndexOutOfBoundsException e) {
+
+            }
         }
 
         return spanRange;
