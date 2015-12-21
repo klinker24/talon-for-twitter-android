@@ -190,8 +190,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                                     .setTicker(getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
                                     .setContentText(getResources().getString(R.string.saving_picture) + "...")
-                                    .setProgress(100, 100, true)
-                                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+                                    .setProgress(100, 100, true);
 
                     NotificationManager mNotificationManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -225,8 +224,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
-                                    .setContentText(getResources().getString(R.string.saved_picture) + "!")
-                                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+                                    .setContentText(getResources().getString(R.string.saved_picture) + "!");
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
@@ -236,8 +234,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                                     .setTicker(getResources().getString(R.string.error) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
                                     .setContentText(getResources().getString(R.string.error) + "...")
-                                    .setProgress(100, 100, true)
-                                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+                                    .setProgress(100, 100, true);
 
                     NotificationManager mNotificationManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

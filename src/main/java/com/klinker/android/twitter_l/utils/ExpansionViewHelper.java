@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,12 +14,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.BitmapFactory;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -58,7 +63,14 @@ import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ExpansionViewHelper {
@@ -737,6 +749,13 @@ public class ExpansionViewHelper {
         tweet = t;
     }
 
+    private String videoUrl = null;
+    public void setVideoDownload(String url) {
+        if (url != null) {
+            videoUrl = url;
+        }
+    }
+
     public void setUpOverflow() {
         final PopupMenu menu = new PopupMenu(context, overflowButton);
 
@@ -746,12 +765,17 @@ public class ExpansionViewHelper {
             final int DELETE_TWEET = 1;
             final int COPY_TEXT = 2;
             final int SHARE_TWEET = 3;
+            final int DOWNLOAD_VIDEO = 4;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
 
             if (!shareOnWeb) { //share button isn't on top of the web button
                 menu.getMenu().add(Menu.NONE, SHARE_TWEET, Menu.NONE, context.getString(R.string.menu_share));
+            }
+
+            if (videoUrl != null) {
+                menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
             }
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -772,6 +796,9 @@ public class ExpansionViewHelper {
                         case SHARE_TWEET:
                             shareClick();
                             break;
+                        case DOWNLOAD_VIDEO:
+                            downloadVideo();
+                            break;
                     }
                     return false;
                 }
@@ -784,6 +811,7 @@ public class ExpansionViewHelper {
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
             final int SHARE = 5;
+            final int DOWNLOAD_VIDEO = 6;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
@@ -792,6 +820,10 @@ public class ExpansionViewHelper {
 
             if (!shareOnWeb) { //share button isn't on top of the web button
                 menu.getMenu().add(Menu.NONE, SHARE, Menu.NONE, context.getString(R.string.menu_share));
+            }
+
+            if (videoUrl != null) {
+                menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
             }
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -852,6 +884,9 @@ public class ExpansionViewHelper {
                         case MARK_SPAM:
                             new MarkSpam().execute();
                             break;
+                        case DOWNLOAD_VIDEO:
+                            downloadVideo();
+                            break;
                     }
                     return false;
                 }
@@ -880,6 +915,59 @@ public class ExpansionViewHelper {
         clipboard.setPrimaryClip(clip);
 
         Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
+    }
+
+    private void downloadVideo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.downloading) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saving_video) + "...")
+                                    .setProgress(100, 100, true)
+                                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+
+                    Uri uri = IOUtils.saveVideo(videoUrl);
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "video/*");
+
+                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+
+                    mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setContentIntent(pending)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.saved_video) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saved_video) + "!");
+
+                    mNotificationManager.notify(6, mBuilder.build());
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.error) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.error) + "...")
+                                    .setProgress(100, 100, true);
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+                }
+            }
+        }).start();
     }
 
     public void setBackground(View v) {
