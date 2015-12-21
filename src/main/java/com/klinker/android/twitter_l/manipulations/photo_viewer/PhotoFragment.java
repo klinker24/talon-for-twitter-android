@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.PermissionModelUtils;
+
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -139,6 +142,18 @@ public class PhotoFragment extends Fragment {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new PermissionModelUtils(getActivity()).showStorageIssue();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                     try {
                         NotificationCompat.Builder mBuilder =
                                 new NotificationCompat.Builder(getActivity())
@@ -146,7 +161,7 @@ public class PhotoFragment extends Fragment {
                                         .setTicker(getResources().getString(R.string.error) + "...")
                                         .setContentTitle(getResources().getString(R.string.app_name))
                                         .setContentText(getResources().getString(R.string.error) + "...")
-                                        .setProgress(100, 100, true);
+                                        .setProgress(0, 100, true);
 
                         NotificationManager mNotificationManager =
                                 (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);

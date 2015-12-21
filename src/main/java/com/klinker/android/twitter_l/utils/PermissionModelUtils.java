@@ -56,4 +56,17 @@ public class PermissionModelUtils {
     private void requestPermissions() {
         ((Activity)context).requestPermissions(NECESSARY_PERMISSIONS, 1);
     }
+
+    public void showStorageIssue() {
+        new AlertDialog.Builder(context)
+                .setTitle("Storage Permission")
+                .setMessage("Talon needs the storage permission to complete this. Please grant this permission, then retry.")
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Activity)context).requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
+                    }
+                })
+                .create().show();
+    }
 }
