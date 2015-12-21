@@ -18,9 +18,10 @@ import twitter4j.*;
 
 import java.util.ArrayList;
 
-/**
- * Created by lucasklinker on 9/27/14.
+/*
+    Used on the TimelineArrayAdapter, TweetActivity, TimelineCursorAdapter, and the tweet view
  */
+
 public class MultiplePicsPopup extends PopupLayout {
 
     GridView listView;

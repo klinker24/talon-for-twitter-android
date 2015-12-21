@@ -44,6 +44,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -829,10 +830,17 @@ public class TweetActivity extends SlidingActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (webpage.contains(" ")) {
-                            picsPopup = new MultiplePicsPopup(context, webpage);
+                            /*picsPopup = new MultiplePicsPopup(context, webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);
-                            picsPopup.show();
+                            picsPopup.show();*/
+
+
+                            Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+                            viewImage.putExtra("url", webpage);
+                            viewImage.putExtra("start_page", 0);
+
+                            context.startActivity(viewImage);
                         } else {
                             Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
                             photo.putExtra("shared_trans", true);

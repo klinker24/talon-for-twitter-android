@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
@@ -902,10 +903,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                                multPics = new MultiplePicsPopup(context, holder.picUrl);
+                                /*multPics = new MultiplePicsPopup(context, holder.picUrl);
                                 multPics.setFullScreen();
                                 multPics.setExpansionPointForAnim(view);
-                                multPics.show();
+                                multPics.show();*/
+
+                                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+                                viewImage.putExtra("url", holder.picUrl);
+                                viewImage.putExtra("start_page", 0);
+
+                                context.startActivity(viewImage);
                             } else {
                                 Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
