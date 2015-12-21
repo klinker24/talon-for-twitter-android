@@ -41,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
+import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
@@ -228,13 +229,24 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new PermissionModelUtils(context).showStorageIssue();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(context)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.error) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
                                     .setContentText(getResources().getString(R.string.error) + "...")
-                                    .setProgress(100, 100, true);
+                                    .setProgress(0, 100, true);
 
                     NotificationManager mNotificationManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -242,8 +254,6 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 }
             }
         }).start();
-
-        finish();
     }
 
     @Override
