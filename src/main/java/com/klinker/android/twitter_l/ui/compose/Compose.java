@@ -566,10 +566,10 @@ public abstract class Compose extends Activity implements
 
         Log.v("talon_composing_image", "rotation: " + orientation);
 
-        if (Build.MANUFACTURER.toLowerCase().contains("samsung") && Build.MODEL.toLowerCase().contains("s6")) {
+        /*if (Build.MANUFACTURER.toLowerCase().contains("samsung") && Build.MODEL.toLowerCase().contains("s6")) {
             Log.v("talon_composing_image", "S6 varient");
             return bitmap;
-        }
+        }*/
 
         try{
             Matrix matrix = new Matrix();
@@ -594,11 +594,11 @@ public abstract class Compose extends Activity implements
                     matrix.setRotate(90);
                     break;
                 case ExifInterface.ORIENTATION_TRANSVERSE:
-                    matrix.setRotate(-90);
+                    matrix.setRotate(270);
                     matrix.postScale(-1, 1);
                     break;
                 case ExifInterface.ORIENTATION_ROTATE_270:
-                    matrix.setRotate(-90);
+                    matrix.setRotate(270);
                     break;
                 default:
                     return bitmap;
