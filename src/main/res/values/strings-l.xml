@@ -73,4 +73,8 @@
         Feel free to decline either permission. You can manually access these from your system\'s app settings.
     </string>
     <string name="tell_about_swipe_down">Tip: simply swipe down to close this screen.</string>
+    <string name="download_video">Download Video</string>
+    <string name="error_downloading_video">Error Downloading Video</string>
+    <string name="saving_video">Saving Video</string>
+    <string name="saved_video">Finished saving video</string>
 </resources>

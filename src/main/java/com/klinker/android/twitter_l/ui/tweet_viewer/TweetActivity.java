@@ -371,11 +371,19 @@ public class TweetActivity extends SlidingActivity {
                     // have to get the html from the page and parse the video from there.
 
                     gifVideo = getVineLink();
+                    if (expansionHelper != null) {
+                        expansionHelper.setVideoDownload(gifVideo);
+                        expansionHelper.setUpOverflow();
+                    }
                 } else if (gifVideo.contains("/photo/1") && gifVideo.contains("twitter.com/")) {
                     // this is before it was added to the api.
                     // finds the video from the HTML on twitters website.
 
                     gifVideo = getGifLink();
+                    if (expansionHelper != null) {
+                        expansionHelper.setVideoDownload(gifVideo);
+                        expansionHelper.setUpOverflow();
+                    }
                 }
 
                 runOnUiThread(new Runnable() {
@@ -952,6 +960,7 @@ public class TweetActivity extends SlidingActivity {
         expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
         expansionHelper.setUser(screenName);
         expansionHelper.setText(text);
+        expansionHelper.setVideoDownload(gifVideo);
         expansionHelper.setUpOverflow();
         expansionHelper.setLoadCallback(new ExpansionViewHelper.TweetLoaded() {
             @Override
