@@ -6,6 +6,7 @@
         <text>Updated the YouTube Player</text>
         <text>Removed the popup for viewing multiple pictures</text>
         <text>Copy tweet links from the overflow menu</text>
+        <text>Fix some permission issues</text>
     </version>
 
     <version name="3.2.9">
