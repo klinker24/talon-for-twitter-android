@@ -779,11 +779,13 @@ public class ExpansionViewHelper {
         } else {
             // someone else's tweet
 
+            final int COPY_LINK = 1;
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
             final int SHARE = 5;
 
+            menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
@@ -796,6 +798,9 @@ public class ExpansionViewHelper {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
+                        case COPY_LINK:
+                            copyLink();
+                            break;
                         case COPY_TEXT:
                             copyText();
                             break;
@@ -859,6 +864,14 @@ public class ExpansionViewHelper {
                 menu.show();
             }
         });
+    }
+
+    private void copyLink() {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("tweet_link", "https://twitter.com/" + screenName + "/status/" + id);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
     }
 
     private void copyText() {

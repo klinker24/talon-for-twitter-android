@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="3.3.0">
+        <text>Updated the YouTube Player</text>
+        <text>Removed the popup for viewing multiple pictures</text>
+        <text>Copy tweet links from the overflow menu</text>
+    </version>
+
     <version name="3.2.9">
         <text>Crash fixes</text>
     </version>

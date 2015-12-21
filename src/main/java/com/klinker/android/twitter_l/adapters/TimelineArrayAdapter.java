@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
@@ -904,10 +905,17 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             if (holder.picUrl.contains(" ")) {
-                                MultiplePicsPopup popup = new MultiplePicsPopup(context, holder.picUrl);
+                                /*MultiplePicsPopup popup = new MultiplePicsPopup(context, holder.picUrl);
                                 popup.setFullScreen();
                                 popup.setExpansionPointForAnim(view);
-                                popup.show();
+                                popup.show();*/
+
+
+                                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+                                viewImage.putExtra("url", holder.picUrl);
+                                viewImage.putExtra("start_page", 0);
+
+                                context.startActivity(viewImage);
                             } else {
                                 Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
                                 photo.putExtra("shared_trans", true);
