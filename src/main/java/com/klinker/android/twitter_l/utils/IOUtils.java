@@ -113,8 +113,8 @@ public class IOUtils {
         File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
         myDir.mkdirs();
 
-        final File videoFile = new File(Environment.getExternalStorageDirectory(), "Talon/Video-1450731772323.mp4");// + (new Date()).getTime() + ".mp4");
-        /*if (!videoFile.createNewFile()) {
+        final File videoFile = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
+        if (!videoFile.createNewFile()) {
             throw new RuntimeException("Cannot download video - error creating file");
         }
 
@@ -135,7 +135,7 @@ public class IOUtils {
 
         outStream.flush();
         outStream.close();
-        inStream.close();*/
+        inStream.close();
 
         final File gifFile = new File(Environment.getExternalStorageDirectory(), "Talon/Gif-" + (new Date()).getTime() + ".gif");
         if (!gifFile.createNewFile()) {
@@ -147,7 +147,7 @@ public class IOUtils {
         gifStream.flush();
         gifStream.close();
 
-        //videoFile.delete();
+        videoFile.delete();
 
         return Uri.fromFile(gifFile);
     }
