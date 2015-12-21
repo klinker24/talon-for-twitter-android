@@ -750,9 +750,16 @@ public class ExpansionViewHelper {
     }
 
     private String videoUrl = null;
+    private boolean videoIsGif = false;
     public void setVideoDownload(String url) {
         if (url != null) {
             videoUrl = url;
+        }
+    }
+    public void setGifDownload(String url) {
+        if (url != null) {
+            videoUrl = url;
+            videoIsGif = true;
         }
     }
 
@@ -766,6 +773,7 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 2;
             final int SHARE_TWEET = 3;
             final int DOWNLOAD_VIDEO = 4;
+            final int DOWNLOAD_GIF = 5;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
@@ -775,7 +783,11 @@ public class ExpansionViewHelper {
             }
 
             if (videoUrl != null) {
-                menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
+                if (videoIsGif) {
+                    menu.getMenu().add(Menu.NONE, DOWNLOAD_GIF, Menu.NONE, context.getString(R.string.download_gif));
+                } else {
+                    menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
+                }
             }
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -799,6 +811,9 @@ public class ExpansionViewHelper {
                         case DOWNLOAD_VIDEO:
                             downloadVideo();
                             break;
+                        case DOWNLOAD_GIF:
+                            downloadVideo();
+                            break;
                     }
                     return false;
                 }
@@ -812,6 +827,7 @@ public class ExpansionViewHelper {
             final int TRANSLATE = 4;
             final int SHARE = 5;
             final int DOWNLOAD_VIDEO = 6;
+            final int DOWNLOAD_GIF = 7;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
@@ -823,7 +839,11 @@ public class ExpansionViewHelper {
             }
 
             if (videoUrl != null) {
-                menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
+                if (videoIsGif) {
+                    menu.getMenu().add(Menu.NONE, DOWNLOAD_GIF, Menu.NONE, context.getString(R.string.download_gif));
+                } else {
+                    menu.getMenu().add(Menu.NONE, DOWNLOAD_VIDEO, Menu.NONE, context.getString(R.string.download_video));
+                }
             }
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -887,6 +907,9 @@ public class ExpansionViewHelper {
                         case DOWNLOAD_VIDEO:
                             downloadVideo();
                             break;
+                        case DOWNLOAD_GIF:
+                            downloadVideo();
+                            break;
                     }
                     return false;
                 }
@@ -929,7 +952,7 @@ public class ExpansionViewHelper {
                                     .setContentTitle(context.getResources().getString(R.string.app_name))
                                     .setContentText(context.getResources().getString(R.string.saving_video) + "...")
                                     .setProgress(100, 100, true)
-                                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_action_save));
+                                    .setOngoing(true);
 
                     NotificationManager mNotificationManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -969,6 +992,67 @@ public class ExpansionViewHelper {
             }
         }).start();
     }
+
+    private void downloadGif() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.downloading) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saving_video) + "...")
+                                    .setProgress(0, 100, false);
+
+                    final NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+
+                    Uri uri = IOUtils.saveGif(context, videoUrl, new IOUtils.GifEncodeCallback() {
+                        @Override
+                        public void progressUpdate(int progress) {
+                            mBuilder.setContentText(context.getResources().getString(R.string.encoding_gif))
+                                    .setProgress(progress, 100, false);
+                            mNotificationManager.notify(6, mBuilder.build());
+                        }
+                    });
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "image/*");
+
+                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+
+                    NotificationCompat.Builder nBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setContentIntent(pending)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.saved_video) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saved_video) + "!");
+
+                    mNotificationManager.notify(6, nBuilder.build());
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.error) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.error) + "...")
+                                    .setProgress(100, 100, true);
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+                }
+            }
+        }).start();
+    }
+
 
     public void setBackground(View v) {
         background = v;

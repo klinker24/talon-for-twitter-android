@@ -381,7 +381,11 @@ public class TweetActivity extends SlidingActivity {
 
                     gifVideo = getGifLink();
                     if (expansionHelper != null) {
-                        expansionHelper.setVideoDownload(gifVideo);
+                        if (gifVideo.contains("video.twimg")) {
+                            expansionHelper.setVideoDownload(gifVideo);
+                        } else {
+                            expansionHelper.setGifDownload(gifVideo);
+                        }
                         expansionHelper.setUpOverflow();
                     }
                 }

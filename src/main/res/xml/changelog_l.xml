@@ -1,6 +1,8 @@
 <changelog>
 
     <version name="3.3.0">
+        <text>Download Twitter and Vine videos</text>
+        <text>Download Twitter Gifs</text>
         <text>Updated the YouTube Player</text>
         <text>Removed the popup for viewing multiple pictures</text>
         <text>Copy tweet links from the overflow menu</text>
