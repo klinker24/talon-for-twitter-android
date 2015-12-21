@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -36,6 +37,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
@@ -71,6 +73,10 @@ public class IOUtils {
     }
 
     public static final Uri saveVideo(String videoUrl) throws Exception {
+
+        File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
+        myDir.mkdirs();
+
         final File file = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
         if (!file.createNewFile()) {
             throw new RuntimeException("Cannot download video - error creating file");
@@ -96,6 +102,98 @@ public class IOUtils {
         inStream.close();
 
         return Uri.fromFile(file);
+    }
+
+    public interface GifEncodeCallback {
+        void progressUpdate(int progress);
+    }
+
+    public static final Uri saveGif(Context context, String videoUrl, GifEncodeCallback callback) throws Exception {
+
+        File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
+        myDir.mkdirs();
+
+        final File videoFile = new File(Environment.getExternalStorageDirectory(), "Talon/Video-1450731772323.mp4");// + (new Date()).getTime() + ".mp4");
+        /*if (!videoFile.createNewFile()) {
+            throw new RuntimeException("Cannot download video - error creating file");
+        }
+
+        URL url = new URL(videoUrl);
+        URLConnection connection = url.openConnection();
+        connection.setReadTimeout(5000);
+        connection.setConnectTimeout(30000);
+
+        InputStream is = connection.getInputStream();
+        BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+        FileOutputStream outStream = new FileOutputStream(videoFile);
+
+        byte[] buffer = new byte[1024 * 5];
+        int len;
+        while ((len = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, len);
+        }
+
+        outStream.flush();
+        outStream.close();
+        inStream.close();*/
+
+        final File gifFile = new File(Environment.getExternalStorageDirectory(), "Talon/Gif-" + (new Date()).getTime() + ".gif");
+        if (!gifFile.createNewFile()) {
+            throw new RuntimeException("Cannot download video - error creating file");
+        }
+
+        BufferedOutputStream gifStream = new BufferedOutputStream(new FileOutputStream(gifFile));
+        gifStream.write(genGif(context, Uri.fromFile(videoFile), callback));
+        gifStream.flush();
+        gifStream.close();
+
+        //videoFile.delete();
+
+        return Uri.fromFile(gifFile);
+    }
+
+    public static byte[] genGif(Context context, Uri videoUri, GifEncodeCallback callback) throws Exception {
+
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(context, videoUri);
+        String dur = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        long videoDuration = Long.parseLong(dur);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+        gifEncoder.setDelay(200);
+
+        Bitmap frame;
+        gifEncoder.start(out);
+
+        long currTime = 0;
+        while (currTime < videoDuration) {
+            Log.v("gif_encode", "current time: " + currTime + ", video duration: " + videoDuration);
+
+            frame = retriever.getFrameAtTime(currTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
+            gifEncoder.addFrame(frame);
+
+            currTime += 200;
+            callback.progressUpdate((int) (100.0 * (double) currTime / (double) videoDuration));
+
+            frame.recycle();
+        }
+
+        /*for (int i = 0; i < 100; i+= 10) {
+            long frameTime = videoDuration * i/100;
+            frame = retriever.getFrameAtTime(frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
+            gifEncoder.addFrame(frame);
+        }*/
+
+        frame = retriever.getFrameAtTime(videoDuration);
+        gifEncoder.addFrame(frame);
+
+        frame.recycle();
+        gifEncoder.finish();
+        retriever.release();
+
+        return out.toByteArray();
     }
 
     public static String getPath(Uri uri, Context context) {
