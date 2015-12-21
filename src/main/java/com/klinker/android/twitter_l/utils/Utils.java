@@ -96,7 +96,7 @@ public class Utils {
 
         long now = getCurrentTime();
         if (time > now || time <= 0) {
-            return null;
+            return "+1d";
         }
 
         final long diff = now - time;
