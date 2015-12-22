@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="3.4.0">
+        <text>Added tweet details to the image viewer</text>
+        <text>New option to not move the FAB, app bar, and snackbar off the screen when scrolling</text>
+        <text>Improved image viewer layout</text>
+    </version>
+
     <version name="3.3.0">
         <text>Download Twitter and Vine videos</text>
         <text>Download Twitter Gifs (as mp4 videos)</text>
