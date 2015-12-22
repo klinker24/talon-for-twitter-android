@@ -138,7 +138,7 @@ public class TweetLinkUtils {
                 if (str.contains("instag") && !str.contains("blog.insta")) {
                     imageUrl = exp + "media/?size=l";
                     otherUrl += exp + "  ";
-                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user"))) {
+                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -342,7 +342,7 @@ public class TweetLinkUtils {
                 if(str.contains("instag") && !str.contains("blog.instag")) {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
-                } else if (str.contains("youtub") && !(str.contains("channel") || str.contains("user"))) { // normal youtube link
+                } else if (str.contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) { // normal youtube link
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
@@ -471,7 +471,7 @@ public class TweetLinkUtils {
 
                 if(str.contains("instag") && !str.contains("blog.insta")) {
                     images.add(exp + "media/?size=m");
-                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user"))) {
+                } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
                     // first get the youtube video code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
