@@ -84,6 +84,11 @@ public class ListFragment extends MainFragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.RESET_LISTS");
         context.registerReceiver(resetLists, filter);
+
+        if (sharedPrefs.getBoolean("refresh_me_list_" + listId, false)) { // this will restart the loader to display the new tweets
+            getCursorAdapter(true);
+            sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, false).commit();
+        }
     }
 
     public boolean manualRefresh = false;
