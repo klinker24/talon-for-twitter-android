@@ -12,16 +12,32 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.*;
+import android.widget.ImageButton;
+
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
 import com.klinker.android.twitter_l.manipulations.widgets.HackyViewPager;
 
 public class PhotoPagerActivity extends AppCompatActivity {
 
+    public static void startActivity(Context context, long tweetId, String links, int startPage) {
+        Intent viewImage = new Intent(context, PhotoPagerActivity.class);
+
+        viewImage.putExtra("url", links);
+        viewImage.putExtra("start_page", startPage);
+        viewImage.putExtra("tweet_id", tweetId);
+
+        context.startActivity(viewImage);
+    }
+
     String url = null;
 
     PhotoPagerAdapter adapter;
     HackyViewPager pager;
+
+    ImageButton download;
+    ImageButton share;
+    ImageButton info;
 
     Handler sysVis;
 
@@ -68,6 +84,31 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
         setContentView(R.layout.photo_pager_activity);
 
+        download = (ImageButton) findViewById(R.id.save_button);
+        info = (ImageButton) findViewById(R.id.info_button);
+        share = (ImageButton) findViewById(R.id.share_button);
+
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PhotoFragment) adapter.getItem(pager.getCurrentItem())).saveImage();
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInfo();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PhotoFragment) adapter.getItem(pager.getCurrentItem())).shareImage();
+            }
+        });
+
         pager = (HackyViewPager) findViewById(R.id.pager);
         adapter = new PhotoPagerAdapter(getSupportFragmentManager(), this, urlList);
 
@@ -110,6 +151,17 @@ public class PhotoPagerActivity extends AppCompatActivity {
                 hideSystemUI();
             }
         }, 6000);
+
+        prepareInfo();
+        sysVis.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                long tweetId = getIntent().getLongExtra("tweet_id", 0);
+                if (tweetId != 0) {
+                    loadInfo(tweetId);
+                }
+            }
+        }, 500);
     }
 
     android.support.v7.app.ActionBar ab;
@@ -122,29 +174,12 @@ public class PhotoPagerActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.photo_viewer, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
-
-            case R.id.menu_save_image:
-                ((PhotoFragment)adapter.getItem(pager.getCurrentItem())).saveImage();
-                return true;
-
-            case R.id.menu_share_image:
-                ((PhotoFragment)adapter.getItem(pager.getCurrentItem())).shareImage();
-                return true;
-
             default:
                 return true;
         }
@@ -201,5 +236,17 @@ public class PhotoPagerActivity extends AppCompatActivity {
         } catch (Exception e) {
             // fragment not attached to activity
         }
+    }
+
+    public void prepareInfo() {
+
+    }
+
+    public void loadInfo(long tweetId) {
+
+    }
+
+    public void showInfo() {
+
     }
 }

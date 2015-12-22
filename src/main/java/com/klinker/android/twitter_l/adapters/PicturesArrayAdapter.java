@@ -179,9 +179,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewImage = new Intent(context, PhotoViewerActivity.class);
-                viewImage.putExtra("url", url);
-                context.startActivity(viewImage);
+                PhotoViewerActivity.startActivity(context, 0, url, null);
             }
         });
 

@@ -67,6 +67,10 @@ public class PhotoFragment extends Fragment {
 
         picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
 
+        root.findViewById(R.id.share_button).setVisibility(View.GONE);
+        root.findViewById(R.id.save_button).setVisibility(View.GONE);
+        root.findViewById(R.id.info_button).setVisibility(View.GONE);
+
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {

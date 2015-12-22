@@ -11,7 +11,6 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
@@ -51,16 +50,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
-                viewImage.putExtra("url", links);
-                viewImage.putExtra("start_page", position);
-
-                /*ActivityOptions options = ActivityOptions
-                        .makeSceneTransitionAnimation(((Activity)context), holder.iv, "image");
-
-                context.startActivity(viewImage, options.toBundle());*/
-                context.startActivity(viewImage);
+                PhotoPagerActivity.startActivity(context, 0, links, position);
             }
         });
 

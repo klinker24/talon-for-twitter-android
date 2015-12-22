@@ -443,14 +443,10 @@ public class TweetView {
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();*/
 
+                                PhotoPagerActivity.startActivity(context, tweetId, imageUrl, 0);
 
-                                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
-                                viewImage.putExtra("url", imageUrl);
-                                viewImage.putExtra("start_page", 0);
-
-                                context.startActivity(viewImage);
                             } else {
-                                context.startActivity(new Intent(context, PhotoViewerActivity.class).putExtra("url", imageUrl));
+                                PhotoViewerActivity.startActivity(context, tweetId, imageUrl, null);
                             }
                         }
                     });
