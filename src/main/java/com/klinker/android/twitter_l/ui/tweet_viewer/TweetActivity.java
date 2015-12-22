@@ -197,6 +197,9 @@ public class TweetActivity extends SlidingActivity {
             } else if (webpages.get(0).contains("vine.co/v/")) {
                 hasWebpage = false;
                 gifVideo = webpages.get(0);
+            } else if (webpages.get(0).contains("amp.twimg.com/v/")) {
+                hasWebpage = false;
+                gifVideo = webpages.get(0);
             }
         }
 
@@ -227,7 +230,8 @@ public class TweetActivity extends SlidingActivity {
                 (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
                         (gifVideo.contains(".mp4") ||
                                 gifVideo.contains("/photo/1") ||
-                                gifVideo.contains("vine.co/v/")))) {
+                                gifVideo.contains("vine.co/v/") ||
+                                gifVideo.contains("amp.twimg.com/v/")))) {
             displayPlayButton = true;
         }
 
@@ -604,10 +608,9 @@ public class TweetActivity extends SlidingActivity {
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
 
-        Log.v("talon_vine", "picture: " + picture + ", displayPlayButton: " + displayPlayButton);
-        if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine)
+        if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine/twimg video)
 
-            if (displayPlayButton && gifVideo.contains("vine")) {
+            if (displayPlayButton && (gifVideo.contains("vine") || gifVideo.contains("amp.twimg.com/v/"))) {
                 image.setBackgroundResource(android.R.color.black);
             } else {
                 new Handler().postDelayed(new Runnable() {
@@ -627,12 +630,19 @@ public class TweetActivity extends SlidingActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (displayPlayButton) {
-                            String links = "";
-                            for (String s : otherLinks) {
-                                links += s + "  ";
-                            }
+                            if (gifVideo != null && gifVideo.contains("amp.twimg.com")) {
+                                // I cant figure out how to play these for the life of me...
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(gifVideo));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            } else {
+                                String links = "";
+                                for (String s : otherLinks) {
+                                    links += s + "  ";
+                                }
 
-                            VideoViewerActivity.startActivity(context, tweetId, gifVideo, links);
+                                VideoViewerActivity.startActivity(context, tweetId, gifVideo, links);
+                            }
                         } else if (webpage.contains(" ")) {
                             /*picsPopup = new MultiplePicsPopup(context, webpage);
                             picsPopup.setFullScreen();
