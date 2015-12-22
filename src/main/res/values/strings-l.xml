@@ -79,4 +79,7 @@
     <string name="saving_video">Saving</string>
     <string name="saved_video">Finished saving</string>
     <string name="encoding_gif">Encoding GIF...</string>
+    <string name="scroll_options">Scrolling Options</string>
+    <string name="static_ui_title">Static UI</string>
+    <string name="static_ui_summary">This will make it so the app bar, compose FAB, and snackbar do not disappear when scrolling.</string>
 </resources>

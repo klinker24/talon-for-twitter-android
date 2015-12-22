@@ -86,7 +86,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         @Override
         public void onClick(View view) {
             toTop();
-            hideToastBar(300);
+
+            if (!settings.staticUi) {
+                hideToastBar(300);
+            }
         }
     };
 
@@ -391,6 +394,13 @@ public abstract class MainFragment extends Fragment implements Expandable {
             public void onScroll(AbsListView view, float deltaY) {
                 //Log.v("pixel_scrolling", "deltaY: " + deltaY);
                 // negative deltaY is when we are scrolling down
+
+                if (settings.staticUi) {
+                    if (settings.useSnackbar) {
+                        showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
+                    }
+                    return;
+                }
 
                 if (listView.getFirstVisiblePosition() < 2) {
                     scrollDown();
