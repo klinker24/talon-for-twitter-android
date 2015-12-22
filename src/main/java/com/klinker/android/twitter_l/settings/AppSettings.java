@@ -199,6 +199,7 @@ public class AppSettings {
     public long mentionsRefresh;
     public long dmRefresh;
     public long activityRefresh;
+    public long listRefresh;
     public long myId;
 
 
@@ -380,6 +381,7 @@ public class AppSettings {
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "0"));
         dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "0"));
         activityRefresh = Long.parseLong(sharedPrefs.getString("activity_sync_interval", "0"));
+        listRefresh = Long.parseLong(sharedPrefs.getString("list_sync_interval", "0"));
 
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);

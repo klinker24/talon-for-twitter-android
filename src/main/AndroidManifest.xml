@@ -615,6 +615,9 @@ S
                 android:exported="true">
         </service>
 
+        <service android:name="com.klinker.android.twitter_l.services.ListRefreshService" >
+        </service>
+
         <service android:name="com.klinker.android.twitter_l.services.WidgetRefreshService">
         </service>
 

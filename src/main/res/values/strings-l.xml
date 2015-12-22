@@ -82,4 +82,7 @@
     <string name="scroll_options">Scrolling Options</string>
     <string name="static_ui_title">Static UI</string>
     <string name="static_ui_summary">This will make it so the app bar, compose FAB, and snackbar do not disappear when scrolling.</string>
+    <string name="list_sync_interval">List Sync Interval</string>
+    <string name="list_sync_summary">This will perform a background sync for any lists that you use as extra pages on the main timeline.</string>
+
 </resources>
