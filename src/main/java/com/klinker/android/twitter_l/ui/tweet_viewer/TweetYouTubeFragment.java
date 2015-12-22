@@ -17,184 +17,75 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.google.android.youtube.player.*;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 
 
-public class TweetYouTubeFragment extends YouTubePlayerFragment implements
-        YouTubePlayer.OnInitializedListener {
+public class TweetYouTubeFragment {
 
-    public static LinearLayout layout;
-    private String url;
-
-    private static YouTubePlayerView player;
-    private static HoloTextView error;
-    private static YouTubePlayer realPlayer;
-    private static YouTubePlayer.OnInitializedListener listener;
-
-    private static boolean videoLoaded = false;
-
-
-    public TweetYouTubeFragment() {
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (realPlayer != null) {
-            realPlayer.release();
-        }
-
-        realPlayer = null;
-
-        TweetYouTubeFragment.videoLoaded = false;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        player = (YouTubePlayerView) super.onCreateView(inflater, container, savedInstanceState);
-
-        url = getArguments().getString("url");
-
-        layout = (LinearLayout) inflater.inflate(R.layout.youtube_fragment, null, false);
-
-        layout.addView(player);
-
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            layout.setPadding(150,150,150,0);
-        }
-
-        try {
-            player.initialize(APIKeys.YOUTUBE_API_KEY, this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        listener = this;
-
-        return layout;
-    }
-
-    private static String video = "";
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
-        try {
-            if (url.contains("youtube")) { // normal youtube link
-                // first get the youtube video code
-                int start = url.indexOf("v=") + 2;
-                int end;
-                if (url.substring(start).contains("&")) {
-                    end = url.indexOf("&");
-                    video = url.substring(start, end);
-                } else if (url.substring(start).contains("?")) {
-                    end = url.indexOf("?");
-                    video = url.substring(start, end);
-                } else {
-                    video = url.substring(start);
-                }
-            } else { // shortened youtube link
-                // first get the youtube video code
-                int start = url.indexOf(".be/") + 4;
-                int end;
-                if (url.substring(start).contains("&")) {
-                    end = url.indexOf("&");
-                    video = url.substring(start, end);
-                } else if (url.substring(start).contains("?")) {
-                    end = url.indexOf("?");
-                    video = url.substring(start, end);
-                } else {
-                    video = url.substring(start);
-                }
-            }
-        } catch (Exception e) {
-            video = "";
-        }
-
-        youTubePlayer.loadVideo(video, 0);
-        youTubePlayer.setShowFullscreenButton(true);
-
-        realPlayer = youTubePlayer;
-
-        realPlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+    public static YouTubePlayerFragment getInstance(final Context context, final String vidUrl) {
+        YouTubePlayerFragment fragment = YouTubePlayerFragment.newInstance();
+        fragment.initialize(APIKeys.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
-            public void onFullscreen(boolean b) {
-                if (b) { // is fullscreen
-                    canGoBack = false;
-                } else {
-                    canGoBack = true;
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                Log.v("talon_video", "initializing player");
+                String url = vidUrl;
+                String video;
+
+                try {
+                    if (url.contains("youtube")) { // normal youtube link
+                        // first get the youtube video code
+                        int start = url.indexOf("v=") + 2;
+                        int end;
+                        if (url.substring(start).contains("&")) {
+                            end = url.indexOf("&");
+                            video = url.substring(start, end);
+                        } else if (url.substring(start).contains("?")) {
+                            end = url.indexOf("?");
+                            video = url.substring(start, end);
+                        } else {
+                            video = url.substring(start);
+                        }
+                    } else { // shortened youtube link
+                        // first get the youtube video code
+                        int start = url.indexOf(".be/") + 4;
+                        int end;
+                        if (url.substring(start).contains("&")) {
+                            end = url.indexOf("&");
+                            video = url.substring(start, end);
+                        } else if (url.substring(start).contains("?")) {
+                            end = url.indexOf("?");
+                            video = url.substring(start, end);
+                        } else {
+                            video = url.substring(start);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    video = "";
                 }
+
+                youTubePlayer.loadVideo(video, 0);
+                youTubePlayer.setShowFullscreenButton(false);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(context, R.string.error_gif, Toast.LENGTH_SHORT).show();
+                ((Activity)context).finish();
             }
         });
 
-        try {
-            getActivity().sendBroadcast(new Intent("com.klinker.android.twitter.YOUTUBE_READY"));
-        } catch (Exception e) {
-            // activity null
-        }
-    }
-
-    public boolean canGoBack = true;
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        player.setVisibility(View.GONE);
-        error.setVisibility(View.VISIBLE);
-
-        realPlayer = null;
-    }
-
-    public boolean onBack() {
-        if (canGoBack) {
-            return true;
-        } else {
-            realPlayer.setFullscreen(false);
-            return false;
-        }
-    }
-
-    public static void pause() {
-        try {
-            player.setVisibility(View.GONE);
-            layout.setVisibility(View.GONE);
-        } catch (Exception e) {
-
-        }
-
-        if (realPlayer != null) {
-            realPlayer.pause();
-        }
-    }
-
-    public static void resume() {
-        try {
-            player.setVisibility(View.VISIBLE);
-            layout.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-
-        }
-
-        if (realPlayer != null) {
-            if (videoLoaded) {
-                realPlayer.play();
-            } else {
-                realPlayer.loadVideo(video);
-                videoLoaded = true;
-            }
-        }
+        return fragment;
     }
 }

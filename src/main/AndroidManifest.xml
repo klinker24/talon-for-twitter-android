@@ -93,6 +93,10 @@
                     android:configChanges="orientation|screenSize"
                     android:theme="@style/Theme.TalonLight.ImageViewer" />
 
+        <activity android:name=".manipulations.photo_viewer.VideoViewerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.TalonLight.VideoViewer" />
+
         <activity android:name="com.klinker.android.twitter_l.manipulations.LauncherPhotoViewerDialog"
             android:configChanges="orientation|screenSize"
             android:exported="true"

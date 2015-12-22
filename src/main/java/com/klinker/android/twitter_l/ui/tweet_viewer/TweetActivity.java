@@ -108,8 +108,6 @@ public class TweetActivity extends SlidingActivity {
 
     protected boolean fromLauncher = false;
 
-    public TweetYouTubeFragment youTubeFrag;
-
     private boolean sharedTransition = false;
 
     @Override
@@ -518,10 +516,8 @@ public class TweetActivity extends SlidingActivity {
 
     @Override
     public void onBackPressed() {
-        if (youTubeFrag == null || youTubeFrag.onBack()) {
-            if (!hidePopups()) {
-                super.onBackPressed();
-            }
+        if (!hidePopups()) {
+            super.onBackPressed();
         }
     }
 
