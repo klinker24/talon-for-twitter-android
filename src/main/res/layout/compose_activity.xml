@@ -151,45 +151,100 @@
 
                     <View android:layout_width="16dp" android:layout_height="match_parent" />
 
-                    <ImageView
+                    <FrameLayout
+                        android:id="@+id/holder1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <ImageView
                             android:id="@+id/picture1"
                             android:layout_height="150dp"
                             android:layout_width="150dp"
                             android:padding="4dp"
                             android:minHeight="150dp" android:minWidth="150dp"
                             android:scaleType="fitXY" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
+                            android:maxWidth="150dp" android:maxHeight="150dp" />
 
-                    <ImageView
-                            android:id="@+id/picture2"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="fitXY" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
+                        <ImageButton
+                            android:id="@+id/cancel1"
+                            android:src="@drawable/ic_cancel_dark"
+                            android:background="?android:selectableItemBackground"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp" />
 
-                    <ImageView
-                            android:id="@+id/picture3"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="fitXY" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
+                    </FrameLayout>
 
-                    <ImageView
-                            android:id="@+id/picture4"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="fitXY" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
+
+                    <FrameLayout
+                        android:id="@+id/holder2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <ImageView
+                                android:id="@+id/picture2"
+                                android:layout_height="150dp"
+                                android:layout_width="150dp"
+                                android:padding="4dp"
+                                android:minHeight="150dp" android:minWidth="150dp"
+                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+                        <ImageButton
+                            android:id="@+id/cancel2"
+                            android:src="@drawable/ic_cancel_dark"
+                            android:background="?android:selectableItemBackground"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp" />
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/holder3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <ImageView
+                                android:id="@+id/picture3"
+                                android:layout_height="150dp"
+                                android:layout_width="150dp"
+                                android:padding="4dp"
+                                android:minHeight="150dp" android:minWidth="150dp"
+                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:maxWidth="150dp" android:maxHeight="150dp" />
+
+                        <ImageButton
+                            android:id="@+id/cancel3"
+                            android:src="@drawable/ic_cancel_dark"
+                            android:background="?android:selectableItemBackground"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/holder4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <ImageView
+                                android:id="@+id/picture4"
+                                android:layout_height="150dp"
+                                android:layout_width="150dp"
+                                android:padding="4dp"
+                                android:minHeight="150dp" android:minWidth="150dp"
+                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:maxWidth="150dp" android:maxHeight="150dp"/>
+
+                        <ImageButton
+                            android:id="@+id/cancel4"
+                            android:src="@drawable/ic_cancel_dark"
+                            android:background="?android:selectableItemBackground"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp" />
+                    </FrameLayout>
 
                     <View android:layout_width="16dp" android:layout_height="match_parent" />
 
