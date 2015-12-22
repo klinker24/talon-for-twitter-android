@@ -397,7 +397,7 @@ public class IOUtils {
 
             for (int j = 0; j < 2; j++) {
                 for (int i = 0; i < 5; i++) {
-                    long listId = sharedPrefs.getLong("account_" + j + "_list_" + i, 0);
+                    long listId = sharedPrefs.getLong("account_" + j + "_list_" + (i + 1) + "_long", 0);
                     lists.deleteDups(listId);
 
                     Cursor list1 = lists.getTrimmingCursor(listId);
