@@ -20,6 +20,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
@@ -357,65 +358,17 @@ public class TweetView {
                     playButton.setVisibility(View.GONE);
                 }
             } else {
-                if (imageUrl.contains("youtube")) {
+                if (imageUrl.contains("youtube") || (gifUrl != null && !android.text.TextUtils.isEmpty(gifUrl))) {
 
                     if (playButton.getVisibility() == View.GONE) {
                         playButton.setVisibility(View.VISIBLE);
                     }
 
-                    final String fRetweeter = retweeter;
-
                     imageIv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String link;
+                            VideoViewerActivity.startActivity(context, tweetId, gifUrl, otherUrl);
 
-                            boolean displayPic = !imageUrl.equals("") && !imageUrl.contains("youtube");
-                            if (displayPic) {
-                                link = imageUrl;
-                            } else {
-                                link = otherUrl.split("  ")[0];
-                            }
-
-                            Intent viewTweet = new Intent(context, TweetActivity.class);
-                            viewTweet.putExtra("name", name);
-                            viewTweet.putExtra("screenname", screenName);
-                            viewTweet.putExtra("time", time);
-                            viewTweet.putExtra("tweet", tweet);
-                            viewTweet.putExtra("retweeter", fRetweeter);
-                            viewTweet.putExtra("webpage", link);
-                            viewTweet.putExtra("other_links", otherUrl);
-                            viewTweet.putExtra("picture", displayPic);
-                            viewTweet.putExtra("tweetid", tweetId);
-                            viewTweet.putExtra("proPic", profilePicUrl);
-                            viewTweet.putExtra("users", users);
-                            viewTweet.putExtra("hashtags", hashtags);
-                            viewTweet.putExtra("clicked_youtube", true);
-                            viewTweet.putExtra("animated_gif", gifUrl);
-
-                            viewTweet.putExtra("shared_trans", true);
-
-                            viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
-
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                profilePicIv.setTransitionName("pro_pic");
-                                screenTV.setTransitionName("screen_name");
-                                nameTv.setTransitionName("name");
-                                tweetTv.setTransitionName("tweet");
-                                ActivityOptions options = ActivityOptions
-                                        .makeSceneTransitionAnimation(((Activity) context),
-
-                                                new Pair<View, String>(profilePicIv, "pro_pic"),
-                                                new Pair<View, String>(screenTV, "screen_name"),
-                                                new Pair<View, String>(nameTv, "name"),
-                                                new Pair<View, String>(tweetTv, "tweet")
-                                        );
-
-                                context.startActivity(viewTweet/*, options.toBundle()*/);
-                            } else {
-                                context.startActivity(viewTweet);
-                            }
                         }
                     });
 
