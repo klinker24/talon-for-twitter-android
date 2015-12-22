@@ -1,5 +1,7 @@
 package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +20,7 @@ import android.widget.ImageButton;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.DetailedTweetView;
 import com.klinker.android.twitter_l.manipulations.widgets.HackyViewPager;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -211,9 +214,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }, 250);
     }
 
-    public void hideSystemUI() {
-        sysVis.removeCallbacksAndMessages(null);
 
+    public void hideSystemUI() {
         sysUiShown = false;
 
         try {
@@ -221,24 +223,29 @@ public class PhotoPagerActivity extends AppCompatActivity {
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE);
+
+            startAlphaAnimation(share, 1, 0);
+            startAlphaAnimation(download, 1, 0);
+            startAlphaAnimation(info, 1, 0);
         } catch (Exception e) {
-            // fragment not attached to activity
+
         }
     }
 
-    public boolean sysUiShown = true;
-
+    boolean sysUiShown = true;
     public void showSystemUI() {
-        sysVis.removeCallbacksAndMessages(null);
-
         sysUiShown = true;
 
         try {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+            startAlphaAnimation(share, 0, 1);
+            startAlphaAnimation(download, 0, 1);
+            startAlphaAnimation(info, 0, 1);
         } catch (Exception e) {
-            // fragment not attached to activity
+
         }
     }
 
@@ -259,5 +266,33 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }
 
         bottomSheet.showWithSheetView(v);
+    }
+
+    private void startAlphaAnimation(final View v, float start, final float finish) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, start, finish);
+        alpha.setDuration(350);
+        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        alpha.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                v.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (finish == 0) {
+                    v.setEnabled(false);
+                } else {
+                    v.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) { }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) { }
+        });
+        alpha.start();
     }
 }
