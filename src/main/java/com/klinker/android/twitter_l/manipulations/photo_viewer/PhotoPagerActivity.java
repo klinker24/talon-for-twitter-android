@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import android.text.TextUtils;
 import android.view.*;
 import android.widget.ImageButton;
 
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PhotoPagerAdapter;
+import com.klinker.android.twitter_l.data.DetailedTweetView;
 import com.klinker.android.twitter_l.manipulations.widgets.HackyViewPager;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class PhotoPagerActivity extends AppCompatActivity {
 
@@ -38,6 +42,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
     ImageButton download;
     ImageButton share;
     ImageButton info;
+
+    BottomSheetLayout bottomSheet;
 
     Handler sysVis;
 
@@ -87,6 +93,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
         download = (ImageButton) findViewById(R.id.save_button);
         info = (ImageButton) findViewById(R.id.info_button);
         share = (ImageButton) findViewById(R.id.share_button);
+
+        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottom_sheet);
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,20 +242,22 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }
     }
 
+    private DetailedTweetView tweetView;
+
     public void prepareInfo(final long tweetId) {
-        sysVis.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadInfo(tweetId);
-            }
-        }, 500);
-    }
-
-    public void loadInfo(long tweetId) {
-
+        tweetView = DetailedTweetView.create(this, tweetId);
+        tweetView.setShouldShowImage(false);
     }
 
     public void showInfo() {
+        View v = tweetView.getView();
+        AppSettings settings = AppSettings.getInstance(this);
+        if (settings.darkTheme || settings.blackTheme) {
+            v.setBackgroundResource(R.color.dark_background);
+        } else {
+            v.setBackgroundResource(R.color.white);
+        }
 
+        bottomSheet.showWithSheetView(v);
     }
 }

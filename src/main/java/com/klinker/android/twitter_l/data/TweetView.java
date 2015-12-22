@@ -71,7 +71,11 @@ public class TweetView {
     boolean isConvo = false;
     int embeddedTweetMinHeight = 0;
 
+    int numLikes;
+    int numRetweets;
+
     // layout components
+    View root;
     TextView nameTv;
     ImageView profilePicIv;
     TextView timeTv;
@@ -167,6 +171,9 @@ public class TweetView {
         gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
 
         isConvo = status.getInReplyToStatusId() != -1;
+
+        numLikes = status.getFavoriteCount();
+        numRetweets = status.getRetweetCount();
     }
 
     public View getView() {
@@ -174,13 +181,7 @@ public class TweetView {
         setComponents(tweet);
         bindData();
 
-        /*if (images) {
-            imageHolder.setVisibility(View.VISIBLE);
-        } else {
-            imageHolder.setVisibility(View.GONE);
-        }*/
-
-        if (smallImage) {
+        if (smallImage && shouldShowImage()) {
             ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
             params.height = Utils.toDP(100, context);
 
@@ -190,7 +191,7 @@ public class TweetView {
         return tweet;
     }
 
-    private View createTweet() {
+    protected View createTweet() {
         View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet, null, false);
         return tweetView;
     }
@@ -198,15 +199,12 @@ public class TweetView {
     //private boolean images = true;
     private boolean smallImage = false;
 
-    /*public void hideImage(boolean hide) {
-        images = !hide;
-    }*/
-
     public void setSmallImage(boolean small) {
         smallImage = small;
     }
 
-    private void setComponents(View v) {
+    protected void setComponents(View v) {
+        root = v.findViewById(R.id.root);
         nameTv = (TextView) v.findViewById(R.id.name);
         profilePicIv = (ImageView) v.findViewById(R.id.profile_pic);
         timeTv = (TextView) v.findViewById(R.id.time);
@@ -243,7 +241,7 @@ public class TweetView {
         embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
     }
 
-    private void bindData() {
+    protected void bindData() {
         backgroundLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -349,7 +347,7 @@ public class TweetView {
 
         boolean picture = false;
 
-        if(settings.inlinePics) {
+        if(settings.inlinePics && shouldShowImage()) {
             if (imageUrl.equals("")) {
                 if (imageHolder.getVisibility() != View.GONE) {
                     imageHolder.setVisibility(View.GONE);
@@ -567,5 +565,15 @@ public class TweetView {
         i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
 
         return i;
+    }
+
+    protected boolean shouldShowImage() {
+        return true;
+    }
+
+    public void setBackgroundRes(int res) {
+        if (root != null) {
+            root.setBackgroundResource(res);
+        }
     }
 }

@@ -17,23 +17,23 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/root"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                android:id="@+id/muffled_name"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColor="?textColor"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:singleLine="true"
-                android:visibility="gone"
-                android:background="?android:attr/selectableItemBackground" />
+        android:id="@+id/muffled_name"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textColor="?textColor"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:singleLine="true"
+        android:visibility="gone"
+        android:background="?android:attr/selectableItemBackground" />
 
     <LinearLayout
         android:id="@+id/background"
@@ -45,29 +45,29 @@
         android:background="?android:attr/selectableItemBackground">
 
         <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="@dimen/header_condensed_height"
-                     android:id="@+id/picture_holder"
-                     android:layout_marginLeft="@dimen/header_side_padding"
-                     android:layout_marginRight="@dimen/header_side_padding"
-                     android:layout_marginTop="@dimen/header_top_padding"
-                     android:padding="@dimen/header_holder_padding"
-                     android:visibility="gone">
+            android:layout_height="@dimen/header_condensed_height"
+            android:id="@+id/picture_holder"
+            android:layout_marginLeft="@dimen/header_side_padding"
+            android:layout_marginRight="@dimen/header_side_padding"
+            android:layout_marginTop="@dimen/header_top_padding"
+            android:padding="@dimen/header_holder_padding"
+            android:visibility="gone">
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:scaleType="centerCrop"
-                       android:background="@drawable/rounded_rect"
-                       android:transitionName="image"
-                       android:id="@+id/image"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_rect"
+                android:transitionName="image"
+                android:id="@+id/image"/>
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:id="@+id/play_button"
-                    android:src="@drawable/ic_action_play"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:scaleType="centerInside"
-                    />
+                android:id="@+id/play_button"
+                android:src="@drawable/ic_action_play"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:scaleType="centerInside"
+                />
         </FrameLayout>
 
         <LinearLayout
@@ -127,25 +127,25 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginRight="6dp"
-                    android:gravity="right|bottom">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="6dp"
+                android:gravity="right|bottom">
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                        android:id="@+id/time"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:textColor="?dateColor" />
+                    android:id="@+id/time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="?dateColor" />
 
                 <ImageView
-                        android:id="@+id/is_a_conversation"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="?directMessageItem"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone" />
+                    android:id="@+id/is_a_conversation"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="?directMessageItem"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -177,29 +177,29 @@
             android:layout_marginLeft="16dp" />
 
         <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="@dimen/header_condensed_height"
-                     android:id="@+id/picture_holder_bellow"
-                     android:layout_marginLeft="@dimen/header_side_padding"
-                     android:layout_marginRight="@dimen/header_side_padding"
-                     android:layout_marginTop="@dimen/header_top_padding"
-                     android:padding="@dimen/header_holder_padding"
-                     android:visibility="gone">
+            android:layout_height="@dimen/header_condensed_height"
+            android:id="@+id/picture_holder_bellow"
+            android:layout_marginLeft="@dimen/header_side_padding"
+            android:layout_marginRight="@dimen/header_side_padding"
+            android:layout_marginTop="@dimen/header_top_padding"
+            android:padding="@dimen/header_holder_padding"
+            android:visibility="gone">
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/rounded_rect"
-                    android:transitionName="image"
-                    android:id="@+id/image_bellow"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_rect"
+                android:transitionName="image"
+                android:id="@+id/image_bellow"/>
 
             <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
-                    android:id="@+id/play_button_bellow"
-                    android:src="@drawable/ic_action_play"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:scaleType="centerInside"
-                    />
+                android:id="@+id/play_button_bellow"
+                android:src="@drawable/ic_action_play"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:scaleType="centerInside"
+                />
         </FrameLayout>
 
         <android.support.v7.widget.CardView
@@ -218,17 +218,66 @@
             card_view:cardBackgroundColor="?drawerBackground"
             android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="?heart_button"
+                    android:layout_marginRight="8dp"/>
+
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?dateColor"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="?retweetButton"
+                    android:layout_marginRight="8dp"/>
+
+                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    android:id="@+id/retweets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?dateColor" />
+
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="top"
-            android:id="@+id/expansion"
-            android:visibility="gone">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:gravity="top"
+        android:id="@+id/expansion"
+        android:visibility="gone">
 
     </LinearLayout>
 
