@@ -102,13 +102,6 @@
                 android:defaultValue="true"
                 />
 
-        <CheckBoxPreference
-            android:key="use_snackbar"
-            android:title="@string/use_snackbar"
-            android:summary="@string/use_snackbar_summary"
-            android:defaultValue="true"
-            />
-
         <ListPreference
             android:key="nav_bar_option"
             android:title="@string/nav_bar_option"
@@ -120,4 +113,22 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/scroll_options" >
+
+        <CheckBoxPreference
+            android:key="use_snackbar"
+            android:title="@string/use_snackbar"
+            android:summary="@string/use_snackbar_summary"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="static_ui"
+            android:title="@string/static_ui_title"
+            android:summary="@string/static_ui_summary"
+            android:defaultValue="false"
+            />
+
+    </PreferenceCategory>
 </PreferenceScreen>
