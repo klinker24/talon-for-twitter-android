@@ -152,16 +152,12 @@ public class PhotoPagerActivity extends AppCompatActivity {
             }
         }, 6000);
 
-        prepareInfo();
-        sysVis.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                long tweetId = getIntent().getLongExtra("tweet_id", 0);
-                if (tweetId != 0) {
-                    loadInfo(tweetId);
-                }
-            }
-        }, 500);
+        final long tweetId = getIntent().getLongExtra("tweet_id", 0);
+        if (tweetId != 0) {
+            prepareInfo(tweetId);
+        } else {
+            ((View)info.getParent()).setVisibility(View.GONE);
+        }
     }
 
     android.support.v7.app.ActionBar ab;
@@ -238,8 +234,13 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }
     }
 
-    public void prepareInfo() {
-
+    public void prepareInfo(final long tweetId) {
+        sysVis.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadInfo(tweetId);
+            }
+        }, 500);
     }
 
     public void loadInfo(long tweetId) {
