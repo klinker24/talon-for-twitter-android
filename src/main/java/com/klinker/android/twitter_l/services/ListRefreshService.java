@@ -108,9 +108,9 @@ public class ListRefreshService extends IntentService {
                     sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).commit();
                 }
 
+                sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));
             }
 
-            sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED"));
             ListRefreshService.isRunning = false;
         }
     }

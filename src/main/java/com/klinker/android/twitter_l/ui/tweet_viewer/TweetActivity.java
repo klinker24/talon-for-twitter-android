@@ -222,8 +222,18 @@ public class TweetActivity extends SlidingActivity {
         } else {
             findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.light_background));
         }
+        
+        if (youtube ||
+                (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
+                        (gifVideo.contains(".mp4") ||
+                                gifVideo.contains("/photo/1") ||
+                                gifVideo.contains("vine.co/v/")))) {
+            displayPlayButton = true;
+        }
 
         setUpTheme();
+        setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
+
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
         String embedded = page;
@@ -271,21 +281,11 @@ public class TweetActivity extends SlidingActivity {
 
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
 
-        if (youtube ||
-                (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
-                        (gifVideo.contains(".mp4") ||
-                                gifVideo.contains("/photo/1") ||
-                                gifVideo.contains("vine.co/v/")))) {
-            displayPlayButton = true;
-        }
-
         final VideoView gif = (VideoView) findViewById(R.id.gif);
         Log.v("talon_gif", "gif video: " + gifVideo);
         findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
         gif.setVisibility(View.GONE);
         findViewById(R.id.gif_holder).setVisibility(View.GONE);
-
-        setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
     }
 
     boolean displayPlayButton = false;
