@@ -25,6 +25,8 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class VideoFragment extends Fragment {
 
@@ -82,6 +84,8 @@ public class VideoFragment extends Fragment {
                     // have to get the html from the page and parse the video from there.
 
                     videoUrl = getVineLink();
+                } else if (tweetUrl.contains("amp.twimg.com/v/")) {
+                    videoUrl = getAmpTwimgLink();
                 } else if (tweetUrl.contains("/photo/1") && tweetUrl.contains("twitter.com/")) {
                     // this is before it was added to the api.
                     // finds the video from the HTML on twitters website.
@@ -95,7 +99,7 @@ public class VideoFragment extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Log.v("talon_gif", "video_url: " + videoUrl);
+                            Log.v("talon_gif", "video_url: " + URLDecoder.decode(videoUrl));
                             if (videoUrl != null) {
                                 final Uri videoUri = Uri.parse(videoUrl);
 
@@ -182,6 +186,24 @@ public class VideoFragment extends Fragment {
                 for (Element e : elements) {
                     return e.attr("content");
                 }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private String getAmpTwimgLink() {
+        try {
+            Document doc = getDoc();
+
+            if(doc != null) {
+                Element element = doc.getElementById("iframe");
+                return element.attr("src");
             }
 
         } catch (Exception e) {
