@@ -222,7 +222,7 @@ public class TweetActivity extends SlidingActivity {
         } else {
             findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.light_background));
         }
-        
+
         if (youtube ||
                 (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
                         (gifVideo.contains(".mp4") ||

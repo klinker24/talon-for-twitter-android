@@ -66,6 +66,10 @@ public class AppSettings {
     public static final int PAGE_WEB = 1;
     public static final int PAGE_CONVO = 2;
 
+    public static final int PICTURES_NORMAL = 0;
+    public static final int PICTURES_SMALL = 1;
+    public static final int PICTURES_NONE = 2;
+
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
     public static final int PAGE_TYPE_LINKS = 2;
@@ -194,6 +198,7 @@ public class AppSettings {
     public int pageToOpen;
     public int quoteStyle;
     public int navBarOption;
+    public int picturesType;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -275,7 +280,6 @@ public class AppSettings {
         wakeScreen = sharedPrefs.getBoolean("wake", true);
         militaryTime = sharedPrefs.getBoolean("military_time", false);
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);
-        inlinePics = sharedPrefs.getBoolean("inline_pics", true);
         extraPages = sharedPrefs.getBoolean("extra_pages", true);
         fullScreenBrowser = sharedPrefs.getBoolean("full_screen_browser", true);
         favoriteUserNotifications = sharedPrefs.getBoolean("favorite_users_notifications", true);
@@ -338,6 +342,13 @@ public class AppSettings {
         } else {
             alwaysMobilize = false;
             mobilizeOnData = true;
+        }
+
+        picturesType = Integer.parseInt(sharedPrefs.getString("timeline_pictures", "0"));
+        if (picturesType == PICTURES_NONE) {
+            inlinePics = false;
+        } else {
+            inlinePics = true;
         }
 
         ringtone = PreferenceManager.getDefaultSharedPreferences(context)
