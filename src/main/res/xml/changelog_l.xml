@@ -2,6 +2,7 @@
 
     <version name="3.5.0">
         <text>Perform background refreshes on lists from "Sync Settings"</text>
+        <text>Memory and performance improvements</text>
     </version>
 
     <version name="3.4.0">
