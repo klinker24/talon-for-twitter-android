@@ -2,8 +2,8 @@
 
     <version name="3.4.0">
         <text>Added tweet details to the image viewer</text>
-        <text>New option to not move the FAB, app bar, and snackbar off the screen when scrolling</text>
-        <text>Improved image viewer layout</text>
+        <text>New option to not move the FAB, app bar, and snackbar on/off the screen when scrolling</text>
+        <text>Easier sharing and saving of photos</text>
     </version>
 
     <version name="3.3.0">
