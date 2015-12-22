@@ -60,6 +60,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -93,6 +94,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -118,6 +121,8 @@ public abstract class Compose extends Activity implements
     public EditText contactEntry;
     public EditText reply;
     public ImageView[] attachImage = new ImageView[4];
+    public ImageButton[] cancelButton = new ImageButton[4];
+    public FrameLayout[] holders = new FrameLayout[4];
     public ImageButton attachButton;
     public ImageButton emojiButton;
     public EmojiKeyboard emojiKeyboard;
@@ -396,6 +401,42 @@ public abstract class Compose extends Activity implements
         attachImage[1] = (ImageView) findViewById(R.id.picture2);
         attachImage[2] = (ImageView) findViewById(R.id.picture3);
         attachImage[3] = (ImageView) findViewById(R.id.picture4);
+        cancelButton[0] = (ImageButton) findViewById(R.id.cancel1);
+        cancelButton[1] = (ImageButton) findViewById(R.id.cancel2);
+        cancelButton[2] = (ImageButton) findViewById(R.id.cancel3);
+        cancelButton[3] = (ImageButton) findViewById(R.id.cancel4);
+        holders[0] = (FrameLayout) findViewById(R.id.holder1);
+        holders[1] = (FrameLayout) findViewById(R.id.holder2);
+        holders[2] = (FrameLayout) findViewById(R.id.holder3);
+        holders[3] = (FrameLayout) findViewById(R.id.holder4);
+
+        for (int i = 0; i < cancelButton.length; i++) {
+            final int pos = i;
+            cancelButton[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imagesAttached--;
+
+                    List<String> uris = new ArrayList<String>();
+                    for (String uri : attachedUri) {
+                        uris.add(uri);
+
+                    }
+                    uris.remove(pos);
+
+                    for (int i = 0; i < attachImage.length; i++) {
+                        attachImage[i].setImageDrawable(null);
+                        attachedUri[i] = null;
+                        holders[i].setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < imagesAttached; i++) {
+                        attachImage[i].setImageURI(Uri.parse(uris.get(i)));
+                        attachedUri[i] = uris.get(i);
+                        holders[i].setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
@@ -623,8 +664,8 @@ public abstract class Compose extends Activity implements
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
                 attachImage[imagesAttached].setImageBitmap(getThumbnail(imageUri));
-                attachImage[imagesAttached].setVisibility(View.VISIBLE);
                 attachedUri[imagesAttached] = imageUri.toString();
+                holders[imagesAttached].setVisibility(View.VISIBLE);
                 imagesAttached++;
                 //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                 //numberAttached.setVisibility(View.VISIBLE);
@@ -800,7 +841,7 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
-                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
+                            holders[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
@@ -830,7 +871,7 @@ public abstract class Compose extends Activity implements
 
                         try {
                             attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
-                            attachImage[imagesAttached].setVisibility(View.VISIBLE);
+                            holders[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
@@ -861,7 +902,7 @@ public abstract class Compose extends Activity implements
 
                     try {
                         attachImage[imagesAttached].setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
-                        attachImage[imagesAttached].setVisibility(View.VISIBLE);
+                        holders[imagesAttached].setVisibility(View.VISIBLE);
                         imagesAttached++;
                         //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                         //numberAttached.setVisibility(View.VISIBLE);
@@ -904,7 +945,7 @@ public abstract class Compose extends Activity implements
                         Log.v("talon_compose_pic", "path to gif on sd card: " + filePath);
 
                         attachImage[0].setImageURI(selectedImage);
-                        attachImage[0].setVisibility(View.VISIBLE);
+                        holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
@@ -931,7 +972,7 @@ public abstract class Compose extends Activity implements
                         Log.v("talon_compose_pic", "path to video on sd card: " + filePath);
 
                         attachImage[0].setImageBitmap(thumbnail);
-                        attachImage[0].setVisibility(View.VISIBLE);
+                        holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
