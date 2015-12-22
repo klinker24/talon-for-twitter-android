@@ -28,9 +28,21 @@ import java.io.InputStreamReader;
 
 public class VideoFragment extends Fragment {
 
+    public static VideoFragment getInstance(String url) {
+        Bundle args = new Bundle();
+        args.putString("url", url);
+
+        VideoFragment fragment = new VideoFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     public Context context;
     public String tweetUrl;
     public String videoUrl;
+
+    private View layout;
 
     public VideoView video;
 
@@ -50,14 +62,8 @@ public class VideoFragment extends Fragment {
 
         tweetUrl = getArguments().getString("url");
 
-        View layout = inflater.inflate(R.layout.gif_player, null, false);
+        layout = inflater.inflate(R.layout.gif_player, null, false);
         video = (VideoView) layout.findViewById(R.id.gif);
-
-        if (tweetUrl.contains("video.twimg")) {
-            MediaController mediaController = new MediaController(getActivity());
-            mediaController.setAnchorView(video);
-            video.setMediaController(mediaController);
-        }
 
         if (tweetUrl.contains("video.twimg")) {
             MediaController mediaController = new MediaController(getActivity());
@@ -71,6 +77,7 @@ public class VideoFragment extends Fragment {
     }
 
     public void getGif() {
+        Log.v("talon_gif", "getting gif");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -92,6 +99,7 @@ public class VideoFragment extends Fragment {
                     @Override
                     public void run() {
                         try {
+                            Log.v("talon_gif", "video_url: " + videoUrl);
                             if (videoUrl != null) {
                                 final Uri videoUri = Uri.parse(videoUrl);
 
@@ -99,9 +107,10 @@ public class VideoFragment extends Fragment {
                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
-
                                         video.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
                                         mp.setLooping(true);
+
+                                        layout.findViewById(R.id.list_progress).setVisibility(View.GONE);
                                     }
                                 });
 
@@ -110,7 +119,7 @@ public class VideoFragment extends Fragment {
                                 Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
-                            // not attached to activity
+                            e.printStackTrace();
                         }
                     }
                 });
