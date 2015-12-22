@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.5.0">
+        <text>Perform background refreshes on lists from "Sync Settings"</text>
+    </version>
+
     <version name="3.4.0">
         <text>New full screen viewer for video content</text>
         <text>Added tweet details to the image viewer</text>
