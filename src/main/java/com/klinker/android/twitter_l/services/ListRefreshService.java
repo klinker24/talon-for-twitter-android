@@ -84,7 +84,7 @@ public class ListRefreshService extends IntentService {
                     paging.setSinceId(lastId[0]);
                 }
 
-                for (int i = 0; i < DrawerActivity.settings.maxTweetsRefresh; i++) {
+                for (int i = 0; i < settings.maxTweetsRefresh; i++) {
 
                     try {
                         if (!foundStatus) {
