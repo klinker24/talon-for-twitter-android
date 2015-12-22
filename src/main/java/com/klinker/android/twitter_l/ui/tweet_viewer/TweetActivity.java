@@ -169,7 +169,8 @@ public class TweetActivity extends SlidingActivity {
         boolean youtube = false;
         if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
             for (String s : otherLinks) {
-                if (s.contains("youtu")) {
+                if (s.contains("youtu") &&
+                        !(s.contains("channel") || s.contains("user") || s.contains("playlist"))) {
                     youtubeVideo = s;
                     youtube = true;
                     break;
