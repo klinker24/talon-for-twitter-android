@@ -3,7 +3,7 @@
     <version name="3.4.0">
         <text>New full screen viewer for video content</text>
         <text>Added tweet details to the image viewer</text>
-        <text>Easier sharing and saving of photos and videos</text>
+        <text>Easier sharing and downloading of photos and videos</text>
         <text>Remove photos when composing a tweet</text>
         <text>Option to use smaller pictures on the timeline</text>
         <text>New option to not move the FAB, app bar, and snackbar on/off the screen when scrolling</text>

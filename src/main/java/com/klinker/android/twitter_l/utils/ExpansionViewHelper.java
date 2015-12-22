@@ -907,7 +907,7 @@ public class ExpansionViewHelper {
 
         Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
     }
-    
+
     public void setBackground(View v) {
         background = v;
 
