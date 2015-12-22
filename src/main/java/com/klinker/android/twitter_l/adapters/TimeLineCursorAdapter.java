@@ -483,7 +483,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     String link;
 
                     boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
+                    boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -581,7 +581,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     String link;
 
                     boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
+                    boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {

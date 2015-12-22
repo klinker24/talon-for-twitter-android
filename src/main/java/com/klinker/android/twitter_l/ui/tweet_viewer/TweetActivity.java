@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
@@ -224,8 +225,6 @@ public class TweetActivity extends SlidingActivity {
 
         setUpTheme();
 
-        setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
-
         String page = webpages.size() > 0 ? webpages.get(0) : "";
         String embedded = page;
 
@@ -272,245 +271,26 @@ public class TweetActivity extends SlidingActivity {
 
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
 
-        if (youtube) {
-            View v = findViewById(R.id.youtube_view);
-            int currentOrientation = getResources().getConfiguration().orientation;
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                v.setPadding(150,150,150,0);
-            }
-
-            YouTubePlayerSupportFragment fragment = new YouTubePlayerSupportFragment();
-            fragment.initialize(APIKeys.YOUTUBE_API_KEY,
-                    new YouTubePlayer.OnInitializedListener() {
-
-                        @Override
-                        public void onInitializationSuccess(YouTubePlayer.Provider arg0,
-                                                            YouTubePlayer arg1, boolean arg2) {
-                            String url = youtubeVideo;
-                            String video = "";
-                            try {
-                                if (url.contains("youtube")) { // normal youtube link
-                                    // first get the youtube video code
-                                    int start = url.indexOf("v=") + 2;
-                                    int end;
-                                    if (url.substring(start).contains("&")) {
-                                        end = url.indexOf("&");
-                                        video = url.substring(start, end);
-                                    } else if (url.substring(start).contains("?")) {
-                                        end = url.indexOf("?");
-                                        video = url.substring(start, end);
-                                    } else {
-                                        video = url.substring(start);
-                                    }
-                                } else { // shortened youtube link
-                                    // first get the youtube video code
-                                    int start = url.indexOf(".be/") + 4;
-                                    int end;
-                                    if (url.substring(start).contains("&")) {
-                                        end = url.indexOf("&");
-                                        video = url.substring(start, end);
-                                    } else if (url.substring(start).contains("?")) {
-                                        end = url.indexOf("?");
-                                        video = url.substring(start, end);
-                                    } else {
-                                        video = url.substring(start);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                video = "";
-                            }
-
-                            arg1.loadVideo(video);
-                        }
-
-                        @Override
-                        public void onInitializationFailure(YouTubePlayer.Provider arg0,
-                                                            YouTubeInitializationResult arg1) {
-                        }
-
-                    }
-            );
-
-            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-            ft.replace(R.id.youtube_view, fragment);
-            ft.commit();
-
-            image.setVisibility(View.GONE);
+        if (youtube ||
+                (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
+                        (gifVideo.contains(".mp4") ||
+                                gifVideo.contains("/photo/1") ||
+                                gifVideo.contains("vine.co/v/")))) {
+            displayPlayButton = true;
         }
 
         final VideoView gif = (VideoView) findViewById(R.id.gif);
         Log.v("talon_gif", "gif video: " + gifVideo);
-        if (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) && (gifVideo.contains(".mp4") || gifVideo.contains("/photo/1") || gifVideo.contains("vine.co/v/"))) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    getVideo(gif);
-                }
-            }, NETWORK_ACTION_DELAY);
-            image.setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
-            gif.setVisibility(View.GONE);
-            findViewById(R.id.gif_holder).setVisibility(View.GONE);
-        }
+        findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+        gif.setVisibility(View.GONE);
+        findViewById(R.id.gif_holder).setVisibility(View.GONE);
+
+        setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
     }
 
+    boolean displayPlayButton = false;
     public VideoView video;
     public boolean videoError = false;
-
-    public void getVideo(final VideoView video) {
-        this.video = video;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (gifVideo.contains("vine.co")) {
-                    // have to get the html from the page and parse the video from there.
-
-                    gifVideo = getVineLink();
-                    if (expansionHelper != null) {
-                        expansionHelper.setVideoDownload(gifVideo);
-                        expansionHelper.setUpOverflow();
-                    }
-                } else if (gifVideo.contains("/photo/1") && gifVideo.contains("twitter.com/")) {
-                    // this is before it was added to the api.
-                    // finds the video from the HTML on twitters website.
-
-                    gifVideo = getGifLink();
-                    if (expansionHelper != null) {
-                        if (gifVideo.contains("video.twimg")) {
-                            expansionHelper.setVideoDownload(gifVideo);
-                        } else {
-                            expansionHelper.setGifDownload(gifVideo);
-                        }
-                        expansionHelper.setUpOverflow();
-                    }
-                }
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (gifVideo != null) {
-
-                                final Uri videoUri = Uri.parse(gifVideo);
-
-                                video.setVideoURI(videoUri);
-                                video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                    @Override
-                                    public void onPrepared(MediaPlayer mp) {
-                                        findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
-                                        video.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-                                    }
-                                });
-                                video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                                    @Override
-                                    public boolean onError(MediaPlayer mp, int what, int extra) {
-                                        Toast.makeText(TweetActivity.this, "Couldn't play video.", Toast.LENGTH_SHORT).show();
-                                        videoError = true;
-                                        return true;
-                                    }
-                                });
-
-                                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        if (!videoError) {
-                                            mp.seekTo(0);
-                                            mp.start();
-                                        }
-                                    }
-                                });
-
-                                video.start();
-
-                                if (gifVideo.contains("video.twimg")) {
-                                    MediaController mediaController = new MediaController(context);
-                                    mediaController.setAnchorView(video);
-                                    video.setMediaController(mediaController);
-                                }
-                            } else {
-                                Toast.makeText(TweetActivity.this, R.string.error_gif, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            // not attached to activity
-                        }
-                    }
-                });
-
-            }
-        }).start();
-    }
-
-    public Document getDoc() {
-        try {
-            org.apache.http.client.HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet((gifVideo.contains("http") ? "" : "https://") + gifVideo);
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null)
-                sb.append(line + "\n");
-
-            String docHtml = sb.toString();
-
-            is.close();
-
-            return Jsoup.parse(docHtml);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public String getGifLink() {
-        try {
-            Document doc = getDoc();
-
-            if(doc != null) {
-                Elements elements = doc.getElementsByAttributeValue("class", "animated-gif");
-
-                for (Element e : elements) {
-                    for (Element x : e.getAllElements()) {
-                        if (x.nodeName().contains("source")) {
-                            return x.attr("video-src");
-                        }
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public String getVineLink() {
-        try {
-            Document doc = getDoc();
-
-            if(doc != null) {
-                Elements elements = doc.getElementsByAttributeValue("property", "twitter:player:stream");
-
-                for (Element e : elements) {
-                    return e.attr("content");
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     String youtubeVideo = "";
 
@@ -824,20 +604,36 @@ public class TweetActivity extends SlidingActivity {
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
 
-        if (picture) { // if there is a picture already loaded
+        Log.v("talon_vine", "picture: " + picture + ", displayPlayButton: " + displayPlayButton);
+        if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine)
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    image.loadImage(webpage, false, null);
-                }
-            }, NETWORK_ACTION_DELAY);
+            if (displayPlayButton && gifVideo.contains("vine")) {
+                image.setBackgroundResource(android.R.color.black);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        image.loadImage(webpage, false, null);
+                    }
+                }, NETWORK_ACTION_DELAY);
+            }
+
+            if (displayPlayButton) {
+                findViewById(R.id.play_button).setVisibility(View.VISIBLE);
+            }
 
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!hidePopups()) {
-                        if (webpage.contains(" ")) {
+                        if (displayPlayButton) {
+                            String links = "";
+                            for (String s : otherLinks) {
+                                links += s + "  ";
+                            }
+
+                            VideoViewerActivity.startActivity(context, tweetId, gifVideo, links);
+                        } else if (webpage.contains(" ")) {
                             /*picsPopup = new MultiplePicsPopup(context, webpage);
                             picsPopup.setFullScreen();
                             picsPopup.setExpansionPointForAnim(view);

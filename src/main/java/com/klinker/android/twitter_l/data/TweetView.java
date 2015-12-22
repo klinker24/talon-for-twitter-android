@@ -248,7 +248,7 @@ public class TweetView {
             public void onClick(View view) {
                 String link;
 
-                boolean displayPic = !imageUrl.equals("") && !imageUrl.contains("youtube");
+                boolean displayPic = !imageUrl.equals("");
                 if (displayPic) {
                     link = imageUrl;
                 } else {
