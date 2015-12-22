@@ -82,15 +82,14 @@ public class PicturesGridAdapter extends BaseAdapter {
             }
         });
 
+        final long id = status != null ? status.getId() : 0;
+
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setPics();
 
-                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
-                viewImage.putExtra("url", pics);
-                viewImage.putExtra("start_page", position);
-                context.startActivity(viewImage);
+                PhotoPagerActivity.startActivity(context, id, pics, position);
             }
         });
 
@@ -105,7 +104,6 @@ public class PicturesGridAdapter extends BaseAdapter {
             return convertView;
         }
 
-        final long id = status != null ? status.getId() : 0;
         final String profilePic = status != null ? status.getUser().getBiggerProfileImageURL() : "";
         final String name = status != null ? status.getUser().getName() : "";
         final String screenname = status != null ? status.getUser().getScreenName() : "";

@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
@@ -22,6 +23,8 @@ import android.transition.ChangeTransform;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.*;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -49,13 +52,34 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PhotoViewerActivity extends AppCompatActivity {
 
+    // image view is not null if you want the shared transition
+    public static void startActivity(Context context, long tweetId, String link, ImageView imageView) {
+        Intent viewImage = new Intent(context, PhotoViewerActivity.class);
+
+        viewImage.putExtra("url", link);
+        viewImage.putExtra("tweet_id", tweetId);
+
+        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            viewImage.putExtra("shared_trans", true);
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(((Activity)context), imageView, "image");
+
+            context.startActivity(viewImage, options.toBundle());
+        } else {
+            context.startActivity(viewImage);
+        }
+    }
+
     public Context context;
     public HoloEditText text;
     public ListView list;
     public String url;
     public NetworkedCacheableImageView picture;
-    public HoloTextView download;
     public TalonPhotoViewAttacher mAttacher;
+
+    private ImageButton share;
+    private ImageButton download;
+    private ImageButton info;
 
     @Override
     public void finish() {
@@ -113,6 +137,31 @@ public class PhotoViewerActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.photo_dialog_layout);
+
+        download = (ImageButton) findViewById(R.id.save_button);
+        info = (ImageButton) findViewById(R.id.info_button);
+        share = (ImageButton) findViewById(R.id.share_button);
+
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadImage();
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInfo();
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareImage();
+            }
+        });
 
         if (!doRestart || getIntent().getBooleanExtra("config_changed", false)) {
             LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
@@ -175,6 +224,17 @@ public class PhotoViewerActivity extends AppCompatActivity {
             }
         }, 6000);
 
+        prepareInfo();
+        sysUi.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                long tweetId = getIntent().getLongExtra("tweet_id", 0);
+                if (tweetId != 0) {
+                    loadInfo(tweetId);
+                }
+            }
+        }, 500);
+
         showDialogAboutSwiping();
     }
 
@@ -229,7 +289,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -257,14 +317,6 @@ public class PhotoViewerActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.photo_viewer, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public void onBackPressed() {
         if (mAttacher != null) {
             mAttacher.cleanup();
@@ -280,40 +332,34 @@ public class PhotoViewerActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-
-            case R.id.menu_save_image:
-                downloadImage();
-                return true;
-
-            case R.id.menu_share_image:
-
-                // get the bitmap
-                if (picture == null) {
-                    return false;
-                }
-
-                if (picture.getDrawable() == null) {
-                    return false;
-                }
-
-                Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
-
-                // create the intent
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                sharingIntent.setType("image/*");
-
-                // add the bitmap uri to the intent
-                Uri uri = getImageUri(context, bitmap);
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-
-                // start the chooser
-                startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
-                return true;
-
             default:
                 return true;
         }
+    }
+
+    private void shareImage() {
+        // get the bitmap
+        if (picture == null) {
+            return;
+        }
+
+        if (picture.getDrawable() == null) {
+            return;
+        }
+
+        Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
+
+        // create the intent
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        sharingIntent.setType("image/*");
+
+        // add the bitmap uri to the intent
+        Uri uri = getImageUri(context, bitmap);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // start the chooser
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -455,5 +501,18 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     })
                     .show();
         }
+    }
+
+
+    public void prepareInfo() {
+
+    }
+
+    public void loadInfo(long tweetId) {
+
+    }
+
+    public void showInfo() {
+
     }
 }

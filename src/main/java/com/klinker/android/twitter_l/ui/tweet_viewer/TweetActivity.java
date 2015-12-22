@@ -847,24 +847,10 @@ public class TweetActivity extends SlidingActivity {
                             picsPopup.setExpansionPointForAnim(view);
                             picsPopup.show();*/
 
+                            PhotoPagerActivity.startActivity(context, tweetId, webpage, 0);
 
-                            Intent viewImage = new Intent(context, PhotoPagerActivity.class);
-                            viewImage.putExtra("url", webpage);
-                            viewImage.putExtra("start_page", 0);
-
-                            context.startActivity(viewImage);
                         } else {
-                            Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", webpage);
-                            photo.putExtra("shared_trans", true);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                ActivityOptions options = ActivityOptions
-                                        .makeSceneTransitionAnimation(((Activity) context), image, "image");
-
-                                context.startActivity(photo, options.toBundle());
-                            } else {
-                                context.startActivity(photo);
-                            }
+                            PhotoViewerActivity.startActivity(context, tweetId, webpage, image);
                         }
                     }
                 }

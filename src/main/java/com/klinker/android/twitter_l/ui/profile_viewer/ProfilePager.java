@@ -277,19 +277,6 @@ public class ProfilePager extends SlidingActivity {
             }
         });
 
-        profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pic = new Intent(context, PhotoPagerActivity.class);
-                pic.putExtra("url", user.getOriginalProfileImageURL() + " " + user.getProfileBannerURL());
-
-                /*ActivityOptions options = ActivityOptions
-                        .makeSceneTransitionAnimation(ProfilePager.this, profilePic, "image");*/
-
-                startActivity(pic/*, options.toBundle()*/);
-            }
-        });
-
         String des = user.getDescription();
         String loc = user.getLocation();
         String web = user.getURL();

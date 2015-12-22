@@ -908,24 +908,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 multPics.setExpansionPointForAnim(view);
                                 multPics.show();*/
 
-                                Intent viewImage = new Intent(context, PhotoPagerActivity.class);
-                                viewImage.putExtra("url", holder.picUrl);
-                                viewImage.putExtra("start_page", 0);
+                                PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
 
-                                context.startActivity(viewImage);
                             } else {
-                                Intent photo = new Intent(context, PhotoViewerActivity.class).putExtra("url", holder.picUrl);
-                                photo.putExtra("shared_trans", true);
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    ActivityOptions options = ActivityOptions
-                                            .makeSceneTransitionAnimation(((Activity)context), holder.image, "image");
-
-                                    context.startActivity(photo, options.toBundle());
-                                } else {
-                                    context.startActivity(photo);
-                                }
-
+                                PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
                             }
                         }
                     });
