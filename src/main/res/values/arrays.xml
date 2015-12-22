@@ -357,6 +357,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="timeline_pictures">
+        <item>@string/normal_pictures</item>
+        <item>@string/smaller_pictures</item>
+        <item>@string/no_pictures</item>
+    </string-array>
+
+    <string-array name="timeline_pictures_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="long_click_mentions">
         <item>@string/open_profile</item>
         <item>@string/copy_handle</item>

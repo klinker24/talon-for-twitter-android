@@ -88,19 +88,19 @@
             android:defaultValue="false"
             />
 
-        <CheckBoxPreference
-                android:key="inline_pics"
-                android:title="@string/inline_pics"
-                android:defaultValue="true"
-                />
+        <ListPreference
+            android:key="timeline_pictures"
+            android:title="@string/timeline_pictures"
+            android:summary="@string/timeline_pictures_summary"
+            android:defaultValue="0"
+            android:entries="@array/timeline_pictures"
+            android:entryValues="@array/timeline_pictures_inserted"/>
 
         <CheckBoxPreference
                 android:key="bottom_pictures"
                 android:title="@string/bottom_pictures"
                 android:summary="@string/bottom_pictures_summary"
-                android:dependency="inline_pics"
-                android:defaultValue="true"
-                />
+                android:defaultValue="true" />
 
         <ListPreference
             android:key="nav_bar_option"

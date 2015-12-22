@@ -104,6 +104,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int smallPictures;
+
     public static class ViewHolder {
         public TextView name;
         public ImageView profilePic;
@@ -393,6 +395,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public void setUpLayout() {
+
+        smallPictures = Utils.toDP(120, context);
+
         mHandler = new Handler[4];
 
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
@@ -812,6 +817,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
+
+                if (settings.picturesType == AppSettings.PICTURES_SMALL &&
+                        holder.imageHolder.getHeight() != smallPictures) {
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = smallPictures;
+                    holder.imageHolder.setLayoutParams(params);
+                }
+
                 if (holder.picUrl.contains("youtube") || (holder.animatedGif != null && !android.text.TextUtils.isEmpty(holder.animatedGif))) {
 
                     if (holder.playButton.getVisibility() == View.GONE) {

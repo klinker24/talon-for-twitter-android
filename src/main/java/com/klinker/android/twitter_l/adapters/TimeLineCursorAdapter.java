@@ -116,6 +116,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int smallPictures;
+
     public static MultiplePicsPopup multPics;
     public boolean hasConvo = false;
 
@@ -160,6 +162,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
     public void init(boolean cont) {
         settings = AppSettings.getInstance(context);
+
+        smallPictures = Utils.toDP(120, context);
 
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -798,6 +802,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             } else {
                 if (holder.imageHolder.getVisibility() == View.GONE) {
                     holder.imageHolder.setVisibility(View.VISIBLE);
+                }
+
+                if (settings.picturesType == AppSettings.PICTURES_SMALL &&
+                        holder.imageHolder.getHeight() != smallPictures) {
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = smallPictures;
+                    holder.imageHolder.setLayoutParams(params);
                 }
 
                 if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
