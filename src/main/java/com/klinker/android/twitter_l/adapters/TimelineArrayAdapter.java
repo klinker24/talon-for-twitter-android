@@ -546,7 +546,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     String link;
 
                     boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
+                    boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
@@ -634,7 +634,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     String link;
 
                     boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
+                    boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
                     } else {
