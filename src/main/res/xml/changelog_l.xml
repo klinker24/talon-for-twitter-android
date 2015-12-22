@@ -9,6 +9,7 @@
         <text>Set a background refresh interval on lists from "Sync Settings"</text>
         <text>Videos no longer automatically play on the tweet viewer</text>
         <text>Memory and performance improvements</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="3.3.0">
