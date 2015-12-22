@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.data;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
@@ -24,8 +25,17 @@ public class DetailedTweetView extends TweetView {
             @Override
             public void run() {
                 try {
-                    Status status = Utils.getTwitter(context, settings).showStatus(tweetId);
-                    tweetView.setData(status);
+                    final Status status = Utils.getTwitter(context, settings).showStatus(tweetId);
+                    if (status == null) {
+                        return;
+                    }
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tweetView.setData(status);
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -37,6 +47,24 @@ public class DetailedTweetView extends TweetView {
 
     private DetailedTweetView (Context context) {
         super(context);
+
+        createProgressView();
+    }
+
+    FrameLayout root = null;
+    private void createProgressView() {
+        root = (FrameLayout) ((Activity) context).getLayoutInflater().inflate(R.layout.progress_spinner, null, false);
+        root.setPadding(0,Utils.toDP(16, context),0, Utils.toDP(64, context));
+    }
+
+    @Override
+    public void setData(Status status) {
+        super.setData(status);
+
+        View tweetView = super.getView();
+
+        root.removeAllViews();
+        root.addView(tweetView);
     }
 
     private HoloTextView likesText;
@@ -44,10 +72,7 @@ public class DetailedTweetView extends TweetView {
 
     @Override
     public View getView() {
-        View v = super.getView();
-        v.setPadding(0,0,Utils.toDP(16, context), Utils.toDP(64, context));
-
-        return v;
+        return root;
     }
 
     @Override
@@ -80,7 +105,9 @@ public class DetailedTweetView extends TweetView {
     protected boolean shouldShowImage() {
         return showImage;
     }
+
     private boolean showImage = true;
+
     public void setShouldShowImage(boolean showImage) {
         this.showImage = showImage;
     }
