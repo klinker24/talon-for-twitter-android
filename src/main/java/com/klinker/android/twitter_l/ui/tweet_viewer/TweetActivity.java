@@ -633,9 +633,9 @@ public class TweetActivity extends SlidingActivity {
                         if (displayPlayButton) {
                             if (gifVideo != null && gifVideo.contains("amp.twimg.com")) {
                                 // I cant figure out how to play these for the life of me...
-                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(gifVideo));
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                new WebIntentBuilder(context)
+                                        .setUrl(gifVideo)
+                                        .build().start();
                             } else {
                                 String links = "";
                                 for (String s : otherLinks) {
