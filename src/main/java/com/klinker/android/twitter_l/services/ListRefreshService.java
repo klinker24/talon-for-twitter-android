@@ -142,7 +142,7 @@ public class ListRefreshService extends IntentService {
                 int inserted = ListDataSource.getInstance(context).insertTweets(statuses, listId);
 
                 if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).commit();
                 }
 
             }
