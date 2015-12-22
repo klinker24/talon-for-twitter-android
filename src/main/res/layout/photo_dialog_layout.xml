@@ -79,7 +79,7 @@
                     android:id="@+id/share_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_action_share_dark"
+                    android:src="@drawable/ic_action_share_material"
                     android:background="?android:selectableItemBackground" />
 
             </LinearLayout>
@@ -94,7 +94,7 @@
                     android:id="@+id/save_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_action_save"
+                    android:src="@drawable/ic_action_download"
                     android:background="?android:selectableItemBackground"/>
 
             </LinearLayout>
@@ -109,7 +109,7 @@
                     android:id="@+id/info_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/drawer_help_dark"
+                    android:src="@drawable/ic_action_info"
                     android:background="?android:selectableItemBackground" />
 
             </LinearLayout>
