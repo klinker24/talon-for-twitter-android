@@ -39,6 +39,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
@@ -817,74 +818,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
-                    final String fRetweeter = retweeter;
-
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String link;
+                            VideoViewerActivity.startActivity(context, id, holder.animatedGif, otherUrl);
 
-                            boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
-                            boolean displayPic = !holder.picUrl.equals("") && !holder.picUrl.contains("youtube") && !(hasGif);
-                            if (displayPic) {
-                                link = holder.picUrl;
-                            } else {
-                                link = otherUrl.split("  ")[0];
-                            }
-
-                            Intent viewTweet = new Intent(context, TweetActivity.class);
-                            viewTweet.putExtra("name", name);
-                            viewTweet.putExtra("screenname", screenname);
-                            viewTweet.putExtra("time", time);
-                            viewTweet.putExtra("tweet", tweetText);
-                            viewTweet.putExtra("retweeter", fRetweeter);
-                            viewTweet.putExtra("webpage", link);
-                            viewTweet.putExtra("other_links", otherUrl);
-                            viewTweet.putExtra("picture", displayPic);
-                            viewTweet.putExtra("tweetid", holder.tweetId);
-                            viewTweet.putExtra("proPic", profilePic);
-                            viewTweet.putExtra("users", users);
-                            viewTweet.putExtra("hashtags", hashtags);
-                            viewTweet.putExtra("clicked_youtube", true);
-                            viewTweet.putExtra("animated_gif", holder.animatedGif);
-
-                            viewTweet.putExtra("shared_trans", true);
-
-                            viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                holder.profilePic.setTransitionName("pro_pic");
-                                holder.screenTV.setTransitionName("screen_name");
-                                holder.name.setTransitionName("name");
-                                holder.tweet.setTransitionName("tweet");
-
-                                if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                                    ActivityOptions options = ActivityOptions
-                                            .makeSceneTransitionAnimation(((Activity) context),
-
-                                                    new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                                    new Pair<View, String>(holder.screenTV, "screen_name"),
-                                                    new Pair<View, String>(holder.name, "name"),
-                                                    new Pair<View, String>(holder.tweet, "tweet"),
-                                                    new Pair<View, String>(holder.image, "image")
-                                            );
-
-                                    context.startActivity(viewTweet/*, options.toBundle()*/);
-                                } else {
-                                    ActivityOptions options = ActivityOptions
-                                            .makeSceneTransitionAnimation(((Activity) context),
-
-                                                    new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                                    new Pair<View, String>(holder.screenTV, "screen_name"),
-                                                    new Pair<View, String>(holder.name, "name"),
-                                                    new Pair<View, String>(holder.tweet, "tweet")
-                                            );
-
-                                    context.startActivity(viewTweet/*, options.toBundle()*/);
-                                }
-                            } else {
-                                context.startActivity(viewTweet);
-                            }
                         }
                     });
 
