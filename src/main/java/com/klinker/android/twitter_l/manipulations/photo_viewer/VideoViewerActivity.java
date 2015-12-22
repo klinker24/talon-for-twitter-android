@@ -101,6 +101,8 @@ public class VideoViewerActivity extends AppCompatActivity {
 
     private BottomSheetLayout bottomSheet;
 
+    private VideoFragment videoFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,9 +151,9 @@ public class VideoViewerActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         } else {
             // add a video fragment
-            VideoFragment fragment = VideoFragment.getInstance(url);
+            videoFragment = VideoFragment.getInstance(url);
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment, fragment)
+                    .add(R.id.fragment, videoFragment)
                     .commit();
         }
 
@@ -215,8 +217,68 @@ public class VideoViewerActivity extends AppCompatActivity {
         }
     }
 
-    public void downloadVideo() {
+    private void downloadVideo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.downloading) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saving_video) + "...")
+                                    .setProgress(100, 100, true)
+                                    .setOngoing(true);
 
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+
+                    Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "video/*");
+
+                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+
+                    mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setContentIntent(pending)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.saved_video) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.saved_video) + "!");
+
+                    mNotificationManager.notify(6, mBuilder.build());
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new PermissionModelUtils(context).showStorageIssue();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(context)
+                                    .setSmallIcon(R.drawable.ic_stat_icon)
+                                    .setTicker(context.getResources().getString(R.string.error) + "...")
+                                    .setContentTitle(context.getResources().getString(R.string.app_name))
+                                    .setContentText(context.getResources().getString(R.string.error) + "...")
+                                    .setProgress(0, 100, true);
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(6, mBuilder.build());
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -232,7 +294,11 @@ public class VideoViewerActivity extends AppCompatActivity {
     }
 
     private void shareVideo() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, videoFragment.getLoadedVideoLink());
 
+        context.startActivity(share);
     }
 
     private void hideSystemUI() {

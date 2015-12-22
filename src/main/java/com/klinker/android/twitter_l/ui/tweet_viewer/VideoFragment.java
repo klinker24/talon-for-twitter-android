@@ -46,10 +46,6 @@ public class VideoFragment extends Fragment {
 
     public VideoView video;
 
-    public VideoFragment() {
-
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -76,7 +72,7 @@ public class VideoFragment extends Fragment {
         return layout;
     }
 
-    public void getGif() {
+    private void getGif() {
         Log.v("talon_gif", "getting gif");
         new Thread(new Runnable() {
             @Override
@@ -128,7 +124,7 @@ public class VideoFragment extends Fragment {
         }).start();
     }
 
-    public Document getDoc() {
+    private Document getDoc() {
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget = new HttpGet((tweetUrl.contains("http") ? "" : "https://") + tweetUrl);
@@ -151,7 +147,7 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    public String getGifLink() {
+    private String getGifLink() {
         try {
             Document doc = getDoc();
 
@@ -176,7 +172,7 @@ public class VideoFragment extends Fragment {
         return null;
     }
 
-    public String getVineLink() {
+    private String getVineLink() {
         try {
             Document doc = getDoc();
 
@@ -195,5 +191,9 @@ public class VideoFragment extends Fragment {
         }
 
         return null;
+    }
+
+    public String getLoadedVideoLink() {
+        return videoUrl;
     }
 }

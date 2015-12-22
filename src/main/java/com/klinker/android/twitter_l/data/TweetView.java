@@ -368,7 +368,6 @@ public class TweetView {
                         @Override
                         public void onClick(View view) {
                             VideoViewerActivity.startActivity(context, tweetId, gifUrl, otherUrl);
-
                         }
                     });
 
