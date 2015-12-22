@@ -30,6 +30,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.ActivityFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets;
 
@@ -37,8 +38,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class BootReceiver extends BroadcastReceiver {
-
-    public static final int TRIM_ID = 131;
 
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -87,6 +86,19 @@ public class BootReceiver extends BroadcastReceiver {
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent);
         }
 
+        if (settings.listRefresh != 0) { // user only wants manual
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+            long now = new Date().getTime();
+            long alarm = now + settings.listRefresh;
+
+            Log.v("alarm_date", "list: " + new Date(alarm).toString());
+
+            PendingIntent pendingIntent = PendingIntent.getService(context, ListFragment.LIST_REFRESH_ID, new Intent(context, ListRefreshService.class), 0);
+
+            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.listRefresh, pendingIntent);
+        }
+
         if (settings.activityRefresh != 0) { // user only wants manual
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -108,7 +120,7 @@ public class BootReceiver extends BroadcastReceiver {
 
             Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
 
-            PendingIntent pendingIntent = PendingIntent.getService(context, TRIM_ID, new Intent(context, TrimDataService.class), 0);
+            PendingIntent pendingIntent = PendingIntent.getService(context, TrimDataService.TRIM_ID, new Intent(context, TrimDataService.class), 0);
 
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
         }

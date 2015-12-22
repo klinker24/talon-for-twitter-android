@@ -91,6 +91,15 @@
             android:entryValues="@array/sync_interval_inserted"
             />
 
+        <ListPreference
+            android:key="list_sync_interval"
+            android:title="@string/list_sync_interval"
+            android:summary="@string/list_sync_summary"
+            android:defaultValue="0"
+            android:entries="@array/sync_interval"
+            android:entryValues="@array/sync_interval_inserted"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

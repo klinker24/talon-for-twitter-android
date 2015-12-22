@@ -64,14 +64,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
         int currentAccount = sharedPreferences.getInt("current_account", 1);
 
-        if (sharedPrefs.getBoolean("convert_long_lists", true)) {
-            sharedPreferences.edit().putBoolean("convert_long_lists", false).commit();
-            sharedPrefs.edit().putLong("account_1_list_1_long", sharedPrefs.getInt("account_1_list_1", 0)).commit();
-            sharedPrefs.edit().putLong("account_1_list_2_long", sharedPrefs.getInt("account_1_list_2", 0)).commit();
-            sharedPrefs.edit().putLong("account_1_list_1_long", sharedPrefs.getInt("account_2_list_1", 0)).commit();
-            sharedPrefs.edit().putLong("account_1_list_2_long", sharedPrefs.getInt("account_2_list_2", 0)).commit();
-        }
-
         for (int i = 0; i < MAX_EXTRA_PAGES; i++) {
             String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";
             String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
