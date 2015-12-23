@@ -562,7 +562,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/"))) {
+                            if (!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/") || tweetText.contains("snpy.tv"))) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performClick();

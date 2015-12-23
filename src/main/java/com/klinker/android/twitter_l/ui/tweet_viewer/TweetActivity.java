@@ -192,13 +192,11 @@ public class TweetActivity extends SlidingActivity {
         }
 
         if (hasWebpage && webpages.size() == 1) {
-            if (webpages.get(0).contains(tweetId + "/photo/1")) {
-                hasWebpage = false;
-                gifVideo = webpages.get(0);
-            } else if (webpages.get(0).contains("vine.co/v/")) {
-                hasWebpage = false;
-                gifVideo = webpages.get(0);
-            } else if (webpages.get(0).contains("amp.twimg.com/v/")) {
+            String web = webpages.get(0);
+            if (web.contains(tweetId + "/photo/1") ||
+                    web.contains("vine.co/v/") ||
+                    web.contains("amp.twimg.com/v/") ||
+                    web.contains("snpy.tv")) {
                 hasWebpage = false;
                 gifVideo = webpages.get(0);
             }
@@ -232,7 +230,8 @@ public class TweetActivity extends SlidingActivity {
                         (gifVideo.contains(".mp4") ||
                                 gifVideo.contains("/photo/1") ||
                                 gifVideo.contains("vine.co/v/") ||
-                                gifVideo.contains("amp.twimg.com/v/")))) {
+                                gifVideo.contains("amp.twimg.com/v/") ||
+                                gifVideo.contains("snpy.tv")))) {
             displayPlayButton = true;
         }
 
@@ -611,7 +610,10 @@ public class TweetActivity extends SlidingActivity {
 
         if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine/twimg video)
 
-            if (displayPlayButton && (gifVideo.contains("vine") || gifVideo.contains("amp.twimg.com/v/"))) {
+            if (displayPlayButton &&
+                    (gifVideo.contains("vine") ||
+                            gifVideo.contains("amp.twimg.com/v/") ||
+                            gifVideo.contains("snpy.tv"))) {
                 image.setBackgroundResource(android.R.color.black);
             } else {
                 new Handler().postDelayed(new Runnable() {
@@ -631,7 +633,9 @@ public class TweetActivity extends SlidingActivity {
                 public void onClick(View view) {
                     if (!hidePopups()) {
                         if (displayPlayButton) {
-                            if (gifVideo != null && gifVideo.contains("amp.twimg.com")) {
+                            if (gifVideo != null &&
+                                    (gifVideo.contains("amp.twimg.com") ||
+                                     gifVideo.contains("snpy.tv"))) {
                                 // I cant figure out how to play these for the life of me...
                                 new WebIntentBuilder(context)
                                         .setUrl(gifVideo)
