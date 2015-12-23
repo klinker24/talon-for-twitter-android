@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import org.apache.http.HttpEntity;
@@ -25,6 +26,8 @@ import org.jsoup.select.Elements;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -86,6 +89,8 @@ public class VideoFragment extends Fragment {
                     videoUrl = getVineLink();
                 } else if (tweetUrl.contains("amp.twimg.com/v/")) {
                     videoUrl = getAmpTwimgLink();
+                } else if (tweetUrl.contains("snpy.tv")) {
+                    videoUrl = getSnpyTvLink();
                 } else if (tweetUrl.contains("/photo/1") && tweetUrl.contains("twitter.com/")) {
                     // this is before it was added to the api.
                     // finds the video from the HTML on twitters website.
@@ -99,7 +104,7 @@ public class VideoFragment extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Log.v("talon_gif", "video_url: " + URLDecoder.decode(videoUrl));
+                            Log.v("talon_gif", "video_url: " + videoUrl);
                             if (videoUrl != null) {
                                 final Uri videoUri = Uri.parse(videoUrl);
 
@@ -120,6 +125,9 @@ public class VideoFragment extends Fragment {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
+                            Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
+
+                            getActivity().finish();
                         }
                     }
                 });
@@ -185,6 +193,39 @@ public class VideoFragment extends Fragment {
 
                 for (Element e : elements) {
                     return e.attr("content");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private String getSnpyTvLink() {
+        try {
+            String location = tweetUrl;
+            HttpURLConnection connection = (HttpURLConnection) new URL(location).openConnection();
+            connection.setInstanceFollowRedirects(false);
+            while (connection.getResponseCode() / 100 == 3) {
+                location = connection.getHeaderField("location");
+                connection = (HttpURLConnection) new URL(location).openConnection();
+            }
+
+            tweetUrl = location;
+
+            Log.v("talon_gif", "tweet_url: " + tweetUrl);
+
+            Document doc = getDoc();
+
+            if(doc != null) {
+                Elements elements = doc.getElementsByAttributeValue("class", "snappy-video");
+
+                for (Element e : elements) {
+                    return e.attr("src");
                 }
             }
 
