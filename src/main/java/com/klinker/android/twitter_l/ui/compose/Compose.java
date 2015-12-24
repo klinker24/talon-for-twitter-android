@@ -401,42 +401,7 @@ public abstract class Compose extends Activity implements
         attachImage[1] = (ImageView) findViewById(R.id.picture2);
         attachImage[2] = (ImageView) findViewById(R.id.picture3);
         attachImage[3] = (ImageView) findViewById(R.id.picture4);
-        cancelButton[0] = (ImageButton) findViewById(R.id.cancel1);
-        cancelButton[1] = (ImageButton) findViewById(R.id.cancel2);
-        cancelButton[2] = (ImageButton) findViewById(R.id.cancel3);
-        cancelButton[3] = (ImageButton) findViewById(R.id.cancel4);
-        holders[0] = (FrameLayout) findViewById(R.id.holder1);
-        holders[1] = (FrameLayout) findViewById(R.id.holder2);
-        holders[2] = (FrameLayout) findViewById(R.id.holder3);
-        holders[3] = (FrameLayout) findViewById(R.id.holder4);
 
-        for (int i = 0; i < cancelButton.length; i++) {
-            final int pos = i;
-            cancelButton[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imagesAttached--;
-
-                    List<String> uris = new ArrayList<String>();
-                    for (String uri : attachedUri) {
-                        uris.add(uri);
-
-                    }
-                    uris.remove(pos);
-
-                    for (int i = 0; i < attachImage.length; i++) {
-                        attachImage[i].setImageDrawable(null);
-                        attachedUri[i] = null;
-                        holders[i].setVisibility(View.GONE);
-                    }
-                    for (int i = 0; i < imagesAttached; i++) {
-                        attachImage[i].setImageURI(Uri.parse(uris.get(i)));
-                        attachedUri[i] = uris.get(i);
-                        holders[i].setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }
         attachButton = (ImageButton) findViewById(R.id.attach);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);

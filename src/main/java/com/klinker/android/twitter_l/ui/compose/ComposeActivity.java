@@ -49,6 +49,8 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ComposeActivity extends Compose {
@@ -67,6 +69,43 @@ public class ComposeActivity extends Compose {
         setContentView(R.layout.compose_activity);
 
         setUpSimilar();
+
+        cancelButton[0] = (ImageButton) findViewById(R.id.cancel1);
+        cancelButton[1] = (ImageButton) findViewById(R.id.cancel2);
+        cancelButton[2] = (ImageButton) findViewById(R.id.cancel3);
+        cancelButton[3] = (ImageButton) findViewById(R.id.cancel4);
+        holders[0] = (FrameLayout) findViewById(R.id.holder1);
+        holders[1] = (FrameLayout) findViewById(R.id.holder2);
+        holders[2] = (FrameLayout) findViewById(R.id.holder3);
+        holders[3] = (FrameLayout) findViewById(R.id.holder4);
+
+        for (int i = 0; i < cancelButton.length; i++) {
+            final int pos = i;
+            cancelButton[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imagesAttached--;
+
+                    List<String> uris = new ArrayList<String>();
+                    for (String uri : attachedUri) {
+                        uris.add(uri);
+
+                    }
+                    uris.remove(pos);
+
+                    for (int i = 0; i < attachImage.length; i++) {
+                        attachImage[i].setImageDrawable(null);
+                        attachedUri[i] = null;
+                        holders[i].setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < imagesAttached; i++) {
+                        attachImage[i].setImageURI(Uri.parse(uris.get(i)));
+                        attachedUri[i] = uris.get(i);
+                        holders[i].setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
 
         int count = 0; // number of accounts logged in
 
