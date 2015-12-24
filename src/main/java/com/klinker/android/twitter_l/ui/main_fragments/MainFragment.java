@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -591,6 +593,27 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toastBar.setElevation(Utils.toDP(6, getActivity()));
+        }
+
+        try {
+            View toastBackground = view.findViewById(R.id.toast_background);
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+
+            // fab is 20 margin right and 72 width, so max size of the toast should be screen_width - 20 - 20 - 72,
+            // then - 20 more for the left margin on the background
+            int maxSize = width - Utils.toDP(132, context);
+            int textSize = Utils.toDP(250, context); // size needed to fit "NO NEW TWEETS"
+            ViewGroup.LayoutParams params = toastBackground.getLayoutParams();
+            if (maxSize < textSize) {
+                params.width = maxSize;
+            } else {
+                params.width = textSize;
+            }
+        } catch (Exception e) {
+
         }
     }
 
