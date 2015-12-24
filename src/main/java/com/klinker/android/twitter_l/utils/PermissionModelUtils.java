@@ -54,7 +54,8 @@ public class PermissionModelUtils {
     }
 
     private void requestPermissions() {
-        ((Activity)context).requestPermissions(NECESSARY_PERMISSIONS, 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            ((Activity)context).requestPermissions(NECESSARY_PERMISSIONS, 1);
     }
 
     public void showStorageIssue() {
@@ -64,7 +65,8 @@ public class PermissionModelUtils {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((Activity)context).requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                            ((Activity)context).requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
                     }
                 })
                 .create().show();
