@@ -24,6 +24,7 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.DetailedTweetView;
 import com.klinker.android.twitter_l.manipulations.widgets.HackyViewPager;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.Utils;
 
 public class PhotoPagerActivity extends AppCompatActivity {
 
@@ -91,6 +92,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
             }
         }
 
+        Utils.setUpTweetTheme(this, AppSettings.getInstance(this));
         setContentView(R.layout.photo_pager_activity);
 
         download = (ImageButton) findViewById(R.id.save_button);
