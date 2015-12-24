@@ -147,16 +147,18 @@ public class PhotoFragment extends Fragment {
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                new PermissionModelUtils(getActivity()).showStorageIssue();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    new PermissionModelUtils(getActivity()).showStorageIssue();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     try {
                         NotificationCompat.Builder mBuilder =
