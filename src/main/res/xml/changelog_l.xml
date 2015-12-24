@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.4.0.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="3.4.0">
         <text>New full screen viewer for video content</text>
         <text>Added tweet details to the image viewer</text>
