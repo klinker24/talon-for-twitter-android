@@ -666,7 +666,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/"))) {
+                            if (!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/") || tweetText.contains("snpy.tv"))) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performLongClick();
