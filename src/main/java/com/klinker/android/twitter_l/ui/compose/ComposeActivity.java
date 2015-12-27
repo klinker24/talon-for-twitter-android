@@ -103,6 +103,8 @@ public class ComposeActivity extends Compose {
                         attachedUri[i] = uris.get(i);
                         holders[i].setVisibility(View.VISIBLE);
                     }
+
+                    attachButton.setEnabled(true);
                 }
             });
         }
