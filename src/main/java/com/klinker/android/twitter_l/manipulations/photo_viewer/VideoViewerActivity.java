@@ -20,6 +20,7 @@ import android.os.*;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.ChangeImageTransform;
@@ -194,6 +195,12 @@ public class VideoViewerActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(android.R.id.content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
@@ -218,6 +225,19 @@ public class VideoViewerActivity extends AppCompatActivity {
         } else {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
+
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if ((velocityY > 3000 || velocityY < -3000) &&
+                        (velocityX < 7000 && velocityX > -7000)) {
+                    onBackPressed();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     private void downloadVideo() {
@@ -376,4 +396,6 @@ public class VideoViewerActivity extends AppCompatActivity {
         });
         alpha.start();
     }
+
+    private GestureDetector gestureDetector;
 }

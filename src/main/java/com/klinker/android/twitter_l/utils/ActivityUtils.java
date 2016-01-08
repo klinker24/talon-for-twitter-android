@@ -297,7 +297,7 @@ public class ActivityUtils {
                     commitLastRefresh(lastMention.get(0).getId());
                 }
             }
-        } catch (TwitterException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -346,7 +346,7 @@ public class ActivityUtils {
             e.putStringSet("activity_latest_followers_" + currentAccount, latestFollowers);
             e.putInt("activity_follower_count_" + currentAccount, me.getFollowersCount());
             e.commit();
-        } catch (TwitterException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
