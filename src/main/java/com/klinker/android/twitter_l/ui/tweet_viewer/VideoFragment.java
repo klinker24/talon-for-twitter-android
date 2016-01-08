@@ -6,8 +6,11 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -70,15 +73,17 @@ public class VideoFragment extends Fragment {
             MediaController mediaController = new MediaController(getActivity());
             mediaController.setAnchorView(video);
             video.setMediaController(mediaController);
+            hasControls = true;
         }
+
 
         getGif();
 
         return layout;
     }
 
+    private boolean hasControls = false;
     private void getGif() {
-        Log.v("talon_gif", "getting gif");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -104,7 +109,6 @@ public class VideoFragment extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Log.v("talon_gif", "video_url: " + videoUrl);
                             if (videoUrl != null) {
                                 final Uri videoUri = Uri.parse(videoUrl);
 
@@ -113,9 +117,17 @@ public class VideoFragment extends Fragment {
                                     @Override
                                     public void onPrepared(MediaPlayer mp) {
                                         video.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
-                                        mp.setLooping(true);
-
                                         layout.findViewById(R.id.list_progress).setVisibility(View.GONE);
+                                    }
+                                });
+
+                                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        if (!hasControls) {
+                                            mp.seekTo(0);
+                                            mp.start();
+                                        }
                                     }
                                 });
 
@@ -258,5 +270,21 @@ public class VideoFragment extends Fragment {
 
     public String getLoadedVideoLink() {
         return videoUrl;
+    }
+
+    class SwipeDetector extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+            Log.v("talon_gesture", "fling detected");
+            if ((velocityY > 3000 || velocityY < -3000) &&
+                    (velocityX < 7000 && velocityX > -7000)) {
+                getActivity().onBackPressed();
+                Log.v("talon_gesture", "closing activity");
+            }
+
+            return super.onFling(event1, event2, velocityX, velocityY);
+        }
     }
 }
