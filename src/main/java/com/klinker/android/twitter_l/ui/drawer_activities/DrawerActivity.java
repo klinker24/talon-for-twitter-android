@@ -717,6 +717,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         }
 
         statusBarHeight = Utils.getStatusBarHeight(context);
+
+        if (MainActivity.isPopup) {
+            statusBarHeight = 0;
+        }
+        
         navBarHeight = Utils.getNavBarHeight(context);
 
         try {

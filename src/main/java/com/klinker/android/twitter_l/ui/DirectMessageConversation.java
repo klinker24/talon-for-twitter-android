@@ -52,6 +52,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
@@ -282,8 +283,12 @@ public class DirectMessageConversation extends AppCompatActivity {
                     new GetList().execute();
                     return;
                 }
+
                 listView.setVisibility(View.VISIBLE);
                 listView.setStackFromBottom(true);
+                listView.setSelection(cursorAdapter.getCount());
+                listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+
 
                 try {
                     c.close();
