@@ -719,6 +719,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         statusBarHeight = Utils.getStatusBarHeight(context);
 
         if (MainActivity.isPopup) {
+            toolbar.setTranslationY(-1 * statusBarHeight);
             statusBarHeight = 0;
         }
         
@@ -1674,7 +1675,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         showStatus.start();
 
 
-        if (toolbar != null) {
+        if (toolbar != null && !MainActivity.isPopup) {
             if (toolBarVis == null) {
                 toolBarVis = new Handler();
             }
@@ -1753,7 +1754,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         hideStatus.setEvaluator(EVALUATOR);
         hideStatus.start();
 
-        if (toolbar != null) {
+        if (toolbar != null && !MainActivity.isPopup) {
             ValueAnimator hideToolbar = ValueAnimator.ofInt(0, -1 * abOffset);
             hideToolbar.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
