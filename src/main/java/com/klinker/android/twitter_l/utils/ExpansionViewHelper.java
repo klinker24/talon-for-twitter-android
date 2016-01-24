@@ -2006,7 +2006,7 @@ public class ExpansionViewHelper {
             full = full.substring(0, full.length() - 1);
         }
 
-        return full;
+        return full.replaceAll("  ", " ");
     }
     private static String stripTrailingPeriods(String url) {
         try {
