@@ -207,7 +207,7 @@ public class TutorialActivity extends Activity {
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            if (state == STATE_B1_W && event.getAction() == MotionEvent.ACTION_DOWN) {
+            /*if (state == STATE_B1_W && event.getAction() == MotionEvent.ACTION_DOWN) {
                 state++;
                 circles[0].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[0].bounceTime * 1000);
             } else if (state == STATE_B2_W && event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -219,7 +219,7 @@ public class TutorialActivity extends Activity {
             } else if (state == STATE_B4_W && event.getAction() == MotionEvent.ACTION_DOWN) {
                 state++;
                 circles[3].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[3].bounceTime * 1000);
-            } else if (state == STATE_B5_W && event.getAction() == MotionEvent.ACTION_DOWN) {
+            } else */if (state == STATE_B5_W && event.getAction() == MotionEvent.ACTION_DOWN) {
                 state++;
                 circles[4].startTime = System.currentTimeMillis();
                 logoY = logo.getHeight() / 2;

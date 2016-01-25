@@ -120,7 +120,7 @@
             android:key="use_snackbar"
             android:title="@string/use_snackbar"
             android:summary="@string/use_snackbar_summary"
-            android:defaultValue="true"
+            android:defaultValue="false"
             />
 
         <CheckBoxPreference
