@@ -409,6 +409,8 @@ public class MentionsFragment extends MainFragment {
             return;
         }
 
+        overrideSnackbarSetting = false;
+        
         isToastShowing = false;
 
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
