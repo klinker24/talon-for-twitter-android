@@ -105,7 +105,7 @@
         <text>
             Three things are required to make favorite user notifications work:
 
-            
+
             1.) You have to have favorited a user within Talon.
 
             2.) You must set a background refresh interval for the timeline (under Sync Settings).
