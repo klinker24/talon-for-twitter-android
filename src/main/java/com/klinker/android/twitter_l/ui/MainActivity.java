@@ -319,7 +319,7 @@ public class MainActivity extends DrawerActivity {
                 public void onReceive(Context context, Intent intent) {
                     try {
                         Log.v("tutorial_activity", "long click app bar");
-                        toolbar.performClick();
+                        toolbar.performLongClick();
                         unregisterReceiver(this);
                     } catch (Exception e) {
                         e.printStackTrace();

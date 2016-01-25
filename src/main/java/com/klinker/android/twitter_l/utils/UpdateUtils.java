@@ -72,33 +72,34 @@ public class UpdateUtils {
             sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
         }
 
-        if (sharedPrefs.contains("bottom_pictures")) {
-            if (sharedPrefs.getBoolean("bottom_pictures", true)) {
-                sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+        boolean justInstalled = runFirstInstalled(sharedPrefs);
+        runEveryUpdate(context, sharedPrefs);
+
+        if (!justInstalled) {
+            if (sharedPrefs.getBoolean("version_3_5", true)) {
+                sharedPrefs.edit().putBoolean("version_3_5", false)
+                        .putBoolean("use_snackbar", false)
+                        .commit();
+
+                AppSettings.getInstance(context).useSnackbar = false;
+                AppSettings.invalidate();
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Snackbar Updates")
+                        .setMessage("With this version, the snackbar (which showed you the number of tweets from the top of your timeline) has been turned off by default.\n\n" +
+                                "- Clicking the app bar, at the top, shows how far into your timeline you are.\n" +
+                                "- Long clicking the app bar is a shortcut to take you directly to the top of the list.\n\n" +
+                                "If you would rather use the old method, it is available under UI Settings.")
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) { }
+                        })
+                        .create().show();
             }
         }
-
-        if (sharedPrefs.getBoolean("version_3_2", true)) {
-            sharedPrefs.edit().putBoolean("version_3_2", false).commit();
-            sharedPrefs.edit().putBoolean("bottom_pictures", true).commit();
-            new AlertDialog.Builder(context)
-                    .setTitle("New Changes")
-                    .setMessage("Some stuff has changed on your timeline. With this version, Talon no longer uses the in-line expansion of tweets by default.\n\n" +
-                            "We have made some major revisions to the flow, style, and animations of both the tweet and profile viewers, which promped this change.\n\n" +
-                            "If you do not like this change after trying it, head to UI Settings and disable the 'Pictures Below Tweets' option to go back to the way it was before.")
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .create().show();
-        }
-
-        runFirstInstalled(context, sharedPrefs);
-        runEveryUpdate(context, sharedPrefs);
     }
 
-    public static void runFirstInstalled(final Context context, final SharedPreferences sharedPrefs) {
+    public static boolean runFirstInstalled(final SharedPreferences sharedPrefs) {
         if (sharedPrefs.getBoolean("fresh_install", true)) {
             SharedPreferences.Editor e = sharedPrefs.edit();
             e.putBoolean("fresh_install", false);
@@ -139,6 +140,10 @@ public class UpdateUtils {
             sharedPrefs.edit().putLong("original_activity_refresh_" + 2, Calendar.getInstance().getTimeInMillis()).commit();
 
             e.commit();
+
+            return true;
+        } else {
+            return false;
         }
     }
 
