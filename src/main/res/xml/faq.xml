@@ -25,7 +25,7 @@
 
             To receive notifications based on your "Notification Settings" section of the app, you need to enable background refreshes for the timelines that you want to get notified for (under Sync Settings).
 
-            If you want to receive a notification every time someone mentions you or sends you a direct message, then enable a background refresh interval for those timelines before turning on the notifications for them.
+            For example, if you want to receive a notification every time someone mentions you or sends you a direct message, then enable a background refresh interval for those timelines before turning on the notifications for them.
 
             If you want to get notifications for interactions (new followers, retweets, favorites), then the same idea applies, but I would ask that you read about the activity section of Talon from the FAQ below.
 
@@ -105,8 +105,11 @@
         <text>
             Three things are required to make favorite user notifications work:
 
+            
             1.) You have to have favorited a user within Talon.
+
             2.) You must set a background refresh interval for the timeline (under Sync Settings).
+
             3.) You must turn on timeline notifications for the "Home" timeline (under Notification Settings).
         </text>
     </question>
