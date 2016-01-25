@@ -715,6 +715,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                                     // just in case
                                                 }
                                                 isToastShowing = false;
+                                                overrideSnackbarSetting = true;
                                                 showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                                             }
                                         }, 500);
@@ -735,6 +736,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                                             // just in case
                                         }
                                         isToastShowing = false;
+                                        overrideSnackbarSetting = true;
                                         showToastBar(getString(R.string.rate_limit_reached),
                                                 getString(R.string.info),
                                                 400,

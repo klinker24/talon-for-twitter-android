@@ -206,6 +206,7 @@ public class ListFragment extends MainFragment {
                                     } catch (Exception e) {
                                         // just in case
                                     }
+                                    overrideSnackbarSetting = true;
                                     showToastBar(text + "", jumpToTop, 400, true, toTopListener);
                                 }
                             }, 500);
@@ -368,105 +369,6 @@ public class ListFragment extends MainFragment {
         }
 
         return pos;
-    }
-
-
-    public Handler handler = new Handler();
-    public Runnable hideToast = new Runnable() {
-        @Override
-        public void run() {
-            hideToastBar(mLength);
-            infoBar = false;
-        }
-    };
-    public long mLength;
-
-    public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        if (!settings.useSnackbar && !overrideSnackbarSetting) {
-            return;
-        }
-
-        if (quit) {
-            infoBar = true;
-        } else {
-            infoBar = false;
-        }
-
-        mLength = length;
-
-        toastDescription.setText(description);
-        toastButton.setText(buttonText);
-        toastButton.setOnClickListener(listener);
-
-        if(!isToastShowing) {
-            handler.removeCallbacks(hideToast);
-            isToastShowing = true;
-            toastBar.setVisibility(View.VISIBLE);
-
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    if (quit) {
-                        handler.postDelayed(hideToast, 3000);
-                    }
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-            anim.setDuration(length);
-            toastBar.startAnimation(anim);
-        }
-    }
-
-    public void hideToastBar(long length) {
-        mLength = length;
-
-        if (!isToastShowing || (!settings.useSnackbar && !overrideSnackbarSetting)) {
-            return;
-        }
-
-        overrideSnackbarSetting = false;
-
-        isToastShowing = false;
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                toastBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        anim.setDuration(length);
-        toastBar.startAnimation(anim);
-    }
-
-    public void updateToastText(String text, String button) {
-        if(isToastShowing && !(text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop))) {
-            infoBar = false;
-            toastDescription.setText(text);
-            toastButton.setText(button);
-        } else if (text.equals("0 " + fromTop) || text.equals("1 " + fromTop) || text.equals("2 " + fromTop)) {
-            hideToastBar(400);
-        }
     }
 
     public void markReadForLoad() {
