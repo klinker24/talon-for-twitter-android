@@ -17,6 +17,7 @@ package com.klinker.android.twitter_l.ui;
 
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
+import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -123,6 +124,13 @@ public class MainActivity extends DrawerActivity {
             }
         }
     };
+
+    public void topCurrentFragment() {
+        Fragment f = mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+        if (f instanceof MainFragment) {
+            ((MainFragment) f).toTop();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
