@@ -132,6 +132,13 @@ public class MainActivity extends DrawerActivity {
         }
     }
 
+    public void showAwayFromTopToast() {
+        Fragment f = mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
+        if (f instanceof MainFragment) {
+            ((MainFragment) f).showAwayFromTopToast();
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
