@@ -119,6 +119,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     };
 
     public void showAwayFromTopToast() {
+        overrideSnackbarSetting = true;
         showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, true, toTopListener);
     }
 
@@ -621,15 +622,16 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
     }
 
+    protected boolean overrideSnackbarSetting = false;
     public Handler removeToastHandler;
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
         if (removeToastHandler == null) {
             removeToastHandler = new Handler();
-        } else {
+        } else if (!overrideSnackbarSetting) {
             removeToastHandler.removeCallbacksAndMessages(null);
         }
 
-        if (!settings.useSnackbar) {
+        if (!settings.useSnackbar && !overrideSnackbarSetting) {
             return;
         }
 
@@ -680,9 +682,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void hideToastBar(long length) {
-        if (!isToastShowing || !settings.useSnackbar) {
+        if (!isToastShowing || (!settings.useSnackbar && !overrideSnackbarSetting)) {
             return;
         }
+
+        overrideSnackbarSetting = false;
 
         if (removeToastHandler == null) {
             removeToastHandler.removeCallbacksAndMessages(null);

@@ -382,7 +382,7 @@ public class ListFragment extends MainFragment {
     public long mLength;
 
     public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        if (!settings.useSnackbar) {
+        if (!settings.useSnackbar && !overrideSnackbarSetting) {
             return;
         }
 
@@ -431,7 +431,7 @@ public class ListFragment extends MainFragment {
     public void hideToastBar(long length) {
         mLength = length;
 
-        if (!isToastShowing || !settings.useSnackbar) {
+        if (!isToastShowing || (!settings.useSnackbar && !overrideSnackbarSetting)) {
             return;
         }
 
