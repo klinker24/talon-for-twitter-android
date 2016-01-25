@@ -118,6 +118,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
     };
 
+    public void showAwayFromTopToast() {
+        showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, true, toTopListener);
+    }
+
     public AppSettings settings;
     
     public void setAppSettings() {

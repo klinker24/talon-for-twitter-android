@@ -222,6 +222,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                     return true;
                 }
             });
+
+            toolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (DrawerActivity.this instanceof MainActivity) {
+                        ((MainActivity) DrawerActivity.this).showAwayFromTopToast();
+                    }
+                }
+            });
+
             boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
             try {
