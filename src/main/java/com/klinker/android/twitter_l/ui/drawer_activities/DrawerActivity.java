@@ -213,6 +213,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 }
             });
 
+            toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (DrawerActivity.this instanceof MainActivity) {
+                        ((MainActivity) DrawerActivity.this).topCurrentFragment();
+                    }
+                    return true;
+                }
+            });
             boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
             try {
