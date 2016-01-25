@@ -55,14 +55,26 @@ public class TutorialActivity extends Activity {
     private static final int STATE_B3_E = 11;
     private static final int STATE_T3_I = 12;
     private static final int STATE_B3_W = 13;
-    private static final int STATE_FINISHING = 14;
-    private static final int STATE_MOVING_LOGO = 15;
-    private static final int STATE_FADING_OUT = 16;
+    private static final int STATE_T3_O = 14;
+    private static final int STATE_B3_S = 15;
+    private static final int STATE_B4_E = 16;
+    private static final int STATE_T4_I = 17;
+    private static final int STATE_B4_W = 18;
+    private static final int STATE_T4_O = 19;
+    private static final int STATE_B4_S = 20;
+    private static final int STATE_B5_E = 21;
+    private static final int STATE_T5_I = 22;
+    private static final int STATE_B5_W = 23;
+    private static final int STATE_FINISHING = 24;
+    private static final int STATE_MOVING_LOGO = 25;
+    private static final int STATE_FADING_OUT = 26;
 
     public static final String ACTION_OPEN_DRAWER = "com.klinker.android.evolve_sms.tutorial.OPEN_DRAWER";
     public static final String ACTION_CLOSE_DRAWER = "com.klinker.android.evolve_sms.tutorial.CLOSE_DRAWER";
     public static final String ACTION_PAGE_RIGHT = "com.klinker.android.evolve_sms.tutorial.PAGE_RIGHT";
     public static final String ACTION_PAGE_LEFT = "com.klinker.adnroid.evolve_sms.tutorial.PAGE_LEFT";
+    public static final String ACTION_TAP_APP_BAR = "com.klinker.android.evolve_sms.tutorial.TAP_APP_BAR";
+    public static final String ACTION_LONG_CLICK_APP_BAR = "com.klinker.android.evolve_sms.tutorial.LONG_CLICK_APP_BAR";
     public static final String ACTION_FINISH_TUTORIAL = "com.klinker.android.evolve_sms.tutorial.FINISH";
 
     private Bitmap logo;
@@ -98,6 +110,8 @@ public class TutorialActivity extends Activity {
         private final String TEXT1;
         private final String TEXT2;
         private final String TEXT3;
+        private final String TEXT4;
+        private final String TEXT5;
 
         public DrawingPanel (Context context) {
             super(context);
@@ -117,7 +131,9 @@ public class TutorialActivity extends Activity {
             }
 
             TEXT2 = context.getResources().getString(R.string.part_2);
-            TEXT3 = context.getResources().getString(R.string.part_3);
+            TEXT3 = context.getResources().getString(R.string.part_4);
+            TEXT4 = context.getResources().getString(R.string.part_5);
+            TEXT5 = context.getResources().getString(R.string.part_3);
         }
 
         @Override
@@ -128,6 +144,9 @@ public class TutorialActivity extends Activity {
             float circle1 = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_1_size);
             float circle2 = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_2_size);
             float circle3 = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_3_size);
+            float circle4 = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_4_size);
+            float circle5 = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_5_size);
+
             float padding = getResources().getDimensionPixelSize(R.dimen.tutorial_bubble_padding);
 
             circles = new Circle[] {
@@ -146,12 +165,27 @@ public class TutorialActivity extends Activity {
                             getHeight() / 2 - 2 * padding,
                             5000),
                     new Circle(circle3,
+                            .3,
+                            .95,
+                            getResources().getColor(android.R.color.holo_red_dark),
+                            getWidth() - circle1 - padding,
+                            padding + circle1,
+                            9000),
+                    new Circle(circle4,
+                            .25,
+                            .9,
+                            getResources().getColor(android.R.color.holo_orange_light),
+                            padding * 3,
+                            getHeight() / 2 - 2 * padding,
+                            13000),
+                    new Circle(circle5,
                             .35,
                             .85,
                             getResources().getColor(android.R.color.holo_green_dark),
                             getWidth() / 2,
                             getHeight() - circle3 - (padding * 2),
-                            9000)
+                            17000)
+
             };
 
             thread.setRunning(true);
@@ -181,7 +215,13 @@ public class TutorialActivity extends Activity {
                 circles[1].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[1].bounceTime * 1000);
             } else if (state == STATE_B3_W && event.getAction() == MotionEvent.ACTION_DOWN) {
                 state++;
-                circles[2].startTime = System.currentTimeMillis();
+                circles[2].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[2].bounceTime * 1000);
+            } else if (state == STATE_B4_W && event.getAction() == MotionEvent.ACTION_DOWN) {
+                state++;
+                circles[3].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[3].bounceTime * 1000);
+            } else if (state == STATE_B5_W && event.getAction() == MotionEvent.ACTION_DOWN) {
+                state++;
+                circles[4].startTime = System.currentTimeMillis();
                 logoY = logo.getHeight() / 2;
             }
 
@@ -195,6 +235,8 @@ public class TutorialActivity extends Activity {
         private boolean needCloseDrawer = true;
         private boolean needPageRight = true;
         private boolean needPageLeft = true;
+        private boolean needTapAction = true;
+        private boolean needLongClickAction = true;
         public void update() {
             switch (state) {
                 case STATE_LOADING:
@@ -318,17 +360,107 @@ public class TutorialActivity extends Activity {
                     }
                     break;
                 case STATE_B3_W:
+                    time = System.currentTimeMillis();
+                    if (time - startTime > 4000) {
+                        state++;
+                        circles[2].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[2].bounceTime * 1000);
+                    } else if (time - startTime > 2000 && needTapAction) {
+                        sendBroadcast(new Intent(ACTION_TAP_APP_BAR));
+                        needTapAction = false;
+                    }
+
+                    break;
+                case STATE_T3_O:
+                    textAlpha -= 15;
+                    if (textAlpha <= 0) {
+                        textAlpha = 0;
+                        state++;
+                        circles[2].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[2].bounceTime * 1000);
+                    }
+                    break;
+                case STATE_B3_S:
+                    circles[2].radius = getRadiusNeeded(circles[2]);
+                    if (circles[2].radius <= 0) {
+                        circles[2].radius = 0;
+                        state++;
+                        circles[3].startTime = System.currentTimeMillis();
+                    }
+
+                    break;
+                case STATE_B4_E:
+                    if (System.currentTimeMillis() - circles[3].startTime < circles[3].maxTime * 1000) {
+                        circles[3].radius = getRadiusNeeded(circles[3]);
+                    } else {
+                        state++;
+                        startTime = System.currentTimeMillis();
+                    }
+
+                    break;
+                case STATE_T4_I:
+                    textAlpha += 15;
+                    if (textAlpha >= 255) {
+                        textAlpha = 255;
+                        state++;
+                        startTime = System.currentTimeMillis();
+                    }
+                    break;
+                case STATE_B4_W:
+                    time = System.currentTimeMillis();
+                    if (time - startTime > 4000) {
+                        state++;
+                        circles[3].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[3].bounceTime * 1000);
+                    } else if (time - startTime > 2000 && needLongClickAction) {
+                        sendBroadcast(new Intent(ACTION_LONG_CLICK_APP_BAR));
+                        needLongClickAction = false;
+                    }
+
+                    break;
+                case STATE_T4_O:
+                    textAlpha -= 15;
+                    if (textAlpha <= 0) {
+                        textAlpha = 0;
+                        state++;
+                        circles[3].startTime = System.currentTimeMillis() - (long) (1.04017 * circles[3].bounceTime * 1000);
+                    }
+                    break;
+                case STATE_B4_S:
+                    circles[3].radius = getRadiusNeeded(circles[3]);
+                    if (circles[3].radius <= 0) {
+                        circles[3].radius = 0;
+                        state++;
+                        circles[4].startTime = System.currentTimeMillis();
+                    }
+
+                    break;
+                case STATE_B5_E:
+                    if (System.currentTimeMillis() - circles[4].startTime < circles[4].maxTime * 1000) {
+                        circles[4].radius = getRadiusNeeded(circles[4]);
+                    } else {
+                        state++;
+                        startTime = System.currentTimeMillis();
+                    }
+
+                    break;
+                case STATE_T5_I:
+                    textAlpha += 15;
+                    if (textAlpha >= 255) {
+                        textAlpha = 255;
+                        state++;
+                        startTime = System.currentTimeMillis();
+                    }
+                    break;
+                case STATE_B5_W:
                     // just wait for a touch on the screen
                     break;
                 case STATE_FINISHING:
-                    circles[2].radius += 2.5 * Math.pow((System.currentTimeMillis() - circles[2].startTime) / 700.0, 4) + 8;
+                    circles[4].radius += 2.5 * Math.pow((System.currentTimeMillis() - circles[4].startTime) / 700.0, 4) + 8;
                     textAlpha -= 5;
 
                     if (textAlpha <= 0) {
                         textAlpha = 0;
                     }
 
-                    if (circles[2].y - circles[2].radius < TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -400, getResources().getDisplayMetrics())) {
+                    if (circles[4].y - circles[4].radius < TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -400, getResources().getDisplayMetrics())) {
                         textAlpha = 0;
                         state++;
                         startTime = System.currentTimeMillis();
@@ -340,11 +472,11 @@ public class TutorialActivity extends Activity {
 
                     if (logoY < -1 * logo.getHeight()) {
                         state++;
-                        circles[2].startTime = System.currentTimeMillis();
+                        circles[4].startTime = System.currentTimeMillis();
                     }
                     break;
                 case STATE_FADING_OUT:
-                    alpha -= 4 * Math.pow((System.currentTimeMillis() - circles[2].startTime) / 1000.0, 2) + 8;
+                    alpha -= 4 * Math.pow((System.currentTimeMillis() - circles[4].startTime) / 1000.0, 2) + 8;
                     if (alpha <= 0) {
                         state++;
                     }
@@ -415,12 +547,10 @@ public class TutorialActivity extends Activity {
                     case STATE_B3_E:
                     case STATE_T3_I:
                     case STATE_B3_W:
-                    case STATE_FINISHING:
-                    case STATE_MOVING_LOGO:
-                    case STATE_FADING_OUT:
+                    case STATE_T3_O:
+                    case STATE_B3_S:
                         // Draw the third circle at its state
                         paint.setColor(circles[2].color);
-                        paint.setAlpha(alpha);
                         canvas.drawCircle(circles[2].x, circles[2].y, (float) circles[2].radius, paint);
                         paint.setColor(getResources().getColor(android.R.color.white));
                         paint.setTextAlign(Paint.Align.CENTER);
@@ -429,7 +559,45 @@ public class TutorialActivity extends Activity {
                         paint.setAlpha(textAlpha);
                         text = TEXT3.split("\n");
                         for (int i = 0; i < text.length; i++) {
-                            canvas.drawText(text[i], circles[2].x, circles[2].y + (textSize) - (text.length * textSize / 2) + (i * textSize), paint);
+                            canvas.drawText(text[i], circles[2].x, circles[2].y + (textSize/2) - (text.length * textSize / 2) + (i * textSize), paint);
+                        }
+                        break;
+                    case STATE_B4_E:
+                    case STATE_T4_I:
+                    case STATE_B4_W:
+                    case STATE_T4_O:
+                    case STATE_B4_S:
+                        // Draw the fourth circle at its state
+                        paint.setColor(circles[3].color);
+                        canvas.drawCircle(circles[3].x, circles[3].y, (float) circles[3].radius, paint);
+                        paint.setColor(getResources().getColor(android.R.color.white));
+                        paint.setTextAlign(Paint.Align.CENTER);
+                        textSize = (float) (1.5 * getResources().getDimensionPixelSize(R.dimen.tutorial_text_size));
+                        paint.setTextSize(textSize);
+                        paint.setAlpha(textAlpha);
+                        text = TEXT4.split("\n");
+                        for (int i = 0; i < text.length; i++) {
+                            canvas.drawText(text[i], circles[3].x, circles[3].y + (textSize/2) - (text.length * textSize / 2) + (i * textSize), paint);
+                        }
+                        break;
+                    case STATE_B5_E:
+                    case STATE_T5_I:
+                    case STATE_B5_W:
+                    case STATE_FINISHING:
+                    case STATE_MOVING_LOGO:
+                    case STATE_FADING_OUT:
+                        // Draw the last circle at its state
+                        paint.setColor(circles[4].color);
+                        paint.setAlpha(alpha);
+                        canvas.drawCircle(circles[4].x, circles[4].y, (float) circles[4].radius, paint);
+                        paint.setColor(getResources().getColor(android.R.color.white));
+                        paint.setTextAlign(Paint.Align.CENTER);
+                        textSize = (float) (1.5 * getResources().getDimensionPixelSize(R.dimen.tutorial_text_size));
+                        paint.setTextSize(textSize);
+                        paint.setAlpha(textAlpha);
+                        text = TEXT5.split("\n");
+                        for (int i = 0; i < text.length; i++) {
+                            canvas.drawText(text[i], circles[4].x, circles[4].y + (textSize) - (text.length * textSize / 2) + (i * textSize), paint);
                         }
                         paint.setAlpha(alpha);
                         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));

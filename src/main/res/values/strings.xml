@@ -256,6 +256,8 @@
     <string name="part_1_phone">\nPull open the\nnavigation drawer\nwith a left\nside swipe!</string>
     <string name="part_2">\nPage between\ntimelines with\na swipe either\nway from the middle\nof the screen!</string>
     <string name="part_3">That\'s it!\n\nTouch the\nscreen to\nstart!</string>
+    <string name="part_4">\nTap the app\nbar to show \nthe timeline\nposition.</string>
+    <string name="part_5">\nLong click the\napp bar to\njump to the top\nof the timeline.</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Theme Settings</string>
     <string name="theme_options">Theme Options</string>

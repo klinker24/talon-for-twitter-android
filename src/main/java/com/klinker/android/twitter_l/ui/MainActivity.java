@@ -305,6 +305,32 @@ public class MainActivity extends DrawerActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     try {
+                        Log.v("tutorial_activity", "tap app bar");
+                        toolbar.performClick();
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_TAP_APP_BAR));
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
+                        Log.v("tutorial_activity", "long click app bar");
+                        toolbar.performClick();
+                        unregisterReceiver(this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new IntentFilter(TutorialActivity.ACTION_LONG_CLICK_APP_BAR));
+
+            registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    try {
                         Log.v("tutorial_activity", "finished");
 
                         if (permissionUtils.needPermissionCheck()) {
