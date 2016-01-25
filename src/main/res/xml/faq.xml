@@ -15,6 +15,24 @@
   -->
 
 <faq>
+
+    <question
+        name="Notifications in Talon"
+        description="How do I get them?">
+
+        <text>
+            If you are looking for push notifications, please read the next topic instead.
+
+            To receive notifications based on your "Notification Settings" section of the app, you need to enable background refreshes for the timelines that you want to get notified for (under Sync Settings).
+
+            If you want to receive a notification every time someone mentions you or sends you a direct message, then enable a background refresh interval for those timelines before turning on the notifications for them.
+
+            If you want to get notifications for interactions (new followers, retweets, favorites), then the same idea applies, but I would ask that you read about the activity section of Talon from the FAQ below.
+
+            Another topic below also discusses notifications from favorite users.
+        </text>
+    </question>
+
     <question
             name="Push Notifications"
             description="Not going to happen, but....">
@@ -75,9 +93,22 @@
 
 
             What if it isn't working?
-            Some of what goes into the activity page depends on pieces outside if Twitter's API. I know some people have issues with it, unfortunately I don't think they will be fixed until Twitter opens things up more.﻿
+            Some of what goes into the activity page depends on pieces outside if Twitter's API. I know some people have issues with it, unfortunately I don't think they will be fixed until Twitter opens things up more.﻿If you use a protected Twitter account, this section will not work well for you.
         </text>
 
+    </question>
+
+    <question
+        name="Favorite User Notifications"
+        description="Why don't they show up?">
+
+        <text>
+            Three things are required to make favorite user notifications work:
+
+            1.) You have to have favorited a user within Talon.
+            2.) You must set a background refresh interval for the timeline (under Sync Settings).
+            3.) You must turn on timeline notifications for the "Home" timeline (under Notification Settings).
+        </text>
     </question>
 
     <question
@@ -114,6 +145,17 @@
             Lots of people have asked lately if there is a way to disable the expansion and go right to the tweet viewer when single tapping a tweet from your timeline.
 
             While the plus version doesn't have a specific setting for this (and will never get a separate setting for this), if you use the Picture Below Tweet option under UI Settings, you will obtain this functionality.﻿
+        </text>
+    </question>
+
+    <question
+        name="Get to the top of the list quickly"
+        description="I don't like scrolling..">
+
+        <text>
+            Simply long click the app bar to go directly to the top of your timeline.
+
+            You can also short click the app bar to see how far from the top of your timeline you are.
         </text>
     </question>
 

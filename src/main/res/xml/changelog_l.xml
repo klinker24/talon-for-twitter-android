@@ -3,6 +3,8 @@
     <version name="3.5.0">
         <text>Tapping the app bar tells you how far from the top of the timeline you are</text>
         <text>Long pressing the app bar brings you to the top of your timeline</text>
+        <text>Performance improvements for the snackbar</text>
+        <text>Updates to the FAQ section of the app</text>
     </version>
 
     <version name="3.4.3">
