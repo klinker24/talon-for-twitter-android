@@ -60,6 +60,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
+
+import lombok.Setter;
 import twitter4j.*;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -622,7 +624,7 @@ public class ExpansionViewHelper {
             ((Activity)context).getWindow().setExitTransition(null);
         }
 
-        context.startActivity(share);
+        context.startActivity(Intent.createChooser(share, "Share with:"));
     }
 
 
