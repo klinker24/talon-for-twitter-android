@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="3.5.1">
+        <text>Crash fixes</text>
+    </version>
+
     <version name="3.5.0">
         <text>Improve sharing</text>
         <text>Tapping the app bar tells you how far from the top of the timeline you are</text>
