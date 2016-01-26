@@ -448,7 +448,7 @@ public class TweetActivity extends SlidingActivity {
 
                     for (String s : tags) {
                         Log.v("talon_hashtag", "trend: " + s);
-                        if (s.contains("#")) {
+                        if (s.contains("#") && source != null) {
                             // we want to add it to the auto complete
                             Log.v("talon_hashtag", "adding: " + s);
 
