@@ -243,6 +243,9 @@ public class SearchPager extends AppCompatActivity {
                 Log.v("talon_search", "user search from query");
 
                 // going to try searching for users i guess
+                if (!uriString.contains(".com/")) {
+                    return false;
+                }
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 searchQuery = name;

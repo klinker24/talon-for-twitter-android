@@ -475,6 +475,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         showStatusBar();
         hideToastBar(300);
 
+        if (listView == null) {
+            return;
+        }
+
         try {
             if (listView.getFirstVisiblePosition() > 40) {
                 listView.setSelection(0);

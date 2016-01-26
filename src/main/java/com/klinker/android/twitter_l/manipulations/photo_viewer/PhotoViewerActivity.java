@@ -197,24 +197,26 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         final Handler sysUi = new Handler();
 
+        mAttacher = new TalonPhotoViewAttacher(picture);
+        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            @Override
+            public void onViewTap(View view, float x, float y) {
+                sysUi.removeCallbacksAndMessages(null);
+                if (sysUiShown) {
+                    hideSystemUI();
+                } else {
+                    showSystemUI();
+                }
+            }
+        });
+
         picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
             @Override
             public void onImageLoaded(CacheableBitmapDrawable result) {
                 LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
 
-                mAttacher = new TalonPhotoViewAttacher(picture);
-                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-                    @Override
-                    public void onViewTap(View view, float x, float y) {
-                        sysUi.removeCallbacksAndMessages(null);
-                        if (sysUiShown) {
-                            hideSystemUI();
-                        } else {
-                            showSystemUI();
-                        }
-                    }
-                });
+                mAttacher.update();
             }
         }, 0, fromCache); // no transform
 

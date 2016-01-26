@@ -1766,7 +1766,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                statusBar.setBackgroundColor(val);
+                if (statusBar != null) statusBar.setBackgroundColor(val);
             }
         });
         hideStatus.setDuration(ANIM_DURATION);
