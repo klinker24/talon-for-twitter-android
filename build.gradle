@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.1'
+        classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_VERSION}"
         classpath 'org.robolectric:robolectric-gradle-plugin:0.13.2'
     }
 }
@@ -101,9 +101,9 @@ dependencies {
 
     provided 'org.projectlombok:lombok:1.14.8'
 
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:cardview-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
+    compile "com.android.support:appcompat-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:cardview-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
 
     compile 'com.github.paolorotolo:appintro:3.1.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
