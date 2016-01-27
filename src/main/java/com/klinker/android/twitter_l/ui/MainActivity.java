@@ -126,17 +126,15 @@ public class MainActivity extends DrawerActivity {
     };
 
     public void topCurrentFragment() {
-        Fragment f = mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
-        if (f instanceof MainFragment) {
-            ((MainFragment) f).toTop();
-        }
+        Intent top = new Intent("com.klinker.android.twitter.TOP_TIMELINE");
+        top.putExtra("fragment_number", mViewPager.getCurrentItem());
+        sendBroadcast(top);
     }
 
     public void showAwayFromTopToast() {
-        Fragment f = mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem());
-        if (f instanceof MainFragment) {
-            ((MainFragment) f).showAwayFromTopToast();
-        }
+        Intent toast = new Intent("com.klinker.android.twitter.SHOW_TOAST");
+        toast.putExtra("fragment_number", mViewPager.getCurrentItem());
+        sendBroadcast(toast);
     }
 
     @Override

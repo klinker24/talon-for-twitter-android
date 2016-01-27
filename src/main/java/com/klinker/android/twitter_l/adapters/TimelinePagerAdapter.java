@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -130,6 +131,18 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     frags.add(getFrag(pageTypes.get(i), listIds.get(i)));
                     names.add(getName(pageNames.get(i), pageTypes.get(i)));
                     break;
+            }
+        }
+
+        for (int i = 0; i < frags.size(); i++) {
+            if (frags.get(i).getArguments() == null) {
+                Bundle b = new Bundle();
+                b.putInt("fragment_number", i);
+                frags.get(i).setArguments(b);
+            } else {
+                Bundle b = frags.get(i).getArguments();
+                b.putInt("fragment_number", i);
+                frags.get(i).setArguments(b);
             }
         }
     }
