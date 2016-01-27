@@ -119,6 +119,13 @@ public abstract class MainFragment extends Fragment implements Expandable {
     };
 
     public void showAwayFromTopToast() {
+        if (listView == null) {
+            listView = (AsyncListView) rootLayout.findViewById(R.id.listView);
+
+            if (listView == null)
+                return;
+        }
+
         overrideSnackbarSetting = true;
         showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, true, toTopListener);
     }
@@ -261,7 +268,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         spinner = (LinearLayout) layout.findViewById(R.id.spinner);
     }
 
+    private View rootLayout;
     public void setViews(View layout) {
+
+        rootLayout = layout;
 
         listView = (AsyncListView) layout.findViewById(R.id.listView);
         setSpinner(layout);
@@ -475,8 +485,12 @@ public abstract class MainFragment extends Fragment implements Expandable {
         showStatusBar();
         hideToastBar(300);
 
+
         if (listView == null) {
-            return;
+            listView = (AsyncListView) rootLayout.findViewById(R.id.listView);
+
+            if (listView == null)
+                return;
         }
 
         try {
