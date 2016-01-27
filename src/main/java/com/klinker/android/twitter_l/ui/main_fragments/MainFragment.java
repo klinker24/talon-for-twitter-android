@@ -95,40 +95,31 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
     };
 
+    private int thisFragmentNumber = -2;
     public BroadcastReceiver jumpTopReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            toTop();
-            hideToastBar(300);
+            if (intent.getIntExtra("fragment_number", -1) == thisFragmentNumber)
+                toTop();
         }
     };
 
     public BroadcastReceiver showToast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (listView.getFirstVisiblePosition() > 3) {
-                //showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, false, toTopListener);
+            if (intent.getIntExtra("fragment_number", -1) == thisFragmentNumber){
+                overrideSnackbarSetting = true;
+                showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, true, toTopListener);
             }
         }
     };
+
     public BroadcastReceiver hideToast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             //hideToastBar(300);
         }
     };
-
-    public void showAwayFromTopToast() {
-        if (listView == null) {
-            listView = (AsyncListView) rootLayout.findViewById(R.id.listView);
-
-            if (listView == null)
-                return;
-        }
-
-        overrideSnackbarSetting = true;
-        showToastBar(listView.getFirstVisiblePosition() + " " + fromTop, jumpToTop, 300, true, toTopListener);
-    }
 
     public AppSettings settings;
     
@@ -198,6 +189,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        thisFragmentNumber = getArguments().getInt("fragment_number", -2);
+
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
@@ -216,7 +209,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         getStrings();
 
-        try{
+        try {
             final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                     new int[] { android.R.attr.actionBarSize });
             mActionBarSize = (int) styledAttributes.getDimension(0, 0);
@@ -484,14 +477,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toTopPressed = true;
         showStatusBar();
         hideToastBar(300);
-
-
-        if (listView == null) {
-            listView = (AsyncListView) rootLayout.findViewById(R.id.listView);
-
-            if (listView == null)
-                return;
-        }
 
         try {
             if (listView.getFirstVisiblePosition() > 40) {
