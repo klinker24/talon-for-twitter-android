@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="3.5.4">
+        <text>Improve conversations on tweet viewer</text>
+        <text>Update the default theme for the app</text>
+    </version>
+
     <version name="3.5.3">
         <text>Fix crash on new toast and "To Top" methods</text>
     </version>
