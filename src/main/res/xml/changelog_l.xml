@@ -1,8 +1,12 @@
 <changelog>
 
-    <version name="3.5.4">
+    <version name="3.5.5">
         <text>Improve conversations on tweet viewer</text>
         <text>Update the default theme for the app</text>
+    </version>
+
+     <version name="3.5.4">
+        <text>Add a shadow to the bottom of the app bar</text>
     </version>
 
     <version name="3.5.3">
