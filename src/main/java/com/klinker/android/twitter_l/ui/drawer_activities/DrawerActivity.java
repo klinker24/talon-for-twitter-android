@@ -1050,9 +1050,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbar.setElevation(0);
-        }
     }
 
     public void onSettingsClicked(View v) {
