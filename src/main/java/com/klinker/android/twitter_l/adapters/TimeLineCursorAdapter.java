@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
@@ -40,6 +41,7 @@ import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
+import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -139,6 +141,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public FrameLayout imageHolder;
         public View rootView;
         public CardView embeddedTweet;
+        public View quickActions;
 
         public long tweetId;
         public boolean isFavorited;
@@ -325,6 +328,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        holder.quickActions = v.findViewById(R.id.quick_actions);
 
         if (!settings.bottomPictures) {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
@@ -471,6 +475,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             public boolean onLongClick(View v) {
                 holder.background.performLongClick();
                 return false;
+            }
+        });
+
+        holder.quickActions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId);
+                popup.setExpansionPointForAnim(holder.quickActions);
+                popup.setOnTopOfView(holder.quickActions);
+                popup.show();
             }
         });
 
