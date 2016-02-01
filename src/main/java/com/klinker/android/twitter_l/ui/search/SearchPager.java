@@ -248,6 +248,8 @@ public class SearchPager extends AppCompatActivity {
                 }
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
+                name = name.replace("?lang=en", "");
+
                 searchQuery = name;
                 onlyProfile = true;
             } else if (uriString.contains("q=")) {
