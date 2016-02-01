@@ -18,9 +18,6 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Twitter;
 
-/**
- * Created by luke on 9/26/14.
- */
 public class FollowMePopup extends PopupLayout {
 
     Context context;
