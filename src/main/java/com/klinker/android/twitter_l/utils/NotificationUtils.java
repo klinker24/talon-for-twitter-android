@@ -87,7 +87,11 @@ public class NotificationUtils {
         int[] unreadCounts = getUnreads(context);
 
         int timeline = unreadCounts[0];
-        int realTimelineCount = timeline;
+
+        // if there are unread tweets on the timeline, check them for favorite users
+        if (settings.favoriteUserNotifications && timeline > 0) {
+            favUsersNotification(currentAccount, context);
+        }
 
         // if they don't want that type of notification, simply set it to zero
         if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming) || noTimeline) {
@@ -274,11 +278,6 @@ public class NotificationUtils {
                     final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
                     wakeLock.acquire(5000);
                 }
-            }
-
-            // if there are unread tweets on the timeline, check them for favorite users
-            if (settings.favoriteUserNotifications && realTimelineCount > 0) {
-                favUsersNotification(currentAccount, context);
             }
         }
 
