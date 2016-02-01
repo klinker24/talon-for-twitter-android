@@ -45,6 +45,7 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
@@ -1016,6 +1017,9 @@ public class ExpansionViewHelper {
 
                     if (isFavorited && twitter != null) {
                         twitter.destroyFavorite(id);
+                        try {
+                            FavoriteTweetsDataSource.getInstance(context).deleteTweet(id);
+                        } catch (Exception e) { }
                     } else if (twitter != null) {
                         try {
                             twitter.createFavorite(id);
