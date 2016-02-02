@@ -400,7 +400,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweetId = id;
         final String profilePic = cursor.getString(PRO_PIC_COL);
         holder.proPicUrl = profilePic;
-        String tweetTexts = cursor.getString(TEXT_COL);
+        final String tweetTexts = cursor.getString(TEXT_COL);
         final String name = cursor.getString(NAME_COL);
         final String screenname = cursor.getString(SCREEN_NAME_COL);
         final String picUrl = cursor.getString(PIC_COL);
@@ -481,7 +481,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId);
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetTexts);
                 popup.setExpansionPointForAnim(holder.quickActions);
                 popup.setOnTopOfView(holder.quickActions);
                 popup.show();
