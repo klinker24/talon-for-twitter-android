@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
+import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
@@ -89,6 +90,7 @@ public class TweetView {
     FrameLayout imageHolder;
     ImageView isAConvo;
     CardView embeddedTweet;
+    View quickActions;
 
     int embeddedTweets = 0;
 
@@ -216,6 +218,7 @@ public class TweetView {
         screenTV = (TextView) v.findViewById(R.id.screenname);
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
         embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        quickActions = v.findViewById(R.id.quick_actions);
 
         if (!settings.bottomPictures) {
             imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image);
@@ -243,6 +246,18 @@ public class TweetView {
     }
 
     protected void bindData() {
+        if (quickActions != null) {
+            quickActions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    QuickActionsPopup popup = new QuickActionsPopup(context, tweetId, screenName, tweet);
+                    popup.setExpansionPointForAnim(quickActions);
+                    popup.setOnTopOfView(quickActions);
+                    popup.show();
+                }
+            });
+        }
+
         backgroundLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
