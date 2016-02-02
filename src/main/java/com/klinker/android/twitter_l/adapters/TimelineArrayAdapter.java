@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
+import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -121,6 +122,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public FrameLayout imageHolder;
         public View rootView;
         public CardView embeddedTweet;
+        public View quickActions;
 
         public long tweetId;
         public boolean isFavorited;
@@ -446,6 +448,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        holder.quickActions = v.findViewById(R.id.quick_actions);
 
         if (!settings.bottomPictures) {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
@@ -537,6 +540,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 holder.isAConversation.setVisibility(View.GONE);
             }
         }
+
+        holder.quickActions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetText);
+                popup.setExpansionPointForAnim(holder.quickActions);
+                popup.setOnTopOfView(holder.quickActions);
+                popup.show();
+            }
+        });
 
         if(settings.reverseClickActions || expander == null) {
             final String fRetweeter = retweeter;
