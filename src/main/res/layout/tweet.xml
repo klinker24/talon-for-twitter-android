@@ -132,11 +132,9 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="?android:selectableItemBackground"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
                     android:paddingRight="6dp"
                     android:paddingLeft="6dp"
-                    android:gravity="right">
+                    android:gravity="right|center_vertical">
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                         android:id="@+id/time"

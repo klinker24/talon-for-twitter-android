@@ -133,7 +133,7 @@ public class QuickActionsPopup extends PopupLayout {
         public void onPostExecute(Void nothing) {
             switch (type) {
                 case LIKE:
-                    Toast.makeText(context, R.string.favorited, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.liked_status, Toast.LENGTH_SHORT).show();
                     break;
                 case RETWEET:
                     Toast.makeText(context, R.string.retweet_success, Toast.LENGTH_SHORT).show();
