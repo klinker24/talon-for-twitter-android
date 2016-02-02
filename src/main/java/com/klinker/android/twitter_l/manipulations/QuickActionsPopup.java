@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.manipulations;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,14 +9,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Twitter;
@@ -26,12 +28,18 @@ public class QuickActionsPopup extends PopupLayout {
     public enum Type { RETWEET, LIKE };
 
     Context context;
-    long tweetId;
 
-    public QuickActionsPopup(Context context, long tweetId) {
+    long tweetId;
+    String screenName;
+    String tweetText;
+
+    public QuickActionsPopup(Context context, long tweetId, String screenName, String tweetText) {
         super(context);
         this.context = context;
+
         this.tweetId = tweetId;
+        this.screenName = screenName;
+        this.tweetText = tweetText;
 
         setTitle(getResources().getString(R.string.quick_actions));
         setWidth(Utils.toDP(216, context));
@@ -40,17 +48,17 @@ public class QuickActionsPopup extends PopupLayout {
     }
 
     View root;
-    ImageView like;
-    ImageView retweet;
-    ImageView reply;
+    ImageButton like;
+    ImageButton retweet;
+    ImageButton reply;
 
     @Override
     public View setMainLayout() {
         root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.quick_actions, null, false);
 
-        like = (ImageView) root.findViewById(R.id.favorite_button);
-        retweet = (ImageView) root.findViewById(R.id.retweet_button);
-        reply = (ImageView) root.findViewById(R.id.reply_button);
+        like = (ImageButton) root.findViewById(R.id.favorite_button);
+        retweet = (ImageButton) root.findViewById(R.id.retweet_button);
+        reply = (ImageButton) root.findViewById(R.id.reply_button);
 
         like.setOnClickListener(new OnClickListener() {
             @Override
@@ -64,6 +72,25 @@ public class QuickActionsPopup extends PopupLayout {
             @Override
             public void onClick(View view) {
                 new Action(context, Type.RETWEET, tweetId).execute();
+                hide();
+            }
+        });
+
+        reply.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose = new Intent(context, ComposeActivity.class);
+
+                compose.putExtra("user", "@" + screenName.replace("@", ""));
+                compose.putExtra("id", tweetId);
+                compose.putExtra("reply_to_text", tweetText);
+
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0,
+                        view.getMeasuredWidth(), view.getMeasuredHeight());
+                compose.putExtra("already_animated", true);
+
+                context.startActivity(compose, opts.toBundle());
+
                 hide();
             }
         });
