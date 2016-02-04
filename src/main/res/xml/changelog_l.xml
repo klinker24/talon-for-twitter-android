@@ -3,10 +3,12 @@
     <version name="4.0.0">
         <text>[New] Dual panel main screen to view 2 timelines at once (tablets in landscape)</text>
         <text>[New] Access quick actions (like, retweet, reply) on a tweet by pressing the date</text>
+        <text>[New] A few more activity transitions on Lollipop+</text>
         <text>[Improve] Much better tablet layouts</text>
         <text>[Improve] Removing a liked tweet will also remove it from the "Liked Tweets" section of the app</text>
         <text>[Improve] Favorite user notifications no longer require timeline notifications to be turned on</text>
-        <text>Bug fixes</text>
+        <text>[Fix] Image viewer when battery saver mode is on</text>
+        <text>Other various bug fixes</text>
     </version>
 
     <version name="3.5.5">

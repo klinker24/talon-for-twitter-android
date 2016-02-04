@@ -118,6 +118,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
         );
 
         if (getIntent().getBooleanExtra("share_trans", false)) {
+            // todo: take this out? it doesn't actually do anything it seems...
             Utils.setSharedContentTransition(this);
         }
 
@@ -193,6 +194,11 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
+        }
+
+        PowerManager powerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && powerManager.isPowerSaveMode()) {
+            picture.setTransitionName("invalidate");
         }
 
         final Handler sysUi = new Handler();

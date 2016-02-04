@@ -411,7 +411,7 @@ public class TweetView {
                                 PhotoPagerActivity.startActivity(context, tweetId, imageUrl, 0);
 
                             } else {
-                                PhotoViewerActivity.startActivity(context, tweetId, imageUrl, null);
+                                PhotoViewerActivity.startActivity(context, tweetId, imageUrl, imageIv);
                             }
                         }
                     });
