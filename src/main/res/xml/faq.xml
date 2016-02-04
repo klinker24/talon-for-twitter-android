@@ -105,15 +105,27 @@
         <text>
             Three things are required to make favorite user notifications work:
 
-
             1.) You have to have favorited a user within Talon.
 
             2.) You must set a background refresh interval for the timeline (under Sync Settings).
 
-            3.) You must turn on timeline notifications for the "Home" timeline (under Notification Settings).
+            3.) You must turn on "Favorite User Notifications" (under Notification Settings).
         </text>
     </question>
 
+    <question
+        name="Quick Actions from the Timeline"
+        description="How to I retweet, like, or reply without leaving the timeline?">
+
+        <text>
+            Version 4.0.0 of Talon added the ability to perform quick actions on tweets by pressing the date (in the top right corner) of any tweets on your timeline.
+
+            It will pop up with a few options that you can perform on that tweet.
+
+            Right now, there are no plans to implement these options directly onto the timeline, they will remain hidden and show when clicking the date.
+        </text>
+    </question>
+    
     <question
         name="Navigation bar covers the floating action button and snackbar"
         description="I can't tweet right now...">
