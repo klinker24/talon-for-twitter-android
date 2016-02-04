@@ -19,6 +19,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v13.app.FragmentStatePagerAdapter;
@@ -209,6 +210,9 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return(1.0f);
+        if (context.getResources().getBoolean(R.bool.duel_panel))
+            return(.5f);
+        else
+            return(1.0f);
     }
 }
