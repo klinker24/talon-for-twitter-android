@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="options_drawer">false</bool>
-    <bool name="has_drawer">false</bool>
-
-    <bool name="seven_inch_tablet">false</bool>
-</resources>

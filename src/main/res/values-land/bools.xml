@@ -2,4 +2,5 @@
 <resources>
     <bool name="options_drawer">false</bool>
     <bool name="has_drawer">false</bool>
+    <bool name="duel_panel">false</bool>
 </resources>
