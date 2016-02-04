@@ -125,7 +125,7 @@
             Right now, there are no plans to implement these options directly onto the timeline, they will remain hidden and show when clicking the date.
         </text>
     </question>
-    
+
     <question
         name="Navigation bar covers the floating action button and snackbar"
         description="I can't tweet right now...">
