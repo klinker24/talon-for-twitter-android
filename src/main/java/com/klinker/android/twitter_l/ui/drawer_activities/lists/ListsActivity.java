@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ListsArrayAdapter;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
@@ -89,7 +90,6 @@ public class ListsActivity extends DrawerActivity {
         }
 
         getLists();
-
     }
 
     @Override
@@ -263,20 +263,5 @@ public class ListsActivity extends DrawerActivity {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        try {
-            mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }
-
-        overridePendingTransition(0,0);
-        finish();
-        Intent restart = new Intent(context, ListsActivity.class);
-        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        overridePendingTransition(0, 0);
-        startActivity(restart);
     }
 }
