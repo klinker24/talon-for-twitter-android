@@ -206,4 +206,9 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     public Fragment getRealFrag(int i) {
         return frags.get(i);
     }
+
+    @Override
+    public float getPageWidth(int position) {
+        return(1.0f);
+    }
 }
