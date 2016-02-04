@@ -41,6 +41,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
@@ -194,6 +195,9 @@ public class ChoosenListActivity extends AppCompatActivity {
         getLists();
 
         Utils.setActionBar(context);
+        if (!settings.transpartSystemBars) {
+            new NavBarOverlayLayout(this).show();
+        }
 
     }
 
