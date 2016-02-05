@@ -54,8 +54,8 @@
         android:title="@string/faq"
         android:icon="?getHelp" />
 
-    <Preference android:key="become_supporter"
-        android:title="Become a 2016 Supporter"
+    <com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference
+        android:key="become_supporter"
         android:icon="?supporter" />
 
 </PreferenceScreen>

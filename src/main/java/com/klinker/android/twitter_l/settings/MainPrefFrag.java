@@ -115,16 +115,16 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
                         start2016SupporterPurchase("10");
                     }
                 })
-                .setNeutralButton("$6", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        start2016SupporterPurchase("6");
-                    }
-                })
-                .setNegativeButton("$3", new DialogInterface.OnClickListener() {
+                .setNeutralButton("$3", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         start2016SupporterPurchase("3");
+                    }
+                })
+                .setNegativeButton("$6", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        start2016SupporterPurchase("6");
                     }
                 }).create().show();
     }
