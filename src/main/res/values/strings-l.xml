@@ -92,5 +92,6 @@
     <string name="quick_actions">Quick Actions</string>
     <string name="liked_status">Like Successful</string>
     <string name="become_supporter">Become a 2016 SUPPORTER</string>
-    <string name="are_supporter">You are a 2016 SUPPORTER. Thanks!</string>
+    <string name="are_supporter">You are a 2016 SUPPORTER!</string>
+    <string name="are_supporter_summary">Thanks! Your support is immensely appreciated.</string>
 </resources>

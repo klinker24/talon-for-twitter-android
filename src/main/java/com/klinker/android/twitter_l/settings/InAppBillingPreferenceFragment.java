@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -61,6 +62,10 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
                     alert("Your support is greatly appreciated. Users like you are the reason I love my job :)");
+
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
                 } catch (JSONException e) {
                     alert("Uh oh... Something went wrong with the purchase: Failed to parse purchase data.");
                     e.printStackTrace();
