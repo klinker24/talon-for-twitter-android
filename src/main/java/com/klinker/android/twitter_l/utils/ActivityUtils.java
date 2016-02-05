@@ -68,11 +68,6 @@ public class ActivityUtils {
         }
 
         this.lastRefresh = sharedPrefs.getLong("last_activity_refresh_" + currentAccount, 0l);
-
-        if (lastRefresh == 0l) { // first time...
-            sharedPrefs.edit().putLong("original_activity_refresh_" + currentAccount, Calendar.getInstance().getTimeInMillis()).commit();
-        }
-
         this.originalTime = sharedPrefs.getLong("original_activity_refresh_" + currentAccount, 0l);
 
         this.notificationTitle = context.getString(R.string.new_activity) + " - @" + (useSecondAccount ? settings.secondScreenName : settings.myScreenName);

@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference;
+import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 public class MainPrefFrag extends InAppBillingPreferenceFragment {
@@ -41,6 +43,10 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         addPreferencesFromResource(R.xml.main_settings);
 
         setClicks();
+
+        if (UpdateUtils.showSupporterDialog(getActivity())) {
+            showSupporterDialog();
+        }
     }
 
     @Override
@@ -74,11 +80,9 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             final Preference p = findPreference(titles[i]);
             final int num = i;
             p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if (titles[num].equals("become_supporter")) {
-                        showSupporterDialog();
-                    } else if (!titles[num].equals("get_help")) {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                    if (!titles[num].equals("get_help")) {
                         showSettings(num, preference.getTitle().toString());
                     } else {
                         showGetHelp();

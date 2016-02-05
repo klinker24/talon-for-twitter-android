@@ -19,32 +19,44 @@ public class BecomeSupporterPreference extends Preference {
 
     public BecomeSupporterPreference(Context context) {
         super(context);
+        init();
     }
 
     public BecomeSupporterPreference(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        init();
     }
 
     private boolean isSupporter = false;
+
+    public void init() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        isSupporter = sharedPreferences.getBoolean("2016_supporter", false);
+    }
 
     @Override
     protected View onCreateView(ViewGroup parent) {
         View view = super.onCreateView(parent);
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         TextView textView = (TextView) view.findViewById(android.R.id.title);
 
-        if (sharedPreferences.getBoolean("2016_supporter", true)) {
+        if (isSupporter) {
             setTitle(R.string.are_supporter);
             setSummary(R.string.are_supporter_summary);
-            isSupporter = true;
         } else {
             textView.setTextSize(19);
             setTitle(R.string.become_supporter);
         }
 
         return view;
+    }
+
+    @Override
+    public void setOnPreferenceClickListener(OnPreferenceClickListener listener) {
+        if (!isSupporter) {
+            super.setOnPreferenceClickListener(listener);
+        }
     }
 }
 
