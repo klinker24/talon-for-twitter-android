@@ -82,10 +82,12 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                    if (!titles[num].equals("get_help")) {
-                        showSettings(num, preference.getTitle().toString());
-                    } else {
+                    if (titles[num].equals("become_supporter")) {
+                        showSupporterDialog();
+                    } else if (titles[num].equals("get_help")) {
                         showGetHelp();
+                    } else {
+                        showSettings(num, preference.getTitle().toString());
                     }
 
                     return false;
