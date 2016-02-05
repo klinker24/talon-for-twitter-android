@@ -54,4 +54,8 @@
         android:title="@string/faq"
         android:icon="?getHelp" />
 
+    <Preference android:key="become_supporter"
+        android:title="Become a 2016 Supporter"
+        android:icon="?supporter" />
+
 </PreferenceScreen>

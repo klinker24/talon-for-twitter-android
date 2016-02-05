@@ -86,6 +86,7 @@
     <attr name="settings_pages" format="reference"/>
     <attr name="heart_button" format="reference"/>
     <attr name="quick_actions" format="reference"/>
+    <attr name="supporter" format="reference" />
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>
