@@ -45,6 +45,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,6 +57,8 @@ public class UpdateUtils {
     private static final long HOUR = 60 * MIN;
     private static final long DAY = 24 * HOUR;
     private static final long RATE_IT_TIMEOUT = 2 * DAY;
+
+    private static final long SUPPORTER_TIMEOUT = 90 * DAY;
 
     public static void checkUpdate(final Context context) {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -96,13 +99,40 @@ public class UpdateUtils {
                         })
                         .create().show();
             }
+        } else {
+            sharedPrefs.edit().putBoolean("version_3_5", false).commit();
         }
+    }
+
+    public static boolean showSupporterDialog(Context context) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+
+        // if there is a time set for the first run (This was introduced with 4.0.0)
+        // and it has been longer than 90 days
+        if (sharedPrefs.getLong("first_run_time", 0) != 0 &&
+                new Date().getTime() - sharedPrefs.getLong("first_run_time", 0) > SUPPORTER_TIMEOUT) {
+            // we want to show them the supporter dialog if they haven't seen it
+            if (!sharedPrefs.getBoolean("seen_supporter_dialog", false)) {
+                sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).commit();
+                return true;
+            }
+        } else if (sharedPrefs.getLong("first_run_time", 0) == 0 &&
+                !sharedPrefs.getBoolean("seen_supporter_dialog", false)) {
+            // if there is not a time set for the first run
+            // and they have not seen the dialog
+            sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).commit();
+            return true;
+        }
+
+        return false;
     }
 
     public static boolean runFirstInstalled(final SharedPreferences sharedPrefs) {
         if (sharedPrefs.getBoolean("fresh_install", true)) {
             SharedPreferences.Editor e = sharedPrefs.edit();
             e.putBoolean("fresh_install", false);
+            e.putLong("first_run_time", new Date().getTime());
 
             // show them all for now
             Set<String> set = new HashSet<String>();
@@ -136,8 +166,8 @@ public class UpdateUtils {
             e.putInt("default_timeline_page_" + 1, 1);
             e.putInt("default_timeline_page_" + 2, 1);
 
-            sharedPrefs.edit().putLong("original_activity_refresh_" + 1, Calendar.getInstance().getTimeInMillis()).commit();
-            sharedPrefs.edit().putLong("original_activity_refresh_" + 2, Calendar.getInstance().getTimeInMillis()).commit();
+            e.putLong("original_activity_refresh_" + 1, Calendar.getInstance().getTimeInMillis());
+            e.putLong("original_activity_refresh_" + 2, Calendar.getInstance().getTimeInMillis());
 
             e.commit();
 
