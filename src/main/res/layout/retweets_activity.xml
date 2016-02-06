@@ -80,19 +80,20 @@
 
     </RelativeLayout>
 
+
     <!-- The navigation drawer -->
     <include layout="@layout/main_drawer"
-             android:id="@+id/left_drawer"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:layout_gravity="start" >
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left" >
 
     </include>
 
     <include layout="@layout/notification_drawer"
-             android:id="@+id/right_drawer"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:layout_gravity="end"/>
+        android:id="@+id/right_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"/>
 
 </com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout>

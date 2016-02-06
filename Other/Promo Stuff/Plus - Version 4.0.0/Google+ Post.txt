@@ -1,0 +1,20 @@
+*Talon 4.0.0*
+Well, today I am excited to take the wraps off of the latest version of Talon! This version comes with a whole host of features, updates, and fixes. Here are some of the highlights:
+
+- Tablets in landscape mode now display 2 timelines at a time instead of one (see screenshot)
+- Quick actions on tweets without expanding tweets or leaving the timeline
+- Much improved tablet layouts
+- Few more activity transitions on Lollipop+
+- Favorite user notifications no longer require "Home Timeline Notifications" to be turned on
+
+I'm especially excited for the new tablet support and layouts - they are working great for me.
+
+*2016 Supporter*
+Along with this update, I am also adding a _2016 Supporter_ option to the app. I know it is hard to believe, but the currnet version of Talon has almost been out a year and a half now! I know that some of you use the app every day, like me, and have gotten more than your money's worth out of my work. The new _2016 Supporter_ option in settings is a voluntary contribution of $3, $6, or $10 if you like what I have been doing :)
+
+I do want to be very clear: _becoming a 2016 Supporter does not provide you with any new features or benefits for the app_.
+
+If you love Talon, then here is your chance to show it - chip in a few extra dollars! I work hard every day to maintain, what I believe to be, the best way to consume Twitter. If supporting further isn't something that you can do right now, no problem, continue to enjoy the app the same way that you have been the whole time.
+
+
+Hope you guys are psyched about this version, built on some of the more numerous requests! Whether you will become a _2016 Supporter_ or not, enjoy this version. Talon just keeps getting better.

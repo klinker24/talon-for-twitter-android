@@ -56,6 +56,6 @@
 
     <com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference
         android:key="become_supporter"
-        android:icon="?emoji_button" />
+        android:icon="?supporter" />
 
 </PreferenceScreen>
