@@ -25,6 +25,7 @@
         <ListPreference
             android:key="tweetmarker_options"
             android:title="@string/use_tweetmarker"
+            android:summary="@string/tweetmarker_disclaimer"
             android:defaultValue="0"
             android:entries="@array/tweetmarker"
             android:entryValues="@array/tweetmarker_inserted"
