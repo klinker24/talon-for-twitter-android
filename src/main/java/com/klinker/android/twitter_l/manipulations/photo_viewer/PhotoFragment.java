@@ -50,7 +50,7 @@ public class PhotoFragment extends Fragment {
 
         return fragment;
     }
-
+    
     String url;
     NetworkedCacheableImageView picture;
 
@@ -103,7 +103,7 @@ public class PhotoFragment extends Fragment {
 
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getActivity())
+                            new NotificationCompat.Builder(activity)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
@@ -111,7 +111,7 @@ public class PhotoFragment extends Fragment {
                                     .setProgress(100, 100, true);
 
                     NotificationManager mNotificationManager =
-                            (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                            (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(6, mBuilder.build());
 
                     URL mUrl = new URL(url);
@@ -129,15 +129,15 @@ public class PhotoFragment extends Fragment {
                     n = generator.nextInt(n);
                     String fname = "Image-" + n;
 
-                    Uri uri = IOUtils.saveImage(bitmap, fname, getActivity());
+                    Uri uri = IOUtils.saveImage(bitmap, fname, activity);
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(uri, "image/*");
 
-                    PendingIntent pending = PendingIntent.getActivity(getActivity(), 91, intent, 0);
+                    PendingIntent pending = PendingIntent.getActivity(activity, 91, intent, 0);
 
                     mBuilder =
-                            new NotificationCompat.Builder(getActivity())
+                            new NotificationCompat.Builder(activity)
                                     .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
@@ -147,12 +147,12 @@ public class PhotoFragment extends Fragment {
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (Exception e) {
 
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
+                    if (activity != null) {
+                        activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    new PermissionModelUtils(getActivity()).showStorageIssue();
+                                    new PermissionModelUtils(activity).showStorageIssue();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -162,7 +162,7 @@ public class PhotoFragment extends Fragment {
 
                     try {
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(getActivity())
+                                new NotificationCompat.Builder(activity)
                                         .setSmallIcon(R.drawable.ic_stat_icon)
                                         .setTicker(getResources().getString(R.string.error) + "...")
                                         .setContentTitle(getResources().getString(R.string.app_name))
@@ -170,7 +170,7 @@ public class PhotoFragment extends Fragment {
                                         .setProgress(0, 100, true);
 
                         NotificationManager mNotificationManager =
-                                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                                (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                         mNotificationManager.notify(6, mBuilder.build());
                     } catch (Exception x) {
                         // not attached
@@ -194,7 +194,7 @@ public class PhotoFragment extends Fragment {
         sharingIntent.setType("image/*");
 
         // add the bitmap uri to the intent
-        Uri uri = getImageUri(getActivity(), bitmap);
+        Uri uri = getImageUri(activity, bitmap);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
         // start the chooser
@@ -212,7 +212,7 @@ public class PhotoFragment extends Fragment {
         try {
             return Uri.parse(path);
         } catch (Exception e) {
-            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, R.string.error, Toast.LENGTH_SHORT).show();
             return null;
         }
     }
