@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -31,8 +32,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.*;
 import android.widget.ListView;
 
@@ -42,6 +45,9 @@ import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -188,5 +194,42 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(new Intent(this, PrefActivity.class)
                 .putExtra("position", position)
                 .putExtra("title", title));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("talon_purchase", "coming back from activity result");
+        if (requestCode == 1001) {
+            Log.v("talon_purchase", "it was a purchase");
+
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+            if (resultCode == Activity.RESULT_OK) {
+                Log.v("talon_purchase", "result was ok");
+
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+                    alert("Your support is greatly appreciated. Users like you are the reason I love my job :)");
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                } catch (JSONException e) {
+                    alert("Uh oh... Something went wrong with the purchase: Failed to parse purchase data.");
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void alert(String alert) {
+        Snackbar
+                .make(findViewById(android.R.id.content), alert, Snackbar.LENGTH_LONG)
+                .show();
     }
 }
