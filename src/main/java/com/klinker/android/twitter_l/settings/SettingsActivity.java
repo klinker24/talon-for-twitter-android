@@ -228,8 +228,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void alert(String alert) {
-        Snackbar
-                .make(findViewById(android.R.id.content), alert, Snackbar.LENGTH_LONG)
+        Toast.makeText(this, alert, Toast.LENGTH_LONG)
                 .show();
     }
 }
