@@ -98,7 +98,6 @@
                     android:id="@+id/options"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="14dp"
                     android:src="@drawable/ic_action_navigation_arrow"
                     android:maxWidth="48dp" android:maxHeight="48dp"
                     android:scaleType="fitXY" android:adjustViewBounds="true"
