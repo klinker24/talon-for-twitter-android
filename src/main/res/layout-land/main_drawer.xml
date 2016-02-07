@@ -41,8 +41,10 @@
     <LinearLayout
             android:id="@+id/logoutLayout"
             android:orientation="vertical"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_gravity="top"
+            android:gravity="top"
             android:visibility="gone" >
 
         <!-- second profile stuff -->
@@ -82,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     android:textColor="?textColor"/>
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
@@ -90,6 +93,7 @@
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:paddingBottom="3dp"
+                    android:visibility="gone"
                     android:textColor="?textColor"/>
 
             </LinearLayout>

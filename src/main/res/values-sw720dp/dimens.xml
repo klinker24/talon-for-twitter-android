@@ -20,6 +20,6 @@
     <dimen name="drawer_size_port">255dp</dimen>
     <dimen name="drawer_size_land">305dp</dimen>
 
-    <dimen name="user_profile_card_padding">16dp</dimen>
+    <dimen name="user_profile_card_padding">20dp</dimen>
     <dimen name="user_profile_header_padding">164dp</dimen>
 </resources>
