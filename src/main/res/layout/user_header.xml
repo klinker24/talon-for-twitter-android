@@ -31,16 +31,26 @@
             />
 
     <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:id="@+id/profile_pic_contact"
-            android:minHeight="56dp" android:minWidth="56dp"
-            android:maxWidth="56dp" android:maxHeight="56dp"
+            android:minHeight="64dp" android:minWidth="64dp"
+            android:maxWidth="64dp" android:maxHeight="64dp"
             android:contentDescription="Profile Picture"
             android:layout_marginRight="2dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="36dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/profile_pic_contact_2"
+        android:minHeight="48dp" android:minWidth="48dp"
+        android:maxWidth="48dp" android:maxHeight="48dp"
+        android:contentDescription="Profile Picture 2"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="36dp"/>
 
     <LinearLayout
             android:orientation="horizontal"
@@ -48,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
             android:gravity="center_vertical">
 
         <LinearLayout
@@ -66,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:maxLines="1"
                     android:fontFamily="sans-serif-medium"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"/>
 
@@ -77,7 +86,7 @@
                     android:maxLines="1"
                     android:paddingBottom="3dp"
                     android:fontFamily="sans-serif"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="@android:color/white"/>
 
         </LinearLayout>
