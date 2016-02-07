@@ -26,6 +26,6 @@
 
     <dimen name="header_condensed_height">275dp</dimen>
 
-    <dimen name="user_profile_card_padding">16dp</dimen>
+    <dimen name="user_profile_card_padding">20dp</dimen>
     <dimen name="user_profile_header_padding">64dp</dimen>
 </resources>
