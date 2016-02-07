@@ -2,9 +2,11 @@
 
 2.) NEW: Dual panel timelines with tablets in landscape!
 
-3.) NEW: Quick Actions on the timeline (a hugely requested feature)
+3.) NEW: Quick actions without leaving the timeline (a hugely requested feature!)
 
 4.) NEW: Huge improvements to design and simplicity of tablet layouts!
+
+5.) New: Faster account switching with improvements to the drawer layout
 
 5.) NEW: Favorite user notifications no longer require "Home Timeline Notifications" to be turned on
 
@@ -13,3 +15,5 @@
 More Info: <link to google+ post> (Screenshot of the Google+ post's info)
 
 7.) Enjoy the new version all <emoji> <thumbs up>
+
+I really am loving this one.
