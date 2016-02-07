@@ -284,6 +284,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
         backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
         profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic_contact);
+        ImageView profilePic2 = (ImageView) mDrawer.findViewById(R.id.profile_pic_contact_2);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
         final LinearLayout logoutLayout = (LinearLayout) mDrawer.findViewById(R.id.logoutLayout);
         final Button logoutDrawer = (Button) mDrawer.findViewById(R.id.logoutButton);
@@ -626,7 +627,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             count++;
         }
 
-        RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
+        final RelativeLayout secondAccount = (RelativeLayout) findViewById(R.id.second_profile);
         TextView name2 = (TextView) findViewById(R.id.name_2);
         TextView screenname2 = (TextView) findViewById(R.id.screen_name_2);
         ImageView proPic2 = (ImageView) findViewById(R.id.profile_pic_2);
@@ -661,11 +662,21 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             });
         } else { // switch accounts
 
+            if (profilePic2 != null) {
+                profilePic2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        secondAccount.performClick();
+                    }
+                });
+            }
+
             if (current == 1) {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
                 try {
                     ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
+                    ImageUtils.loadImage(context, profilePic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
                 } catch (Exception e) {
 
                 }
@@ -690,15 +701,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
                                 }
-                            }, 1000);
+                            }, 500);
                         }
                     }
                 });
+
             } else {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
                 try {
                     ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
+                    ImageUtils.loadImage(context, profilePic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
                 } catch (Exception e) {
 
                 }
@@ -721,7 +734,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                                     Intent next = new Intent(context, MainActivity.class);
                                     startActivity(next);
                                 }
-                            }, 1000);
+                            }, 500);
                         }
                     }
                 });
