@@ -4,7 +4,9 @@ Well, today I am excited to take the wraps off of the latest version of Talon! T
 - Tablets in landscape mode now display 2 timelines at a time instead of one (see screenshot)
 - Quick actions on tweets without expanding tweets or leaving the timeline
 - Much improved tablet layouts
+- Quicker account switching
 - Few more activity transitions on Lollipop+
+- Sytle updates for the navigation drawer
 - Favorite user notifications no longer require "Home Timeline Notifications" to be turned on
 
 I'm especially excited for the new tablet support and layouts - they are working great for me.
@@ -16,5 +18,12 @@ I do want to be very clear: _becoming a 2016 Supporter does not provide you with
 
 If you love Talon, then here is your chance to show it - chip in a few extra dollars! I work hard every day to maintain, what I believe to be, the best way to consume Twitter. If supporting further isn't something that you can do right now, no problem, continue to enjoy the app the same way that you have been the whole time.
 
+_Why should you buy it?_
+1. You have been a long time, every day, user of Talon and you feel like you have gotten more than a cup of coffee's worth out of the app.
+2. You understand that development is hard. I put all my free time into this product, and I think it shows! I hope you agree.
+3. You want the warm-fuzzy feeling that comes with giving a little extra for something that makes your life easier.
 
-Hope you guys are psyched about this version, built on some of the more numerous requests! Whether you will become a _2016 Supporter_ or not, enjoy this version. Talon just keeps getting better.
+
+Hope you guys are psyched about this version, built on some of the more numerous requests! Whether you will become a _2016 Supporter_ or not, enjoy it. Talon just keeps getting better. 
+
+Let me know what you think.
