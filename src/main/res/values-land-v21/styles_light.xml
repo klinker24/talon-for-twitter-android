@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <style name="Theme.TalonLight.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
+        <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
+
+        <item name="android:colorControlHighlight">@color/light_ripple</item>
+
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+
+        <item name="textColor">@color/light_text</item>
+        <item name="action_bar_color">@color/action_bar_light</item>
+        <item name="drawerDividerColor">@color/light_text_drawer</item>
+        <item name="dateColor">@color/light_date</item>
+        <item name="drawerBackground">@color/light_drawer</item>
+        <item name="oppDrawerBackground">@color/dark_drawer</item>
+        <item name="headerTextColor">@android:color/white</item>
+        <item name="textShadowColor">@android:color/black</item>
+        <item name="windowBackground">@android:color/white</item>
+        <item name="emojiDivider">@color/emoji_divider_light</item>
+        <item name="circle_border">@color/circle_outline_light</item>
+        <item name="message_color">@color/light_message</item>
+        <item name="borderColor">@color/border_light</item>
+        <item name="icon_color">@color/icon_light</item>
+        <item name="drawer_subtext">@color/drawer_subtext_light</item>
+        <item name="drawer_options_background">@color/drawer_options_background_light</item>
+        <item name="tweet_background">@color/light_background</item>
+
+        <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
+        <item name="cancelButton">@drawable/ic_cancel_light</item>
+        <item name="sendButton">@drawable/ic_send_light</item>
+        <item name="attachButton">@drawable/ic_attach_light</item>
+        <item name="drawerIcon">@drawable/ic_drawer</item>
+        <item name="newIcon">@drawable/ic_action_new_light</item>
+        <item name="drawerDrawable">@drawable/drawer_background_light</item>
+        <item name="acceptButton">@drawable/ic_action_accept_light</item>
+        <item name="showMoreButton">@drawable/ic_action_expand_light</item>
+        <item name="retweetButton">@drawable/ic_action_repeat_light</item>
+        <item name="favoritedButton">@drawable/ic_action_important_light</item>
+        <item name="notFavoritedButton">@drawable/ic_action_not_important_light</item>
+        <item name="circleBorder">@drawable/circle_border_light</item>
+        <item name="squareBorder">@drawable/square_border_light</item>
+        <item name="timelineItem">@drawable/timeline_light</item>
+        <item name="mentionItem">@drawable/mentions_light</item>
+        <item name="directMessageItem">@drawable/ic_action_reply_light</item>
+        <item name="rectangle_border">@drawable/rect_border_light</item>
+        <item name="emoji_button">@drawable/ic_emoji_keyboard_dark</item>
+        <item name="emoji_button_changing">@drawable/ic_emoji_keyboard_dark</item>
+        <item name="shareButton">@drawable/ic_action_share_light</item>
+        <item name="location_button">@drawable/ic_action_place_light</item>
+        <item name="overflow_button">@drawable/ic_action_overflow_light</item>
+        <item name="keyboardButton">@drawable/ic_keyboard_light</item>
+        <item name="keyboard_button_changing">@drawable/ic_keyboard_light</item>
+        <item name="emojiBackspace">@drawable/ic_backspace_light</item>
+        <item name="picturePlaceholder">@drawable/ic_action_picture_light</item>
+        <item name="read_button">@drawable/ic_action_read_light</item>
+        <item name="unread_button">@drawable/ic_action_unread_light</item>
+        <item name="quote_button">@drawable/ic_action_reply_all_light</item>
+        <item name="background_card">@drawable/send_card</item>
+        <item name="notification_button">@drawable/ic_action_notification_dark</item>
+        <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
+        <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
+        <item name="bothAccounts">@drawable/both_accounts_light</item>
+        <item name="settings_pages">@drawable/ic_settings_pages_light</item>
+        <item name="heart_button">@drawable/ic_heart_light</item>
+        <item name="quick_actions">@drawable/ic_quick_actions_light</item>
+        <item name="supporter">@drawable/ic_supporter_light</item>
+
+        <item name="themeSettings">@drawable/drawer_theme_light</item>
+        <item name="drawerTrends">@drawable/drawer_trends_light</item>
+        <item name="notificationSettings">@drawable/drawer_notifications_light</item>
+        <item name="syncSettings">@drawable/drawer_sync_light</item>
+        <item name="advancedSettings">@drawable/advanced_settings_light</item>
+        <item name="whatsNew">@drawable/ic_action_new_light</item>
+        <item name="links">@drawable/ic_links_light</item>
+        <item name="worldTrends">@drawable/ic_action_map_light</item>
+        <item name="getHelp">@drawable/drawer_help_light</item>
+        <item name="otherApps">@drawable/drawer_other_apps_light</item>
+        <item name="rateIt">@drawable/drawer_rate_it_light</item>
+        <item name="favUser">@drawable/drawer_user_light</item>
+        <item name="listIcon">@drawable/list_light</item>
+        <item name="memManagement">@drawable/ic_action_sd_storage_light</item>
+        <item name="feedback">@drawable/ic_feedback_light</item>
+
+        <item name="search_icon">@drawable/ic_action_search_light</item>
+        <item name="circle_overflow">@drawable/ic_action_circle_overflow_light</item>
+
+        <item name="compose_window_background">@drawable/compose_background_light</item>
+
+        <item name="ripple_background">@drawable/ripple_light</item>
+        <item name="ripple_borderless">@drawable/ripple_light_borderless</item>
+        <item name="snackbar">@drawable/snack_bar_light</item>
+
+        <item name="toolbarStyle">@style/ToolBarLight</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:colorControlHighlight">@color/dark_ripple</item>
+        <item name="android:background">?android:colorPrimary</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+        parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/dark_text</item>
+    </style>
+
+    <style name="Theme.TalonLight.Tweet" parent="@style/Theme.TalonLight.Base">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile" parent="@style/Theme.TalonLight.Main">
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="Theme.TalonLight.Popup" parent="@style/Theme.TalonLight.Base">
+
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
+
+    <style name="Theme.TalonLight.NoActionBar.Popup" parent="@style/Theme.TalonLight.Main">
+
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">stateUnchanged</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowFrame">@drawable/rect_border_light</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+
+    </style>
+
+    <style name="Theme.TalonLight.ImageViewer" parent="@style/Theme.TalonLight.Base">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">true</item>
+    </style>
+    <style name="Theme.TalonLight.VideoViewer" parent="@style/Theme.TalonLight.Base">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight.Base">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#aa000000</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
+
+    </style>
+
+    <style name="ActionBarPopup" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:popupMenuStyle">@android:style/Widget.Material.Light.PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Material.Light.ListView.DropDown</item>
+    </style>
+
+    <style name="ToolBarLight" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="colorControlHighlight">@color/dark_ripple</item>
+        <item name="colorControlActivated">@color/dark_ripple</item>
+        <item name="colorControlNormal">@color/dark_ripple</item>
+    </style>
+
+    <style name="CircleOverflow.Light" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_circle_overflow</item>
+    </style>
+
+
+    <style name="Theme.TalonLight.Main" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:actionBarWidgetTheme">@style/ActionBarPopup</item>
+        <!--<item name="android:popupMenuStyle">@style/ActionBarPopup</item>-->
+
+        <item name="android:colorControlHighlight">@color/light_ripple</item>
+
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/Widget.AppCompat.ActionButton.Overflow</item>
+
+        <!-- For Slidr -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/light_background</item>
+
+        <item name="textColor">@color/light_text</item>
+        <item name="action_bar_color">@color/action_bar_light</item>
+        <item name="drawerDividerColor">@color/light_text_drawer</item>
+        <item name="dateColor">@color/light_date</item>
+        <item name="drawerBackground">@color/light_drawer</item>
+        <item name="oppDrawerBackground">@color/dark_drawer</item>
+        <item name="headerTextColor">@android:color/white</item>
+        <item name="textShadowColor">@android:color/black</item>
+        <item name="windowBackground">@android:color/white</item>
+        <item name="emojiDivider">@color/emoji_divider_light</item>
+        <item name="circle_border">@color/circle_outline_light</item>
+        <item name="message_color">@color/light_message</item>
+        <item name="border_color">@color/border_light</item>
+        <item name="icon_color">@color/icon_light</item>
+        <item name="drawer_subtext">@color/drawer_subtext_light</item>
+        <item name="drawer_options_background">@color/drawer_options_background_light</item>
+        <item name="tweet_background">@color/light_background</item>
+
+        <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
+        <item name="cancelButton">@drawable/ic_cancel_light</item>
+        <item name="sendButton">@drawable/ic_send_light</item>
+        <item name="attachButton">@drawable/ic_attach_light</item>
+        <item name="drawerIcon">@drawable/ic_drawer</item>
+        <item name="newIcon">@drawable/ic_action_new_light</item>
+        <item name="drawerDrawable">@drawable/drawer_background_light</item>
+        <item name="acceptButton">@drawable/ic_action_accept_light</item>
+        <item name="showMoreButton">@drawable/ic_action_expand_light</item>
+        <item name="retweetButton">@drawable/ic_action_repeat_light</item>
+        <item name="favoritedButton">@drawable/ic_action_important_light</item>
+        <item name="notFavoritedButton">@drawable/ic_action_not_important_light</item>
+        <item name="circleBorder">@drawable/circle_border_light</item>
+        <item name="squareBorder">@drawable/square_border_light</item>
+        <item name="timelineItem">@drawable/timeline_light</item>
+        <item name="mentionItem">@drawable/mentions_light</item>
+        <item name="directMessageItem">@drawable/ic_action_reply_light</item>
+        <item name="rectangle_border">@drawable/rect_border_light</item>
+        <item name="emoji_button">@drawable/ic_emoji_keyboard_dark</item>
+        <item name="emoji_button_changing">@drawable/ic_emoji_keyboard_dark</item>
+        <item name="shareButton">@drawable/ic_action_share_light</item>
+        <item name="location_button">@drawable/ic_action_place_light</item>
+        <item name="overflow_button">@drawable/ic_action_overflow_light</item>
+        <item name="keyboardButton">@drawable/ic_keyboard_light</item>
+        <item name="keyboard_button_changing">@drawable/ic_keyboard_light</item>
+        <item name="emojiBackspace">@drawable/ic_backspace_light</item>
+        <item name="picturePlaceholder">@drawable/ic_action_picture_light</item>
+        <item name="read_button">@drawable/ic_action_read_light</item>
+        <item name="unread_button">@drawable/ic_action_unread_light</item>
+        <item name="quote_button">@drawable/ic_action_reply_all_light</item>
+        <item name="background_card">@drawable/send_card</item>
+        <item name="notification_button">@drawable/ic_action_notification_dark</item>
+        <item name="notification_button_empty">@drawable/ic_action_notification_none_dark</item>
+        <item name="hashtag_button">@drawable/ic_action_hashtag_light</item>
+        <item name="bothAccounts">@drawable/both_accounts_light</item>
+        <item name="settings_pages">@drawable/ic_settings_pages_light</item>
+        <item name="heart_button">@drawable/ic_heart_light</item>
+        <item name="quick_actions">@drawable/ic_quick_actions_light</item>
+        <item name="supporter">@drawable/ic_supporter_light</item>
+
+        <item name="themeSettings">@drawable/drawer_theme_light</item>
+        <item name="drawerTrends">@drawable/drawer_trends_light</item>
+        <item name="notificationSettings">@drawable/drawer_notifications_light</item>
+        <item name="syncSettings">@drawable/drawer_sync_light</item>
+        <item name="advancedSettings">@drawable/advanced_settings_light</item>
+        <item name="whatsNew">@drawable/ic_action_new_light</item>
+        <item name="links">@drawable/ic_links_light</item>
+        <item name="worldTrends">@drawable/ic_action_map_light</item>
+        <item name="getHelp">@drawable/drawer_help_light</item>
+        <item name="otherApps">@drawable/drawer_other_apps_light</item>
+        <item name="rateIt">@drawable/drawer_rate_it_light</item>
+        <item name="favUser">@drawable/drawer_user_light</item>
+        <item name="listIcon">@drawable/list_light</item>
+        <item name="memManagement">@drawable/ic_action_sd_storage_light</item>
+        <item name="feedback">@drawable/ic_feedback_light</item>
+
+        <item name="search_icon">@drawable/ic_action_search_light</item>
+        <item name="circle_overflow">@drawable/ic_action_circle_overflow_light</item>
+
+        <item name="compose_window_background">@drawable/compose_background_light</item>
+
+        <item name="ripple_background">@drawable/ripple_light</item>
+        <item name="ripple_borderless">@drawable/ripple_light_borderless</item>
+        <item name="snackbar">@drawable/snack_bar_light</item>
+
+        <item name="toolbarStyle">@style/ToolBarLight</item>
+    </style>
+</resources>

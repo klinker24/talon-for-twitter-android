@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="4.0.1">
+        <text>Improve popup boxes styling</text>
+        <text>Use black navigation bar in landscape mode</text>
+        <text>Clarified a few things about the supporter options</text>
+    </version>
+
     <version name="4.0.0">
         <text>[New] Become a 2016 SUPPORTER from settings (does not provide app enhancements)</text>
         <text>[New] Dual panel main screen to view 2 timelines at once (tablets in landscape)</text>
