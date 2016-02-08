@@ -2,6 +2,7 @@
 
     <version name="4.0.2">
         <text>Add quote button to the quick actions</text>
+        <text>Settings backups will successfully backup and restore muffled users</text>
     </version>
 
     <version name="4.0.1">
