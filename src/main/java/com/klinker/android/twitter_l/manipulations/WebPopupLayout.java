@@ -21,7 +21,7 @@ public class WebPopupLayout extends PopupLayout {
         showTitle(false);
         setFullScreen();
 
-        LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
         webView.setLayoutParams(params);
 
         try {

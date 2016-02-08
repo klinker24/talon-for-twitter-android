@@ -120,6 +120,8 @@
         <text>
             Version 4.0.0 of Talon added the ability to perform quick actions on tweets by pressing the date (in the top right corner) of any tweets on your timeline.
 
+            Quick Actions include: like, retweet, and reply.
+
             It will pop up with a few options that you can perform on that tweet.
 
             Right now, there are no plans to implement these options directly onto the timeline, they will remain hidden and show when clicking the date.
