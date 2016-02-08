@@ -6,12 +6,15 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -29,7 +32,7 @@ import com.klinker.android.twitter_l.utils.TalonSlidr;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.r0adkll.slidr.model.SlidrInterface;
 
-public abstract class PopupLayout extends LinearLayout {
+public abstract class PopupLayout extends CardView {
 
     // some default constants for initializing the ActionButton
     public static final int DEFAULT_DISTANCE_FROM_TOP = 50;
@@ -45,6 +48,9 @@ public abstract class PopupLayout extends LinearLayout {
     public static final int SHORT_ANIMATION_TIME = 100;
 
     public static final int REAL_ANIMATION_TIME = 400;
+
+    private static float FINAL_TITLE_ALPHA = .73f;
+    private static float FINAL_DIM_ALPHA = .3f;
     
     public long fadeAnimationTime = DEFAULT_FADE_ANIMATION_TIME;
     public long longAnimationTime = LONG_ANIMATION_TIME;
@@ -89,6 +95,18 @@ public abstract class PopupLayout extends LinearLayout {
     public PopupLayout(Context context) {
         super(context);
 
+        if (AppSettings.getInstance(context).darkTheme) {
+            FINAL_TITLE_ALPHA = 1.0f;
+            FINAL_DIM_ALPHA = .5f;
+
+            if (AppSettings.getInstance(context).blackTheme) {
+                FINAL_DIM_ALPHA = .6f;
+            }
+        } else {
+            FINAL_DIM_ALPHA = .3f;
+            FINAL_TITLE_ALPHA = .75f;
+        }
+
         setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
 
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
@@ -98,38 +116,42 @@ public abstract class PopupLayout extends LinearLayout {
         screenHeight = size.y;
         screenWidth = size.x;
 
-        background = context.getResources().getDrawable(R.drawable.popup_background);
-        setBackground(background);
+        int padding = Utils.toDP(16, context);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setClipToOutline(true);
-            setElevation(3);
-        }
+        LinearLayout root = new LinearLayout(context);
+        LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        rootParams.weight = 1;
+        root.setLayoutParams(rootParams);
 
-        setPadding(10,10,10,10);
-        setOrientation(VERTICAL);
+        root.setOrientation(LinearLayout.VERTICAL);
 
         title = new TextView(context);
         title.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        int fiveDP = Utils.toDP(7, context);
-        title.setPadding(fiveDP, fiveDP, fiveDP, fiveDP);
-        title.setTextColor(AppSettings.getInstance(context).themeColors.primaryColor);
-        title.setAllCaps(true);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        title.setPadding(padding, padding, padding, padding);
+        if (AppSettings.getInstance(context).darkTheme) {
+            title.setTextColor(context.getResources().getColor(R.color.dark_text));
+        } else {
+            title.setTextColor(context.getResources().getColor(R.color.light_text));
+        }
+        title.setTypeface(null, Typeface.BOLD);
+        title.setAlpha(FINAL_TITLE_ALPHA);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         title.setText(context.getResources().getString(R.string.retweets));
 
-        titleDivider = new View(context);
+        /*titleDivider = new View(context);
         titleDivider.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context)));
-        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
+        titleDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);*/
 
         content = new LinearLayout(context);
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         params.weight = 1;
         content.setLayoutParams(params);
 
-        addView(title);
-        addView(titleDivider);
-        addView(content);
+        addView(root);
+
+        root.addView(title);
+        //root.addView(titleDivider);
+        root.addView(content);
 
         View main = setMainLayout();
         if (main != null) {
@@ -147,7 +169,20 @@ public abstract class PopupLayout extends LinearLayout {
         int background = a.getResourceId(0, 0);
         a.recycle();
 
-        setBackgroundResource(background);
+
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.darkTheme) {
+            if (settings.blackTheme) {
+                setCardBackgroundColor(Color.BLACK);
+            } else {
+                setCardBackgroundColor(getResources().getColor(R.color.dark_background));
+            }
+        } else {
+            setCardBackgroundColor(Color.WHITE);
+        }
+
+        setCardElevation(Utils.toDP(3, context));
+        setRadius(Utils.toDP(3, context));
 
         dim = ((Activity) context).getLayoutInflater().inflate(R.layout.dim, null, false);
 
@@ -313,12 +348,10 @@ public abstract class PopupLayout extends LinearLayout {
         if (show) {
             if (title.getVisibility() != View.VISIBLE) {
                 title.setVisibility(View.VISIBLE);
-                titleDivider.setVisibility(View.VISIBLE);
             }
         } else {
             if (title.getVisibility() != View.GONE) {
                 title.setVisibility(View.GONE);
-                titleDivider.setVisibility(View.GONE);
             }
         }
         showTitle = show;
@@ -421,7 +454,7 @@ public abstract class PopupLayout extends LinearLayout {
             animator.start();
         } else {
             title.setVisibility(View.GONE);
-            titleDivider.setVisibility(View.GONE);
+            //titleDivider.setVisibility(View.GONE);
             content.setVisibility(View.GONE);
 
             setTranslationX(animStartLeft);
@@ -492,13 +525,13 @@ public abstract class PopupLayout extends LinearLayout {
                         // show the content
                         title.setVisibility(View.VISIBLE);
 
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 0.0f, 1.0f);
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 0.0f, FINAL_TITLE_ALPHA);
                         animator.setDuration(fadeAnimationTime);
                         animator.start();
                     }
                 }, realAnimationTime);
 
-                new Handler().postDelayed(new Runnable() {
+                /*new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         // show the content
@@ -508,7 +541,7 @@ public abstract class PopupLayout extends LinearLayout {
                         animator.setDuration(fadeAnimationTime);
                         animator.start();
                     }
-                }, realAnimationTime + 100); // was long + short + 30
+                }, realAnimationTime + 100);*/ // was long + short + 30
             }
 
             new Handler().postDelayed(new Runnable() {
@@ -532,7 +565,7 @@ public abstract class PopupLayout extends LinearLayout {
             }, realAnimationTime + 200); // was long + short + 60
         }
 
-        ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, 0.0f, .6f);
+        ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, 0.0f, FINAL_DIM_ALPHA);
         dimAnimator.setDuration(fadeAnimationTime); // was long + short
         dimAnimator.start();
 
@@ -564,15 +597,15 @@ public abstract class PopupLayout extends LinearLayout {
             if (showTitle) {
                 title.setVisibility(View.INVISIBLE);
 
-                ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, 1.0f, 0.0f);
+                ObjectAnimator animator = ObjectAnimator.ofFloat(title, View.ALPHA, FINAL_TITLE_ALPHA, 0.0f);
                 animator.setDuration(fadeAnimationTime); // was long
                 animator.start();
 
-                titleDivider.setVisibility(View.INVISIBLE);
+                //titleDivider.setVisibility(View.INVISIBLE);
 
-                animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 1.0f, 0.0f);
+                /*animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 1.0f, 0.0f);
                 animator.setDuration(fadeAnimationTime); // was long
-                animator.start();
+                animator.start();*/
             }
 
             content.setVisibility(View.INVISIBLE);
@@ -656,7 +689,7 @@ public abstract class PopupLayout extends LinearLayout {
             }, fadeAnimationTime + 100);
         }
 
-        ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, .6f, 0.0f);
+        ObjectAnimator dimAnimator = ObjectAnimator.ofFloat(dim, View.ALPHA, FINAL_DIM_ALPHA, 0.0f);
 
         dimAnimator.setDuration(fadeAnimationTime); // was long + short
         //dimAnimator.setStartDelay(fadeAnimationTime);
