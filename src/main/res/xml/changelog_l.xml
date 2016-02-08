@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.0.2">
+        <text>Add quote button to the quick actions</text>
+    </version>
+
     <version name="4.0.1">
         <text>Improve popup boxes styling</text>
         <text>Use black navigation bar in landscape mode</text>
