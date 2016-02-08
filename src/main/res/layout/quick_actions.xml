@@ -27,6 +27,25 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingRight="20dp"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/quote_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="?quote_button"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="Quote Tweet"
+            android:minHeight="48dp" android:minWidth="48dp"
+            android:scaleType="center" android:adjustViewBounds="true"
+            android:maxWidth="48dp" android:maxHeight="48dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"

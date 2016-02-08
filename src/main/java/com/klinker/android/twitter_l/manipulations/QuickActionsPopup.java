@@ -18,6 +18,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
+import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Twitter;
@@ -33,7 +34,14 @@ public class QuickActionsPopup extends PopupLayout {
     String screenName;
     String tweetText;
 
+    boolean secondAccount = false;
+
+
     public QuickActionsPopup(Context context, long tweetId, String screenName, String tweetText) {
+        this(context, tweetId, screenName, tweetText, false);
+    }
+
+    public QuickActionsPopup(Context context, long tweetId, String screenName, String tweetText, boolean secondAccount) {
         super(context);
         this.context = context;
 
@@ -41,8 +49,10 @@ public class QuickActionsPopup extends PopupLayout {
         this.screenName = screenName;
         this.tweetText = tweetText;
 
+        this.secondAccount = secondAccount;
+
         setTitle(getResources().getString(R.string.quick_actions));
-        setWidth(Utils.toDP(216, context));
+        setWidth(Utils.toDP(264, context));
         setHeight(Utils.toDP(90, context));
         setAnimationScale(.5f);
     }
@@ -51,6 +61,7 @@ public class QuickActionsPopup extends PopupLayout {
     ImageButton like;
     ImageButton retweet;
     ImageButton reply;
+    ImageButton quote;
 
     @Override
     public View setMainLayout() {
@@ -59,6 +70,7 @@ public class QuickActionsPopup extends PopupLayout {
         like = (ImageButton) root.findViewById(R.id.favorite_button);
         retweet = (ImageButton) root.findViewById(R.id.retweet_button);
         reply = (ImageButton) root.findViewById(R.id.reply_button);
+        quote = (ImageButton) root.findViewById(R.id.quote_button);
 
         like.setOnClickListener(new OnClickListener() {
             @Override
@@ -79,11 +91,42 @@ public class QuickActionsPopup extends PopupLayout {
         reply.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent compose = new Intent(context, ComposeActivity.class);
+                Intent compose;
+
+                if (secondAccount) {
+                    compose = new Intent(context, ComposeActivity.class);
+                } else {
+                    compose = new Intent(context, ComposeSecAccActivity.class);
+                }
 
                 compose.putExtra("user", "@" + screenName.replace("@", ""));
                 compose.putExtra("id", tweetId);
-                compose.putExtra("reply_to_text", tweetText);
+                compose.putExtra("reply_to_text", "@" + screenName + ": " + tweetText);
+
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0,
+                        view.getMeasuredWidth(), view.getMeasuredHeight());
+                compose.putExtra("already_animated", true);
+
+                context.startActivity(compose, opts.toBundle());
+
+                hide();
+            }
+        });
+
+        quote.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent compose;
+
+                if (!secondAccount) {
+                    compose = new Intent(context, ComposeActivity.class);
+                } else {
+                    compose = new Intent(context, ComposeSecAccActivity.class);
+                }
+
+                compose.putExtra("user", " " + "https://twitter.com/" + screenName + "/status/" + tweetId);
+                compose.putExtra("id", tweetId);
+                compose.putExtra("reply_to_text", "@" + screenName + ": " + tweetText);
 
                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0,
                         view.getMeasuredWidth(), view.getMeasuredHeight());
@@ -111,7 +154,13 @@ public class QuickActionsPopup extends PopupLayout {
 
         @Override
         protected Void doInBackground(String... urls) {
-            Twitter twit = Utils.getTwitter(context, AppSettings.getInstance(context));
+
+            Twitter twit;
+            if (secondAccount) {
+                twit = Utils.getSecondTwitter(context);
+            } else {
+                twit = Utils.getTwitter(context, AppSettings.getInstance(context));
+            }
 
             try {
                 switch (type) {
