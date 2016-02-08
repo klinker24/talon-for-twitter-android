@@ -24,12 +24,14 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference;
+import com.klinker.android.twitter_l.manipulations.ListTagHandler;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
@@ -111,10 +113,17 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
     private void showSupporterDialog() {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Love Talon?")
-                .setMessage("Talon has been available for almost a year and a half now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.\n\n" +
-                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2016 SUPPORTER to help out development!\n\n" +
-                        "I do want to be clear that becoming a supporter doesn't enhance the app or its feature set in any way. This is purely a voluntary contribution if you have enjoyed my work, like I know many of you have.\n\n" +
-                        "Continue enjoying Talon either way, but I love when my users show me their support :)")
+                .setMessage(Html.fromHtml("Talon has been available for almost a year and a half now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.<br><br>" +
+                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2016 SUPPORTER to help out development!<br><br>" +
+                        "I do want to be clear that becoming a supporter doesn't enhance the app or its feature set in any way. This is purely a voluntary contribution if you have enjoyed my work, like I know many of you have.<br><br>" +
+                        "<b>So, why should I become a Supporter?</b>" +
+                        "<ul>" +
+                        "<li>You have been an every day user of Talon for awhile and you feel like you have gotten more than a cup of coffee's worth out of the app.</li>" +
+                        "<li>You understand that development is hard. I put all my free time into this product, and I think it shows! I hope you agree.</li>" +
+                        "<li>You want the warm-fuzzy feeling that comes with giving a little extra for something that you enjoy and use every day.</li><br>" +
+                        "</ul><br>" +
+                        "Even the $10 Supporter option is less than $1 per month for 2016. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
+                        "Continue enjoying Talon either way, but I love when my users show me their support :)", null, new ListTagHandler()))
                 .setPositiveButton("$10", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
