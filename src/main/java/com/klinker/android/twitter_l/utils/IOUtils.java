@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
 
 public class IOUtils {
@@ -255,6 +256,8 @@ public class IOUtils {
                     prefEdit.putLong(key, ((Long) v).longValue());
                 } else if (v instanceof String) {
                     prefEdit.putString(key, ((String) v));
+                } else if (v instanceof Set) {
+                    prefEdit.putStringSet(key, ((Set<String>) v));
                 }
             }
 
