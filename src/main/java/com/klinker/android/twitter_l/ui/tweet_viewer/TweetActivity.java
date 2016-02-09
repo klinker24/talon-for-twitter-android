@@ -723,8 +723,8 @@ public class TweetActivity extends SlidingActivity {
         }
 
         // last bool is whether it should open in the external browser or not
-        TextUtils.linkifyText(context, retweetertv, null, true, linkString, true);
-        TextUtils.linkifyText(context, tweettv, null, true, linkString, true);
+        TextUtils.linkifyText(context, retweetertv, null, true, linkString, false);
+        TextUtils.linkifyText(context, tweettv, null, true, linkString, false);
 
         String replyStuff = "";
         if (!screenName.equals(screenNameToUse)) {
