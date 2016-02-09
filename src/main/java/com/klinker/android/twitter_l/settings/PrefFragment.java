@@ -369,7 +369,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                 File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
                                 IOUtils.saveSharedPreferencesToFile(des, context);
 
-                                Toast.makeText(context, context.getResources().getString(R.string.backup_success), Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.backup_success) + ": /Talon/backup.prefs", Toast.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
