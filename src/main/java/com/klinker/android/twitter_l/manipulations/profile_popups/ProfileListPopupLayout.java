@@ -126,7 +126,7 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
                         public void run() {
                             adapter = new TimelineArrayAdapter(getContext(), tweets);
                             adapter.setCanUseQuickActions(false);
-                            
+
                             list.setAdapter(adapter);
                             list.setVisibility(View.VISIBLE);
 
