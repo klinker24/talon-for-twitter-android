@@ -51,12 +51,5 @@ public class BecomeSupporterPreference extends Preference {
 
         return view;
     }
-
-    @Override
-    public void setOnPreferenceClickListener(OnPreferenceClickListener listener) {
-        if (!isSupporter) {
-            super.setOnPreferenceClickListener(listener);
-        }
-    }
 }
 
