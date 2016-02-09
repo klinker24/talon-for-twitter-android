@@ -993,11 +993,6 @@ public class ExpansionViewHelper {
     boolean isRetweeted = false;
 
     public void favoriteStatus(final int type) {
-        if (isFavorited) {
-            Toast.makeText(context, context.getResources().getString(R.string.removing_favorite), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.favoriting_status), Toast.LENGTH_SHORT).show();
-        }
 
         new Thread(new Runnable() {
             @Override
@@ -1040,7 +1035,6 @@ public class ExpansionViewHelper {
                         @Override
                         public void run() {
                             try {
-                                Toast.makeText(context, context.getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
                                 getFavoriteCount();
                             } catch (Exception e) {
                                 // they quit out of the activity
@@ -1055,7 +1049,6 @@ public class ExpansionViewHelper {
     }
 
     public void retweetStatus(final int type) {
-        Toast.makeText(context, context.getResources().getString(R.string.retweeting_status), Toast.LENGTH_SHORT).show();
 
         new Thread(new Runnable() {
             @Override
@@ -1094,7 +1087,6 @@ public class ExpansionViewHelper {
                         @Override
                         public void run() {
                             try {
-                                Toast.makeText(context, context.getResources().getString(R.string.retweet_success), Toast.LENGTH_SHORT).show();
                                 getRetweetCount();
                             } catch (Exception e) {
 
