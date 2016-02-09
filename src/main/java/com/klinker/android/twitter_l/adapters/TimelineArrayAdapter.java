@@ -557,8 +557,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     popup.show();
                 }
             });
-        } else {
-            holder.quickActions.setOnClickListener(null);
         }
 
         if(settings.reverseClickActions || expander == null) {
