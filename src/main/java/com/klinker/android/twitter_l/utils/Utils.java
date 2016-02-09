@@ -165,7 +165,10 @@ public class Utils {
         int resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = context.getResources().getDimensionPixelSize(resourceId);
+        } else if (hasNavBar(context)) {
+            Utils.toDP(48, context);
         }
+
         return result;
     }
 
