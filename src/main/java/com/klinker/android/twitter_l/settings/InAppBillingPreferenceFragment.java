@@ -22,6 +22,8 @@ import com.klinker.android.twitter_l.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class InAppBillingPreferenceFragment extends PreferenceFragment {
 
@@ -48,6 +50,8 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                 new Intent("com.android.vending.billing.InAppBillingService.BIND");
         serviceIntent.setPackage("com.android.vending");
         getActivity().bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+
+        new ConsumeItems().execute();
     }
 
     @Override
@@ -90,6 +94,53 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
 
     protected void start2016SupporterPurchase(String amount) {
         new StartPurchase("2016_supporter_" + amount).execute();
+    }
+
+    class ConsumeItems extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            try {
+                String continueToken = "";
+
+                while (continueToken != null) {
+                    Bundle ownedItems;
+                    if (continueToken.equals(""))
+                        ownedItems = mService.getPurchases(3, getActivity().getPackageName(), "inapp", null);
+                    else
+                        ownedItems = mService.getPurchases(3, getActivity().getPackageName(), "inapp", continueToken);
+
+                    int response = ownedItems.getInt("RESPONSE_CODE");
+                    if (response == 0) {
+                        ArrayList<String> purchaseDataList =
+                                ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+                        continueToken = ownedItems.getString("INAPP_CONTINUATION_TOKEN");
+
+                        if (purchaseDataList == null || purchaseDataList.size() == 0) {
+                            return null;
+                        }
+
+                        for (int i = 0; i < purchaseDataList.size(); ++i) {
+                            JSONObject purchaseData = new JSONObject(purchaseDataList.get(i));
+                            consumePurchase(purchaseData);
+                        }
+
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        private void consumePurchase(JSONObject purchaseData) throws JSONException, RemoteException {
+            consumePurchase(purchaseData.getString("purchaseToken"));
+        }
+
+        private void consumePurchase(String purchaseToken) throws RemoteException {
+            mService.consumePurchase(3, getActivity().getPackageName(), purchaseToken);
+        }
     }
 
     class StartPurchase extends AsyncTask<Void, Void, PendingIntent> {
