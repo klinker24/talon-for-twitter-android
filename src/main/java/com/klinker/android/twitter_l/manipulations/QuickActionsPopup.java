@@ -36,7 +36,6 @@ public class QuickActionsPopup extends PopupLayout {
 
     boolean secondAccount = false;
 
-
     public QuickActionsPopup(Context context, long tweetId, String screenName, String tweetText) {
         this(context, tweetId, screenName, tweetText, false);
     }
