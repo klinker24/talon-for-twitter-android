@@ -107,6 +107,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     private int smallPictures;
 
+    private boolean canUseQuickActions = true;
+
+    public void setCanUseQuickActions(boolean bool) {
+        canUseQuickActions = bool;
+    }
+
     public static class ViewHolder {
         public TextView name;
         public ImageView profilePic;
@@ -541,15 +547,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        holder.quickActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetText);
-                popup.setExpansionPointForAnim(holder.quickActions);
-                popup.setOnTopOfView(holder.quickActions);
-                popup.show();
-            }
-        });
+        if (canUseQuickActions) {
+            holder.quickActions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetText);
+                    popup.setExpansionPointForAnim(holder.quickActions);
+                    popup.setOnTopOfView(holder.quickActions);
+                    popup.show();
+                }
+            });
+        } else {
+            holder.quickActions.setOnClickListener(null);
+        }
 
         if(settings.reverseClickActions || expander == null) {
             final String fRetweeter = retweeter;
