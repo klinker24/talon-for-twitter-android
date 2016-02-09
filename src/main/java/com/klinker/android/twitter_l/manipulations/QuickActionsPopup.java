@@ -92,7 +92,7 @@ public class QuickActionsPopup extends PopupLayout {
             public void onClick(View view) {
                 Intent compose;
 
-                if (secondAccount) {
+                if (!secondAccount) {
                     compose = new Intent(context, ComposeActivity.class);
                 } else {
                     compose = new Intent(context, ComposeSecAccActivity.class);
