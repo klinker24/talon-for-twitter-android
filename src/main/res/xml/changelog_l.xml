@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.0.3">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="4.0.2">
         <text>Improve colors on dark theme</text>
         <text>Add quote button to the quick actions</text>
