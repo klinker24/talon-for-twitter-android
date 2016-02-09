@@ -52,7 +52,7 @@ public class QuickActionsPopup extends PopupLayout {
 
         setTitle(getResources().getString(R.string.quick_actions));
         setWidth(Utils.toDP(264, context));
-        setHeight(Utils.toDP(90, context));
+        setHeight(Utils.toDP(106, context));
         setAnimationScale(.5f);
     }
 
