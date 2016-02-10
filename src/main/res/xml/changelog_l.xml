@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.0.4">
+        <text>Fix GIFs not playing due to a Twitter change</text>
+    </version>
+
     <version name="4.0.3">
         <text>Bug fixes</text>
     </version>
