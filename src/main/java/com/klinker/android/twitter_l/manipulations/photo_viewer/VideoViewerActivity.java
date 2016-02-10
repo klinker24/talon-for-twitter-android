@@ -88,8 +88,12 @@ public class VideoViewerActivity extends AppCompatActivity {
 
         Intent viewVideo = new Intent(context, VideoViewerActivity.class);
 
+        video = video.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
+
         viewVideo.putExtra("url", video);
         viewVideo.putExtra("tweet_id", tweetId);
+
+        Log.v("video_url", video);
 
         context.startActivity(viewVideo);
     }
