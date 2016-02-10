@@ -51,7 +51,11 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
         serviceIntent.setPackage("com.android.vending");
         getActivity().bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
-        new ConsumeItems().execute();
+        try {
+            new ConsumeItems().execute();
+        } catch (Throwable t) {
+            
+        }
     }
 
     @Override
@@ -133,7 +137,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
 
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
 
@@ -145,7 +149,9 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
         }
 
         private void consumePurchase(String purchaseToken) throws RemoteException {
-            mService.consumePurchase(3, getActivity().getPackageName(), purchaseToken);
+            try {
+                mService.consumePurchase(3, getActivity().getPackageName(), purchaseToken);
+            } catch (Throwable t) { }
         }
     }
 
