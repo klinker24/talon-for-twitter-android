@@ -54,7 +54,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
         try {
             new ConsumeItems().execute();
         } catch (Throwable t) {
-            
+
         }
     }
 
@@ -105,8 +105,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
                         Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
                 String continueToken = "";
