@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="4.0.6">
+        <text>Update translations</text>
+        <text>Save images from direct messages</text>
+    </version>
+
     <version name="4.0.5">
         <text>Various UI improvements, updates, and fixes</text>
         <text>Some fixes for searching tweets/profiles from emails</text>
