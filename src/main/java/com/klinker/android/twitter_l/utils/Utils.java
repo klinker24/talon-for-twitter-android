@@ -1596,6 +1596,51 @@ public class Utils {
         }
     }
 
+    public static String getBackgroundUrlForTheme(AppSettings settings) {
+        switch (settings.theme) {
+            case AppSettings.THEME_AMBER:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_amber.jpg?token=6d3e226366def6582b2bc2b1434e78fd89239235";
+            case AppSettings.THEME_BLUE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_blue.jpg?token=e93db6f0d6b2ea7a925648754ee6d9d094a2ecee";
+            case AppSettings.THEME_BLUE_GREY:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_blue_grey.jpg?token=1d2d3411235304e17630ae780c1cb8fc8a11c616";
+            case AppSettings.THEME_BROWN:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_brown.jpg?token=0ffd54e00d5292f93e7102b568ca9177ab20f38b";
+            case AppSettings.THEME_CYAN:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_cyan.jpg?token=41229ff18af4f78b73bbe2466414a401440a0709";
+            case AppSettings.THEME_DEEP_ORANGE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_deep_orange.jpg?token=f3c83ec3da514673ec72db3eb635ce6e603eed80";
+            case AppSettings.THEME_DEEP_PURPLE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_deep_purple.jpg?token=cbaeab289e4cfaea4f555153fe8b3fb9515794d6";
+            case AppSettings.THEME_GREEN:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_green.jpg?token=e55ba5aea66b9e0b76411bc3925297b23b69ca67";
+            case AppSettings.THEME_GREY:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_grey.jpg?token=00367e48d0865900f58afc672054157ad6adbd67";
+            case AppSettings.THEME_INDIGO:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_indigo.jpg?token=f04944bd1ff8dc3a6ef5abe91f943b72f65339d5";
+            case AppSettings.THEME_LIGHT_BLUE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_light_blue.jpg?token=3a3fa37e4eee720b07e883615f5abcd3714ef248";
+            case AppSettings.THEME_LIGHT_GREEN:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_light_green.jpg?token=94d5b9445f39aec1dbf17131b45eb1e6ac50fdda";
+            case AppSettings.THEME_LIME:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_lime.jpg?token=7299249adc0c9fbbd897cbb9cbccbac5a7b0e23a";
+            case AppSettings.THEME_PINK:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_pink.jpg?token=ac10d10928304b26e802ff14c10efda3d8617e78";
+            case AppSettings.THEME_PURPLE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_purple.jpg?token=787e20291acb8ff00161e79bab78d4516b4c7ad3";
+            case AppSettings.THEME_ORANGE:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_orange.jpg?token=a4ebbc8b1ed3f58f628f597290a0859293e77cf1";
+            case AppSettings.THEME_TEAL:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_teal.jpg?token=4b0be84dafdf32f5243b2902521b1b3143f6a6b4";
+            case AppSettings.THEME_RED:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_red.jpg?token=eacd34be8c5e9760a2b54a0d2295d4a3e9c9fed2";
+            case AppSettings.THEME_YELLOW:
+                return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_yellow.jpg?token=7664dac61cdbac07b138c53678fe0eea2793e5d7";
+        }
+
+        return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_grey.jpg?token=00367e48d0865900f58afc672054157ad6adbd67";
+    }
+
     public static void setActionBar(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.actionBar != null) {

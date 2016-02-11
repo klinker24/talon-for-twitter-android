@@ -541,7 +541,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             backgroundPic.loadImage(backgroundUrl, false, null);
             //ImageUtils.loadImage(context, backgroundPic, backgroundUrl, mCache);
         } else {
-            backgroundPic.setImageDrawable(getResources().getDrawable(R.drawable.default_header_background));
+            backgroundPic.loadImage(Utils.getBackgroundUrlForTheme(settings), false, null);
         }
 
         backgroundPic.setOnClickListener(new View.OnClickListener() {
