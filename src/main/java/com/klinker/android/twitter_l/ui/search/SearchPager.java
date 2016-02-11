@@ -222,7 +222,23 @@ public class SearchPager extends AppCompatActivity {
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             String uriString = uri.toString();
-            if (uriString.contains("status/")) {
+            if (uriString.contains("redirect")) { // coming from an email probably
+                String str = URLDecoder.decode(uri.getQueryParameter("url"));
+
+                Log.v("talon_search", str);
+
+                if (!str.contains("/status/")) {
+                    String name = str.substring(str.indexOf(".com/"));
+                    name = name.replace(".com/", "");
+                    name = name.substring(0, name.indexOf("?"));
+
+                    searchQuery = name;
+                    onlyProfile = true;
+                } else {
+
+                }
+
+            } else if (uriString.contains("status/")) {
                 Log.v("talon_search", "searching for status");
 
                 long id;
@@ -248,6 +264,8 @@ public class SearchPager extends AppCompatActivity {
                 }
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
+                if (name.contains("?ref_src"))
+                    name= name.substring(0, name.indexOf("?ref"));
                 name = name.replace("?lang=en", "");
 
                 searchQuery = name;
