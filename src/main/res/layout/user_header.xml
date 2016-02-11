@@ -57,8 +57,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
-            android:gravity="center_vertical">
+            android:paddingTop="24dp"
+            android:paddingLeft="16dp"
+            android:gravity="center_vertical"
+        android:background="@drawable/gradient">
 
         <LinearLayout
                 android:layout_toRightOf="@+id/pro_pic_layout"

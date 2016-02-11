@@ -45,11 +45,11 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
                 WorldTrends world = new WorldTrends();
                 return world;
             case 2:
-                CategoryFragment people = new CategoryFragment();
-                return people;
-            case 3:
                 NearbyTweets nearby = new NearbyTweets();
                 return nearby;
+            case 3:
+                CategoryFragment people = new CategoryFragment();
+                return people;
         }
         return null;
     }
@@ -67,9 +67,9 @@ public class TrendsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return context.getResources().getString(R.string.world_trends);
             case 2:
-                return context.getResources().getString(R.string.people);
-            case 3:
                 return context.getResources().getString(R.string.nearby_tweets);
+            case 3:
+                return context.getResources().getString(R.string.discover_people);
         }
         return null;
     }

@@ -107,6 +107,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,12 +305,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
                                     .setContentText(getResources().getString(R.string.saved_picture) + "!");
 
                     mNotificationManager.notify(6, mBuilder.build());
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                new PermissionModelUtils(context).showStorageIssue();
+                                new PermissionModelUtils(context).showStorageIssue(e);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

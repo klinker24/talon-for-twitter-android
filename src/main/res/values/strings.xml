@@ -64,8 +64,8 @@
     <string name="favorite_users">Favorite Users</string>
     <string name="favorite_users_tweets">Favorite User Tweets</string>
     <string name="trends">Trending</string>
-    <string name="local_trends">Local Trends</string>
-    <string name="world_trends">World Trends</string>
+    <string name="local_trends">Local</string>
+    <string name="world_trends">World</string>
     <string name="search">Search</string>
     <string name="lists">Lists</string>
     <string name="search_hint">Search...</string>
@@ -526,7 +526,7 @@
     <string name="no_content">Nothing to display!</string>
     <string name="discover">Discover</string>
     <string name="suggested_users">Suggested Users</string>
-    <string name="nearby_tweets">Nearby Tweets</string>
+    <string name="nearby_tweets">Nearby</string>
     <string name="local_trend_options">Local Trend Options</string>
     <string name="manually_config_location">Manually Configure Location</string>
     <string name="country_region">Country/Region</string>

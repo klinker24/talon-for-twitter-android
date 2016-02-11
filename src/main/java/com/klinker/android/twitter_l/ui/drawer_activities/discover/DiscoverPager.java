@@ -19,9 +19,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -69,13 +71,11 @@ public class DiscoverPager extends DrawerActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOverScrollMode(ViewPager.OVER_SCROLL_NEVER);
 
-        PagerSlidingTabStrip strip = (PagerSlidingTabStrip) findViewById(R.id.pager_tab_strip);
-        //PagerTitleStrip strip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
+        TabLayout strip = (TabLayout) findViewById(R.id.pager_tab_strip);
         strip.setBackgroundColor(settings.themeColors.primaryColor);
-        strip.setTextColorResource(R.color.white);
-        strip.setIndicatorColor(settings.themeColors.accentColor);
-        strip.setTextSize((int)getResources().getDimension(R.dimen.pager_tab_strip_text));
-        strip.setViewPager(mViewPager);
+        strip.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
+        strip.setTabTextColors(Color.WHITE, Color.WHITE);
+        strip.setupWithViewPager(mViewPager);
 
         if (statusBar != null) {
             statusBar.setVisibility(View.GONE);

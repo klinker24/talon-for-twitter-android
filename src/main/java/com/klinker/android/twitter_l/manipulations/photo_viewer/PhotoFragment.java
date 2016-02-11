@@ -145,14 +145,14 @@ public class PhotoFragment extends Fragment {
                                     .setContentText(getResources().getString(R.string.saved_picture) + "!");
 
                     mNotificationManager.notify(6, mBuilder.build());
-                } catch (Exception e) {
+                } catch (final Exception e) {
 
                     if (activity != null) {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    new PermissionModelUtils(activity).showStorageIssue();
+                                    new PermissionModelUtils(activity).showStorageIssue(e);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
