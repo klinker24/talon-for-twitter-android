@@ -37,7 +37,7 @@
     <string name="preparing_signin">Forbereder log ind</string>
     <string name="verifying_login">Verificerer log ind</string>
     <string name="manage_muffles">Rediger begrænsede</string>
-    <string name="muffle_definition">Ved at begrænse en profil vil størstedelen af deres tweets blive skjult fra din tidslinje. Du vil kun se navnet og en bid af indholdet du kan tappe på, skulle du være interesseret i at se mere</string>
+    <string name="muffle_definition">Ved at begrænse en profil vil størstedelen af deres tweets blive skjult fra din tidslinje. Du vil kun se navnet og lidt af indholdet du kan tappe på, skulle du være interesseret i at se mere</string>
     <string name="muffled_users">Begrænsede profiler</string>
     <string name="click_to_remove_muffle">Tap på en profil for at fjerne begrænsningen</string>
     <string name="muffle_user">Begræns profil</string>
@@ -48,7 +48,7 @@
     <string name="share_on_rating_dialog">Del</string>
     <string name="ignore">Ignorer</string>
     <string name="when_talon_pull_on">Aktiveret når Talon Pull bruges</string>
-    <string name="transparent_system_bars">Vis transparente system bar</string>
+    <string name="transparent_system_bars">Vis transparent system bar</string>
     <string name="accent_color">Sekundær farve</string>
     <string name="nav_bar_option">Overstyr navigationsbar</string>
     <string name="nav_bar_option_summary">Nogle applikationer kan ikke selv detektere om alle enheder har navigationsbar. Eftersom Talon er kraftigt afhængig af en sådan, tillader denne mulighed at specificere det manuelt</string>
@@ -56,7 +56,7 @@
     <string name="nav_bar_present">Bruger navigationsbar</string>
     <string name="nav_bar_gone">Bruger ikke navigationsbar</string>
     <string name="tip_title">Tip:</string>
-    <string name="profile_pictures_helper_message">Tap og hold for at åbne tweetet der indeholder et billede\n\nEt normalt kort tap vil vise billedet</string>
+    <string name="profile_pictures_helper_message">Tap og hold for at åbne tweetet der indeholder et billede\n\nEt kort tap vil vise billedet</string>
     <string name="quote_disclaimer">Twitter´s link vil vises med status indlejret i moderne twitter clienter. Linket virker som når tweet citéres</string>
     <string name="sync_options">Synkroniserings indstillinger</string>
     <string name="manual_syncs">Manuelt synk.</string>
@@ -72,4 +72,7 @@
 
         Du vælger selv om du vil tillade eller afvise hver anmodning. Du kan tilgå dem selv til enhver tid, via indstillinger</string>
     <string name="tell_about_swipe_down">Tip: Swipe ned for at lukke dette vindue</string>
+    <string name="quote_style">Citat stil</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
