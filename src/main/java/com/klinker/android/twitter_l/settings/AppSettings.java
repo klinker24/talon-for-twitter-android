@@ -460,7 +460,7 @@ public class AppSettings {
 
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
-        int mainTheme = sharedPrefs.getInt("main_theme", 0);
+        int mainTheme = sharedPrefs.getInt("main_theme", 1);
         switch (mainTheme) {
             case 0:
                 dark = false;
