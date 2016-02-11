@@ -957,11 +957,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && sharedPrefs.getInt("main_theme", 0) != 0) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && sharedPrefs.getInt("main_theme", AppSettings.DEFAULT_MAIN_THEME) != 0) {
             spinner.setPopupBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.dark_background)));
         }
 
-        spinner.setSelection(sharedPrefs.getInt("main_theme", 0));
+        spinner.setSelection(sharedPrefs.getInt("main_theme", AppSettings.DEFAULT_MAIN_THEME));
 
         return spinner;
     }
