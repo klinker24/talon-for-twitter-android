@@ -39,15 +39,13 @@
                 android:elevation="5dp"
                 style="@style/MyToolbar"/>
 
-            <com.astuetz.PagerSlidingTabStrip
+            <android.support.design.widget.TabLayout
                 android:id="@+id/pager_tab_strip"
                 android:layout_width="match_parent"
-                app:pstsDividerColor="@android:color/transparent"
-                app:pstsUnderlineColor="@android:color/transparent"
-                app:pstsTabBackground="?android:selectableItemBackground"
-                app:pstsIndicatorHeight="2dp"
-                app:pstsTabPaddingLeftRight="12dp"
-                android:layout_height="48dp" />
+                android:layout_height="wrap_content"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
 
             <android.support.v4.view.ViewPager
                 xmlns:android="http://schemas.android.com/apk/res/android"

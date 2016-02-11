@@ -278,14 +278,14 @@ public class VideoViewerActivity extends AppCompatActivity {
                                     .setContentText(context.getResources().getString(R.string.saved_video) + "!");
 
                     mNotificationManager.notify(6, mBuilder.build());
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                new PermissionModelUtils(context).showStorageIssue();
+                                new PermissionModelUtils(context).showStorageIssue(e);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
