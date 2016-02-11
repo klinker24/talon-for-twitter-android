@@ -53,6 +53,8 @@ import java.util.Random;
 
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
+
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -274,15 +276,23 @@ public class PhotoViewerActivity extends AppCompatActivity {
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(6, mBuilder.build());
 
-                    URL mUrl = new URL(url);
+                    Bitmap bitmap;
 
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                    InputStream is = new BufferedInputStream(conn.getInputStream());
+                    if (url.contains("ton.twitter.com") || url.contains("twitter.com/messages/")) {
+                        // it is a direct message picture
+                        TwitterDMPicHelper helper = new TwitterDMPicHelper();
+                        bitmap = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
+                    } else {
+                        URL mUrl = new URL(url);
 
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = false;
+                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        InputStream is = new BufferedInputStream(conn.getInputStream());
 
-                    Bitmap bitmap = decodeSampledBitmapFromResourceMemOpt(is, 600, 600);
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inJustDecodeBounds = false;
+
+                        bitmap = decodeSampledBitmapFromResourceMemOpt(is, 600, 600);
+                    }
 
                     Random generator = new Random();
                     int n = 1000000;
