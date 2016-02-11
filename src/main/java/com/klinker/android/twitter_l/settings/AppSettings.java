@@ -56,6 +56,7 @@ public class AppSettings {
     public static final int THEME_BLUE_GREY = 18;
 
     public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
+    public static final int DEFAULT_MAIN_THEME = 1; // 0 = light, 1 = dark, 2 = black
 
     public static final int WIDGET_LIGHT = 0;
     public static final int WIDGET_DARK = 1;
@@ -250,7 +251,7 @@ public class AppSettings {
         }
 
         // Booleans
-        int mainTheme = sharedPrefs.getInt("main_theme", 1);
+        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
         switch (mainTheme) {
             case 0:
                 darkTheme = false;
@@ -460,7 +461,7 @@ public class AppSettings {
 
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
-        int mainTheme = sharedPrefs.getInt("main_theme", 1);
+        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
         switch (mainTheme) {
             case 0:
                 dark = false;
