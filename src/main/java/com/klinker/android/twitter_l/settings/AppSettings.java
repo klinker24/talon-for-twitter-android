@@ -55,7 +55,7 @@ public class AppSettings {
     public static final int THEME_GREY = 17;
     public static final int THEME_BLUE_GREY = 18;
 
-    public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
+    public static final int DEFAULT_THEME = THEME_BLUE;
 
     public static final int WIDGET_LIGHT = 0;
     public static final int WIDGET_DARK = 1;
@@ -250,7 +250,7 @@ public class AppSettings {
         }
 
         // Booleans
-        int mainTheme = sharedPrefs.getInt("main_theme", 0);
+        int mainTheme = sharedPrefs.getInt("main_theme", 1);
         switch (mainTheme) {
             case 0:
                 darkTheme = false;
