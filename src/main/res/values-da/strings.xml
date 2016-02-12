@@ -678,10 +678,6 @@ Nye meninger, følgere, retweets og likes vil blive vist her</string>
     <string name="items">emner</string>
     <string name="and">og</string>
     <string name="no_favorites">Ingen likes</string>
-    <string name="quote_style">Citat stil</string>
-    <string name="quote_style_twitter">Twitter stil (Link til tweet)</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="show_pull_notification">Vis notifikation konstant</string>
     <string name="show_pull_notification_summary">Hvis du deaktiverer notifikationen kan styresystemet lukke din tråd til enhver tid. Bruges med ekstrem forsigtighed</string>
     <string name="custom_tab_title">Chrome standard faner</string>
