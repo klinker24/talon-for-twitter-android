@@ -402,6 +402,6 @@ public class TouchableSpan extends ClickableSpan {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, text);
 
-        mContext.startActivity(share);
+        mContext.startActivity(Intent.createChooser(share, "Share with:"));
     }
 }
