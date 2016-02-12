@@ -73,7 +73,4 @@
 
 Не бойтесь отклонить любое из разрешений. Вы можете изменять их вручную из ваших системных настроек приложений.</string>
     <string name="tell_about_swipe_down">Совет: просто сделайте свайп вниз, чтобы закрыть этот экран.</string>
-    <string name="quote_style">Стиль цитаты</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
