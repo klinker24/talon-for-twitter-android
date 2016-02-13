@@ -181,14 +181,16 @@ public class DMDataSource {
         return cursor;
     }
 
-    public synchronized String getNewestName(int account) {
+    public synchronized String getNewestName(int account, String currentAccountName) {
 
         Cursor cursor = getCursor(account);
         String name = "";
 
         try {
             if (cursor.moveToLast()) {
-                name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                do {
+                    name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                } while (name != null && !name.equals(currentAccountName) && cursor.moveToPrevious());
             }
         } catch (Exception e) {
 
@@ -199,14 +201,18 @@ public class DMDataSource {
         return name;
     }
 
-    public synchronized String getNewestMessage(int account) {
+    public synchronized String getNewestMessage(int account, String currentAccountName) {
 
         Cursor cursor = getCursor(account);
         String message = "";
+        String name = "";
 
         try {
             if (cursor.moveToLast()) {
-                message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                do {
+                    message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
+                    name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
+                } while (name != null && !name.equals(currentAccountName) && cursor.moveToPrevious());
             }
         } catch (Exception e) {
 
