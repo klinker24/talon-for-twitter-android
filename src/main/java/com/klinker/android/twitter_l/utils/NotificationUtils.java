@@ -349,17 +349,18 @@ public class NotificationUtils {
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
 
         // they only have a new mention
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) {
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             name = mentions.getNewestName(currentAccount);
             String n = mentions.getNewestNames(currentAccount);
-            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
             for (String s : n.split("  ")) {
                 if (!s.equals("") &&
-                        !sharedPrefs.getString("twitter_screen_name_" + currentAccount, "").equals(s) &&
+                        !screenName.equals(s) &&
                         !s.equals(name)) {
                     names += "@" + s + " ";
                 }
@@ -374,7 +375,7 @@ public class NotificationUtils {
             }
         } else if (homeTweets == 0 && mentionsTweets == 0 && dmTweets == 1) { // they have 1 new direct message
             DMDataSource dm = DMDataSource.getInstance(context);
-            name = dm.getNewestName(currentAccount);
+            name = dm.getNewestName(currentAccount, screenName);
             text = context.getResources().getString(R.string.message_from) + " @" + name;
         } else { // other cases we will just put talon
             text = context.getResources().getString(R.string.app_name);
@@ -389,12 +390,17 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
+
+
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             text = mentions.getNewestMessage(currentAccount);
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
             DMDataSource dm = DMDataSource.getInstance(context);
-            text = dm.getNewestMessage(currentAccount);
+            text = dm.getNewestMessage(currentAccount, screenName);
         } else if (homeTweets > 0 && mentionsTweets == 0 && dmTweets == 0) { // it is just tweets being displayed, so put new out front
             text = homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets));
         } else {
@@ -426,12 +432,17 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
+
+
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
             DMDataSource dm = DMDataSource.getInstance(context);
-            body = dm.getNewestMessage(currentAccount);
+            body = dm.getNewestMessage(currentAccount, screenName);
         } else {
             if (homeTweets > 0) {
                 body += "<b>" + context.getResources().getString(R.string.timeline) + ": </b>" + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "<br>" : "");
@@ -455,12 +466,16 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
+
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             body = mentions.getNewestMessage(currentAccount);
         } else if (dmTweets == 1 && mentionsTweets == 0 && homeTweets == 0) { // display the new message
             DMDataSource dm = DMDataSource.getInstance(context);
-            body = dm.getNewestMessage(currentAccount);
+            body = dm.getNewestMessage(currentAccount, screenName);
         } else {
             if (homeTweets > 0) {
                 body += context.getResources().getString(R.string.timeline) + ": " + homeTweets + " " + (homeTweets == 1 ? context.getResources().getString(R.string.new_tweet) : context.getResources().getString(R.string.new_tweets)) + (mentionsTweets > 0 || dmTweets > 0 ? "\n" : "");
@@ -766,6 +781,7 @@ public class NotificationUtils {
 
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        String screenName = sharedPrefs.getString("twitter_screen_name_" + secondAccount, "");
 
         int numberNew = sharedPrefs.getInt("dm_unread_" + secondAccount, 0);
 
@@ -785,7 +801,7 @@ public class NotificationUtils {
 
         NotificationCompat.InboxStyle inbox = null;
         if (numberNew == 1) {
-            name = data.getNewestName(secondAccount);
+            name = data.getNewestName(secondAccount, screenName);
 
             // if they are muted, and you don't want them to show muted mentions
             // then just quit
@@ -795,7 +811,7 @@ public class NotificationUtils {
             }
 
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
-            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount);
+            messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount, screenName);
             largeIcon = getImage(context, name);
         } else { // more than one dm
             message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
