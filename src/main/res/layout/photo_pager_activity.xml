@@ -16,7 +16,10 @@
                 android:layout_height="match_parent" />
 
         <LinearLayout
-            android:layout_marginBottom="64dp"
+            android:id="@+id/buttons_layout"
+            android:paddingTop="12dp"
+            android:paddingBottom="64dp"
+            android:background="@drawable/gradient_darker"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

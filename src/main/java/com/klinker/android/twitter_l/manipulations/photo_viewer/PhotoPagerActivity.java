@@ -226,6 +226,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
+            startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
             startAlphaAnimation(share, 1, 0);
             startAlphaAnimation(download, 1, 0);
             startAlphaAnimation(info, 1, 0);
@@ -243,6 +244,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
+            startAlphaAnimation(findViewById(R.id.buttons_layout), 0, 1);
             startAlphaAnimation(share, 0, 1);
             startAlphaAnimation(download, 0, 1);
             startAlphaAnimation(info, 0, 1);
