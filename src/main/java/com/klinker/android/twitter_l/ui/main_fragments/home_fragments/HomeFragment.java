@@ -868,9 +868,14 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     setStrings();
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
                     sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
-                    CharSequence text = numberNew == 1 ?  numberNew + " " + sNewMention :  numberNew + " " + sNewMentions;
+                    final CharSequence text = numberNew == 1 ?  numberNew + " " + sNewMention :  numberNew + " " + sNewMentions;
                     isToastShowing = false;
-                    showToastBar(text + "", toMentions, 400, true, toMentionsListener);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            showToastBar(text + "", toMentions, 400, true, toMentionsListener);
+                        }
+                    },1500);
                 } else {
 
                 }
