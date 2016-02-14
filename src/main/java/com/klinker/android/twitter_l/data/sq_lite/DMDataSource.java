@@ -190,7 +190,7 @@ public class DMDataSource {
             if (cursor.moveToLast()) {
                 do {
                     name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
-                } while (name != null && !name.equals(currentAccountName) && cursor.moveToPrevious());
+                } while (name != null && name.equals(currentAccountName) && cursor.moveToPrevious());
             }
         } catch (Exception e) {
 
@@ -212,7 +212,7 @@ public class DMDataSource {
                 do {
                     message = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TEXT));
                     name = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_SCREEN_NAME));
-                } while (name != null && !name.equals(currentAccountName) && cursor.moveToPrevious());
+                } while (name != null && name.equals(currentAccountName) && cursor.moveToPrevious());
             }
         } catch (Exception e) {
 
