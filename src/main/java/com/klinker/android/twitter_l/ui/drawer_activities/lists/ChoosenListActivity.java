@@ -71,7 +71,7 @@ public class ChoosenListActivity extends AppCompatActivity {
 
     private AsyncListView listView;
 
-    private int listId;
+    private long listId;
     private String listName;
 
     private MaterialSwipeRefreshLayout mPullToRefreshLayout;
@@ -189,7 +189,7 @@ public class ChoosenListActivity extends AppCompatActivity {
 
         listName = getIntent().getStringExtra("list_name");
 
-        listId = Integer.parseInt(getIntent().getStringExtra("list_id"));
+        listId = Long.parseLong(getIntent().getStringExtra("list_id"));
         actionBar.setTitle(listName);
 
         getLists();
