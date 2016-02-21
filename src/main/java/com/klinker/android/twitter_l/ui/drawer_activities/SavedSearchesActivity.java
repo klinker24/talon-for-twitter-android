@@ -173,21 +173,6 @@ public class SavedSearchesActivity extends DrawerActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        try {
-            mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }
-
-        overridePendingTransition(0,0);
-        finish();
-        Intent restart = new Intent(context, SavedSearchesActivity.class);
-        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        overridePendingTransition(0, 0);
-        startActivity(restart);
-    }
-
-    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 

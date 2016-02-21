@@ -1,6 +1,7 @@
 <changelog>
 
-    <version name="4.5.4">
+    <version name="4.0.9">
+        <text>Changes to support better screen rotation</text>
         <text>Fix some list issues</text>
         <text>Fix sharing YouTube videos</text>
     </version>
