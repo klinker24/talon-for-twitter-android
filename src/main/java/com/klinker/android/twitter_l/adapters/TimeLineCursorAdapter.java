@@ -183,7 +183,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         mCache = getCache();
 
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
             timeFormatter = new SimpleDateFormat("kk:mm");

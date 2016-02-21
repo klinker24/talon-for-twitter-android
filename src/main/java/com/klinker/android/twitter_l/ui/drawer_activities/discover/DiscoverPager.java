@@ -96,21 +96,6 @@ public class DiscoverPager extends DrawerActivity {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        try {
-            mDrawerToggle.onConfigurationChanged(newConfig);
-        } catch (Exception e) { }
-
-        overridePendingTransition(0,0);
-        finish();
-        Intent restart = new Intent(context, DiscoverPager.class);
-        restart.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        overridePendingTransition(0, 0);
-        startActivity(restart);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.trends_activity, menu);
