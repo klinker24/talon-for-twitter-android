@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.0.8">
+        <text>Force close fixes</text>
+    </version>
+
     <version name="4.0.7">
         <text>Bug Fixes</text>
     </version>
