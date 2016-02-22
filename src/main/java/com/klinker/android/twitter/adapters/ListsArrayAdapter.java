@@ -127,7 +127,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
 
                             case VIEW_USERS:
                                 Intent viewUsers = new Intent(context, ViewUsers.class);
-                                viewUsers.putExtra("list_id", Integer.parseInt(id));
+                                viewUsers.putExtra("list_id", Long.parseLong(id));
                                 viewUsers.putExtra("list_name", name);
                                 context.startActivity(viewUsers);
                                 break;
@@ -167,7 +167,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
 
             boolean destroyedList;
             try {
-                twitter.destroyUserList(Integer.parseInt(urls[0]));
+                twitter.destroyUserList(Long.parseLong(urls[0]));
                 destroyedList = true;
             } catch (Exception e) {
                 destroyedList = false;
@@ -175,7 +175,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
 
             boolean unsubscribed;
             try {
-                twitter.destroyUserListSubscription(Integer.parseInt(urls[0]));
+                twitter.destroyUserListSubscription(Long.parseLong(urls[0]));
                 unsubscribed = true;
             } catch (Exception e) {
                 unsubscribed = false;
