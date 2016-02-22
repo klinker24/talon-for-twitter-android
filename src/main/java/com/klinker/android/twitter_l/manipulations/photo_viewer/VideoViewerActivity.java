@@ -323,7 +323,12 @@ public class VideoViewerActivity extends AppCompatActivity {
     private void shareVideo() {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.putExtra(Intent.EXTRA_TEXT, videoFragment.getLoadedVideoLink());
+        
+        if (videoFragment != null) {
+            share.putExtra(Intent.EXTRA_TEXT, videoFragment.getLoadedVideoLink());
+        } else {
+            share.putExtra(Intent.EXTRA_TEXT, url);
+        }
 
         context.startActivity(share);
     }
