@@ -32,7 +32,7 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TYPE = "type";
 
     private static final String DATABASE_NAME = "queued.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final int TYPE_SCHEDULED = 0;
     public static final int TYPE_DRAFT = 1;
@@ -47,6 +47,9 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
             + " integer send tweet, " + COLUMN_TYPE
             + " integer type of queued tweet, " + COLUMN_ALARM_ID
             + " integer alarm identifier); ";
+
+    private static final String ALTER_TABLE_ADD_UNIQUE =
+            "CREATE UNIQUE INDEX unique_name ON queued(_text)";
 
     public QueuedSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,6 +68,7 @@ public class QueuedSQLiteHelper extends SQLiteOpenHelper {
         );
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUEUED);
         onCreate(db);
+        db.execSQL(ALTER_TABLE_ADD_UNIQUE);
     }
 
 }
