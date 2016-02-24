@@ -88,6 +88,21 @@
         </LinearLayout>
     </LinearLayout>
 
+    <com.lapism.searchview.view.SearchView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:search_version = "menu_item"
+        app:search_style = "menu_item_classic"
+        app:search_divider = "false"
+        app:search_hint = "@string/search"
+        app:search_hint_size = "16sp"
+        app:search_voice = "true"
+        app:search_voice_text = "@string/search"
+        app:search_animation_duration = "300"
+        app:search_shadow_color = "#80000000"/>
+
     <include layout="@layout/notification_drawer"
         android:id="@+id/right_drawer"
         android:layout_width="300dp"

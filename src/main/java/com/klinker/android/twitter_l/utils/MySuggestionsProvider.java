@@ -21,6 +21,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.SearchRecentSuggestions;
 
+import com.lapism.searchview.adapter.SearchItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
     public final static String AUTHORITY = "com.klinker.android.twitter_l.MySuggestionsProvider";
     public final static int MODE = DATABASE_MODE_QUERIES;
@@ -30,13 +35,55 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
         setupSuggestions(AUTHORITY, MODE);
     }
 
-    public Cursor query(Context context, String query) {
-        return context.getContentResolver().query(
+    public List<SearchItem> query(Context context, String query) {
+        Cursor c = context.getContentResolver().query(
                 Uri.parse("content://" + AUTHORITY + "/suggestions"),
                 SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
                 "query LIKE '%" + query + "%'",
                 null,
                 "date DESC"
         );
+
+        List<SearchItem> items = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                items.add(new SearchItem(c.getString(c.getColumnIndex("query"))));
+            } while (c.moveToNext());
+        }
+
+        try {
+            c.close();
+        } catch (Exception e) {
+
+        }
+
+        return items;
+    }
+
+    public List<SearchItem> getAllSuggestions(Context context) {
+        Cursor c = context.getContentResolver().query(
+                Uri.parse("content://" + AUTHORITY + "/suggestions"),
+                SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
+                null,
+                null,
+                "date DESC"
+        );
+
+        List<SearchItem> items = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                items.add(new SearchItem(c.getString(c.getColumnIndex("query"))));
+            } while (c.moveToNext());
+        }
+
+        try {
+            c.close();
+        } catch (Exception e) {
+
+        }
+
+        return items;
     }
 }
