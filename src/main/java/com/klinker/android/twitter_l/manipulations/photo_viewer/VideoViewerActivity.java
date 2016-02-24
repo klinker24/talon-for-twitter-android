@@ -408,5 +408,17 @@ public class VideoViewerActivity extends AppCompatActivity {
         alpha.start();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //findViewById(R.id.buttons_layout).getLayoutParams().height = 0;
+            findViewById(R.id.buttons_layout).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.buttons_layout).setVisibility(View.VISIBLE);
+        }
+    }
+
     private GestureDetector gestureDetector;
 }
