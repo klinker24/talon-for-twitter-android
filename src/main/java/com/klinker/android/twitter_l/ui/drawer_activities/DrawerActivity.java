@@ -82,6 +82,10 @@ import com.klinker.android.twitter_l.manipulations.widgets.ActionBarDrawerToggle
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
+import com.lapism.searchview.adapter.SearchAdapter;
+import com.lapism.searchview.adapter.SearchItem;
+import com.lapism.searchview.view.SearchCodes;
+
 import de.timroes.android.listview.EnhancedListView;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
@@ -89,6 +93,8 @@ import org.lucasr.smoothie.AsyncListView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DrawerActivity extends AppCompatActivity implements SystemBarVisibility {
 
@@ -142,8 +148,64 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         Utils.setSharedContentTransition(this);
     }
 
+    private com.lapism.searchview.view.SearchView mSearchView;
+    private List<SearchItem> mSuggestionsList = new ArrayList<>();
+
+    private void setUpSearch() {
+        mSearchView = (com.lapism.searchview.view.SearchView) findViewById(R.id.searchView);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            mSearchView.setTranslationY(Utils.getStatusBarHeight(context));
+
+        mSearchView.setTheme(settings.darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
+
+        mSearchView.setOnQueryTextListener(new com.lapism.searchview.view.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mSearchView.hide(false);
+                startSearchIntent(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        List<SearchItem> mResultsList = new ArrayList<>();
+        SearchAdapter mSearchAdapter = new SearchAdapter(this, mResultsList, mSuggestionsList,
+                settings.darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
+        mSearchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                mSearchView.hide(false);
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                CharSequence text = textView.getText();
+                startSearchIntent(text + "");
+            }
+        });
+
+        mSearchView.setAdapter(mSearchAdapter);
+    }
+
+    private void startSearchIntent(String query) {
+        Intent search = new Intent(this, SearchPager.class);
+        search.putExtra(SearchManager.QUERY, query);
+        startActivity(search);
+    }
+
+    private void showSearchView() {
+        MySuggestionsProvider provider = new MySuggestionsProvider();
+
+        mSuggestionsList.clear();
+        mSuggestionsList.addAll(provider.getAllSuggestions(this));
+        mSearchView.show(true);
+    }
 
     public void setUpDrawer(int number, final String actName) {
+
+        setUpSearch();
 
         try {
             findViewById(R.id.dividerView).setOnTouchListener(new View.OnTouchListener() {
@@ -354,6 +416,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 public void onDrawerOpened(View drawerView) {
                     //actionBar.setTitle(getResources().getString(R.string.app_name));
                     //actionBar.setIcon(R.mipmap.ic_launcher);
+
+                    mSearchView.hide(false);
 
                     Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
                     try {
@@ -1378,7 +1442,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         MenuItem searchItem = menu.findItem(R.id.menu_search);
         searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
         // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
 
 
 
@@ -1531,9 +1595,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 }
                 return super.onOptionsItemSelected(item);
             case R.id.menu_search:
-                overridePendingTransition(0, 0);
+                /*overridePendingTransition(0, 0);
                 finish();
-                overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0);*/
+                showSearchView();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose:
