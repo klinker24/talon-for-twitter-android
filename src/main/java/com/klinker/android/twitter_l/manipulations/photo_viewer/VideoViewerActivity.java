@@ -60,6 +60,9 @@ import java.util.Random;
 
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
+import com.klinker.android.twitter_l.utils.WebIntentBuilder;
+
 import uk.co.senab.bitmapcache.BitmapLruCache;
 import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -70,32 +73,38 @@ public class VideoViewerActivity extends AppCompatActivity {
     // and it will find the youtube one.
     public static void startActivity(Context context, long tweetId, String gifVideo, String linkString) {
 
-        String[] otherLinks = linkString.split("  ");
-        String video = null;
+        if (gifVideo != null && VideoMatcherUtil.noInAppPlayer(gifVideo)) {
+            new WebIntentBuilder(context)
+                    .setUrl(gifVideo)
+                    .build().start();
+        } else {
+            String[] otherLinks = linkString.split("  ");
+            String video = null;
 
-        if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
-            for (String s : otherLinks) {
-                if (s.contains("youtu")) {
-                    video = s;
-                    break;
+            if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
+                for (String s : otherLinks) {
+                    if (s.contains("youtu")) {
+                        video = s;
+                        break;
+                    }
                 }
             }
+
+            if (video == null) {
+                video = gifVideo;
+            }
+
+            Intent viewVideo = new Intent(context, VideoViewerActivity.class);
+
+            video = video.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
+
+            viewVideo.putExtra("url", video);
+            viewVideo.putExtra("tweet_id", tweetId);
+
+            Log.v("video_url", video);
+
+            context.startActivity(viewVideo);
         }
-
-        if (video == null) {
-            video = gifVideo;
-        }
-
-        Intent viewVideo = new Intent(context, VideoViewerActivity.class);
-
-        video = video.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
-
-        viewVideo.putExtra("url", video);
-        viewVideo.putExtra("tweet_id", tweetId);
-
-        Log.v("video_url", video);
-
-        context.startActivity(viewVideo);
     }
 
     public Context context;

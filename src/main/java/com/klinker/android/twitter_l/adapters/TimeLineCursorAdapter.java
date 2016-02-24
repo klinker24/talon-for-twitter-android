@@ -576,7 +576,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public boolean onLongClick(View view) {
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/") || tweetText.contains("snpy.tv"))) {
+                            if (!(VideoMatcherUtil.containsThirdPartyVideo(tweetTexts))) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performClick();
@@ -680,7 +680,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             return;
                         }
                         if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!(tweetText.contains("vine.co/v/") || tweetText.contains("amp.twimg.com/v/") || tweetText.contains("snpy.tv"))) {
+                            if (!VideoMatcherUtil.containsThirdPartyVideo(tweetTexts)) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
                             } else {
                                 holder.background.performLongClick();

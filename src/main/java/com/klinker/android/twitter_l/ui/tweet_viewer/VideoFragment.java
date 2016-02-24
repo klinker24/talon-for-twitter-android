@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.*;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -69,9 +72,10 @@ public class VideoFragment extends Fragment {
         layout = inflater.inflate(R.layout.gif_player, null, false);
         video = (VideoView) layout.findViewById(R.id.gif);
 
-        if (tweetUrl.contains("video.twimg")) {
+        if (VideoMatcherUtil.isTwitterVideoLink(tweetUrl)) {
             MediaController mediaController = new MediaController(getActivity());
-            mediaController.setAnchorView(video);
+            mediaController.setAnchorView(layout.findViewById(R.id.frame_parent));
+
             video.setMediaController(mediaController);
             hasControls = true;
         }
