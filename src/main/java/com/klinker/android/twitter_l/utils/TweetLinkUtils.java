@@ -377,7 +377,6 @@ public class TweetLinkUtils {
                     imageUrl = exp;
                     otherUrl += exp + "  ";
                 } else if (str.contains("ow.ly/i/")) {
-                    Log.v("talon_owly", exp);
                     imageUrl = "http://static.ow.ly/photos/original/" + exp.substring(exp.lastIndexOf("/")).replaceAll("/", "") + ".jpg";
                     otherUrl += exp + "  ";
                 } else if (str.contains(".jpg") || str.contains(".png")) {
@@ -558,7 +557,6 @@ public class TweetLinkUtils {
                         }
                     }
 
-                    Log.v("talon_video_link", url);
                     return url;
                 }
             }
