@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
@@ -30,6 +31,7 @@ import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
@@ -363,8 +365,9 @@ public class TweetView {
 
         boolean picture = false;
 
+        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweet);
         if(settings.inlinePics && shouldShowImage()) {
-            if (imageUrl.equals("")) {
+            if (!containsThirdPartyVideo && imageUrl.equals("")) {
                 if (imageHolder.getVisibility() != View.GONE) {
                     imageHolder.setVisibility(View.GONE);
                 }
@@ -390,6 +393,21 @@ public class TweetView {
 
                     picture = true;
 
+                } else if (containsThirdPartyVideo) {
+                    if (playButton.getVisibility() == View.GONE) {
+                        playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    imageHolder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VideoViewerActivity.startActivity(context, tweetId, otherUrl.split("  ")[0], otherUrl);
+                        }
+                    });
+
+                    imageIv.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    picture = false;
                 } else {
                     imageIv.setImageDrawable(new ColorDrawable(context.getResources().getColor(android.R.color.transparent)));
 

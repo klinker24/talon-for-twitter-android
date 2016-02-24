@@ -829,9 +829,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         boolean picture = false;
 
-        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetTexts);
+        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetText);
         if(settings.inlinePics) {
-            if (holder.picUrl.equals("") && !containsThirdPartyVideo) {
+            if (!containsThirdPartyVideo && holder.picUrl.equals("")) {
                 if (holder.imageHolder.getVisibility() != View.GONE) {
                     holder.imageHolder.setVisibility(View.GONE);
                 }
