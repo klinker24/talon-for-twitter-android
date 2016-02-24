@@ -31,6 +31,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.*;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -62,6 +63,7 @@ import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
+import com.klinker.android.twitter_l.utils.SearchUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
@@ -92,6 +94,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
     private MaterialSwipeRefreshLayout mPullToRefreshLayout;
 
+    private SearchUtils searchUtils;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +123,12 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpMainTheme(context, settings);
+        setContentView(R.layout.searched_trends_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.search));
@@ -127,7 +136,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(null);
 
-        setContentView(R.layout.ptr_list_layout);
+        searchUtils = new SearchUtils(this);
+        searchUtils.setUpSearch();
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
@@ -223,35 +233,6 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         }
     }
 
-    public void setUpWindow() {
-
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        // Params for the window.
-        // You can easily set the alpha and the dim behind the window from here
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .75f;  // set it higher if you want to dim behind the window
-        getWindow().setAttributes(params);
-
-        // Gets the display size so that you can set the window to a percent of that
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        // You could also easily used an integer value from the shared preferences to set the percent
-        if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .8));
-        } else {
-            getWindow().setLayout((int) (width * .7), (int) (height * .8));
-        }
-
-    }
-
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -264,7 +245,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         try {
-            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
         } catch (Exception e) {
             // they closed i guess
         }
@@ -272,7 +253,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
     public String searchQuery = "";
 
-    private void handleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
@@ -280,9 +261,9 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
 
             if (searchQuery.contains("#")) {
-                suggestions.saveRecentQuery(searchQuery.replaceAll("\"", ""), null);
+                suggestions.saveRecentQuery(searchQuery.replaceAll("\"", "").replaceAll(" -RT", ""), null);
             } else {
-                suggestions.saveRecentQuery(searchQuery, null);
+                suggestions.saveRecentQuery(searchQuery.replaceAll(" -RT", ""), null);
             }
 
             if (searchQuery.contains("#")) {
@@ -304,19 +285,10 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         }
     }
 
-    private android.support.v7.widget.SearchView searchView;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_activity, menu);
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.menu_search).getActionView();
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -345,6 +317,10 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return super.onOptionsItemSelected(item);
+
+            case R.id.menu_search:
+                searchUtils.showSearchView();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose_with_search:
@@ -430,7 +406,11 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (searchUtils.isShowing()) {
+            searchUtils.hideSearch(true);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public int toDP(int px) {

@@ -194,7 +194,7 @@ S
             android:label="@string/search"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.TalonLight.Launcher" >
+            android:theme="@style/Theme.TalonLight.Main.Launcher" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -266,7 +266,7 @@ S
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Launcher" >
+            android:theme="@style/Theme.TalonLight.Main.Launcher" >
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
