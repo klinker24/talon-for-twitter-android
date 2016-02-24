@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.1.0">
+        <text>Materialize the Search UI</text>
+    </version>
+
     <version name="4.0.10">
         <text>Bug fixes</text>
     </version>
