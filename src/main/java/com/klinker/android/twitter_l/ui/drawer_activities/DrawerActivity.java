@@ -325,19 +325,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         logoutVisible = false;
                     }
 
-                    if (MainDrawerArrayAdapter.current > adapter.pageTypes.size()) {
-                        actionBar.setTitle(actName);
-                    } else {
-                        int position = mViewPager.getCurrentItem();
-                        String title = "";
-                        try {
-                            title = "" + mSectionsPagerAdapter.getPageTitle(position);
-                        } catch (NullPointerException e) {
-                            title = "";
-                        }
-                        actionBar.setTitle(title);
-                    }
-
                     try {
                         if (oldInteractions.getText().toString().equals(getResources().getString(R.string.new_interactions))) {
                             Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
