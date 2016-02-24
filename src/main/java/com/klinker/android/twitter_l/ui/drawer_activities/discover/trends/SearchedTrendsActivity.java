@@ -134,7 +134,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(null);
+        actionBar.setElevation(1);
 
         searchUtils = new SearchUtils(this);
         searchUtils.setUpSearch();
@@ -225,8 +225,6 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
 
         handleIntent(getIntent());
-
-        Utils.setActionBar(context);
 
         if (!settings.transpartSystemBars) {
             new NavBarOverlayLayout(this).show();
