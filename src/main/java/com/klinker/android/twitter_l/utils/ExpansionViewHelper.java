@@ -78,6 +78,8 @@ import java.util.List;
 
 public class ExpansionViewHelper {
 
+    private static final int MAX_TWEETS_IN_CONVERSATION = 50;
+
     public interface TweetLoaded {
         void onLoad(Status status);
     }
@@ -1572,7 +1574,7 @@ public class ExpansionViewHelper {
                             repsWithoutChange++;
                         }
 
-                    } while (query != null && isRunning && repsWithoutChange < 5);
+                    } while (query != null && isRunning && repsWithoutChange < 5 && replies.size() < MAX_TWEETS_IN_CONVERSATION);
                 } catch (TwitterException e) {
                     if (e.getMessage().contains("limit exceeded")) {
                         ((Activity)context).runOnUiThread(new Runnable() {
