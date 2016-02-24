@@ -15,13 +15,28 @@ package com.klinker.android.twitter_l.utils;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.content.SearchRecentSuggestionsProvider;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.SearchRecentSuggestions;
 
 public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
     public final static String AUTHORITY = "com.klinker.android.twitter_l.MySuggestionsProvider";
     public final static int MODE = DATABASE_MODE_QUERIES;
 
     public MySuggestionsProvider() {
+        super();
         setupSuggestions(AUTHORITY, MODE);
+    }
+
+    public Cursor query(Context context, String query) {
+        return context.getContentResolver().query(
+                Uri.parse("content://" + AUTHORITY + "/suggestions"),
+                SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
+                "query LIKE '%" + query + "%'",
+                null,
+                "date DESC"
+        );
     }
 }
