@@ -32,7 +32,9 @@ public class SearchUtils {
     public void setUpSearch() {
         mSearchView = (com.lapism.searchview.view.SearchView) activity.findViewById(R.id.searchView);
 
-        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || correctActivity())
+        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
+                correctActivity() ||
+                activity.getResources().getBoolean(R.bool.isTablet))
             mSearchView.setTranslationY(Utils.getStatusBarHeight(activity));
 
         mSearchView.setTheme(AppSettings.getInstance(activity).darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
