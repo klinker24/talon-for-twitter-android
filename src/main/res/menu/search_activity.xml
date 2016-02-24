@@ -23,8 +23,7 @@
         android:orderInCategory="1"
         android:title="@string/search"
         talon:showAsAction="always"
-        android:icon="@drawable/action_bar_search"
-        talon:actionViewClass="android.support.v7.widget.SearchView" />
+        android:icon="@drawable/action_bar_search" />
 
     <item android:title="@string/compose_with_search"
         android:id="@+id/menu_compose_with_search"

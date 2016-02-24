@@ -34,6 +34,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -56,6 +57,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.SearchUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.apache.http.NameValuePair;
@@ -81,6 +83,8 @@ public class SearchPager extends AppCompatActivity {
     public android.support.v7.app.ActionBar actionBar;
     public boolean translucent;
     public ViewPager mViewPager;
+
+    private SearchUtils searchUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,16 +143,26 @@ public class SearchPager extends AppCompatActivity {
             translucent = false;
         }
 
-        Utils.setUpTweetTheme(context, settings);
+        Utils.setUpMainTheme(context, settings);
 
         setContentView(R.layout.search_pager);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        LinearLayout.LayoutParams toolParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+        toolParams.height = Utils.getActionBarHeight(context);
+        toolbar.setLayoutParams(toolParams);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        setTitle(getResources().getString(R.string.search));
+
+        searchUtils = new SearchUtils(this);
+        searchUtils.setUpSearch();
+
         actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.search));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        actionBar.setBackgroundDrawable(new ColorDrawable(settings.themeColors.primaryColor));
         actionBar.setElevation(0);
 
         View statusBar = findViewById(R.id.activity_status_bar);
@@ -168,7 +182,7 @@ public class SearchPager extends AppCompatActivity {
         int actionBarHeight = Utils.getActionBarHeight(context);
 
         LinearLayout.LayoutParams statusParams = (LinearLayout.LayoutParams) statusBar.getLayoutParams();
-        statusParams.height = statusBarHeight + actionBarHeight;
+        statusParams.height = statusBarHeight;
         statusBar.setLayoutParams(statusParams);
 
         mSectionsPagerAdapter = new SearchPagerAdapter(getFragmentManager(), context, onlyStatus, onlyProfile, searchQuery, translucent);
@@ -204,7 +218,7 @@ public class SearchPager extends AppCompatActivity {
     private boolean onlyStatus = false;
     private boolean onlyProfile = false;
 
-    private boolean handleIntent(Intent intent) {
+    public boolean handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
@@ -212,9 +226,9 @@ public class SearchPager extends AppCompatActivity {
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
 
             if (searchQuery.contains("#")) {
-                suggestions.saveRecentQuery(searchQuery.replaceAll("\"", ""), null);
+                suggestions.saveRecentQuery(searchQuery.replaceAll("\"", "").replaceAll(" -RT", ""), null);
             } else {
-                suggestions.saveRecentQuery(searchQuery, null);
+                suggestions.saveRecentQuery(searchQuery.replaceAll(" -RT", ""), null);
             }
 
             searchQuery += " -RT";
@@ -281,9 +295,9 @@ public class SearchPager extends AppCompatActivity {
                                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
 
                         if (searchQuery.contains("#")) {
-                            suggestions.saveRecentQuery(searchQuery.replaceAll("\"", ""), null);
+                            suggestions.saveRecentQuery(searchQuery.replaceAll("\"", "").replaceAll(" -RT", ""), null);
                         } else {
-                            suggestions.saveRecentQuery(searchQuery, null);
+                            suggestions.saveRecentQuery(searchQuery.replaceAll(" -RT", ""), null);
                         }
 
                         searchQuery += " -RT";
@@ -337,9 +351,9 @@ public class SearchPager extends AppCompatActivity {
                                 MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
 
                         if (searchQuery.contains("#")) {
-                            suggestions.saveRecentQuery(searchQuery.replaceAll("\"", ""), null);
+                            suggestions.saveRecentQuery(searchQuery.replaceAll("\"", "").replaceAll(" -RT", ""), null);
                         } else {
-                            suggestions.saveRecentQuery(searchQuery, null);
+                            suggestions.saveRecentQuery(searchQuery.replaceAll(" -RT", ""), null);
                         }
 
                         searchQuery += " -RT";
@@ -392,13 +406,6 @@ public class SearchPager extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_activity, menu);
 
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-
-        // Assumes current activity is the searchable activity
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -411,6 +418,15 @@ public class SearchPager extends AppCompatActivity {
     }
 
     public static final int SETTINGS_RESULT = 101;
+
+    @Override
+    public void onBackPressed() {
+        if (searchUtils.isShowing()) {
+            searchUtils.hideSearch(true);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -455,10 +471,8 @@ public class SearchPager extends AppCompatActivity {
                 return  super.onOptionsItemSelected(item);
 
             case R.id.menu_search:
-                //overridePendingTransition(0,0);
-                //finish();
-                //overridePendingTransition(0,0);
-                //return super.onOptionsItemSelected(item);
+                searchUtils.showSearchView();
+                return super.onOptionsItemSelected(item);
 
             case R.id.menu_pic_filter:
                 if (!item.isChecked()) {

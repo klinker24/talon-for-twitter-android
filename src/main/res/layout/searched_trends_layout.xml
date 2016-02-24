@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?windowBackground">
+
+    <com.lapism.searchview.view.SearchView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:search_version = "menu_item"
+        app:search_style = "menu_item_classic"
+        app:search_divider = "false"
+        app:search_hint = "@string/search"
+        app:search_hint_size = "16sp"
+        app:search_voice = "true"
+        app:search_voice_text = "@string/search"
+        app:search_animation_duration = "300"
+        app:search_shadow_color = "#80000000"/>
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_marginTop="20dp"
+        android:background="@color/darker_primary"
+        android:id="@+id/toolbar"
+        android:elevation="6dp"
+        style="@style/MyToolbar"/>
+
+    <LinearLayout android:id="@+id/list_progress"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:indeterminateOnly="true" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/no_content"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+            android:id="@+id/no_retweeters_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_retweets" />
+
+    </LinearLayout>
+
+    <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_refresh_layout">
+
+        <org.lucasr.smoothie.AsyncListView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/listView"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:divider="?drawerDividerColor"
+            android:dividerHeight="1dp"
+            android:scrollbars="vertical"
+            android:listSelector="@android:color/transparent"
+            android:visibility="gone"
+            />
+
+    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
+
+    <View
+        android:id="@+id/kitkat_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

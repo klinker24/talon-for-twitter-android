@@ -148,64 +148,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         Utils.setSharedContentTransition(this);
     }
 
-    private com.lapism.searchview.view.SearchView mSearchView;
-    private List<SearchItem> mSuggestionsList = new ArrayList<>();
-
-    private void setUpSearch() {
-        mSearchView = (com.lapism.searchview.view.SearchView) findViewById(R.id.searchView);
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            mSearchView.setTranslationY(Utils.getStatusBarHeight(context));
-
-        mSearchView.setTheme(settings.darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
-
-        mSearchView.setOnQueryTextListener(new com.lapism.searchview.view.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mSearchView.hide(false);
-                startSearchIntent(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        List<SearchItem> mResultsList = new ArrayList<>();
-        SearchAdapter mSearchAdapter = new SearchAdapter(this, mResultsList, mSuggestionsList,
-                settings.darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
-        mSearchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                mSearchView.hide(false);
-                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
-                CharSequence text = textView.getText();
-                startSearchIntent(text + "");
-            }
-        });
-
-        mSearchView.setAdapter(mSearchAdapter);
-    }
-
-    private void startSearchIntent(String query) {
-        Intent search = new Intent(this, SearchPager.class);
-        search.putExtra(SearchManager.QUERY, query);
-        startActivity(search);
-    }
-
-    private void showSearchView() {
-        MySuggestionsProvider provider = new MySuggestionsProvider();
-
-        mSuggestionsList.clear();
-        mSuggestionsList.addAll(provider.getAllSuggestions(this));
-        mSearchView.show(true);
-    }
+    private SearchUtils searchUtils;
 
     public void setUpDrawer(int number, final String actName) {
 
-        setUpSearch();
+        searchUtils = new SearchUtils(this);
+        searchUtils.setUpSearch();
 
         try {
             findViewById(R.id.dividerView).setOnTouchListener(new View.OnTouchListener() {
@@ -417,7 +365,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                     //actionBar.setTitle(getResources().getString(R.string.app_name));
                     //actionBar.setIcon(R.mipmap.ic_launcher);
 
-                    mSearchView.hide(false);
+                    searchUtils.hideSearch(false);
 
                     Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
                     try {
@@ -1429,42 +1377,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         }
     }
 
-    private android.support.v7.widget.SearchView searchView;
-    private MenuItem searchItem;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity, menu);
-
-        // Get the SearchView and set the searchable configuration
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
-        searchView = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(searchItem);
-        // Assumes current activity is the searchable activity
-        //searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchPager.class)));
-
-
-
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            final ImageView closeBtn = (ImageView) searchField.get(searchView);
-
-            int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            EditText searchPlate = (EditText) searchView.findViewById(searchPlateId);
-            searchPlate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    if (!b) {
-                        closeBtn.callOnClick();
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-
-        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -1480,12 +1396,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         final int SETTINGS = 5;
         final int TOFIRST = 6;
         final int TWEETMARKER = 7;
-
-        try {
-            searchItem = menu.findItem(R.id.menu_search);
-        } catch (Exception e) {
-            searchItem = null;
-        }
 
         menu.getItem(TWEETMARKER).setVisible(false);
 
@@ -1567,17 +1477,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     public void setNotificationFilled(boolean isFilled) {
         if (isFilled) {
             noti.setIcon(getResources().getDrawable(R.drawable.ic_action_notification_dark));
-            /*TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            noti.setIcon(resource);*/
         } else {
-            /*TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button_empty});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();*/
-
             noti.setIcon(getResources().getDrawable(R.drawable.ic_action_notification_none_dark));
-            //noti.setIcon(resource);
         }
     }
 
@@ -1595,10 +1496,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 }
                 return super.onOptionsItemSelected(item);
             case R.id.menu_search:
-                /*overridePendingTransition(0, 0);
-                finish();
-                overridePendingTransition(0, 0);*/
-                showSearchView();
+                searchUtils.showSearchView();
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_compose:
@@ -1872,7 +1770,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
     @Override
     public void onBackPressed() {
-        if (TimeLineCursorAdapter.multPics != null && TimeLineCursorAdapter.multPics.isShowing()) {
+        if (searchUtils.isShowing()) {
+            searchUtils.hideSearch(true);
+        } else if (TimeLineCursorAdapter.multPics != null && TimeLineCursorAdapter.multPics.isShowing()) {
             TimeLineCursorAdapter.multPics.hide();
             TimeLineCursorAdapter.multPics = null;
         } else {
