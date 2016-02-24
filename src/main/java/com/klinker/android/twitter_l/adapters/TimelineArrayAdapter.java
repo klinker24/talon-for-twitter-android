@@ -13,6 +13,7 @@ import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -828,8 +829,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         boolean picture = false;
 
+        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetTexts);
         if(settings.inlinePics) {
-            if (holder.picUrl.equals("")) {
+            if (holder.picUrl.equals("") && !containsThirdPartyVideo) {
                 if (holder.imageHolder.getVisibility() != View.GONE) {
                     holder.imageHolder.setVisibility(View.GONE);
                 }
@@ -838,6 +840,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.playButton.setVisibility(View.GONE);
                 }
             } else {
+                if (holder.imageHolder.getVisibility() == View.GONE) {
+                    holder.imageHolder.setVisibility(View.VISIBLE);
+                }
 
                 if (settings.picturesType == AppSettings.PICTURES_SMALL &&
                         holder.imageHolder.getHeight() != smallPictures) {
@@ -864,6 +869,21 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     picture = true;
 
+                } else if (containsThirdPartyVideo) {
+                    if (holder.playButton.getVisibility() == View.GONE) {
+                        holder.playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VideoViewerActivity.startActivity(context, id, otherUrl.split("  ")[0], otherUrl);
+                        }
+                    });
+
+                    holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    picture = false;
                 } else {
                     holder.image.setImageDrawable(transparent);
 

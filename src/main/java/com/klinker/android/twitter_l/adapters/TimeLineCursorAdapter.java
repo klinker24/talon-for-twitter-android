@@ -17,6 +17,7 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -804,8 +805,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         boolean picture = false;
 
-        if((settings.inlinePics || isDM) && holder.picUrl != null) {
-            if (holder.picUrl.equals("")) {
+        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetTexts);
+        if((settings.inlinePics || isDM) && (holder.picUrl != null || containsThirdPartyVideo)) {
+            if (holder.picUrl != null && holder.picUrl.equals("") && !containsThirdPartyVideo) {
                 if (holder.imageHolder.getVisibility() != View.GONE) {
                     holder.imageHolder.setVisibility(View.GONE);
                 }
@@ -840,6 +842,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.image.setImageDrawable(null);
 
                     picture = true;
+                } else if (containsThirdPartyVideo) {
+                    if (holder.playButton.getVisibility() == View.GONE) {
+                        holder.playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VideoViewerActivity.startActivity(context, id, otherUrl.split("  ")[0], otherUrl);
+                        }
+                    });
+
+                    holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    picture = false;
                 } else {
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
