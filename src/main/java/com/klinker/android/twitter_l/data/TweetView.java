@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.GifBadge;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
+import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
@@ -382,6 +384,11 @@ public class TweetView {
                         playButton.setVisibility(View.VISIBLE);
                     }
 
+                    if (VideoMatcherUtil.isTwitterGifLink(gifUrl))
+                        playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        playButton.setImageDrawable(new VideoBadge(context));
+
                     imageIv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -397,6 +404,11 @@ public class TweetView {
                     if (playButton.getVisibility() == View.GONE) {
                         playButton.setVisibility(View.VISIBLE);
                     }
+
+                    if (VideoMatcherUtil.isTwitterGifLink(otherUrl.split("  ")[0]))
+                        playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        playButton.setImageDrawable(new VideoBadge(context));
 
                     imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override

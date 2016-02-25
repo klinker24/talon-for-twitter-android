@@ -38,8 +38,10 @@ import android.widget.*;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.manipulations.GifBadge;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
+import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -857,6 +859,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
+                    if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif))
+                        holder.playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        holder.playButton.setImageDrawable(new VideoBadge(context));
+
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -873,6 +880,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
+
+                    if (VideoMatcherUtil.isTwitterGifLink(otherUrl.split("  ")[0]))
+                        holder.playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        holder.playButton.setImageDrawable(new VideoBadge(context));
 
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
