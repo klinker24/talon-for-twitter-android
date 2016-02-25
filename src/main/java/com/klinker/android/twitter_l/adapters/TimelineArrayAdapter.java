@@ -881,7 +881,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
-                    if (VideoMatcherUtil.isTwitterGifLink(otherUrl.split("  ")[0]))
+                    String vid = null;
+                    for (String s : otherUrl.split("  ")) {
+                        if (VideoMatcherUtil.containsThirdPartyVideo(s))
+                            vid = s;
+                    }
+
+                    final String fVid = vid;
+                    if (VideoMatcherUtil.isTwitterGifLink(fVid))
                         holder.playButton.setImageDrawable(new GifBadge(context));
                     else
                         holder.playButton.setImageDrawable(new VideoBadge(context));
@@ -889,7 +896,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            VideoViewerActivity.startActivity(context, id, otherUrl.split("  ")[0], otherUrl);
+                            if (fVid != null)
+                                VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
                         }
                     });
 

@@ -405,7 +405,14 @@ public class TweetView {
                         playButton.setVisibility(View.VISIBLE);
                     }
 
-                    if (VideoMatcherUtil.isTwitterGifLink(otherUrl.split("  ")[0]))
+                    String vid = null;
+                    for (String s : otherUrl.split("  ")) {
+                        if (VideoMatcherUtil.containsThirdPartyVideo(s))
+                            vid = s;
+                    }
+
+                    final String fVid = vid;
+                    if (VideoMatcherUtil.isTwitterGifLink(fVid))
                         playButton.setImageDrawable(new GifBadge(context));
                     else
                         playButton.setImageDrawable(new VideoBadge(context));
@@ -413,7 +420,8 @@ public class TweetView {
                     imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            VideoViewerActivity.startActivity(context, tweetId, otherUrl.split("  ")[0], otherUrl);
+                            if (fVid != null)
+                                VideoViewerActivity.startActivity(context, tweetId, fVid, otherUrl);
                         }
                     });
 

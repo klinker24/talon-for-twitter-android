@@ -16,12 +16,18 @@ public class VideoMatcherUtil {
 
     // used to put a badge on the videos on the adapters and tweetview
     public static boolean isTwitterGifLink(String link) {
+        if (link == null)
+            return false;
+
         // Ex: http://pbs.twimg.com/tweet_video/CcAargSUAAADXgD.mp4
         return (link.contains("/photo/1") && link.contains("twitter.com/")) || // before gifs were in api
                 (link.contains("pbs.twimg.com/tweet_video")); // after gifs in api
     }
 
     public static boolean isTwitterVideoLink(String link) {
+        if (link == null)
+            return false;
+
         // Ex; https://video.twimg.com/ext_tw_video/702708414506401792/pu/vid/720x1280/X6igXR0RphT5oQDW.mp4
         return link.contains("video.twimg.com");
     }
