@@ -72,13 +72,13 @@ public class VideoFragment extends Fragment {
         layout = inflater.inflate(R.layout.gif_player, null, false);
         video = (VideoView) layout.findViewById(R.id.gif);
 
-        if (VideoMatcherUtil.isTwitterVideoLink(tweetUrl)) {
+        /*if (VideoMatcherUtil.isTwitterVideoLink(tweetUrl)) {
             MediaController mediaController = new MediaController(getActivity());
             mediaController.setAnchorView(layout.findViewById(R.id.frame_parent));
 
             video.setMediaController(mediaController);
             hasControls = true;
-        }
+        }*/
 
 
         getGif();
