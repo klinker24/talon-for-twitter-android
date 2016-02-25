@@ -2,6 +2,7 @@
 
     <version name="4.1.0">
         <text>Materialize the Search UI</text>
+        <text>Put "VIDEO" and "GIF" badges on media</text>
         <text>Improve orientation changes</text>
         <text>Only save unique drafts</text>
         <text>UI improvements</text>
