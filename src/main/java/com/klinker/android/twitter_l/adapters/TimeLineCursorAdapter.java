@@ -23,7 +23,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
@@ -41,8 +40,10 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter_l.manipulations.GifBadge;
 import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
+import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
@@ -832,6 +833,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
+                    if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl))
+                        holder.playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        holder.playButton.setImageDrawable(new VideoBadge(context));
+
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -846,6 +852,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
+
+                    if (VideoMatcherUtil.isTwitterGifLink(otherUrl.split("  ")[0]))
+                        holder.playButton.setImageDrawable(new GifBadge(context));
+                    else
+                        holder.playButton.setImageDrawable(new VideoBadge(context));
 
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override

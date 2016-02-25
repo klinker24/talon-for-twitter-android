@@ -1,43 +1,25 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
-import android.animation.ValueAnimator;
-import android.app.*;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.*;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
 import android.text.Html;
 import android.text.Spannable;
 import android.util.Log;
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.*;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
-import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
@@ -52,25 +34,12 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.*;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
-
-import org.apache.http.*;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
@@ -602,6 +571,11 @@ public class TweetActivity extends SlidingActivity {
 
             if (displayPlayButton) {
                 findViewById(R.id.play_button).setVisibility(View.VISIBLE);
+                if (gifVideo != null && VideoMatcherUtil.isTwitterGifLink(gifVideo)) {
+                    ((ImageView) findViewById(R.id.play_button)).setImageDrawable(new GifBadge(this));
+                } else {
+                    ((ImageView) findViewById(R.id.play_button)).setImageDrawable(new VideoBadge(this));
+                }
             }
 
             image.setOnClickListener(new View.OnClickListener() {
