@@ -144,6 +144,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public View rootView;
         public CardView embeddedTweet;
         public View quickActions;
+        public View noMediaPreviewText;
 
         public long tweetId;
         public boolean isFavorited;
@@ -335,11 +336,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (!settings.bottomPictures) {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         } else {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
+            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
         }
 
         // sets up the font sizes
@@ -816,6 +819,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
                     holder.playButton.setVisibility(View.GONE);
                 }
+
+                if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                    holder.noMediaPreviewText.setVisibility(View.GONE);
+                }
             } else {
                 if (holder.imageHolder.getVisibility() == View.GONE) {
                     holder.imageHolder.setVisibility(View.VISIBLE);
@@ -831,6 +838,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                        holder.noMediaPreviewText.setVisibility(View.GONE);
                     }
 
                     if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl))
@@ -851,6 +862,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 } else if (containsThirdPartyVideo) {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    if (holder.noMediaPreviewText.getVisibility() == View.GONE) {
+                        holder.noMediaPreviewText.setVisibility(View.VISIBLE);
                     }
 
                     String vid = null;
@@ -880,6 +895,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 } else {
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
                         holder.playButton.setVisibility(View.GONE);
+                    }
+
+                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                        holder.noMediaPreviewText.setVisibility(View.GONE);
                     }
 
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {

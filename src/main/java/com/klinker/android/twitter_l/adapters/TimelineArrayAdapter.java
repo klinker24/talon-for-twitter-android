@@ -132,6 +132,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public View rootView;
         public CardView embeddedTweet;
         public View quickActions;
+        public View noMediaPreviewText;
 
         public long tweetId;
         public boolean isFavorited;
@@ -463,10 +464,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
         } else {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
+            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
         }
 
         //holder.profilePic.setClipToOutline(true);
@@ -841,6 +844,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
                     holder.playButton.setVisibility(View.GONE);
                 }
+
+                if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                    holder.noMediaPreviewText.setVisibility(View.GONE);
+                }
             } else {
                 if (holder.imageHolder.getVisibility() == View.GONE) {
                     holder.imageHolder.setVisibility(View.VISIBLE);
@@ -859,6 +866,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
+                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                        holder.noMediaPreviewText.setVisibility(View.GONE);
+                    }
+
                     if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif))
                         holder.playButton.setImageDrawable(new GifBadge(context));
                     else
@@ -868,7 +879,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             VideoViewerActivity.startActivity(context, id, holder.animatedGif, otherUrl);
-
                         }
                     });
 
@@ -879,6 +889,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 } else if (containsThirdPartyVideo) {
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
+                    }
+
+                    if (holder.noMediaPreviewText.getVisibility() == View.GONE) {
+                        holder.noMediaPreviewText.setVisibility(View.VISIBLE);
                     }
 
                     String vid = null;
@@ -905,6 +919,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     picture = false;
                 } else {
+                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
+                        holder.noMediaPreviewText.setVisibility(View.GONE);
+                    }
+
                     holder.image.setImageDrawable(transparent);
 
                     picture = true;
