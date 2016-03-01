@@ -235,7 +235,7 @@ public class SearchPager extends AppCompatActivity {
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             String uriString = uri.toString();
-            if (uriString.contains("redirect")) { // coming from an email probably
+            if (uriString.contains("redirect") && uri.getQueryParameter("url") != null) { // coming from an email probably
                 String str = URLDecoder.decode(uri.getQueryParameter("url"));
 
                 Log.v("talon_search", str);

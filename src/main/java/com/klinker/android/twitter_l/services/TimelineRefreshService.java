@@ -155,7 +155,13 @@ public class TimelineRefreshService extends IntentService {
                 sharedPrefs.edit().putLong("last_timeline_insert", currentTime).commit();
             }
 
-            int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            int inserted = 0;
+
+            try{
+                inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
+            } catch (Exception e) {
+
+            }
 
             if (inserted > 0 && statuses.size() > 0) {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();

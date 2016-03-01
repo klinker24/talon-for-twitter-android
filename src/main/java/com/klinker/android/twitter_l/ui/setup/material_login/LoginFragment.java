@@ -142,10 +142,9 @@ public class LoginFragment extends Fragment {
                 counter++;
             }
 
-            if (counter == 10 && !activity.isCheckComplete) {
+            if (counter == 10 &&  activity != null && !activity.isCheckComplete) {
                 // timeout on the license check
-                licenseTimeout = true;
-                return null;
+                return loginToTwitter(requestUrl);
             }
 
             requestUrl = activity.getUserUrl();

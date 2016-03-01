@@ -109,6 +109,10 @@ public class VideoFragment extends Fragment {
                     videoUrl = tweetUrl;
                 }
 
+                if (getActivity() == null) {
+                    return;
+                }
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
