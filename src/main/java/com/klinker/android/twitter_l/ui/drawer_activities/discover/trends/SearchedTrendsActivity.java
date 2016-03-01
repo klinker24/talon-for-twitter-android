@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -143,7 +144,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
             View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
 
             if (kitkatStatusBar != null) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
+                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
                 params.height = Utils.getStatusBarHeight(context);
                 kitkatStatusBar.setLayoutParams(params);
 
