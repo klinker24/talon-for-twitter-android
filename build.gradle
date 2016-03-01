@@ -105,7 +105,7 @@ dependencies {
     compile "com.android.support:cardview-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
 
-    compile 'com.lapism:searchview:2.1.1'
+    compile 'com.lapism:searchview:2.2'
     compile 'com.github.paolorotolo:appintro:3.1.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'

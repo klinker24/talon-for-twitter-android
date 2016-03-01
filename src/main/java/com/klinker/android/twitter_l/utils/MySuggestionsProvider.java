@@ -41,7 +41,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
                 SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
                 "query LIKE '%" + query + "%'",
                 null,
-                "date DESC"
+                "date DESC LIMIT 250"
         );
 
         List<SearchItem> items = new ArrayList<>();
@@ -67,7 +67,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
                 SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
                 null,
                 null,
-                "date DESC"
+                "date DESC LIMIT 250"
         );
 
         List<SearchItem> items = new ArrayList<>();
