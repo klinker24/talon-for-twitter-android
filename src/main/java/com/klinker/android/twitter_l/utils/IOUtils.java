@@ -80,7 +80,7 @@ public class IOUtils {
 
         final File file = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
         if (!file.createNewFile()) {
-            throw new RuntimeException("Cannot download video - error creating file");
+            throw new RuntimeException("Cannot download surfaceView - error creating file");
         }
 
         URL url = new URL(videoUrl);
@@ -116,7 +116,7 @@ public class IOUtils {
 
         final File videoFile = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
         if (!videoFile.createNewFile()) {
-            throw new RuntimeException("Cannot download video - error creating file");
+            throw new RuntimeException("Cannot download surfaceView - error creating file");
         }
 
         URL url = new URL(videoUrl);
@@ -140,7 +140,7 @@ public class IOUtils {
 
         final File gifFile = new File(Environment.getExternalStorageDirectory(), "Talon/Gif-" + (new Date()).getTime() + ".gif");
         if (!gifFile.createNewFile()) {
-            throw new RuntimeException("Cannot download video - error creating file");
+            throw new RuntimeException("Cannot download surfaceView - error creating file");
         }
 
         BufferedOutputStream gifStream = new BufferedOutputStream(new FileOutputStream(gifFile));
@@ -170,7 +170,7 @@ public class IOUtils {
 
         long currTime = 0;
         while (currTime < videoDuration) {
-            Log.v("gif_encode", "current time: " + currTime + ", video duration: " + videoDuration);
+            Log.v("gif_encode", "current time: " + currTime + ", surfaceView duration: " + videoDuration);
 
             frame = retriever.getFrameAtTime(currTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
             gifEncoder.addFrame(frame);

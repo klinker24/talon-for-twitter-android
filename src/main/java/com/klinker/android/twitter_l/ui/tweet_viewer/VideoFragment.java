@@ -3,20 +3,20 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.*;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import org.apache.http.HttpEntity;
@@ -34,10 +34,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedListener {
 
     public static VideoFragment getInstance(String url) {
         Bundle args = new Bundle();
@@ -55,7 +53,9 @@ public class VideoFragment extends Fragment {
 
     private View layout;
 
-    public VideoView video;
+    public SurfaceView surfaceView;
+    public SurfaceHolder holder;
+    public MediaPlayer video;
 
     @Override
     public void onAttach(Activity activity) {
@@ -70,30 +70,82 @@ public class VideoFragment extends Fragment {
         tweetUrl = getArguments().getString("url");
 
         layout = inflater.inflate(R.layout.gif_player, null, false);
-        video = (VideoView) layout.findViewById(R.id.gif);
+        surfaceView = (SurfaceView) layout.findViewById(R.id.gif);
+        holder = surfaceView.getHolder();
+        holder.addCallback(new SurfaceHolder.Callback() {
+            @Override public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) { }
+            @Override public void surfaceDestroyed(SurfaceHolder surfaceHolder) { }
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                getGif();
+            }
+        });
 
-        /*if (VideoMatcherUtil.isTwitterVideoLink(tweetUrl)) {
-            MediaController mediaController = new MediaController(getActivity());
-            mediaController.setAnchorView(layout.findViewById(R.id.frame_parent));
-
-            video.setMediaController(mediaController);
-            hasControls = true;
-        }*/
-
-
-        getGif();
+        video = new MediaPlayer();
+        video.setOnPreparedListener(this);
+        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.seekTo(0);
+                mp.start();
+            }
+        });
 
         return layout;
     }
 
-    private boolean hasControls = false;
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            video.release();
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        Log.v("talon_media", "starting media player: " + videoUrl);
+        mediaPlayer.setDisplay(holder);
+        mediaPlayer.setLooping(true);
+        surfaceView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
+        layout.findViewById(R.id.list_progress).setVisibility(View.GONE);
+
+        // Adjust the size of the video
+        // so it fits on the screen
+        int videoWidth = video.getVideoWidth();
+        int videoHeight = video.getVideoHeight();
+        float videoProportion = (float) videoWidth / (float) videoHeight;
+        int screenWidth = ((Activity)context).getWindowManager().getDefaultDisplay().getWidth();
+        int screenHeight = ((Activity)context).getWindowManager().getDefaultDisplay().getHeight();
+        float screenProportion = (float) screenWidth / (float) screenHeight;
+        android.view.ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
+
+        if (videoProportion > screenProportion) {
+            lp.width = screenWidth;
+            lp.height = (int) ((float) screenWidth / videoProportion);
+        } else {
+            lp.width = (int) (videoProportion * (float) screenHeight);
+            lp.height = screenHeight;
+        }
+        surfaceView.setLayoutParams(lp);
+
+        if (!VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
+            AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        }
+
+        mediaPlayer.start();
+    }
+
     private void getGif() {
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 if (tweetUrl.contains("vine.co")) {
-                    // have to get the html from the page and parse the video from there.
+                    // have to get the html from the page and parse the surfaceView from there.
 
                     videoUrl = getVineLink();
                 } else if (tweetUrl.contains("amp.twimg.com/v/")) {
@@ -102,7 +154,7 @@ public class VideoFragment extends Fragment {
                     videoUrl = getSnpyTvLink();
                 } else if (tweetUrl.contains("/photo/1") && tweetUrl.contains("twitter.com/")) {
                     // this is before it was added to the api.
-                    // finds the video from the HTML on twitters website.
+                    // finds the surfaceView from the HTML on twitters website.
 
                     videoUrl = getGifLink();
                 } else {
@@ -118,28 +170,8 @@ public class VideoFragment extends Fragment {
                     public void run() {
                         try {
                             if (videoUrl != null) {
-                                final Uri videoUri = Uri.parse(videoUrl);
-
-                                video.setVideoURI(videoUri);
-                                video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                    @Override
-                                    public void onPrepared(MediaPlayer mp) {
-                                        video.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
-                                        layout.findViewById(R.id.list_progress).setVisibility(View.GONE);
-                                    }
-                                });
-
-                                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                    @Override
-                                    public void onCompletion(MediaPlayer mp) {
-                                        if (!hasControls) {
-                                            mp.seekTo(0);
-                                            mp.start();
-                                        }
-                                    }
-                                });
-
-                                video.start();
+                                video.setDataSource(videoUrl);
+                                video.prepare();
                             } else {
                                 Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
                             }
@@ -189,7 +221,7 @@ public class VideoFragment extends Fragment {
                 for (Element e : elements) {
                     for (Element x : e.getAllElements()) {
                         if (x.nodeName().contains("source")) {
-                            return x.attr("video-src");
+                            return x.attr("surfaceView-src");
                         }
                     }
                 }
@@ -242,7 +274,7 @@ public class VideoFragment extends Fragment {
             Document doc = getDoc();
 
             if(doc != null) {
-                Elements elements = doc.getElementsByAttributeValue("class", "snappy-video");
+                Elements elements = doc.getElementsByAttributeValue("class", "snappy-surfaceView");
 
                 for (Element e : elements) {
                     return e.attr("src");
@@ -278,21 +310,5 @@ public class VideoFragment extends Fragment {
 
     public String getLoadedVideoLink() {
         return videoUrl;
-    }
-
-    class SwipeDetector extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent event1, MotionEvent event2,
-                               float velocityX, float velocityY) {
-            Log.v("talon_gesture", "fling detected");
-            if ((velocityY > 3000 || velocityY < -3000) &&
-                    (velocityX < 7000 && velocityX > -7000)) {
-                getActivity().onBackPressed();
-                Log.v("talon_gesture", "closing activity");
-            }
-
-            return super.onFling(event1, event2, velocityX, velocityY);
-        }
     }
 }

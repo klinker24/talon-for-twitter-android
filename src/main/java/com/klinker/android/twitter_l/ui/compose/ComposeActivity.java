@@ -626,13 +626,13 @@ public class ComposeActivity extends Compose {
 
                     try {
                         Intent gifIntent = new Intent();
-                        gifIntent.setType("video/mp4");
+                        gifIntent.setType("surfaceView/mp4");
                         gifIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                         gifIntent.addCategory(Intent.CATEGORY_OPENABLE);
                         startActivityForResult(gifIntent, SELECT_VIDEO);
                     } catch (Exception e) {
                         Intent gifIntent = new Intent();
-                        gifIntent.setType("video/mp4");
+                        gifIntent.setType("surfaceView/mp4");
                         gifIntent.setAction(Intent.ACTION_PICK);
                         startActivityForResult(gifIntent, SELECT_VIDEO);
                     }

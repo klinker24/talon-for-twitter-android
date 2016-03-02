@@ -69,7 +69,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class VideoViewerActivity extends AppCompatActivity {
 
-    // link string can either be a single link to a gif video, or it can be all of the links in the tweet
+    // link string can either be a single link to a gif surfaceView, or it can be all of the links in the tweet
     // and it will find the youtube one.
     public static void startActivity(Context context, long tweetId, String gifVideo, String linkString) {
 
@@ -167,7 +167,7 @@ public class VideoViewerActivity extends AppCompatActivity {
             findViewById(R.id.buttons_layout).setVisibility(View.GONE);
             getSupportActionBar().hide();
         } else {
-            // add a video fragment
+            // add a surfaceView fragment
             videoFragment = VideoFragment.getInstance(url);
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment, videoFragment)
@@ -274,7 +274,7 @@ public class VideoViewerActivity extends AppCompatActivity {
                     Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri, "video/*");
+                    intent.setDataAndType(uri, "surfaceView/*");
 
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 

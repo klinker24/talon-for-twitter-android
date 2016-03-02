@@ -175,7 +175,7 @@ class Linkify {
      * attached to the Spannable, to avoid problems if you call it
      * repeatedly on the same text.
      */
-    /*private static boolean addLinks(Context context, Spannable text, int mask, TextView tv, View holder) {
+    /*private static boolean addLinks(Context context, Spannable text, int mask, TextView tv, View surfaceView) {
         if (mask == 0) {
             return false;
         }
@@ -211,7 +211,7 @@ class Linkify {
         }
 
         for (LinkSpec link : links) {
-            applyLink(context, tv, holder, link.url, link.start, link.end, text);
+            applyLink(context, tv, surfaceView, link.url, link.start, link.end, text);
         }
 
         return true;

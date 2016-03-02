@@ -44,7 +44,7 @@ public class TweetYouTubeFragment {
 
                 try {
                     if (url.contains("youtube")) { // normal youtube link
-                        // first get the youtube video code
+                        // first get the youtube surfaceView code
                         int start = url.indexOf("v=") + 2;
                         int end;
                         if (url.substring(start).contains("&")) {
@@ -57,7 +57,7 @@ public class TweetYouTubeFragment {
                             video = url.substring(start);
                         }
                     } else { // shortened youtube link
-                        // first get the youtube video code
+                        // first get the youtube surfaceView code
                         int start = url.indexOf(".be/") + 4;
                         int end;
                         if (url.substring(start).contains("&")) {

@@ -40,7 +40,7 @@ public class TextUtils {
 
         textView.setLinksClickable(clickable);
 
-        //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, holder);
+        //Linkify.addLinks(context, textView, Patterns.PHONE, null, filter, textView, surfaceView);
         Linkify.addLinks(context, textView, Patterns.EMAIL_ADDRESS, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.VALID_URL, null, filter, textView, holder, allLinks, extBrowser);
         Linkify.addLinks(context, textView, Regex.HASHTAG_PATTERN, null, filter, textView, holder, allLinks, extBrowser);
