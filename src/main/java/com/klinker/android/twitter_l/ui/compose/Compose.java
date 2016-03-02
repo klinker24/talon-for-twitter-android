@@ -954,14 +954,14 @@ public abstract class Compose extends Activity implements
                         Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(filePath,
                                 MediaStore.Images.Thumbnails.MINI_KIND);
 
-                        Log.v("talon_compose_pic", "path to video on sd card: " + filePath);
+                        Log.v("talon_compose_pic", "path to surfaceView on sd card: " + filePath);
 
                         attachImage[0].setImageBitmap(thumbnail);
                         holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
-                        attachmentType = "video/mp4";
+                        attachmentType = "surfaceView/mp4";
 
                         attachButton.setEnabled(false);
                     } catch (Throwable e) {

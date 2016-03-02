@@ -29,6 +29,6 @@ public class VideoMatcherUtil {
             return false;
 
         // Ex; https://video.twimg.com/ext_tw_video/702708414506401792/pu/vid/720x1280/X6igXR0RphT5oQDW.mp4
-        return link.contains("video.twimg.com");
+        return link.contains("surfaceView.twimg.com");
     }
 }

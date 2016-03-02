@@ -472,7 +472,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
         }
 
-        //holder.profilePic.setClipToOutline(true);
+        //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
         }
@@ -910,7 +910,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.v("talon_video", "starting video");
+                            Log.v("talon_video", "starting surfaceView");
                             if (fVid != null)
                                 VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
                         }
@@ -936,7 +936,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             if (holder.picUrl.contains(" ")) {
-                                /*MultiplePicsPopup popup = new MultiplePicsPopup(context, holder.picUrl);
+                                /*MultiplePicsPopup popup = new MultiplePicsPopup(context, surfaceView.picUrl);
                                 popup.setFullScreen();
                                 popup.setExpansionPointForAnim(view);
                                 popup.show();*/

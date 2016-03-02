@@ -353,7 +353,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
 
-        //holder.profilePic.setClipToOutline(true);
+        //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
         }
@@ -758,10 +758,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                     holder.profilePic.getVisibility() == View.VISIBLE) {
 
-                    /*holder.profilePic.setTransitionName("pro_pic");
+                    /*surfaceView.profilePic.setTransitionName("pro_pic");
                     ActivityOptions options = ActivityOptions
                             .makeSceneTransitionAnimation(((Activity) context),
-                                    new Pair<View, String>(holder.profilePic, "pro_pic")
+                                    new Pair<View, String>(surfaceView.profilePic, "pro_pic")
                             );
 
                     context.startActivity(viewProfile, options.toBundle());*/
@@ -912,7 +912,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             }
 
                             if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                                /*multPics = new MultiplePicsPopup(context, holder.picUrl);
+                                /*multPics = new MultiplePicsPopup(context, surfaceView.picUrl);
                                 multPics.setFullScreen();
                                 multPics.setExpansionPointForAnim(view);
                                 multPics.show();*/
@@ -935,7 +935,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (retweeter.length() > 0 && !isDM) {
             String text = context.getResources().getString(R.string.retweeter);
-            //holder.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
+            //surfaceView.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
             holder.retweeter.setText(text + retweeter);
             holder.retweeterName = retweeter;
             holder.retweeter.setVisibility(View.VISIBLE);

@@ -127,7 +127,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
             holder.text.setText(tweetText);
         }
 
-        //holder.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
+        //surfaceView.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
         ImageUtils.loadImage(context, holder.picture, dm.getPicture(), mCache);
 
         holder.background.setOnClickListener(new View.OnClickListener() {

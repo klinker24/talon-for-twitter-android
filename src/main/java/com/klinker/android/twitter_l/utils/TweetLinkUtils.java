@@ -139,7 +139,7 @@ public class TweetLinkUtils {
                     imageUrl = exp + "media/?size=l";
                     otherUrl += exp + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -154,7 +154,7 @@ public class TweetLinkUtils {
                     }
                     otherUrl += exp + "  ";
                 } else if (str.contains("youtu.be")) {
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -343,7 +343,7 @@ public class TweetLinkUtils {
                     imageUrl = exp + "media/?size=m";
                     otherUrl += exp + "  ";
                 } else if (str.contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) { // normal youtube link
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -354,7 +354,7 @@ public class TweetLinkUtils {
                     imageUrl = "http://img.youtube.com/vi/" + exp.substring(start, end) + "/hqdefault.jpg";
                     otherUrl += exp + "  ";
                 } else if (str.contains("youtu.be")) { // shortened youtube link
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -471,7 +471,7 @@ public class TweetLinkUtils {
                 if(str.contains("instag") && !str.contains("blog.insta")) {
                     images.add(exp + "media/?size=m");
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf("v=") + 2;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -485,7 +485,7 @@ public class TweetLinkUtils {
                         images.add("http://img.youtube.com/vi/" + exp.substring(start, exp.length() - 1) + "/hqdefault.jpg");
                     }
                 } else if (str.contains("youtu.be")) {
-                    // first get the youtube video code
+                    // first get the youtube surfaceView code
                     int start = exp.indexOf(".be/") + 4;
                     int end = exp.length();
                     if (exp.substring(start).contains("&")) {
@@ -548,7 +548,7 @@ public class TweetLinkUtils {
 
             if (e.getType().equals("animated_gif")) {
                 return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
-            } else if (e.getType().equals("video")) {
+            } else if (e.getType().equals("surfaceView")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
                     for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {

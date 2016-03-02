@@ -132,7 +132,7 @@ public class TweetActivity extends SlidingActivity {
         }
 
         if (gifVideo == null) {
-            gifVideo = "no gif video";
+            gifVideo = "no gif surfaceView";
         }
         boolean hasWebpage;
         boolean youtube = false;
@@ -251,7 +251,7 @@ public class TweetActivity extends SlidingActivity {
         findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
 
         final VideoView gif = (VideoView) findViewById(R.id.gif);
-        Log.v("talon_gif", "gif video: " + gifVideo);
+        Log.v("talon_gif", "gif surfaceView: " + gifVideo);
         findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
         gif.setVisibility(View.GONE);
         findViewById(R.id.gif_holder).setVisibility(View.GONE);
@@ -556,7 +556,7 @@ public class TweetActivity extends SlidingActivity {
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
 
-        if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine/twimg video)
+        if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine/twimg surfaceView)
 
             if (displayPlayButton && VideoMatcherUtil.containsThirdPartyVideo(gifVideo)) {
                 image.setBackgroundResource(android.R.color.black);

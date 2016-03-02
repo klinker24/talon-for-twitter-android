@@ -162,7 +162,7 @@ public class FollowersArrayAdapter extends ArrayAdapter<User> {
                 viewProfile.putExtra("name", user.getName());
                 viewProfile.putExtra("screenname", user.getScreenName());
                 viewProfile.putExtra("proPic", user.getOriginalProfileImageURL());
-                //viewProfile.putExtra("tweetid", holder.tweetId);
+                //viewProfile.putExtra("tweetid", surfaceView.tweetId);
                 viewProfile.putExtra("retweet", false);
 
                 context.startActivity(viewProfile);
