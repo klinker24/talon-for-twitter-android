@@ -594,6 +594,10 @@ public class ImageUtils {
             }
         }
 
+        Paint linePaint = new Paint();
+        linePaint.setStrokeWidth(Utils.toDP(1, context));
+        linePaint.setColor(context.getResources().getColor(android.R.color.white));
+
         try {
             switch (bitmaps.length) {
                 case 2:
@@ -601,10 +605,6 @@ public class ImageUtils {
                     Canvas canvas = new Canvas(image);
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
                     canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
-
-                    Paint linePaint = new Paint();
-                    linePaint.setStrokeWidth(1f);
-                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     return image;
@@ -614,10 +614,6 @@ public class ImageUtils {
                     canvas.drawBitmap(bitmaps[0], 0, 0, null);
                     canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
                     canvas.drawBitmap(bitmaps[2], GROUP_RES / 2, GROUP_RES / 2, null);
-
-                    linePaint = new Paint();
-                    linePaint.setStrokeWidth(1f);
-                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     canvas.drawLine(GROUP_RES / 2, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);
@@ -629,10 +625,6 @@ public class ImageUtils {
                     canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
                     canvas.drawBitmap(bitmaps[2], 0, GROUP_RES / 2, null);
                     canvas.drawBitmap(bitmaps[3], GROUP_RES / 2, GROUP_RES / 2, null);
-
-                    linePaint = new Paint();
-                    linePaint.setStrokeWidth(1f);
-                    linePaint.setColor(context.getResources().getColor(R.color.circle_outline_dark));
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     canvas.drawLine(0, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);

@@ -907,9 +907,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     else
                         holder.playButton.setImageDrawable(new VideoBadge(context));
 
-                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            Log.v("talon_video", "starting video");
                             if (fVid != null)
                                 VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
                         }

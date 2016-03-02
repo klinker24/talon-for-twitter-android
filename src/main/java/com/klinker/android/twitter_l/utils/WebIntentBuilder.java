@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +24,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,6 +102,22 @@ public class WebIntentBuilder {
             intent.putExtras(extras);
 
             intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
+
+            // add the share action
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            String extraText = webpage;
+            shareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+            shareIntent.setType("text/plain");
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "Share to:"), 0);
+
+            ArrayList menuItemBundleList = new ArrayList<>();
+
+            Bundle menuItem = new Bundle();
+            menuItem.putString(KEY_CUSTOM_TABS_MENU_TITLE, context.getString(R.string.share_link));
+            menuItem.putParcelable(KEY_CUSTOM_TABS_PENDING_INTENT, pendingIntent);
+            menuItemBundleList.add(menuItem);
+
+            intent.putParcelableArrayListExtra(EXTRA_CUSTOM_TABS_MENU_ITEMS, menuItemBundleList);
 
         } else {
             // fallback to in app browser
@@ -217,6 +237,12 @@ public class WebIntentBuilder {
 
     // Optional. specify an integer color
     private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+
+    // Optional. Use an ArrayList for specifying menu related params. There
+    // should be a separate Bundle for each custom menu item.
+    public static final String EXTRA_CUSTOM_TABS_MENU_ITEMS = "android.support.customtabs.extra.MENU_ITEMS";
+    public static final String KEY_CUSTOM_TABS_MENU_TITLE = "android.support.customtabs.customaction.MENU_ITEM_TITLE";
+
 
     // Optional. Key that specifies the PendingIntent to launch when the action button
     // or menu item was tapped. Chrome will be calling PendingIntent#send() on
