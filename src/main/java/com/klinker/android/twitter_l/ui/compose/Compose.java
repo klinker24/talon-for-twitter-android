@@ -30,6 +30,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -179,6 +180,25 @@ public abstract class Compose extends Activity implements
                 }
 
                 charRemaining.setText(140 - count + "");
+            }
+
+            changeTextColor();
+        }
+
+        private int originalTextColor = -1;
+        private void changeTextColor() {
+            if (originalTextColor == -1) {
+                originalTextColor = charRemaining.getCurrentTextColor();
+            }
+
+            try {
+                if (Integer.parseInt(charRemaining.getText().toString()) <= 10) {
+                    charRemaining.setTextColor(getResources().getColor(R.color.red_primary_color_light));
+                } else {
+                    charRemaining.setTextColor(originalTextColor);
+                }
+            } catch (Exception e) {
+                charRemaining.setTextColor(originalTextColor);
             }
         }
     };
