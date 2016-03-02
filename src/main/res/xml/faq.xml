@@ -307,6 +307,18 @@
     </question>
 
     <question
+        name="Video Services"
+        description="What services work?">
+
+        <text>
+            Talon has native support for YouTube, Vine, and Twitter Videos. It will also show you when there is an amp.twimg video or a SnappyTV video.
+
+            Unfortunately Vine, amp.twimg, and SnappyTV do not provide thumbnails. So when you scroll though your timeline and see the black image holders, this is why.
+        </text>
+
+    </question>
+
+    <question
             name="Images do not upload"
             description="Sometimes they fail, sometimes they go through">
 

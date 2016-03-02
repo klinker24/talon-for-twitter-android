@@ -164,7 +164,7 @@ public class VideoViewerActivity extends AppCompatActivity {
                     .add(R.id.fragment, fragment)
                     .commit();
 
-            ((View)download.getParent().getParent()).setVisibility(View.GONE);
+            findViewById(R.id.buttons_layout).setVisibility(View.GONE);
             getSupportActionBar().hide();
         } else {
             // add a video fragment
@@ -236,7 +236,7 @@ public class VideoViewerActivity extends AppCompatActivity {
         if (tweetId != 0) {
             prepareInfo(tweetId);
         } else {
-            ((View)info.getParent()).setVisibility(View.GONE);
+            findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
 
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -350,7 +350,8 @@ public class VideoViewerActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
-        startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
+        if (url != null && !url.contains("youtu"))
+            startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
         startAlphaAnimation(share, 1, 0);
         startAlphaAnimation(download, 1, 0);
         startAlphaAnimation(info, 1, 0);
@@ -364,7 +365,8 @@ public class VideoViewerActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        startAlphaAnimation(findViewById(R.id.buttons_layout), 0, 1);
+        if (url != null && !url.contains("youtu"))
+            startAlphaAnimation(findViewById(R.id.buttons_layout), 0, 1);
         startAlphaAnimation(share, 0, 1);
         startAlphaAnimation(download, 0, 1);
         startAlphaAnimation(info, 0, 1);
@@ -424,7 +426,7 @@ public class VideoViewerActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //findViewById(R.id.buttons_layout).getLayoutParams().height = 0;
             findViewById(R.id.buttons_layout).setVisibility(View.GONE);
-        } else {
+        } else if (url != null && !url.contains("youtu")) {
             findViewById(R.id.buttons_layout).setVisibility(View.VISIBLE);
         }
     }
