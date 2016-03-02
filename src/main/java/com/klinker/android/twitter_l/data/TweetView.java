@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.Spannable;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +114,8 @@ public class TweetView {
         }
 
         embeddedTweets = embedded + 1;
+
+        Log.v("embedded_tweets", embeddedTweets + "");
     }
 
     public TweetView(Context context, Status status) {
@@ -132,6 +135,7 @@ public class TweetView {
         this.embeddedTweets = embedded + 1;
 
         setData(status);
+        Log.v("embedded_tweets", embeddedTweets + "");
     }
 
     public void setCurrentUser(String s) {
@@ -509,7 +513,7 @@ public class TweetView {
 
     public void loadEmbeddedTweet(final String otherUrls) {
 
-        if (embeddedTweets > MAX_EMBEDDED_TWEETS) {
+        if (embeddedTweets >= MAX_EMBEDDED_TWEETS) {
             return;
         }
 
