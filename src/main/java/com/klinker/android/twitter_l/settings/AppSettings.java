@@ -98,6 +98,10 @@ public class AppSettings {
     public static final int NAV_BAR_PRESENT = 1;
     public static final int NAV_BAR_NONE = 2;
 
+    public static final int AUTOPLAY_ALWAYS = 0;
+    public static final int AUTOPLAY_WIFI = 1;
+    public static final int AUTOPLAY_NEVER = 2;
+
     public String authenticationToken;
     public String authenticationTokenSecret;
     public String secondAuthToken;
@@ -200,6 +204,7 @@ public class AppSettings {
     public int quoteStyle;
     public int navBarOption;
     public int picturesType;
+    public int autoplay;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -387,6 +392,7 @@ public class AppSettings {
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
+        autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_ALWAYS + ""));
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
