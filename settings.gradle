@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-include ':wear', ':shared_assets', ':LicenseVerificationLibrary', ':video-lib'
+include ':wear', ':shared_assets', ':LicenseVerificationLibrary'
