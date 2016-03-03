@@ -144,6 +144,7 @@ public class MentionsFragment extends MainFragment {
 
                 }
 
+                releaseVideo();
                 cursorAdapter = setAdapter(cursor);
                 attachCursor();
 
@@ -270,6 +271,7 @@ public class MentionsFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
+                        releaseVideo();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
                             cursorAdapter.setQuotedTweets(MentionsFragment.this.cursorAdapter.getQuotedTweets());

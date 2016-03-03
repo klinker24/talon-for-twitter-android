@@ -110,6 +110,7 @@ public class SecondAccMentionsFragment extends MentionsFragment {
                             c = cursorAdapter.getCursor();
                         }
 
+                        releaseVideo();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, SecondAccMentionsFragment.this, true);
                             cursorAdapter.setQuotedTweets(SecondAccMentionsFragment.this.cursorAdapter.getQuotedTweets());

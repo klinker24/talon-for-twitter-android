@@ -240,6 +240,7 @@ public class FavoriteTweetsFragment extends MainFragment {
                             return;
                         }
 
+                        releaseVideo();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
                             cursorAdapter.setQuotedTweets(FavoriteTweetsFragment.this.cursorAdapter.getQuotedTweets());
