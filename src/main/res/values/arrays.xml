@@ -333,6 +333,18 @@
         <item>blue_grey</item>
     </string-array>
 
+    <string-array name="autoplay">
+        <item>@string/always</item>
+        <item>@string/only_on_wifi</item>
+        <item>@string/never</item>
+    </string-array>
+
+    <string-array name="autoplay_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="tweetmarker">
         <item>@string/do_not_use</item>
         <item>@string/automatic_refresh</item>

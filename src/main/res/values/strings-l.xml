@@ -97,4 +97,6 @@
     <string name="tweetmarker_disclaimer">Automatic TweetMarker will always refresh the timeline on startup of the app.</string>
     <string name="discover_people">People</string>
     <string name="no_media_preview">No preview is available for this video service.</string>
+    <string name="autoplay_title">Timeline Autoplay</string>
+    <string name="autoplay_summary">Automatically play Twitter GIFs and videos without leaving the timeline.</string>
 </resources>

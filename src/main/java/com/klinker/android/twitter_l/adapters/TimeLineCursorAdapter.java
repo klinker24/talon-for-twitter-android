@@ -1071,7 +1071,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             }
         }, 400);
-        if (playVideo) {
+        if (playVideo && (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
+                (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context)))) {
             mHandlers[currHandler].postDelayed(new Runnable() {
                 @Override
                 public void run() {
