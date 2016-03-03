@@ -112,6 +112,10 @@ public class VideoFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
+                            videoView.setStopSystemAudio(false);
+                        }
+
                         videoView.start(videoUrl);
                     }
                 });

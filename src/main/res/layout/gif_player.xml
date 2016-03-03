@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:loop="true"
-        app:stopSystemAudio="true"
-        app:adjustSizeToScreen="true" />
+        app:stopSystemAudio="true" />
 
 </FrameLayout>
