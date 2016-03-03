@@ -14,12 +14,8 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-        flatDir {
-            dirs 'lib'
-        }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        flatDir { dirs 'lib' }
     }
 }
 
@@ -112,6 +108,7 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
+    compile 'com.klinkerapps:simple_videoview:1.0.3@aar'
     compile 'com.klinkerapps:launcher-apis:1.1.0@aar'
     compile 'com.klinkerapps:simple_videoview:1.0.3@aar'
     compile 'com.klinkerapps:sliding-activity:1.1.1'
@@ -132,6 +129,7 @@ dependencies {
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.1
     compile(name: 'datetimepicker', ext: 'aar')
     compile(name: 'bitmap-cache', ext: 'aar')
+    compile(name: 'sectioned-recyclerview', ext: 'aar')
 
     compile project(':LicenseVerificationLibrary')
     compile(project(":shared_assets"))
