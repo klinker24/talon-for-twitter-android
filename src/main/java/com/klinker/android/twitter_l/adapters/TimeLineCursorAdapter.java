@@ -376,6 +376,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (playingVideo != null) {
             playingVideo.setVisibility(View.GONE);
             playingVideo.release();
+            playingVideoId = -1;
             playingVideo = null;
         }
     }
