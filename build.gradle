@@ -113,7 +113,7 @@ dependencies {
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
     compile 'com.klinkerapps:launcher-apis:1.1.0@aar'
-    compile 'com.klinkerapps:simple_videoview:1.0.2@aar'
+    compile 'com.klinkerapps:simple_videoview:1.0.3@aar'
     compile 'com.klinkerapps:sliding-activity:1.1.1'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
