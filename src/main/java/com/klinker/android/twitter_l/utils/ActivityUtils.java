@@ -127,7 +127,7 @@ public class ActivityUtils {
         }
 
         killer.interrupt();
-        
+
         return newActivity;
     }
 

@@ -92,6 +92,7 @@
         <item name="heart_button">@drawable/ic_heart_light</item>
         <item name="quick_actions">@drawable/ic_quick_actions_light</item>
         <item name="supporter">@drawable/ic_supporter_light</item>
+        <item name="gif_button">@drawable/ic_gif_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
@@ -289,6 +290,7 @@
         <item name="heart_button">@drawable/ic_heart_light</item>
         <item name="quick_actions">@drawable/ic_quick_actions_light</item>
         <item name="supporter">@drawable/ic_supporter_light</item>
+        <item name="gif_button">@drawable/ic_gif_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
