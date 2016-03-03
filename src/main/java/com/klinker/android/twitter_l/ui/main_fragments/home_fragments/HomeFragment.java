@@ -278,6 +278,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             c = cursorAdapter.getCursor();
                         }
 
+                        releaseVideo();
                         cursorAdapter = returnAdapter(cursor);
 
                         try {

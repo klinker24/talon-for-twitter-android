@@ -120,6 +120,7 @@ public class ActivityFragment extends MainFragment {
 
                 }
 
+                releaseVideo();
                 cursorAdapter = setAdapter(cursor);
 
                 try {
@@ -225,6 +226,7 @@ public class ActivityFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
+                        releaseVideo();
                         cursorAdapter = new ActivityCursorAdapter(context, cursor);
 
                         try {

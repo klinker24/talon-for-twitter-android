@@ -151,13 +151,17 @@ public abstract class MainFragment extends Fragment implements Expandable {
         context.unregisterReceiver(showToast);
         context.unregisterReceiver(hideToast);
 
+        releaseVideo();
+
+        super.onPause();
+    }
+
+    public void releaseVideo() {
         try {
             cursorAdapter.releaseVideo();
         } catch (Exception e) {
 
         }
-
-        super.onPause();
     }
 
     @Override

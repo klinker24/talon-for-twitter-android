@@ -301,6 +301,7 @@ public class ListFragment extends MainFragment {
                             return;
                         }
 
+                        releaseVideo();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                             cursorAdapter.setQuotedTweets(ListFragment.this.cursorAdapter.getQuotedTweets());
