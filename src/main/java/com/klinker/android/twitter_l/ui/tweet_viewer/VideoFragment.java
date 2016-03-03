@@ -16,6 +16,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
+import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
@@ -35,7 +37,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedListener {
+public class VideoFragment extends Fragment {
 
     public static VideoFragment getInstance(String url) {
         Bundle args = new Bundle();
@@ -53,9 +55,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
 
     private View layout;
 
-    public SurfaceView surfaceView;
-    public SurfaceHolder holder;
-    public MediaPlayer video;
+    public SimpleVideoView videoView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -70,26 +70,9 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         tweetUrl = getArguments().getString("url");
 
         layout = inflater.inflate(R.layout.gif_player, null, false);
-        surfaceView = (SurfaceView) layout.findViewById(R.id.gif);
-        holder = surfaceView.getHolder();
-        holder.addCallback(new SurfaceHolder.Callback() {
-            @Override public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) { }
-            @Override public void surfaceDestroyed(SurfaceHolder surfaceHolder) { }
-            @Override
-            public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                getGif();
-            }
-        });
+        videoView = (SimpleVideoView) layout.findViewById(R.id.video_view);
 
-        video = new MediaPlayer();
-        video.setOnPreparedListener(this);
-        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mp.seekTo(0);
-                mp.start();
-            }
-        });
+        getGif();
 
         return layout;
     }
@@ -97,46 +80,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     @Override
     public void onStop() {
         super.onStop();
-        try {
-            video.release();
-        } catch (Exception e) {
-
-        }
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.v("talon_media", "starting media player: " + videoUrl);
-        mediaPlayer.setDisplay(holder);
-        mediaPlayer.setLooping(true);
-        surfaceView.setBackgroundColor(getActivity().getResources().getColor(android.R.color.transparent));
-        layout.findViewById(R.id.list_progress).setVisibility(View.GONE);
-
-        // Adjust the size of the video
-        // so it fits on the screen
-        int videoWidth = video.getVideoWidth();
-        int videoHeight = video.getVideoHeight();
-        float videoProportion = (float) videoWidth / (float) videoHeight;
-        int screenWidth = ((Activity)context).getWindowManager().getDefaultDisplay().getWidth();
-        int screenHeight = ((Activity)context).getWindowManager().getDefaultDisplay().getHeight();
-        float screenProportion = (float) screenWidth / (float) screenHeight;
-        android.view.ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
-
-        if (videoProportion > screenProportion) {
-            lp.width = screenWidth;
-            lp.height = (int) ((float) screenWidth / videoProportion);
-        } else {
-            lp.width = (int) (videoProportion * (float) screenHeight);
-            lp.height = screenHeight;
-        }
-        surfaceView.setLayoutParams(lp);
-
-        if (!VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
-            AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        }
-
-        mediaPlayer.start();
+        videoView.release();
     }
 
     private void getGif() {
@@ -168,19 +112,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            if (videoUrl != null) {
-                                video.setDataSource(videoUrl);
-                                video.prepare();
-                            } else {
-                                Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getActivity(), R.string.error_gif, Toast.LENGTH_SHORT).show();
-
-                            getActivity().finish();
-                        }
+                        videoView.start(videoUrl);
                     }
                 });
 
