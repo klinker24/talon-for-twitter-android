@@ -154,7 +154,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         try {
             cursorAdapter.releaseVideo();
         } catch (Exception e) {
-            
+
         }
 
         super.onPause();
