@@ -13,6 +13,7 @@ buildscript {
 allprojects {
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
@@ -82,6 +83,8 @@ android {
     aaptOptions {
         noCompress 'apk'
     }
+
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -98,6 +101,7 @@ dependencies {
 
     provided 'org.projectlombok:lombok:1.14.8'
 
+    compile 'com.lapism:searchview:2.2'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library:0.5.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
