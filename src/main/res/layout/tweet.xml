@@ -17,10 +17,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/root"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                 android:id="@+id/muffled_name"
@@ -78,6 +79,16 @@
                 android:textColor="@android:color/white"
                 android:visibility="gone"
                 android:text="@string/no_media_preview" />
+
+            <com.klinker.android.simple_videoview.SimpleVideoView
+                android:id="@+id/video_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@android:color/black"
+                app:loop="true"
+                app:stopSystemAudio="false"
+                app:muted="true"/>
 
 
         </FrameLayout>
@@ -225,6 +236,17 @@
                 android:textColor="@android:color/white"
                 android:visibility="gone"
                 android:text="@string/no_media_preview" />
+
+            <com.klinker.android.simple_videoview.SimpleVideoView
+                android:id="@+id/video_view_below"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@android:color/black"
+                app:loop="true"
+                app:stopSystemAudio="false"
+                app:muted="true" />
+
         </FrameLayout>
 
         <android.support.v7.widget.CardView

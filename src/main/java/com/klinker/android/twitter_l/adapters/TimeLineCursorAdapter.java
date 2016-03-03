@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.animation.*;
 import android.widget.*;
 
+import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -97,6 +98,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int border;
     private boolean secondAcc = false;
 
+    public long playingVideoId = -1l;
+    public SimpleVideoView playingVideo = null;
+
     protected Handler[] mHandlers;
     protected int currHandler;
 
@@ -145,6 +149,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public CardView embeddedTweet;
         public View quickActions;
         public View noMediaPreviewText;
+        public SimpleVideoView videoView;
 
         public long tweetId;
         public boolean isFavorited;
@@ -338,11 +343,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
             holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+            holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
         } else {
             holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
             holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
             holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
+            holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view_below);
         }
 
         // sets up the font sizes
@@ -363,6 +370,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         v.setTag(holder);
 
         return v;
+    }
+
+    public void releaseVideo() {
+        if (playingVideo != null) {
+            playingVideo.setVisibility(View.GONE);
+            playingVideo.release();
+            playingVideo = null;
+        }
     }
 
     protected int TWEET_COL;
@@ -399,6 +414,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
             holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+        }
+
+        if (holder.tweetId == playingVideoId) {
+            // recycling the playing videos layout since it is off the screen
+            releaseVideo();
         }
 
         final long id = cursor.getLong(TWEET_COL);
@@ -809,6 +829,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         boolean picture = false;
 
+        if (holder.videoView.getVisibility() == View.VISIBLE) {
+            holder.videoView.setVisibility(View.GONE);
+        }
+
+        boolean playVideo = false;
         boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetTexts);
         if((settings.inlinePics || isDM) && (holder.picUrl != null || containsThirdPartyVideo)) {
             if (holder.picUrl != null && holder.picUrl.equals("") && !containsThirdPartyVideo) {
@@ -852,9 +877,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            releaseVideo();
                             VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
                         }
                     });
+
+                    if (holder.gifUrl.contains(".mp4")) {
+                        playVideo = true;
+                    }
 
                     holder.image.setImageDrawable(null);
 
@@ -1040,6 +1070,22 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             }
         }, 400);
+        if (playVideo) {
+            mHandlers[currHandler].postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (holder.tweetId == id && playingVideo == null) {
+                        if (holder.videoView.getVisibility() != View.VISIBLE) {
+                            holder.videoView.release();
+                            holder.videoView.setVisibility(View.VISIBLE);
+                        }
+                        holder.videoView.start(holder.gifUrl);
+                        playingVideo = holder.videoView;
+                        playingVideoId = holder.tweetId;
+                    }
+                }
+            }, 1000);
+        }
         currHandler++;
 
         if (currHandler == 10) {
