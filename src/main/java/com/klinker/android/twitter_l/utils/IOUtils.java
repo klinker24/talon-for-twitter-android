@@ -105,18 +105,14 @@ public class IOUtils {
         return Uri.fromFile(file);
     }
 
-    public interface GifEncodeCallback {
-        void progressUpdate(int progress);
-    }
-
-    public static final Uri saveGif(Context context, String videoUrl, GifEncodeCallback callback) throws Exception {
+    public static final Uri saveGiffy(String videoUrl) throws Exception {
 
         File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
         myDir.mkdirs();
 
-        final File videoFile = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
-        if (!videoFile.createNewFile()) {
-            throw new RuntimeException("Cannot download surfaceView - error creating file");
+        final File file = new File(Environment.getExternalStorageDirectory(), "Talon/giffy.gif");
+        if (!file.createNewFile()) {
+            // file already exists
         }
 
         URL url = new URL(videoUrl);
@@ -126,7 +122,7 @@ public class IOUtils {
 
         InputStream is = connection.getInputStream();
         BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-        FileOutputStream outStream = new FileOutputStream(videoFile);
+        FileOutputStream outStream = new FileOutputStream(file);
 
         byte[] buffer = new byte[1024 * 5];
         int len;
@@ -138,63 +134,7 @@ public class IOUtils {
         outStream.close();
         inStream.close();
 
-        final File gifFile = new File(Environment.getExternalStorageDirectory(), "Talon/Gif-" + (new Date()).getTime() + ".gif");
-        if (!gifFile.createNewFile()) {
-            throw new RuntimeException("Cannot download surfaceView - error creating file");
-        }
-
-        BufferedOutputStream gifStream = new BufferedOutputStream(new FileOutputStream(gifFile));
-        gifStream.write(genGif(context, Uri.fromFile(videoFile), callback));
-        gifStream.flush();
-        gifStream.close();
-
-        videoFile.delete();
-
-        return Uri.fromFile(gifFile);
-    }
-
-    public static byte[] genGif(Context context, Uri videoUri, GifEncodeCallback callback) throws Exception {
-
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(context, videoUri);
-        String dur = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        long videoDuration = Long.parseLong(dur);
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
-        gifEncoder.setDelay(200);
-
-        Bitmap frame;
-        gifEncoder.start(out);
-
-        long currTime = 0;
-        while (currTime < videoDuration) {
-            Log.v("gif_encode", "current time: " + currTime + ", surfaceView duration: " + videoDuration);
-
-            frame = retriever.getFrameAtTime(currTime * 1000, MediaMetadataRetriever.OPTION_CLOSEST);
-            gifEncoder.addFrame(frame);
-
-            currTime += 200;
-            callback.progressUpdate((int) (100.0 * (double) currTime / (double) videoDuration));
-
-            frame.recycle();
-        }
-
-        /*for (int i = 0; i < 100; i+= 10) {
-            long frameTime = videoDuration * i/100;
-            frame = retriever.getFrameAtTime(frameTime, MediaMetadataRetriever.OPTION_CLOSEST);
-            gifEncoder.addFrame(frame);
-        }*/
-
-        frame = retriever.getFrameAtTime(videoDuration);
-        gifEncoder.addFrame(frame);
-
-        frame.recycle();
-        gifEncoder.finish();
-        retriever.release();
-
-        return out.toByteArray();
+        return Uri.fromFile(file);
     }
 
     public static String getPath(Uri uri, Context context) {
