@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Searchview -->
+    <declare-styleable name="SearchView">
+        <attr name="search_version" format="enum">
+            <enum name="toolbar" value="0" />
+            <enum name="menu_item" value="1" />
+        </attr>
+        <attr name="search_style" format="enum">
+            <enum name="toolbar_classic" value="2" />
+            <enum name="menu_item_classic" value="3" />
+            <enum name="menu_item_color" value="4" />
+        </attr>
+        <attr name="search_theme" format="enum">
+            <enum name="light" value="5" />
+            <enum name="dark" value="6" />
+        </attr>
+        <attr name="search_divider" format="boolean" />
+        <attr name="search_hint" format="string" />
+        <attr name="search_hint_size" format="dimension" />
+        <attr name="search_voice" format="boolean" />
+        <attr name="search_voice_text" format="string" />
+        <attr name="search_animation_duration" format="integer" />
+        <attr name="search_shadow_color" format="color" />
+    </declare-styleable>
+
+    <!-- Check -->
+    <declare-styleable name="CheckableView">
+        <attr name="check_checked" format="boolean" />
+        <attr name="check_type" format="enum">
+            <enum name="text" value="0" />
+            <enum name="image" value="1" />
+        </attr>
+        <attr name="check_text" format="string" />
+        <attr name="check_text_size" format="dimension" />
+        <attr name="check_text_color" format="color" />
+        <attr name="check_image_checked" format="integer" />
+        <attr name="check_image_unchecked" format="integer" />
+        <attr name="check_background_color_checked" format="color" />
+        <attr name="check_background_color_unchecked" format="color" />
+    </declare-styleable>
+
+</resources>
