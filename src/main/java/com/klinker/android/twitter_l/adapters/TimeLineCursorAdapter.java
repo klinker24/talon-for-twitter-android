@@ -131,6 +131,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public boolean hasExpandedTweet = false;
 
+    private Handler videoHandler;
+
     public static class ViewHolder {
         public TextView name;
         public TextView muffledName;
@@ -179,6 +181,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         init(true);
     }
     public void init(boolean cont) {
+        videoHandler = new Handler();
+
         settings = AppSettings.getInstance(context);
 
         smallPictures = Utils.toDP(120, context);
@@ -377,6 +381,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         v.setTag(holder);
 
         return v;
+    }
+
+    public void resetVideoHandler() {
+        videoHandler.removeCallbacksAndMessages(null);
     }
 
     public void releaseVideo() {
@@ -1080,7 +1088,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }, 400);
         if (playVideo && (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
                 (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context)))) {
-            mHandlers[currHandler].postDelayed(new Runnable() {
+            videoHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (holder.tweetId == id && playingVideo == null && !activityPaused) {

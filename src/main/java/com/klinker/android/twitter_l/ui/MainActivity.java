@@ -210,6 +210,7 @@ public class MainActivity extends DrawerActivity {
                     for (int i = 0; i < count; i++) {
                         MainFragment f = (MainFragment) mSectionsPagerAdapter.getRealFrag(i);
                         f.allowBackPress();
+                        f.resetVideoHandler();
                     }
                 }
             }
