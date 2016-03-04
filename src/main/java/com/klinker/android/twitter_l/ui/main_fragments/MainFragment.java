@@ -732,6 +732,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
     public boolean allowBackPress() {
 
+        if (cursorAdapter != null) {
+            cursorAdapter.releaseVideo();
+        }
+
         if (expansionHelper != null) {
             if (expansionHelper.hidePopups()) {
                 return false;
