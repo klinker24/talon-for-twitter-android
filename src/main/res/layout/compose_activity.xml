@@ -275,7 +275,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Find GIF"
-                    android:background="@drawable/pressed_toast"
+                    android:background="?android:selectableItemBackground"
                     android:src="?gif_button"
                     android:gravity="center"
                     android:layout_gravity="center" />
