@@ -1,6 +1,10 @@
 package com.klinker.android.twitter_l.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,14 +13,27 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.api_helper.GiffyHelper;
 import com.klinker.android.twitter_l.adapters.GifSearchAdapter;
 import com.lapism.arrow.ArrowDrawable;
 import com.lapism.searchview.view.SearchView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GiffySearch extends Activity {
 
@@ -104,10 +121,10 @@ public class GiffySearch extends Activity {
                     adapter.releaseVideo();
                 }
 
-                adapter = new GifSearchAdapter(GiffySearch.this, gifs, new GifSearchAdapter.Callback() {
+                adapter = new GifSearchAdapter(gifs, new GifSearchAdapter.Callback() {
                     @Override
-                    public void onClick(int item) {
-
+                    public void onClick(GiffyHelper.Gif item) {
+                        new DownloadVideo(GiffySearch.this, item.gifUrl).execute();
                     }
                 });
 
@@ -124,5 +141,51 @@ public class GiffySearch extends Activity {
         if (adapter != null) {
             adapter.releaseVideo();
         }
+    }
+
+    private static class DownloadVideo extends AsyncTask<Void, Void, Uri> {
+
+        Activity activity;
+        String video;
+        ProgressDialog dialog;
+
+        public DownloadVideo(Activity activity, String videoLink) {
+            this.activity = activity;
+            this.video = videoLink;
+        }
+
+        @Override
+        public void onPreExecute() {
+            dialog = new ProgressDialog(activity);
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.setMessage(activity.getString(R.string.downloading) + "...");
+            dialog.show();
+        }
+
+        @Override
+        protected Uri doInBackground(Void... arg0) {
+            try {
+                return IOUtils.saveGiffy(video);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Uri downloadedTo) {
+            if (downloadedTo != null) {
+                activity.setResult(Activity.RESULT_OK, new Intent().setData(downloadedTo));
+                activity.finish();
+
+                try {
+                    dialog.dismiss();
+                } catch (Exception e) { }
+            } else {
+                Toast.makeText(activity, "Error downloading GIf", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }

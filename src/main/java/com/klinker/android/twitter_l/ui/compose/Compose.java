@@ -818,9 +818,6 @@ public abstract class Compose extends Activity implements
                                     Intent imageReturnedIntent) {
         Log.v("talon_image_attach", "got the result, code: " + requestCode);
         switch(requestCode) {
-            case FIND_GIF:
-                Log.v("talon_gif", "find gif result");
-                break;
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
                     try {
@@ -926,6 +923,7 @@ public abstract class Compose extends Activity implements
                 }
                 countHandler.post(getCount);
                 break;
+            case FIND_GIF:
             case SELECT_GIF:
                 if(resultCode == RESULT_OK){
                     try {
