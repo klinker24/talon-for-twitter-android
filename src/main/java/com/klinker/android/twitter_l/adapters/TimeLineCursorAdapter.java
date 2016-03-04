@@ -1086,7 +1086,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         playingVideoId = holder.tweetId;
                     }
                 }
-            }, 1000);
+            }, 1500);
         }
         currHandler++;
 
