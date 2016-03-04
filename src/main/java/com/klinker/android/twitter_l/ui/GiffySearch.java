@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -196,7 +197,11 @@ public class GiffySearch extends Activity {
                     dialog.dismiss();
                 } catch (Exception e) { }
             } else {
-                Toast.makeText(activity, "Error downloading GIf", Toast.LENGTH_SHORT).show();
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    Toast.makeText(activity, "Error downloading GIF", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "Error downloading GIF. Have you allowed the storage permission?", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
