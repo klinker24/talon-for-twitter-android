@@ -545,10 +545,21 @@ public class TweetLinkUtils {
 
         // this will be used after twitter begins to support them
         for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
-
+            Log.v("media_type", "media type: " + e.getType());
             if (e.getType().equals("animated_gif")) {
                 return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
             } else if (e.getType().equals("surfaceView")) {
+                if (e.getVideoVariants().length > 0) {
+                    String url = "";
+                    for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
+                        if (v.getUrl().contains(".mp4")) {
+                            url = v.getUrl();
+                        }
+                    }
+
+                    return url;
+                }
+            } else if (e.getType().equals("video")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
                     for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
