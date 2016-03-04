@@ -98,10 +98,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int border;
     private boolean secondAcc = false;
 
-    public String currentVideoUrl = null;
-    public long currentVideoId = -1;
-    public SimpleVideoView currentVideo = null;
-
     protected Handler[] mHandlers;
     protected int currHandler;
 
@@ -384,34 +380,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
-    private boolean isPlaying = false;
+    private Video video = null;
     public void playCurrentVideo() {
-        if (!activityPaused && currentVideo != null) {
-            videoHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!activityPaused && currentVideo != null && !isPlaying) {
-                        if (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
-                                (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context))) {
-                            if (currentVideo.getVisibility() != View.VISIBLE) {
-                                currentVideo.setVisibility(View.VISIBLE);
-                            }
-                            currentVideo.start(currentVideoUrl);
-                            isPlaying = true;
-                        }
-                    }
-                }
-            }, 500);
+        if (video != null) {
+            video.playCurrentVideo();
         }
     }
 
     public void stopOnScroll() {
-        if (currentVideo != null && isPlaying) {
-            currentVideo.release();
-            currentVideo.setVisibility(View.GONE);
+        if (video != null) {
+            video.stopOnScroll();
         }
-        resetVideoHandler();
-        isPlaying = false;
     }
 
     public void resetVideoHandler() {
@@ -419,12 +398,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void releaseVideo() {
-        if (currentVideo != null) {
-            currentVideo.setVisibility(View.GONE);
-            currentVideo.release();
-            currentVideoId = -1;
-            currentVideo = null;
-            currentVideoUrl = null;
+        if (video != null) {
+            video.releaseVideo();
+            video = null;
         }
     }
 
@@ -464,7 +440,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
-        if (holder.tweetId == currentVideoId) {
+        if (video != null && holder.tweetId == video.tweetId) {
             // recycling the playing videos layout since it is off the screen
             releaseVideo();
         }
@@ -930,9 +906,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     });
 
                     if (holder.gifUrl.contains(".mp4")) {
-                        currentVideo = holder.videoView;
-                        currentVideoUrl = holder.gifUrl;
-                        currentVideoId = holder.tweetId;
+                        video = new Video(holder.videoView, holder.tweetId, holder.gifUrl);
                     }
 
                     holder.image.setImageDrawable(null);
@@ -1855,5 +1829,57 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
 
         return i;
+    }
+
+    private class Video {
+        public String url;
+        public long tweetId;
+        public SimpleVideoView videoView;
+
+        public Video(SimpleVideoView videoView, long tweetId, String url) {
+            this.videoView = videoView;
+            this.tweetId = tweetId;
+            this.url = url;
+        }
+
+        private boolean isPlaying = false;
+        public void playCurrentVideo() {
+            if (!activityPaused && videoView != null) {
+                videoHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!activityPaused && videoView != null && !Video.this.isPlaying) {
+                            if (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
+                                    (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context))) {
+                                if (videoView.getVisibility() != View.VISIBLE) {
+                                    videoView.setVisibility(View.VISIBLE);
+                                }
+                                videoView.start(url);
+                                Video.this.isPlaying = true;
+                            }
+                        }
+                    }
+                }, 500);
+            }
+        }
+
+        public void stopOnScroll() {
+            if (videoView != null && Video.this.isPlaying) {
+                videoView.release();
+                videoView.setVisibility(View.GONE);
+            }
+            resetVideoHandler();
+            Video.this.isPlaying = false;
+        }
+
+        public void releaseVideo() {
+            if (videoView != null) {
+                videoView.setVisibility(View.GONE);
+                videoView.release();
+                tweetId = -1;
+                videoView = null;
+                url = null;
+            }
+        }
     }
 }
