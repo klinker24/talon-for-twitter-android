@@ -66,9 +66,11 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
@@ -380,16 +382,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
-    private Video video = null;
+    private List<Video> videos = new ArrayList<>();
+
     public void playCurrentVideo() {
-        if (video != null) {
-            video.playCurrentVideo();
+        for (Video v : videos) {
+            v.playCurrentVideo();
         }
     }
 
     public void stopOnScroll() {
-        if (video != null) {
-            video.stopOnScroll();
+        for (Video v : videos) {
+            v.stopOnScroll();
         }
     }
 
@@ -398,10 +401,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void releaseVideo() {
-        if (video != null) {
-            video.releaseVideo();
-            video = null;
+        for (Video v : videos) {
+            v.releaseVideo();
         }
+        videos.clear();
     }
 
     protected int TWEET_COL;
@@ -440,9 +443,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
-        if (video != null && holder.tweetId == video.tweetId) {
-            // recycling the playing videos layout since it is off the screen
-            releaseVideo();
+        for (int i = 0; i < videos.size(); i++) {
+            if (holder.tweetId == videos.get(i).tweetId) {
+                // recycling the playing videos layout since it is off the screen
+                videos.get(i).releaseVideo();
+                videos.remove(i);
+                i--;
+            }
         }
 
         final long id = cursor.getLong(TWEET_COL);
@@ -906,7 +913,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     });
 
                     if (holder.gifUrl.contains(".mp4")) {
-                        video = new Video(holder.videoView, holder.tweetId, holder.gifUrl);
+                        videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl));
                     }
 
                     holder.image.setImageDrawable(null);
