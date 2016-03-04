@@ -58,6 +58,10 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
 
         }
 
+        if (items.size() == 0) {
+            items.add(new SearchItem("No results!"));
+        }
+
         return items;
     }
 
@@ -82,6 +86,10 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
             c.close();
         } catch (Exception e) {
 
+        }
+
+        if (items.size() == 0) {
+            items.add(new SearchItem("No history!"));
         }
 
         return items;
