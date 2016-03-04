@@ -99,7 +99,6 @@ public class GiffySearch extends Activity {
             }
         });
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
