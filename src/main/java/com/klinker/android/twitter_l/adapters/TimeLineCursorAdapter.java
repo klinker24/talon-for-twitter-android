@@ -98,8 +98,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private int border;
     private boolean secondAcc = false;
 
-    public long playingVideoId = -1l;
-    public SimpleVideoView playingVideo = null;
+    public String currentVideoUrl = null;
+    public long currentVideoId = -1;
+    public SimpleVideoView currentVideo = null;
 
     protected Handler[] mHandlers;
     protected int currHandler;
@@ -383,16 +384,47 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
+    private boolean isPlaying = false;
+    public void playCurrentVideo() {
+        if (!activityPaused && currentVideo != null) {
+            videoHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!activityPaused && currentVideo != null && !isPlaying) {
+                        if (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
+                                (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context))) {
+                            if (currentVideo.getVisibility() != View.VISIBLE) {
+                                currentVideo.setVisibility(View.VISIBLE);
+                            }
+                            currentVideo.start(currentVideoUrl);
+                            isPlaying = true;
+                        }
+                    }
+                }
+            }, 500);
+        }
+    }
+
+    public void stopOnScroll() {
+        if (currentVideo != null && isPlaying) {
+            currentVideo.release();
+            currentVideo.setVisibility(View.GONE);
+        }
+        resetVideoHandler();
+        isPlaying = false;
+    }
+
     public void resetVideoHandler() {
         videoHandler.removeCallbacksAndMessages(null);
     }
 
     public void releaseVideo() {
-        if (playingVideo != null) {
-            playingVideo.setVisibility(View.GONE);
-            playingVideo.release();
-            playingVideoId = -1;
-            playingVideo = null;
+        if (currentVideo != null) {
+            currentVideo.setVisibility(View.GONE);
+            currentVideo.release();
+            currentVideoId = -1;
+            currentVideo = null;
+            currentVideoUrl = null;
         }
     }
 
@@ -432,7 +464,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
-        if (holder.tweetId == playingVideoId) {
+        if (holder.tweetId == currentVideoId) {
             // recycling the playing videos layout since it is off the screen
             releaseVideo();
         }
@@ -893,13 +925,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            releaseVideo();
                             VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
                         }
                     });
 
                     if (holder.gifUrl.contains(".mp4")) {
-                        playVideo = true;
+                        currentVideo = holder.videoView;
+                        currentVideoUrl = holder.gifUrl;
+                        currentVideoId = holder.tweetId;
                     }
 
                     holder.image.setImageDrawable(null);
@@ -1086,23 +1119,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             }
         }, 400);
-        if (playVideo && (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
-                (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context)))) {
-            videoHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (holder.tweetId == id && playingVideo == null && !activityPaused) {
-                        if (holder.videoView.getVisibility() != View.VISIBLE) {
-                            holder.videoView.release();
-                            holder.videoView.setVisibility(View.VISIBLE);
-                        }
-                        holder.videoView.start(holder.gifUrl);
-                        playingVideo = holder.videoView;
-                        playingVideoId = holder.tweetId;
-                    }
-                }
-            }, 2000);
-        }
         currHandler++;
 
         if (currHandler == 10) {

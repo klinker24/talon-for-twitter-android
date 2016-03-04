@@ -25,6 +25,10 @@ public class PixelScrollDetector implements AbsListView.OnScrollListener {
             for (TrackElement t : trackElements)
                 t.syncState(view);
         }
+
+        if (listener != null) {
+            listener.onScrollStateChanged(view, scrollState);
+        }
     }
 
     @Override
@@ -47,8 +51,9 @@ public class PixelScrollDetector implements AbsListView.OnScrollListener {
         }
     }
 
-    public static interface PixelScrollListener {
-        public void onScroll(AbsListView view, float deltaY);
+    public interface PixelScrollListener {
+        void onScroll(AbsListView view, float deltaY);
+        void onScrollStateChanged(AbsListView view, int state);
     }
 
     private static class TrackElement {

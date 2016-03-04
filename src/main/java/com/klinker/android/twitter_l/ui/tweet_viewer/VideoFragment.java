@@ -116,7 +116,8 @@ public class VideoFragment extends Fragment {
                             videoView.setStopSystemAudio(false);
                         }
 
-                        videoView.start(videoUrl);
+                        if (videoUrl != null)
+                            videoView.start(videoUrl);
                     }
                 });
 
