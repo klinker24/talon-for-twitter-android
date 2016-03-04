@@ -142,6 +142,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.HIDE_TOAST");
         context.registerReceiver(hideToast, filter);
+
+        if (cursorAdapter != null) {
+            cursorAdapter.activityPaused(false);
+        }
     }
 
     @Override
@@ -150,6 +154,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         context.unregisterReceiver(jumpTopReceiver);
         context.unregisterReceiver(showToast);
         context.unregisterReceiver(hideToast);
+
+        if (cursorAdapter != null) {
+            cursorAdapter.activityPaused(true);
+        }
 
         releaseVideo();
 

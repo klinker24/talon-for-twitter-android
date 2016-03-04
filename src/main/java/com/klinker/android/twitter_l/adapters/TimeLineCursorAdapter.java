@@ -168,6 +168,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return App.getInstance(context).getBitmapCache();
     }
 
+    // This is need for the case that the activity is paused while the handler is counting down
+    // for the video playback still. If that happens, we definitely don't want to start the video.
+    private boolean activityPaused = false;
+    public void activityPaused(boolean paused) {
+        activityPaused = paused;
+    }
+
     public void init() {
         init(true);
     }
@@ -1076,7 +1083,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             mHandlers[currHandler].postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (holder.tweetId == id && playingVideo == null) {
+                    if (holder.tweetId == id && playingVideo == null && !activityPaused) {
                         if (holder.videoView.getVisibility() != View.VISIBLE) {
                             holder.videoView.release();
                             holder.videoView.setVisibility(View.VISIBLE);
@@ -1086,7 +1093,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         playingVideoId = holder.tweetId;
                     }
                 }
-            }, 1500);
+            }, 2000);
         }
         currHandler++;
 
