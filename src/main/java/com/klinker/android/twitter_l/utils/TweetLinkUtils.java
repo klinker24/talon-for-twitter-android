@@ -543,12 +543,7 @@ public class TweetLinkUtils {
 
     public static String getGIFUrl(Status s, String otherUrls) {
 
-        for (MediaEntity e : s.getMediaEntities()) {
-            Log.v("media_type", "media type: " + e.getType());
-        }
-
         for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
-            Log.v("media_type", "extended media type: " + e.getType());
             if (e.getType().equals("animated_gif")) {
                 return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
             } else if (e.getType().equals("surfaceView")) {
@@ -574,12 +569,6 @@ public class TweetLinkUtils {
                     return url;
                 }
             }
-        }
-
-        // this is how the urls are currently stored
-        String gifUrl = "twitter.com/" + s.getUser().getScreenName() + "/status/" + s.getId() + "/photo/1";
-        if (otherUrls.contains(gifUrl)) {
-            return gifUrl;
         }
 
         // otherwise, lets just go with a blank string

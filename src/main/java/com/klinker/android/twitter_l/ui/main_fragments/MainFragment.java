@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -359,7 +360,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
                         }
                     }
                 }, 350);
-
             }
 
             @Override
@@ -424,6 +424,18 @@ public abstract class MainFragment extends Fragment implements Expandable {
         });
 
         listView.setOnScrollListener(new PixelScrollDetector(new PixelScrollDetector.PixelScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(final AbsListView absListView, final int i) {
+                if (cursorAdapter != null) {
+                    if (i == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                        cursorAdapter.playCurrentVideo();
+                    } else {
+                        cursorAdapter.stopOnScroll();
+                    }
+                }
+            }
+
             @Override
             public void onScroll(AbsListView view, float deltaY) {
                 //Log.v("pixel_scrolling", "deltaY: " + deltaY);
