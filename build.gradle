@@ -103,7 +103,7 @@ dependencies {
 
     compile 'com.klinkerapps:simple_videoview:1.0.4@aar'
     compile 'com.klinkerapps:launcher-apis:1.1.0@aar'
-    compile 'com.klinkerapps:searchview:2.2.3@aar'
+    compile 'com.klinkerapps:searchview:2.2.4@aar'
     compile 'com.klinkerapps:sliding-activity:1.1.1'
 
     compile 'com.github.paolorotolo:appintro:3.1.0'
