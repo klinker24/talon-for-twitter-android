@@ -2,6 +2,7 @@
 
     <version name="4.5.0">
         <text>Play Twitter videos and GIFs directly on the timeline</text>
+        <text>Search Giffy for GIFs when composing a tweet</text>
     </version>
 
     <version name="4.1.3">
