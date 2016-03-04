@@ -543,9 +543,12 @@ public class TweetLinkUtils {
 
     public static String getGIFUrl(Status s, String otherUrls) {
 
-        // this will be used after twitter begins to support them
-        for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
+        for (MediaEntity e : s.getMediaEntities()) {
             Log.v("media_type", "media type: " + e.getType());
+        }
+
+        for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
+            Log.v("media_type", "extended media type: " + e.getType());
             if (e.getType().equals("animated_gif")) {
                 return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
             } else if (e.getType().equals("surfaceView")) {

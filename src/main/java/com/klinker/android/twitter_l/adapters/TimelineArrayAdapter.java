@@ -910,7 +910,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Log.v("talon_video", "starting surfaceView");
                             if (fVid != null)
                                 VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
                         }
