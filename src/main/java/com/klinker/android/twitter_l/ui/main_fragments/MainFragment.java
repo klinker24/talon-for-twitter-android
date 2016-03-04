@@ -148,6 +148,12 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
     }
 
+    public void resetVideoHandler() {
+        if (cursorAdapter != null) {
+            cursorAdapter.resetVideoHandler();
+        }
+    }
+
     @Override
     public void onPause() {
 
