@@ -163,8 +163,7 @@
                             android:layout_width="150dp"
                             android:padding="4dp"
                             android:minHeight="150dp" android:minWidth="150dp"
-<<<<<<< HEAD
-                            android:scaleType="fitXY" android:adjustViewBounds="false"
+                            android:scaleType="centerCrop" android:adjustViewBounds="false"
                             android:maxWidth="150dp" android:maxHeight="150dp" />
 
                         <ImageButton
@@ -189,7 +188,7 @@
                                 android:layout_width="150dp"
                                 android:padding="4dp"
                                 android:minHeight="150dp" android:minWidth="150dp"
-                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:scaleType="centerCrop" android:adjustViewBounds="false"
                                 android:maxWidth="150dp" android:maxHeight="150dp"/>
 
                         <ImageButton
@@ -213,7 +212,7 @@
                                 android:layout_width="150dp"
                                 android:padding="4dp"
                                 android:minHeight="150dp" android:minWidth="150dp"
-                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:scaleType="centerCrop" android:adjustViewBounds="false"
                                 android:maxWidth="150dp" android:maxHeight="150dp" />
 
                         <ImageButton
@@ -236,7 +235,7 @@
                                 android:layout_width="150dp"
                                 android:padding="4dp"
                                 android:minHeight="150dp" android:minWidth="150dp"
-                                android:scaleType="fitXY" android:adjustViewBounds="false"
+                                android:scaleType="centerCrop" android:adjustViewBounds="false"
                                 android:maxWidth="150dp" android:maxHeight="150dp"/>
 
                         <ImageButton
@@ -246,41 +245,6 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp" />
                     </FrameLayout>
-=======
-                            android:scaleType="centerCrop" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
-
-                    <ImageView
-                            android:id="@+id/picture2"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="centerCrop" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
-
-                    <ImageView
-                            android:id="@+id/picture3"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="centerCrop" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
-
-                    <ImageView
-                            android:id="@+id/picture4"
-                            android:layout_height="150dp"
-                            android:layout_width="150dp"
-                            android:padding="4dp"
-                            android:minHeight="150dp" android:minWidth="150dp"
-                            android:scaleType="centerCrop" android:adjustViewBounds="false"
-                            android:maxWidth="150dp" android:maxHeight="150dp"
-                            android:visibility="gone"/>
->>>>>>> master
 
                     <View android:layout_width="16dp" android:layout_height="match_parent" />
 
