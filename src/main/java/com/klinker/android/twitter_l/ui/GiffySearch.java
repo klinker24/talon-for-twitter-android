@@ -148,8 +148,8 @@ public class GiffySearch extends Activity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
 
         if (adapter != null) {
             adapter.releaseVideo();
