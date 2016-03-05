@@ -122,7 +122,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                cursorAdapter.playCurrentVideo();
+                playCurrentVideos();
             }
         }, 400);
     }
@@ -173,10 +173,13 @@ public abstract class MainFragment extends Fragment implements Expandable {
     }
 
     public void playCurrentVideos() {
-        try {
-            cursorAdapter.playCurrentVideo();
-        } catch (Exception e) {
 
+        if (MainActivity.mViewPager.getCurrentItem() == thisFragmentNumber) {
+            try {
+                cursorAdapter.playCurrentVideo();
+            } catch (Exception e) {
+
+            }
         }
     }
 
