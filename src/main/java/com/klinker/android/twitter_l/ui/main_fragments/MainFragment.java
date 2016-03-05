@@ -1,9 +1,6 @@
 package com.klinker.android.twitter_l.ui.main_fragments;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
@@ -17,10 +14,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -31,11 +25,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.CursorListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
@@ -43,11 +34,9 @@ import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.PixelScrollDetector;
-import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import twitter4j.Twitter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -147,6 +136,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (cursorAdapter != null) {
             cursorAdapter.activityPaused(false);
         }
+
+        playCurrentVideos();
     }
 
     public void resetVideoHandler() {
@@ -166,14 +157,22 @@ public abstract class MainFragment extends Fragment implements Expandable {
             cursorAdapter.activityPaused(true);
         }
 
-        releaseVideo();
+        stopCurrentVideos();
 
         super.onPause();
     }
 
-    public void releaseVideo() {
+    public void playCurrentVideos() {
         try {
-            cursorAdapter.releaseVideo();
+            cursorAdapter.playCurrentVideo();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void stopCurrentVideos() {
+        try {
+            cursorAdapter.stopOnScroll();
         } catch (Exception e) {
 
         }
@@ -343,9 +342,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
             public void onScrollStateChanged(final AbsListView absListView, final int i) {
                 if (cursorAdapter != null) {
                     if (i == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                        cursorAdapter.playCurrentVideo();
+                        playCurrentVideos();
                     } else {
-                        cursorAdapter.stopOnScroll();
+                        stopCurrentVideos();
                     }
                 }
             }
@@ -673,7 +672,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     public boolean allowBackPress() {
 
         if (cursorAdapter != null) {
-            cursorAdapter.releaseVideo();
+            cursorAdapter.stopOnScroll();
         }
 
         if (expansionHelper != null) {

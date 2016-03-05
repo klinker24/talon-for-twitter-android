@@ -26,16 +26,12 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.SecondMentionsRefreshService;
-import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -144,7 +140,7 @@ public class MentionsFragment extends MainFragment {
 
                 }
 
-                releaseVideo();
+                stopCurrentVideos();
                 cursorAdapter = setAdapter(cursor);
                 attachCursor();
 
@@ -271,7 +267,7 @@ public class MentionsFragment extends MainFragment {
                             c = cursorAdapter.getCursor();
                         }
 
-                        releaseVideo();
+                        stopCurrentVideos();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, MentionsFragment.this);
                             cursorAdapter.setQuotedTweets(MentionsFragment.this.cursorAdapter.getQuotedTweets());
