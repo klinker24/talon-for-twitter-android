@@ -317,7 +317,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                         }
 
                         try {
-                            listView.setAdapter(cursorAdapter);
+                            applyAdapter();
                         } catch (Exception e) {
                             // happens when coming from the launcher sometimes because database has been closed
                             HomeDataSource.dataSource = null;
@@ -1198,7 +1198,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                         }
 
                         if (update) {
-                            listView.setAdapter(cursorAdapter);
+                            applyAdapter();
 
                             if (viewPressed) {
                                 int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);

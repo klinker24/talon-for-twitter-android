@@ -315,7 +315,7 @@ public class MentionsFragment extends MainFragment {
 
     public void attachCursor() {
         try {
-            listView.setAdapter(cursorAdapter);
+            applyAdapter();
         } catch (Exception e) {
 
         }

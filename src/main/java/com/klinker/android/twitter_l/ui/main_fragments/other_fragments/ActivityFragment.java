@@ -124,7 +124,7 @@ public class ActivityFragment extends MainFragment {
                 cursorAdapter = setAdapter(cursor);
 
                 try {
-                    listView.setAdapter(cursorAdapter);
+                    applyAdapter();
                 } catch (Exception e) {
 
                 }

@@ -242,7 +242,7 @@ public class FavoriteTweetsFragment extends MainFragment {
                             cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, FavoriteTweetsFragment.this);
                         }
 
-                        listView.setAdapter(cursorAdapter);
+                        applyAdapter();
 
                         try {
                             spinner.setVisibility(View.GONE);
