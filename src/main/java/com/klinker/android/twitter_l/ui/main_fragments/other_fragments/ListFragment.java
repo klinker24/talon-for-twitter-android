@@ -30,17 +30,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.ListRefreshService;
-import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -51,8 +46,6 @@ import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class ListFragment extends MainFragment {
 
@@ -301,7 +294,7 @@ public class ListFragment extends MainFragment {
                             return;
                         }
 
-                        releaseVideo();
+                        stopCurrentVideos();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                             cursorAdapter.setQuotedTweets(ListFragment.this.cursorAdapter.getQuotedTweets());

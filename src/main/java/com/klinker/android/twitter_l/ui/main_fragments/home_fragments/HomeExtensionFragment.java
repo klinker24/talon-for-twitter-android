@@ -23,13 +23,9 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 
-import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 
 public abstract class HomeExtensionFragment extends MainFragment {
@@ -111,7 +107,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
 
                         }
 
-                        releaseVideo();
+                        stopCurrentVideos();
                         if (cursorAdapter != null) {
                             TimeLineCursorAdapter cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, HomeExtensionFragment.this);
                             cursorAdapter.setQuotedTweets(HomeExtensionFragment.this.cursorAdapter.getQuotedTweets());

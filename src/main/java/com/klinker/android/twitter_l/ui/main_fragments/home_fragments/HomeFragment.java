@@ -29,10 +29,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.CursorAdapter;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -58,9 +54,7 @@ import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class HomeFragment extends MainFragment { // implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -278,7 +272,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                             c = cursorAdapter.getCursor();
                         }
 
-                        releaseVideo();
+                        stopCurrentVideos();
                         cursorAdapter = returnAdapter(cursor);
 
                         try {
