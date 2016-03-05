@@ -303,7 +303,7 @@ public class ListFragment extends MainFragment {
                             cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, ListFragment.this);
                         }
 
-                        listView.setAdapter(cursorAdapter);
+                        applyAdapter();
 
                         int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
 

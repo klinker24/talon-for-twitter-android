@@ -117,6 +117,16 @@ public abstract class MainFragment extends Fragment implements Expandable {
         settings = AppSettings.getInstance(context);
     }
 
+    public void applyAdapter() {
+        listView.setAdapter(cursorAdapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                cursorAdapter.playCurrentVideo();
+            }
+        }, 400);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
