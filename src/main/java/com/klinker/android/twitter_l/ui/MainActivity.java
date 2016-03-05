@@ -220,6 +220,8 @@ public class MainActivity extends DrawerActivity {
             }
 
             public void onPageSelected(int position) {
+                MainFragment f = (MainFragment) mSectionsPagerAdapter.getRealFrag(position);
+                f.playCurrentVideos();
 
                 String title = "" + mSectionsPagerAdapter.getPageTitle(position);
 
