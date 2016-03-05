@@ -274,7 +274,9 @@ public class TweetActivity extends SlidingActivity {
     public void finish() {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        // this is used in the onStart() for the home fragment to tell whether or not it should refresh
+        // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
+        //sharedPrefs.edit().putBoolean("from_activity", true).commit();
 
         if (expansionHelper != null) {
             expansionHelper.stop();
