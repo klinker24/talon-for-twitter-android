@@ -487,6 +487,7 @@ public class MainActivity extends DrawerActivity {
             sharedPrefs.edit().putBoolean("dont_refresh", false)
                               .putBoolean("should_refresh", true).commit();
 
+            MainActivity.caughtstarting = false;
         }
 
         if(DrawerActivity.settings.pushNotifications) {

@@ -69,6 +69,15 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class VideoViewerActivity extends AppCompatActivity {
 
+    @Override
+    public void finish() {
+        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+
+        super.finish();
+    }
+
     // link string can either be a single link to a gif surfaceView, or it can be all of the links in the tweet
     // and it will find the youtube one.
     public static void startActivity(Context context, long tweetId, String gifVideo, String linkString) {

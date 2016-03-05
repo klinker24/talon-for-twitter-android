@@ -1043,12 +1043,7 @@ public class HomeFragment extends MainFragment { // implements LoaderManager.Loa
                     if (!sharedPrefs.getBoolean("from_activity", false)) {
                         refreshOnStart();
                     } else {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                sharedPrefs.edit().putBoolean("from_activity", false).commit();
-                            }
-                        }, 3000);
+                        sharedPrefs.edit().putBoolean("from_activity", false).commit();
                     }
                 }
             }, 600);
