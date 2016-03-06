@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GiffyHelper {
+public class GiphyHelper {
 
     private static final String[] SIZE_OPTIONS = new String[] {
             "original", "downsized_medium", "fixed_height", "fixed_width", "fixed_height_small",
@@ -46,7 +46,7 @@ public class GiffyHelper {
 
         @Override
         protected String buildSearchUrl(String query) throws UnsupportedEncodingException {
-            return "http://api.giphy.com/v1/gifs/trending?api_key=" + APIKeys.GIFFY_API_KEY;
+            return "http://api.giphy.com/v1/gifs/trending?api_key=" + APIKeys.GIPHY_API_KEY;
         }
     }
     private static class SearchGiffy extends AsyncTask<Void, Void, List<Gif>> {
@@ -119,7 +119,7 @@ public class GiffyHelper {
             return "http://api.giphy.com/v1/gifs/search?" +
                     "q=" + URLEncoder.encode(query, "UTF-8") + "&" +
                     "limit=60&" +
-                    "api_key=" + APIKeys.GIFFY_API_KEY;
+                    "api_key=" + APIKeys.GIPHY_API_KEY;
         }
 
         private String getResponseText(InputStream inStream) {

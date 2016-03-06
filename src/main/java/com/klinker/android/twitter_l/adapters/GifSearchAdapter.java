@@ -13,7 +13,7 @@ import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.utils.ImageUtils;
-import com.klinker.android.twitter_l.utils.api_helper.GiffyHelper;
+import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 
 import java.util.List;
 
@@ -22,16 +22,16 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 public class GifSearchAdapter extends SectionedRecyclerViewAdapter<GifSearchAdapter.ViewHolder> {
 
     public interface Callback {
-        void onClick(GiffyHelper.Gif item);
+        void onClick(GiphyHelper.Gif item);
     }
 
-    protected List<GiffyHelper.Gif> gifs;
+    protected List<GiphyHelper.Gif> gifs;
     protected Callback callback;
     protected SimpleVideoView currentlyPlaying;
 
     private BitmapLruCache cache;
 
-    public GifSearchAdapter(List<GiffyHelper.Gif> gifs, Callback callback) {
+    public GifSearchAdapter(List<GiphyHelper.Gif> gifs, Callback callback) {
         this.gifs = gifs;
         this.callback = callback;
     }

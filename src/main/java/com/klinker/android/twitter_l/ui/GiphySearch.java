@@ -22,25 +22,14 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.api_helper.GiffyHelper;
+import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 import com.klinker.android.twitter_l.adapters.GifSearchAdapter;
 import com.lapism.arrow.ArrowDrawable;
 import com.lapism.searchview.view.SearchView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class GiffySearch extends Activity {
+public class GiphySearch extends Activity {
 
     private SearchView toolbar;
     private ImageView backArrow;
@@ -114,9 +103,9 @@ public class GiffySearch extends Activity {
 
     private void loadTrending() {
         progressSpinner.setVisibility(View.VISIBLE);
-        GiffyHelper.trends(new GiffyHelper.Callback() {
+        GiphyHelper.trends(new GiphyHelper.Callback() {
             @Override
-            public void onResponse(List<GiffyHelper.Gif> gifs) {
+            public void onResponse(List<GiphyHelper.Gif> gifs) {
                 setAdapter(gifs);
             }
         });
@@ -125,15 +114,15 @@ public class GiffySearch extends Activity {
     private void executeQuery(String query) {
         progressSpinner.setVisibility(View.VISIBLE);
 
-        GiffyHelper.search(query, new GiffyHelper.Callback() {
+        GiphyHelper.search(query, new GiphyHelper.Callback() {
             @Override
-            public void onResponse(List<GiffyHelper.Gif> gifs) {
+            public void onResponse(List<GiphyHelper.Gif> gifs) {
                 setAdapter(gifs);
 
                 // inform the user that there is a 3mb limit and talon is displaying those
-                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GiffySearch.this);
+                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GiphySearch.this);
                 if (!sharedPrefs.getBoolean("seen_giffy_disclaimer", false)) {
-                    new AlertDialog.Builder(GiffySearch.this)
+                    new AlertDialog.Builder(GiphySearch.this)
                             .setTitle(R.string.three_mb_limit)
                             .setMessage(R.string.three_mb_message)
                             .setCancelable(false)
@@ -154,7 +143,7 @@ public class GiffySearch extends Activity {
         });
     }
 
-    private void setAdapter(List<GiffyHelper.Gif> gifs) {
+    private void setAdapter(List<GiphyHelper.Gif> gifs) {
         progressSpinner.setVisibility(View.GONE);
 
         if (adapter != null) {
@@ -163,12 +152,12 @@ public class GiffySearch extends Activity {
 
         adapter = new GifSearchAdapter(gifs, new GifSearchAdapter.Callback() {
             @Override
-            public void onClick(final GiffyHelper.Gif item) {
-                new DownloadVideo(GiffySearch.this, item.gifUrl).execute();
+            public void onClick(final GiphyHelper.Gif item) {
+                new DownloadVideo(GiphySearch.this, item.gifUrl).execute();
             }
         });
 
-        recycler.setLayoutManager(new LinearLayoutManager(GiffySearch.this));
+        recycler.setLayoutManager(new LinearLayoutManager(GiphySearch.this));
         recycler.setAdapter(adapter);
     }
 
