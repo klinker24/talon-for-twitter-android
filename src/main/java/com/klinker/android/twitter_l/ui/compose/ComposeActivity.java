@@ -40,7 +40,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.ui.GiffySearch;
+import com.klinker.android.twitter_l.ui.GiphySearch;
 import com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -579,7 +579,7 @@ public class ComposeActivity extends Compose {
     }
 
     public void findGif() {
-        Intent gif = new Intent(context, GiffySearch.class);
+        Intent gif = new Intent(context, GiphySearch.class);
         startActivityForResult(gif, FIND_GIF);
     }
 
