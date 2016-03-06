@@ -67,6 +67,7 @@ public class TimelineRefreshService extends IntentService {
             if (intent.getBooleanExtra("on_start_refresh", false)) {
 
             } else if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
+                TimelineRefreshService.isRunning = false;
                 return;
             }
 
