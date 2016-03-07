@@ -53,7 +53,6 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -167,11 +166,6 @@ public class ExpansionViewHelper {
 
     boolean windowedPopups;
 
-    private SlidrInterface slidr;
-    public void setSlidr(SlidrInterface slidr) {
-        this.slidr = slidr;
-    }
-
     private void setViews(boolean windowedPopups) {
         favCount = (TextView) expansion.findViewById(R.id.fav_count);
         favText = (TextView) expansion.findViewById(R.id.favorite_text);
@@ -284,7 +278,7 @@ public class ExpansionViewHelper {
                 if (retweetersPopup != null) {
                     retweetersPopup.setOnTopOfView(viewRetweeters);
                     retweetersPopup.setExpansionPointForAnim(viewRetweeters);
-                    retweetersPopup.show(slidr);
+                    retweetersPopup.show();
                 }
             }
         });
@@ -295,7 +289,7 @@ public class ExpansionViewHelper {
                 if (favoritersPopup != null) {
                     favoritersPopup.setOnTopOfView(viewFavoriters);
                     favoritersPopup.setExpansionPointForAnim(viewFavoriters);
-                    favoritersPopup.show(slidr);
+                    favoritersPopup.show();
                 }
             }
         });
@@ -430,7 +424,7 @@ public class ExpansionViewHelper {
                     getDiscussion();
 
                     convoPopup.setExpansionPointForAnim(view);
-                    convoPopup.show(slidr);
+                    convoPopup.show();
                 } else {
                     Toast.makeText(context, "Loading Tweet...", Toast.LENGTH_SHORT).show();
                 }
@@ -491,7 +485,7 @@ public class ExpansionViewHelper {
                         }
                     }
                     mobilizedPopup.setExpansionPointForAnim(webButton);
-                    mobilizedPopup.show(slidr);
+                    mobilizedPopup.show();
                 } else {
                     final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
                     final WebView web = (WebView) webLayout.findViewById(R.id.webview);
@@ -531,7 +525,7 @@ public class ExpansionViewHelper {
                         }
                     }
                     webPopup.setExpansionPointForAnim(webButton);
-                    webPopup.show(slidr);
+                    webPopup.show();
                 }
             }
         });
@@ -878,7 +872,7 @@ public class ExpansionViewHelper {
                                     webPopup.setCenterInScreen();
                                 }
                             }
-                            webPopup.show(slidr);
+                            webPopup.show();
                             break;
                         case MARK_SPAM:
                             new MarkSpam().execute();

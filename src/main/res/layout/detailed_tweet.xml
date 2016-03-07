@@ -90,8 +90,8 @@
                 android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"
-                app:border_width="0dp"
-                app:border_color="#FF000000"/>
+                app:civ_border_width="0dp"
+                app:civ_border_color="#FF000000"/>
 
             <LinearLayout
                 android:orientation="vertical"

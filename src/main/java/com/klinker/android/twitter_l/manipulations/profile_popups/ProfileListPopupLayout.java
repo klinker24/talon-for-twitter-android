@@ -13,7 +13,6 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -23,9 +22,6 @@ import uk.co.senab.bitmapcache.BitmapLruCache;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by lucasklinker on 9/20/14.
- */
 public abstract class ProfileListPopupLayout extends PopupLayout {
 
     protected AsyncListView list;
@@ -215,8 +211,8 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
     }
 
     @Override
-    public void show(SlidrInterface slidr) {
-        super.show(slidr);
+    public void show() {
+        super.show();
 
         new Handler().postDelayed(new Runnable() {
             @Override

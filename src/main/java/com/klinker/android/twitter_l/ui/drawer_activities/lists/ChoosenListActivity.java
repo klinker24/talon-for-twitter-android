@@ -36,7 +36,6 @@ import android.widget.LinearLayout;
 
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
