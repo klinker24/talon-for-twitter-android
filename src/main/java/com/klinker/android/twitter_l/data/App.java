@@ -17,6 +17,7 @@ package com.klinker.android.twitter_l.data;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
@@ -37,12 +38,12 @@ public class App extends Application {
         File cacheDir = new File(getCacheDir(), "talon");
         cacheDir.mkdirs();
 
-        File proCacheDir = new File(getCacheDir(), "talon-profile");
+        File proCacheDir = new File(Environment.getExternalStorageDirectory(), "Android/data/com.klinker.twitter/talon-profile");
         proCacheDir.mkdirs();
 
-        BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
+        BitmapLruCache.Builder builder = new BitmapLruCache.Builder(this);
         builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize(.25f);
-        builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir).setDiskCacheMaxSize(100 * MEGA_BYTE);
+        builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir).setDiskCacheMaxSize(500 * MEGA_BYTE);
 
         mCache = builder.build();
 
