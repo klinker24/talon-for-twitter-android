@@ -37,6 +37,7 @@
     <attr name="drawer_subtext" format="color" />
     <attr name="drawer_options_background" format="color" />
     <attr name="tweet_background" format="color" />
+    <attr name="border_color" format="color"/>
 
     <!-- Drawables -->
     <attr name="rippleBackground" format="reference"/>

@@ -24,13 +24,10 @@ import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.WebPopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.TalonSlidr;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 public abstract class PopupLayout extends CardView {
 
@@ -396,16 +393,12 @@ public abstract class PopupLayout extends CardView {
         return isShowing;
     }
 
-    public void show() {
-        show(null);
-    }
-
     /**
      * Animates the ActionButton onto the screen so that the user may interact.
      * Animation occurs from the bottom of the screen, moving up until it reaches the
      * appropriate distance from the bottom.
      */
-    public void show(SlidrInterface slidr) {
+    public void show() {
 
         if (isShowing) {
             return;
@@ -414,11 +407,6 @@ public abstract class PopupLayout extends CardView {
 
         if (dontShow) {
             return;
-        }
-
-        if (slidr != null) {
-            this.slidr = slidr;
-            slidr.lock();
         }
 
         final Activity activity = (Activity) getContext();
@@ -571,7 +559,6 @@ public abstract class PopupLayout extends CardView {
 
     }
 
-    private SlidrInterface slidr;
     /**
      * Animates the ActionButton off of the screen. Animation will go from its current position and
      * down until it is no longer being shown to the user.
@@ -581,10 +568,6 @@ public abstract class PopupLayout extends CardView {
 
         if (!isShowing) {
             return;
-        }
-
-        if (slidr != null) {
-            slidr.unlock();
         }
 
         isShowing = false;

@@ -16,7 +16,6 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.r0adkll.slidr.model.SlidrInterface;
 
 import org.lucasr.smoothie.AsyncListView;
 import org.lucasr.smoothie.ItemManager;
@@ -226,8 +225,8 @@ public abstract class ProfileUsersPopup extends PopupLayout {
     }
 
     @Override
-    public void show(SlidrInterface slidr) {
-        super.show(slidr);
+    public void show() {
+        super.show();
 
         new Handler().postDelayed(new Runnable() {
             @Override

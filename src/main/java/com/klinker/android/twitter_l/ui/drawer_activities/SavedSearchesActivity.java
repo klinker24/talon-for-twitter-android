@@ -29,7 +29,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.jakewharton.disklrucache.Util;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SavedSearchArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
