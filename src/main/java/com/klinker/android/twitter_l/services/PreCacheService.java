@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -85,8 +86,8 @@ public class PreCacheService extends IntentService {
                 String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
                 // image url can contain spaces, which means there are multiple pictures
 
-                Glide.with(this).load(profilePic).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-                Glide.with(this).load(imageUrl).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+                Glide.with(this).load(profilePic).downloadOnly(500, 500);
+                Glide.with(this).load(imageUrl).downloadOnly(500, 500);
 
             } while (cursor.moveToNext() && cont);
 

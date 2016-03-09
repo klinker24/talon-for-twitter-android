@@ -36,6 +36,7 @@ import android.view.animation.*;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
@@ -983,10 +984,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (picture) {
-            Glide.with(context).load(holder.picUrl).into(holder.image);
+            //if (settings.preCacheImages){
+                //Glide.with(context).load(holder.picUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.image);
+            //} else {
+                Glide.with(context).load(holder.picUrl).into(holder.image);
+            //}
         }
 
-        Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
+        //if (settings.preCacheImages) {
+            //Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.profilePic);
+        //} else {
+            Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
+        //}
 
         mHandlers[currHandler].removeCallbacksAndMessages(null);
         mHandlers[currHandler].postDelayed(new Runnable() {

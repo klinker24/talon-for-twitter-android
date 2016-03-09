@@ -90,6 +90,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
     private BottomSheetLayout bottomSheet;
 
+    private boolean didTransition = false;
 
     @Override
     public void finish() {
@@ -220,8 +221,10 @@ public class PhotoViewerActivity extends AppCompatActivity {
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 // without this, glide didn't work very well, the transition was super jumpy
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !didTransition) {
                     supportStartPostponedEnterTransition();
+                    didTransition = true;
+                }
 
                 LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
@@ -241,7 +244,18 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                 return false;
             }
-        }).into(picture);
+        }).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(picture);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // without this, glide didn't work very well, the transition was super jumpy
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !didTransition) {
+                    supportStartPostponedEnterTransition();
+                    didTransition = true;
+                }
+            }
+        }, 500);
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
