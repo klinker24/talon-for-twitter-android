@@ -36,6 +36,7 @@ import android.view.animation.*;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
