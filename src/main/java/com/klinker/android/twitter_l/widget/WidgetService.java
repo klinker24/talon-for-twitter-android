@@ -239,7 +239,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     with(mContext).
                     load(url).
                     asBitmap().
-                    into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).
+                    into(200, 200).
                     get());
         } catch (Exception e) {
             return null;
