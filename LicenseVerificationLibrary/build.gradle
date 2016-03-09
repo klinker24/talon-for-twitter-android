@@ -7,21 +7,12 @@ apply plugin: 'com.android.library'
 
 android {
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     compileSdkVersion 'android-N'
     buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion 'N'
         targetSdkVersion 'N'
-
-        jackOptions {
-            enabled Boolean.parseBoolean(project.USE_JACK)
-        }
     }
 
     useLibrary 'org.apache.http.legacy'

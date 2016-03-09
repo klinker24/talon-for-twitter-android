@@ -62,7 +62,7 @@ public class UpdateUtils {
 
     public static void checkUpdate(final Context context) {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                Context.MODE_PRIVATE);
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
         long currentTime = Calendar.getInstance().getTimeInMillis();
