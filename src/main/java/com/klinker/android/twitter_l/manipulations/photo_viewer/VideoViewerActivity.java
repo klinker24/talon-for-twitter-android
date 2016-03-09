@@ -280,10 +280,12 @@ public class VideoViewerActivity extends AppCompatActivity {
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(6, mBuilder.build());
 
-                    Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
                     Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri, "surfaceView/*");
+                    if (videoFragment != null) {
+                        Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(uri, "surfaceView/*");
+                    }
 
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
