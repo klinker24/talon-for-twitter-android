@@ -55,7 +55,7 @@
             android:layout_marginLeft="7dp"
             android:layout_marginTop="10dp" >
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:layout_width="@dimen/pro_pic_size"
                 android:layout_height="@dimen/pro_pic_size"
                 android:id="@+id/profile_pic_2"

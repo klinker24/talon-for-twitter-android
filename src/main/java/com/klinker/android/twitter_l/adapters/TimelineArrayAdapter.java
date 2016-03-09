@@ -968,7 +968,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        Glide.with(context).load(holder.picUrl).into(holder.image);
+        Glide.with(context).load(profilePic).into(holder.profilePic);
+        
+        if (picture)
+            Glide.with(context).load(holder.picUrl).into(holder.image);
 
         mHandler[currHandler].removeCallbacksAndMessages(null);
         mHandler[currHandler].postDelayed(new Runnable() {

@@ -24,12 +24,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
