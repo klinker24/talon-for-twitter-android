@@ -18,9 +18,11 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -494,15 +496,17 @@ public class TweetActivity extends SlidingActivity {
     }
 
     private void setTransitionNames() {
-        profilePic.setTransitionName("pro_pic");
-        nametv.setTransitionName("name");
-        screennametv.setTransitionName("screen_name");
-        tweettv.setTransitionName("tweet");
-        image.setTransitionName("image");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            profilePic.setTransitionName("pro_pic");
+            nametv.setTransitionName("name");
+            screennametv.setTransitionName("screen_name");
+            tweettv.setTransitionName("tweet");
+            image.setTransitionName("image");
+        }
     }
 
     public CircleImageView profilePic;
-    public NetworkedCacheableImageView image;
+    public ImageView image;
     public HoloTextView retweetertv;
     public HoloTextView timetv;
     public HoloTextView nametv;
@@ -518,7 +522,7 @@ public class TweetActivity extends SlidingActivity {
         tweettv = (HoloTextView) layout.findViewById(R.id.tweet);
         retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
         profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
-        image = (NetworkedCacheableImageView) layout.findViewById(R.id.image);
+        image = (ImageView) layout.findViewById(R.id.image);
         timetv = (HoloTextView) layout.findViewById(R.id.time);
 
         tweettv.setTextSize(settings.textSize);
@@ -549,7 +553,7 @@ public class TweetActivity extends SlidingActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ImageUtils.loadImage(context, profilePic, proPic, App.getInstance(context).getBitmapCache());
+                Glide.with(TweetActivity.this).load(proPic).into(profilePic);
             }
         }, NETWORK_ACTION_DELAY);
         profilePic.setOnClickListener(viewPro);
@@ -566,7 +570,7 @@ public class TweetActivity extends SlidingActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        image.loadImage(webpage, false, null);
+                        Glide.with(TweetActivity.this).load(webpage).into(image);
                     }
                 }, NETWORK_ACTION_DELAY);
             }

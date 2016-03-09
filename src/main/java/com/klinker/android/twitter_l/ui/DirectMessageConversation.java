@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.ui;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -24,12 +23,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
@@ -40,14 +36,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,21 +47,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.CursorListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -84,7 +69,6 @@ import java.util.regex.Pattern;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
 public class DirectMessageConversation extends AppCompatActivity {
@@ -95,7 +79,7 @@ public class DirectMessageConversation extends AppCompatActivity {
 
     private android.support.v7.app.ActionBar actionBar;
 
-    private AsyncListView listView;
+    private ListView listView;
     private HoloEditText composeBar;
     private ImageButton sendButton;
     private HoloTextView charRemaining;
@@ -174,21 +158,12 @@ public class DirectMessageConversation extends AppCompatActivity {
 
         attachImage = (ImageView) findViewById(R.id.attached_image);
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         sendButton = (ImageButton) findViewById(R.id.send_button);
         composeBar = (HoloEditText) findViewById(R.id.tweet_content);
         charRemaining = (HoloTextView) findViewById(R.id.char_remaining);
 
         charRemaining.setVisibility(View.GONE);
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        CursorListLoader loader = new CursorListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
 
         listName = getIntent().getStringExtra("screenname");
 

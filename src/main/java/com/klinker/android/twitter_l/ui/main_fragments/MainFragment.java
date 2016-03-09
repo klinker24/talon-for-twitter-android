@@ -36,24 +36,19 @@ import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.PixelScrollDetector;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public abstract class MainFragment extends Fragment implements Expandable {
 
     protected Twitter twitter;
 
-    protected AsyncListView listView;
+    protected ListView listView;
     protected TimeLineCursorAdapter cursorAdapter;
     protected View toastBar;
     protected TextView toastDescription;
     protected TextView toastButton;
     protected MaterialSwipeRefreshLayout refreshLayout;
     protected LinearLayout spinner;
-
-    public static BitmapLruCache mCache;
 
     protected SharedPreferences sharedPrefs;
     protected Activity context;
@@ -233,7 +228,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         setAppSettings();
         setHome();
-        getCache();
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
@@ -283,10 +277,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
         return false;
     }
 
-    public void getCache() {
-        mCache = App.getInstance(context).getBitmapCache();
-    }
-
     public void getStrings() {
         fromTop = getResources().getString(R.string.tweets);
         jumpToTop = getResources().getString(R.string.to_top);
@@ -303,7 +293,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         rootLayout = layout;
 
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView = (ListView) layout.findViewById(R.id.listView);
         setSpinner(layout);
 
         refreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);

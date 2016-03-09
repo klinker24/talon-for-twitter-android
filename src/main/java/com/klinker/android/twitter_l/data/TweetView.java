@@ -18,15 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.GifBadge;
-import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
@@ -40,7 +40,6 @@ import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
 import twitter4j.Status;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,10 +86,10 @@ public class TweetView {
     ImageView profilePicIv;
     TextView timeTv;
     TextView tweetTv;
-    NetworkedCacheableImageView imageIv;
+    ImageView imageIv;
     TextView retweeterTv;
     LinearLayout backgroundLayout;
-    NetworkedCacheableImageView playButton;
+    ImageView playButton;
     TextView screenTV;
     FrameLayout imageHolder;
     ImageView isAConvo;
@@ -222,19 +221,19 @@ public class TweetView {
         tweetTv = (TextView) v.findViewById(R.id.tweet);
         retweeterTv = (TextView) v.findViewById(R.id.retweeter);
         backgroundLayout = (LinearLayout) v.findViewById(R.id.background);
-        playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+        playButton = (ImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
         embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         quickActions = v.findViewById(R.id.quick_actions);
 
         if (!settings.bottomPictures) {
-            imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image);
-            playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            imageIv = (ImageView) v.findViewById(R.id.image);
+            playButton = (ImageView) v.findViewById(R.id.play_button);
             imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         } else {
-            imageIv = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
-            playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
+            imageIv = (ImageView) v.findViewById(R.id.image_bellow);
+            playButton = (ImageView) v.findViewById(R.id.play_button_bellow);
             imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
         }
 
@@ -465,12 +464,11 @@ public class TweetView {
             }
         }
 
-        BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
         if (picture) {
-            ImageUtils.loadImage(context, imageIv, imageUrl, mCache);
+            Glide.with(context).load(imageUrl).into(imageIv);
         }
 
-        ImageUtils.loadImage(context, profilePicIv, profilePicUrl, mCache);
+        Glide.with(context).load(profilePicUrl).into(profilePicIv);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
@@ -578,11 +576,5 @@ public class TweetView {
 
     protected boolean shouldShowImage() {
         return true;
-    }
-
-    public void setBackgroundRes(int res) {
-        if (root != null) {
-            root.setBackgroundResource(res);
-        }
     }
 }

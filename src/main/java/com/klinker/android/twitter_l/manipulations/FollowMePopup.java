@@ -5,13 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -29,26 +28,29 @@ public class FollowMePopup extends PopupLayout {
     }
 
     View root;
-    NetworkedCacheableImageView talonIv;
-    NetworkedCacheableImageView lukeIv;
-    NetworkedCacheableImageView googleIv;
+    ImageView talonIv;
+    ImageView lukeIv;
+    ImageView googleIv;
 
     @Override
     public View setMainLayout() {
         root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.follow_me_popup, null, false);
 
         LinearLayout talon = (LinearLayout) root.findViewById(R.id.talon_area);
-        talonIv = (NetworkedCacheableImageView) root.findViewById(R.id.talon_picture);
+        talonIv = (ImageView) root.findViewById(R.id.talon_picture);
 
         LinearLayout luke = (LinearLayout) root.findViewById(R.id.luke_area);
-        lukeIv = (NetworkedCacheableImageView) root.findViewById(R.id.luke_picture);
+        lukeIv = (ImageView) root.findViewById(R.id.luke_picture);
 
         LinearLayout google = (LinearLayout) root.findViewById(R.id.google_plus_area);
-        googleIv = (NetworkedCacheableImageView) root.findViewById(R.id.google_picture);
+        googleIv = (ImageView) root.findViewById(R.id.google_picture);
 
-        talonIv.loadImage("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", true, null);
-        lukeIv.loadImage("https://pbs.twimg.com/profile_images/553283282431770624/Xv_h0aeM.jpeg", true, null);
-        googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
+        Glide.with(getContext())
+                .load("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png").into(talonIv);
+        Glide.with(getContext())
+                .load("https://pbs.twimg.com/profile_images/553283282431770624/Xv_h0aeM.jpeg").into(lukeIv);
+        Glide.with(getContext())
+                .load("https://developers.google.com/+/images/branding/g+128.png").into(googleIv);
 
         talon.setOnClickListener(new OnClickListener() {
             @Override
@@ -103,8 +105,11 @@ public class FollowMePopup extends PopupLayout {
     public void show() {
         super.show();
 
-        talonIv.loadImage("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png", true, null);
-        lukeIv.loadImage("https://pbs.twimg.com/profile_images/497466110892331009/_iR38HDB.jpeg", true, null);
-        googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
+        Glide.with(getContext())
+                .load("https://pbs.twimg.com/profile_images/496279971094986753/9NVnIz-m.png").into(talonIv);
+        Glide.with(getContext())
+                .load("https://pbs.twimg.com/profile_images/553283282431770624/Xv_h0aeM.jpeg").into(lukeIv);
+        Glide.with(getContext())
+                .load("https://developers.google.com/+/images/branding/g+128.png").into(googleIv);
     }
 }

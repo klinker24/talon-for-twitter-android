@@ -34,8 +34,6 @@ import com.klinker.android.twitter_l.adapters.SavedSearchArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,7 +46,7 @@ import twitter4j.UserList;
 
 public class SavedSearchesActivity extends DrawerActivity {
 
-    public static AsyncListView listView;
+    public static ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,7 @@ public class SavedSearchesActivity extends DrawerActivity {
 
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (getResources().getBoolean(R.bool.has_drawer)) {

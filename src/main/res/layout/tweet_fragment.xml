@@ -95,7 +95,7 @@
 
                     </LinearLayout>
 
-                    <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+                    <ImageView
                         android:id="@+id/imageView"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"

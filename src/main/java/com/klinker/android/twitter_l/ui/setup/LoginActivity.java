@@ -18,8 +18,6 @@ package com.klinker.android.twitter_l.ui.setup;
 import android.app.*;
 import android.content.*;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,14 +35,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.manipulations.FollowMePopup;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
@@ -54,7 +51,6 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -62,7 +58,6 @@ import com.klinker.android.twitter_l.utils.text.TextUtils;
 import java.util.Date;
 import java.util.List;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import twitter4j.DirectMessage;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
@@ -88,14 +83,14 @@ public class LoginActivity extends LVLActivity {
     private TextSwitcher title;
     private TextSwitcher summary;
     private TextSwitcher progDescription;
-    private SmoothProgressBar progressBar;
+    private ProgressBar progressBar;
     private WebView mWebView;
     private LinearLayout main;
     private LinearLayout followMeLayout;
     private LinearLayout googlePlus;
     private LinearLayout followTwitter;
-    private NetworkedCacheableImageView googleIv;
-    private NetworkedCacheableImageView twitterIv;
+    private ImageView googleIv;
+    private ImageView twitterIv;
     private View followProgressText;
 
     private AppSettings settings;
@@ -137,16 +132,15 @@ public class LoginActivity extends LVLActivity {
         title = (TextSwitcher) findViewById(R.id.welcome);
         summary = (TextSwitcher) findViewById(R.id.info);
         progDescription = (TextSwitcher) findViewById(R.id.progress_desc);
-        progressBar = (SmoothProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         main = (LinearLayout) findViewById(R.id.mainLayout);
         followMeLayout = (LinearLayout) findViewById(R.id.follow_me_info);
         followTwitter = (LinearLayout) findViewById(R.id.follow_me_twitter);
         googlePlus = (LinearLayout) findViewById(R.id.follow_me_google);
-        twitterIv = (NetworkedCacheableImageView) findViewById(R.id.twitter_bird);
-        googleIv = (NetworkedCacheableImageView) findViewById(R.id.google_plus);
+        twitterIv = (ImageView) findViewById(R.id.twitter_bird);
+        googleIv = (ImageView) findViewById(R.id.google_plus);
         followProgressText = findViewById(R.id.follow_progress_text);
 
-        progressBar.setSmoothProgressDrawableColors(new int[] {settings.themeColors.accentColorLight, settings.themeColors.accentColor});
         progressBar.setVisibility(View.GONE);
 
         Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
@@ -237,8 +231,8 @@ public class LoginActivity extends LVLActivity {
             }
         });
 
-        googleIv.loadImage("https://developers.google.com/+/images/branding/g+128.png", true, null);
-        twitterIv.loadImage("https://g.twimg.com/Twitter_logo_blue.png", true, null);
+        Glide.with(this).load("https://developers.google.com/+/images/branding/g+128.png").into(googleIv);
+        Glide.with(this).load("https://g.twimg.com/Twitter_logo_blue.png").into(twitterIv);
 
         followTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -525,7 +519,6 @@ public class LoginActivity extends LVLActivity {
             super.onPreExecute();
 
             progressBar.setIndeterminate(true);
-            progressBar.progressiveStart();
             progressBar.setVisibility(View.VISIBLE);
 
             btnLoginTwitter.setEnabled(false);
@@ -734,7 +727,7 @@ public class LoginActivity extends LVLActivity {
             followMeLayout.startAnimation(anim);
             followProgressText.startAnimation(anim);
 
-            progressBar.progressiveStop();
+            progressBar.setVisibility(View.GONE);
 
             progDescription.setText(getResources().getString(R.string.done_syncing));
             title.setText(getResources().getString(R.string.third_welcome));

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.sectionedrecyclerview.SectionedRecyclerViewAdapter;
+import com.bumptech.glide.Glide;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -16,8 +17,6 @@ import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 
 import java.util.List;
-
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class GifSearchAdapter extends SectionedRecyclerViewAdapter<GifSearchAdapter.ViewHolder> {
 
@@ -28,8 +27,6 @@ public class GifSearchAdapter extends SectionedRecyclerViewAdapter<GifSearchAdap
     protected List<GiphyHelper.Gif> gifs;
     protected Callback callback;
     protected SimpleVideoView currentlyPlaying;
-
-    private BitmapLruCache cache;
 
     public GifSearchAdapter(List<GiphyHelper.Gif> gifs, Callback callback) {
         this.gifs = gifs;
@@ -63,11 +60,7 @@ public class GifSearchAdapter extends SectionedRecyclerViewAdapter<GifSearchAdap
 
         Context context = holder.previewImage.getContext();
 
-        if (cache == null) {
-            cache = ((App)context.getApplicationContext()).getBitmapCache();
-        }
-
-        ImageUtils.loadImage(context, holder.previewImage, gifs.get(relativePosition).previewImage, cache);
+        Glide.with(context).load(gifs.get(relativePosition).previewImage).into(holder.previewImage);
 
         holder.play.setOnClickListener(new View.OnClickListener() {
             @Override

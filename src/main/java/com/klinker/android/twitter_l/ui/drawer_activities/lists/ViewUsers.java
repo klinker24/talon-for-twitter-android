@@ -41,8 +41,6 @@ import com.klinker.android.twitter_l.adapters.UserListMembersArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 import java.util.ArrayList;
 
 import twitter4j.PagableResponseList;
@@ -57,7 +55,7 @@ public class ViewUsers extends AppCompatActivity {
 
     private android.support.v7.app.ActionBar actionBar;
 
-    private AsyncListView listView;
+    private ListView listView;
     private LinearLayout spinner;
 
     private boolean canRefresh = true;
@@ -94,7 +92,7 @@ public class ViewUsers extends AppCompatActivity {
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);
@@ -151,35 +149,6 @@ public class ViewUsers extends AppCompatActivity {
         new GetUsers().execute();
 
         Utils.setActionBar(context);
-    }
-
-    public void setUpWindow() {
-
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        // Params for the window.
-        // You can easily set the alpha and the dim behind the window from here
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .75f;  // set it higher if you want to dim behind the window
-        getWindow().setAttributes(params);
-
-        // Gets the display size so that you can set the window to a percent of that
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-
-        // You could also easily used an integer value from the shared preferences to set the percent
-        if (height > width) {
-            getWindow().setLayout((int) (width * .9), (int) (height * .8));
-        } else {
-            getWindow().setLayout((int) (width * .7), (int) (height * .8));
-        }
-
     }
 
     public int toDP(int px) {

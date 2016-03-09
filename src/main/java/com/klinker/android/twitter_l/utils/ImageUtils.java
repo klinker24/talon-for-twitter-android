@@ -41,9 +41,6 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.RejectedExecutionException;
 
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-
 
 public class ImageUtils {
 
@@ -308,34 +305,7 @@ public class ImageUtils {
         return bmOverlay;
     }
 
-    public static void loadImage(Context context, final ImageView iv, String url, BitmapLruCache mCache) {
-
-        if (url == null) {
-            return;
-        }
-
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
-
-        if (null != wrapper && iv.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            iv.setImageDrawable(wrapper);
-
-            try {
-                Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-                iv.startAnimation(fadeInAnimation);
-            } catch (Exception e) {
-
-            }
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            iv.setImageDrawable(null);
-
-            imageUrlAsyncTask(context, iv, mCache, false, url);
-
-        }
-    }
-
-    private static void imageUrlAsyncTask(final Context context, final ImageView imageView, final BitmapLruCache mCache, final boolean profile, final String url) {
+    /*private static void imageUrlAsyncTask(final Context context, final ImageView imageView, final BitmapLruCache mCache, final boolean profile, final String url) {
 
         final WeakReference<ImageView> mImageViewRef = new WeakReference<ImageView>(imageView);
 
@@ -540,7 +510,7 @@ public class ImageUtils {
         }
 
         return inSampleSize;
-    }
+    }*/
 
     public static int getBrightness(String color) {
         return getBrightness((int)Long.parseLong(color, 16));

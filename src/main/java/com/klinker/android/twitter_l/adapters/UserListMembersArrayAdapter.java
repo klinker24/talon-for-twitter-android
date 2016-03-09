@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -53,14 +54,7 @@ public class UserListMembersArrayAdapter extends PeopleArrayAdapter {
 
         final String url = user.getOriginalProfileImageURL();
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (holder.userId == id) {
-                    loadImage(context, holder, url, mCache, id);
-                }
-            }
-        }, 500);
+        Glide.with(context).load(url).into(holder.picture);
 
         holder.picture.setOnClickListener(new View.OnClickListener() {
             @Override

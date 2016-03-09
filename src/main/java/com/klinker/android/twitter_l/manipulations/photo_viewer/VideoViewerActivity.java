@@ -2,70 +2,35 @@ package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ActivityOptions;
-import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.ChangeImageTransform;
-import android.transition.ChangeTransform;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import android.widget.Toast;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.DetailedTweetView;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.ui.tweet_viewer.VideoFragment;
 import com.klinker.android.twitter_l.utils.IOUtils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-import java.util.Random;
-
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.WebIntentBuilder;
-
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class VideoViewerActivity extends AppCompatActivity {
 

@@ -28,26 +28,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class PeopleSearch extends Activity {
 
@@ -57,7 +51,7 @@ public class PeopleSearch extends Activity {
 
     private ActionBar actionBar;
 
-    private AsyncListView listView;
+    private ListView listView;
 
     public String slug;
 
@@ -98,16 +92,7 @@ public class PeopleSearch extends Activity {
 
         spinner = (LinearLayout) findViewById(R.id.list_progress);
 
-        listView = (AsyncListView) findViewById(R.id.listView);
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
+        listView = (ListView) findViewById(R.id.listView);
 
         getPeople();
 

@@ -29,6 +29,7 @@ import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
@@ -41,9 +42,6 @@ import com.klinker.android.twitter_l.utils.Utils;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class WidgetService extends RemoteViewsService {
     @Override
@@ -59,7 +57,6 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private List<Tweet> mWidgetItems = new ArrayList<Tweet>();
     private Context mContext;
     private boolean darkTheme;
-    private BitmapLruCache mCache;
     private AppSettings settings;
 
     public WidgetViewsFactory(Context context, Intent intent) {
@@ -67,7 +64,6 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         darkTheme = Integer.parseInt(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getString("theme", "1")) != 0;
 
-        mCache = App.getInstance(context).getBitmapCache();
         settings = AppSettings.getInstance(context);
     }
 
@@ -234,20 +230,15 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public Bitmap getCachedPic(String url) {
-        CacheableBitmapDrawable wrapper = mCache.get(url);
-        if (wrapper == null) {
-
-            try {
-                URL mUrl = new URL(url);
-
-                Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-
-                wrapper = mCache.put(url, image);
-            } catch (Exception e) {
-
-            }
+        try {
+            return Glide.
+                    with(mContext).
+                    load(url).
+                    asBitmap().
+                    into(-1,-1).
+                    get();
+        } catch (Exception e) {
+            return null;
         }
-
-        return wrapper.getBitmap();
     }
 }

@@ -36,8 +36,6 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 import java.util.ArrayList;
 
 import twitter4j.Trend;
@@ -49,7 +47,7 @@ public class WorldTrends extends Fragment {
     private SharedPreferences sharedPrefs;
     private AppSettings settings;
 
-    private AsyncListView listView;
+    private ListView listView;
     private View layout;
 
     @Override
@@ -68,7 +66,7 @@ public class WorldTrends extends Fragment {
 
         layout = inflater.inflate(R.layout.trends_list_view, null);
 
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView = (ListView) layout.findViewById(R.id.listView);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);

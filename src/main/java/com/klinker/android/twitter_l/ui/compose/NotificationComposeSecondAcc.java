@@ -21,10 +21,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 
 public class NotificationComposeSecondAcc extends ComposeActivity {
 
@@ -50,14 +52,10 @@ public class NotificationComposeSecondAcc extends ComposeActivity {
         useAccOne = false;
         useAccTwo = true;
 
-        NetworkedCacheableImageView pic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        ImageView pic = (ImageView) findViewById(R.id.profile_pic);
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
-        if (settings.roundContactImages) {
-            pic.loadImage(settings.secondProfilePicUrl, false, null, NetworkedCacheableImageView.CIRCLE);
-        } else {
-            pic.loadImage(settings.secondProfilePicUrl, false, null);
-        }
+        Glide.with(this).load(settings.secondProfilePicUrl).into(pic);
 
         currentName.setText("@" + settings.secondScreenName);
 

@@ -20,7 +20,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="16dp">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/talon_picture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -47,7 +47,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="16dp">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/luke_picture"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -76,7 +76,7 @@
         android:padding="16dp"
         android:background="?android:selectableItemBackground">
 
-        <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+        <ImageView
             android:id="@+id/google_picture"
             android:layout_width="100dp"
             android:layout_height="100dp"

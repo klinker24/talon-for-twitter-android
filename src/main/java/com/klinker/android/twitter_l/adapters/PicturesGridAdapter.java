@@ -8,18 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
 import java.util.ArrayList;
 
 import twitter4j.Status;
-import twitter4j.User;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class PicturesGridAdapter extends BaseAdapter {
     private Context context;
@@ -46,7 +45,7 @@ public class PicturesGridAdapter extends BaseAdapter {
             convertView.setLayoutParams(params);
 
             ViewHolder holder = new ViewHolder();
-            holder.iv = (NetworkedCacheableImageView) convertView.findViewById(R.id.picture);
+            holder.iv = (ImageView) convertView.findViewById(R.id.picture);
             convertView.setTag(holder);
         }
 
@@ -75,12 +74,7 @@ public class PicturesGridAdapter extends BaseAdapter {
 
         holder.url = url;
 
-        holder.iv.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
-            @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                holder.iv.setBackgroundDrawable(null);
-            }
-        });
+        Glide.with(context).load(url).into(holder.iv);
 
         final long id = status != null ? status.getId() : 0;
 
@@ -127,7 +121,6 @@ public class PicturesGridAdapter extends BaseAdapter {
                     link = otherUrl.split("  ")[0];
                 }
 
-                Log.v("tweet_page", "clicked");
                 Intent viewTweet = new Intent(context, TweetActivity.class);
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenname);
@@ -170,7 +163,7 @@ public class PicturesGridAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        public NetworkedCacheableImageView iv;
+        public ImageView iv;
         public String url;
     }
 

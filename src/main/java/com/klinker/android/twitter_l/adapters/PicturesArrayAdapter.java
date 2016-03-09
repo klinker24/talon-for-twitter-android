@@ -17,17 +17,16 @@ package com.klinker.android.twitter_l.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
-import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
@@ -35,7 +34,6 @@ import java.util.ArrayList;
 
 import twitter4j.Status;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
@@ -47,7 +45,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
     private LayoutInflater inflater;
 
     public static class ViewHolder {
-        public NetworkedCacheableImageView iv;
+        public ImageView iv;
         public String url;
     }
 
@@ -78,7 +76,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
         holder = new ViewHolder();
 
-        holder.iv = (NetworkedCacheableImageView) v.findViewById(R.id.picture);
+        holder.iv = (ImageView) v.findViewById(R.id.picture);
 
         v.setTag(holder);
         return v;
@@ -86,8 +84,6 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
     public void bindView(final View view, Context mContext, final String url, final Status status) {
         final ViewHolder holder = (ViewHolder) view.getTag();
-
-        Log.v("talon_picture", "text: " + status.getText());
 
         Status thisStatus;
 
@@ -126,12 +122,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
 
         holder.url = url;
 
-        holder.iv.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
-            @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                holder.iv.setBackgroundDrawable(null);
-            }
-        });
+        Glide.with(context).load(url).into(holder.iv);
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +136,6 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
                     link = otherUrl.split("  ")[0];
                 }
 
-                Log.v("tweet_page", "clicked");
                 Intent viewTweet = new Intent(context, TweetActivity.class);
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenname);
@@ -169,12 +159,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
     public void bindView(final View view, Context mContext, final String url) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        holder.iv.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
-            @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                holder.iv.setBackgroundDrawable(null);
-            }
-        });
+        Glide.with(context).load(url).into(holder.iv);
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override

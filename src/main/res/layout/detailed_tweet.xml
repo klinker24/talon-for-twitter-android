@@ -53,7 +53,7 @@
             android:padding="@dimen/header_holder_padding"
             android:visibility="gone">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -61,7 +61,7 @@
                 android:transitionName="image"
                 android:id="@+id/image"/>
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/play_button"
                 android:src="@drawable/ic_action_play"
                 android:layout_height="match_parent"
@@ -185,7 +185,7 @@
             android:padding="@dimen/header_holder_padding"
             android:visibility="gone">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -193,7 +193,7 @@
                 android:transitionName="image"
                 android:id="@+id/image_bellow"/>
 
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/play_button_bellow"
                 android:src="@drawable/ic_action_play"
                 android:layout_height="match_parent"

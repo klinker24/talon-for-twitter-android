@@ -36,7 +36,7 @@
                     android:focusableInTouchMode="true"
                     android:gravity="right" >
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:id="@+id/profile_pic_contact"

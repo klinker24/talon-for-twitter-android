@@ -40,19 +40,11 @@
                     android:textSize="30dp"
                     android:textColor="?textColor" />
 
-            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:id="@+id/progress_bar"
-                    app:spb_color="@color/app_color"
-                    app:spb_sections_count="2"
-                    android:indeterminate="true"
-                    app:spb_speed="1.3"
-                    app:spb_stroke_separator_length="0dp"
-                    app:spb_stroke_width="3dp"
-                    app:spb_interpolator="spb_interpolator_acceleratedecelerate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"  />
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"/>
 
             <TextSwitcher
                     android:id="@+id/progress_desc"
@@ -114,7 +106,7 @@
                         android:gravity="center"
                         android:background="?android:selectableItemBackground">
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    <ImageView
                             android:id="@+id/twitter_bird"
                             android:layout_width="50dp"
                             android:layout_height="50dp"/>
@@ -139,7 +131,7 @@
                         android:layout_marginRight="15dp"
                         android:background="?android:selectableItemBackground">
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+                    <ImageView
                             android:id="@+id/google_plus"
                             android:layout_width="50dp"
                             android:layout_height="50dp"/>

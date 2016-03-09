@@ -15,50 +15,35 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover.trends;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import android.widget.SearchView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
@@ -67,11 +52,7 @@ import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.utils.SearchUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import twitter4j.Query;
@@ -79,7 +60,6 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class SearchedTrendsActivity extends AppCompatActivity {
     public AppSettings settings;
@@ -90,7 +70,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private AsyncListView listView;
+    private ListView listView;
     private LinearLayout spinner;
 
     private MaterialSwipeRefreshLayout mPullToRefreshLayout;
@@ -166,7 +146,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         mPullToRefreshLayout.setProgressViewOffset(false, 0, size + toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);
@@ -196,16 +176,6 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         header.setLayoutParams(params);
         listView.addHeaderView(header);
         listView.setHeaderDividersEnabled(false);
-        //listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spannable;
 import android.view.View;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ActivitySQLiteHelper;
@@ -19,7 +21,6 @@ import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 import java.util.Date;
 
@@ -156,26 +157,12 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
         holder.name.setText(title);
         holder.tweet.setText(tweetText);
 
-        CacheableBitmapDrawable wrapper2 = mCache.getFromMemoryCache(holder.proPicUrl);
-
-        final boolean gotProPic;
-        if (wrapper2 == null) {
-            gotProPic = false;
-            if (holder.profilePic.getDrawable() != null) {
-                holder.profilePic.setImageDrawable(null);
-            }
-        } else {
-            gotProPic = true;
-            holder.profilePic.setImageDrawable(wrapper2);
-        }
+        Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
 
         mHandlers[currHandler].postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (holder.tweetId == id) {
-                    if (!gotProPic) {
-                        loadProPic(context, holder, holder.proPicUrl, mCache, id);
-                    }
 
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = holder.tweet.getText().toString();

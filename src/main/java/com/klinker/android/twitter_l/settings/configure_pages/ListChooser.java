@@ -27,13 +27,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,7 +49,7 @@ public class ListChooser extends AppCompatActivity {
     private AppSettings settings;
     private android.support.v7.app.ActionBar actionBar;
 
-    private AsyncListView listView;
+    private ListView listView;
     private ListChooserArrayAdapter arrayAdapter;
 
 
@@ -69,7 +68,7 @@ public class ListChooser extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -7,26 +7,21 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.FollowersArrayAdapter;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class ProfileUsersPopup extends PopupLayout {
-    protected AsyncListView list;
+    protected ListView list;
     protected LinearLayout spinner;
 
     protected User user;
@@ -45,7 +40,7 @@ public abstract class ProfileUsersPopup extends PopupLayout {
 
         View main = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
-        list = (AsyncListView) main.findViewById(R.id.listView);
+        list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
         setTitle(getTitle());

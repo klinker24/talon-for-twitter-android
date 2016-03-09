@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
 
@@ -50,14 +51,7 @@ public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
         holder.name.setText(name);
         holder.screenName.setText("@" + screenName);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (holder.userId == id) {
-                    loadImage(context, holder, url, mCache, id);
-                }
-            }
-        }, 500);
+        Glide.with(context).load(url).into(holder.picture);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

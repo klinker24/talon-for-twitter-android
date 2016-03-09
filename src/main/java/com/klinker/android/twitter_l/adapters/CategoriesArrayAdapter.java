@@ -102,17 +102,12 @@ public class CategoriesArrayAdapter extends ArrayAdapter<User> {
 
         View v;
         if (convertView == null) {
-
             v = newView(parent);
-
         } else {
             v = convertView;
-
-            final ViewHolder holder = (ViewHolder) v.getTag();
         }
 
         bindView(v, context, categories.get(position));
-
         return v;
     }
 }

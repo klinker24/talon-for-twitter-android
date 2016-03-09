@@ -33,6 +33,7 @@ import android.support.v4.app.RemoteInput;
 import android.text.Html;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.*;
@@ -64,8 +65,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class NotificationUtils {
 
@@ -502,26 +501,16 @@ public class NotificationUtils {
                 (dmTweets == 1 && homeTweets == 0 && mentionsTweets == 0);
 
         if (screenname != null && customPic) {
-            BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
             Log.v("notifications_talon", "in screenname");
             String url;
             try {
                 url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
-                CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
-
-                Log.v("notifications_talon", "got wrapper");
-
-                if (wrapper == null) {
-
-                    Log.v("notifications_talon", "wrapper null");
-                    URL mUrl = new URL(url);
-                    Bitmap image = BitmapFactory.decodeStream(mUrl.openConnection().getInputStream());
-                    image = ImageUtils.notificationResize(context, image);
-                    mCache.put(url + "_notification", image);
-                    return image;
-                } else {
-                    return wrapper.getBitmap();
-                }
+                return Glide.
+                        with(context).
+                        load(url).
+                        asBitmap().
+                        into(-1,-1).
+                        get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -751,26 +740,15 @@ public class NotificationUtils {
     }
 
     public static Bitmap getImage(Context context, String screenname) {
-        BitmapLruCache mCache = App.getInstance(context).getBitmapCache();
         String url;
         try {
             url = Utils.getTwitter(context, AppSettings.getInstance(context)).showUser(screenname).getBiggerProfileImageURL();
-            CacheableBitmapDrawable wrapper = mCache.get(url + "_notification");
-
-            if (wrapper == null) {
-
-                // The bitmap isn't cached so download from the web
-                HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                Bitmap image = BitmapFactory.decodeStream(is);
-                image = ImageUtils.notificationResize(context, image);
-
-                mCache.put(url + "_notification", image);
-                return image;
-            } else {
-                return wrapper.getBitmap();
-            }
+            return Glide.
+                    with(context).
+                    load(url).
+                    asBitmap().
+                    into(-1,-1).
+                    get();
         } catch (Exception e) {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
         }
