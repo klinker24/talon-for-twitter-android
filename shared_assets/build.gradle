@@ -27,11 +27,6 @@ repositories {
 
 android {
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     compileSdkVersion 'android-N'
     buildToolsVersion project.BUILD_TOOLS_VERSION
 
@@ -40,10 +35,6 @@ android {
         targetSdkVersion 'N'
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
-
-        jackOptions {
-            enabled Boolean.parseBoolean(project.USE_JACK)
-        }
     }
 
     buildTypes {

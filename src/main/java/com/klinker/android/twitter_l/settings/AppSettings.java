@@ -216,7 +216,7 @@ public class AppSettings {
 
     public AppSettings(Context context) {
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                Context.MODE_PRIVATE);
 
         setPrefs(sharedPrefs, context);
     }
