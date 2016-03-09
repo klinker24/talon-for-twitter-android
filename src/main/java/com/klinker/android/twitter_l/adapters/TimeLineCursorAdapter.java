@@ -87,7 +87,7 @@ import twitter4j.TwitterException;
 public class TimeLineCursorAdapter extends CursorAdapter {
 
     @Getter @Setter
-    public Map<Long, Status> quotedTweets = new HashMap<>();
+    public Map<Long, Status> quotedTweets = new HashMap();
 
     public Set<String> muffledUsers = new HashSet<String>();
     public Cursor cursor;
@@ -362,7 +362,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         return v;
     }
 
-    private List<Video> videos = new ArrayList<>();
+    private List<Video> videos = new ArrayList();
 
     public void playCurrentVideo() {
         for (Video v : videos) {

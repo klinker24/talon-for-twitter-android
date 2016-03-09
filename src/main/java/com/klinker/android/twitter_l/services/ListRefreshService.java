@@ -41,7 +41,7 @@ public class ListRefreshService extends IntentService {
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        List<Long> listIds = new ArrayList<>();
+        List<Long> listIds = new ArrayList();
 
         for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
             String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";

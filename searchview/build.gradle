@@ -7,19 +7,31 @@ buildscript {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.COMPILE_SDK)
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    compileSdkVersion 'android-N'
     buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.MIN_SDK)
-        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
+        minSdkVersion 'N'
+        targetSdkVersion 'N'
         versionCode Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
+
+        jackOptions {
+            enabled Boolean.parseBoolean(project.USE_JACK)
+        }
     }
+
     sourceSets {
         main.res.srcDirs 'res', 'res-public'
         //main.res.srcDirs += 'src/main/res-public'
     }
+
     buildTypes {
         release {
             minifyEnabled false

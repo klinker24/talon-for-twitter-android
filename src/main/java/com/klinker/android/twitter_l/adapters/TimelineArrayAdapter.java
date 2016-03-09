@@ -68,7 +68,7 @@ import twitter4j.User;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
-    public Map<Long, Status> quotedTweets = new HashMap<>();
+    public Map<Long, Status> quotedTweets = new HashMap();
 
     public boolean openFirst = false;
 
