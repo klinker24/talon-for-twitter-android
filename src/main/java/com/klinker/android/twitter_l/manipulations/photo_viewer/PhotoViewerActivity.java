@@ -27,13 +27,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.DetailedTweetView;
+import com.klinker.android.twitter_l.manipulations.widgets.FullScreenImageView;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
@@ -76,7 +81,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     public HoloEditText text;
     public ListView list;
     public String url;
-    public ImageView picture;
+    public FullScreenImageView picture;
     public TalonPhotoViewAttacher mAttacher;
 
     private ImageButton share;
@@ -188,7 +193,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             url = url.substring(0, url.length() - 1) + "l";
         }
 
-        picture = (ImageView) findViewById(R.id.picture);
+        picture = (FullScreenImageView) findViewById(R.id.picture);
 
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
@@ -199,32 +204,42 @@ public class PhotoViewerActivity extends AppCompatActivity {
             picture.setTransitionName("invalidate");
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            supportPostponeEnterTransition();
+
         final Handler sysUi = new Handler();
 
-        mAttacher = new TalonPhotoViewAttacher(picture);
-        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+        Glide.with(this).load(url).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
             @Override
-            public void onViewTap(View view, float x, float y) {
-                sysUi.removeCallbacksAndMessages(null);
-                if (sysUiShown) {
-                    hideSystemUI();
-                } else {
-                    showSystemUI();
-                }
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                return false;
             }
-        });
 
-        Glide.with(this).load(url).dontAnimate().into(new SimpleTarget<GlideDrawable>() {
             @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                picture.setImageDrawable(resource);
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    supportStartPostponedEnterTransition();
 
                 LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
 
-                mAttacher.update();
+                mAttacher = new TalonPhotoViewAttacher(picture);
+                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                    @Override
+                    public void onViewTap(View view, float x, float y) {
+                        if (sysUiShown) {
+                            hideSystemUI();
+                        } else {
+                            showSystemUI();
+                        }
+                    }
+                });
+
+
+                return false;
             }
-        });
+        }).into(picture);
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {

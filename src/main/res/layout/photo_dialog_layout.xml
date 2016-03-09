@@ -54,7 +54,7 @@
                 android:minWidth="300dp"
                 android:padding="20dp"
                 android:transitionName="image"
-                android:scaleType="fitCenter"/>
+                android:scaleType="centerCrop"/>
 
         </LinearLayout>
 
