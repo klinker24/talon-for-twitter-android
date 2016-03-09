@@ -1636,7 +1636,7 @@ public class ExpansionViewHelper {
                                 viewRetweeters.setVisibility(View.INVISIBLE);
                                 viewRetweeters.setEnabled(false);
                             } else {
-                                Glide.with(context).load(combined).into(retweeters);
+                                glide(combined, retweeters);
                                 viewRetweeters.setVisibility(View.VISIBLE);
                                 viewRetweeters.setEnabled(true);
                             }
@@ -1698,7 +1698,7 @@ public class ExpansionViewHelper {
                                 viewFavoriters.setVisibility(View.INVISIBLE);
                                 viewFavoriters.setEnabled(false);
                             } else {
-                                Glide.with(context).load(combined).into(favoriters);
+                                glide(combined, favoriters);
                                 viewFavoriters.setVisibility(View.VISIBLE);
                                 viewFavoriters.setEnabled(true);
                             }
@@ -1985,6 +1985,14 @@ public class ExpansionViewHelper {
             }
         } catch (Exception e) {
             return url;
+        }
+    }
+
+    private void glide(String url, ImageView target) {
+        try {
+            Glide.with(context).load(url).into(target);
+        } catch (Exception e) {
+            // try to load into activity that is destroyed
         }
     }
 }

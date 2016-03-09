@@ -465,10 +465,12 @@ public class TweetView {
         }
 
         if (picture) {
-            Glide.with(context).load(imageUrl).into(imageIv);
+            try {
+                glide(imageUrl, imageIv);
+            } catch (Exception e) { }
         }
 
-        Glide.with(context).load(profilePicUrl).into(profilePicIv);
+        glide(profilePicUrl, profilePicIv);
 
         if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
@@ -576,5 +578,13 @@ public class TweetView {
 
     protected boolean shouldShowImage() {
         return true;
+    }
+
+    private void glide(String url, ImageView target) {
+        try {
+            Glide.with(context).load(url).into(target);
+        } catch (Exception e) {
+            // load after activity is destroyed
+        }
     }
 }
