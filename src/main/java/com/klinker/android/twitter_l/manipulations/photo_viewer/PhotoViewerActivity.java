@@ -194,6 +194,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
         }
 
         picture = (FullScreenImageView) findViewById(R.id.picture);
+        picture.setDisplayType(FullScreenImageView.DisplayType.FIT_TO_SCREEN);
 
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
