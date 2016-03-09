@@ -86,8 +86,8 @@ public class PreCacheService extends IntentService {
                 String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
                 // image url can contain spaces, which means there are multiple pictures
 
-                Glide.with(this).load(profilePic).downloadOnly(500, 500);
-                Glide.with(this).load(imageUrl).downloadOnly(500, 500);
+                Glide.with(this).load(profilePic).downloadOnly(1000, 1000);
+                Glide.with(this).load(imageUrl).downloadOnly(1000, 1000);
 
             } while (cursor.moveToNext() && cont);
 
