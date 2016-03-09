@@ -31,6 +31,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
@@ -868,6 +869,8 @@ public class TalonPullNotificationService extends Service {
         String profilePic = status.getUser().getBiggerProfileImageURL();
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
 
+        Glide.with(this).load(profilePic).preload();
+        Glide.with(this).load(imageUrl).preload();
     }
 
     public boolean isUserBlocked(Long userId) {
