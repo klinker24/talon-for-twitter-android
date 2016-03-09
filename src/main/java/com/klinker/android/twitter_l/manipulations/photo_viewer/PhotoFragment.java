@@ -22,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
@@ -70,9 +73,7 @@ public class PhotoFragment extends Fragment {
         root.findViewById(R.id.save_button).setVisibility(View.GONE);
         root.findViewById(R.id.info_button).setVisibility(View.GONE);
 
-        Glide.with(getActivity()).load(url).into(picture);
-
-        TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
+        final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
@@ -84,9 +85,17 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-        // todo: how do i do this after glide is done?
-        LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
-        spinner.setVisibility(View.GONE);
+        Glide.with(getActivity()).load(url).dontAnimate().into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                picture.setImageDrawable(resource);
+
+                LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
+
+                mAttacher.update();
+            }
+        });
 
         return root;
     }

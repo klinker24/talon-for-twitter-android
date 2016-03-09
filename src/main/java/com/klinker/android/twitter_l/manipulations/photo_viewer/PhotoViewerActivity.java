@@ -27,6 +27,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -211,11 +214,17 @@ public class PhotoViewerActivity extends AppCompatActivity {
             }
         });
 
-        Glide.with(context).load(url).into(picture);
+        Glide.with(this).load(url).dontAnimate().into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                picture.setImageDrawable(resource);
 
-        // todo: how do i do this after glide is done?
-        LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-        spinner.setVisibility(View.GONE);
+                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                spinner.setVisibility(View.GONE);
+
+                mAttacher.update();
+            }
+        });
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
