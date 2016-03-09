@@ -644,7 +644,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
 
-                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_2", "")).into(profilePic2);
+                if (profilePic2 != null) {
+                    Glide.with(this).load(sharedPrefs.getString("profile_pic_url_2", "")).into(profilePic2);
+                }
                 Glide.with(this).load(sharedPrefs.getString("profile_pic_url_2", "")).into(proPic2);
 
                 secondAccount.setOnClickListener(new View.OnClickListener() {
@@ -676,7 +678,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
 
-                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_1", "")).into(proPic2);
+                if (profilePic2 != null) {
+                    Glide.with(this).load(sharedPrefs.getString("profile_pic_url_1", "")).into(profilePic2);
+                }
                 Glide.with(this).load(sharedPrefs.getString("profile_pic_url_1", "")).into(proPic2);
 
                 secondAccount.setOnClickListener(new View.OnClickListener() {

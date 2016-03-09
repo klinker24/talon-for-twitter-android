@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -195,7 +196,7 @@ public class ProfilePager extends SlidingActivity {
                                     .load(proPic)
                                     .asBitmap()
                                     .dontAnimate()
-                                    .into(-1, -1)
+                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                                     .get();
 
                             runOnUiThread(new Runnable() {
