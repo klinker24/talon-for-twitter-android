@@ -68,6 +68,7 @@ public class PhotoFragment extends Fragment {
         final View root = inflater.inflate(R.layout.photo_dialog_layout, container, false);
 
         picture = (ImageView) root.findViewById(R.id.picture);
+        picture.setPadding(0,0,0,0);
 
         root.findViewById(R.id.share_button).setVisibility(View.GONE);
         root.findViewById(R.id.save_button).setVisibility(View.GONE);

@@ -870,8 +870,8 @@ public class TalonPullNotificationService extends Service {
         String profilePic = status.getUser().getBiggerProfileImageURL();
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
 
-        Glide.with(this).load(profilePic).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-        Glide.with(this).load(imageUrl).downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+        Glide.with(this).load(profilePic).downloadOnly(500, 500);
+        Glide.with(this).load(imageUrl).downloadOnly(500, 500);
     }
 
     public boolean isUserBlocked(Long userId) {
