@@ -204,6 +204,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             picture.setTransitionName("invalidate");
         }
 
+        // without this, glide didn't work very well, the transition was super jumpy
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             supportPostponeEnterTransition();
 
@@ -217,7 +218,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
             @Override
             public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-
+                // without this, glide didn't work very well, the transition was super jumpy
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                     supportStartPostponedEnterTransition();
 
