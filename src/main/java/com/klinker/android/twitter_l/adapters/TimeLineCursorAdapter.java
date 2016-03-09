@@ -984,18 +984,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (picture) {
-            //if (settings.preCacheImages){
-                //Glide.with(context).load(holder.picUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.image);
-            //} else {
+            if (settings.preCacheImages){
+                Glide.with(context).load(holder.picUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+            } else {
                 Glide.with(context).load(holder.picUrl).into(holder.image);
-            //}
+            }
         }
 
-        //if (settings.preCacheImages) {
-            //Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.profilePic);
-        //} else {
+        if (settings.preCacheImages) {
+            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.profilePic);
+        } else {
             Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
-        //}
+        }
 
         mHandlers[currHandler].removeCallbacksAndMessages(null);
         mHandlers[currHandler].postDelayed(new Runnable() {
