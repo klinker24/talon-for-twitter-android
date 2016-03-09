@@ -5,7 +5,7 @@
         <text>Image loading takes less data (significantly less in some cases)</text>
         <text>Faster, smoother image loading</text>
     </version>
-    
+
     <version name="4.5.2">
         <text>Bug fixes</text>
     </version>
