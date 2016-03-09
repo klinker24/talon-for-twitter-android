@@ -33,6 +33,7 @@ import android.widget.RemoteViewsService;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.Target;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
@@ -238,7 +239,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     with(mContext).
                     load(url).
                     asBitmap().
-                    into(-1,-1).
+                    into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).
                     get());
         } catch (Exception e) {
             return null;
