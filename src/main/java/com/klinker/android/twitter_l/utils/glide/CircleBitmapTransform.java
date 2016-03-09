@@ -19,6 +19,6 @@ public class CircleBitmapTransform extends BitmapTransformation {
 
     @Override
     public String getId() {
-        return null;
+        return "com.klinker.android.twitter_l.CIRCLE_TRANSFORM";
     }
 }

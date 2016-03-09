@@ -42,6 +42,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -235,12 +236,18 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public Bitmap getCachedPic(String url) {
         try {
-            return ImageUtils.getCircleBitmap(Glide.
+            /*return ImageUtils.getCircleBitmap(Glide.
                     with(mContext).
                     load(url).
                     asBitmap().
                     into(200, 200).
-                    get());
+                    get());*/
+            return Glide.with(mContext)
+                    .load(url)
+                    .asBitmap()
+                    .transform(new CircleBitmapTransform(mContext))
+                    .into(200,200)
+                    .get();
         } catch (Exception e) {
             return null;
         }
