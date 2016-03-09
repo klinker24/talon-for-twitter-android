@@ -57,7 +57,7 @@
         android:layout_height="match_parent"
         android:id="@+id/swipe_refresh_layout">
 
-        <org.lucasr.smoothie.AsyncListView
+        <ListView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listView"
             android:layout_height="match_parent"

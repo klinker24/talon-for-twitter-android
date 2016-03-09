@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.utils.ImageUtils;
@@ -68,8 +69,7 @@ public class ImageFragment extends Fragment {
         params.width = params.height;
         i.setLayoutParams(params);
 
-
-        ImageUtils.loadImage(getActivity(), i, drawable, App.getInstance(getActivity()).getBitmapCache());
+        Glide.with(this).load(drawable).into(i);
 
         m.setBackgroundColor(colour);
         return v;

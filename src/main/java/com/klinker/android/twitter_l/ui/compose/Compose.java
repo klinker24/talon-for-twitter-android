@@ -69,6 +69,7 @@ import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -443,7 +444,7 @@ public abstract class Compose extends Activity implements
         HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
 
         if (!(this instanceof ComposeSecAccActivity))
-            ImageUtils.loadImage(this, pic, settings.myProfilePicUrl, App.getInstance(this).getBitmapCache());
+            Glide.with(this).load(settings.myProfilePicUrl).into(pic);
 
         currentName.setText("@" + settings.myScreenName);
 

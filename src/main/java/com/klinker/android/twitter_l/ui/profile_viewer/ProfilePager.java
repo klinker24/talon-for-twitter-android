@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -31,7 +32,6 @@ import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -58,9 +58,6 @@ import java.util.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
-
 
 public class ProfilePager extends SlidingActivity {
 
@@ -69,7 +66,6 @@ public class ProfilePager extends SlidingActivity {
     private Context context;
     private AppSettings settings;
     private android.support.v7.app.ActionBar actionBar;
-    private BitmapLruCache mCache;
     private SharedPreferences sharedPrefs;
 
     private boolean isBlocking;
@@ -84,7 +80,6 @@ public class ProfilePager extends SlidingActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 
-        mCache = App.getInstance(this).getBitmapCache();
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -127,7 +122,7 @@ public class ProfilePager extends SlidingActivity {
         recreate();
     }
 
-    public NetworkedCacheableImageView profilePic;
+    public ImageView profilePic;
     public HoloTextView followerCount;
     public HoloTextView followingCount;
     public HoloTextView description;
@@ -138,12 +133,14 @@ public class ProfilePager extends SlidingActivity {
     public View profileCounts;
 
     public void setTransitionNames() {
-        profilePic.setTransitionName("pro_pic");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            profilePic.setTransitionName("pro_pic");
+        }
     }
 
     public void setUpContent() {
         // first get all the views we need
-        profilePic = (NetworkedCacheableImageView) findViewById(R.id.profile_pic);
+        profilePic = (ImageView) findViewById(R.id.profile_pic);
 
         followerCount = (HoloTextView) findViewById(R.id.followers_number);
         followingCount = (HoloTextView) findViewById(R.id.following_number);
@@ -190,13 +187,23 @@ public class ProfilePager extends SlidingActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                profilePic.loadImage(proPic, true, new NetworkedCacheableImageView.OnImageLoadedListener() {
+                new Thread(new Runnable() {
                     @Override
-                    public void onImageLoaded(CacheableBitmapDrawable result) {
-                        loaded = true;
-                        setImage(result.getBitmap());
+                    public void run() {
+                        try {
+                            final Bitmap b = Glide.with(ProfilePager.this).load(proPic).asBitmap().dontAnimate().into(-1, -1).get();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setImage(b);
+                                }
+                            });
+                        } catch (Exception e) {
+
+                        }
                     }
-                });
+                }).start();
+
             }
         }, NETWORK_ACTION_DELAY);
     }
@@ -915,18 +922,18 @@ public class ProfilePager extends SlidingActivity {
             case 1:
                 for(int i = 0; i < 2; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                ImageUtils.loadImage(this, this.followers[2], followers.get(0).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[2]);
                 break;
             case 2:
                 for(int i = 0; i < 1; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                ImageUtils.loadImage(this, this.followers[1], followers.get(0).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.followers[2], followers.get(1).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[1]);
+                Glide.with(this).load(followers.get(1).getBiggerProfileImageURL()).into(this.followers[2]);
                 break;
             case 3:
-                ImageUtils.loadImage(this, this.followers[0], followers.get(0).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.followers[1], followers.get(1).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.followers[2], followers.get(2).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[0]);
+                Glide.with(this).load(followers.get(1).getBiggerProfileImageURL()).into(this.followers[1]);
+                Glide.with(this).load(followers.get(2).getBiggerProfileImageURL()).into(this.followers[2]);
                 break;
         }
     }
@@ -961,17 +968,17 @@ public class ProfilePager extends SlidingActivity {
             case 1:
                 for(int i = 0; i < 2; i++) // 0 and 1 are gone
                     this.friends[i].setVisibility(View.INVISIBLE);
-                ImageUtils.loadImage(this, this.friends[2], friends.get(0).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[2]);
                 break;
             case 2:
                 this.friends[0].setVisibility(View.INVISIBLE);
-                ImageUtils.loadImage(this, this.friends[1], friends.get(0).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.friends[2], friends.get(1).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[1]);
+                Glide.with(this).load(friends.get(1).getBiggerProfileImageURL()).into(this.friends[2]);
                 break;
             case 3:
-                ImageUtils.loadImage(this, this.friends[0], friends.get(0).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.friends[1], friends.get(1).getBiggerProfileImageURL(), mCache);
-                ImageUtils.loadImage(this, this.friends[2], friends.get(2).getBiggerProfileImageURL(), mCache);
+                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[0]);
+                Glide.with(this).load(friends.get(1).getBiggerProfileImageURL()).into(this.friends[1]);
+                Glide.with(this).load(friends.get(2).getBiggerProfileImageURL()).into(this.friends[2]);
                 break;
         }
     }

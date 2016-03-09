@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.DirectMessage;
@@ -50,7 +51,6 @@ import java.util.ArrayList;
 
 import twitter4j.Twitter;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
@@ -63,7 +63,6 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
     public int layout;
     public Resources res;
-    public BitmapLruCache mCache;
 
     public static class ViewHolder {
         public TextView name;
@@ -87,7 +86,6 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
 
     public void setUpLayout() {
         layout = R.layout.person;
-        mCache = App.getInstance(context).getBitmapCache();
     }
 
     @Override
@@ -127,8 +125,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
             holder.text.setText(tweetText);
         }
 
-        //surfaceView.picture.loadImage(user.getBiggerProfileImageURL(), true, null, NetworkedCacheableImageView.CIRCLE);
-        ImageUtils.loadImage(context, holder.picture, dm.getPicture(), mCache);
+        Glide.with(context).load(dm.getPicture()).into(holder.picture);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override

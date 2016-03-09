@@ -56,7 +56,7 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-public class HomeFragment extends MainFragment { // implements LoaderManager.LoaderCallbacks<Cursor> {
+public class HomeFragment extends MainFragment {
 
     public static final int HOME_REFRESH_ID = 121;
     public static final String RATE_LIMIT_URL = "https://plus.google.com/117432358268488452276/posts/J5yY3K3fyME";

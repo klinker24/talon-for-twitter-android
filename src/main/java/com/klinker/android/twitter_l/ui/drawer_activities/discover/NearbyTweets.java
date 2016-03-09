@@ -36,15 +36,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -59,7 +55,6 @@ import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class NearbyTweets extends Fragment implements
         GoogleApiClient.ConnectionCallbacks,
@@ -71,7 +66,7 @@ public class NearbyTweets extends Fragment implements
     private Context context;
     private AppSettings settings;
 
-    private AsyncListView listView;
+    private ListView listView;
     private View layout;
 
     private SharedPreferences sharedPrefs;
@@ -103,16 +98,7 @@ public class NearbyTweets extends Fragment implements
 
         layout = inflater.inflate(R.layout.profiles_list, null);
 
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        listView.setItemManager(builder.build());
+        listView = (ListView) layout.findViewById(R.id.listView);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

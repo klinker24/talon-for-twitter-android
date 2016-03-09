@@ -1,17 +1,16 @@
 package com.klinker.android.twitter_l.adapters;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     private Context context;
@@ -37,7 +36,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
             convertView.setLayoutParams(params);
 
             ViewHolder holder = new ViewHolder();
-            holder.iv = (NetworkedCacheableImageView) convertView.findViewById(R.id.picture);
+            holder.iv = (ImageView) convertView.findViewById(R.id.picture);
             convertView.setTag(holder);
         }
 
@@ -45,7 +44,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
 
         final String url = pics[position];
 
-        holder.iv.loadImage(url, false, null);
+        Glide.with(context).load(url).into(holder.iv);
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +72,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        public NetworkedCacheableImageView iv;
+        public ImageView iv;
         public String url;
     }
 }

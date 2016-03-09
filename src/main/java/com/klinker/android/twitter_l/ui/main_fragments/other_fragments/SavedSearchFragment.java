@@ -2,19 +2,15 @@ package com.klinker.android.twitter_l.ui.main_fragments.other_fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
@@ -22,8 +18,6 @@ import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-
 
 public class SavedSearchFragment extends MainFragment {
 
@@ -37,15 +31,6 @@ public class SavedSearchFragment extends MainFragment {
 
     @Override
     public void setUpListScroll() {
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(50);
-        builder.setThreadPoolSize(4);
-
-        listView.setItemManager(builder.build());
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

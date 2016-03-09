@@ -32,7 +32,7 @@
         android:gravity="center_horizontal">
 
         <!-- The tweeters picture -->
-        <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+        <ImageView
             android:layout_width="@dimen/pro_pic_size"
             android:layout_height="@dimen/pro_pic_size"
             android:id="@+id/profile_pic"
@@ -138,7 +138,7 @@
                 android:text="@string/placeholder"
                 android:visibility="gone" />
 
-            <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/image"
                 android:layout_below="@id/retweeter"
                 android:layout_height="96dp"
@@ -150,7 +150,7 @@
                 android:visibility="gone"
                 />
 
-            <com.klinker.android.twitter.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                 android:id="@+id/play_button"
                 android:layout_below="@id/retweeter"
                 android:src="@drawable/ic_action_play"

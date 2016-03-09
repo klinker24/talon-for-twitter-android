@@ -23,33 +23,11 @@ import com.klinker.android.twitter_l.utils.EmojiUtils;
 
 import java.io.File;
 
-import uk.co.senab.bitmapcache.BitmapLruCache;
-
 public class App extends Application {
-    private BitmapLruCache mCache;
-    private BitmapLruCache profileCache;
-
-    private static final int MEGA_BYTE = 1024 * 1024;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        File cacheDir = new File(getCacheDir(), "talon");
-        cacheDir.mkdirs();
-
-        File proCacheDir = new File(Environment.getExternalStorageDirectory(), "Android/data/com.klinker.twitter/talon-profile");
-        proCacheDir.mkdirs();
-
-        BitmapLruCache.Builder builder = new BitmapLruCache.Builder(this);
-        builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize(.25f);
-        builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir).setDiskCacheMaxSize(500 * MEGA_BYTE);
-
-        mCache = builder.build();
-
-        builder.setDiskCacheLocation(proCacheDir);
-
-        profileCache = builder.build();
 
         new Thread(new Runnable() {
             @Override
@@ -58,14 +36,6 @@ public class App extends Application {
             }
         }).start();
 
-    }
-
-    public BitmapLruCache getBitmapCache() {
-        return mCache;
-    }
-
-    public BitmapLruCache getProfileCache() {
-        return profileCache;
     }
 
     public static App getInstance(Context context) {

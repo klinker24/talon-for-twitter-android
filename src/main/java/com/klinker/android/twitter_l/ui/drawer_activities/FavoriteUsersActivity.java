@@ -39,12 +39,10 @@ import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 public class FavoriteUsersActivity extends DrawerActivity {
 
     private boolean landscape;
-    private static AsyncListView list;
+    private static ListView list;
     private static Context sContext;
     private static SharedPreferences sSharedPrefs;
     private static LinearLayout spinner;
@@ -82,7 +80,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         spinner = (LinearLayout) findViewById(R.id.list_progress);
         nothing = (LinearLayout) findViewById(R.id.no_content);
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         list = listView;
 
         if (getResources().getBoolean(R.bool.has_drawer)) {

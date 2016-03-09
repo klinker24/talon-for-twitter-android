@@ -39,8 +39,6 @@ import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -65,7 +63,7 @@ public class ListsActivity extends DrawerActivity {
 
         actionBar.setTitle(getResources().getString(R.string.lists));
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (getResources().getBoolean(R.bool.has_drawer)) {

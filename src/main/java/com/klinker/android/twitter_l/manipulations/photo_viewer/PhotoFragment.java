@@ -1,6 +1,5 @@
 package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -19,14 +17,15 @@ import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.io.BufferedInputStream;
@@ -52,7 +51,7 @@ public class PhotoFragment extends Fragment {
     }
     
     String url;
-    NetworkedCacheableImageView picture;
+    ImageView picture;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,32 +64,29 @@ public class PhotoFragment extends Fragment {
 
         final View root = inflater.inflate(R.layout.photo_dialog_layout, container, false);
 
-        picture = (NetworkedCacheableImageView) root.findViewById(R.id.picture);
+        picture = (ImageView) root.findViewById(R.id.picture);
 
         root.findViewById(R.id.share_button).setVisibility(View.GONE);
         root.findViewById(R.id.save_button).setVisibility(View.GONE);
         root.findViewById(R.id.info_button).setVisibility(View.GONE);
 
-        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
+        Glide.with(getActivity()).load(url).into(picture);
+
+        TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
+        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
-                spinner.setVisibility(View.GONE);
-
-                TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
-
-                mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-                    @Override
-                    public void onViewTap(View view, float x, float y) {
-                        if (activity.sysUiShown) {
-                            activity.hideSystemUI();
-                        } else {
-                            activity.showSystemUI();
-                        }
-                    }
-                });
+            public void onViewTap(View view, float x, float y) {
+                if (activity.sysUiShown) {
+                    activity.hideSystemUI();
+                } else {
+                    activity.showSystemUI();
+                }
             }
-        }, 0, true); // no transform
+        });
+
+        // todo: how do i do this after glide is done?
+        LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
+        spinner.setVisibility(View.GONE);
 
         return root;
     }

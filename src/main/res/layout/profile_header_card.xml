@@ -24,7 +24,7 @@
                       android:orientation="horizontal" >
 
             <!-- Profile Picture -->
-            <com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView
+            <ImageView
                     android:id="@+id/profile_pic_header"
                     android:layout_width="0dp"
                     android:layout_height="300dp"

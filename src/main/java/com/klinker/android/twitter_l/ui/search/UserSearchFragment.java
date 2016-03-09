@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,30 +32,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 
 public class UserSearchFragment extends Fragment {
 
-    private AsyncListView listView;
+    private ListView listView;
     private LinearLayout spinner;
 
     private Context context;
@@ -136,7 +127,7 @@ public class UserSearchFragment extends Fragment {
         mPullToRefreshLayout.setProgressViewOffset(false, -1 * toDP(64), toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
 
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView = (ListView) layout.findViewById(R.id.listView);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -167,17 +158,6 @@ public class UserSearchFragment extends Fragment {
 
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
-
-        if (searchQuery != null && !searchQuery.equals("") && !searchQuery.contains("@")) {
-            BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-            ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-            ItemManager.Builder builder = new ItemManager.Builder(loader);
-            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-            builder.setThreadPoolSize(2);
-
-            listView.setItemManager(builder.build());
-        }
 
         doUserSearch(searchQuery);
 

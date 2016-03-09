@@ -5,8 +5,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,15 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.BitmapFactory;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -39,8 +32,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
@@ -58,21 +52,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
-import lombok.Setter;
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ExpansionViewHelper {
@@ -123,7 +106,7 @@ public class ExpansionViewHelper {
     View overflowButton;
     View quoteButton;
 
-    AsyncListView replyList;
+    ListView replyList;
     LinearLayout convoSpinner;
     View convoLayout;
 
@@ -194,7 +177,7 @@ public class ExpansionViewHelper {
         repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
-        replyList = (AsyncListView) convoLayout.findViewById(R.id.listView);
+        replyList = (ListView) convoLayout.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convoLayout.findViewById(R.id.spinner);
 
         tweetSource.setOnLongClickListener(new View.OnLongClickListener() {
@@ -259,15 +242,6 @@ public class ExpansionViewHelper {
         convoCard = (CardView) expansion.findViewById(R.id.convo_card);
         embeddedTweetCard = (CardView) expansion.findViewById(R.id.embedded_tweet_card);
         convoTweetArea = (LinearLayout) expansion.findViewById(R.id.tweets_content);
-
-        BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        replyList.setItemManager(builder.build());
     }
 
     private void setClicks(final boolean windowedPopups) {
@@ -1662,7 +1636,7 @@ public class ExpansionViewHelper {
                                 viewRetweeters.setVisibility(View.INVISIBLE);
                                 viewRetweeters.setEnabled(false);
                             } else {
-                                ImageUtils.loadImage(context, retweeters, combined, App.getInstance(context).getBitmapCache());
+                                Glide.with(context).load(combined).into(retweeters);
                                 viewRetweeters.setVisibility(View.VISIBLE);
                                 viewRetweeters.setEnabled(true);
                             }
@@ -1724,7 +1698,7 @@ public class ExpansionViewHelper {
                                 viewFavoriters.setVisibility(View.INVISIBLE);
                                 viewFavoriters.setEnabled(false);
                             } else {
-                                ImageUtils.loadImage(context, favoriters, combined, App.getInstance(context).getBitmapCache());
+                                Glide.with(context).load(combined).into(favoriters);
                                 viewFavoriters.setVisibility(View.VISIBLE);
                                 viewFavoriters.setEnabled(true);
                             }

@@ -24,36 +24,26 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.PathInterpolator;
-import android.view.inputmethod.EditorInfo;
 import android.widget.*;
-import android.widget.SearchView;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
@@ -67,34 +57,20 @@ import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.PrefActivity;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager;
-import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
-import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.*;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.manipulations.widgets.ActionBarDrawerToggle;
 import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
-import com.lapism.searchview.adapter.SearchAdapter;
-import com.lapism.searchview.adapter.SearchItem;
-import com.lapism.searchview.view.SearchCodes;
 
 import de.timroes.android.listview.EnhancedListView;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-
-import org.lucasr.smoothie.AsyncListView;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class DrawerActivity extends AppCompatActivity implements SystemBarVisibility {
 
@@ -114,7 +90,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     public EnhancedListView notificationList;
     public ActionBarDrawerToggle mDrawerToggle;
 
-    public AsyncListView listView;
+    public ListView listView;
 
     public boolean logoutVisible = false;
     public static boolean translucent;
@@ -131,7 +107,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     public static TextView oldInteractions;
     public ImageView readButton;
 
-    private NetworkedCacheableImageView backgroundPic;
+    private ImageView backgroundPic;
     private ImageView profilePic;
 
     private LinearLayout noInteractions;
@@ -292,7 +268,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         TextView name = (TextView) mDrawer.findViewById(R.id.name);
         TextView screenName = (TextView) mDrawer.findViewById(R.id.screen_name);
-        backgroundPic = (NetworkedCacheableImageView) mDrawer.findViewById(R.id.background_image);
+        backgroundPic = (ImageView) mDrawer.findViewById(R.id.background_image);
         profilePic = (ImageView) mDrawer.findViewById(R.id.profile_pic_contact);
         ImageView profilePic2 = (ImageView) mDrawer.findViewById(R.id.profile_pic_contact_2);
         final ImageButton showMoreDrawer = (ImageButton) mDrawer.findViewById(R.id.options);
@@ -534,13 +510,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         final String backgroundUrl = settings.myBackgroundUrl;
         final String profilePicUrl = settings.myProfilePicUrl;
 
-        final BitmapLruCache mCache = App.getInstance(context).getProfileCache();
 
         if (!backgroundUrl.equals("")) {
-            backgroundPic.loadImage(backgroundUrl, false, null);
-            //ImageUtils.loadImage(context, backgroundPic, backgroundUrl, mCache);
+            Glide.with(this).load(backgroundUrl).into(backgroundPic);
         } else {
-            backgroundPic.loadImage(Utils.getBackgroundUrlForTheme(settings), false, null);
+            Glide.with(this).load(Utils.getBackgroundUrlForTheme(settings)).into(backgroundPic);
         }
 
         backgroundPic.setOnClickListener(new View.OnClickListener() {
@@ -605,11 +579,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             // 7 inch tablet in portrait
         }
 
-        try {
-            ImageUtils.loadImage(context, profilePic, profilePicUrl, mCache);
-        } catch (Exception e) {
-            // empty path again
-        }
+        Glide.with(this).load(profilePicUrl).into(profilePic);
 
         drawerList.setAdapter(adapter);
 
@@ -673,12 +643,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             if (current == 1) {
                 name2.setText(sharedPrefs.getString("twitter_users_name_2", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_2", ""));
-                try {
-                    ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
-                    ImageUtils.loadImage(context, profilePic2, sharedPrefs.getString("profile_pic_url_2", ""), mCache);
-                } catch (Exception e) {
 
-                }
+                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_2", "")).into(proPic2);
+                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_2", "")).into(proPic2);
 
                 secondAccount.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -708,12 +675,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             } else {
                 name2.setText(sharedPrefs.getString("twitter_users_name_1", ""));
                 screenname2.setText("@" + sharedPrefs.getString("twitter_screen_name_1", ""));
-                try {
-                    ImageUtils.loadImage(context, proPic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
-                    ImageUtils.loadImage(context, profilePic2, sharedPrefs.getString("profile_pic_url_1", ""), mCache);
-                } catch (Exception e) {
 
-                }
+                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_1", "")).into(proPic2);
+                Glide.with(this).load(sharedPrefs.getString("profile_pic_url_1", "")).into(proPic2);
+
                 secondAccount.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

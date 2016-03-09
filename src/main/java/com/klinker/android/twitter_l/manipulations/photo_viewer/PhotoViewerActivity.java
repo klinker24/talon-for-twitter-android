@@ -2,16 +2,13 @@ package com.klinker.android.twitter_l.manipulations.photo_viewer;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.*;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -21,10 +18,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.ChangeImageTransform;
-import android.transition.ChangeTransform;
-import android.transition.Transition;
-import android.util.Log;
 import android.view.*;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,13 +26,12 @@ import android.widget.ListView;
 
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.DetailedTweetView;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
 
@@ -55,8 +47,6 @@ import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PhotoViewerActivity extends AppCompatActivity {
@@ -83,7 +73,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     public HoloEditText text;
     public ListView list;
     public String url;
-    public NetworkedCacheableImageView picture;
+    public ImageView picture;
     public TalonPhotoViewAttacher mAttacher;
 
     private ImageButton share;
@@ -195,7 +185,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             url = url.substring(0, url.length() - 1) + "l";
         }
 
-        picture = (NetworkedCacheableImageView) findViewById(R.id.picture);
+        picture = (ImageView) findViewById(R.id.picture);
 
         if (getIntent().getBooleanExtra("shared_trans", false)) {
             picture.setPadding(0,0,0,0);
@@ -221,16 +211,11 @@ public class PhotoViewerActivity extends AppCompatActivity {
             }
         });
 
-        picture.loadImage(url, false, new NetworkedCacheableImageView.OnImageLoadedListener() {
-            @Override
-            public void onImageLoaded(CacheableBitmapDrawable result) {
-                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
-                spinner.setVisibility(View.GONE);
+        Glide.with(context).load(url).into(picture);
 
-                mAttacher.update();
-            }
-        }, 0, fromCache); // no transform
-
+        // todo: how do i do this after glide is done?
+        LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+        spinner.setVisibility(View.GONE);
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {

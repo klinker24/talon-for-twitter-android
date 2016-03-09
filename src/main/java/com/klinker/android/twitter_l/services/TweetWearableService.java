@@ -28,6 +28,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageEvent;
@@ -57,7 +58,6 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import twitter4j.StatusUpdate;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class TweetWearableService extends WearableListenerService {
 
@@ -75,8 +75,6 @@ public class TweetWearableService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         final WearableUtils wearableUtils = new WearableUtils();
-
-        final BitmapLruCache cache = App.getInstance(this).getBitmapCache();
 
         if (markReadHandler == null) {
             markReadHandler = new Handler();
@@ -254,7 +252,12 @@ public class TweetWearableService extends WearableListenerService {
             Bitmap image = null;
 
             try {
-                cache.get(url).getBitmap();
+                image = Glide.
+                        with(this).
+                        load(url).
+                        asBitmap().
+                        into(-1,-1).
+                        get();
             } catch (Exception e) {
 
             }
@@ -263,37 +266,6 @@ public class TweetWearableService extends WearableListenerService {
                 image = adjustImage(image);
 
                 sendImage(image, url, wearableUtils, googleApiClient);
-            } else {
-                // download it
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                            InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                            Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                            try {
-                                is.close();
-                            } catch (Exception e) {
-
-                            }
-                            try {
-                                conn.disconnect();
-                            } catch (Exception e) {
-
-                            }
-
-                            cache.put(url, image);
-                            image = adjustImage(image);
-
-                            sendImage(image, url, wearableUtils, googleApiClient);
-                        } catch (Exception e) {
-
-                        }
-                    }
-                }).start();
             }
         } else {
             Log.e(TAG, "message not recognized");

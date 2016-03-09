@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -34,36 +33,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.FullScreenSwipeRefreshLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.SwipeProgressBar;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 
 import java.util.ArrayList;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 public class TwitterSearchFragment extends Fragment implements Expandable {
 
-    private AsyncListView listView;
+    private ListView listView;
     private LinearLayout spinner;
 
     private Context context;
@@ -147,7 +135,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
         mPullToRefreshLayout.setProgressViewOffset(false, -1 * toDP(64), toDP(25));
         mPullToRefreshLayout.setColorSchemeColors(settings.themeColors.accentColor, settings.themeColors.primaryColor);
 
-        listView = (AsyncListView) layout.findViewById(R.id.listView);
+        listView = (ListView) layout.findViewById(R.id.listView);
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -178,17 +166,6 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         spinner.setVisibility(View.GONE);
-
-        if (searchQuery != null && !searchQuery.equals("")) {
-            BitmapLruCache cache = App.getInstance(context).getBitmapCache();
-            ArrayListLoader loader = new ArrayListLoader(cache, context);
-
-            ItemManager.Builder builder = new ItemManager.Builder(loader);
-            builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-            builder.setThreadPoolSize(2);
-
-            listView.setItemManager(builder.build());
-        }
 
         if (onlyStatus) {
             try {

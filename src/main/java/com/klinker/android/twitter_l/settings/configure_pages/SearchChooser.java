@@ -11,12 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import org.lucasr.smoothie.AsyncListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +31,7 @@ public class SearchChooser extends AppCompatActivity {
     private AppSettings settings;
     private android.support.v7.app.ActionBar actionBar;
 
-    private AsyncListView listView;
+    private ListView listView;
     private SearchChooserArrayAdapter adapter;
 
 
@@ -49,7 +48,7 @@ public class SearchChooser extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.saved_searches));
 
-        listView = (AsyncListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

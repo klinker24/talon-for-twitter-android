@@ -31,6 +31,7 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
@@ -138,7 +139,7 @@ public class ComposeActivity extends Compose {
                                     useAccOne = true;
                                     useAccTwo = false;
 
-                                    ImageUtils.loadImage(context, pic, settings.myProfilePicUrl, App.getInstance(context).getBitmapCache());
+                                    Glide.with(ComposeActivity.this).load(settings.myProfilePicUrl).into(pic);
                                     currentName.setText("@" + settings.myScreenName);
 
                                     String tweetText = reply.getText().toString();
@@ -153,7 +154,7 @@ public class ComposeActivity extends Compose {
                                     useAccOne = false;
                                     useAccTwo = true;
 
-                                    ImageUtils.loadImage(context, pic, settings.secondProfilePicUrl, App.getInstance(context).getBitmapCache());
+                                    Glide.with(ComposeActivity.this).load(settings.secondProfilePicUrl).into(pic);
                                     currentName.setText("@" + settings.secondScreenName);
 
                                     tweetText = reply.getText().toString();

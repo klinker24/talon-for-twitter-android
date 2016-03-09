@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,16 +33,15 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.GifBadge;
-import com.klinker.android.twitter_l.manipulations.MultiplePicsPopup;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NetworkedCacheableImageView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
@@ -65,12 +62,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.regex.Pattern;
 
 import twitter4j.Status;
 import twitter4j.User;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
@@ -91,7 +85,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public int layout;
     public Resources res;
-    public BitmapLruCache mCache;
 
     public ColorDrawable transparent;
 
@@ -419,9 +412,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         layout = R.layout.tweet;
-        mCache = App.getInstance(context).getBitmapCache();
 
-        transparent = new ColorDrawable(android.R.color.transparent);
+        transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
 
         mHandler = new Handler[10];
         for (int i = 0; i < 10; i++) {
@@ -461,14 +453,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.quickActions = v.findViewById(R.id.quick_actions);
 
         if (!settings.bottomPictures) {
-            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button);
+            holder.playButton = (ImageView) v.findViewById(R.id.play_button);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
-            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image);
+            holder.image = (ImageView) v.findViewById(R.id.image);
             holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
         } else {
-            holder.playButton = (NetworkedCacheableImageView) v.findViewById(R.id.play_button_bellow);
+            holder.playButton = (ImageView) v.findViewById(R.id.play_button_bellow);
             holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
-            holder.image = (NetworkedCacheableImageView) v.findViewById(R.id.image_bellow);
+            holder.image = (ImageView) v.findViewById(R.id.image_bellow);
             holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
         }
 
@@ -976,23 +968,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        if (picture) {
-            CacheableBitmapDrawable wrapper = mCache.getFromMemoryCache(holder.picUrl);
-            if (wrapper != null) {
-                holder.image.setImageDrawable(wrapper);
-                picture = false;
-            }
-        }
+        Glide.with(context).load(holder.picUrl).into(holder.image);
 
-        final boolean hasPicture = picture;
         mHandler[currHandler].removeCallbacksAndMessages(null);
         mHandler[currHandler].postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (holder.tweetId == id) {
-                    if (hasPicture) {
-                        loadImage(context, holder, holder.picUrl, mCache, id);
-                    }
 
                     if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
                         String text = tweetText;
@@ -1396,266 +1378,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 }
             }
         }).start();
-    }
-
-    // used to place images on the timeline
-    public static ImageUrlAsyncTask mCurrentTask;
-
-    public void loadImage(Context context, final ViewHolder holder, final String url, BitmapLruCache mCache, final long tweetId) {
-        // First check whether there's already a task running, if so cancel it
-        /*if (null != mCurrentTask) {
-            mCurrentTask.cancel(true);
-        }*/
-
-        if (url == null) {
-            return;
-        }
-
-        BitmapDrawable wrapper = mCache.getFromMemoryCache(url);
-
-        if (null != wrapper && holder.image.getVisibility() != View.GONE) {
-            // The cache has it, so just display it
-            holder.image.setImageDrawable(wrapper);Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-
-            holder.image.startAnimation(fadeInAnimation);
-        } else {
-            // Memory Cache doesn't have the URL, do threaded request...
-            holder.image.setImageDrawable(null);
-
-            mCurrentTask = new ImageUrlAsyncTask(context, holder, mCache, tweetId);
-
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    SDK11.executeOnThreadPool(mCurrentTask, url);
-                } else {
-                    mCurrentTask.execute(url);
-                }
-            } catch (RejectedExecutionException e) {
-                // This shouldn't happen, but might.
-            }
-
-        }
-    }
-
-    private static class ImageUrlAsyncTask
-            extends AsyncTask<String, Void, CacheableBitmapDrawable> {
-
-        private BitmapLruCache mCache;
-        private Context context;
-        private ViewHolder holder;
-        private long id;
-
-        ImageUrlAsyncTask(Context context, ViewHolder holder, BitmapLruCache cache, long tweetId) {
-            this.context = context;
-            mCache = cache;
-            this.holder = holder;
-            this.id = tweetId;
-        }
-
-        @Override
-        protected CacheableBitmapDrawable doInBackground(String... params) {
-            try {
-                if (holder.tweetId != id) {
-                    return null;
-                }
-                String url = params[0];
-
-                if (url.contains("twitpic")) {
-                    try {
-                        URL address = new URL(url);
-                        HttpURLConnection connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
-                        connection.setConnectTimeout(1000);
-                        connection.setInstanceFollowRedirects(false);
-                        connection.setReadTimeout(1000);
-                        connection.connect();
-                        String expandedURL = connection.getHeaderField("Location");
-                        if(expandedURL != null) {
-                            url = expandedURL;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains("p.twipple.jp")) {
-
-                }
-
-                // Now we're not on the main thread we can check all caches
-                CacheableBitmapDrawable result;
-
-                try {
-                    result = mCache.get(url, null);
-                } catch (Exception e) {
-                    result = null;
-                }
-
-                if (null == result) {
-
-                    if (!url.contains(" ")) {
-                        // The bitmap isn't cached so download from the web
-                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-                        InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                        Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
-
-                        try {
-                            is.close();
-                        } catch (Exception e) {
-
-                        }
-                        try {
-                            conn.disconnect();
-                        } catch (Exception e) {
-
-                        }
-
-                        // Add to cache
-                        try {
-                            result = mCache.put(url, b);
-                        } catch (Exception e) {
-                            result = null;
-                        }
-                    } else {
-                        // there are multiple pictures... uh oh
-                        String[] pics = url.split(" ");
-                        Bitmap[] bitmaps = new Bitmap[pics.length];
-
-                        // need to download all of them, then combine them
-                        for (int i = 0; i < pics.length; i++) {
-                            String s = pics[i];
-
-                            // The bitmap isn't cached so download from the web
-                            HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
-                            InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
-
-                            try {
-                                is.close();
-                            } catch (Exception e) {
-
-                            }
-                            try {
-                                conn.disconnect();
-                            } catch (Exception e) {
-
-                            }
-
-                            // Add to cache
-                            try {
-                                mCache.put(s, b);
-
-                                // throw it into our bitmap array for later
-                                bitmaps[i] = b;
-                            } catch (Exception e) {
-                                result = null;
-                            }
-                        }
-
-                        // now that we have all of them, we need to put them together
-                        Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
-
-                        try {
-                            result = mCache.put(url, combined);
-                        } catch (Exception e) {
-
-                        }
-                    }
-
-                }
-
-                return result;
-
-            } catch (IOException e) {
-                Log.e("ImageUrlAsyncTask", e.toString());
-            } catch (OutOfMemoryError e) {
-                Log.v("ImageUrlAsyncTask", "Out of memory error here");
-            }
-
-            return null;
-        }
-
-        public Bitmap decodeSampledBitmapFromResourceMemOpt(
-                InputStream inputStream, int reqWidth, int reqHeight) {
-
-            byte[] byteArr = new byte[0];
-            byte[] buffer = new byte[1024];
-            int len;
-            int count = 0;
-
-            try {
-                while ((len = inputStream.read(buffer)) > -1) {
-                    if (len != 0) {
-                        if (count + len > byteArr.length) {
-                            byte[] newbuf = new byte[(count + len) * 2];
-                            System.arraycopy(byteArr, 0, newbuf, 0, count);
-                            byteArr = newbuf;
-                        }
-
-                        System.arraycopy(buffer, 0, byteArr, count, len);
-                        count += len;
-                    }
-                }
-
-                final BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-                options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                        reqHeight);
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inJustDecodeBounds = false;
-                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-                return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                return null;
-            }
-        }
-
-        public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-            // Raw height and width of image
-            final int height = opt.outHeight;
-            final int width = opt.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-
-                final int halfHeight = height / 2;
-                final int halfWidth = width / 2;
-
-                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-                // height and width larger than the requested height and width.
-                while ((halfHeight / inSampleSize) > reqHeight
-                        && (halfWidth / inSampleSize) > reqWidth) {
-                    inSampleSize *= 2;
-                }
-            }
-
-            return inSampleSize;
-        }
-
-        @Override
-        protected void onPostExecute(CacheableBitmapDrawable result) {
-            super.onPostExecute(result);
-
-            try {
-                if (result != null && holder.tweetId == id) {
-                    holder.image.setImageDrawable(result);
-                    Animation fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in_fast);
-
-                    if (holder.tweetId == id) {
-                        holder.image.startAnimation(fadeInAnimation);
-                    }
-                }
-
-            } catch (Exception e) {
-
-            }
-        }
     }
 
     private Intent addDimensForExpansion(Intent i, View view) {

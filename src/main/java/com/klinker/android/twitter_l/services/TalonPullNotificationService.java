@@ -67,8 +67,6 @@ import twitter4j.User;
 import twitter4j.UserList;
 import twitter4j.UserMentionEntity;
 import twitter4j.UserStreamListener;
-import uk.co.senab.bitmapcache.BitmapLruCache;
-import uk.co.senab.bitmapcache.CacheableBitmapDrawable;
 
 public class TalonPullNotificationService extends Service {
 
@@ -81,7 +79,6 @@ public class TalonPullNotificationService extends Service {
 
     public TwitterStream pushStream;
     public Context mContext;
-    public BitmapLruCache mCache;
     public AppSettings settings;
     public SharedPreferences sharedPreferences;
 
@@ -109,8 +106,6 @@ public class TalonPullNotificationService extends Service {
         TalonPullNotificationService.isRunning = true;
 
         settings = AppSettings.getInstance(this);
-
-        mCache = App.getInstance(this).getBitmapCache();
 
         sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -873,178 +868,6 @@ public class TalonPullNotificationService extends Service {
         String profilePic = status.getUser().getBiggerProfileImageURL();
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
 
-        CacheableBitmapDrawable wrapper = null;
-        try {
-            wrapper = mCache.get(profilePic);
-        } catch (OutOfMemoryError e) {
-
-        }
-
-        if (wrapper == null) {
-
-            try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(profilePic).openConnection();
-                InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 500, 500);
-
-                try {
-                    is.close();
-                } catch (Exception e) {
-
-                }
-                try {
-                    conn.disconnect();
-                } catch (Exception e) {
-
-                }
-
-                mCache.put(profilePic, image);
-            } catch (Throwable e) {
-
-            }
-        }
-
-        if (!imageUrl.equals("")) {
-            try {
-                wrapper = mCache.get(imageUrl);
-            } catch (OutOfMemoryError e) {
-                wrapper = null;
-            }
-            if (wrapper == null) {
-                try {
-                    if (!imageUrl.contains(" ")) {
-                        HttpURLConnection conn = (HttpURLConnection) new URL(imageUrl).openConnection();
-                        InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                        Bitmap image = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
-
-                        try {
-                            is.close();
-                        } catch (Exception e) {
-
-                        }
-                        try {
-                            conn.disconnect();
-                        } catch (Exception e) {
-
-                        }
-
-                        mCache.put(imageUrl, image);
-                    } else {
-                        String[] pics = imageUrl.split(" ");
-                        Bitmap[] bitmaps = new Bitmap[pics.length];
-
-                        // need to download all of them, then combine them
-                        for (int i = 0; i < pics.length; i++) {
-                            String s = pics[i];
-
-                            // The bitmap isn't cached so download from the web
-                            HttpURLConnection conn = (HttpURLConnection) new URL(s).openConnection();
-                            InputStream is = new BufferedInputStream(conn.getInputStream());
-
-                            Bitmap b = decodeSampledBitmapFromResourceMemOpt(is, 1000, 1000);
-
-                            try {
-                                is.close();
-                            } catch (Exception e) {
-
-                            }
-                            try {
-                                conn.disconnect();
-                            } catch (Exception e) {
-
-                            }
-
-                            // Add to cache
-                            try {
-                                mCache.put(s, b);
-
-                                // throw it into our bitmap array for later
-                                bitmaps[i] = b;
-                            } catch (Exception e) {
-
-                            }
-                        }
-
-                        // now that we have all of them, we need to put them together
-                        Bitmap combined = ImageUtils.combineBitmaps(this, bitmaps);
-
-                        try {
-                            mCache.put(imageUrl, combined);
-                        } catch (Exception e) {
-
-                        }
-                    }
-                } catch (Throwable e) {
-
-                }
-            }
-        }
-    }
-
-    public Bitmap decodeSampledBitmapFromResourceMemOpt(
-            InputStream inputStream, int reqWidth, int reqHeight) {
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = inputStream.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = opt.outHeight;
-        final int width = opt.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
     }
 
     public boolean isUserBlocked(Long userId) {

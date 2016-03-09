@@ -6,25 +6,23 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ArrayListLoader;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.lucasr.smoothie.AsyncListView;
-import org.lucasr.smoothie.ItemManager;
 import twitter4j.*;
-import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ProfileListPopupLayout extends PopupLayout {
 
-    protected AsyncListView list;
+    protected ListView list;
     protected LinearLayout spinner;
 
     protected User user;
@@ -39,7 +37,7 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
     public ProfileListPopupLayout(Context context, View main, User user) {
         super(context);
 
-        list = (AsyncListView) main.findViewById(R.id.listView);
+        list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
         setTitle(getTitle());
@@ -62,15 +60,6 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) spinner.getLayoutParams();
         params.width = width;
         spinner.setLayoutParams(params);
-
-        BitmapLruCache cache = App.getInstance(getContext()).getBitmapCache();
-        ArrayListLoader loader = new ArrayListLoader(cache, getContext());
-
-        ItemManager.Builder builder = new ItemManager.Builder(loader);
-        builder.setPreloadItemsEnabled(true).setPreloadItemsCount(10);
-        builder.setThreadPoolSize(2);
-
-        list.setItemManager(builder.build());
 
         list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
