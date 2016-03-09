@@ -99,6 +99,16 @@ public class UpdateUtils {
                         })
                         .create().show();
             }
+
+            if (sharedPrefs.getBoolean("need_cache_cleared_for_glide", true)) {
+                sharedPrefs.edit().putBoolean("need_cache_cleared_for_glide", false).commit();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        IOUtils.trimCache(context);
+                    }
+                }).start();
+            }
         } else {
             sharedPrefs.edit().putBoolean("version_3_5", false).commit();
         }

@@ -191,7 +191,13 @@ public class ProfilePager extends SlidingActivity {
                     @Override
                     public void run() {
                         try {
-                            final Bitmap b = Glide.with(ProfilePager.this).load(proPic).asBitmap().dontAnimate().into(-1, -1).get();
+                            final Bitmap b = Glide.with(ProfilePager.this)
+                                    .load(proPic)
+                                    .asBitmap()
+                                    .dontAnimate()
+                                    .into(-1, -1)
+                                    .get();
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -922,18 +928,18 @@ public class ProfilePager extends SlidingActivity {
             case 1:
                 for(int i = 0; i < 2; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[2]);
+                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[2]);
                 break;
             case 2:
                 for(int i = 0; i < 1; i++)
                     this.followers[i].setVisibility(View.INVISIBLE);
-                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[1]);
-                Glide.with(this).load(followers.get(1).getBiggerProfileImageURL()).into(this.followers[2]);
+                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[1]);
+                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[2]);
                 break;
             case 3:
-                Glide.with(this).load(followers.get(0).getBiggerProfileImageURL()).into(this.followers[0]);
-                Glide.with(this).load(followers.get(1).getBiggerProfileImageURL()).into(this.followers[1]);
-                Glide.with(this).load(followers.get(2).getBiggerProfileImageURL()).into(this.followers[2]);
+                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[0]);
+                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[1]);
+                glide(followers.get(2).getBiggerProfileImageURL(), this.followers[2]);
                 break;
         }
     }
@@ -968,17 +974,17 @@ public class ProfilePager extends SlidingActivity {
             case 1:
                 for(int i = 0; i < 2; i++) // 0 and 1 are gone
                     this.friends[i].setVisibility(View.INVISIBLE);
-                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[2]);
+                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[2]);
                 break;
             case 2:
                 this.friends[0].setVisibility(View.INVISIBLE);
-                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[1]);
-                Glide.with(this).load(friends.get(1).getBiggerProfileImageURL()).into(this.friends[2]);
+                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[1]);
+                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[2]);
                 break;
             case 3:
-                Glide.with(this).load(friends.get(0).getBiggerProfileImageURL()).into(this.friends[0]);
-                Glide.with(this).load(friends.get(1).getBiggerProfileImageURL()).into(this.friends[1]);
-                Glide.with(this).load(friends.get(2).getBiggerProfileImageURL()).into(this.friends[2]);
+                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[0]);
+                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[1]);
+                glide(friends.get(2).getBiggerProfileImageURL(), this.friends[2]);
                 break;
         }
     }
@@ -2016,5 +2022,13 @@ public class ProfilePager extends SlidingActivity {
 
             }
         }).start();
+    }
+
+    private void glide(String url, ImageView target) {
+        try {
+            Glide.with(this).load(url).into(target);
+        } catch (Exception e) {
+            // activity destroyed
+        }
     }
 }
