@@ -41,13 +41,11 @@ public class TwitterStreamFetcher extends HttpUrlFetcher {
             Bitmap bitmap = helper.getDMPicture(urlString, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
             return convertToInputStream(bitmap);
         } else if (urlString.contains(" ")) {
-            Log.v("talon_loader", "url: " + urlString);
             String[] pics = urlString.split(" ");
             Bitmap[] bitmaps = new Bitmap[pics.length];
 
             // need to download all of them, then combine them
             for (int i = 0; i < pics.length; i++) {
-                Log.v("talon_loader", "downloading: " + pics[i]);
                 String url = pics[i];
                 bitmaps[i] = Glide.with(context).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
             }
