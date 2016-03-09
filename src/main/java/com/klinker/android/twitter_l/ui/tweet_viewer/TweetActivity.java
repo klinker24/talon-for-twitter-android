@@ -553,7 +553,7 @@ public class TweetActivity extends SlidingActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Glide.with(TweetActivity.this).load(proPic).into(profilePic);
+                glide(proPic, profilePic);
             }
         }, NETWORK_ACTION_DELAY);
         profilePic.setOnClickListener(viewPro);
@@ -570,7 +570,7 @@ public class TweetActivity extends SlidingActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Glide.with(TweetActivity.this).load(webpage).into(image);
+                        glide(webpage, image);
                     }
                 }, NETWORK_ACTION_DELAY);
             }
@@ -798,5 +798,13 @@ public class TweetActivity extends SlidingActivity {
         }
 
         return inSampleSize;
+    }
+
+    private void glide(String url, ImageView target) {
+        try {
+            Glide.with(this).load(url).into(target);
+        } catch (Exception e) {
+            // activity destroyed
+        }
     }
 }
