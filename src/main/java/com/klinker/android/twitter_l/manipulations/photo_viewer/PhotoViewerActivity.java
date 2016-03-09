@@ -244,7 +244,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                 return false;
             }
-        }).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(picture);
+        }).diskCacheStrategy(DiskCacheStrategy.ALL).into(picture);
 
         new Handler().postDelayed(new Runnable() {
             @Override
