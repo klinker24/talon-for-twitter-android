@@ -1460,7 +1460,7 @@ public class ExpansionViewHelper {
 
                     QueryResult result = twitter.search(query);
 
-                    all = new ArrayList<>();
+                    all = new ArrayList();
 
                     int repsWithoutChange = 0;
 

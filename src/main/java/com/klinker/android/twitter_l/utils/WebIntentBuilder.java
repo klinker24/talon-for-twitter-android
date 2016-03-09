@@ -110,7 +110,7 @@ public class WebIntentBuilder {
             shareIntent.setType("text/plain");
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "Share to:"), 0);
 
-            ArrayList menuItemBundleList = new ArrayList<>();
+            ArrayList menuItemBundleList = new ArrayList();
 
             Bundle menuItem = new Bundle();
             menuItem.putString(KEY_CUSTOM_TABS_MENU_TITLE, context.getString(R.string.share_link));

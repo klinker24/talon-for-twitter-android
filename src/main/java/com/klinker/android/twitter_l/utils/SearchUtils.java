@@ -23,7 +23,7 @@ public class SearchUtils {
     private Activity activity;
 
     private com.lapism.searchview.view.SearchView mSearchView;
-    private List<SearchItem> mSuggestionsList = new ArrayList<>();
+    private List<SearchItem> mSuggestionsList = new ArrayList();
 
     public SearchUtils(Activity activity) {
         this.activity = activity;
@@ -53,7 +53,7 @@ public class SearchUtils {
             }
         });
 
-        List<SearchItem> mResultsList = new ArrayList<>();
+        List<SearchItem> mResultsList = new ArrayList();
         SearchAdapter mSearchAdapter = new SearchAdapter(activity, mResultsList, mSuggestionsList,
                 AppSettings.getInstance(activity).darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
         mSearchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {

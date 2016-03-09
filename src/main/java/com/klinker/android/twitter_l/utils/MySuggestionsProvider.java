@@ -44,7 +44,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
                 "date DESC LIMIT 250"
         );
 
-        List<SearchItem> items = new ArrayList<>();
+        List<SearchItem> items = new ArrayList();
 
         if (c.moveToFirst()) {
             do {
@@ -70,7 +70,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
                 "date DESC LIMIT 250"
         );
 
-        List<SearchItem> items = new ArrayList<>();
+        List<SearchItem> items = new ArrayList();
 
         if (c.moveToFirst()) {
             do {

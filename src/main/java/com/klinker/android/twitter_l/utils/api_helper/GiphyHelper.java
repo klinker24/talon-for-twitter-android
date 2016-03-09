@@ -61,7 +61,7 @@ public class GiphyHelper {
 
         @Override
         protected List<Gif> doInBackground(Void... arg0) {
-            List<Gif> gifList = new ArrayList<>();
+            List<Gif> gifList = new ArrayList();
 
             try {
                 // create the connection
