@@ -123,8 +123,8 @@ public class MaterialLogin extends MaterialLVLActivity {
 
     @Override
     public void finish() {
-        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
         sharedPrefs.edit().putBoolean("version_3_2", false).commit();
 
         super.finish();

@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
+
 public class ReadInteractionsService extends IntentService {
 
     SharedPreferences sharedPrefs;
@@ -31,8 +33,8 @@ public class ReadInteractionsService extends IntentService {
     @Override
     public void onHandleIntent(Intent intent) {
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         // clear custom light flow broadcast
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");

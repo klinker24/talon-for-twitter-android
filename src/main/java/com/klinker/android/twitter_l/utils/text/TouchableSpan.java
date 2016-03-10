@@ -246,8 +246,8 @@ public class TouchableSpan extends ClickableSpan {
                         TouchableSpan.this.onClick(null);
                         break;
                     case 1: // mute hashtag
-                        SharedPreferences sharedPreferences = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(mContext);
+
 
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.muted) + " " + full, Toast.LENGTH_SHORT).show();
                         String item = full.replace("#", "") + " ";
@@ -276,8 +276,8 @@ public class TouchableSpan extends ClickableSpan {
         builder.setItems(R.array.long_click_mentions, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                final SharedPreferences sharedPrefs = mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(mContext);
+
 
                 switch (i) {
                     case 0: // open profile

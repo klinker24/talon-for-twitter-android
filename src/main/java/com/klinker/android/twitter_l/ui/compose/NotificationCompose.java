@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class NotificationCompose extends ComposeActivity {
 
@@ -33,8 +34,8 @@ public class NotificationCompose extends ComposeActivity {
         mNotificationManager.cancel(1);
         mNotificationManager.cancel(9);
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
         Context context = getApplicationContext();
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

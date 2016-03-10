@@ -26,6 +26,7 @@ import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class MarkReadService extends IntentService {
 
@@ -48,8 +49,8 @@ public class MarkReadService extends IntentService {
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
         this.sendBroadcast(lightFlow);
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
         final Context context = getApplicationContext();
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
 

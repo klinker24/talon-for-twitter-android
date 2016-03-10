@@ -19,13 +19,15 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
+
 
 public class NotiTweetActivity extends TweetActivity {
 
     @Override
     public void getFromIntent() {
-        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         name = sharedPrefs.getString("fav_user_tweet_name", "");
         screenName = sharedPrefs.getString("fav_user_tweet_screenname", "");

@@ -38,8 +38,8 @@ public class SecondDMRefreshService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);

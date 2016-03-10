@@ -60,8 +60,8 @@ public class CatchupPull extends IntentService {
 
         Log.v("talon_pull", "catchup pull started");
 
-        sharedPrefs =  getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs =  AppSettings.getSharedPreferences(this);
+
 
         final Context context = getApplicationContext();
 

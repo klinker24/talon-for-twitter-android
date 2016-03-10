@@ -23,6 +23,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import android.text.TextUtils;
 
@@ -67,8 +68,8 @@ public class MentionsDataSource {
 
     public MentionsDataSource(Context context) {
         dbHelper = new MentionsSQLiteHelper(context);
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
     }
 
     public void open() throws SQLException {

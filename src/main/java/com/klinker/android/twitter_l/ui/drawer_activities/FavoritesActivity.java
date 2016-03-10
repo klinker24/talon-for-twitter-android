@@ -51,8 +51,8 @@ public class FavoritesActivity extends DrawerActivity {
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         context = this;
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
         settings = AppSettings.getInstance(this);
 
         setUpTheme();

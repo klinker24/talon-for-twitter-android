@@ -29,6 +29,11 @@ public class AppSettings {
         return settings;
     }
 
+    public static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                Context.MODE_PRIVATE);
+    }
+
     public static void invalidate() {
         settings = null;
     }
@@ -215,9 +220,7 @@ public class AppSettings {
 
 
     public AppSettings(Context context) {
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_PRIVATE);
-
+        sharedPrefs = getSharedPreferences(context);
         setPrefs(sharedPrefs, context);
     }
 
@@ -504,8 +507,8 @@ public class AppSettings {
     }
 
     protected void setValue(String key, boolean value, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
+
 
         sharedPreferences.edit()
                 .putBoolean(key, value)
@@ -514,8 +517,8 @@ public class AppSettings {
 
     protected void setValue(String key, int value, Context context) {
         try {
-            SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
+
 
             sharedPreferences.edit()
                     .putInt(key, value)
@@ -527,8 +530,8 @@ public class AppSettings {
     }
 
     protected void setValue(String key, String value, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
+
 
         sharedPreferences.edit()
                 .putString(key, value)

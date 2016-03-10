@@ -78,8 +78,8 @@ public class DashClockSettingsActivity extends PreferenceActivity implements Sha
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPrefs, String key) {
-        SharedPreferences worldPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences worldPrefs = AppSettings.getSharedPreferences(this);
+
 
         // get the values and write them to our world prefs
         try {

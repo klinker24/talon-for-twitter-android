@@ -71,8 +71,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     public MainDrawerArrayAdapter(Context context) {
         super(context, 0);
         this.context = (Activity) context;
-        this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        this.sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         textSize = 15;
 
@@ -278,8 +278,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         current = i;
         highlightedCurrent = i;
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

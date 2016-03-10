@@ -71,8 +71,7 @@ public class DownloadFragment extends Fragment {
         protected String doInBackground(Void... args) {
 
             try {
-                SharedPreferences sharedPrefs = activity.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(activity);
 
                 AppSettings settings = new AppSettings(activity);
                 Twitter twitter = Utils.getTwitter(activity, settings);

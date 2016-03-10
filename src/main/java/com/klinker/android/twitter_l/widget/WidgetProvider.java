@@ -30,6 +30,7 @@ import android.widget.RemoteViews;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.WidgetRefreshService;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
@@ -91,8 +92,7 @@ public class WidgetProvider extends AppWidgetProvider {
             int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
 
             int res = 0;
-            switch (Integer.parseInt(getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+            switch (Integer.parseInt(AppSettings.getSharedPreferences(this)
                     .getString("widget_theme", "3"))) {
                 case 0:
                     res = R.layout.widget_light;

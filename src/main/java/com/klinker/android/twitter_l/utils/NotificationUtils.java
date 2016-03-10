@@ -78,8 +78,8 @@ public class NotificationUtils {
     public static void refreshNotification(Context context, boolean noTimeline) {
         AppSettings settings = AppSettings.getInstance(context);
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         //int[] unreadCounts = new int[] {4, 1, 2}; // for testing
@@ -326,8 +326,8 @@ public class NotificationUtils {
     }
 
     public static int[] getUnreads(Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         HomeDataSource data = HomeDataSource.getInstance(context);
@@ -348,8 +348,8 @@ public class NotificationUtils {
         int homeTweets = unreadCount[0];
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
 
         // they only have a new mention
@@ -389,8 +389,8 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
 
 
@@ -431,8 +431,8 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
 
 
@@ -465,8 +465,8 @@ public class NotificationUtils {
         int mentionsTweets = unreadCount[1];
         int dmTweets = unreadCount[2];
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         String screenName = sharedPrefs.getString("twitter_screen_name_" + currentAccount, "");
 
         if (mentionsTweets == 1 && homeTweets == 0 && dmTweets == 0) { // display the new mention
@@ -592,8 +592,7 @@ public class NotificationUtils {
 
     public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
 
-        SharedPreferences.Editor e = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit();
+        SharedPreferences.Editor e = AppSettings.getSharedPreferences(context).edit();
 
         e.putString("fav_user_tweet_name", tweets.get(0)[0]);
         e.putString("fav_user_tweet_text", tweets.get(0)[1]);
@@ -729,8 +728,7 @@ public class NotificationUtils {
             }
 
             // Pebble notification
-            if(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
+            if(AppSettings.getSharedPreferences(context).getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, shortText);
             }
 
@@ -757,8 +755,8 @@ public class NotificationUtils {
     public static void notifySecondDMs(Context context, int secondAccount) {
         DMDataSource data = DMDataSource.getInstance(context);
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
         String screenName = sharedPrefs.getString("twitter_screen_name_" + secondAccount, "");
 
         int numberNew = sharedPrefs.getInt("dm_unread_" + secondAccount, 0);
@@ -892,8 +890,8 @@ public class NotificationUtils {
         if (numberNew == 1) {
             name = data.getNewestName(secondAccount);
 
-            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
             // if they are muted, and you don't want them to show muted mentions
             // then just quit
             if (sharedPrefs.getString("muted_users", "").contains(name) &&
@@ -998,8 +996,7 @@ public class NotificationUtils {
             }
 
             // Pebble notification
-            if(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
+            if(AppSettings.getSharedPreferences(context).getBoolean("pebble_notification", false)) {
                 sendAlertToPebble(context, title, messageLong);
             }
 
@@ -1266,8 +1263,8 @@ public class NotificationUtils {
 
         AppSettings settings = AppSettings.getInstance(context);
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
             Intent markRead = new Intent(context, MarkReadService.class);
             PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);

@@ -26,6 +26,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
+
 public class ThemeConfigurationReceiver extends BroadcastReceiver {
 
     public static final String ACTION = "com.klinker.android.SET_THEME";
@@ -50,8 +52,7 @@ public class ThemeConfigurationReceiver extends BroadcastReceiver {
             }
 
             if (themeType.startsWith("version")) {
-                context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit()
+                AppSettings.getSharedPreferences(context).edit()
                         .putString("addon_theme_package", themePackage)
                         .putBoolean("addon_themes", true);
 

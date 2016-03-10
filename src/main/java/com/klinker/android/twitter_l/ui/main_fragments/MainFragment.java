@@ -223,8 +223,8 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         thisFragmentNumber = getArguments().getInt("fragment_number", -2);
 
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         setAppSettings();
         setHome();
