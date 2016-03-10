@@ -31,6 +31,7 @@ import android.widget.RemoteViews;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
@@ -74,8 +75,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
             Log.v("talon_unread_widget", "running service");
 
             int res = 0;
-            switch (Integer.parseInt(getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+            switch (Integer.parseInt(AppSettings.getSharedPreferences(this)
                     .getString("widget_theme", "3"))) {
                 case 0:
                     res = R.layout.widget_unread_trans_light;
@@ -125,8 +125,8 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
                 // get the counts
                 try {
-                    SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
                     int currentAccount = sharedPrefs.getInt("current_account", 1);
                     String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
                     String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";

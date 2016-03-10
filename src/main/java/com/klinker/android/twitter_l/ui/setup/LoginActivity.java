@@ -100,8 +100,8 @@ public class LoginActivity extends LVLActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
         sharedPrefs.edit().putInt("key_version_" + currAccount, 2).commit();

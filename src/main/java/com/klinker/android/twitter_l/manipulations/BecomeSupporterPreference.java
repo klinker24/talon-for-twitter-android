@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class BecomeSupporterPreference extends Preference {
 
@@ -30,8 +31,8 @@ public class BecomeSupporterPreference extends Preference {
     private boolean isSupporter = false;
 
     public void init() {
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(getContext());
+
         isSupporter = sharedPreferences.getBoolean("2016_supporter", false);
     }
 

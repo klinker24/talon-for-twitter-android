@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.util.Log;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.FavoriterUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import twitter4j.Status;
@@ -59,8 +60,8 @@ public class ActivityDataSource {
 
     public ActivityDataSource(Context context) {
         dbHelper = new ActivitySQLiteHelper(context);
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
         this.context = context;
     }
 

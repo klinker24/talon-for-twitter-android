@@ -192,8 +192,8 @@ public class ExpansionViewHelper {
                             .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                                    SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
                                     String current = sharedPrefs.getString("muted_clients", "");
                                     sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
@@ -759,8 +759,7 @@ public class ExpansionViewHelper {
                     switch (menuItem.getItemId()) {
                         case DELETE_TWEET:
                             new DeleteTweet().execute();
-                            context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                            AppSettings.getSharedPreferences(context)
                                     .edit().putBoolean("just_muted", true).commit();
 
                             ((Activity)context).recreate();

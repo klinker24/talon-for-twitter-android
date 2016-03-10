@@ -61,8 +61,7 @@ public class UpdateUtils {
     private static final long SUPPORTER_TIMEOUT = 90 * DAY;
 
     public static void checkUpdate(final Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
         long currentTime = Calendar.getInstance().getTimeInMillis();
@@ -115,8 +114,8 @@ public class UpdateUtils {
     }
 
     public static boolean showSupporterDialog(Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         // if there is a time set for the first run (This was introduced with 4.0.0)
         // and it has been longer than 90 days
@@ -291,8 +290,8 @@ public class UpdateUtils {
         }
 
         public void showError() {
-            final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
             new Thread(new Runnable() {
                 @Override

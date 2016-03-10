@@ -54,8 +54,8 @@ public class ActivityUtils {
         }
 
         this.context = context;
-        this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        this.sharedPrefs = AppSettings.getSharedPreferences(context);
+
         this.settings = AppSettings.getInstance(context);
         this.currentAccount = sharedPrefs.getInt("current_account", 1);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.klinker.android.launcher.api.ResourceHelper;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class ThemeColor {
@@ -23,8 +24,8 @@ public class ThemeColor {
         accentColorLight = helper.getColor(prefix + "_accent_color_light");
 
         if (!realAccent) {
-            SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
             int accent = sharedPrefs.getInt("material_accent_" + currentAccount, -1);
@@ -44,8 +45,8 @@ public class ThemeColor {
         accentColor = helper.getColor(prefix + "_accent_color");
         accentColorLight = helper.getColor(prefix + "_accent_color_light");
 
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
         int accent = sharedPrefs.getInt("material_accent_" + currentAccount, -1);

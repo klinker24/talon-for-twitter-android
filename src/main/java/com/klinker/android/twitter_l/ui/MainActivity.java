@@ -147,8 +147,8 @@ public class MainActivity extends DrawerActivity {
 
         context = this;
         sContext = this;
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
         DrawerActivity.settings = AppSettings.getInstance(context);
 
         try {
@@ -459,8 +459,8 @@ public class MainActivity extends DrawerActivity {
 
         Log.v("talon_starting", "main activity starting");
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         // check for night mode switching
         boolean dark = AppSettings.getCurrentTheme(sharedPrefs);

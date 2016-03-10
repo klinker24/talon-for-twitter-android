@@ -53,8 +53,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
         sharedPrefs.edit().putBoolean("from_activity", true).commit();
 
         super.finish();

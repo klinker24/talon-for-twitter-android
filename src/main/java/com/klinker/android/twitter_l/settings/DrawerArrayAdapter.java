@@ -45,8 +45,8 @@ public class DrawerArrayAdapter extends ArrayAdapter<String> {
         super(context, R.layout.drawer_list_item);
         this.context = context;
         this.text = text;
-        this.sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        this.sharedPrefs = AppSettings.getSharedPreferences(context);
+
     }
 
     @Override

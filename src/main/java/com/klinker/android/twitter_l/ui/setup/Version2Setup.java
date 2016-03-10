@@ -67,8 +67,8 @@ public class Version2Setup extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
         context = this;
         settings = AppSettings.getInstance(context);
 

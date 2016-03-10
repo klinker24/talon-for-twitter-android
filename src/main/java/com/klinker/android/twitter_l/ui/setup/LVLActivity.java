@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.vending.licensing.*;
 import com.klinker.android.twitter_l.APIKeys;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -122,8 +123,8 @@ public class LVLActivity extends Activity {
                 String url = (String) array.get(0);
                 String key = (String) array.get(1);
 
-                SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
                 sharedPrefs.edit().putString("consumer_key_2", key).commit();
 

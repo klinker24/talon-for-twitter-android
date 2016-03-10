@@ -58,8 +58,8 @@ public class ListChooser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         context = this;
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
         settings = AppSettings.getInstance(this);
 
         Utils.setUpTheme(context, settings);

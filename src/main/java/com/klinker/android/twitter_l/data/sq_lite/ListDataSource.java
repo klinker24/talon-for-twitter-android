@@ -25,6 +25,7 @@ import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
 import java.util.List;
@@ -83,8 +84,8 @@ public class ListDataSource {
     public ListDataSource(Context context) {
         dbHelper = new ListSQLiteHelper(context);
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPreferences = AppSettings.getSharedPreferences(context);
+
         timelineSize = Integer.parseInt(sharedPreferences.getString("timeline_size", "1000"));
         noRetweets = sharedPreferences.getBoolean("ignore_retweets", false);
     }

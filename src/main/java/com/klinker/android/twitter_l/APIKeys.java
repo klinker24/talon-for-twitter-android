@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Log;
 import com.google.android.vending.licensing.util.Base64;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -33,8 +34,8 @@ public class APIKeys {
     public String consumerSecret;
 
     public APIKeys(Context c) {
-        SharedPreferences sharedPrefs = c.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(c);
+
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

@@ -28,8 +28,7 @@ public class LauncherProfilePager extends ProfilePager {
         int acc = getIntent().getIntExtra("current_account", 0);
 
         if (acc != 0) {
-            getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+            AppSettings.getSharedPreferences(this)
                     .edit()
                     .putInt("current_account", acc)
                     .commit();

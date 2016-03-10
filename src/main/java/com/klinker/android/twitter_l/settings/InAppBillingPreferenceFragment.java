@@ -71,8 +71,8 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                     String sku = jo.getString("productId");
                     alert("Your support is greatly appreciated. Users like you are the reason I love my job :)");
 
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(getActivity());
+
                     sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
                 } catch (JSONException e) {
                     alert("Uh oh... Something went wrong with the purchase: Failed to parse purchase data.");
@@ -105,8 +105,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(getActivity());
 
                 String continueToken = "";
 

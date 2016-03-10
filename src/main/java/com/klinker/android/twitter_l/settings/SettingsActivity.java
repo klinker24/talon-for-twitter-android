@@ -214,8 +214,8 @@ public class SettingsActivity extends AppCompatActivity {
                     String sku = jo.getString("productId");
                     alert("Your support is greatly appreciated. Users like you are the reason I love my job :)");
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                    SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(this);
+
                     sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
 
                     recreate();

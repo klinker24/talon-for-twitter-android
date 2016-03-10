@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Twitter;
@@ -224,8 +225,8 @@ public class LoginFragment extends Fragment {
                 activity.restartLogin();
             } else {
 
-                SharedPreferences sharedPrefs = activity.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(activity);
+
 
                 SharedPreferences.Editor e = sharedPrefs.edit();
 

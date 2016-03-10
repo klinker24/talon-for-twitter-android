@@ -16,6 +16,7 @@ import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.apache.http.HttpEntity;
@@ -120,8 +121,8 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
                 String url = (String) array.get(0);
                 String key = (String) array.get(1);
 
-                SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
                 sharedPrefs.edit().putString("consumer_key_2", key).commit();
 

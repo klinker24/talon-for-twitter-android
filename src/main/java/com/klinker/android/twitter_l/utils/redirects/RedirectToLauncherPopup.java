@@ -31,8 +31,7 @@ public class RedirectToLauncherPopup extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+        AppSettings.getSharedPreferences(this)
                 .edit()
                 .putInt("current_account",
                         getIntent().getIntExtra("current_account", 1))

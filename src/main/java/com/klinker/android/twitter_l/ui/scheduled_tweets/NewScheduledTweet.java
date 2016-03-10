@@ -150,8 +150,8 @@ public class NewScheduledTweet extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
         context = this;
 

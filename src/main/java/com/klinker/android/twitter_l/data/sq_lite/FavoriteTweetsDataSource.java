@@ -8,6 +8,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import twitter4j.Status;
 
@@ -57,8 +59,8 @@ public class FavoriteTweetsDataSource {
     public FavoriteTweetsDataSource(Context context) {
         dbHelper = new FavoriteTweetsSQLiteHelper(context);
         this.context = context;
-        sharedPreferences = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPreferences = AppSettings.getSharedPreferences(context);
+
     }
 
     public void open() throws SQLException {

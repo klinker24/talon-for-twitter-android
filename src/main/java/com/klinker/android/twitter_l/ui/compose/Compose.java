@@ -234,8 +234,8 @@ public abstract class Compose extends Activity implements
 
         settings = AppSettings.getInstance(this);
         context = this;
-        sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
+
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);

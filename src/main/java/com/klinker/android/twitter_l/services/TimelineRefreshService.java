@@ -55,8 +55,8 @@ public class TimelineRefreshService extends IntentService {
         }
         if (MainActivity.canSwitch) {
             TimelineRefreshService.isRunning = true;
-            sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+            sharedPrefs = AppSettings.getSharedPreferences(this);
+
 
             Context context = getApplicationContext();
             int numberNew = 0;

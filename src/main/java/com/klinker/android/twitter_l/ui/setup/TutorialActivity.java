@@ -36,6 +36,7 @@ import android.view.SurfaceView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.Circle;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.text.DecimalFormat;
 
@@ -93,8 +94,7 @@ public class TutorialActivity extends Activity {
         thread.setRunning(false);
         finish();
         overridePendingTransition(0, 0);
-        getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+        AppSettings.getSharedPreferences(this)
                 .edit().putBoolean("initial_tutorial", false).commit();
     }
 
