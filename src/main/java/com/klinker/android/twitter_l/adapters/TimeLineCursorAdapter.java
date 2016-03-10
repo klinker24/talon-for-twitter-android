@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -126,6 +127,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     private Handler videoHandler;
 
+    private boolean isDataSaver = false;
+
     public static class ViewHolder {
         public TextView name;
         public TextView muffledName;
@@ -170,6 +173,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         init(true);
     }
     public void init(boolean cont) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connMgr.isActiveNetworkMetered() &&
+                    (connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED ||
+                            connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED)) {
+                isDataSaver = true;
+            }
+        }
+
         videoHandler = new Handler();
 
         settings = AppSettings.getInstance(context);
@@ -1525,7 +1538,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         private boolean isPlaying = false;
         public void playCurrentVideo() {
-            if (!activityPaused && videoView != null) {
+            if (!activityPaused && videoView != null && !isDataSaver) {
                 videoHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
