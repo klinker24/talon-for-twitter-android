@@ -15,5 +15,9 @@ android {
         targetSdkVersion 'N'
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     useLibrary 'org.apache.http.legacy'
 }
