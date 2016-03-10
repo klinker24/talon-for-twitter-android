@@ -42,7 +42,8 @@
             tools:replace="android:fullBackupContent"
             android:fullBackupContent="@xml/backup_content"
             android:supportsRtl="true"
-            android:largeHeap="true" >
+            android:largeHeap="true"
+            android:resizeableActivity="true" >
 
         <meta-data
             android:name="com.klinker.android.twitter_l.utils.glide.TwitterGlideModule"
