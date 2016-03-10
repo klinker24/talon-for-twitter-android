@@ -595,6 +595,16 @@ S
                   android:theme="@style/Theme.TalonLight.Settings">
         </activity>
 
+        <service
+            android:name=".services.TalonPullQSService"
+            android:label="@string/talon_pull"
+            android:icon="@drawable/ic_stat_icon"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">
         </service>
 
