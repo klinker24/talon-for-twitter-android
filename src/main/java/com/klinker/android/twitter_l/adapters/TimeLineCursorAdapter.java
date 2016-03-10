@@ -173,15 +173,20 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         init(true);
     }
     public void init(boolean cont) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            ConnectivityManager connMgr = (ConnectivityManager)
-                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (connMgr.isActiveNetworkMetered() &&
-                    (connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED ||
-                            connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED)) {
-                isDataSaver = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                    ConnectivityManager connMgr = (ConnectivityManager)
+                            context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                    if (connMgr.isActiveNetworkMetered() &&
+                            (connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED ||
+                                    connMgr.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_WHITELISTED)) {
+                        isDataSaver = true;
+                    }
+                }
             }
-        }
+        }).start();
 
         videoHandler = new Handler();
 
