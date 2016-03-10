@@ -6,7 +6,6 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_VERSION}"
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.13.2'
     }
 }
 
