@@ -401,19 +401,38 @@ public class PhotoViewerActivity extends AppCompatActivity {
             return;
         }
 
-        Bitmap bitmap = ((BitmapDrawable)picture.getDrawable()).getBitmap();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    final Bitmap bitmap = Glide.with(PhotoViewerActivity.this)
+                            .load(url)
+                            .asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
 
-        // create the intent
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        sharingIntent.setType("image/*");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // create the intent
+                            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                            sharingIntent.setType("image/*");
 
-        // add the bitmap uri to the intent
-        Uri uri = getImageUri(context, bitmap);
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                            // add the bitmap uri to the intent
+                            Uri uri = getImageUri(PhotoViewerActivity.this, bitmap);
+                            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-        // start the chooser
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
+                            // start the chooser
+                            startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "));
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
+            }
+        }).start();
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

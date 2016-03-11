@@ -43,6 +43,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.ui.GiphySearch;
 import com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets;
+import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -601,7 +602,9 @@ public class ComposeActivity extends Compose {
                         }
                     }
 
-                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IOUtils.getImageContentUri(context, f));
                     startActivityForResult(captureIntent, CAPTURE_IMAGE);
                 } else if (item == 1) { // attach picture
                     try {
