@@ -526,12 +526,19 @@ public abstract class Compose extends Activity implements
 
             Bitmap b = BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 
-            ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            if (!isAndroidN()) {
+                ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
-            b = ImageUtils.cropSquare(b);
+                input.close();
 
-            return rotateBitmap(b, orientation);
+                b = ImageUtils.cropSquare(b);
+                return rotateBitmap(b, orientation);
+            } else {
+                input.close();
+                b = ImageUtils.cropSquare(b);
+                return b;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -577,12 +584,17 @@ public abstract class Compose extends Activity implements
 
             Bitmap b = BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 
-            ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            if (!isAndroidN()) {
+                ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
-            input.close();
+                input.close();
 
-            return rotateBitmap(b, orientation);
+                return rotateBitmap(b, orientation);
+            } else {
+                input.close();
+                return b;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -647,21 +659,17 @@ public abstract class Compose extends Activity implements
     }
 
     void handleSendImage(Intent intent) {
-        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             //String filePath = IOUtils.getPath(imageUri, context);
             try {
-                attachImage[imagesAttached].setImageBitmap(getThumbnail(imageUri));
+                attachImage[imagesAttached].setImageURI(imageUri);
                 attachedUri[imagesAttached] = imageUri.toString();
                 holders[imagesAttached].setVisibility(View.VISIBLE);
                 imagesAttached++;
                 //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                 //numberAttached.setVisibility(View.VISIBLE);
-            } catch (FileNotFoundException e) {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                //numberAttached.setText("");
-                //numberAttached.setVisibility(View.GONE);
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                 //numberAttached.setText("");
                 //numberAttached.setVisibility(View.GONE);
@@ -835,11 +843,7 @@ public abstract class Compose extends Activity implements
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                             //numberAttached.setVisibility(View.VISIBLE);
-                        } catch (FileNotFoundException e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            //numberAttached.setText("");
-                            //numberAttached.setVisibility(View.GONE);
-                        } catch (IOException e) {
+                        } catch (Throwable e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                             //numberAttached.setText("");
                             //numberAttached.setVisibility(View.GONE);
@@ -859,17 +863,13 @@ public abstract class Compose extends Activity implements
                         Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
 
                         try {
-                            attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
+                            attachImage[imagesAttached].setImageURI(selectedImage);
                             holders[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
                             //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                             //numberAttached.setVisibility(View.VISIBLE);
-                        } catch (FileNotFoundException e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            //numberAttached.setText("");
-                            //numberAttached.setVisibility(View.GONE);
-                        } catch (IOException e) {
+                        } catch (Throwable e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                             //numberAttached.setText("");
                             //numberAttached.setVisibility(View.GONE);
@@ -890,16 +890,12 @@ public abstract class Compose extends Activity implements
                     attachedUri[imagesAttached] = Uri.fromFile(new File(path)).toString();
 
                     try {
-                        attachImage[imagesAttached].setImageBitmap(getThumbnail(Uri.parse(attachedUri[imagesAttached])));
+                        attachImage[imagesAttached].setImageURI(Uri.parse(attachedUri[imagesAttached]));
                         holders[imagesAttached].setVisibility(View.VISIBLE);
                         imagesAttached++;
                         //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
                         //numberAttached.setVisibility(View.VISIBLE);
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        //numberAttached.setText("");
-                        //numberAttached.setVisibility(View.GONE);
-                    } catch (IOException e) {
+                    } catch (Throwable e) {
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                         //numberAttached.setText("");
                         //numberAttached.setVisibility(View.GONE);
@@ -934,7 +930,7 @@ public abstract class Compose extends Activity implements
 
                         Log.v("talon_compose_pic", "path to gif on sd card: " + filePath);
 
-                        attachImage[0].setImageURI(selectedImage);
+                        attachImage[0].setImageBitmap(getThumbnail(selectedImage));
                         holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
@@ -954,14 +950,18 @@ public abstract class Compose extends Activity implements
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
 
-                        String filePath = IOUtils.getPath(selectedImage, context);
+                        // todo: on N, the file path doesn't work
+                        if (!isAndroidN()) {
+                            String filePath = IOUtils.getPath(selectedImage, context);
 
-                        Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(filePath,
-                                MediaStore.Images.Thumbnails.MINI_KIND);
+                            Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(filePath,
+                                    MediaStore.Images.Thumbnails.MINI_KIND);
 
-                        Log.v("talon_compose_pic", "path to surfaceView on sd card: " + filePath);
+                            Log.v("talon_compose_pic", "path to surfaceView on sd card: " + filePath);
 
-                        attachImage[0].setImageBitmap(thumbnail);
+                            attachImage[0].setImageBitmap(thumbnail);
+                        }
+
                         holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
@@ -1475,5 +1475,9 @@ public abstract class Compose extends Activity implements
         } catch (Exception e) {
             return px;
         }
+    }
+
+    public boolean isAndroidN() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
     }
 }
