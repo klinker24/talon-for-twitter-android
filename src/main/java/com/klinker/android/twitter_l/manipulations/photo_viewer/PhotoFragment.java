@@ -36,6 +36,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -233,16 +235,17 @@ public class PhotoFragment extends Fragment {
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
 
-        File camera = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/Camera");
-        camera.mkdirs();
-
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "talon-share-image", null);
+        File f = new File(Environment.getExternalStorageDirectory() + "/talon/image_to_share.jpg");
         try {
-            return Uri.parse(path);
-        } catch (Exception e) {
-            Toast.makeText(activity, R.string.error, Toast.LENGTH_SHORT).show();
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+
+            return IOUtils.getImageContentUri(inContext, f);
+        } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
