@@ -466,6 +466,10 @@ public class SearchPager extends AppCompatActivity {
 
             case R.id.menu_compose_with_search:
                 Intent compose = new Intent(context, ComposeActivity.class);
+                searchQuery = searchQuery
+                        .replace(" -RT", "")
+                        .replace(" filter:links twitter.com", "")
+                        .replace(" TOP", "");
                 compose.putExtra("user", searchQuery);
                 startActivity(compose);
                 return  super.onOptionsItemSelected(item);
