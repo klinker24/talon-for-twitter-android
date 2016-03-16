@@ -331,6 +331,18 @@
     </question>
 
     <question
+        name="Two Account Limit in Talon"
+        description="Why can we only use two accounts in Talon?">
+
+        <text>
+            Twitter enforces a strict limit on the number of users that a third party app can log in. Because of this limit, I have only allowed each user to use two accounts within the app.
+
+            This will not be changing unless Twitter removes their limit, unfortunately.
+        </text>
+
+    </question>
+
+    <question
             name="Images do not upload"
             description="Sometimes they fail, sometimes they go through">
 
