@@ -42,7 +42,7 @@ public class ReplyFromWearService extends IntentService {
 
     public boolean finished = false;
 
-    public ReplyFromWearService(String name) {
+    public ReplyFromWearService() {
         super("ReplyFromWear");
     }
 
