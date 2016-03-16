@@ -72,6 +72,11 @@ public class ReplyFromWearService extends IntentService {
 
         boolean sent = sendTweet(context);
 
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel((int) tweetId);
+        mNotificationManager.cancel(1);
+
         if (!sent) {
             makeFailedNotification(ReplyFromWearService.this.message, settings);
         }
