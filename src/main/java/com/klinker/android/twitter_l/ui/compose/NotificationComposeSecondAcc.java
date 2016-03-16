@@ -78,7 +78,7 @@ public class NotificationComposeSecondAcc extends ComposeActivity {
         if (voiceReply != null) {
             if (!voiceReply.equals("")) {
                 // set the text
-                reply.append(voiceReply);
+                reply.append(" " + voiceReply);
 
                 // send the message
                 doneClick();

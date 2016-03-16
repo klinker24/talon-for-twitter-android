@@ -594,6 +594,12 @@ S
                   android:theme="@style/Theme.TalonLight.Settings">
         </activity>
 
+        <service android:name=".services.ReplyFromWearService">
+        </service>
+
+        <service android:name="com.klinker.android.twitter_l.services.ReplySecondAccountFromWearService">
+        </service>
+
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">
         </service>
 

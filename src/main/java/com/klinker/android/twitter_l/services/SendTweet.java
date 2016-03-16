@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import twitter4j.Status;
 import twitter4j.Twitter;
 
 
@@ -173,8 +174,8 @@ public class SendTweet extends Service {
                     }
                 } else {
                     // no picture
-                    twitter.updateStatus(reply);
-                    return true;
+                    Status status = twitter.updateStatus(reply);
+                    return status != null && status.getId() != 0 && status.getId() != -1;
                 }
             }
         } catch (Exception e) {
