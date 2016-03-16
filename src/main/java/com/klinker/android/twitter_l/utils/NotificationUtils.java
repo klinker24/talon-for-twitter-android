@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -42,6 +43,8 @@ import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverTwo;
 import com.klinker.android.twitter_l.services.MarkReadSecondAccService;
 import com.klinker.android.twitter_l.services.MarkReadService;
 import com.klinker.android.twitter_l.services.ReadInteractionsService;
+import com.klinker.android.twitter_l.services.ReplyFromWearService;
+import com.klinker.android.twitter_l.services.ReplySecondAccountFromWearService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.NotificationCompose;
@@ -222,20 +225,33 @@ public class NotificationUtils {
                         NotificationManagerCompat.from(context);
 
                 if (addButton) { // the reply and read button should be shown
-                    Intent reply;
-                    if (unreadCounts[1] == 1) {
-                        reply = new Intent(context, NotificationCompose.class);
-                    } else {
-                        reply = new Intent(context, NotificationDMCompose.class);
-                    }
 
-                    Log.v("username_for_noti", title[1]);
-                    sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
+                    Intent reply;
+                    PendingIntent replyPending;
+
                     MentionsDataSource data = MentionsDataSource.getInstance(context);
                     long id = data.getLastIds(currentAccount)[0];
-                    PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
-                    sharedPrefs.edit().putLong("from_notification_long", id).commit();
-                    sharedPrefs.edit().putString("from_notification_text", "@" + title[1] + ": " + TweetLinkUtils.removeColorHtml(shortText, settings)).commit();
+
+                    if (unreadCounts[1] == 1) {
+                        if (Utils.isAndroidN()) {
+                            reply = new Intent(context, ReplyFromWearService.class);
+                            reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, id);
+                            reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + title[1] + " " + title[2]);
+
+                            replyPending = PendingIntent.getService(context, (int) id, reply, 0);
+                        } else {
+                            reply = new Intent(context, NotificationCompose.class);
+
+                            sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
+                            sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
+                            sharedPrefs.edit().putString("from_notification_text", "@" + title[1] + ": " + TweetLinkUtils.removeColorHtml(shortText, settings)).commit();
+
+                            replyPending = PendingIntent.getActivity(context, (int) id, reply, 0);
+                        }
+                    } else {
+                        reply = new Intent(context, NotificationDMCompose.class);
+                        replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+                    }
 
                     // Create the remote input
                     RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
@@ -905,14 +921,26 @@ public class NotificationUtils {
             tweetText = data.getNewestMessage(secondAccount);
             messageLong = "<b>@" + name + "</b>: " + tweetText;
             largeIcon = getImage(context, name);
-
-            Intent reply = new Intent(context, NotificationComposeSecondAcc.class);
-
-            sharedPrefs.edit().putString("from_notification_second", "@" + name).commit();
             long id = data.getLastIds(secondAccount)[0];
-            PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
-            sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
-            sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+
+            Intent reply;
+            PendingIntent replyPending;
+
+            if (Utils.isAndroidN()) {
+                reply = new Intent(context, ReplySecondAccountFromWearService.class);
+                reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, id);
+                reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + name);
+
+                replyPending = PendingIntent.getService(context, (int)id, reply, 0);
+            } else {
+                reply = new Intent(context, NotificationComposeSecondAcc.class);
+
+                sharedPrefs.edit().putString("from_notification_second", "@" + name).commit();
+                sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
+                sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+
+                replyPending = PendingIntent.getActivity(context, (int) id, reply, 0);
+            }
 
             // Create the remote input
             RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
@@ -1256,7 +1284,7 @@ public class NotificationUtils {
         context.sendBroadcast(data);
     }
 
-    public static final boolean TEST_NOTIFICATION = false;
+    public static final boolean TEST_NOTIFICATION = true;
 
     public static void sendTestNotification(Context context) {
 
@@ -1269,89 +1297,108 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-            Intent markRead = new Intent(context, MarkReadService.class);
-            PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+        Intent markRead = new Intent(context, MarkReadService.class);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
 
-            String shortText = "Test Talon";
-            String longText = "Here is a test for Talon's notifications";
+        String shortText = "Test Talon";
+        String longText = "Here is a test for Talon's notifications";
 
-            Intent resultIntent = new Intent(context, RedirectToMentions.class);
+        Intent resultIntent = new Intent(context, RedirectToMentions.class);
 
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
 
-            NotificationCompat.Builder mBuilder;
+        NotificationCompat.Builder mBuilder;
 
-            Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
+        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
 
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setContentTitle(shortText)
-                    .setContentText(longText)
-                    .setSmallIcon(R.drawable.ic_stat_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
-                    .setContentIntent(resultPendingIntent)
-                    .setAutoCancel(true)
-                    .setTicker(shortText)
-                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        mBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(shortText)
+                .setContentText(longText)
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+                .setContentIntent(resultPendingIntent)
+                .setAutoCancel(true)
+                .setTicker(shortText)
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-            // Pebble notification
-            if(sharedPrefs.getBoolean("pebble_notification", false)) {
-                sendAlertToPebble(context, shortText, shortText);
+        // Pebble notification
+        if(sharedPrefs.getBoolean("pebble_notification", false)) {
+            sendAlertToPebble(context, shortText, shortText);
+        }
+
+        // Light Flow notification
+        sendToLightFlow(context, shortText, shortText);
+
+        if (settings.vibrate) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        }
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            mBuilder.setColor(settings.themeColors.primaryColor);
+        }
+
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
+        }
 
-            // Light Flow notification
-            sendToLightFlow(context, shortText, shortText);
+        if (settings.led)
+            mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
-            if (settings.vibrate) {
-                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-            }
+        // Get an instance of the NotificationManager service
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(context);
 
-            if (settings.sound) {
-                try {
-                    mBuilder.setSound(Uri.parse(settings.ringtone));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                }
-            }
+        Intent reply;
+        PendingIntent replyPending;
 
-            if (settings.led)
-                mBuilder.setLights(0xFFFFFF, 1000, 1000);
+        if (Utils.isAndroidN()) {
+            reply = new Intent(context, ReplyFromWearService.class);
+            reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, 1);
+            reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@test_for_talon");
 
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(context);
+            replyPending = PendingIntent.getService(context, 1, reply, 0);
+        } else {
+            reply = new Intent(context, NotificationComposeSecondAcc.class);
 
-            Intent reply = new Intent(context, NotificationCompose.class);
-            MentionsDataSource data = MentionsDataSource.getInstance(context);
-            PendingIntent replyPending = PendingIntent.getActivity(context, 0, reply, 0);
+            sharedPrefs.edit().putString("from_notification_second", "@test_for_talon").commit();
+            sharedPrefs.edit().putLong("from_notification_long_second", 1).commit();
+            sharedPrefs.edit().putString("from_notification_text_second", "@test_for_talon" + ": test").commit();
 
-            RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
-                    .setLabel("@" + "lukeklinker" + " ")
-                    .build();
+            replyPending = PendingIntent.getActivity(context, 1, reply, 0);
+        }
 
-            // Create the notification action
-            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
-                    context.getResources().getString(R.string.noti_reply), replyPending)
-                    .addRemoteInput(remoteInput)
-                    .build();
+        RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)
+                .setLabel("@" + "test_for_talon" + " ")
+                .build();
 
-            NotificationCompat.Action.Builder action = new NotificationCompat.Action.Builder(
-                    R.drawable.ic_action_read_dark,
-                    context.getResources().getString(R.string.mark_read), readPending);
+        // Create the notification action
+        NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(R.drawable.ic_action_reply_dark,
+                context.getResources().getString(R.string.noti_reply), replyPending)
+                .addRemoteInput(remoteInput)
+                .build();
 
-            mBuilder.addAction(replyAction);
-            mBuilder.addAction(action.build());
+        NotificationCompat.Action.Builder action = new NotificationCompat.Action.Builder(
+                R.drawable.ic_action_read_dark,
+                context.getResources().getString(R.string.mark_read), readPending);
+
+        mBuilder.addAction(replyAction);
+        mBuilder.addAction(action.build());
 
 
-            // Build the notification and issues it with notification manager.
-            notificationManager.notify(1, mBuilder.build());
+        // Build the notification and issues it with notification manager.
+        notificationManager.notify(1, mBuilder.build());
 
-            // if we want to wake the screen on a new message
-            if (settings.wakeScreen) {
-                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-                wakeLock.acquire(5000);
-            }
+        // if we want to wake the screen on a new message
+        if (settings.wakeScreen) {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+            wakeLock.acquire(5000);
+        }
     }
 }

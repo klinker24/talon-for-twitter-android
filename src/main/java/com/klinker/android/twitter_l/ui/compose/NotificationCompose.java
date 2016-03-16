@@ -62,12 +62,11 @@ public class NotificationCompose extends ComposeActivity {
             reply.setSelection(reply.getText().length());
         }
 
-        // try from android wear device
         CharSequence voiceReply = getVoiceReply(getIntent());
         if (voiceReply != null) {
             if (!voiceReply.equals("")) {
                 // set the text
-                reply.append(voiceReply);
+                reply.append(" " + voiceReply);
 
                 // send the message
                 doneClick();
