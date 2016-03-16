@@ -7,10 +7,6 @@ import twitter4j.Twitter;
 
 public class ReplySecondAccountFromWearService extends ReplyFromWearService {
 
-    public ReplySecondAccountFromWearService(String name) {
-        super("ReplyFromWearSecondAccount");
-    }
-
     @Override
     public Twitter getTwitter() {
         return Utils.getSecondTwitter(this);

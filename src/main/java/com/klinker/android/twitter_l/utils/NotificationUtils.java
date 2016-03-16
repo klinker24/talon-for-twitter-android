@@ -1284,7 +1284,7 @@ public class NotificationUtils {
         context.sendBroadcast(data);
     }
 
-    public static final boolean TEST_NOTIFICATION = true;
+    public static final boolean TEST_NOTIFICATION = false;
 
     public static void sendTestNotification(Context context) {
 
