@@ -25,7 +25,6 @@ public class NotificationDeleteReceiverTwo extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.v("notification_deleted_talon", "starting receiver for notification deleted on account 2");
         context.startService(new Intent(context, MarkReadSecondAccService.class));
     }
 }

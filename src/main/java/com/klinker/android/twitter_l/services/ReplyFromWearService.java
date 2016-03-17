@@ -20,6 +20,7 @@ import android.support.v4.app.RemoteInput;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
@@ -35,10 +36,12 @@ public class ReplyFromWearService extends IntentService {
 
     public static final String REPLY_TO_NAME = "reply_to_name";
     public static final String IN_REPLY_TO_ID = "tweet_id";
+    public static final String NOTIFICATION_ID = "notification_id";
 
     public String users = "";
     public String message = "";
     public long tweetId = 0l;
+    public int notificationId;
 
     public boolean finished = false;
 
@@ -62,6 +65,8 @@ public class ReplyFromWearService extends IntentService {
         users = intent.getStringExtra(REPLY_TO_NAME);
         String message = getVoiceReply(intent);
         tweetId = intent.getLongExtra(IN_REPLY_TO_ID, 0l);
+        notificationId = intent.getIntExtra(NOTIFICATION_ID, 1);
+
 
         if (message == null) {
             makeFailedNotification("Failed to get the reply.", settings);
@@ -74,12 +79,21 @@ public class ReplyFromWearService extends IntentService {
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel((int) tweetId);
-        mNotificationManager.cancel(1);
+        mNotificationManager.cancel(notificationId);
 
         if (!sent) {
             makeFailedNotification(ReplyFromWearService.this.message, settings);
         }
+
+        try {
+            MentionsDataSource.getInstance(this).markAllRead(getAccountNumber());
+        } catch (Exception e) {
+
+        }
+    }
+
+    protected int getAccountNumber() {
+        return AppSettings.getInstance(this).sharedPrefs.getInt("current_account", 1);
     }
 
     public Twitter getTwitter() {

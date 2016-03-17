@@ -30,7 +30,7 @@ public class NotificationDMCompose extends ComposeDMActivity {
         // mark the messages as read here
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(1);
+        mNotificationManager.cancelAll();
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 

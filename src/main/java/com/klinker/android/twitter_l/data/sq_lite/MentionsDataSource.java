@@ -414,6 +414,19 @@ public class MentionsDataSource {
         return count;
     }
 
+    public synchronized void markRead(long tweetId) {
+
+        ContentValues cv = new ContentValues();
+        cv.put(HomeSQLiteHelper.COLUMN_UNREAD, 0);
+
+        try {
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        } catch (Exception e) {
+            open();
+            database.update(MentionsSQLiteHelper.TABLE_MENTIONS, cv, MentionsSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
+        }
+    }
+
     // true is unread
     // false have been read
     public synchronized void markMultipleRead(int current, int account) {
@@ -460,11 +473,11 @@ public class MentionsDataSource {
 
     public synchronized String getNewestName(int account) {
 
-        Cursor cursor = getUnreadCursor(account);
+        Cursor cursor = getCursor(account);
         String name = "";
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 name = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
             }
         } catch (Exception e) {
@@ -477,11 +490,11 @@ public class MentionsDataSource {
     }
 
     public synchronized String getNewestNames(int account) {
-        Cursor cursor = getUnreadCursor(account);
+        Cursor cursor = getCursor(account);
         String name = "";
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 name = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_USERS));
             }
         } catch (Exception e) {
@@ -495,11 +508,11 @@ public class MentionsDataSource {
 
     public synchronized String getNewestMessage(int account) {
 
-        Cursor cursor = getUnreadCursor(account);
+        Cursor cursor = getCursor(account);
         String message = "";
 
         try {
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 message = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
             }
         } catch (Exception e) {
