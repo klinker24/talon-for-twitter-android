@@ -58,7 +58,6 @@ public class ReplyFromWearService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        final Context context = this;
         final AppSettings settings = AppSettings.getInstance(this);
 
         // set up the tweet from the intent
@@ -75,7 +74,7 @@ public class ReplyFromWearService extends IntentService {
             this.message = users + " " + message;
         }
 
-        boolean sent = sendTweet(context);
+        boolean sent = sendTweet();
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -86,10 +85,12 @@ public class ReplyFromWearService extends IntentService {
         }
 
         try {
-            MentionsDataSource.getInstance(this).markAllRead(getAccountNumber());
+            MentionsDataSource.getInstance(this).markRead(tweetId);
         } catch (Exception e) {
 
         }
+
+        NotificationUtils.cancelGroupedNotificationWithNoContent(this);
     }
 
     protected int getAccountNumber() {
@@ -100,12 +101,12 @@ public class ReplyFromWearService extends IntentService {
         return Utils.getTwitter(this, AppSettings.getInstance(this));
     }
 
-    public boolean sendTweet(Context context) {
+    public boolean sendTweet() {
         try {
             Twitter twitter =  getTwitter();
 
             if (message.length() > 140) {
-                TwitLongerHelper helper = new TwitLongerHelper(message, twitter, context);
+                TwitLongerHelper helper = new TwitLongerHelper(message, twitter, this);
                 helper.setInReplyToStatusId(tweetId);
 
                 return helper.createPost() != 0;
