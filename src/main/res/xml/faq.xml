@@ -319,6 +319,30 @@
     </question>
 
     <question
+        name="Removing Users from Lists"
+        description="">
+
+        <text>
+            From user profiles, you can easily add users to your lists, but removing them from the lists is not within the profiles.
+
+            To view users in a list, head to the list section of the drawer, then long click the list you are looking at. From there, you can view the users within that list, and remove them by clicking on them.
+        </text>
+
+    </question>
+
+    <question
+        name="Two Account Limit in Talon"
+        description="Why can we only use two accounts in Talon?">
+
+        <text>
+            Twitter enforces a strict limit on the number of users that a third party app can log in. Because of this limit, I have only allowed each user to use two accounts within the app.
+
+            This will not be changing unless Twitter removes their limit, unfortunately.
+        </text>
+
+    </question>
+
+    <question
             name="Images do not upload"
             description="Sometimes they fail, sometimes they go through">
 
@@ -364,8 +388,16 @@
             6.) User's lists on their profiles
             7.) Twitter Cards
             8.) Notifications for saved searches
-            9.) Expand the widget for multiple account support and mention support
-            10.) Background refresh for lists
+            9.) Expand on the widget
+            10.) Manipulate photos before posting them
+            11.) Show article snip-its on the timeline for tweets with links
+
+
+            Things that won't happen at this point due to Twitter's 3rd party service limitations:
+
+            1.) Twitter Polls are not possible
+            2.) It isn't possible to send pictures in Direct Messages
+            3.) There is no support at all for group Direct Messages
 
 
             Things requested that won't happen at this point:

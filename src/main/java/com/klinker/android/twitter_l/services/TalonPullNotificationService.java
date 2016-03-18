@@ -574,7 +574,7 @@ public class TalonPullNotificationService extends Service {
 
                     boolean favUser = FavoriteUsersDataSource.getInstance(mContext).isFavUser(sharedPreferences.getInt("current_account", 1), status.getUser().getScreenName());
                     if (favUser && settings.favoriteUserNotifications && settings.notifications) {
-                        NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext);
+                        NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext, -1);
                     }
 
                     if (favUser) {

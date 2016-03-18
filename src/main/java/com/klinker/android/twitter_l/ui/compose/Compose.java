@@ -720,8 +720,8 @@ public abstract class Compose extends Activity implements
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
         mNotificationManager.notify(5, mBuilder.build());
-        mNotificationManager.cancel(6);
     }
 
     public void makeTweetingNotification() {

@@ -31,8 +31,7 @@ public class NotificationCompose extends ComposeActivity {
         // mark the messages as read here
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(1);
-        mNotificationManager.cancel(9);
+        mNotificationManager.cancelAll();
 
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
@@ -63,12 +62,11 @@ public class NotificationCompose extends ComposeActivity {
             reply.setSelection(reply.getText().length());
         }
 
-        // try from android wear device
         CharSequence voiceReply = getVoiceReply(getIntent());
         if (voiceReply != null) {
             if (!voiceReply.equals("")) {
                 // set the text
-                reply.append(voiceReply);
+                reply.append(" " + voiceReply);
 
                 // send the message
                 doneClick();

@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="4.6.0">
+        <text>Like and retweet a status from mention notification buttons</text>
+        <text>Bundled notification support for mentions on Android N and Android Wear</text>
+        <text>Bundled notification support for favorite user tweets on Android N and Android Wear</text>
+        <text>Add tweets pictures to mention notifications</text>
+    </version>
+
     <version name="4.5.3">
         <text>Wooosh. Buttery smoothness update across a ton of screens.</text>
         <text>Image loading takes less data (significantly less in some cases)</text>

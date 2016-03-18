@@ -605,6 +605,11 @@ S
             </intent-filter>
         </service>
 
+        <service android:name=".services.FavoriteTweetService"/>
+        <service android:name=".services.RetweetService"/>
+        <service android:name=".services.ReplyFromWearService"/>
+        <service android:name="com.klinker.android.twitter_l.services.ReplySecondAccountFromWearService"/>
+
         <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">
         </service>
 
@@ -695,6 +700,9 @@ S
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+
+        <receiver android:name="com.klinker.android.twitter_l.receivers.MarkMentionReadReceiver" />
 
         <receiver android:name="com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverOne"
                   android:exported="true"/>

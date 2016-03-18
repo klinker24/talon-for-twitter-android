@@ -280,16 +280,15 @@ public abstract class PopupLayout extends CardView {
         setDistanceFromLeft((int) offsetLeft);
 
         int statusBarSize = Utils.getStatusBarHeight(getContext());
-        int actionBarSize = Utils.getActionBarHeight(getContext());
         int navBarSize = Utils.getNavBarHeight(getContext());
 
         // set the height to 95% of the screen height
         setHeightByPercent(1.0f);
-        height -= statusBarSize + actionBarSize + navBarSize;
+        height -= statusBarSize + navBarSize;
 
         // makes sure it is centered and below the
-        float usableHeight = screenHeight - statusBarSize - actionBarSize - navBarSize;
-        setDistanceFromTop((int) (statusBarSize + actionBarSize + 10 + ((usableHeight - height) / 2)));
+        float usableHeight = screenHeight - statusBarSize - navBarSize;
+        setDistanceFromTop((int) (statusBarSize + 10 + ((usableHeight - height) / 2)));
     }
 
     /**
@@ -320,7 +319,7 @@ public abstract class PopupLayout extends CardView {
             startX = screenWidth - width - 10;
         }
 
-        int statusActionBar = Utils.getStatusBarHeight(getContext()) + Utils.getActionBarHeight(getContext());
+        int statusActionBar = Utils.getStatusBarHeight(getContext());
         if (startY < statusActionBar) { // if it is above the status bar and action bar
             startY = statusActionBar + 10;
         } else if (Utils.hasNavBar(getContext()) &&
