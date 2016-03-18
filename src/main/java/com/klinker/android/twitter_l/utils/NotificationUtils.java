@@ -83,7 +83,7 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = true;
+    public static final boolean TEST_NOTIFICATION = false;
     public static final int TEST_TIMELINE_NUM = 0;
     public static final int TEST_MENTION_NUM = 2;
     public static final int TEST_DM_NUM = 0;

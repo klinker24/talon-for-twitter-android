@@ -50,7 +50,7 @@ public class MentionsRefreshService extends IntentService {
         AppSettings settings = AppSettings.getInstance(context);
 
         // if they have mobile data on and don't want to sync over mobile data
-        if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
+        if (!intent.getBooleanExtra("from_push_sync", false) && Utils.getConnectionStatus(context) && !settings.syncMobile) {
             return;
         }
 
