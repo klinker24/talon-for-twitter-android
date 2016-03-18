@@ -16,6 +16,7 @@ package com.klinker.android.twitter_l.utils;
  */
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ContentValues;
@@ -29,6 +30,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
+import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
@@ -72,6 +74,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -80,11 +83,11 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 1;
+    public static final boolean TEST_NOTIFICATION = true;
+    public static final int TEST_TIMELINE_NUM = 0;
     public static final int TEST_MENTION_NUM = 2;
     public static final int TEST_DM_NUM = 0;
-    public static final int TEST_SECOND_MENTIONS_NUM = 0;
+    public static final int TEST_SECOND_MENTIONS_NUM = 1;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions";
     public static final String FIRST_ACCOUNT_GROUP = "first_account_group";
@@ -331,7 +334,11 @@ public class NotificationUtils {
                 }
 
                 // Build the notification and issues it with notification manager.
-                notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
+                if (grouped.size() > 0) {
+                    notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
+                } else {
+                    notificationManager.notify(1, mBuilder.build());
+                }
 
                 // if we want to wake the screen on a new message
                 if (settings.wakeScreen) {
@@ -1019,7 +1026,6 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setGroup(SECOND_ACC_MENTIONS_GROUP)
                 .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
 
         if (settings.headsUp) {
@@ -1064,7 +1070,6 @@ public class NotificationUtils {
                     TweetLinkUtils.removeColorHtml(message, settings));
 
             mBuilder.setStyle(inbox);
-            mBuilder.setGroupSummary(true);
 
             for (NotificationIdentifier notification : grouped) {
                 notificationManager.notify(notification.notificationId, notification.notification);
@@ -1096,7 +1101,7 @@ public class NotificationUtils {
                 notificationManager.notify(notificationId, mBuilder.build());
                 sharedPrefs.edit().putInt("last_second_account_mention_notification_id", notificationId).commit();
             } else {
-                notificationManager.notify(9, mBuilder.build());
+                notificationManager.notify(9, mBuilder.setGroup(SECOND_ACC_MENTIONS_GROUP).setGroupSummary(true).build());
                 sharedPrefs.edit().putInt("last_second_account_mention_notification_id", 9).commit();
             }
 
@@ -1447,6 +1452,12 @@ public class NotificationUtils {
             @Override
             public void run() {
                 notifySecondMentions(context, 2);
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) { }
+
+                cancelGroupedNotificationWithNoContent(context);
             }
         }).start();
 
@@ -1559,6 +1570,53 @@ public class NotificationUtils {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
             wakeLock.acquire(5000);
+        }
+    }
+
+    public static void cancelGroupedNotificationWithNoContent(Context context) {
+        if (Build.VERSION.SDK_INT >= 23 || Utils.isAndroidN()) {
+            Map<String, Integer> map = new HashMap();
+
+            NotificationManager manager = (NotificationManager) context.getSystemService(
+                    Context.NOTIFICATION_SERVICE);
+
+            StatusBarNotification[] notifications = manager.getActiveNotifications();
+
+            for (StatusBarNotification notification : notifications) {
+                String keyString = notification.getGroupKey();
+                if (keyString.contains("|g:")) { // this is a grouped notification
+                    keyString = keyString.substring(keyString.indexOf("|g:") + 3, keyString.length());
+
+                    if (map.containsKey(keyString)) {
+                        map.put(keyString, map.get(keyString) + 1);
+                    } else {
+                        map.put(keyString, 1);
+                    }
+                }
+            }
+
+            Iterator it = map.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                String key = (String) pair.getKey();
+                int value = (Integer) pair.getValue();
+
+                if (value == 1) {
+                    for (StatusBarNotification notification : notifications) {
+                        String keyString = notification.getGroupKey();
+                        if (keyString.contains("|g:")) { // this is a grouped notification
+                            keyString = keyString.substring(keyString.indexOf("|g:") + 3, keyString.length());
+
+                            if (key.equals(keyString)) {
+                                manager.cancel(notification.getId());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                it.remove(); // avoids a ConcurrentModificationException
+            }
         }
     }
 
