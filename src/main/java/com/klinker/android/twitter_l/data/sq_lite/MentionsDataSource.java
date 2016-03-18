@@ -524,6 +524,24 @@ public class MentionsDataSource {
         return message;
     }
 
+    public synchronized String getNewestPictureUrl(int account) {
+
+        Cursor cursor = getCursor(account);
+        String message = "";
+
+        try {
+            if (cursor.moveToLast()) {
+                message = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_PIC_URL));
+            }
+        } catch (Exception e) {
+
+        }
+
+        cursor.close();
+
+        return message;
+    }
+
     public synchronized long[] getLastIds(int account) {
         long[] ids = new long[] {0, 0};
 

@@ -83,11 +83,11 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = true;
-    public static final int TEST_TIMELINE_NUM = 1;
-    public static final int TEST_MENTION_NUM = 2;
+    public static final boolean TEST_NOTIFICATION = false;
+    public static final int TEST_TIMELINE_NUM = 0;
+    public static final int TEST_MENTION_NUM = 1;
     public static final int TEST_DM_NUM = 0;
-    public static final int TEST_SECOND_MENTIONS_NUM = 0;
+    public static final int TEST_SECOND_MENTIONS_NUM = 1;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions";
     public static final String FIRST_ACCOUNT_GROUP = "first_account_group";
@@ -148,6 +148,7 @@ public class NotificationUtils {
             String longText = getLongText(unreadCounts, context, currentAccount);
             // [0] is the full title and [1] is the screenname
             String[] title = getTitle(unreadCounts, context, currentAccount);
+            String pictureUrl;
             boolean useExpanded = useExp(context);
             boolean addButton = addBtn(unreadCounts);
 
@@ -215,15 +216,17 @@ public class NotificationUtils {
                 mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
                         longText.replaceAll("FF8800", settings.accentColor) : longText)));
 
-                // this will group any mention notifications for us
-                getMentionsInboxStyle(grouped, FIRST_ACCOUNT_GROUP,
-                        unreadCounts[1],
-                        currentAccount,
-                        context,
-                        TweetLinkUtils.removeColorHtml(shortText, settings));
+                if (unreadCounts[1] > 1) {
+                    // this will group any mention notifications for us
+                    getMentionsInboxStyle(grouped, FIRST_ACCOUNT_GROUP,
+                            unreadCounts[1],
+                            currentAccount,
+                            context,
+                            TweetLinkUtils.removeColorHtml(shortText, settings));
 
-                for (NotificationIdentifier noti : grouped) {
-                    notificationManager.notify(noti.notificationId, noti.notification);
+                    for (NotificationIdentifier noti : grouped) {
+                        notificationManager.notify(noti.notificationId, noti.notification);
+                    }
                 }
             }
 
@@ -317,6 +320,14 @@ public class NotificationUtils {
                     Intent retweetIntent = RetweetService.getIntent(context, settings.currentAccount, id, notificationId);
 
                     if (unreadCounts[1] == 1) {
+                        pictureUrl = data.getNewestPictureUrl(currentAccount);
+                        if (pictureUrl != null && !pictureUrl.isEmpty()) {
+                            mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                                    .bigPicture(getPicture(context, pictureUrl))
+                                    .setSummaryText(Html.fromHtml(longText))
+                                    .setBigContentTitle(Html.fromHtml(title[0]))
+                            );
+                        }
                         // retweet button
                         mBuilder.addAction(new NotificationCompat.Action.Builder(
                                 R.drawable.ic_action_repeat_light,
@@ -347,10 +358,20 @@ public class NotificationUtils {
                 }
 
                 // Build the notification and issues it with notification manager.
+                int lastNotificationId = sharedPrefs.getInt("last_notification_id", 1);
+                notificationManager.cancel(lastNotificationId);
+
                 if (grouped.size() > 0) {
                     notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
+                    sharedPrefs.edit().putInt("last_notification_id", 1).commit();
                 } else {
-                    notificationManager.notify(1, mBuilder.build());
+                    if (unreadCounts[1] == 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
+                        notificationManager.notify(notificationId, mBuilder.build());
+                        sharedPrefs.edit().putInt("last_notification_id", notificationId).commit();
+                    } else {
+                        notificationManager.notify(1, mBuilder.build());
+                        sharedPrefs.edit().putInt("last_notification_id", 1).commit();
+                    }
                 }
 
                 // if we want to wake the screen on a new message
@@ -832,6 +853,20 @@ public class NotificationUtils {
         }
     }
 
+    public static Bitmap getPicture(Context context, String url) {
+        try {
+            return Glide.
+                    with(context).
+                    load(url).
+                    asBitmap().
+                    into(1000,1000).
+                    get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void notifySecondDMs(Context context, int secondAccount) {
         DMDataSource data = DMDataSource.getInstance(context);
 
@@ -963,6 +998,7 @@ public class NotificationUtils {
         String name = null;
         String message;
         String messageLong;
+        String pictureUrl = null;
 
         String tweetText = null;
         NotificationCompat.Action replyAction = null;
@@ -984,6 +1020,7 @@ public class NotificationUtils {
 
             message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
             tweetText = data.getNewestMessage(secondAccount);
+            pictureUrl = data.getNewestPictureUrl(secondAccount);
             messageLong = "<b>@" + name + "</b>: " + tweetText;
             largeIcon = getImage(context, name);
             id = data.getLastIds(secondAccount)[0];
@@ -1054,8 +1091,17 @@ public class NotificationUtils {
 
         if (numberNew == 1) {
             mBuilder.addAction(replyAction);
-            mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-                    .bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+
+            if (pictureUrl != null && !pictureUrl.isEmpty()) {
+                mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(getPicture(context, pictureUrl))
+                        .setSummaryText(Html.fromHtml(messageLong))
+                        .setBigContentTitle(Html.fromHtml(title))
+                );
+            } else {
+                mBuilder.setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
+            }
 
             Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, settings.currentAccount, id, notificationId);
             Intent retweetIntent = RetweetService.getIntent(context, settings.currentAccount, id, notificationId);
@@ -1175,7 +1221,8 @@ public class NotificationUtils {
         long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-        String proPicUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+        String pictureUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+
         long time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
 
         try {
@@ -1184,7 +1231,16 @@ public class NotificationUtils {
         builder.setWhen(time);
         builder.setContentTitle(context.getResources().getString(R.string.mentioned_by) + " @" + screenname);
         builder.setContentText(tweetText);
-        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(tweetText));
+
+        if (pictureUrl != null && !pictureUrl.isEmpty()) {
+            builder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .setBigContentTitle(context.getResources().getString(R.string.mentioned_by) + " @" + screenname)
+                    .setSummaryText(Html.fromHtml(tweetText))
+                    .bigPicture(getPicture(context, pictureUrl))
+            );
+        } else {
+            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(tweetText));
+        }
 
         /*Intent search = new Intent(context, SearchPager.class);
         search.putExtra(SearchManager.QUERY, "twitter.com/" + screenname + "/status/" + tweetId);
@@ -1461,12 +1517,14 @@ public class NotificationUtils {
             }
         }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                notifySecondMentions(context, 2);
-            }
-        }).start();
+        if (TEST_SECOND_MENTIONS_NUM != 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    notifySecondMentions(context, 2);
+                }
+            }).start();
+        }
 
         AppSettings settings = AppSettings.getInstance(context);
 

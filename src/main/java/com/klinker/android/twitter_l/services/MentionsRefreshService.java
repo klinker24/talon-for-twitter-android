@@ -86,6 +86,7 @@ public class MentionsRefreshService extends IntentService {
             if (settings.syncSecondMentions) {
                 Intent second = new Intent(context, SecondMentionsRefreshService.class);
                 second.putExtra("no_notify", intent.getBooleanExtra("no_notify", false));
+                second.putExtra("from_push_sync", intent.getBooleanExtra("from_push_sync", false));
                 startService(second);
             }
 
