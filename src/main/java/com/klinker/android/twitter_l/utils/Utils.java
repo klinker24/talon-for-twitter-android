@@ -1686,4 +1686,8 @@ public class Utils {
             ((Activity)context).getWindow().getDecorView().setBackgroundResource(resource);
         }
     }
+
+    public static boolean isAndroidN() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
+    }
 }

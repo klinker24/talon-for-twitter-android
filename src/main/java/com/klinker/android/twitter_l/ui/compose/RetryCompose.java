@@ -25,7 +25,6 @@ public class RetryCompose extends ComposeActivity {
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(5); // failed option
-        mNotificationManager.cancel(1); // main notification
+        mNotificationManager.cancelAll();
     }
 }
