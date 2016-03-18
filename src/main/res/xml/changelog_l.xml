@@ -3,6 +3,7 @@
     <version name="4.6.0">
         <text>Like and retweet a status from mention notification buttons</text>
         <text>Group notification support for mentions on Android Wear and Android N</text>
+        <text>Add tweets pictures to mention notifications</text>
     </version>
 
     <version name="4.5.3">
