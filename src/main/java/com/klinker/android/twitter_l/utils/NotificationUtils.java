@@ -59,6 +59,7 @@ import com.klinker.android.twitter_l.ui.compose.NotificationComposeSecondAcc;
 import com.klinker.android.twitter_l.ui.compose.NotificationDMCompose;
 import com.klinker.android.twitter_l.ui.search.SearchPager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
@@ -85,7 +86,7 @@ public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
     public static final int TEST_TIMELINE_NUM = 0;
-    public static final int TEST_MENTION_NUM = 1;
+    public static final int TEST_MENTION_NUM = 2;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 1;
 
@@ -328,6 +329,14 @@ public class NotificationUtils {
                                     .setBigContentTitle(Html.fromHtml(title[0]))
                             );
                         }
+
+                        Cursor latest = data.getCursor(currentAccount);
+                        if (latest.moveToLast()) {
+                            Intent contentIntent = TweetActivity.getIntent(context, latest);
+                            contentIntent.putExtra("notification_id", notificationId);
+                            mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
+                        }
+
                         // retweet button
                         mBuilder.addAction(new NotificationCompat.Action.Builder(
                                 R.drawable.ic_action_repeat_light,
@@ -1090,6 +1099,13 @@ public class NotificationUtils {
                 NotificationManagerCompat.from(context);
 
         if (numberNew == 1) {
+            Cursor latest = data.getCursor(secondAccount);
+            if (latest.moveToLast()) {
+                Intent contentIntent = TweetActivity.getIntent(context, latest, true);
+                contentIntent.putExtra("notification_id", notificationId);
+                mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
+            }
+
             mBuilder.addAction(replyAction);
 
             if (pictureUrl != null && !pictureUrl.isEmpty()) {
@@ -1242,24 +1258,15 @@ public class NotificationUtils {
             builder.setStyle(new NotificationCompat.BigTextStyle().bigText(tweetText));
         }
 
-        /*Intent search = new Intent(context, SearchPager.class);
-        search.putExtra(SearchManager.QUERY, "twitter.com/" + screenname + "/status/" + tweetId);
-        builder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), search, 0));*/
-
-        boolean isSecondAccount;
+        boolean isSecondAccount = AppSettings.getInstance(context).currentAccount != accountNumberForTweets;
         Intent deleteIntent = MarkMentionReadReceiver.getIntent(context, tweetId);
-        Intent contentIntent;
+        Intent contentIntent = TweetActivity.getIntent(context, cursor, isSecondAccount);
         Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
         Intent retweetIntent = RetweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
-        if (AppSettings.getInstance(context).currentAccount == accountNumberForTweets) {
-            contentIntent = new Intent(context, RedirectToMentions.class);
-            isSecondAccount = false;
-        } else {
-            contentIntent = new Intent(context, SwitchAccountsRedirect.class);
-            isSecondAccount = true;
-        }
 
-        builder.setContentIntent(PendingIntent.getActivity(context, 0, contentIntent, 0));
+        contentIntent.putExtra("notification_id", notificationId);
+
+        builder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
         builder.setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
 
         // reply button

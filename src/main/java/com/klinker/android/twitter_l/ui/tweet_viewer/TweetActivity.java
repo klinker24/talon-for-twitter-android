@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.widget.*;
 import android.text.Html;
 import android.text.Spannable;
@@ -26,6 +28,7 @@ import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
@@ -47,6 +50,59 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
 
 public class TweetActivity extends SlidingActivity {
+
+    public static Intent getIntent(Context context, Cursor cursor) {
+        return getIntent(context, cursor, false);
+    }
+
+    public static Intent getIntent(Context context, Cursor cursor, boolean isSecondAccount) {
+        String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+        String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
+        String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+        String time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)) + "";
+        String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+        String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
+        String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
+        long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+        String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+        String otherUrls = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
+        String gifUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF));
+        String retweeter;
+        try {
+            retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+        } catch (Exception e) {
+            retweeter = "";
+        }
+        String link = "";
+
+        boolean hasGif = gifUrl != null && !gifUrl.isEmpty();
+        boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+        if (displayPic) {
+            link = picUrl;
+        } else {
+            link = otherUrls.split("  ")[0];
+        }
+
+        Log.v("tweet_page", "clicked");
+        Intent viewTweet = new Intent(context, TweetActivity.class);
+        viewTweet.putExtra("name", name);
+        viewTweet.putExtra("screenname", screenname);
+        viewTweet.putExtra("time", time);
+        viewTweet.putExtra("tweet", text);
+        viewTweet.putExtra("retweeter", retweeter);
+        viewTweet.putExtra("webpage", link);
+        viewTweet.putExtra("other_links", otherUrl);
+        viewTweet.putExtra("picture", displayPic);
+        viewTweet.putExtra("tweetid", id);
+        viewTweet.putExtra("proPic", profilePic);
+        viewTweet.putExtra("users", users);
+        viewTweet.putExtra("hashtags", hashtags);
+        viewTweet.putExtra("animated_gif", gifUrl);
+        viewTweet.putExtra("second_account", isSecondAccount);
+
+        return viewTweet;
+    }
 
     private static final long NETWORK_ACTION_DELAY = 200;
 
@@ -84,6 +140,15 @@ public class TweetActivity extends SlidingActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        int notificationId = getIntent().getIntExtra("notification_id", -1);
+        if (notificationId != -1) {
+            notificationManager.cancel(notificationId);
+            NotificationUtils.cancelGroupedNotificationWithNoContent(this);
+        }
 
         context = this;
         settings = AppSettings.getInstance(this);
