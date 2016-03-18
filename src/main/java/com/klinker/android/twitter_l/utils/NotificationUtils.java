@@ -83,11 +83,11 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 0;
+    public static final boolean TEST_NOTIFICATION = true;
+    public static final int TEST_TIMELINE_NUM = 1;
     public static final int TEST_MENTION_NUM = 2;
     public static final int TEST_DM_NUM = 0;
-    public static final int TEST_SECOND_MENTIONS_NUM = 1;
+    public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions";
     public static final String FIRST_ACCOUNT_GROUP = "first_account_group";
@@ -214,6 +214,17 @@ public class NotificationUtils {
                 // big text style for an unread count on timeline, mentions, and direct messages
                 mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ?
                         longText.replaceAll("FF8800", settings.accentColor) : longText)));
+
+                // this will group any mention notifications for us
+                getMentionsInboxStyle(grouped, FIRST_ACCOUNT_GROUP,
+                        unreadCounts[1],
+                        currentAccount,
+                        context,
+                        TweetLinkUtils.removeColorHtml(shortText, settings));
+
+                for (NotificationIdentifier noti : grouped) {
+                    notificationManager.notify(noti.notificationId, noti.notification);
+                }
             }
 
             // Pebble notification
@@ -305,19 +316,21 @@ public class NotificationUtils {
                     Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, settings.currentAccount, id, notificationId);
                     Intent retweetIntent = RetweetService.getIntent(context, settings.currentAccount, id, notificationId);
 
-                    // retweet button
-                    mBuilder.addAction(new NotificationCompat.Action.Builder(
-                            R.drawable.ic_action_repeat_light,
-                            context.getResources().getString(R.string.retweet),
-                            PendingIntent.getService(context, generateRandomId(), retweetIntent, 0)
-                    ).build());
+                    if (unreadCounts[1] == 1) {
+                        // retweet button
+                        mBuilder.addAction(new NotificationCompat.Action.Builder(
+                                R.drawable.ic_action_repeat_light,
+                                context.getResources().getString(R.string.retweet),
+                                PendingIntent.getService(context, generateRandomId(), retweetIntent, 0)
+                        ).build());
 
-                    // favorite button
-                    mBuilder.addAction(new NotificationCompat.Action.Builder(
-                            R.drawable.ic_heart_light,
-                            context.getResources().getString(R.string.favorite),
-                            PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
-                    ).build());
+                        // favorite button
+                        mBuilder.addAction(new NotificationCompat.Action.Builder(
+                                R.drawable.ic_heart_light,
+                                context.getResources().getString(R.string.favorite),
+                                PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
+                        ).build());
+                    }
 
                 } else { // otherwise, if they can use the expanded notifications, the popup button will be shown
                     Intent popup = new Intent(context, RedirectToPopup.class);
@@ -1452,12 +1465,6 @@ public class NotificationUtils {
             @Override
             public void run() {
                 notifySecondMentions(context, 2);
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) { }
-
-                cancelGroupedNotificationWithNoContent(context);
             }
         }).start();
 
