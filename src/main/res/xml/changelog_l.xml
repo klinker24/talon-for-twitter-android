@@ -2,7 +2,8 @@
 
     <version name="4.6.0">
         <text>Like and retweet a status from mention notification buttons</text>
-        <text>Group notification support for mentions on Android Wear and Android N</text>
+        <text>Bundled notification support for mentions on Android N and Android Wear</text>
+        <text>Bundled notification support for favorite user tweets on Android N and Android Wear</text>
         <text>Add tweets pictures to mention notifications</text>
     </version>
 

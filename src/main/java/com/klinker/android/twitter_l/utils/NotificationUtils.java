@@ -84,14 +84,15 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 0;
-    public static final int TEST_MENTION_NUM = 2;
+    public static final boolean TEST_NOTIFICATION = true;
+    public static final int TEST_TIMELINE_NUM =30;
+    public static final int TEST_MENTION_NUM = 0;
     public static final int TEST_DM_NUM = 0;
-    public static final int TEST_SECOND_MENTIONS_NUM = 1;
+    public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
-    public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions";
+    public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions_group";
     public static final String FIRST_ACCOUNT_GROUP = "first_account_group";
+    public static final String FAVORITE_USERS_GROUP = "favorite_users_group";
 
     // Key for the string that's delivered in the action's intent
     public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
@@ -118,7 +119,7 @@ public class NotificationUtils {
 
         // if there are unread tweets on the timeline, check them for favorite users
         if (settings.favoriteUserNotifications && timeline > 0) {
-            favUsersNotification(currentAccount, context);
+            favUsersNotification(currentAccount, context, timeline);
         }
 
         if (!TEST_NOTIFICATION) {
@@ -625,205 +626,85 @@ public class NotificationUtils {
         return null;//BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_stat_icon);
     }
 
-    public static void favUsersNotification(int account, Context context) {
+    public static void favUsersNotification(int account, Context context, int newOnTimeline) {
 
-        ArrayList<String[]> tweets = new ArrayList<String[]>();
+        List<NotificationIdentifier> tweets = new ArrayList();
 
         HomeDataSource data = HomeDataSource.getInstance(context);
-        Cursor cursor = data.getUnreadCursor(account);
+        Cursor cursor;
+        if (newOnTimeline != -1) {
+            cursor = data.getCursor(account);
+        } else { // -1 is on the talon pull
+            cursor = data.getUnreadCursor(account);
+        }
 
         FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
 
-        if(cursor.moveToFirst()) {
+        if(cursor.move(cursor.getCount() - newOnTimeline)) {
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-
                 if (favs.isFavUser(account, screenname)) {
-                    String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
-                    String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-                    String time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)) + "";
-                    String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
-                    String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
-                    String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
-                    String hashtags = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
-                    String id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "";
-                    String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-                    String otherUrls = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
-                    String userss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
-                    String hashtagss = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS));
-                    String retweeter;
-                    try {
-                        retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
-                    } catch (Exception e) {
-                        retweeter = "";
-                    }
-                    String link = "";
-
-                    boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
-                    if (displayPic) {
-                        link = picUrl;
-                    } else {
-                        link = otherUrls.split("  ")[0];
-                    }
-
-                    tweets.add(new String[] {
-                            name,
-                            text,
-                            screenname,
-                            time,
-                            retweeter,
-                            link,
-                            displayPic ? "true" : "false",
-                            id,
-                            profilePic,
-                            userss,
-                            hashtagss,
-                            otherUrls
-                    });
+                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
                 }
             } while (cursor.moveToNext());
         }
 
-        cursor.close();
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(context);
 
-        if (tweets.size() > 0) {
-            if (tweets.size() == 1) {
-                makeFavsNotificationToActivity(tweets, context);
-            } else {
-                AppSettings settings = AppSettings.getInstance(context);
-                makeFavsNotification(tweets, context, settings.liveStreaming || settings.pushNotifications);
-            }
-        }
-    }
+        if (tweets.size() == 1 && AppSettings.getInstance(context).notifications) {
+            notificationManager.notify(tweets.get(0).notificationId, tweets.get(0).notification);
+        } else if (tweets.size() > 1) {
+            NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
+            inbox.setBigContentTitle(tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets));
 
-    public static void makeFavsNotificationToActivity(ArrayList<String[]> tweets, Context context) {
-
-        SharedPreferences.Editor e = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit();
-
-        e.putString("fav_user_tweet_name", tweets.get(0)[0]);
-        e.putString("fav_user_tweet_text", tweets.get(0)[1]);
-        e.putString("fav_user_tweet_screenname", tweets.get(0)[2]);
-        e.putLong("fav_user_tweet_time", Long.parseLong(tweets.get(0)[3]));
-        e.putString("fav_user_tweet_retweeter", tweets.get(0)[4]);
-        e.putString("fav_user_tweet_webpage", tweets.get(0)[5]);
-        e.putBoolean("fav_user_tweet_picture", tweets.get(0)[6].equals("true") ? true : false);
-        e.putLong("fav_user_tweet_tweet_id", Long.parseLong(tweets.get(0)[7]));
-        e.putString("fav_user_tweet_pro_pic", tweets.get(0)[8]);
-        e.putString("fav_user_tweet_users", tweets.get(0)[9]);
-        e.putString("fav_user_tweet_hashtags", tweets.get(0)[10]);
-        e.putString("fav_user_tweet_links", tweets.get(0)[11]);
-        e.commit();
-
-        makeFavsNotification(tweets, context, false);
-    }
-
-    public static void makeFavsNotification(ArrayList<String[]> tweets, Context context, boolean toDrawer) {
-        String shortText;
-        String longText;
-        String title;
-        int smallIcon = R.drawable.ic_stat_icon;
-        Bitmap largeIcon;
-
-        Intent resultIntent;
-
-        if (toDrawer) {
-            resultIntent = new Intent(context, RedirectToDrawer.class);
-        } else {
-            resultIntent = new Intent(context, NotiTweetActivity.class);
-        }
-
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
-
-        NotificationCompat.InboxStyle inbox = null;
-
-        if (tweets.size() == 1) {
-            title = tweets.get(0)[0];
-            shortText = tweets.get(0)[1];
-            longText = shortText;
-
-            largeIcon = getImage(context, tweets.get(0)[2]);
-        } else {
-            inbox = new NotificationCompat.InboxStyle();
-
-            title = context.getResources().getString(R.string.favorite_users);
-            shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
-            longText = "";
-
-            try {
-                inbox.setBigContentTitle(shortText);
-            } catch (Exception e) {
-
+            if (cursor.move(cursor.getCount() - newOnTimeline)) {
+                do {
+                    String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+                    if (favs.isFavUser(account, screenname)) {
+                        String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
+                        inbox.addLine(Html.fromHtml("<b>@" + screenname + ":</b> " + tweetText));
+                    }
+                } while ((cursor.moveToNext()));
             }
 
-            if (tweets.size() <= 5) {
-                for (String[] s : tweets) {
-                    inbox.addLine(Html.fromHtml("<b>" + s[0] + ":</b> " + s[1]));
+            for (NotificationIdentifier notification : tweets) {
+                notificationManager.notify(notification.notificationId, notification.notification);
+            }
+
+            AppSettings settings = AppSettings.getInstance(context);
+
+            String shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
+            int smallIcon = R.drawable.ic_stat_icon;
+
+            Intent resultIntent = new Intent(context, MainActivity.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                    .setContentTitle(context.getResources().getString(R.string.favorite_users))
+                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
+                    .setSmallIcon(smallIcon)
+                    .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
+                    .setCategory(Notification.CATEGORY_SOCIAL)
+                    .setGroup(FAVORITE_USERS_GROUP)
+                    .setGroupSummary(true)
+                    .setStyle(inbox);
+
+            if (settings.headsUp)
+                mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            if (settings.vibrate)
+                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+            if (settings.led)
+                mBuilder.setLights(0xFFFFFF, 1000, 1000);
+
+            if (settings.sound) {
+                try {
+                    mBuilder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
+                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                 }
-            } else {
-                for (int i = 0; i < 5; i++) {
-                    inbox.addLine(Html.fromHtml("<b>" + tweets.get(i)[0] + ":</b> " + tweets.get(i)[1]));
-                }
-
-                inbox.setSummaryText("+" + (tweets.size() - 5) + " " + context.getString(R.string.tweets));
             }
-
-            largeIcon = null;
-        }
-
-        NotificationCompat.Builder mBuilder;
-
-        AppSettings settings = AppSettings.getInstance(context);
-
-        if (shortText.contains("@" + settings.myScreenName)) {
-            // return because there is a mention notification for this already
-            return;
-        }
-
-        Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
-
-        mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(title)
-                .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
-                .setSmallIcon(smallIcon)
-                .setContentIntent(resultPendingIntent)
-                .setAutoCancel(true)
-                .setCategory(Notification.CATEGORY_SOCIAL)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
-
-        if (settings.headsUp) {
-            mBuilder//.setFullScreenIntent(resultPendingIntent, true)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH);
-        }
-
-        if (largeIcon != null) {
-            mBuilder.setLargeIcon(largeIcon);
-        }
-
-        if (inbox == null) {
-            mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText)));
-        } else {
-            mBuilder.setStyle(inbox);
-        }
-        if (settings.vibrate) {
-            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-        }
-
-        if (settings.sound) {
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
-                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            }
-        }
-
-        if (settings.led)
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
-
-        if (settings.notifications) {
-
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(context);
 
             notificationManager.notify(2, mBuilder.build());
 
@@ -837,12 +718,15 @@ public class NotificationUtils {
             // Pebble notification
             if(context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
-                sendAlertToPebble(context, title, shortText);
+                sendAlertToPebble(context, context.getResources().getString(R.string.favorite_users), shortText);
             }
 
             // Light Flow notification
-            sendToLightFlow(context, title, shortText);
+            sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
         }
+
+
+        cursor.close();
     }
 
     public static Bitmap getImage(Context context, String screenname) {
@@ -1214,7 +1098,7 @@ public class NotificationUtils {
             String longText = "<b>@" + handle + "</b>: " + text;
 
             style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
-            group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber));
+            group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber, false));
 
             cursor.moveToPrevious();
         }
@@ -1225,7 +1109,7 @@ public class NotificationUtils {
         return style;
     }
 
-    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets) {
+    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_icon)
@@ -1245,12 +1129,12 @@ public class NotificationUtils {
             builder.setLargeIcon(getImage(context, screenname));
         } catch (Exception e) { }
         builder.setWhen(time);
-        builder.setContentTitle(context.getResources().getString(R.string.mentioned_by) + " @" + screenname);
+        builder.setContentTitle(favoriteUser ? "Favorite User Tweet" : context.getResources().getString(R.string.mentioned_by) + " @" + screenname);
         builder.setContentText(tweetText);
 
         if (pictureUrl != null && !pictureUrl.isEmpty()) {
             builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .setBigContentTitle(context.getResources().getString(R.string.mentioned_by) + " @" + screenname)
+                    .setBigContentTitle(favoriteUser ? "Favorite User Tweet" : context.getResources().getString(R.string.mentioned_by) + " @" + screenname)
                     .setSummaryText(Html.fromHtml(tweetText))
                     .bigPicture(getPicture(context, pictureUrl))
             );
