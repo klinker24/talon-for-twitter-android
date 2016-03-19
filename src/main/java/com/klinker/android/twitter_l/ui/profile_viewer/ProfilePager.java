@@ -81,6 +81,8 @@ public class ProfilePager extends SlidingActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 
+        Utils.setTaskDescription(this);
+
         context = this;
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
