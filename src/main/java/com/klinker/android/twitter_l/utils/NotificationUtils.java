@@ -40,7 +40,6 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.receivers.MarkMentionReadReceiver;
 import com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverOne;
@@ -57,22 +56,17 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.NotificationCompose;
 import com.klinker.android.twitter_l.ui.compose.NotificationComposeSecondAcc;
 import com.klinker.android.twitter_l.ui.compose.NotificationDMCompose;
-import com.klinker.android.twitter_l.ui.search.SearchPager;
-import com.klinker.android.twitter_l.ui.tweet_viewer.NotiTweetActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
+import com.klinker.android.twitter_l.utils.redirects.RedirectToTweetViewer;
 import com.klinker.android.twitter_l.utils.redirects.SwitchAccountsRedirect;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -85,8 +79,8 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 30;
-    public static final int TEST_MENTION_NUM = 0;
+    public static final int TEST_TIMELINE_NUM = 0;
+    public static final int TEST_MENTION_NUM = 1;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
@@ -333,8 +327,11 @@ public class NotificationUtils {
 
                         Cursor latest = data.getCursor(currentAccount);
                         if (latest.moveToLast()) {
-                            Intent contentIntent = TweetActivity.getIntent(context, latest);
+                            Intent tweet = TweetActivity.getIntent(context, latest);
+                            Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
+                            contentIntent.putExtras(tweet);
                             contentIntent.putExtra("notification_id", notificationId);
+                            contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
                         }
 
@@ -985,9 +982,13 @@ public class NotificationUtils {
         if (numberNew == 1) {
             Cursor latest = data.getCursor(secondAccount);
             if (latest.moveToLast()) {
-                Intent contentIntent = TweetActivity.getIntent(context, latest, true);
+                Intent tweet = TweetActivity.getIntent(context, latest, true);
+                Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
+                contentIntent.putExtras(tweet);
                 contentIntent.putExtra("notification_id", notificationId);
+                contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
+
             }
 
             mBuilder.addAction(replyAction);
@@ -1144,11 +1145,14 @@ public class NotificationUtils {
 
         boolean isSecondAccount = AppSettings.getInstance(context).currentAccount != accountNumberForTweets;
         Intent deleteIntent = MarkMentionReadReceiver.getIntent(context, tweetId);
-        Intent contentIntent = TweetActivity.getIntent(context, cursor, isSecondAccount);
+        Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
         Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
         Intent retweetIntent = RetweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
 
+        Intent tweet = TweetActivity.getIntent(context, cursor, isSecondAccount);
+        contentIntent.putExtras(tweet);
         contentIntent.putExtra("notification_id", notificationId);
+        contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         builder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
         builder.setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
