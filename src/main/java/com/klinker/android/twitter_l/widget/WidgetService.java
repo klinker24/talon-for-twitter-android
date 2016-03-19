@@ -236,18 +236,18 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public Bitmap getCachedPic(String url) {
         try {
-            /*return ImageUtils.getCircleBitmap(Glide.
+            return ImageUtils.getCircleBitmap(Glide.
                     with(mContext).
                     load(url).
                     asBitmap().
                     into(200, 200).
-                    get());*/
-            return Glide.with(mContext)
+                    get());
+            /*return Glide.with(mContext)
                     .load(url)
                     .asBitmap()
                     .transform(new CircleBitmapTransform(mContext))
                     .into(200,200)
-                    .get();
+                    .get();*/
         } catch (Exception e) {
             return null;
         }
