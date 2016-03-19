@@ -226,6 +226,8 @@ public abstract class Compose extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Utils.setTaskDescription(this);
+
         if (!getIntent().getBooleanExtra("already_animated", false)) {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }

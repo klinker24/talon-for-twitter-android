@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 import com.klinker.android.twitter_l.adapters.GifSearchAdapter;
 import com.lapism.arrow.ArrowDrawable;
@@ -43,6 +44,8 @@ public class GiphySearch extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Utils.setTaskDescription(this);
 
         try {
             getWindow().requestFeature(Window.FEATURE_NO_TITLE);

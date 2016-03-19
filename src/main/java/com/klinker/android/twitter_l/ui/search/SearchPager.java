@@ -90,6 +90,7 @@ public class SearchPager extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Utils.setTaskDescription(this);
         Utils.setSharedContentTransition(this);
 
         try {

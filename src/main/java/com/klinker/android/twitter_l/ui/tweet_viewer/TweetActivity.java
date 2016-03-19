@@ -59,7 +59,7 @@ public class TweetActivity extends SlidingActivity {
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String name = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_NAME));
         String text = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
-        String time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME)) + "";
+        long time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
         String picUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
         String otherUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
         String users = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS));
@@ -140,6 +140,8 @@ public class TweetActivity extends SlidingActivity {
 
     @Override
     public void init(Bundle savedInstanceState) {
+
+        Utils.setTaskDescription(this);
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(this);
