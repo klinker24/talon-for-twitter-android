@@ -10,7 +10,7 @@
     <string name="joined_twitter">Csatlakozott a Twitterhez:</string>
     <string name="top_down">Fentről lefelé mód</string>
     <string name="top_down_summary">Az idővonal pozíció soha nem lesz elmentve. Mindig a tetején fog kezdeni.</string>
-    <string name="timeline_text_size">Idővonal betűméret</string>
+    <string name="timeline_text_size">Betűméret</string>
     <string name="manage_mutes">Némítások kezelése</string>
     <string name="location_settings">Helybeállítások</string>
     <string name="twitpic_summary_l">Az összes kép feltöltése TwitPic-en keresztül.</string>
@@ -23,7 +23,7 @@
     <string name="only_on_data">Csak mobilnettel</string>
     <string name="contact_me">Kapcsolatfelvétel</string>
     <string name="my_google_plus">Saját Google+</string>
-    <string name="follow_progress">Kövesse a haladásunkat!</string>
+    <string name="follow_progress">Kövesse a haladásunkat:</string>
     <string name="general">Általános</string>
     <string name="no_interactions">Nincsenek események</string>
     <string name="emojis_summary">Engedélyezi az iOS hangulatjelek használaták a Sliding Emoji Keyboard - iOS letöltésével.</string>
@@ -31,7 +31,7 @@
     <string name="web">Web</string>
     <string name="heads_up">Felugró értesítések</string>
     <string name="use_snackbar">Felugró sáv használata</string>
-    <string name="use_snackbar_summary">A \"Tetejéhez\" funkció használatához az idővonalon.</string>
+    <string name="use_snackbar_summary">Kijelzi, hogy hány tweet van az idővonal tetejéig.</string>
     <string name="bottom_pictures">Képek a Tweetek alatt</string>
     <string name="bottom_pictures_summary">Ezzel a beállítással a Tweetek nem lesznek kibontva.</string>
     <string name="preparing_signin">Bejelentkezés előkészítése</string>
@@ -72,4 +72,27 @@
 
 Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáférést a rendszer alkalmazás beállításainál.</string>
     <string name="tell_about_swipe_down">Tipp: egyszerűen csúsztasson le a képernyő bezárásához.</string>
+    <string name="download_video">Videó letöltése</string>
+    <string name="download_gif">GIF letöltése</string>
+    <string name="error_downloading_video">Hiba a videó letöltése közben</string>
+    <string name="saving_video">Mentés</string>
+    <string name="saved_video">Mentés kész</string>
+    <string name="encoding_gif">GIF kódolása...</string>
+    <string name="scroll_options">Görgetés beállítások</string>
+    <string name="static_ui_title">Statikus UI</string>
+    <string name="static_ui_summary">Így az alkalmazás sáv, FAB, felugró sáv nem tűnik el görgetés közben.</string>
+    <string name="list_sync_interval">Lista frissítési gyakorisága</string>
+    <string name="list_sync_summary">Ez egy háttér szinkronizálást fog végrehajtani azokon a listákon, amiket a fő idővonal extra oldalaiként használ.</string>
+    <string name="timeline_pictures">Idővonal képek</string>
+    <string name="timeline_pictures_summary">Állítsa be a idővonal görgetése közben megjelenő képek stílusát.</string>
+    <string name="normal_pictures">Normál képek</string>
+    <string name="smaller_pictures">Kisebb képek</string>
+    <string name="no_pictures">Nincsenek képek</string>
+    <string name="quick_actions">Gyors műveletek</string>
+    <string name="liked_status">Sikeres kedvelés</string>
+    <string name="become_supporter">Legyen egy 2016-os TÁMOGATÓ</string>
+    <string name="are_supporter">Ön egy 2016-os TÁMOGATÓ!</string>
+    <string name="are_supporter_summary">Köszönjük! Nagyon hálásak vagyunk a támogatásért. Ha bármit tehetünk, kérjük ne habozzon megkérdezni.</string>
+    <string name="tweetmarker_disclaimer">Az automatikus TweetMarker az alkalmazás indításakor mindig frissíteni fogja az idővonalat.</string>
+    <string name="discover_people">Emberek</string>
 </resources>

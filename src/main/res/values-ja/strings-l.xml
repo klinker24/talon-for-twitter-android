@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="fast_transitions">クイックトランジション</string>
+    <string name="help">ヘルプ</string>
+    <string name="send_feedback">フィードバックを送信</string>
+    <string name="to_top">トップに</string>
+    <string name="show_all">すべて見る</string>
+    <string name="stats">ステータス</string>
+    <string name="list_count">リストに %s を追加しました。</string>
+    <string name="joined_twitter">Twitterに参加 :</string>
+    <string name="top_down">トップダウン モード</string>
+    <string name="top_down_summary">タイムラインを更新しても常に一番上までいきます。古いツイートを見るには下へ戻らなければいけません</string>
+    <string name="timeline_text_size">文字のサイズ</string>
+    <string name="manage_mutes">ミュートの管理</string>
+    <string name="location_settings">場所の設定</string>
+    <string name="twitpic_summary_l">すべての画像アップロードはTwitPicを経由します。</string>
+    <string name="interactions_only">やりとり のみ</string>
+    <string name="inter_stream">やりとり と ライブストリーム</string>
+    <string name="dont_use_pull">Talon Pull を利用しないでください</string>
+    <string name="always">毎回</string>
+    <string name="never">決してしない</string>
+    <string name="only_on_wifi">Wi-Fi に接続中のみ</string>
+    <string name="only_on_data">データのみ</string>
+    <string name="contact_me">私に連絡</string>
+    <string name="my_google_plus">Google+</string>
+    <string name="follow_progress">Talon for Plusの開発状況が見たければフォローしたらどお：</string>
+    <string name="general">概要</string>
+    <string name="no_interactions">交流しない</string>
+    <string name="emojis_summary">あなたが私たちのスライディング絵文字キーボードをダウンロードしてiOSの絵文字を使用できるようにします。</string>
+    <string name="replies">リプライ</string>
+    <string name="web">Web</string>
+    <string name="heads_up">勃起注意</string>
+    <string name="use_snackbar">スナックバーを利用します</string>
+    <string name="use_snackbar_summary">あなたのタイムライン上部から多くのツイートが表示されます。</string>
+    <string name="bottom_pictures">ツイートの下に画像を表示</string>
+    <string name="bottom_pictures_summary">ツイートはインラインこのオプションを使用して展開されません。</string>
+    <string name="preparing_signin">サインインの準備</string>
     <string name="verifying_login">ログインの確認</string>
+    <string name="manage_muffles">消しけしの管理</string>
+    <string name="muffle_definition">ユーザーをやりこなすと、タイムラインから自分のつぶやきの主な部分を削除します。あなたがより多くを見たい場合にのみ、あなたの拡張アクセスを与えるために名前と小さな塊が表示されます。</string>
+    <string name="muffled_users">やりこなしたユーザー</string>
+    <string name="click_to_remove_muffle">やりこなしをクリアするには、ユーザーをクリックします。</string>
+    <string name="muffle_user">やりこなしユーザー</string>
+    <string name="unmuffle_user">やりこなしてないユーザー</string>
+    <string name="enjoying_talon">Talon を楽しんでるか？</string>
+    <string name="give_a_rating">それを評価をしてあなたの友達とそれを共有して考えてみましょう！\nあなたの5つ星のレビューは私の心を温める(^o^)</string>
+    <string name="rate_on_rating_dialog">評価</string>
+    <string name="share_on_rating_dialog">シェア</string>
+    <string name="ignore">無視</string>
+    <string name="when_talon_pull_on">タロンプルがオンになっているときに適用。</string>
     <string name="transparent_system_bars">透明なシステムバーを使用</string>
     <string name="accent_color">アクセントカラー (強調色)</string>
     <string name="nav_bar_option">ナビゲーションバーを無効化</string>
@@ -20,4 +67,38 @@ Talonは、レイアウトに大きな影響を及ぼすので、このオプシ
     <string name="alert_methods_summary">どのように通知する？ : 振動、音、LED、</string>
     <string name="windowed_helper_message">ポップアップウィンドウを閉じるには、ウィンドウの外側をエリアをクリックします。\n\nこれは、あなたのタイムラインがあまりにも遠くなることはありません保証します！</string>
     <string name="permission_check_title">Talon for Twitterの権限：</string>
+    <string name="permission_check_message">Talon for Plusは2つの権限許可をお願いしています。権限 : 位置情報 ・ ストレージ\n\n
+
+ - 位置情報は（任意）周辺のトレンドにアクセスするだけでなく、あなたの現在地があなたのつぶやきにタグ付けするために使用されます。我々はあなたの現在地を保存しません。\n
+
+ - ストレージは（必須）外部ストレージへのツイート画像を保存するために使用され、あなたが画像をツイートする時にも必要となります。\n\n
+
+
+どの権限も自由に設定できます。手動で"システム\"の"アプリの設定\"から権限の設定ができます。</string>
+    <string name="tell_about_swipe_down">ヒント：簡単にこの画面を閉じるには下にスワイプ。</string>
+    <string name="download_video">動画</string>
+    <string name="download_gif">GIFをダウンロード...</string>
+    <string name="error_downloading_video">エラー:動画のダウンロードができませんでした</string>
+    <string name="saving_video">保存する</string>
+    <string name="saved_video">保存しました</string>
+    <string name="encoding_gif">GIFをエンコードしています...</string>
+    <string name="scroll_options">スクロールアクション</string>
+    <string name="static_ui_title">静的なUI</string>
+    <string name="static_ui_summary">アプリバーは、マテリアルデザインになります。
+スクロール時にスナックバーが消えません。</string>
+    <string name="list_sync_interval">一覧リフレッシュレート</string>
+    <string name="list_sync_summary">これは、メインタイムライン上のすべてのリストのバックグラウンド同期を実行します。</string>
+    <string name="timeline_pictures">タイムラインの画像</string>
+    <string name="timeline_pictures_summary">あなたがあなたのタイムラインをスクロールすると表示したい画像のスタイルを設定します。</string>
+    <string name="normal_pictures">普通の画像</string>
+    <string name="smaller_pictures">小さい画像</string>
+    <string name="no_pictures">画像がありません</string>
+    <string name="quick_actions">クイックアクション</string>
+    <string name="liked_status">いいね！ をしました</string>
+    <string name="become_supporter">2016年のサポーターになります</string>
+    <string name="are_supporter">あなたは2016年のサポーターです！</string>
+    <string name="are_supporter_summary">ありがとうございます！あなたのサポートが非常に高く評価されています。
+私達が何かできることがあれば、お気軽にお問い合わせください。</string>
+    <string name="tweetmarker_disclaimer">TweetMarkerはアプリの起動時にタイムラインが自動更新されます。</string>
+    <string name="discover_people">人</string>
 </resources>
