@@ -33,6 +33,7 @@ public class QuickActionsPopup extends PopupLayout {
     long tweetId;
     String screenName;
     String tweetText;
+    String replyText;
 
     boolean secondAccount = false;
 
@@ -49,6 +50,8 @@ public class QuickActionsPopup extends PopupLayout {
         this.tweetText = tweetText;
 
         this.secondAccount = secondAccount;
+
+        setReplyText();
 
         setTitle(getResources().getString(R.string.quick_actions));
         setWidth(Utils.toDP(264, context));
@@ -98,7 +101,7 @@ public class QuickActionsPopup extends PopupLayout {
                     compose = new Intent(context, ComposeSecAccActivity.class);
                 }
 
-                compose.putExtra("user", "@" + screenName.replace("@", ""));
+                compose.putExtra("user", replyText);
                 compose.putExtra("id", tweetId);
                 compose.putExtra("reply_to_text", "@" + screenName + ": " + tweetText);
 
@@ -188,6 +191,37 @@ public class QuickActionsPopup extends PopupLayout {
                     break;
             }
         }
+    }
+
+    private void setReplyText() {
+        AppSettings settings = AppSettings.getInstance(getContext());
+
+        String extraNames = "";
+        String replyStuff = "";
+
+        String screenNameToUse;
+
+        if (secondAccount) {
+            screenNameToUse = settings.secondScreenName;
+        } else {
+            screenNameToUse = settings.myScreenName;
+        }
+
+        if (tweetText.contains("@")) {
+            for (String s : tweetText.split(" ")) {
+                if (s.contains("@") && !s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenName)) {
+                    extraNames += s + " ";
+                }
+            }
+        }
+
+        if (!screenName.equals(screenNameToUse)) {
+            replyStuff = "@" + screenName + " " + extraNames;
+        } else {
+            replyStuff = extraNames;
+        }
+
+        replyText = replyStuff;
     }
 
     @Override
