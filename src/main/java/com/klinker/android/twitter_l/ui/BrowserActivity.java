@@ -51,6 +51,8 @@ public class BrowserActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Utils.setTaskDescription(this);
+
         /*try {
             getWindow().requestFeature(Window.FEATURE_PROGRESS);
         } catch (Exception e) {
