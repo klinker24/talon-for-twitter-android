@@ -5,6 +5,7 @@
         <text>Bundled notification support for mentions on Android N and Android Wear</text>
         <text>Bundled notification support for favorite user tweets on Android N and Android Wear</text>
         <text>Add tweets pictures to mention notifications</text>
+        <text>UI Improvements</text>
     </version>
 
     <version name="4.5.3">

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,7 @@ public class QuickActionsPopup extends PopupLayout {
     long tweetId;
     String screenName;
     String tweetText;
+    String replyText;
 
     boolean secondAccount = false;
 
@@ -50,8 +52,10 @@ public class QuickActionsPopup extends PopupLayout {
 
         this.secondAccount = secondAccount;
 
+        setReplyText();
+
         setTitle(getResources().getString(R.string.quick_actions));
-        setWidth(Utils.toDP(264, context));
+        setWidth(Utils.toDP(332, context));
         setHeight(Utils.toDP(106, context));
         setAnimationScale(.5f);
     }
@@ -61,6 +65,7 @@ public class QuickActionsPopup extends PopupLayout {
     ImageButton retweet;
     ImageButton reply;
     ImageButton quote;
+    ImageButton share;
 
     @Override
     public View setMainLayout() {
@@ -70,6 +75,7 @@ public class QuickActionsPopup extends PopupLayout {
         retweet = (ImageButton) root.findViewById(R.id.retweet_button);
         reply = (ImageButton) root.findViewById(R.id.reply_button);
         quote = (ImageButton) root.findViewById(R.id.quote_button);
+        share = (ImageButton) root.findViewById(R.id.share_button);
 
         like.setOnClickListener(new OnClickListener() {
             @Override
@@ -98,7 +104,7 @@ public class QuickActionsPopup extends PopupLayout {
                     compose = new Intent(context, ComposeSecAccActivity.class);
                 }
 
-                compose.putExtra("user", "@" + screenName.replace("@", ""));
+                compose.putExtra("user", replyText);
                 compose.putExtra("id", tweetId);
                 compose.putExtra("reply_to_text", "@" + screenName + ": " + tweetText);
 
@@ -132,6 +138,24 @@ public class QuickActionsPopup extends PopupLayout {
                 compose.putExtra("already_animated", true);
 
                 context.startActivity(compose, opts.toBundle());
+
+                hide();
+            }
+        });
+
+        share.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String shareText = "Tweet from @" + screenName + ": https://twitter.com/" + screenName + "/status/" + tweetId;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, shareText);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ((Activity)context).getWindow().setExitTransition(null);
+                }
+
+                context.startActivity(Intent.createChooser(share, "Share with:"));
 
                 hide();
             }
@@ -188,6 +212,37 @@ public class QuickActionsPopup extends PopupLayout {
                     break;
             }
         }
+    }
+
+    private void setReplyText() {
+        AppSettings settings = AppSettings.getInstance(getContext());
+
+        String extraNames = "";
+        String replyStuff = "";
+
+        String screenNameToUse;
+
+        if (secondAccount) {
+            screenNameToUse = settings.secondScreenName;
+        } else {
+            screenNameToUse = settings.myScreenName;
+        }
+
+        if (tweetText.contains("@")) {
+            for (String s : tweetText.split(" ")) {
+                if (s.contains("@") && !s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenName)) {
+                    extraNames += s + " ";
+                }
+            }
+        }
+
+        if (!screenName.equals(screenNameToUse)) {
+            replyStuff = "@" + screenName + " " + extraNames;
+        } else {
+            replyStuff = extraNames;
+        }
+
+        replyText = replyStuff;
     }
 
     @Override

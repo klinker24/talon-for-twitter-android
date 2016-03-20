@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,7 +22,10 @@ import android.view.*;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
+import com.klinker.android.sliding.TouchlessScrollView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
@@ -157,7 +161,49 @@ public class TweetActivity extends SlidingActivity {
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
 
-        disableHeader();
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            disableHeader();
+        } else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                final Bitmap b = Glide.with(TweetActivity.this)
+                                        .load(getIntent().getStringExtra("proPic"))
+                                        .asBitmap()
+                                        .dontAnimate()
+                                        .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                                        .get();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setImage(b);
+                                    }
+                                });
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    }).start();
+
+                    // for some reason, with this, the scroll view starts at the bottom.
+                    // this will set it to the top
+                    findViewById(R.id.content_scroller).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((TouchlessScrollView) findViewById(R.id.content_scroller))
+                                    .fullScroll(View.FOCUS_UP);
+                        }
+                    });
+
+                }
+            }, NETWORK_ACTION_DELAY);
+        }
+
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);

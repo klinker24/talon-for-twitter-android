@@ -31,7 +31,7 @@
     <string name="web">Веб</string>
     <string name="heads_up">Heads Up</string>
     <string name="use_snackbar">Использовать панель Snackbar</string>
-    <string name="use_snackbar_summary">Используется для отображения всплывающей панели \"Наверх\" в основных лентах.</string>
+    <string name="use_snackbar_summary">Показывает, сколько твитов отделяет вас от вершины вашей ленты.</string>
     <string name="bottom_pictures">Изображения под твитами</string>
     <string name="bottom_pictures_summary">При влючении этой опции твиты не будут открываться в отдельном окне по долгому нажатию.</string>
     <string name="preparing_signin">Подготовка к авторизации</string>
@@ -73,4 +73,27 @@
 
 Не бойтесь отклонить любое из разрешений. Вы можете изменять их вручную из ваших системных настроек приложений.</string>
     <string name="tell_about_swipe_down">Совет: просто сделайте свайп вниз, чтобы закрыть этот экран.</string>
+    <string name="download_video">Загрузить видео</string>
+    <string name="download_gif">Загрузить GIF</string>
+    <string name="error_downloading_video">Ошибка при загрузке видео</string>
+    <string name="saving_video">Сохранение</string>
+    <string name="saved_video">Сохранение завершено</string>
+    <string name="encoding_gif">Кодируем GIF...</string>
+    <string name="scroll_options">Опции прокрутки</string>
+    <string name="static_ui_title">Статичный UI</string>
+    <string name="static_ui_summary">При включении этой опции панель приложения, кнопка создания твита и панель Snackbar не будут исчезать при прокрутке.</string>
+    <string name="list_sync_interval">Частота обновления списка</string>
+    <string name="list_sync_summary">Это запустит фоновую синхронизацию любых списков, которые вы используете как дополнительные страницы на основной ленте.</string>
+    <string name="timeline_pictures">Изображения ленты</string>
+    <string name="timeline_pictures_summary">Настройте стиль изображений, который вы хотите видеть при прокрутке вашей ленты.</string>
+    <string name="normal_pictures">Нормальные изображения</string>
+    <string name="smaller_pictures">Уменьшенные изображения</string>
+    <string name="no_pictures">Нет изображений</string>
+    <string name="quick_actions">Быстрые действия</string>
+    <string name="liked_status">Твит добавлен в избранное</string>
+    <string name="become_supporter">Станьте ПОМОЩНИКОМ 2016</string>
+    <string name="are_supporter">Вы стали ПОМОЩНИКОМ 2016!</string>
+    <string name="are_supporter_summary">Спасибо! Ваша поддержка очень важна для нас. Если есть что-то, что я могу сделать для вас, не стесняйтесь спросить.</string>
+    <string name="tweetmarker_disclaimer">Автоматический TweetMarker всегда будет обновлять ленту при запуске приложения</string>
+    <string name="discover_people">Люди</string>
 </resources>
