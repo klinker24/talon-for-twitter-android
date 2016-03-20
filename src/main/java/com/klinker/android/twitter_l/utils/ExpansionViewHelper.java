@@ -1976,6 +1976,7 @@ public class ExpansionViewHelper {
 
         return full.replaceAll("  ", " ");
     }
+
     private static String stripTrailingPeriods(String url) {
         try {
             if (url.substring(url.length() - 1, url.length()).equals(".")) {
