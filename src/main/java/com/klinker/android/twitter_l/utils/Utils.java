@@ -1,12 +1,15 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -1689,5 +1692,14 @@ public class Utils {
 
     public static boolean isAndroidN() {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
+    }
+
+    public static void setTaskDescription(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_launcher);
+            ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(null, bm, AppSettings.getInstance(activity).themeColors.primaryColor);
+
+            activity.setTaskDescription(td);
+        }
     }
 }

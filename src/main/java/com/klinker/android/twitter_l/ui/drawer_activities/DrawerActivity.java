@@ -122,6 +122,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         actionBar = getSupportActionBar();
         Utils.setSharedContentTransition(this);
+        Utils.setTaskDescription(this);
     }
 
     private SearchUtils searchUtils;

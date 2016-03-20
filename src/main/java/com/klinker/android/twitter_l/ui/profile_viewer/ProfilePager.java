@@ -81,6 +81,8 @@ public class ProfilePager extends SlidingActivity {
     @Override
     public void init(Bundle savedInstanceState) {
 
+        Utils.setTaskDescription(this);
+
         context = this;
         sharedPrefs = AppSettings.getSharedPreferences(context);
 

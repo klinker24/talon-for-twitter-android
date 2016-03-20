@@ -355,6 +355,13 @@ S
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+        <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToTweetViewer"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TalonLight.Launcher"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
         <activity android:name=".utils.redirects.RedirectToPlayStore"
                   android:label="@string/app_name"
                   android:theme="@style/Theme.TalonDark.Popup"
@@ -585,6 +592,10 @@ S
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Settings.Blue">
+
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
+            </intent-filter>
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.PrefActivity"
