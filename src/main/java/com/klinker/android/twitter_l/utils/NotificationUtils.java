@@ -1580,7 +1580,7 @@ public class NotificationUtils {
         }
     }
 
-    private static int generateRandomId() {
+    public static int generateRandomId() {
         Random randomGenerator = new Random();
         return randomGenerator.nextInt(100000);
     }
