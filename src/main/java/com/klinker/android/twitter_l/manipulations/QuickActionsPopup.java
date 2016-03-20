@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +55,7 @@ public class QuickActionsPopup extends PopupLayout {
         setReplyText();
 
         setTitle(getResources().getString(R.string.quick_actions));
-        setWidth(Utils.toDP(264, context));
+        setWidth(Utils.toDP(332, context));
         setHeight(Utils.toDP(106, context));
         setAnimationScale(.5f);
     }
@@ -64,6 +65,7 @@ public class QuickActionsPopup extends PopupLayout {
     ImageButton retweet;
     ImageButton reply;
     ImageButton quote;
+    ImageButton share;
 
     @Override
     public View setMainLayout() {
@@ -73,6 +75,7 @@ public class QuickActionsPopup extends PopupLayout {
         retweet = (ImageButton) root.findViewById(R.id.retweet_button);
         reply = (ImageButton) root.findViewById(R.id.reply_button);
         quote = (ImageButton) root.findViewById(R.id.quote_button);
+        share = (ImageButton) root.findViewById(R.id.share_button);
 
         like.setOnClickListener(new OnClickListener() {
             @Override
@@ -135,6 +138,24 @@ public class QuickActionsPopup extends PopupLayout {
                 compose.putExtra("already_animated", true);
 
                 context.startActivity(compose, opts.toBundle());
+
+                hide();
+            }
+        });
+
+        share.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String shareText = "Tweet from @" + screenName + ": https://twitter.com/" + screenName + "/status/" + tweetId;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, shareText);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ((Activity)context).getWindow().setExitTransition(null);
+                }
+
+                context.startActivity(Intent.createChooser(share, "Share with:"));
 
                 hide();
             }
