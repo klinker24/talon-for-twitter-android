@@ -31,7 +31,7 @@
     <string name="web">Web</string>
     <string name="heads_up">OBS!</string>
     <string name="use_snackbar">Vis aktiv info boks</string>
-    <string name="use_snackbar_summary">Bruges ifbm. \'Til top\' funktionen ved tidslinjen</string>
+    <string name="use_snackbar_summary">Viser hvor mange tweets der er til toppen af tidslinjen</string>
     <string name="bottom_pictures">Billeder under tweets</string>
     <string name="bottom_pictures_summary">Tweets vil ikke udvides in-line ved valg af dette</string>
     <string name="preparing_signin">Forbereder log ind</string>
@@ -60,7 +60,7 @@
     <string name="quote_disclaimer">Twitter´s link vil vises med status indlejret i moderne twitter clienter. Linket virker som når tweet citéres</string>
     <string name="sync_options">Synkroniserings indstillinger</string>
     <string name="manual_syncs">Manuelt synk.</string>
-    <string name="timeline_notifications_summary">Interval for opdater i baggrunden skal vælges, for at få vist disse notifikationer</string>
+    <string name="timeline_notifications_summary">Interval for opdater i baggrunden skal vælges for at få vist disse notifikationer</string>
     <string name="favorite_user_notifications_summary">Interval for opdater i baggrunden skal vælges for tidslinjen eller live streaming, for at modtage notifikationer om favoritter</string>
     <string name="alert_methods_summary">Måder at modtage notifikationer på: vibrer, lyd, LED m.m.</string>
     <string name="windowed_helper_message">For at lukke et vindue på skærmen, tap i området uden for vinduet\n\nDet sikrer at din tidslinje aldrig er langt væk!</string>
@@ -72,6 +72,29 @@
 
         Du vælger selv om du vil tillade eller afvise hver anmodning. Du kan tilgå dem selv til enhver tid, via indstillinger</string>
     <string name="tell_about_swipe_down">Tip: Swipe ned for at lukke dette vindue</string>
+    <string name="download_video">Download video</string>
+    <string name="download_gif">Download Gif</string>
+    <string name="error_downloading_video">Fejl ved download af video</string>
+    <string name="saving_video">Gemmer</string>
+    <string name="saved_video">Gemt</string>
+    <string name="encoding_gif">Opretter Gif...</string>
+    <string name="scroll_options">Scroll indstillinger</string>
+    <string name="static_ui_title">Fast UI</string>
+    <string name="static_ui_summary">Dette forhindrer genveje til flere funktioner i at forsvinde, når du scroller</string>
+    <string name="list_sync_interval">Opdateringsinterval for lister</string>
+    <string name="list_sync_summary">Alle ekstra sider du har tilføjet til tidslinjen som lister, synkroniseres</string>
+    <string name="timeline_pictures">Tidslinje billeder</string>
+    <string name="timeline_pictures_summary">Vælg måden billeder bliver vist på i din tidslinje</string>
+    <string name="normal_pictures">Store billeder</string>
+    <string name="smaller_pictures">Mindre billeder</string>
+    <string name="no_pictures">Ingen billeder</string>
+    <string name="quick_actions">Vælg handling</string>
+    <string name="liked_status">Liked</string>
+    <string name="become_supporter">Bliv en 2016 supporter</string>
+    <string name="are_supporter">Du er en 2016 supporter!</string>
+    <string name="are_supporter_summary">Tak! Din support er højt værdsat. Hvis der er noget du ønsker jeg skal kikke på, skal du ikke tøve med at spørge</string>
+    <string name="tweetmarker_disclaimer">Automatisk Tweetmarker vil altid opdatere tidslinjen ved opstart</string>
+    <string name="discover_people">Personer</string>
     <string name="quote_style">Citat stil</string>
     <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
     <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
