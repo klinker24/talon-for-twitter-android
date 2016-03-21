@@ -1139,7 +1139,7 @@ public class NotificationUtils {
             builder.setLargeIcon(getImage(context, screenname));
         } catch (Exception e) { }
         builder.setWhen(time);
-        builder.setContentTitle(favoriteUser ? "Favorite User Tweet" : context.getResources().getString(R.string.mentioned_by) + " @" + screenname);
+        builder.setContentTitle(favoriteUser ? "@" + screenname : context.getResources().getString(R.string.mentioned_by) + " @" + screenname);
         builder.setContentText(tweetText);
 
         if (pictureUrl != null && !pictureUrl.isEmpty()) {
