@@ -648,10 +648,15 @@ public class NotificationUtils {
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(context);
+        SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
 
         if (tweets.size() == 1 && AppSettings.getInstance(context).notifications) {
+            notificationManager.cancel(sharedPrefs.getInt("last_fav_user_notification_id", 2));
             notificationManager.notify(tweets.get(0).notificationId, tweets.get(0).notification);
+            sharedPrefs.edit().putInt("last_fav_user_notification_id", tweets.get(0).notificationId).commit();
         } else if (tweets.size() > 1) {
+            notificationManager.cancel(2); // favorite user tweets
+
             NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
             inbox.setBigContentTitle(tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets));
 
@@ -675,7 +680,7 @@ public class NotificationUtils {
             int smallIcon = R.drawable.ic_stat_icon;
 
             Intent resultIntent = new Intent(context, MainActivity.class);
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0 );
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(context.getResources().getString(R.string.favorite_users))
@@ -1094,12 +1099,16 @@ public class NotificationUtils {
         AppSettings settings = AppSettings.getInstance(context);
 
         for (int i = 0; i < numberNew; i++) {
-            String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
-            String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
-            String longText = "<b>@" + handle + "</b>: " + text;
+            if (cursor.getInt(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_UNREAD)) == 0) {
+                i--;
+            } else {
+                String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
+                String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
+                String longText = "<b>@" + handle + "</b>: " + text;
 
-            style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
-            group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber, false));
+                style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
+                group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber, false));
+            }
 
             cursor.moveToPrevious();
         }
