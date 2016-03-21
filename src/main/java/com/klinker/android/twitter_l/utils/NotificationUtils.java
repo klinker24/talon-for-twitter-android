@@ -637,7 +637,14 @@ public class NotificationUtils {
 
         FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
 
-        if(cursor.move(cursor.getCount() - newOnTimeline)) {
+        if(newOnTimeline != -1 && cursor.move(cursor.getCount() - newOnTimeline)) {
+            do {
+                String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
+                if (favs.isFavUser(account, screenname)) {
+                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
+                }
+            } while (cursor.moveToNext());
+        } else if (cursor.moveToFirst()) { // talon pull for favorite users
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
                 if (favs.isFavUser(account, screenname)) {
