@@ -28,6 +28,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -546,6 +547,22 @@ public abstract class Compose extends Activity implements
             e.printStackTrace();
 
             return null;
+        }
+    }
+
+    public int getOrientation(Context context, Uri photoUri) {
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },
+                null, null, null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            } else {
+                return -1;
+            }
+        } finally {
+            cursor.close();
         }
     }
 

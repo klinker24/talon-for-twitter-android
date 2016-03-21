@@ -86,9 +86,7 @@ public class ReplyFromWearService extends IntentService {
 
         try {
             MentionsDataSource.getInstance(this).markRead(tweetId);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
 
         NotificationUtils.cancelGroupedNotificationWithNoContent(this);
     }
