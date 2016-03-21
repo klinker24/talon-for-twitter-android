@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 
 public class RedirectToTweetViewer extends AppCompatActivity {
@@ -11,6 +12,8 @@ public class RedirectToTweetViewer extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MentionsDataSource.getInstance(this).markRead(getIntent().getLongExtra("tweetid", 1));
 
         Intent tweet = new Intent(this, TweetActivity.class);
         tweet.putExtras(getIntent());

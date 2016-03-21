@@ -3,7 +3,7 @@
     <version name="4.6.2">
         <text>Bug fixes</text>
     </version>
-    
+
     <version name="4.6.0">
         <text>Like and retweet a status from mention and favorite user notification buttons</text>
         <text>Bundled notification support for mentions on Android N and Android Wear</text>
