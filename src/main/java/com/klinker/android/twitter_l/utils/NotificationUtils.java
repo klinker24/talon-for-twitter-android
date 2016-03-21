@@ -394,7 +394,7 @@ public class NotificationUtils {
 
             ContentValues cv = new ContentValues();
 
-            cv.put("tag", "com.klinker.android.twitter/com.klinker.android.twitter.ui.MainActivity");
+            cv.put("tag", "com.klinker.android.twitter_l/com.klinker.android.twitter_l.ui.MainActivity");
 
             // add the direct messages and mentions
             cv.put("count", unreadCounts[1] + unreadCounts[2]);
