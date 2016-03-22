@@ -60,6 +60,7 @@ import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
+import com.klinker.android.twitter_l.utils.redirects.RedirectToFavoriteUsers;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToTweetViewer;
@@ -701,7 +702,7 @@ public class NotificationUtils {
             String shortText = notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets);
             int smallIcon = R.drawable.ic_stat_icon;
 
-            Intent resultIntent = new Intent(context, MainActivity.class);
+            Intent resultIntent = new Intent(context, RedirectToFavoriteUsers.class);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0 );
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
