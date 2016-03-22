@@ -405,6 +405,8 @@ public class HomeFragment extends MainFragment {
     }
 
     public int doRefresh() {
+        TimelineRefreshService.scheduleRefresh(context);
+
         int numberNew = 0;
 
         if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
@@ -540,18 +542,6 @@ public class HomeFragment extends MainFragment {
         unread = numberNew;
 
         statuses.clear();
-
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        long now = new Date().getTime();
-        long alarm = now + settings.timelineRefresh;
-
-        PendingIntent pendingIntent = PendingIntent.getService(context, HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-        if (settings.timelineRefresh != 0)
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
-        else
-            am.cancel(pendingIntent);
 
         int unreadCount;
         try {
