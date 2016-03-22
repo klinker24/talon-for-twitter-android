@@ -11,6 +11,7 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -24,6 +25,8 @@ import java.util.*;
 public class ActivityUtils {
 
     private static String TAG = "ActivityUtils";
+
+    private static String GROUP_ACTIVITY = "activity_notification_group";
 
     public static final int NOTIFICATON_ID = 434;
     public static final int SECOND_NOTIFICATION_ID = 435;
@@ -141,75 +144,60 @@ public class ActivityUtils {
             return;
         }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setContentTitle(notificationTitle);
-        mBuilder.setSmallIcon(R.drawable.ic_stat_icon);
-        //mBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                //R.drawable.ic_action_notification_dark));
+        PendingIntent contentIntent;
+        if (useSecondAccount) {
+            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), 0);
+        } else {
+            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0);
+        }
+
+        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context);
+        summaryBuilder.setContentTitle(notificationTitle);
+        summaryBuilder.setSmallIcon(R.drawable.ic_stat_icon);
+        summaryBuilder.setContentIntent(contentIntent);
 
         if (notificationItems.size() > 1) {
             // inbox style
             NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
+            inbox.setBigContentTitle(notificationTitle);
 
-            try {
-                inbox.setBigContentTitle(notificationTitle);
-            } catch (Exception e) {
-
+            for (String s : notificationItems) {
+                inbox.addLine(Html.fromHtml(s));
+                activityGroupNotification(contentIntent, Html.fromHtml(s));
             }
 
-            if (notificationItems.size() <= 5) {
-                for (String s : notificationItems) {
-                    inbox.addLine(Html.fromHtml(s));
-                }
-            } else {
-                for (int i = 0; i < 5; i++) {
-                    inbox.addLine(Html.fromHtml(notificationItems.get(i)));
-                }
-
-                int extra = notificationItems.size() - 5;
-                if (extra > 1) {
-                    inbox.setSummaryText("+" + extra + " " + context.getString(R.string.items));
-                } else {
-                    inbox.setSummaryText("+" + extra + " " + context.getString(R.string.item));
-                }
-            }
-
-            mBuilder.setStyle(inbox);
-            mBuilder.setContentText(notificationItems.size() + " " + context.getString(R.string.items));
+            summaryBuilder.setStyle(inbox);
+            summaryBuilder.setContentText(notificationItems.size() + " " + context.getString(R.string.items));
+            summaryBuilder.setGroup(GROUP_ACTIVITY);
+            summaryBuilder.setGroupSummary(true);
         } else {
             // big text style
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
             bigText.bigText(Html.fromHtml(notificationItems.get(0)));
             bigText.setBigContentTitle(notificationTitle);
 
-            mBuilder.setStyle(bigText);
-            mBuilder.setContentText(Html.fromHtml(notificationItems.get(0)));
-        }
-
-        if (useSecondAccount) {
-            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), 0));
-        } else {
-            mBuilder.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0));
+            summaryBuilder.setStyle(bigText);
+            summaryBuilder.setContentText(Html.fromHtml(notificationItems.get(0)));
         }
 
         if (settings.headsUp) {
-            mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            summaryBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
         }
 
         if (settings.vibrate) {
-            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+            summaryBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
         }
 
         if (settings.sound) {
             try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
+                summaryBuilder.setSound(Uri.parse(settings.ringtone));
             } catch (Exception e) {
-                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                summaryBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
 
         if (settings.led) {
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
+            summaryBuilder.setLights(0xFFFFFF, 1000, 1000);
         }
 
         if (settings.wakeScreen) {
@@ -217,7 +205,6 @@ public class ActivityUtils {
             final PowerManager.WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
             wakeLock.acquire(5000);
         }
-
 
         // Pebble notification
         if(sharedPrefs.getBoolean("pebble_notification", false)) {
@@ -229,7 +216,22 @@ public class ActivityUtils {
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(context);
-        notificationManager.notify(id, mBuilder.build());
+        notificationManager.notify(id, summaryBuilder.build());
+    }
+
+    private void activityGroupNotification(PendingIntent contentIntent, Spanned text) {
+        NotificationCompat.Builder individualBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(context.getString(R.string.new_activity))
+                .setContentText(text)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+                .setSmallIcon(R.drawable.ic_stat_icon)
+                .setContentIntent(contentIntent)
+                .setGroup(GROUP_ACTIVITY)
+                .setGroupSummary(false);
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(context);
+        notificationManager.notify(NotificationUtils.generateRandomId(), individualBuilder.build());
     }
 
     public void commitLastRefresh(long id) {

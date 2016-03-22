@@ -181,7 +181,9 @@ public class TweetActivity extends SlidingActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        setImage(b);
+                                        try {
+                                            setImage(b);
+                                        } catch (Exception e) { }
                                     }
                                 });
                             } catch (Exception e) {
