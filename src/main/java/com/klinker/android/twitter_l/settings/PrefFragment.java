@@ -1493,22 +1493,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         //Log.v("alarm_date", "key: " + key);
 
         if (key.equals("timeline_sync_interval")) {
-
-            long refreshRate = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + refreshRate;
-
-            Log.v("alarm_date", "timeline " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-            if (refreshRate != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
-            else
-                am.cancel(pendingIntent);
+            TimelineRefreshService.scheduleRefresh(context);
         } else if (key.equals("mentions_sync_interval")) {
 
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

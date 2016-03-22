@@ -15,7 +15,9 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,11 +27,13 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -50,6 +54,8 @@ public class TimelineRefreshService extends IntentService {
 
     @Override
     public void onHandleIntent(Intent intent) {
+        scheduleRefresh(this);
+
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
             return;
         }
@@ -192,5 +198,26 @@ public class TimelineRefreshService extends IntentService {
 
             TimelineRefreshService.isRunning = false;
         }
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        long now = new Date().getTime();
+        long alarm = now + settings.timelineRefresh;
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+
+        if (settings.timelineRefresh != 0) {
+            am.cancel(pendingIntent);
+            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+            // am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
+        } else {
+            am.cancel(pendingIntent);
+        }
+
+        Log.v("alarm_date", "timeline refresh: " + new Date(alarm).toString());
+
     }
 }

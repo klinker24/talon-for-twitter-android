@@ -159,17 +159,12 @@ public class MaterialLogin extends MaterialLVLActivity {
         Context context = this;
 
         if (settings.timelineRefresh != 0) { // user only wants manual
-            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            TimelineRefreshService.scheduleRefresh(context);
+
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             long now = new Date().getTime();
-            long alarm = now + settings.timelineRefresh;
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
-
-            now = new Date().getTime();
-            alarm = now + settings.mentionsRefresh;
+            long alarm = now + settings.mentionsRefresh;
 
             PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
 
