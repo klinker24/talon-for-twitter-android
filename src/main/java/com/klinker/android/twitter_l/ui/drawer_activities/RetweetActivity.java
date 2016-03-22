@@ -118,15 +118,15 @@ public class RetweetActivity extends DrawerActivity {
                         if (MainActivity.canSwitch) {
                             // used to show and hide the action bar
                             if (firstVisibleItem > mLastFirstVisibleItem) {
-                                hideBars();
+                                hideAppBar();
                             } else if (firstVisibleItem < mLastFirstVisibleItem) {
-                                showBars();
+                                showAppBar();
                             }
 
                             mLastFirstVisibleItem = firstVisibleItem;
                         }
                     } else {
-                        showBars();
+                        showAppBar();
                     }
                 }
 
@@ -138,6 +138,19 @@ public class RetweetActivity extends DrawerActivity {
 
         getRetweets();
 
+    }
+
+    private boolean hidden = false;
+    private void showAppBar() {
+        if (hidden)
+            showBars();
+        hidden = false;
+    }
+
+    private void hideAppBar() {
+        if (!hidden)
+            hideBars();
+        hidden = true;
     }
 
     public boolean canRefresh = false;
