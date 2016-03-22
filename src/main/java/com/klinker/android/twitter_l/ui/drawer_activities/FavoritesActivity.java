@@ -113,11 +113,11 @@ public class FavoritesActivity extends DrawerActivity {
                         // used to show and hide the action bar
                         if (firstVisibleItem > mLastFirstVisibleItem) {
                             if(!landscape && !isTablet) {
-                                hideBars();
+                                hideAppBar();
                             }
                         } else if (firstVisibleItem < mLastFirstVisibleItem) {
                             if(!landscape && !isTablet) {
-                                showBars();
+                                showAppBar();
                             }
                         }
 
@@ -125,7 +125,7 @@ public class FavoritesActivity extends DrawerActivity {
                     }
                 } else {
                     if(!landscape && !isTablet) {
-                        showBars();
+                        showAppBar();
                     }
                 }
 
@@ -140,6 +140,19 @@ public class FavoritesActivity extends DrawerActivity {
         final LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
         spinner.setVisibility(View.VISIBLE);
 
+    }
+
+    private boolean hidden = false;
+    private void showAppBar() {
+        if (hidden)
+            showBars();
+        hidden = false;
+    }
+
+    private void hideAppBar() {
+        if (!hidden)
+            hideBars();
+        hidden = true;
     }
 
     public boolean canRefresh = false;
