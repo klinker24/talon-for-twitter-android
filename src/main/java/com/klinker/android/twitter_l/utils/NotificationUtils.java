@@ -670,7 +670,6 @@ public class NotificationUtils {
                 sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
             }
         } else if (tweets.size() > 1) {
-            notificationManager.cancel(2); // favorite user tweets
 
             NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
             inbox.setBigContentTitle(tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets));
@@ -731,8 +730,10 @@ public class NotificationUtils {
                 }
             }
 
-            if (notifiedCount != 0)
+            if (notifiedCount != 0) {
+                notificationManager.cancel(2); // favorite user tweets and cancel the group
                 notificationManager.notify(2, mBuilder.build());
+            }
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
