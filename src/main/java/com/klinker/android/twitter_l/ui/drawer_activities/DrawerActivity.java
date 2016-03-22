@@ -1594,15 +1594,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             }
         }
 
-        /*if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < 23) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    toolbar.setElevation(Utils.toDP(5, DrawerActivity.this));
-                }
-            }, ANIM_DURATION);
-        }*/
-
         if (abOffset == -1) {
             abOffset = Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context);
         }
@@ -1676,7 +1667,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     Handler toolBarVis;
 
     public void hideBars() {
-        Log.v("talon_app_bar", "hiding app bar");
 
         if (getResources().getBoolean(R.bool.has_drawer) && statusBar != null && statusBar.getVisibility() != View.VISIBLE) {
             statusBar.setVisibility(View.VISIBLE);
