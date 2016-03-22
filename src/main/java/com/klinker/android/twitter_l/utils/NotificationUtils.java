@@ -1151,7 +1151,7 @@ public class NotificationUtils {
 
         if (pictureUrl != null && !pictureUrl.isEmpty()) {
             builder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .setBigContentTitle(favoriteUser ? "Favorite User Tweet" : context.getResources().getString(R.string.mentioned_by) + " @" + screenname)
+                    .setBigContentTitle(favoriteUser ? "@" + screenname : context.getResources().getString(R.string.mentioned_by) + " @" + screenname)
                     .setSummaryText(Html.fromHtml(tweetText))
                     .bigPicture(getPicture(context, pictureUrl))
             );
