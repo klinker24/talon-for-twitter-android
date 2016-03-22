@@ -69,10 +69,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import twitter4j.User;
 
@@ -657,10 +659,16 @@ public class NotificationUtils {
                 NotificationManagerCompat.from(context);
         SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
 
+        Set<String> alreadyNotified = sharedPrefs.getStringSet("favorite_user_already_notified_" + account, new HashSet());
         if (tweets.size() == 1 && AppSettings.getInstance(context).notifications) {
-            notificationManager.cancel(sharedPrefs.getInt("last_fav_user_notification_id", 2));
-            notificationManager.notify(tweets.get(0).notificationId, tweets.get(0).notification);
-            sharedPrefs.edit().putInt("last_fav_user_notification_id", tweets.get(0).notificationId).commit();
+            if (!alreadyNotified.contains(tweets.get(0).tweetId + "")) {
+                notificationManager.cancel(sharedPrefs.getInt("last_fav_user_notification_id", 2));
+                notificationManager.notify(tweets.get(0).notificationId, tweets.get(0).notification);
+                sharedPrefs.edit().putInt("last_fav_user_notification_id", tweets.get(0).notificationId).commit();
+
+                alreadyNotified.add(tweets.get(0).tweetId + "");
+                sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+            }
         } else if (tweets.size() > 1) {
             notificationManager.cancel(2); // favorite user tweets
 
@@ -678,8 +686,13 @@ public class NotificationUtils {
             }
 
             for (NotificationIdentifier notification : tweets) {
-                notificationManager.notify(notification.notificationId, notification.notification);
+                if (!alreadyNotified.contains(notification.tweetId + "")) {
+                    notificationManager.notify(notification.notificationId, notification.notification);
+                    alreadyNotified.add(tweets.get(0).tweetId + "");
+                }
             }
+
+            sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
 
             AppSettings settings = AppSettings.getInstance(context);
 
@@ -732,6 +745,8 @@ public class NotificationUtils {
 
             // Light Flow notification
             sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
+
+            cleanAlreadyNotifiedFavoriteTweets(sharedPrefs, account);
         }
 
 
@@ -1226,6 +1241,7 @@ public class NotificationUtils {
         NotificationIdentifier notification = new NotificationIdentifier();
         notification.notificationId = notificationId;
         notification.notification = builder.build();
+        notification.tweetId = tweetId;
         return notification;
     }
 
@@ -1601,8 +1617,30 @@ public class NotificationUtils {
         return randomGenerator.nextInt(100000);
     }
 
+    private static void cleanAlreadyNotifiedFavoriteTweets(SharedPreferences sharedPreferences, int account) {
+        Set<String> alreadyNotified = sharedPreferences.getStringSet("favorite_user_already_notified_" + account, new HashSet());
+        long currentId = sharedPreferences.getLong("current_position_" + account, 1);
+
+        // we want to remove any already notified tweets that are less than the current id
+        // since they wouldn't be notified again anyways and just take up space.
+
+        List<String> toDelete = new ArrayList();
+        for (String s : alreadyNotified) {
+            if (Long.parseLong(s) < currentId) {
+                toDelete.add(s);
+            }
+        }
+
+        for (String s : toDelete) {
+            alreadyNotified.remove(s);
+        }
+
+        sharedPreferences.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+    }
+
     private static class NotificationIdentifier {
         public int notificationId;
+        public long tweetId;
         public Notification notification;
     }
 }

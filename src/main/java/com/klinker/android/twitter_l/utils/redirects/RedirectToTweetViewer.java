@@ -13,7 +13,9 @@ public class RedirectToTweetViewer extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MentionsDataSource.getInstance(this).markRead(getIntent().getLongExtra("tweetid", 1));
+        try {
+            MentionsDataSource.getInstance(this).markRead(getIntent().getLongExtra("tweetid", 1));
+        } catch (Exception e) { }
 
         Intent tweet = new Intent(this, TweetActivity.class);
         tweet.putExtras(getIntent());
