@@ -81,7 +81,7 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 0;
+    public static final int TEST_TIMELINE_NUM = 60;
     public static final int TEST_MENTION_NUM = 0;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 3;
@@ -685,10 +685,13 @@ public class NotificationUtils {
                 } while ((cursor.moveToNext()));
             }
 
+            int notifiedCount = 0;
             for (NotificationIdentifier notification : tweets) {
                 if (!alreadyNotified.contains(notification.tweetId + "")) {
                     notificationManager.notify(notification.notificationId, notification.notification);
-                    alreadyNotified.add(tweets.get(0).tweetId + "");
+                    alreadyNotified.add(notification.tweetId + "");
+
+                    notifiedCount++;
                 }
             }
 
@@ -696,7 +699,7 @@ public class NotificationUtils {
 
             AppSettings settings = AppSettings.getInstance(context);
 
-            String shortText = tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets);
+            String shortText = notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets);
             int smallIcon = R.drawable.ic_stat_icon;
 
             Intent resultIntent = new Intent(context, MainActivity.class);
@@ -704,7 +707,7 @@ public class NotificationUtils {
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(context.getResources().getString(R.string.favorite_users))
-                    .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
+                    .setContentText(shortText)
                     .setSmallIcon(smallIcon)
                     .setContentIntent(resultPendingIntent)
                     .setAutoCancel(true)
@@ -728,7 +731,8 @@ public class NotificationUtils {
                 }
             }
 
-            notificationManager.notify(2, mBuilder.build());
+            if (notifiedCount != 0)
+                notificationManager.notify(2, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -1122,7 +1126,8 @@ public class NotificationUtils {
 
         for (int i = 0; i < numberNew; i++) {
             if (cursor.getInt(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_UNREAD)) == 0) {
-                i--;
+                if (i != 0) i--;
+                if (cursor.getPosition() == cursor.getCount() - 1) break;
             } else {
                 String handle = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_SCREEN_NAME));
                 String text = cursor.getString(cursor.getColumnIndex(MentionsSQLiteHelper.COLUMN_TEXT));
@@ -1626,7 +1631,8 @@ public class NotificationUtils {
 
         List<String> toDelete = new ArrayList();
         for (String s : alreadyNotified) {
-            if (Long.parseLong(s) < currentId) {
+            long id = Long.parseLong(s);
+            if (id < currentId) {
                 toDelete.add(s);
             }
         }
