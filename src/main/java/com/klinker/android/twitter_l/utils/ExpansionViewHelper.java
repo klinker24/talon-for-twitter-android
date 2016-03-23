@@ -356,6 +356,9 @@ public class ExpansionViewHelper {
                         text = restoreLinks(text);
                         text = " RT @" + screenName + ": " + text;
                         break;
+                    case AppSettings.QUOTE_STYLE_VIA:
+                        text = restoreLinks(text);
+                        text = text + " via @" + screenName;
                 }
 
                 Intent quote;

@@ -96,6 +96,4 @@
     <string name="tweetmarker_disclaimer">自动 TweetMarker 将会在每次应用启动时刷新时间线。</string>
     <string name="discover_people">人</string>
     <string name="quote_style">引用方式</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

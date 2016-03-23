@@ -93,6 +93,7 @@ public class AppSettings {
     public static final int QUOTE_STYLE_TWITTER = 0;
     public static final int QUOTE_STYLE_TALON = 1;
     public static final int QUOTE_STYLE_RT = 2;
+    public static final int QUOTE_STYLE_VIA = 3;
 
     public static final int NAV_BAR_AUTOMATIC = 0;
     public static final int NAV_BAR_PRESENT = 1;
