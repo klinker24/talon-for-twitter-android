@@ -95,5 +95,4 @@
     <string name="are_supporter_summary">谢谢！非常感激您的捐赠，如有什么我能帮上忙的，大可直说！</string>
     <string name="tweetmarker_disclaimer">自动 TweetMarker 将会在每次应用启动时刷新时间线。</string>
     <string name="discover_people">人</string>
-    <string name="quote_style">引用方式</string>
 </resources>
