@@ -176,12 +176,14 @@
         <item>@string/quote_style_twitter</item>
         <item>@string/quote_style_talon</item>
         <item>@string/quote_style_rt</item>
+        <item>&#8230; via @lukeklinker</item>
     </string-array>
 
     <string-array name="quote_style_inserted">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="pre_cache">
