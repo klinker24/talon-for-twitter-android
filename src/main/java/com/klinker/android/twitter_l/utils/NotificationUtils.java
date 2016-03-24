@@ -731,7 +731,7 @@ public class NotificationUtils {
                 }
             }
 
-            if (notifiedCount != 0) {
+            if (notifiedCount != 0 && tweets.size() > 1) {
                 notificationManager.cancel(2); // favorite user tweets and cancel the group
                 notificationManager.notify(2, mBuilder.build());
             }
