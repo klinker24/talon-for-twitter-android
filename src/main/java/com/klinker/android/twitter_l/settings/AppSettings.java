@@ -463,9 +463,11 @@ public class AppSettings {
             Date end = sdf.parse(endHour + ":" + endMin);
             Date current = sdf.parse(hour + ":" + minutes);
 
+            Log.v("date_range", "current: " + current.toString() + ", start: " + start.toString() + ", end: " + end.toString());
+
             // we expect that the start date will be something like 22 and the end will be 6
             if (start.after(end)) {
-                return current.after(end) || current.before(start);
+                return current.after(start) || current.before(end);
             } else { // but some people could do quiet hours during the day, so start = 9 and end = 17
                 return current.after(start) && current.before(end);
             }
