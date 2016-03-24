@@ -53,6 +53,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -267,6 +268,21 @@ public abstract class Compose extends Activity implements
         setUpLayout();
         setUpActionBar();
         setUpReplyText();
+
+        reply.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                        keyCode == KeyEvent.KEYCODE_ENTER &&
+                        event.isCtrlPressed()) {
+                    
+                    findViewById(R.id.send_button).performClick();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
 
         if (reply.getText().toString().contains(" RT @") || reply.getText().toString().contains("/status/")) {
             reply.setSelection(0);

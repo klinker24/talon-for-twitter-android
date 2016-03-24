@@ -2,7 +2,9 @@
 
     <version name="4.6.4">
         <text>Add share to Chrome Custom Tabs</text>
+        <text>CTRL+Enter on a physical keyboard will send tweets in the compose screen</text>
         <text>Bug fixes</text>
+        <text>Update translations</text>
     </version>
 
     <version name="4.6.3">
