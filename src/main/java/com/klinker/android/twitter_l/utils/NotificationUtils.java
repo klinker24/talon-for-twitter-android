@@ -99,6 +99,7 @@ public class NotificationUtils {
     }
 
     public static void refreshNotification(Context context, boolean noTimeline) {
+        AppSettings.invalidate();
         AppSettings settings = AppSettings.getInstance(context);
 
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -670,7 +671,7 @@ public class NotificationUtils {
                 alreadyNotified.add(tweets.get(0).tweetId + "");
                 sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
             }
-        } else if (tweets.size() > 1) {
+        } else if (tweets.size() > 1 && AppSettings.getInstance(context).notifications) {
 
             NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
             inbox.setBigContentTitle(tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets));
@@ -732,6 +733,7 @@ public class NotificationUtils {
             }
 
             if (notifiedCount != 0 && tweets.size() > 1) {
+                //notificationManager.cancel(sharedPrefs.getInt("last_fav_user_notification_id", 2));
                 notificationManager.cancel(2); // favorite user tweets and cancel the group
                 notificationManager.notify(2, mBuilder.build());
             }
@@ -791,6 +793,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondDMs(Context context, int secondAccount) {
+        AppSettings.invalidate();
+
         DMDataSource data = DMDataSource.getInstance(context);
 
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
@@ -906,6 +910,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondMentions(Context context, int secondAccount) {
+        AppSettings.invalidate();
+
         MentionsDataSource data = MentionsDataSource.getInstance(context);
         int numberNew = TEST_NOTIFICATION ? TEST_SECOND_MENTIONS_NUM : data.getUnreadCount(secondAccount);
 
@@ -1280,6 +1286,9 @@ public class NotificationUtils {
 
     // type is either " retweeted your status", " favorited your status", or " followed you"
     public static void newInteractions(User interactor, Context context, SharedPreferences sharedPrefs, String type) {
+
+        AppSettings.invalidate();
+
         String title = "";
         String text = "";
         String smallText = "";
