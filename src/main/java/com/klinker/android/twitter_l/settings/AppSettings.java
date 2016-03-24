@@ -16,7 +16,10 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AppSettings {
 
@@ -214,7 +217,6 @@ public class AppSettings {
     public long listRefresh;
     public long myId;
 
-
     public AppSettings(Context context) {
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -403,24 +405,13 @@ public class AppSettings {
         listRefresh = Long.parseLong(sharedPrefs.getString("list_sync_interval", "0"));
 
         if (sharedPrefs.getBoolean("night_mode", false)) {
-            int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
-            int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
-            int dayStartHour = sharedPrefs.getInt("day_start_hour", 6);
-            int dayStartMin = sharedPrefs.getInt("day_start_min", 0);
+            int startHour = sharedPrefs.getInt("night_start_hour", 22);
+            int startMin = sharedPrefs.getInt("night_start_min", 0);
+            int endHour = sharedPrefs.getInt("day_start_hour", 6);
+            int endMin = sharedPrefs.getInt("day_start_min", 0);
 
-            Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minutes = c.get(Calendar.MINUTE);
-
-            int dayStartMinutes = dayStartHour * 60 + dayStartMin;
-            int nightStartMinutes = nightStartHour * 60 + nightStartMin;
-            int currentMinutes = hour * 60 + minutes;
-
-            if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
-                    (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
-                //nightMode = true;
+            if (isInsideRange(startHour, startMin, endHour, endMin)) {
                 darkTheme = true;
-                //theme = sharedPrefs.getInt("night_theme", 0);
             }
         }
 
@@ -430,16 +421,8 @@ public class AppSettings {
             int quietEndHour = sharedPrefs.getInt("quiet_end_hour", 6);
             int quietEndMin = sharedPrefs.getInt("quiet_end_min", 0);
 
-            Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minutes = c.get(Calendar.MINUTE);
-
-            int quietEndMinutes = quietEndHour * 60 + quietEndMin;
-            int quietStartMinutes = quietStartHour * 60 + quietStartMin;
-            int currentMinutes = hour * 60 + minutes;
-
-            if (!(currentMinutes > quietEndMinutes && quietStartMinutes > currentMinutes)) {
-                //Log.v("quiet_hours", "quiet hours on");
+            if (isInsideRange(quietStartHour, quietStartMin, quietEndHour, quietEndMin)) {
+                Log.v("quiet_hours", "quiet hours on");
                 notifications = false;
                 timelineNot = false;
                 mentionsNot = false;
@@ -466,6 +449,31 @@ public class AppSettings {
         setColors(context);
     }
 
+    private static boolean isInsideRange(int startHour, int startMin, int endHour, int endMin) {
+
+        String pattern = "HH:mm";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minutes = c.get(Calendar.MINUTE);
+
+        try {
+            Date start = sdf.parse(startHour + ":" + startMin);
+            Date end = sdf.parse(endHour + ":" + endMin);
+            Date current = sdf.parse(hour + ":" + minutes);
+
+            // we expect that the start date will be something like 22 and the end will be 6
+            if (start.after(end)) {
+                return current.after(end) || current.before(start);
+            } else { // but some people could do quiet hours during the day, so start = 9 and end = 17
+                return current.after(start) && current.before(end);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
         int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
@@ -482,21 +490,12 @@ public class AppSettings {
         }
 
         if (sharedPrefs.getBoolean("night_mode", false)) {
-            int nightStartHour = sharedPrefs.getInt("night_start_hour", 22);
-            int nightStartMin = sharedPrefs.getInt("night_start_min", 0);
-            int dayStartHour = sharedPrefs.getInt("day_start_hour", 6);
-            int dayStartMin = sharedPrefs.getInt("day_start_min", 0);
+            int startHour = sharedPrefs.getInt("night_start_hour", 22);
+            int startMin = sharedPrefs.getInt("night_start_min", 0);
+            int endHour = sharedPrefs.getInt("day_start_hour", 6);
+            int endMin = sharedPrefs.getInt("day_start_min", 0);
 
-            Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minutes = c.get(Calendar.MINUTE);
-
-            int dayStartMinutes = dayStartHour * 60 + dayStartMin;
-            int nightStartMinutes = nightStartHour * 60 + nightStartMin;
-            int currentMinutes = hour * 60 + minutes;
-
-            if ((nightStartHour > dayStartHour && !(currentMinutes > dayStartMinutes && nightStartMinutes > currentMinutes)) ||
-                    (nightStartHour < dayStartHour && (currentMinutes < dayStartMinutes && nightStartMinutes < currentMinutes))) {
+            if (isInsideRange(startHour, startMin, endHour, endMin)) {
                 dark = true;
             }
         }
