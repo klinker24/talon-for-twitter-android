@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Used to handle URLs.
@@ -97,7 +98,8 @@ public class WebIntentBuilder {
             String extraText = webpage;
             shareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
             shareIntent.setType("text/plain");
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, shareIntent, 0);
+            Random random = new Random();
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, random.nextInt(Integer.MAX_VALUE), shareIntent, 0);
 
             customTab = new CustomTabsIntent.Builder(null)
                     .setShowTitle(true)
