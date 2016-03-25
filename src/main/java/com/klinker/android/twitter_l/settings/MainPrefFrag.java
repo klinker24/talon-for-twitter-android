@@ -101,7 +101,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
     private void showSettings(int position, String title) {
         startActivity(new Intent(getActivity(), PrefActivity.class)
                 .putExtra("position", position)
-                .putExtra("question", title));
+                .putExtra("title", title));
 
         getActivity().finish();
     }
