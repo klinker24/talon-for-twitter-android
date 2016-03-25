@@ -33,7 +33,8 @@
         android:padding="12dp"
         android:layout_marginStart="12dp"
         android:textSize="14sp"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:ellipsize="marquee" />
 
     <FrameLayout
         android:id="@+id/faq_web_holder"
