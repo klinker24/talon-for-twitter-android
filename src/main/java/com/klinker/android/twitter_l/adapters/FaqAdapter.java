@@ -63,18 +63,18 @@ public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHold
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.web.getVisibility() != View.VISIBLE) {
-                    holder.web.setVisibility(View.VISIBLE);
+                if (holder.webHolder.getVisibility() != View.VISIBLE) {
+                    holder.webHolder.setVisibility(View.VISIBLE);
                     holder.web.loadUrl(faq.get(section).items.get(relativePosition).url);
                 } else {
-                    holder.web.setVisibility(View.GONE);
+                    holder.webHolder.setVisibility(View.GONE);
                     holder.web.loadUrl("about:blank");
                 }
             }
         });
 
-        if (holder.web.getVisibility() != View.GONE) {
-            holder.web.setVisibility(View.GONE);
+        if (holder.webHolder.getVisibility() != View.GONE) {
+            holder.webHolder.setVisibility(View.GONE);
             holder.web.loadUrl("about:blank");
         }
     }
@@ -91,6 +91,7 @@ public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHold
     protected class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title;
+        public View webHolder;
         public WebView web;
         public LinearLayout background;
 
@@ -104,6 +105,7 @@ public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHold
             background = (LinearLayout) itemView.findViewById(R.id.faq_item);
             title = (TextView) itemView.findViewById(R.id.faq_title);
             web = (WebView) itemView.findViewById(R.id.faq_web);
+            webHolder = itemView.findViewById(R.id.faq_web_holder);
         }
     }
 }

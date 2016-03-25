@@ -35,11 +35,31 @@
         android:textSize="14sp"
         android:maxLines="1" />
 
-    <WebView
-        android:id="@+id/faq_web"
-        android:visibility="gone"
-        android:minHeight="200dp"
+    <FrameLayout
+        android:id="@+id/faq_web_holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@android:color/white"/>
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:indeterminateOnly="true"
+            android:layout_gravity="center"/>
+
+        <WebView
+            android:id="@+id/faq_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
 
 </LinearLayout>

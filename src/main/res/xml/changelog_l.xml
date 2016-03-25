@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.6.5">
+        <text>Update the FAQ section of the app</text>
+    </version>
+
     <version name="4.6.4.1">
         <text>Fix night mode</text>
     </version>
