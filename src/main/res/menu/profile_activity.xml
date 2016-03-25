@@ -20,7 +20,7 @@
       xmlns:talon="http://schemas.android.com/apk/res-auto">
     <!--<item android:id="@+id/menu_tweet"
           android:orderInCategory="1"
-          android:title="@string/menu_tweet"
+          android:question="@string/menu_tweet"
           android:icon="@drawable/ic_send_dark"
           android:showAsAction="always"  />-->
 

@@ -1048,7 +1048,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         sharedPrefs.edit().putBoolean("should_refresh", false).commit();
         Intent settings = new Intent(context, PrefActivity.class);
         settings.putExtra("position", 8)
-                .putExtra("title",
+                .putExtra("question",
                         getResources().getString(R.string.get_help_settings));
         finish();
         settings.putExtra("open_help", true);

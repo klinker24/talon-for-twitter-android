@@ -49,7 +49,7 @@ public class InteractionsSQLiteHelper extends SQLiteOpenHelper {
             + " integer account num, " + COLUMN_TYPE
             + " integer type of tweet, " + COLUMN_TEXT
             + " text not null, " + COLUMN_TITLE
-            + " text title, " + COLUMN_PRO_PIC
+            + " text question, " + COLUMN_PRO_PIC
             + " text url of pic, " + COLUMN_USERS
             + " text contributing users, " + COLUMN_TIME
             + " integer time, " + COLUMN_EXTRA_ONE
