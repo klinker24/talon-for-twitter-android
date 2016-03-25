@@ -60,6 +60,7 @@ import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer;
+import com.klinker.android.twitter_l.utils.redirects.RedirectToFavoriteUsers;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToTweetViewer;
@@ -81,7 +82,7 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 60;
+    public static final int TEST_TIMELINE_NUM = 100;
     public static final int TEST_MENTION_NUM = 0;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 3;
@@ -98,6 +99,7 @@ public class NotificationUtils {
     }
 
     public static void refreshNotification(Context context, boolean noTimeline) {
+        AppSettings.invalidate();
         AppSettings settings = AppSettings.getInstance(context);
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
@@ -144,7 +146,7 @@ public class NotificationUtils {
 
             String shortText = getShortText(unreadCounts, context, currentAccount);
             String longText = getLongText(unreadCounts, context, currentAccount);
-            // [0] is the full title and [1] is the screenname
+            // [0] is the full question and [1] is the screenname
             String[] title = getTitle(unreadCounts, context, currentAccount);
             String pictureUrl;
             boolean useExpanded = useExp(context);
@@ -660,20 +662,28 @@ public class NotificationUtils {
         SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
 
         Set<String> alreadyNotified = sharedPrefs.getStringSet("favorite_user_already_notified_" + account, new HashSet());
-        if (tweets.size() == 1 && AppSettings.getInstance(context).notifications) {
-            if (!alreadyNotified.contains(tweets.get(0).tweetId + "")) {
-                notificationManager.cancel(sharedPrefs.getInt("last_fav_user_notification_id", 2));
-                notificationManager.notify(tweets.get(0).notificationId, tweets.get(0).notification);
-                sharedPrefs.edit().putInt("last_fav_user_notification_id", tweets.get(0).notificationId).commit();
 
-                alreadyNotified.add(tweets.get(0).tweetId + "");
-                sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+        if (!AppSettings.getInstance(context).notifications) {
+            return;
+        }
+
+        int notifiedCount = 0;
+        for (NotificationIdentifier notification : tweets) {
+            if (!alreadyNotified.contains(notification.tweetId + "")) {
+                notificationManager.notify(notification.notificationId, notification.notification);
+                alreadyNotified.add(notification.tweetId + "");
+
+                notifiedCount++;
             }
-        } else if (tweets.size() > 1) {
-            notificationManager.cancel(2); // favorite user tweets
+        }
 
+        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+
+        // on android N, we want to make the summary notification, for all other version, we just display all
+        // the notifications
+        if (Utils.isAndroidN() && notifiedCount > 0) {
             NotificationCompat.InboxStyle inbox = new NotificationCompat.InboxStyle();
-            inbox.setBigContentTitle(tweets.size() + " " + context.getResources().getString(R.string.fav_user_tweets));
+            inbox.setBigContentTitle(notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets));
 
             if (cursor.move(cursor.getCount() - newOnTimeline)) {
                 do {
@@ -685,25 +695,13 @@ public class NotificationUtils {
                 } while ((cursor.moveToNext()));
             }
 
-            int notifiedCount = 0;
-            for (NotificationIdentifier notification : tweets) {
-                if (!alreadyNotified.contains(notification.tweetId + "")) {
-                    notificationManager.notify(notification.notificationId, notification.notification);
-                    alreadyNotified.add(notification.tweetId + "");
-
-                    notifiedCount++;
-                }
-            }
-
-            sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
-
             AppSettings settings = AppSettings.getInstance(context);
 
             String shortText = notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets);
             int smallIcon = R.drawable.ic_stat_icon;
 
-            Intent resultIntent = new Intent(context, MainActivity.class);
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0 );
+            Intent resultIntent = new Intent(context, RedirectToFavoriteUsers.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(context.getResources().getString(R.string.favorite_users))
@@ -731,8 +729,7 @@ public class NotificationUtils {
                 }
             }
 
-            if (notifiedCount != 0)
-                notificationManager.notify(2, mBuilder.build());
+            notificationManager.notify(2, mBuilder.build());
 
             // if we want to wake the screen on a new message
             if (settings.wakeScreen) {
@@ -742,17 +739,20 @@ public class NotificationUtils {
             }
 
             // Pebble notification
+<<<<<<< HEAD
             if(AppSettings.getSharedPreferences(context).getBoolean("pebble_notification", false)) {
+=======
+            if (context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
+>>>>>>> material-design
                 sendAlertToPebble(context, context.getResources().getString(R.string.favorite_users), shortText);
             }
 
             // Light Flow notification
             sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
-
-            cleanAlreadyNotifiedFavoriteTweets(sharedPrefs, account);
         }
 
-
+        cleanAlreadyNotifiedFavoriteTweets(sharedPrefs, account);
         cursor.close();
     }
 
@@ -788,6 +788,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondDMs(Context context, int secondAccount) {
+        AppSettings.invalidate();
+
         DMDataSource data = DMDataSource.getInstance(context);
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
@@ -903,6 +905,8 @@ public class NotificationUtils {
     }
 
     public static void notifySecondMentions(Context context, int secondAccount) {
+        AppSettings.invalidate();
+
         MentionsDataSource data = MentionsDataSource.getInstance(context);
         int numberNew = TEST_NOTIFICATION ? TEST_SECOND_MENTIONS_NUM : data.getUnreadCount(secondAccount);
 
@@ -1276,6 +1280,9 @@ public class NotificationUtils {
 
     // type is either " retweeted your status", " favorited your status", or " followed you"
     public static void newInteractions(User interactor, Context context, SharedPreferences sharedPrefs, String type) {
+
+        AppSettings.invalidate();
+
         String title = "";
         String text = "";
         String smallText = "";
@@ -1291,7 +1298,7 @@ public class NotificationUtils {
         int newFavorites = sharedPrefs.getInt("new_favorites", 0);
         int newQuotes = sharedPrefs.getInt("new_quotes", 0);
 
-        // set title
+        // set question
         if (newFavorites + newRetweets + newFollowers > 1) {
             title = context.getResources().getString(R.string.new_interactions);
         } else {

@@ -336,7 +336,7 @@ public abstract class PopupLayout extends CardView {
 
     private boolean showTitle = true;
     /**
-     * Set whether we should show the title or not
+     * Set whether we should show the question or not
      *
      * @param show boolean to show it or not
      */
@@ -354,7 +354,7 @@ public abstract class PopupLayout extends CardView {
     }
 
     /**
-     * Sets the text of the title
+     * Sets the text of the question
      * @param text
      */
     public void setTitle(String text) {

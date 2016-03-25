@@ -19,13 +19,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
-import android.text.Html;
-import android.text.Spanned;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.FaqAdapter;
@@ -44,12 +44,21 @@ public class XmlFaqUtils {
 
     private static List items;
 
-    public static final class FAQ {
-        public Spanned question;
-        public Spanned text;
+    public static final class FaqCategory {
+        public String categoryTitle;
+        public List<FaqQuestion> items;
+
+        public int getSize() {
+            return items.size();
+        }
     }
 
-    public static FAQ[] parse(Context context) {
+    public static final class FaqQuestion {
+        public String question;
+        public String url;
+    }
+
+    public static List<FaqCategory> parse(Context context) {
         try {
             XmlResourceParser parser = context.getResources().getXml(R.xml.faq);
             parser.next();
@@ -61,7 +70,7 @@ public class XmlFaqUtils {
         }
     }
 
-    private static FAQ[] readFaq(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private static List<FaqCategory> readFaq(XmlPullParser parser) throws XmlPullParserException, IOException {
         items = new ArrayList();
 
         parser.require(XmlPullParser.START_TAG, ns, "faq");
@@ -70,20 +79,46 @@ public class XmlFaqUtils {
                 continue;
             }
             String name = parser.getName();
-            if ("question".equals(name)) {
-                items.add(readItem(parser));
+            if ("category".equals(name)) {
+                items.add(readCategory(parser));
             } else {
                 skip(parser);
             }
         }
 
-        return (FAQ[]) items.toArray(new FAQ[items.size()]);
+        return items;
     }
 
-    private static FAQ readItem(XmlPullParser parser) throws XmlPullParserException, IOException {
-        FAQ faq = new FAQ();
+    private static FaqCategory readCategory(XmlPullParser parser) throws XmlPullParserException, IOException {
+        FaqCategory faq = new FaqCategory();
+        faq.items = new ArrayList();
+        parser.require(XmlPullParser.START_TAG, ns, "category");
+        faq.categoryTitle = readCategoryName(parser);
+
+        int next = parser.next();
+        while (next != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+
+            String name = parser.getName();
+            if ("question".equals(name)) {
+                faq.items.add(readQuestion(parser));
+            } else {
+                skip(parser);
+            }
+
+            next = parser.next();
+        }
+
+        return faq;
+    }
+
+    private static FaqQuestion readQuestion(XmlPullParser parser) throws XmlPullParserException, IOException {
+        FaqQuestion question = new FaqQuestion();
         parser.require(XmlPullParser.START_TAG, ns, "question");
-        faq.question = Html.fromHtml(readFaqQuestion(parser));
+        question.question = readQuestionName(parser);
+        question.url = readUrl(parser);
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -92,40 +127,28 @@ public class XmlFaqUtils {
 
             String name = parser.getName();
             if ("text".equals(name)) {
-                faq.text = Html.fromHtml(readFaqText(parser));
+
             } else {
                 skip(parser);
             }
         }
 
-        return faq;
-    }
-
-    private static String readFaqQuestion(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "question");
-        String faqName = parser.getAttributeValue(null, "name");
-        String description = parser.getAttributeValue(null, "description");
-        String question = (items.size() + 1) + ".) <u><b>" + faqName + "</u></b>";
-        if (description != null) {
-            question += "<br/>(" + description + ")";
-        }
         return question;
     }
 
-    private static String readFaqText(XmlPullParser parser) throws XmlPullParserException, IOException {
-        parser.require(XmlPullParser.START_TAG, ns, "text");
-        String text = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, "text");
-        return text.replaceAll("\n", "<br/>");
+    private static String readCategoryName(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "category");
+        return parser.getAttributeValue(null, "name");
     }
 
-    private static String readText(XmlPullParser parser) throws XmlPullParserException, IOException {
-        String result = "";
-        if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
-        }
-        return result;
+    private static String readQuestionName(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "question");
+        return parser.getAttributeValue(null, "name");
+    }
+
+    private static String readUrl(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "question");
+        return parser.getAttributeValue(null, "link");
     }
 
     private static void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
@@ -146,8 +169,7 @@ public class XmlFaqUtils {
     }
 
     public static void showFaqDialog(final Context context) {
-        final ListView list = new ListView(context);
-        list.setDividerHeight(0);
+        final RecyclerView list = new RecyclerView(context);
 
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -157,21 +179,20 @@ public class XmlFaqUtils {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height - 200);
         list.setLayoutParams(params);
 
-
-        new AsyncTask<Spanned[], Void, FAQ[]>() {
+        new AsyncTask<Void, Void, List<FaqCategory>>() {
             @Override
-            public XmlFaqUtils.FAQ[] doInBackground(Spanned[]... params) {
+            public List<FaqCategory> doInBackground(Void... params) {
                 return XmlFaqUtils.parse(context);
             }
 
             @Override
-            public void onPostExecute(XmlFaqUtils.FAQ[] result) {
-                list.setAdapter(new FaqAdapter(context, result));
+            public void onPostExecute(List<FaqCategory> results) {
+                list.setLayoutManager(new LinearLayoutManager(context));
+                list.setAdapter(new FaqAdapter(context, results));
             }
         }.execute();
 
         new AlertDialog.Builder(context)
-                .setTitle("FAQ")
                 .setView(list)
                 .setPositiveButton(R.string.ok, null)
                 .show();

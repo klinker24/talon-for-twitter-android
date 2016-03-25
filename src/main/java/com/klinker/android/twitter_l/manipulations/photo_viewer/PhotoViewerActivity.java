@@ -441,8 +441,11 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + "/talon/image_to_share.jpg");
+        File f = new File(Environment.getExternalStorageDirectory() + "/Talon/image_to_share.jpg");
+        File dir = new File(Environment.getExternalStorageDirectory(), "Talon");
         try {
+            if (!dir.exists())
+                dir.mkdirs();
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());

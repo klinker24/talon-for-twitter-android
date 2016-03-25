@@ -77,6 +77,7 @@ public class PhotoFragment extends Fragment {
         root.findViewById(R.id.share_button).setVisibility(View.GONE);
         root.findViewById(R.id.save_button).setVisibility(View.GONE);
         root.findViewById(R.id.info_button).setVisibility(View.GONE);
+        root.findViewById(R.id.buttons_layout).setVisibility(View.INVISIBLE);
 
         final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
@@ -237,8 +238,11 @@ public class PhotoFragment extends Fragment {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + "/talon/image_to_share.jpg");
+        File f = new File(Environment.getExternalStorageDirectory() + "/Talon/image_to_share.jpg");
+        File dir = new File(Environment.getExternalStorageDirectory(), "Talon");
         try {
+            if (!dir.exists())
+                dir.mkdirs();
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
