@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -16,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Used to handle URLs.
@@ -61,7 +64,7 @@ public class WebIntentBuilder {
     private String webpage;
     private boolean forceExternal;
 
-    private boolean tryCustomTabs = false;
+    private CustomTabsIntent customTab;
 
     public WebIntentBuilder(Context context) {
         this.context = context;
@@ -90,35 +93,19 @@ public class WebIntentBuilder {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else if (!mobilizedBrowser) {
-            tryCustomTabs = true;
-
-            intent = new Intent("android.intent.action.MAIN");
-            intent.setComponent(new ComponentName(CHROME_PACKAGE, "org.chromium.chrome.browser.customtabs.CustomTabActivity"));
-            intent.setData(Uri.parse(webpage));
-
-            // request a chrome custom tab
-            Bundle extras = new Bundle();
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-            intent.putExtras(extras);
-
-            intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
-
             // add the share action
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             String extraText = webpage;
             shareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
             shareIntent.setType("text/plain");
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, Intent.createChooser(shareIntent, "Share to:"), 0);
+            Random random = new Random();
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, random.nextInt(Integer.MAX_VALUE), shareIntent, 0);
 
-            ArrayList menuItemBundleList = new ArrayList();
-
-            Bundle menuItem = new Bundle();
-            menuItem.putString(KEY_CUSTOM_TABS_MENU_TITLE, context.getString(R.string.share_link));
-            menuItem.putParcelable(KEY_CUSTOM_TABS_PENDING_INTENT, pendingIntent);
-            menuItemBundleList.add(menuItem);
-
-            intent.putParcelableArrayListExtra(EXTRA_CUSTOM_TABS_MENU_ITEMS, menuItemBundleList);
-
+            customTab = new CustomTabsIntent.Builder(null)
+                    .setShowTitle(true)
+                    .setActionButton(((BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_action_share_material)).getBitmap(), "Share", pendingIntent)
+                    .setToolbarColor(settings.themeColors.primaryColor)
+                    .build();
         } else {
             // fallback to in app browser
             intent = new Intent(context, mobilizedBrowser ?
@@ -133,7 +120,7 @@ public class WebIntentBuilder {
     public void start() {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        if (tryCustomTabs) {
+        if (customTab != null) {
             final UseTabs tabs = isChromeInstalled();
             if (tabs.chromeInstalled && tabs.tabsExported) {
                 context.startActivity(intent);
@@ -180,16 +167,7 @@ public class WebIntentBuilder {
 
     private void fallbackToInternal(SharedPreferences sharedPreferences) {
         if (sharedPreferences.getBoolean("is_chrome_default", false)) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webpage));
-
-            // request a chrome custom tab
-            Bundle extras = new Bundle();
-            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null);
-            intent.putExtras(extras);
-
-            intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, settings.themeColors.primaryColor);
-
-            context.startActivity(intent);
+            customTab.launchUrl((Activity) context, Uri.parse(webpage));
         } else {
             intent = new Intent(context, mobilizedBrowser ?
                     PlainTextBrowserActivity.class : BrowserActivity.class);
@@ -248,9 +226,11 @@ public class WebIntentBuilder {
     // or menu item was tapped. Chrome will be calling PendingIntent#send() on
     // taps after adding the url as data. The client app can call Intent#getDataString() to get the url.
     public static final String KEY_CUSTOM_TABS_PENDING_INTENT = "android.support.customtabs.customaction.PENDING_INTENT";
+    private static final String KEY_CUSTOM_TABS_ICON = "android.support.customtabs.customaction.ICON";
 
     // Optional. Use a bundle for parameters if an the action button is specified.
     public static final String EXTRA_CUSTOM_TABS_ACTION_BUTTON_BUNDLE = "android.support.customtabs.extra.ACTION_BUNDLE_BUTTON";
+    public static final String KEY_DESCRIPTION = "android.support.customtabs.customaction.DESCRIPTION";
 
     private static class UseTabs {
         public boolean chromeInstalled;

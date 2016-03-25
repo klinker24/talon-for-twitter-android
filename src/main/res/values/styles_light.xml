@@ -130,7 +130,7 @@
         <item name="android:background">?android:colorPrimary</item>
     </style>
 
-    <!-- ActionBar title text -->
+    <!-- ActionBar question text -->
     <style name="MyActionBarTitleText"
         parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/dark_text</item>

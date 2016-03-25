@@ -47,18 +47,7 @@ public class BootReceiver extends BroadcastReceiver {
         this.context = context;
         AppSettings settings = AppSettings.getInstance(context);
 
-        if (settings.timelineRefresh != 0) { // user only wants manual
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.timelineRefresh;
-
-            Log.v("alarm_date", "timeline " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
-        }
+        TimelineRefreshService.scheduleRefresh(context);
 
         if (settings.mentionsRefresh != 0) {
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
