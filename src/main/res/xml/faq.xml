@@ -32,56 +32,62 @@
     <category name="UI Help">
 
         <question name="Quick Actions - Like, Retweet, Quote, ect."
-            link="https://plus.google.com/+LukeKlinker/posts/cZTZHgKLXGF" />
+            link="https://plus.google.com/+LukeKlinker/posts/2DW9bv93jGL" />
 
         <question name="Jump to the top of the timeline"
-            link="https://plus.google.com/+LukeKlinker/posts/PBYLmgwxfXq" />
+            link="https://plus.google.com/+LukeKlinker/posts/fYTEe5VMwGV" />
 
         <question name="Swipe to close pictures doesn't work"
             link="https://plus.google.com/+LukeKlinker/posts/dTPGC4Ma5YJ" />
 
         <question name="Auto-play GIFs and Videos"
-            link=""/>
+            link="https://plus.google.com/+LukeKlinker/posts/9RRCksX7Het"/>
 
         <question name="Removing Retweets"
-            link="" />
+            link="https://plus.google.com/+LukeKlinker/posts/1idENaFRQMQ" />
 
         <question name="Removing Users from a List"
-            link="" />
+            link="https://plus.google.com/+LukeKlinker/posts/RgpbH6EXa4j" />
 
         <question name="Navigation bar covers the UI"
             link="https://plus.google.com/+LukeKlinker/posts/fZNyH72Xchf" />
 
         <question name="Why does the App Bar hide when it does?"
-            link="https://plus.google.com/+LukeKlinker/posts/E1fKRL7imLG" />
+            link="https://plus.google.com/+LukeKlinker/posts/baJPdMZf9uF" />
 
         <question name="Reverse long/short click actions"
-            link="https://plus.google.com/+LukeKlinker/posts/cHNoSe1Qphb" />
+            link="https://plus.google.com/+LukeKlinker/posts/FhWecMYk9XT" />
 
         <question name="Logging Into a Second Account"
-            link="https://plus.google.com/+LukeKlinker/posts/f5KFqZ9YAxz" />
+            link="https://plus.google.com/+LukeKlinker/posts/JVQB19Qq4mF" />
+
+        <question name="Muffle vs Muted Users"
+            link="https://plus.google.com/+LukeKlinker/posts/H7k1DoRk5n3" />
+
+        <question name="Changing the Swipable Pages"
+            link="https://plus.google.com/+LukeKlinker/posts/jjpFcKEQW63" />
 
     </category>
 
     <category name="Twitter Limitations">
 
         <question name="Twitter Polls, Group DMs, DM Pictures"
-            link="" />
+            link="https://plus.google.com/+LukeKlinker/posts/WfadfH3nM4x" />
 
         <question name="Activity Page"
-            link="https://plus.google.com/+LukeKlinker/posts/gz3FLfDqTkU" />
+            link="https://plus.google.com/+LukeKlinker/posts/Hy58Cr9xHK8" />
 
         <question name="Integrated Video Services"
-            link="" />
+            link="https://plus.google.com/+LukeKlinker/posts/YwrLUeTiPuy" />
 
         <question name="Login Issues"
             link="https://plus.google.com/+LukeKlinker/posts/aiQgceLKXiK" />
 
         <question name="View users that like your status"
-            link="https://plus.google.com/+LukeKlinker/posts/SDhxDwG6zMk" />
+            link="https://plus.google.com/+LukeKlinker/posts/33nndHrZRTE" />
 
         <question name="Two Account Limit"
-            link="" />
+            link="https://plus.google.com/+LukeKlinker/posts/e1GqN2zDceK" />
 
         <question name="What is Rate Limiting?"
             link="https://plus.google.com/+LukeKlinker/posts/J5yY3K3fyME" />
@@ -96,30 +102,9 @@
         <question name="Translating Talon"
             link="https://plus.google.com/+LukeKlinker/posts/bi4iHynziiP" />
 
+        <question name="Contact Me"
+            link="https://plus.google.com/+LukeKlinker/posts/9xj4sY1AwL4" />
+
     </category>
-
-    <question
-        name="Video Services"
-        description="What services work?">
-
-        <text>
-            Talon has native support for YouTube, Vine, and Twitter Videos/GIFs. It will also show you when there is an amp.twimg video or a SnappyTV video.
-
-            Unfortunately Vine, amp.twimg, and SnappyTV do not provide thumbnails. So when you scroll though your timeline and see the black image holders, this is why.
-        </text>
-
-    </question>
-
-    <question
-        name="Removing Users from Lists"
-        description="">
-
-        <text>
-            From user profiles, you can easily add users to your lists, but removing them from the lists is not within the profiles.
-
-            To view users in a list, head to the list section of the drawer, then long click the list you are looking at. From there, you can view the users within that list, and remove them by clicking on them.
-        </text>
-
-    </question>
 
 </faq>
