@@ -18,7 +18,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 public class ImageFragment extends Fragment {
 
-    private static final String ARG_TITLE = "question";
+    private static final String ARG_TITLE = "title";
     private static final String ARG_DESC = "desc";
     private static final String ARG_IMAGE_URL = "drawable";
     private static final String ARG_COLOUR = "colour";

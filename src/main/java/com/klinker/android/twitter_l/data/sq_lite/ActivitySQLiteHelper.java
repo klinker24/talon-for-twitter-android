@@ -11,7 +11,7 @@ public class ActivitySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TWEET_ID = "tweet_id";
     public static final String COLUMN_ACCOUNT = "account";
     public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_TITLE = "question";
+    public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_TEXT = "text";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_PRO_PIC = "profile_pic";
@@ -37,7 +37,7 @@ public class ActivitySQLiteHelper extends SQLiteOpenHelper {
             + TABLE_ACTIVITY + "(" + COLUMN_ID
             + " integer primary key, " + COLUMN_TWEET_ID
             + " integer tweet id, " + COLUMN_TITLE
-            + " text interaction question, " + COLUMN_ACCOUNT
+            + " text interaction title, " + COLUMN_ACCOUNT
             + " integer account num, " + COLUMN_TYPE
             + " integer type of tweet, " + COLUMN_TEXT
             + " text not null, " + COLUMN_NAME

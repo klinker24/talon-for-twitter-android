@@ -134,7 +134,7 @@ public class DiscoverPager extends DrawerActivity {
             case R.id.location_settings:
                 Intent settings = new Intent(context, PrefActivity.class);
                 settings.putExtra("position", 10)
-                        .putExtra("question",
+                        .putExtra("title",
                                 getResources().getString(R.string.location_settings));
                 finish();
                 settings.putExtra("open_help", true);

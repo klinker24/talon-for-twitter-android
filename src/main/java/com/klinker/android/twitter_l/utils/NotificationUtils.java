@@ -1417,7 +1417,7 @@ public class NotificationUtils {
         final Intent i = new Intent("com.getpebble.action.SEND_NOTIFICATION");
 
         final Map data = new HashMap();
-        data.put("question", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
+        data.put("title", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
         data.put("body", TweetLinkUtils.removeColorHtml(body.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
         final JSONObject jsonData = new JSONObject(data);
         final String notificationData = new JSONArray().put(jsonData).toString();
@@ -1432,7 +1432,7 @@ public class NotificationUtils {
 
     public static void sendToLightFlow(Context context, String title, String message) {
         Intent data = new Intent("com.klinker.android.twitter.NEW_NOTIFICATION");
-        data.putExtra("question", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
+        data.putExtra("title", TweetLinkUtils.removeColorHtml(title.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
         data.putExtra("message", TweetLinkUtils.removeColorHtml(message.replaceAll("<b>", "").replaceAll("</b>", ""), AppSettings.getInstance(context)));
 
         context.sendBroadcast(data);
