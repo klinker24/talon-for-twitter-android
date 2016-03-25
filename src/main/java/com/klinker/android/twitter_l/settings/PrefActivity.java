@@ -60,7 +60,7 @@ public class PrefActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-        ab.setTitle(getIntent().getStringExtra("title"));
+        ab.setTitle(getIntent().getStringExtra("question"));
         ab.setIcon(null);
         ab.setBackgroundDrawable(new ColorDrawable(AppSettings.getInstance(this).themeColors.primaryColor));
 

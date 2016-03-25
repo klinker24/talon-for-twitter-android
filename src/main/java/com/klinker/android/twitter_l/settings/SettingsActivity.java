@@ -193,7 +193,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showSettings(int position, String title) {
         startActivity(new Intent(this, PrefActivity.class)
                 .putExtra("position", position)
-                .putExtra("title", title));
+                .putExtra("question", title));
     }
 
     @Override

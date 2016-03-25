@@ -15,76 +15,95 @@ package com.klinker.android.twitter_l.adapters;
  * limitations under the License.
  */
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
-public class FaqAdapter extends ArrayAdapter<XmlFaqUtils.FAQ> {
+import java.util.List;
 
-    private final Context context;
-    private final XmlFaqUtils.FAQ[] items;
+public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHolder> {
 
-    static class ViewHolder {
-        public TextView title;
-        public TextView text;
-        public LinearLayout background;
-    }
+    private Context context;
 
-    public FaqAdapter(Context context, XmlFaqUtils.FAQ[] spans) {
-        super(context, R.layout.faq_item);
+    List<XmlFaqUtils.FaqCategory> faq;
+
+    public FaqAdapter(Context context, List<XmlFaqUtils.FaqCategory> faq) {
         this.context = context;
-        this.items = spans;
+        this.faq = faq;
     }
 
     @Override
-    public int getCount() {
-        return items.length;
+    public int getSectionCount() {
+        return faq.size();
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
+    public int getItemCount(int section) {
+        return faq.get(section).getSize();
+    }
 
-        if (rowView == null) {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            rowView = inflater.inflate(R.layout.faq_item, null);
+    @Override
+    public void onBindHeaderViewHolder(ViewHolder holder, int section) {
+        holder.title.setText(faq.get(section).categoryTitle);
+    }
 
-            ViewHolder viewHolder = new ViewHolder();
-            viewHolder.background = (LinearLayout) rowView.findViewById(R.id.faq_item);
-            viewHolder.title = (TextView) rowView.findViewById(R.id.faq_title);
-            viewHolder.text = (TextView) rowView.findViewById(R.id.faq_text);
-
-            rowView.setTag(viewHolder);
-        }
-
-        final ViewHolder holder = (ViewHolder) rowView.getTag();
-
-        holder.title.setText(items[position].question);
-        holder.text.setText(items[position].text);
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int section, final int relativePosition, final int absolutePosition) {
+        holder.title.setText(faq.get(section).items.get(relativePosition).question);
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.text.getVisibility() != View.VISIBLE) {
-                    holder.text.setVisibility(View.VISIBLE);
+                if (holder.web.getVisibility() != View.VISIBLE) {
+                    holder.web.setVisibility(View.VISIBLE);
+                    holder.web.loadUrl(faq.get(section).items.get(relativePosition).url);
                 } else {
-                    holder.text.setVisibility(View.GONE);
+                    holder.web.setVisibility(View.GONE);
+                    holder.web.loadUrl("about:blank");
                 }
             }
         });
 
-        if (holder.text.getVisibility() != View.GONE) {
-            holder.text.setVisibility(View.GONE);
+        if (holder.web.getVisibility() != View.GONE) {
+            holder.web.setVisibility(View.GONE);
+            holder.web.loadUrl("about:blank");
         }
+    }
 
-        return rowView;
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context)
+                .inflate(viewType == VIEW_TYPE_HEADER ?
+                        R.layout.faq_adapter_header :
+                        R.layout.faq_adapter_item, parent, false);
+        return new ViewHolder(v);
+    }
+
+    protected class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView title;
+        public WebView web;
+        public LinearLayout background;
+
+        /**
+         * Constructor accepting the inflated view.
+         *
+         * @param itemView inflated view
+         */
+        public ViewHolder(View itemView) {
+            super(itemView);
+            background = (LinearLayout) itemView.findViewById(R.id.faq_item);
+            title = (TextView) itemView.findViewById(R.id.faq_title);
+            web = (WebView) itemView.findViewById(R.id.faq_web);
+        }
     }
 }
