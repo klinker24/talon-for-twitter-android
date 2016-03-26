@@ -93,7 +93,7 @@
     <string name="messages">メッセージ</string>
     <string name="new_message">件の未読メッセージ</string>
     <string name="new_messages">件の未読メッセージ</string>
-    <string name="mentioned_by">@ ツイート送信者:</string>
+    <string name="mentioned_by">\@ ツイート送信者:</string>
     <string name="message_from">メッセージ送信者:</string>
     <string name="mark_read">既読にする</string>
     <string name="noti_reply">返信</string>
