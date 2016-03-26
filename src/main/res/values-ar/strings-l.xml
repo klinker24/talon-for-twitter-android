@@ -36,25 +36,42 @@
     <string name="bottom_pictures_summary">التغريدات لن تتوسع في خط مع هذا الخيار.</string>
     <string name="preparing_signin">إعداد تسجيل الدخول</string>
     <string name="verifying_login">التحقق من تسجيل الدخول</string>
+    <string name="manage_muffles">إدارة الإخفات</string>
+    <string name="muffle_definition">"المستخدم المخفت سيتم إزالة الجزء الرئيسي من التغريدة الخاص به من الخط الزمنية الخاصة بك. سوف ترى فقط اسم و جزء صغيرة من التغريدة لتعطيك الوصول الموسعة إذا كنت ترغب في معرفة المزيد.
+				"</string>
+    <string name="muffled_users">المستخدمين المخفوتين</string>
+    <string name="click_to_remove_muffle">انقر فوق مستخدم لمسح الإخفات.</string>
+    <string name="muffle_user">إخفات  المستخدم</string>
+    <string name="unmuffle_user">إلغاء إخفات المستخدم</string>
     <string name="enjoying_talon">تستمتع مع  تالون؟</string>
     <string name="give_a_rating">عبر عن تقيمك أو شاركها مع أصدقائك!\n\nتقيمك بـ 5 نجوم يفرح قلبي :)</string>
-    <string name="rate_on_rating_dialog">معدل</string>
+    <string name="rate_on_rating_dialog">قيم</string>
     <string name="share_on_rating_dialog">شارك</string>
     <string name="ignore">تجاهل</string>
     <string name="when_talon_pull_on">تطبيق سحب تالون عندما يكون التطبيق قيد التشغيل</string>
     <string name="transparent_system_bars">استخدام أشرطة النظام الشفاف</string>
     <string name="accent_color">نبرة اللون</string>
     <string name="nav_bar_option">تجاهل شريط التنقل</string>
+    <string name="nav_bar_option_summary">التطبيقات ليست قادرة على إيجاد بدقة ما إذا كانت بعض الأجهزة لديها شريط التنقل أو لا. منذ ذلك الحين تالون يعتمد بشكل كبير على هذا للتخطيطات، يسمح هذا الخيار للتحديد يدوياً .</string>
     <string name="nav_bar_automatic">تحدد تلقائيا</string>
     <string name="nav_bar_present">استخدام شريط التنقل</string>
     <string name="nav_bar_gone">لا تستخدام شريط التنقل</string>
     <string name="tip_title">تلميح:</string>
+    <string name="profile_pictures_helper_message">لفتح التغريدة التي ترافق صورة ، ببساطة انقر نقرة طويلة فوق الصورة على هذه الشبكة .\n\nوبنقرة عادية ستفتح الصورة للمشاهد .</string>
+    <string name="quote_disclaimer">وسوف يعرض على الرابط وضع تويتر باعتبارها جزءا لا يتجزأ من تغريدة على عملاء تويتر الحديث. ويعمل الرابط كاقتباس التغريدة</string>
     <string name="sync_options">خيارات المزامنة</string>
     <string name="manual_syncs">مزامنة يدوية</string>
     <string name="timeline_notifications_summary">يجب أن يكون هناك فاصل زمني لتحديثات الخلفية لك تظهر هذه الإخطارات</string>
+    <string name="favorite_user_notifications_summary">يجب أن يكون هناك فاصل زمني لتحديثات الخلفية لخط الزمن الرئيسي والبث المباشر ، لتمكين إخطارات المستخدم المفضلة .</string>
     <string name="alert_methods_summary">كيف تريد أن تكون الإخطارات : إهتزاز ، صوت ، إضائة LED ، إلخ .</string>
     <string name="windowed_helper_message">لإغلاق نافذة على التابلت ، ببساطة انقر على منطقة باهتة خارج النافذة.\n\nوهذا يضمن الخط الزمني الخاص بك ليست ابدا بعيدا جدا !</string>
     <string name="permission_check_title">أذونات تالون في :</string>
+    <string name="permission_check_message">تالون على وشك أن يطلب منكم الحصول على إذن على اثنين من الأذونات : الموقع والتخزين.\n\n
+
+يستخدم الموقع للوصول إلى المتداول محلياً وكذلك علامة موقعك في التغريدات الخاص بك (إذا كنت تطلب ذلك أيضا) . نحن لا نحفظ موقعك في أي وقت .\n
+يستخدم التخزين لحفظ صور التغريدة على الذاكرة الخارجية ( عند الطلب ) ويستخدم عند تحميل الصور الخاصة بك على تويتر .\n\n
+
+لا تتردد في رفض الأذن . يمكنك الوصول إلى هذه يدوياً من إعدادات تطبيق النظام الخاص بك.</string>
     <string name="tell_about_swipe_down">تلميح: ببساطة مرر لأسفل لإغلاق هذه الشاشة.</string>
     <string name="download_video">تحميل الفيديو</string>
     <string name="download_gif">تحميل الصورة المتحركة</string>
@@ -66,14 +83,14 @@
     <string name="static_ui_title">واجهة ثابتة</string>
     <string name="static_ui_summary">هذا سيجعل من شريط التطبيق والشريط الخفيف لا تختفي عند الترير</string>
     <string name="list_sync_interval">معدل تحديث القوائم</string>
-    <string name="list_sync_summary">وهذا إجراء المزامنة في الخلفية لأية قوائم تستخدم كصفحات إضافية على الخط الزمني الرئيسي.</string>
-    <string name="timeline_pictures">الخط الزمني للصور</string>
+    <string name="list_sync_summary">هذا إجراء المزامنة في الخلفية لأية قوائم تستخدم كصفحات إضافية على الخط الزمني الرئيسي.</string>
+    <string name="timeline_pictures">الصور في الخط الزمني</string>
     <string name="timeline_pictures_summary">تعيين نمط الصور التي تريد أن تراها  أثناء التمرير في الخط الزمني الخاص بك.</string>
     <string name="normal_pictures">صور طبيعية</string>
     <string name="smaller_pictures">صور أصغر</string>
     <string name="no_pictures">لا تعرض الصور</string>
     <string name="quick_actions">إجراءات سريعة</string>
-    <string name="liked_status">تم الإعجاب بنجاح</string>
+    <string name="liked_status">تم الإعجاب</string>
     <string name="become_supporter">أصبحت داعم في 2016</string>
     <string name="are_supporter">أنت داعم في 2016!</string>
     <string name="are_supporter_summary">شكراً!  ودعمكم محل تقدير. إذا كان هناك أي شيء يمكنني القيام به، لا تتردد في طلبه.</string>
