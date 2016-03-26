@@ -29,7 +29,7 @@
                                        android:background="?windowBackground">
 
         <!--
-        This title strip will display the currently visible page title, as well as the page
+        This question strip will display the currently visible page question, as well as the page
         titles for adjacent pages.
         -->
 

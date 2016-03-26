@@ -327,11 +327,13 @@ public class TweetActivity extends SlidingActivity {
         for (int i = 0; i < webpages.size(); i++) {
             if (webpages.get(i).contains("/status/")) {
                 embedded = webpages.get(i);
+                break;
             }
         }
 
         if (hasWebpage && embedded.contains("/status/")) {
             final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
+
             final long embeddedId = TweetLinkUtils.getTweetIdFromLink(embedded);
 
             if (embeddedId != 0l) {
@@ -355,6 +357,7 @@ public class TweetActivity extends SlidingActivity {
                                     v.setCurrentUser(settings.myScreenName);
                                     v.setSmallImage(true);
 
+                                    view.removeAllViews();
                                     view.addView(v.getView());
                                     view.setVisibility(View.VISIBLE);
                                 }

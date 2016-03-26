@@ -22,7 +22,7 @@ import android.os.Bundle;
  * InAppBillingService is the service that provides in-app billing version 3 and beyond.
  * This service provides the following features:
  * 1. Provides a new API to get details of in-app items published for the app including
- *    price, type, title and description.
+ *    price, type, question and description.
  * 2. The purchase flow is synchronous and purchase information is available immediately
  *    after it completes.
  * 3. Purchase information of in-app purchases is maintained within the Google Play system
@@ -57,7 +57,7 @@ interface IInAppBillingService {
     /**
      * Provides details of a list of SKUs
      * Given a list of SKUs of a valid type in the skusBundle, this returns a bundle
-     * with a list JSON strings containing the productId, price, title and description.
+     * with a list JSON strings containing the productId, price, question and description.
      * This API can be called with a maximum of 20 SKUs.
      * @param apiVersion billing API version that the Third-party is using
      * @param packageName the package name of the calling app
@@ -68,7 +68,7 @@ interface IInAppBillingService {
      *         "DETAILS_LIST" with a StringArrayList containing purchase information
      *              in JSON format similar to:
      *              '{ "productId" : "exampleSku", "type" : "inapp", "price" : "$5.00",
-     *                 "title : "Example Title", "description" : "This is an example description" }'
+     *                 "question : "Example Title", "description" : "This is an example description" }'
      */
     Bundle getSkuDetails(int apiVersion, String packageName, String type, in Bundle skusBundle);
 

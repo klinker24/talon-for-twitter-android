@@ -100,6 +100,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:cardview-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
 
     compile 'com.klinkerapps:simple_videoview:1.1.3@aar'
     compile 'com.klinkerapps:launcher-apis:1.1.0@aar'

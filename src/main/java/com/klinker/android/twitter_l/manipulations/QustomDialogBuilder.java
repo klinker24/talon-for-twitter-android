@@ -57,8 +57,8 @@ public class QustomDialogBuilder extends AlertDialog.Builder{
     }
 
     /** 
-     * Use this method to color the divider between the title and content.
-     * Will not display if no title is set.
+     * Use this method to color the divider between the question and content.
+     * Will not display if no question is set.
      */
     public QustomDialogBuilder setDividerColor(int color) {
             mDivider.setBackgroundColor(color);
