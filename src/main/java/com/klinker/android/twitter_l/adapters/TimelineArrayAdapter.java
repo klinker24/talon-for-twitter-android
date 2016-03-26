@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -60,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
@@ -135,6 +137,34 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public String animatedGif;
 
         public boolean preventNextClick = false;
+    }
+
+    private ArrayList<Status> removeMutes(ArrayList<Status> statuses) {
+        AppSettings settings = AppSettings.getInstance(context);
+        SharedPreferences sharedPrefs = settings.sharedPrefs;
+        String mutedUsers = sharedPrefs.getString("muted_users", "");
+        String mutedHashtags = sharedPrefs.getString("muted_hashtags", "");
+
+        for (int i = 0; i < statuses.size(); i++) {
+            if (mutedUsers.contains(statuses.get(i).getUser().getScreenName())) {
+                statuses.remove(i);
+                i--;
+            } else if (statuses.get(i).isRetweet() &&
+                    mutedUsers.contains(statuses.get(i).getRetweetedStatus().getUser().getScreenName())) {
+                statuses.remove(i);
+                i--;
+            } else {
+                for (String hashTag : mutedHashtags.split(" ")) {
+                    if (statuses.get(i).getText().contains(hashTag)) {
+                        statuses.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return statuses;
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst, Expandable expander) {
@@ -400,6 +430,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     }
 
     public void setUpLayout() {
+
+        statuses = removeMutes(statuses);
 
         smallPictures = Utils.toDP(120, context);
 
