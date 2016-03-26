@@ -150,7 +150,7 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                     }
                 });
 
-        // Show the custom action bar view and hide the normal Home icon and title.
+        // Show the custom action bar view and hide the normal Home icon and question.
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,

@@ -96,6 +96,4 @@
     <string name="tweetmarker_disclaimer">Automatisk Tweetmarker vil altid opdatere tidslinjen ved opstart</string>
     <string name="discover_people">Personer</string>
     <string name="quote_style">Citat stil</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

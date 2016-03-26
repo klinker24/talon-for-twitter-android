@@ -242,7 +242,7 @@ public class QuickActionsPopup extends PopupLayout {
             replyStuff = extraNames;
         }
 
-        replyText = replyStuff;
+        replyText = replyStuff.replace(" @" + screenNameToUse, "");
     }
 
     @Override
