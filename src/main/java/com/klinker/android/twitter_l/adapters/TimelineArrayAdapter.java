@@ -153,7 +153,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     mutedUsers.contains(statuses.get(i).getRetweetedStatus().getUser().getScreenName())) {
                 statuses.remove(i);
                 i--;
-            } else {
+            } else if (!isEmpty(mutedHashtags)) {
                 for (String hashTag : mutedHashtags.split(" ")) {
                     if (statuses.get(i).getText().contains(hashTag)) {
                         statuses.remove(i);
@@ -165,6 +165,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         return statuses;
+    }
+
+    private boolean isEmpty(String s) {
+        return android.text.TextUtils.isEmpty(s.replace(" ", ""));
     }
 
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst, Expandable expander) {
