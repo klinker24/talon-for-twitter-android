@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="4.6.5">
+        <text>Apply mutes outside of the swipable pages</text>
         <text>Update the FAQ section of the app</text>
         <text>Bug fixes</text>
     </version>
