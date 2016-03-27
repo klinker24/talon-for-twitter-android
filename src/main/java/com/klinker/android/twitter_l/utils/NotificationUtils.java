@@ -739,12 +739,7 @@ public class NotificationUtils {
             }
 
             // Pebble notification
-<<<<<<< HEAD
             if(AppSettings.getSharedPreferences(context).getBoolean("pebble_notification", false)) {
-=======
-            if (context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getBoolean("pebble_notification", false)) {
->>>>>>> material-design
                 sendAlertToPebble(context, context.getResources().getString(R.string.favorite_users), shortText);
             }
 
