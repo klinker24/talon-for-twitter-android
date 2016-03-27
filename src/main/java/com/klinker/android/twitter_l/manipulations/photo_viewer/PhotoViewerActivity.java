@@ -378,6 +378,14 @@ public class PhotoViewerActivity extends AppCompatActivity {
             mAttacher.cleanup();
         }
 
+        // todo: shouldn't need this, but helpful for previews?
+        if (Utils.isAndroidN()) {
+            ViewGroup.LayoutParams params = picture.getLayoutParams();
+            params.height = 0;
+
+            picture.setLayoutParams(params);
+        }
+
         super.onBackPressed();
     }
 

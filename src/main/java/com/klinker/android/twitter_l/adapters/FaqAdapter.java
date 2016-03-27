@@ -16,6 +16,7 @@ package com.klinker.android.twitter_l.adapters;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import java.util.List;
@@ -33,12 +35,13 @@ import java.util.List;
 public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHolder> {
 
     private Context context;
-
     List<XmlFaqUtils.FaqCategory> faq;
+    private boolean darkTheme = false;
 
     public FaqAdapter(Context context, List<XmlFaqUtils.FaqCategory> faq) {
         this.context = context;
         this.faq = faq;
+        this.darkTheme = AppSettings.getInstance(context).darkTheme;
     }
 
     @Override
@@ -106,6 +109,10 @@ public class FaqAdapter extends SectionedRecyclerViewAdapter<FaqAdapter.ViewHold
             title = (TextView) itemView.findViewById(R.id.faq_title);
             web = (WebView) itemView.findViewById(R.id.faq_web);
             webHolder = itemView.findViewById(R.id.faq_web_holder);
+
+            if (darkTheme) {
+                title.setTextColor(Color.WHITE);
+            }
         }
     }
 }

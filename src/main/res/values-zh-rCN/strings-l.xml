@@ -29,7 +29,7 @@
     <string name="emojis_summary">通过下载Sliding Emoji Keyboard - iOS使用iOS颜文字</string>
     <string name="replies">会话</string>
     <string name="web">网页</string>
-    <string name="heads_up">悬浮通知</string>
+    <string name="heads_up">浮动通知</string>
     <string name="use_snackbar">使用 Snackbar</string>
     <string name="use_snackbar_summary">显示当前位置距离时间线顶端的推文数</string>
     <string name="bottom_pictures">将图片显示在推文下方</string>
@@ -60,9 +60,9 @@
     <string name="quote_disclaimer">在新版的 Twitter 客户端中有关推文状态的链接将被显示成一条内嵌推文。链接会被定义为一条引用的推文。</string>
     <string name="sync_options">同步选项</string>
     <string name="manual_syncs">手动同步</string>
-    <string name="timeline_notifications_summary">必须设置一个后台刷新间隔才会触发通知。</string>
-    <string name="favorite_user_notifications_summary">必须为主页时间线或实时流设置一个后台刷新间隔，才会触发收藏用户的通知。</string>
-    <string name="alert_methods_summary">选择要使用的通知类型：振动、声音、LED 等</string>
+    <string name="timeline_notifications_summary">必须设置一个后台刷新间隔才能触发这些通知。</string>
+    <string name="favorite_user_notifications_summary">必须为主页时间线或实时流设置一个后台刷新间隔才能触发收藏用户的通知。</string>
+    <string name="alert_methods_summary">选择想要的通知方式：振动、声音、LED 等</string>
     <string name="windowed_helper_message">想要在平板设备上面关闭窗口，只需点击相应窗口外的暗色区域。\n\n这使您的时间线随时可以触手可及！</string>
     <string name="permission_check_title">Talon 权限：</string>
     <string name="permission_check_message">Talon 需要您授权以下两个权限：位置信息和存储空间。\n\n
@@ -80,7 +80,7 @@
     <string name="encoding_gif">正在编码 GIF...</string>
     <string name="scroll_options">滚动选项</string>
     <string name="static_ui_title">静态 UI</string>
-    <string name="static_ui_summary">使应用的顶栏，撰写推文的悬浮按钮以及 snackbar 不再跟随页面滑动自动隐藏</string>
+    <string name="static_ui_summary">使应用顶栏，撰写推文的浮动按钮以及 snackbar 不再跟随页面滑动自动隐藏</string>
     <string name="list_sync_interval">列表刷新频率</string>
     <string name="list_sync_summary">这将选择在后台同步所有用作分页面的列表信息</string>
     <string name="timeline_pictures">时间线图片</string>
@@ -94,5 +94,5 @@
     <string name="are_supporter">您已成为 2016 年捐赠者！</string>
     <string name="are_supporter_summary">谢谢！非常感激您的捐赠，如有什么我能帮上忙的，大可直说！</string>
     <string name="tweetmarker_disclaimer">自动 TweetMarker 将会在每次应用启动时刷新时间线。</string>
-    <string name="discover_people">人</string>
+    <string name="discover_people">人物</string>
 </resources>
