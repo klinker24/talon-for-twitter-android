@@ -1,7 +1,8 @@
 <changelog>
 
     <version name="4.6.6">
-        <text>Download full quality images from the image viewer</text>
+        <text>Option to use higher quality downloaded images</text>
+        <text>Always download full quality images from the image viewer</text>
         <text>Bug fixes</text>
     </version>
 

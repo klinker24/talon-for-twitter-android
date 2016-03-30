@@ -168,6 +168,7 @@ public class AppSettings {
     public boolean crossAccActions;
     public boolean useInteractionDrawer;
     public boolean staticUi;
+    public boolean higherQualityImages;
 
     // notifications
     public boolean timelineNot;
@@ -320,6 +321,7 @@ public class AppSettings {
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
         transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
         staticUi = sharedPrefs.getBoolean("static_ui", false);
+        higherQualityImages = sharedPrefs.getBoolean("high_quality_images", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();
