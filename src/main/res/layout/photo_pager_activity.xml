@@ -56,6 +56,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/info_button_holder"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
