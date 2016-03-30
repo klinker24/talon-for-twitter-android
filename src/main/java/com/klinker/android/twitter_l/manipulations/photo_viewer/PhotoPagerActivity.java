@@ -29,11 +29,16 @@ import com.klinker.android.twitter_l.utils.Utils;
 public class PhotoPagerActivity extends AppCompatActivity {
 
     public static void startActivity(Context context, long tweetId, String links, int startPage) {
+        startActivity(context, tweetId, links, startPage, false);
+    }
+
+    public static void startActivity(Context context, long tweetId, String links, int startPage, boolean hideInfo) {
         Intent viewImage = new Intent(context, PhotoPagerActivity.class);
 
         viewImage.putExtra("url", links);
         viewImage.putExtra("start_page", startPage);
         viewImage.putExtra("tweet_id", tweetId);
+        viewImage.putExtra("hide_info", hideInfo);
 
         context.startActivity(viewImage);
     }
@@ -100,6 +105,10 @@ public class PhotoPagerActivity extends AppCompatActivity {
         download = (ImageButton) findViewById(R.id.save_button);
         info = (ImageButton) findViewById(R.id.info_button);
         share = (ImageButton) findViewById(R.id.share_button);
+
+        if (getIntent().getBooleanExtra("hide_info", false)) {
+            findViewById(R.id.info_button_holder).setVisibility(View.GONE);
+        }
 
         bottomSheet = (BottomSheetLayout) findViewById(R.id.bottom_sheet);
 
