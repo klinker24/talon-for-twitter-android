@@ -99,4 +99,6 @@
     <string name="no_media_preview">No preview is available for this video service.</string>
     <string name="autoplay_title">Timeline Autoplay</string>
     <string name="autoplay_summary">Automatically play Twitter GIFs and videos without leaving the timeline.</string>
+    <string name="high_quality_images">Use Higher Quality Images</string>
+    <string name="high_quality_images_summary">Applied throughout the entire app.</string>
 </resources>
