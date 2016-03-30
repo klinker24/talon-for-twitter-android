@@ -7,14 +7,11 @@
     <string name="show_all">Mostrar Todo</string>
     <string name="stats">Estadísticas</string>
     <string name="list_count">En %s listas.</string>
-    <string name="joined_twitter">Se Registró en Twitter</string>
+    <string name="joined_twitter">Se registró en Twitter</string>
     <string name="top_down">Modo Ir Hasta Abajo</string>
-    <string name="top_down_summary">El timeline no guardará nunca tu posición. Se iniciará en la parte superior.</string>
-    <string name="timeline_text_size">Tamaño de Texto en Timeline</string>
-    <string name="manage_mutes">Ajustes de Silenciado</string>
-    <string name="quote_style">Estilo de cita</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
+    <string name="top_down_summary">La cronología no guardará nunca tu posición. Se iniciará en la parte superior.</string>
+    <string name="timeline_text_size">Tamaño de Texto</string>
+    <string name="manage_mutes">Ajustes de Silencio</string>
     <string name="location_settings">Ajustes de Localización</string>
     <string name="twitpic_summary_l">Todas las imágenes serán subidas a través de TwitPic</string>
     <string name="interactions_only">Solo Interacciones</string>
@@ -26,7 +23,7 @@
     <string name="only_on_data">Solo en Datos Móviles</string>
     <string name="contact_me">Contáctame</string>
     <string name="my_google_plus">Mi Google+</string>
-    <string name="follow_progress">Sigue nuestro Progreso!</string>
+    <string name="follow_progress">Haz click para seguir nuestro progreso:</string>
     <string name="general">General</string>
     <string name="no_interactions">Sin Interacciones</string>
     <string name="emojis_summary">Te permite usar los emojis de iOS descargando el teclado Sliding Emoji Keyboard - iOS</string>
@@ -34,10 +31,11 @@
     <string name="web">Web</string>
     <string name="heads_up">Heads Up</string>
     <string name="use_snackbar">Usar Snackbar</string>
-    <string name="use_snackbar_summary">Se utiliza para la funcionalidad de \"Ir Arriba\" en las timelines principales</string>
+    <string name="use_snackbar_summary">Indica cuantos tweets te quedan hasta el último tweet de la cronología.</string>
     <string name="bottom_pictures">Imágenes abajo de los Tweets</string>
     <string name="bottom_pictures_summary">Los tweets no se expandiran in-line con esta opción.</string>
     <string name="preparing_signin">Iniciando sesión</string>
+    <string name="verifying_login">Verificando cuenta</string>
     <string name="manage_muffles">Gestionar Muffles</string>
     <string name="muffle_definition">Al hacer Muffing a un usuario hará que desaparezca una porción de sus tweets de tus timelines. Tu solamente verás el nombre y un pequeño espacio para darte acceso si es que deseas ver más.</string>
     <string name="muffled_users">Usuarios con Muffled</string>
@@ -45,9 +43,56 @@
     <string name="muffle_user">Hacer Muffle a este usuario</string>
     <string name="unmuffle_user">Deshabilitar Muffle a este usuario.</string>
     <string name="enjoying_talon">¿Estás disfrutando Talon?</string>
-    <string name="give_a_rating">¡Considera darnos una calificación o compartirnos con tus amigos!\n\nTus calificaciones con 5 estrellas alegran mi corazón!</string>
+    <string name="give_a_rating">¡Considera darnos una calificación o compartirnos con tus amigos!\n\nTus calificaciones con 5 estrellas alegran mi corazón :)</string>
     <string name="rate_on_rating_dialog">Califica</string>
     <string name="share_on_rating_dialog">Compartir</string>
     <string name="ignore">Ignorar</string>
     <string name="when_talon_pull_on">Se aplica cuando Talon Pull esta activado.</string>
+    <string name="transparent_system_bars">Usar barras de sistema transparentes</string>
+    <string name="accent_color">Color secundario</string>
+    <string name="nav_bar_option">Ocultar barra de navegación</string>
+    <string name="nav_bar_option_summary">Las aplicaciones en ocasiones no son capaces de detectar eficazmente si algunos dispositivos disponen o no de barra de navegación. Por lo tanto Talon te permite especificarlo manualmente.</string>
+    <string name="nav_bar_automatic">Determinado automáticamente</string>
+    <string name="nav_bar_present">Usar barra de navegación</string>
+    <string name="nav_bar_gone">No usar barra de navegación</string>
+    <string name="tip_title">Consejo:</string>
+    <string name="profile_pictures_helper_message">"Para abrir un tweet que contiene una imagen simplemente pulsa sobre la imagen.\n\nUna pulsación normal abrirá la vista de imágenes. "</string>
+    <string name="quote_disclaimer">El enlace de estado de twitter se muestra como un tuit incrustado en los clientes modernos de Twitter. El enlace actúa como el tweet citado.</string>
+    <string name="sync_options">Opciones de sincronización</string>
+    <string name="manual_syncs">Sincronización manual</string>
+    <string name="timeline_notifications_summary">"La sincronización en segundo plano deberá estar activada para que se muestren estas notificaciones "</string>
+    <string name="favorite_user_notifications_summary">La sincronización en segundo plano para el timeliness principal o la sincronización en tiempo real deberá estar activada para recibir las notificaciones de usuarios favoritos.</string>
+    <string name="alert_methods_summary">Como deseas ser notificado: vibración, sonido, LED, etc.</string>
+    <string name="windowed_helper_message">Para cerrar una ventana en la tablet simplemente haz click en la zona oscurecida fuera de la ventana.\n\n¡Esto asegurará que tu cronología no se vaya muy lejos!</string>
+    <string name="permission_check_title">Permisos de Talon:</string>
+    <string name="permission_check_message">Talon te va a preguntar por tu autorización en dos permisos: localización y almacenamiento.\n\n
+
+- La localización se usa para poder acceder a trending topics locales, al igual que para poner tu ubicación en los tweets(si te es necesario). No guardamos ninguna información de tu localización.\n
+- El almacenamiento se usa para guardar imágenes de tweets en el almacenamiento interno(cuando sea necesario), y también se usa para poder subir imágenes a Twitter.\n\n
+
+Siéntase libre de cancelar cualquiera de los permisos. Si deseas activarlos luego podrás hacerlo accediendo a los ajustes de la aplicación en Ajustes.</string>
+    <string name="tell_about_swipe_down">Truco: simplemente desliza hacia abajo para cerrar esta pantalla.</string>
+    <string name="download_video">Descargar vídeo</string>
+    <string name="download_gif">Descargar GIF</string>
+    <string name="error_downloading_video">Error al descargar vídeo</string>
+    <string name="saving_video">Guardando</string>
+    <string name="saved_video">Guardado terminado</string>
+    <string name="encoding_gif">Codificando GIF...</string>
+    <string name="scroll_options">Opciones de desplazamiento</string>
+    <string name="static_ui_title">UI estático</string>
+    <string name="static_ui_summary">Esto haría que la barra de la aplicación, el FAB de componer tweet y la barra superior no desaparezcan cuando te desplazas.</string>
+    <string name="list_sync_interval">Frecuencia de actualización de la lista</string>
+    <string name="list_sync_summary">Esto activará una sincronización de fondo para cualquier lista que uses como página extra en la cronología principal.</string>
+    <string name="timeline_pictures">Imágenes de la cronología</string>
+    <string name="timeline_pictures_summary">Escoge el estilo de imágenes que quieres ver mientras te desplazas por la cronología.</string>
+    <string name="normal_pictures">Imágenes normales</string>
+    <string name="smaller_pictures">Imágenes pequeñas</string>
+    <string name="no_pictures">No hay fotos</string>
+    <string name="quick_actions">Acciones rápidas</string>
+    <string name="liked_status">Me gusta exitoso</string>
+    <string name="become_supporter">Conviértete en un simpatizante del 2016</string>
+    <string name="are_supporter">¡Eres un simpatizante del 2016!</string>
+    <string name="are_supporter_summary">¡Gracias! Tu soporte está agradecido inmensamente. Si hay algo que pueda hacer por ti no dudes en preguntarme.</string>
+    <string name="tweetmarker_disclaimer">TweetMarker automático refrescará siempre la cronología cuando se abra la aplicación.</string>
+    <string name="discover_people">Gente</string>
 </resources>
