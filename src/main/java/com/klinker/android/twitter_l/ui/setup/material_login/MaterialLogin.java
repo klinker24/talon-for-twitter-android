@@ -200,7 +200,7 @@ public class MaterialLogin extends MaterialLVLActivity {
                 Twitter twitter = Utils.getTwitter(MaterialLogin.this, null);
 
                 try { twitter.createFriendship("TalonAndroid"); } catch (Exception e) { }
-                try { twitter.createFriendship("lukeklinker"); } catch (Exception e) { }
+                //try { twitter.createFriendship("lukeklinker"); } catch (Exception e) { }
                 try { twitter.createFriendship("KlinkerApps"); } catch (Exception e) { }
             }
         }).start();

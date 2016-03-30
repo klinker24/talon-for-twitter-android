@@ -1565,7 +1565,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             public void run() {
                 try {
                     ContentValues cv = new ContentValues();
-                    cv.put("tag", "com.klinker.android.twitter/com.klinker.android.twitter.ui.MainActivity");
+                    cv.put("tag", "com.klinker.android.twitter_l/com.klinker.android.twitter_l.ui.MainActivity");
                     cv.put("count", 0); // back to zero
 
                     context.getContentResolver().insert(Uri
