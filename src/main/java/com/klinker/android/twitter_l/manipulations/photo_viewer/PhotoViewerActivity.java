@@ -312,15 +312,14 @@ public class PhotoViewerActivity extends AppCompatActivity {
                         TwitterDMPicHelper helper = new TwitterDMPicHelper();
                         bitmap = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
                     } else {
-                        URL mUrl = new URL(url);
-
                         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = false;
 
-                        bitmap = decodeSampledBitmapFromResourceMemOpt(is, 600, 600);
+                        bitmap = BitmapFactory.decodeStream(is);
+                        is.close();
                     }
 
                     Random generator = new Random();
@@ -332,6 +331,8 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(uri, "image/*");
+
+                    bitmap.recycle();
 
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
@@ -463,70 +464,6 @@ public class PhotoViewerActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public Bitmap decodeSampledBitmapFromResourceMemOpt(
-            InputStream inputStream, int reqWidth, int reqHeight) {
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = inputStream.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = opt.outHeight;
-        final int width = opt.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
     }
 
     public boolean isRunning = true;
