@@ -63,7 +63,6 @@ public class DirectMessageRefreshService extends IntentService {
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            User user = twitter.verifyCredentials();
             long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
             Paging paging;
             if (lastId != 0) {
