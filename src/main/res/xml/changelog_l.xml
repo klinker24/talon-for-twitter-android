@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="4.6.6">
+        <text>Option to use higher quality downloaded images</text>
+        <text>Always download full quality images from the image viewer</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="4.6.5">
         <text>Apply mutes outside of the swipable pages</text>
         <text>Update the FAQ section of the app</text>

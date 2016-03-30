@@ -49,7 +49,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoPagerActivity.startActivity(context, 0, links, position);
+                PhotoPagerActivity.startActivity(context, 0, links, position, true);
             }
         });
 

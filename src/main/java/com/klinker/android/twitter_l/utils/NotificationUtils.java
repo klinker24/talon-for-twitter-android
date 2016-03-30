@@ -293,7 +293,7 @@ public class NotificationUtils {
                             reply = new Intent(context, NotificationCompose.class);
 
                             sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
-                            sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
+                            sharedPrefs.edit().putLong("from_notification_long", id).commit();
                             sharedPrefs.edit().putString("from_notification_text", "@" + title[1] + ": " + TweetLinkUtils.removeColorHtml(shortText, settings)).commit();
 
                             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
