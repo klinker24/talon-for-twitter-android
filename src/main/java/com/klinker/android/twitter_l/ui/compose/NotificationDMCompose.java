@@ -35,10 +35,9 @@ public class NotificationDMCompose extends ComposeDMActivity {
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
 
         notiId = 1;
-        replyText = sharedPrefs.getString("from_notification_text", "");
-        sharedPrefs.edit().putString("from_notification_text", "").commit();
+        replyText = getIntent().getStringExtra("dm_text");
 
-        contactEntry.setText(sharedPrefs.getString("from_notification", "").replace(" ", ""));
+        contactEntry.setText(getIntent().getStringExtra("reply_to").replace(" ", ""));
         reply.requestFocus();
 
         // try from android wear device
