@@ -810,7 +810,7 @@ public class ExpansionViewHelper {
                             shareClick();
                             break;
                         case TRANSLATE:
-                            String url = "http://translate.google.com/#auto|en|" + tweet;
+                            String url = settings.translateUrl + tweet;
 
                             final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
                             final WebView web = (WebView) webLayout.findViewById(R.id.webview);

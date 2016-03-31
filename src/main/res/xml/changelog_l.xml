@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.6.7">
+        <text>Translating tweets now translates to the language set on your Twitter profile</text>
+    </version>
+
     <version name="4.6.6">
         <text>Option to use higher quality downloaded images</text>
         <text>Always download full quality images from the image viewer</text>
