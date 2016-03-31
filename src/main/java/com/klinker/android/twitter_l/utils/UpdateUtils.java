@@ -49,6 +49,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import twitter4j.User;
+
 
 public class UpdateUtils {
 
@@ -61,7 +63,7 @@ public class UpdateUtils {
     private static final long SUPPORTER_TIMEOUT = 90 * DAY;
 
     public static void checkUpdate(final Context context) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+        final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
@@ -106,6 +108,21 @@ public class UpdateUtils {
                     @Override
                     public void run() {
                         IOUtils.trimCache(context);
+                    }
+                }).start();
+            }
+
+            if (sharedPrefs.getBoolean("need_translation_update", true)) {
+                sharedPrefs.edit().putBoolean("need_translation_update", false).commit();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            User user = Utils.getTwitter(context, AppSettings.getInstance(context)).verifyCredentials();
+                            sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).commit();
+                        } catch (Exception e) {
+
+                        }
                     }
                 }).start();
             }

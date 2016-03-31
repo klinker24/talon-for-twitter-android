@@ -209,7 +209,7 @@
     <!-- Retweets Activity -->
     <string name="retweets_lower">リツイート</string>
     <string name="retweet_lower">リツイート</string>
-    <string name="retweeter">リツイート by \\\@</string>
+    <string name="retweeter">リツイート by \@</string>
     <!-- Tweet Activity -->
     <string name="menu_open_web">Web リンクを開く</string>
     <string name="menu_copy_text">ツイートテキストをコピー</string>
@@ -314,7 +314,7 @@
     <string name="auto_refresh_category">自動更新オプション</string>
     <string name="refresh_on_startup">起動時に更新</string>
     <string name="timeline_sync_interval">ホームタイムライン更新間隔</string>
-    <string name="mentions_sync_interval">\\@ ツイート更新間隔</string>
+    <string name="mentions_sync_interval">\@ ツイート更新間隔</string>
     <string name="dm_sync_interval">メッセージ更新間隔</string>
     <string name="sync_friends">フォローデータ同期</string>
     <string name="sync_friends_summary2">ツイート作成時に使うフォローデータを再同期します</string>
@@ -350,8 +350,8 @@
     <string name="cache_dialog_summary">この操作は取り消しができません</string>
     <string name="timeline_size">ホームサイズ</string>
     <string name="timeline_size_summary">データベースに保存する最大ツイート数</string>
-    <string name="mentions_size">\\@ ツイートサイズ</string>
-    <string name="mentions_size_summary">データベースに保存する最大 \\@ ツイート数</string>
+    <string name="mentions_size">\@ ツイートサイズ</string>
+    <string name="mentions_size_summary">データベースに保存する最大 \@ ツイート数</string>
     <string name="dm_size">メッセージサイズ</string>
     <string name="dm_size_summary">データベースに保存す最大メッセージ数</string>
     <string name="auto_trim">データベースを自動トリム</string>
@@ -515,7 +515,7 @@
     <string name="cleaning_databases">データベースを整理中...</string>
     <string name="setup_version_two">最近Talonは大規模な更新があり、動作を最適化するために起動する前に古いデータの掃除をしないといけません! \n\n保存しているツイート数によっては時間がかかります。</string>
     <string name="setting_up_timeline">ホームタイムラインを設定中...</string>
-    <string name="setting_up_mentions">\\@ ツイートを設定中...</string>
+    <string name="setting_up_mentions">\@ ツイートを設定中...</string>
     <string name="setting_up_dms">メッセージを設定中...</string>
     <string name="setting_up_lists">リストを設定中...</string>
     <string name="version_two_setup_done">Talon 2.0 を設定完了、楽しんでください！</string>
