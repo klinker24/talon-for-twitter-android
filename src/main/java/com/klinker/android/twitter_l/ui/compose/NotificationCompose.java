@@ -46,10 +46,10 @@ public class NotificationCompose extends ComposeActivity {
 
         // set up the reply box
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
-        reply.setText(sharedPrefs.getString("from_notification", ""));
+        reply.setText(getIntent().getStringExtra("from_noti"));
         reply.setSelection(reply.getText().toString().length());
-        notiId = sharedPrefs.getLong("from_notification_long", 0);
-        replyText = sharedPrefs.getString("from_notification_text", "");
+        notiId = getIntent().getLongExtra("from_noti_long", 1);
+        replyText = getIntent().getStringExtra("from_noti_text");
 
         sharedPrefs.edit().putLong("from_notification_id", 0).commit();
         sharedPrefs.edit().putString("from_notification_text", "").commit();

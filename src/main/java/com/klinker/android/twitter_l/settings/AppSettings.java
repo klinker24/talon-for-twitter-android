@@ -223,6 +223,8 @@ public class AppSettings {
     public long listRefresh;
     public long myId;
 
+    public String translateUrl;
+
     public AppSettings(Context context) {
         sharedPrefs = getSharedPreferences(context);
         setPrefs(sharedPrefs, context);
@@ -408,6 +410,8 @@ public class AppSettings {
         dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "0"));
         activityRefresh = Long.parseLong(sharedPrefs.getString("activity_sync_interval", "0"));
         listRefresh = Long.parseLong(sharedPrefs.getString("list_sync_interval", "0"));
+
+        translateUrl = sharedPrefs.getString("translate_url", "http://translate.google.com/#auto|en|");
 
         if (sharedPrefs.getBoolean("night_mode", false)) {
             int startHour = sharedPrefs.getInt("night_start_hour", 22);

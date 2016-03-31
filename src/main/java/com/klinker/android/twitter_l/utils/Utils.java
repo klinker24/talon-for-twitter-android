@@ -135,6 +135,12 @@ public class Utils {
 
     }
 
+    public static String getTranslateURL(final String lang) {
+        return "https://translate.google.com/m/translate#auto|" +
+                lang +
+                "|";
+    }
+
     private static long getCurrentTime() {
         return new Date().getTime();
     }

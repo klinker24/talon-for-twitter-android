@@ -82,10 +82,10 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 100;
+    public static final int TEST_TIMELINE_NUM = 0;
     public static final int TEST_MENTION_NUM = 0;
-    public static final int TEST_DM_NUM = 0;
-    public static final int TEST_SECOND_MENTIONS_NUM = 3;
+    public static final int TEST_DM_NUM = 1;
+    public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions_group";
     public static final String FIRST_ACCOUNT_GROUP = "first_account_group";
@@ -281,7 +281,13 @@ public class NotificationUtils {
                     MentionsDataSource data = MentionsDataSource.getInstance(context);
                     long id = data.getLastIds(currentAccount)[0];
 
-                    if (unreadCounts[1] == 1) {
+                    if (unreadCounts[2] == 1) {
+                        reply = new Intent(context, NotificationDMCompose.class);
+                        reply.putExtra("dm_text", "@" + title[1] + ": " + shortText);
+                        reply.putExtra("reply_to", "@" + title[1]);
+                        replyPending = PendingIntent.getActivity(context, generateRandomId(), reply, 0);
+
+                    } else {
                         if (Utils.isAndroidN()) {
                             reply = new Intent(context, ReplyFromWearService.class);
                             reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, id);
@@ -291,16 +297,12 @@ public class NotificationUtils {
                             replyPending = PendingIntent.getService(context, notificationId, reply, 0);
                         } else {
                             reply = new Intent(context, NotificationCompose.class);
-
-                            sharedPrefs.edit().putString("from_notification", "@" + title[1] + " " + title[2]).commit();
-                            sharedPrefs.edit().putLong("from_notification_long", id).commit();
-                            sharedPrefs.edit().putString("from_notification_text", "@" + title[1] + ": " + TweetLinkUtils.removeColorHtml(shortText, settings)).commit();
+                            reply.putExtra("from_noti", "@" + title[1] + " " + title[2]);
+                            reply.putExtra("rom_noti_long", id);
+                            reply.putExtra("from_noti_text", "@" + title[1] + ": " + shortText);
 
                             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
                         }
-                    } else {
-                        reply = new Intent(context, NotificationDMCompose.class);
-                        replyPending = PendingIntent.getActivity(context, 0, reply, 0);
                     }
 
                     // Create the remote input
@@ -319,7 +321,7 @@ public class NotificationUtils {
                     Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, settings.currentAccount, id, notificationId);
                     Intent retweetIntent = RetweetService.getIntent(context, settings.currentAccount, id, notificationId);
 
-                    if (unreadCounts[1] == 1) {
+                    if (unreadCounts[1] == 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
                         pictureUrl = data.getNewestPictureUrl(currentAccount);
                         if (pictureUrl != null && !pictureUrl.isEmpty()) {
                             mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
@@ -818,12 +820,12 @@ public class NotificationUtils {
                 return;
             }
 
-            message = context.getResources().getString(R.string.mentioned_by) + " @" + name;
+            message = context.getResources().getString(R.string.message_from) + " @" + name;
             messageLong = "<b>@" + name + "</b>: " + data.getNewestMessage(secondAccount, screenName);
             largeIcon = getImage(context, name);
         } else { // more than one dm
-            message = numberNew + " " + context.getResources().getString(R.string.new_mentions);
-            messageLong = "<b>" + context.getResources().getString(R.string.mentions) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_mentions);
+            message = numberNew + " " + context.getResources().getString(R.string.new_direct_messages);
+            messageLong = "<b>" + context.getResources().getString(R.string.direct_messages) + "</b>: " + numberNew + " " + context.getResources().getString(R.string.new_direct_messages);
             largeIcon = null;//BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_user_dark);
 
             inbox = getDMInboxStyle(numberNew, secondAccount, context, message);
