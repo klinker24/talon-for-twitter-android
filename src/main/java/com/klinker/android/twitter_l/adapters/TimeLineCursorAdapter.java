@@ -804,6 +804,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             .commit();
                 }
 
+                viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                     holder.profilePic.getVisibility() == View.VISIBLE) {
 

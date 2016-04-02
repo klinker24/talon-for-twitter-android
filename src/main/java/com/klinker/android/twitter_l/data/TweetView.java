@@ -330,6 +330,8 @@ public class TweetView {
                     viewProfile.putExtra("retweet", retweeterTv.getVisibility() == View.VISIBLE);
                     viewProfile.putExtra("long_click", false);
 
+                    viewProfile = addDimensForExpansion(viewProfile, profilePicIv);
+
                     context.startActivity(viewProfile);
                 }
             });

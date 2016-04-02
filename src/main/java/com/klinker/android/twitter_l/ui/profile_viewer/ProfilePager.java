@@ -28,6 +28,7 @@ import com.bumptech.glide.request.target.Target;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
@@ -38,6 +39,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
@@ -117,6 +119,26 @@ public class ProfilePager extends SlidingActivity {
         setContent(R.layout.user_profile);
         setUpContent();
         getUser();
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenHeight = size.y;
+        int screenWidth = size.x;
+
+        Intent intent = getIntent();
+
+        if (getIntent().getBooleanExtra(TweetActivity.USE_EXPANSION, false)) {
+            enableFullscreen();
+        }
+        
+        expandFromPoints(
+                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, 0),
+                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
+                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, screenWidth),
+                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, 0)
+        );
     }
 
     @Override
@@ -457,6 +479,10 @@ public class ProfilePager extends SlidingActivity {
 
         final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
+        if (tweetsTitle == null) {
+            return;
+        }
+
         tweetsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
@@ -531,6 +557,10 @@ public class ProfilePager extends SlidingActivity {
 
         final View mentionsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
+        if (mentionsTitle == null) {
+            return;
+        }
+
         mentionsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
         divider.setBackgroundColor(settings.themeColors.primaryColor);
@@ -593,6 +623,10 @@ public class ProfilePager extends SlidingActivity {
         LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
 
         final View favoritesLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+
+        if (favoritesTitle == null) {
+            return;
+        }
 
         favoritesTitle.setTextColor(settings.themeColors.primaryColor);
         showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
@@ -810,6 +844,7 @@ public class ProfilePager extends SlidingActivity {
                     // tweets first
                     // this will error out if they are protected and we can't reach them
                     tweets = twitter.getUserTimeline(thisUser.getId(), new Paging(1, 20));
+
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
