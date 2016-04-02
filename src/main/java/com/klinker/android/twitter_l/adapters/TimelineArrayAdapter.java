@@ -789,6 +789,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                     viewProfile.putExtra("long_click", false);
 
+                    viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
+
                     context.startActivity(viewProfile);
                 }
             });
@@ -797,7 +799,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 @Override
                 public boolean onLongClick(View view) {
-
                     Intent viewProfile = new Intent(context, ProfilePager.class);
                     viewProfile.putExtra("name", name);
                     viewProfile.putExtra("screenname", screenname);
@@ -806,8 +807,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
                     viewProfile.putExtra("long_click", true);
 
-                    context.startActivity(viewProfile);
+                    viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
 
+                    context.startActivity(viewProfile);
                     return false;
                 }
             });
