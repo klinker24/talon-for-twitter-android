@@ -126,7 +126,13 @@ public class PhotoFragment extends Fragment {
                             (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(6, mBuilder.build());
 
-                    HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                    String urlString = url;
+
+                    if (urlString.contains("pbs.twimg")) {
+                        urlString += ":orig";
+                    }
+
+                    HttpURLConnection conn = (HttpURLConnection) new URL(urlString).openConnection();
                     InputStream is = new BufferedInputStream(conn.getInputStream());
 
                     BitmapFactory.Options options = new BitmapFactory.Options();

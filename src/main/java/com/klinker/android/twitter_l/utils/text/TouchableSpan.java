@@ -87,6 +87,8 @@ public class TouchableSpan extends ClickableSpan {
 
     @Override
     public void onClick(View widget) {
+        mContext.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             String url = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
 
