@@ -25,6 +25,7 @@ import android.widget.*;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -60,6 +61,7 @@ import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
 
 public class ProfilePager extends SlidingActivity {
@@ -117,10 +119,12 @@ public class ProfilePager extends SlidingActivity {
         setUpTheme();
         getFromIntent();
         setContent(R.layout.user_profile);
+        setHeaderContent(R.layout.sliding_profile_header);
         setUpContent();
         getUser();
+        enableFullscreen();
 
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        /*WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -138,7 +142,13 @@ public class ProfilePager extends SlidingActivity {
                 intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
                 intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, screenWidth),
                 intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, 0)
-        );
+        );*/
+    }
+
+    @Override
+    protected void configureScroller(MultiShrinkScroller scroller) {
+        super.configureScroller(scroller);
+        scroller.setIntermediateHeaderHeightRatio(1f);
     }
 
     @Override
@@ -209,36 +219,9 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            final Bitmap b = Glide.with(ProfilePager.this)
-                                    .load(proPic)
-                                    .asBitmap()
-                                    .dontAnimate()
-                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                    .get();
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        setImage(b);
-                                    } catch (Exception e) { }
-                                }
-                            });
-                        } catch (Exception e) {
-
-                        }
-                    }
-                }).start();
-
-            }
-        }, NETWORK_ACTION_DELAY);
+        Glide.with(this)
+                .load(proPic)
+                .into((CircleImageView) findViewById(R.id.profile_image));
     }
 
     public void setUpTheme() {
@@ -825,6 +808,11 @@ public class ProfilePager extends SlidingActivity {
                             invalidateOptionsMenu();
                             setProfileCard(thisUser);
                             showStats(thisUser);
+
+                            Glide.with(context)
+                                    .load(thisUser.getProfileBannerURL())
+                                    .centerCrop()
+                                    .into((ImageView) findViewById(R.id.background_image));
                         }
                     });
                 }
