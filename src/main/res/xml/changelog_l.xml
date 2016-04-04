@@ -1,6 +1,7 @@
 <changelog>
 
-    <version name="4.6.7">
+    <version name="4.6.8">
+        <text>Improve profile UI</text>
         <text>Translating tweets now translates to the language set on your Twitter profile</text>
     </version>
 

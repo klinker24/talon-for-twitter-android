@@ -312,7 +312,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
                         TwitterDMPicHelper helper = new TwitterDMPicHelper();
                         bitmap = helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context);
                     } else {
-                        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+                        String urlString = url;
+                        if (urlString.contains("pbs.twimg")) {
+                            urlString += ":orig";
+                        }
+
+                        HttpURLConnection conn = (HttpURLConnection) new URL(urlString).openConnection();
                         InputStream is = new BufferedInputStream(conn.getInputStream());
 
                         BitmapFactory.Options options = new BitmapFactory.Options();
