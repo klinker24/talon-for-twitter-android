@@ -148,7 +148,7 @@ public class ProfilePager extends SlidingActivity {
     @Override
     protected void configureScroller(MultiShrinkScroller scroller) {
         super.configureScroller(scroller);
-        scroller.setIntermediateHeaderHeightRatio(1f);
+        scroller.setIntermediateHeaderHeightRatio(.75f);
     }
 
     @Override
