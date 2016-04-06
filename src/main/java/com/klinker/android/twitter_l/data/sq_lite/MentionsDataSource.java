@@ -314,14 +314,14 @@ public class MentionsDataSource {
             }
         }
 
-        if (!hashtags.equals("")) {
+        if (!hashtags.equals("") && !mutedMentions) {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
-        if (!expressions.equals("")) {
+        if (!expressions.equals("") && !mutedMentions) {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
@@ -376,14 +376,14 @@ public class MentionsDataSource {
             }
         }
 
-        if (!hashtags.equals("")) {
+        if (!hashtags.equals("") && !mutedMentions) {
             String[] split = hashtags.split(" ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
             }
         }
 
-        if (!expressions.equals("")) {
+        if (!expressions.equals("") && !mutedMentions) {
             String[] split = expressions.split("   ");
             for (String s : split) {
                 where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
