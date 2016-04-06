@@ -57,7 +57,7 @@ public class ActivityFragment extends MainFragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri weburi = Uri.parse("https://plus.google.com/117432358268488452276/posts/gz3FLfDqTkU");
+                Uri weburi = Uri.parse("https://plus.google.com/+LukeKlinker/posts/Hy58Cr9xHK8");
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
                 launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(launchBrowser);
