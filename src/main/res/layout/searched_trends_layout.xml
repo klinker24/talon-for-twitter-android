@@ -23,16 +23,6 @@
     android:layout_height="match_parent"
     android:background="?windowBackground">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        android:layout_marginTop="20dp"
-        android:background="@color/darker_primary"
-        android:id="@+id/toolbar"
-        android:elevation="5dp"
-        style="@style/MyToolbar"/>
-
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"
         android:layout_height="match_parent"
@@ -80,6 +70,16 @@
             />
 
     </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_marginTop="20dp"
+        android:background="@color/darker_primary"
+        android:id="@+id/toolbar"
+        android:elevation="5dp"
+        style="@style/MyToolbar"/>
 
     <View
         android:id="@+id/kitkat_status_bar"
