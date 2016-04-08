@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.7.1">
+        <text>Fix settings on KitKat</text>
+    </version>
+
     <version name="4.7.0">
         <text>Improve profile UI</text>
         <text>Translating tweets now translates to the language set on your Twitter profile</text>
