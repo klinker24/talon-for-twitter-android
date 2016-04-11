@@ -40,7 +40,8 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
         list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
-        setTitle(getTitle());
+        //setTitle(getTitle());
+        showTitle(false);
         setFullScreen();
 
         this.user = user;

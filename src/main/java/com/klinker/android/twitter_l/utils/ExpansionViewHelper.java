@@ -181,9 +181,9 @@ public class ExpansionViewHelper {
         replyList = (ListView) convoLayout.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convoLayout.findViewById(R.id.spinner);
 
-        tweetSource.setOnLongClickListener(new View.OnLongClickListener() {
+        tweetSource.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 if (status != null) {
                     // we allow them to mute the client
                     final String client = android.text.Html.fromHtml(status.getSource()).toString();
@@ -217,7 +217,6 @@ public class ExpansionViewHelper {
                     // tell them the client hasn't been found
                     Toast.makeText(context, R.string.client_not_found, Toast.LENGTH_SHORT).show();
                 }
-                return false;
             }
         });
 
@@ -524,13 +523,19 @@ public class ExpansionViewHelper {
             numTweets = tweets.size();
         }
 
+        if (tweets.size() > CONVO_CARD_LIST_SIZE) {
+            repliesButton.setVisibility(View.VISIBLE);
+        } else {
+            repliesButton.setVisibility(View.INVISIBLE);
+        }
+
         View tweetDivider = new View(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
         tweetDivider.setLayoutParams(params);
 
         tweetDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
-        convoTweetArea.addView(tweetDivider);
+        //convoTweetArea.addView(tweetDivider);
         for (int i = 0; i < numTweets; i++) {
             TweetView v = new TweetView(context, tweets.get(i));
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
@@ -1169,8 +1174,8 @@ public class ExpansionViewHelper {
                                 isFavorited = false;
                             }
 
-                            String via = context.getResources().getString(R.string.via) + " " + android.text.Html.fromHtml(status.getSource()).toString();
-                            tweetSource.setText(via);
+                            String via = context.getResources().getString(R.string.via) + " <b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
+                            tweetSource.setText(Html.fromHtml(via));
                         }
                     });
                 } catch (Exception e) {

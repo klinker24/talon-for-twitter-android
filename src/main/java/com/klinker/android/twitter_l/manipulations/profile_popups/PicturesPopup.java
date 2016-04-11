@@ -62,7 +62,8 @@ public class PicturesPopup extends PopupLayout {
 
     private void setUp() {
         setFullScreen();
-        setTitle(getContext().getString(R.string.pictures));
+        showTitle(false);
+        //setTitle(getContext().getString(R.string.pictures));
 
         View root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.picture_popup_layout, null, false);
 

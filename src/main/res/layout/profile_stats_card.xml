@@ -23,6 +23,7 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
+                      android:layoutDirection="ltr"
                       android:paddingLeft="16dp">
 
             <TextView
@@ -31,6 +32,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:textColor="?textColor"
                     android:text="@string/profile"
                     android:textSize="18sp"/>
 
@@ -49,10 +51,6 @@
 
 
         </LinearLayout>
-
-        <View android:id="@+id/stats_text_divider"
-              android:layout_height="1dp"
-              android:layout_width="match_parent" />
 
         <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
             android:id="@+id/verified"
