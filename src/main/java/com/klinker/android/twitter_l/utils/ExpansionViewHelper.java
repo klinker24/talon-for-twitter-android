@@ -95,10 +95,6 @@ public class ExpansionViewHelper {
     TextView retweetText;
     ImageView retweetIcon;
     View retweetButton; // linear layout
-    ImageView retweeters;
-    ImageView favoriters;
-    View viewRetweeters;
-    View viewFavoriters;
 
     // buttons at the bottom
     ImageButton webButton;
@@ -160,12 +156,6 @@ public class ExpansionViewHelper {
         retweetText = (TextView) expansion.findViewById(R.id.retweet_text);
         retweetButton = expansion.findViewById(R.id.retweet);
         retweetIcon = (ImageView) expansion.findViewById(R.id.retweet_icon);
-        viewRetweeters = expansion.findViewById(R.id.view_retweeters);
-        viewFavoriters = expansion.findViewById(R.id.view_favoriters);
-
-        retweeters = (ImageView) expansion.findViewById(R.id.retweeters);
-
-        favoriters = (ImageView) expansion.findViewById(R.id.favoriters);
 
         webButton = (ImageButton) expansion.findViewById(R.id.web_button);
         repliesButton = (Button)expansion.findViewById(R.id.show_all_tweets_button);
@@ -245,28 +235,6 @@ public class ExpansionViewHelper {
     }
 
     private void setClicks(final boolean windowedPopups) {
-
-        viewRetweeters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (retweetersPopup != null) {
-                    retweetersPopup.setOnTopOfView(viewRetweeters);
-                    retweetersPopup.setExpansionPointForAnim(viewRetweeters);
-                    retweetersPopup.show();
-                }
-            }
-        });
-
-        viewFavoriters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (favoritersPopup != null) {
-                    favoritersPopup.setOnTopOfView(viewFavoriters);
-                    favoritersPopup.setExpansionPointForAnim(viewFavoriters);
-                    favoritersPopup.show();
-                }
-            }
-        });
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -438,72 +406,6 @@ public class ExpansionViewHelper {
                     shareClick();
                     return;
                 }
-                AppSettings settings = AppSettings.getInstance(context);
-                if ((settings.alwaysMobilize ||
-                        (Utils.getConnectionStatus(context) && settings.mobilizeOnData))) {
-
-                    final FrameLayout main = (FrameLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.mobilized_fragment, null, false);
-                    final ScrollView scrollView = (ScrollView) main.findViewById(R.id.scrollview);
-                    View spinner = main.findViewById(R.id.spinner);
-                    HoloTextView mobilizedBrowser = (HoloTextView) scrollView.findViewById(R.id.webpage_text);
-                    getTextFromSite(webLink, mobilizedBrowser, spinner, scrollView);
-
-                    if (mobilizedPopup == null) {
-                        mobilizedPopup = new MobilizedWebPopupLayout(context, main);
-                        if (context.getResources().getBoolean(R.bool.isTablet)) {
-                            if (landscape) {
-                                mobilizedPopup.setWidthByPercent(.6f);
-                                mobilizedPopup.setHeightByPercent(.8f);
-                            } else {
-                                mobilizedPopup.setWidthByPercent(.85f);
-                                mobilizedPopup.setHeightByPercent(.68f);
-                            }
-                            mobilizedPopup.setCenterInScreen();
-                        }
-                    }
-                    mobilizedPopup.setExpansionPointForAnim(webButton);
-                    mobilizedPopup.show();
-                } else {
-                    final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
-                    final WebView web = (WebView) webLayout.findViewById(R.id.webview);
-
-                    web.getSettings().setBuiltInZoomControls(true);
-                    web.getSettings().setDisplayZoomControls(false);
-                    web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-                    web.getSettings().setUseWideViewPort(true);
-                    web.getSettings().setLoadWithOverviewMode(true);
-                    web.getSettings().setSavePassword(true);
-                    web.getSettings().setSaveFormData(true);
-                    web.getSettings().setJavaScriptEnabled(true);
-                    web.getSettings().setAppCacheEnabled(false);
-                    web.getSettings().setPluginState(WebSettings.PluginState.OFF);
-
-                    // enable navigator.geolocation
-                    web.getSettings().setGeolocationEnabled(true);
-                    web.getSettings().setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
-
-                    // enable Web Storage: localStorage, sessionStorage
-                    web.getSettings().setDomStorageEnabled(true);
-
-                    web.setWebViewClient(new HelloWebViewClient());
-
-                    web.loadUrl(webLink);
-                    if (webPopup == null) {
-                        webPopup = new WebPopupLayout(context, webLayout);
-                        if (context.getResources().getBoolean(R.bool.isTablet)) {
-                            if (landscape) {
-                                webPopup.setWidthByPercent(.6f);
-                                webPopup.setHeightByPercent(.8f);
-                            } else {
-                                webPopup.setWidthByPercent(.85f);
-                                webPopup.setHeightByPercent(.68f);
-                            }
-                            webPopup.setCenterInScreen();
-                        }
-                    }
-                    webPopup.setExpansionPointForAnim(webButton);
-                    webPopup.show();
-                }
             }
         });
     }
@@ -643,19 +545,17 @@ public class ExpansionViewHelper {
             webLink = null;
         }
 
-        if (webLink == null || webLink.contains("/status/")) {
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.shareButton});
-            int resource = a.getResourceId(0, 0);
-            a.recycle();
-            webButton.setImageResource(resource);
-            shareOnWeb = true;
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.shareButton});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+        webButton.setImageResource(resource);
+        shareOnWeb = true;
 
-            if (webLink != null && webLink.contains("/status/")) {
-                embeddedTweetId = TweetLinkUtils.getTweetIdFromLink(webLink);
+        if (webLink != null && webLink.contains("/status/")) {
+            embeddedTweetId = TweetLinkUtils.getTweetIdFromLink(webLink);
 
-                if (embeddedTweetId != 0l) {
-                    embeddedTweetCard.setVisibility(View.INVISIBLE);
-                }
+            if (embeddedTweetId != 0l) {
+                embeddedTweetCard.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -751,14 +651,13 @@ public class ExpansionViewHelper {
 
             final int DELETE_TWEET = 1;
             final int COPY_TEXT = 2;
-            final int SHARE_TWEET = 3;
+            final int VIEW_LIKES = 3;
+            final int VIEW_RETWEETS = 4;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
-
-            if (!shareOnWeb) { //share button isn't on top of the web button
-                menu.getMenu().add(Menu.NONE, SHARE_TWEET, Menu.NONE, context.getString(R.string.menu_share));
-            }
+            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
+            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -775,8 +674,23 @@ public class ExpansionViewHelper {
                         case COPY_TEXT:
                             copyText();
                             break;
-                        case SHARE_TWEET:
-                            shareClick();
+                        case VIEW_LIKES:
+                            if (favoritersPopup != null) {
+                                getFavoriters();
+
+                                favoritersPopup.setExpansionPointForAnim(overflowButton);
+                                favoritersPopup.setOnTopOfView(overflowButton);
+                                favoritersPopup.show();
+                            }
+                            break;
+                        case VIEW_RETWEETS:
+                            if (retweetersPopup != null) {
+                                getRetweeters();
+
+                                retweetersPopup.setExpansionPointForAnim(overflowButton);
+                                retweetersPopup.setOnTopOfView(overflowButton);
+                                retweetersPopup.show();
+                            }
                             break;
                     }
                     return false;
@@ -789,16 +703,15 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
-            final int SHARE = 5;
+            final int VIEW_LIKES = 5;
+            final int VIEW_RETWEETS = 6;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
-
-            if (!shareOnWeb) { //share button isn't on top of the web button
-                menu.getMenu().add(Menu.NONE, SHARE, Menu.NONE, context.getString(R.string.menu_share));
-            }
+            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
+            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -809,9 +722,6 @@ public class ExpansionViewHelper {
                             break;
                         case COPY_TEXT:
                             copyText();
-                            break;
-                        case SHARE:
-                            shareClick();
                             break;
                         case TRANSLATE:
                             String url = settings.translateUrl + tweet;
@@ -857,6 +767,24 @@ public class ExpansionViewHelper {
                             break;
                         case MARK_SPAM:
                             new MarkSpam().execute();
+                            break;
+                        case VIEW_LIKES:
+                            if (favoritersPopup != null) {
+                                getFavoriters();
+
+                                favoritersPopup.setExpansionPointForAnim(overflowButton);
+                                favoritersPopup.setOnTopOfView(overflowButton);
+                                favoritersPopup.show();
+                            }
+                            break;
+                        case VIEW_RETWEETS:
+                            if (retweetersPopup != null) {
+                                getRetweeters();
+
+                                retweetersPopup.setExpansionPointForAnim(overflowButton);
+                                retweetersPopup.setOnTopOfView(overflowButton);
+                                retweetersPopup.show();
+                            }
                             break;
                     }
                     return false;
@@ -1116,28 +1044,6 @@ public class ExpansionViewHelper {
                     isRetweeted = status.isRetweetedByMe();
                     final String retCount = "" + status.getRetweetCount();
 
-                    if (status.getRetweetCount() > 0) {
-                        getRetweeters();
-                    } else {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewRetweeters.setVisibility(View.INVISIBLE);
-                            }
-                        });
-                    }
-
-                    if (status.getFavoriteCount() > 0) {
-                        getFavoriters();
-                    } else {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewFavoriters.setVisibility(View.INVISIBLE);
-                            }
-                        });
-                    }
-
                     final Status fStatus = status;
 
                     ((Activity) context).runOnUiThread(new Runnable() {
@@ -1174,7 +1080,7 @@ public class ExpansionViewHelper {
                                 isFavorited = false;
                             }
 
-                            String via = context.getResources().getString(R.string.via) + " <b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
+                            String via = context.getResources().getString(R.string.via) + "<br><b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
                             tweetSource.setText(Html.fromHtml(via));
                         }
                     });
@@ -1630,25 +1536,10 @@ public class ExpansionViewHelper {
                         urls = urls.subList(0, 3);
                     }
 
-                    final List<String> furls = urls;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             retweetersPopup.setData(users);
-
-                            String combined = "";
-                            for (int i = 0; i < furls.size(); i++) {
-                                combined += furls.get(i) + " ";
-                            }
-
-                            if (android.text.TextUtils.isEmpty(combined)) {
-                                viewRetweeters.setVisibility(View.INVISIBLE);
-                                viewRetweeters.setEnabled(false);
-                            } else {
-                                glide(combined, retweeters);
-                                viewRetweeters.setVisibility(View.VISIBLE);
-                                viewRetweeters.setEnabled(true);
-                            }
                         }
                     });
 
@@ -1692,25 +1583,10 @@ public class ExpansionViewHelper {
                         urls = urls.subList(0, 3);
                     }
 
-                    final List<String> furls = urls;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             favoritersPopup.setData(users);
-
-                            String combined = "";
-                            for (int i = 0; i < furls.size(); i++) {
-                                combined += furls.get(i) + " ";
-                            }
-
-                            if (android.text.TextUtils.isEmpty(combined)) {
-                                viewFavoriters.setVisibility(View.INVISIBLE);
-                                viewFavoriters.setEnabled(false);
-                            } else {
-                                glide(combined, favoriters);
-                                viewFavoriters.setVisibility(View.VISIBLE);
-                                viewFavoriters.setEnabled(true);
-                            }
                         }
                     });
 

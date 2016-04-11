@@ -23,23 +23,9 @@
         card_view:cardBackgroundColor="?drawerBackground"
         android:visibility="gone" />
 
-    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-        android:id="@+id/tweet_source"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="14sp"
-        android:layout_gravity="end"
-        android:layout_marginEnd="12dp"
-        android:background="?android:selectableItemBackground"
-        android:textColor="?textColor"
-        android:alpha=".6"/>
-
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  android:gravity="center_horizontal"
-                  android:layout_marginTop="12dp"
-                  android:paddingBottom="24dp">
+                  android:orientation="horizontal" >
 
         <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,27 +71,6 @@
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:id="@+id/view_favoriters"
-                      android:background="?android:selectableItemBackgroundBorderless" >
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:id="@+id/favoriters"
-                    android:minHeight="36dp" android:minWidth="36dp"
-                    android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/retweet"
@@ -147,33 +112,33 @@
 
         </LinearLayout>
 
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="horizontal"
-                      android:gravity="center_vertical"
-                      android:id="@+id/view_retweeters"
-                      android:background="?android:selectableItemBackgroundBorderless">
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:minWidth="12dp"
+            android:layout_height="1dp" />
 
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:id="@+id/retweeters"
-                    android:minHeight="36dp" android:minWidth="36dp"
-                    android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-        </LinearLayout>
+        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+            android:id="@+id/tweet_source"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:ellipsize="marquee"
+            android:layout_gravity="center_vertical"
+            android:gravity="end"
+            android:layout_marginEnd="12dp"
+            android:background="?android:selectableItemBackground"
+            android:textColor="?textColor"
+            android:alpha=".6"/>
 
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp" >
 
         <LinearLayout
                 android:layout_width="0dp"

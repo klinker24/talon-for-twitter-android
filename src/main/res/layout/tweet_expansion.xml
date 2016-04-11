@@ -84,27 +84,6 @@
         </LinearLayout>
 
         <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:id="@+id/view_favoriters"
-            android:background="?android:selectableItemBackground" >
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:id="@+id/favoriters"
-                android:minHeight="36dp" android:minWidth="36dp"
-                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/retweet"
@@ -143,27 +122,6 @@
                     android:alpha=".6"
                     android:id="@+id/retweet_count" />
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:id="@+id/view_retweeters"
-            android:background="?android:selectableItemBackground">
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:id="@+id/retweeters"
-                android:minHeight="36dp" android:minWidth="36dp"
-                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
 
         </LinearLayout>
 

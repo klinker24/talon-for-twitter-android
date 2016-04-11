@@ -101,4 +101,6 @@
     <string name="autoplay_summary">Automatically play Twitter GIFs and videos without leaving the timeline.</string>
     <string name="high_quality_images">Use Higher Quality Images</string>
     <string name="high_quality_images_summary">Applied throughout the entire app.</string>
+    <string name="view_likes">View Likes</string>
+    <string name="view_retweets">View Retweets</string>
 </resources>

@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.manipulations;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -26,7 +27,7 @@ public class RetweetersPopupLayout extends PopupLayout {
 
     @Override
     public View setMainLayout() {
-        View retweets = LayoutInflater.from(getContext()).inflate(R.layout.list_view_activity, null, false);
+        View retweets = LayoutInflater.from(getContext()).inflate(R.layout.list_view_activity, (ViewGroup) getRootView(), false);
         spinner = (LinearLayout) retweets.findViewById(R.id.list_progress);
         noContent = (LinearLayout) retweets.findViewById(R.id.no_content);
         listView = (ListView) retweets.findViewById(R.id.listView);
