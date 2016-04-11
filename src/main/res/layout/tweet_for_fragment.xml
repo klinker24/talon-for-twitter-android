@@ -39,59 +39,23 @@
                 android:fontFamily="sans-serif-strong"
                 android:textSize="18sp"
                 android:paddingTop="12dp"
-                android:layout_marginBottom="6dp"
                 android:textIsSelectable="true"
                 android:textColor="?textColor" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                android:id="@+id/retweeter"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/extra_content"
-                android:background="?windowBackground"
-                android:visibility="invisible">
-
-                <LinearLayout
-                    android:id="@+id/youtube_view"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:adjustViewBounds="true"
-                    android:layout_margin="5dp"
-                    />
-
-                <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:id="@+id/gif_holder"
-                    android:gravity="center">
-
-                    <VideoView
-                        android:id="@+id/gif"
-                        android:background="?windowBackground"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"/>
-
-                    <LinearLayout android:id="@+id/spinner"
-                        android:orientation="vertical"
-                        android:layout_height="fill_parent"
-                        android:layout_width="fill_parent"
-                        android:gravity="center" >
-
-                        <ProgressBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/Widget.AppCompat.ProgressBar"
-                            android:indeterminateOnly="true" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
+                android:layout_width="match_parent"
+                android:layout_marginTop="3dp"
+                android:gravity="end"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="?textColor"
+                android:visibility="gone"
+                android:alpha=".6"/>
 
             <FrameLayout
+                android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -113,17 +77,6 @@
                     android:background="@android:color/transparent"/>
 
             </FrameLayout>
-
-
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-                android:id="@+id/retweeter"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?textColor"
-                android:visibility="gone"
-                android:alpha=".6"/>
 
         </LinearLayout>
 

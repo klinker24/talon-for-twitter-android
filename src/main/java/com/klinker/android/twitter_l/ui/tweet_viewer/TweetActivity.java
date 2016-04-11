@@ -367,14 +367,6 @@ public class TweetActivity extends SlidingActivity {
                 }).start();
             }
         }
-
-        findViewById(R.id.extra_content).setVisibility(View.VISIBLE);
-
-        final VideoView gif = (VideoView) findViewById(R.id.gif);
-        Log.v("talon_gif", "gif surfaceView: " + gifVideo);
-        findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
-        gif.setVisibility(View.GONE);
-        findViewById(R.id.gif_holder).setVisibility(View.GONE);
     }
 
     boolean displayPlayButton = false;
@@ -647,6 +639,7 @@ public class TweetActivity extends SlidingActivity {
         screennametv.setTextSize(settings.textSize - 2);
         nametv.setTextSize(settings.textSize + 4);
         timetv.setTextSize(settings.textSize - 3);
+        retweetertv.setTextSize(settings.textSize - 3);
 
         View.OnClickListener viewPro = new View.OnClickListener() {
             @Override

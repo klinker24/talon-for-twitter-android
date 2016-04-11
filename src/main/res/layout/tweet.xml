@@ -194,7 +194,6 @@
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:paddingBottom="4dp"
             android:paddingTop="3dp"
             android:gravity="right"
             android:textColor="?dateColor"
