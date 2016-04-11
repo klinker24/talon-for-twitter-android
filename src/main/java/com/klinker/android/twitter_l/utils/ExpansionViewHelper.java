@@ -296,7 +296,7 @@ public class ExpansionViewHelper {
         retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!settings.crossAccActions) {
+                if (isRetweeted || !settings.crossAccActions) {
                     retweetStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                 } else {
                     // dialog for favoriting
@@ -1043,7 +1043,14 @@ public class ExpansionViewHelper {
                         secTwitter = Utils.getSecondTwitter(context);
                     }
 
-                    if (twitter != null) {
+                    if (isRetweeted && twitter != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new RemoveRetweet().execute();
+                            }
+                        });
+                    } else if (twitter != null) {
                         try {
                             twitter.retweetStatus(idToRetweet);
                         } catch (TwitterException e) {
@@ -1066,7 +1073,7 @@ public class ExpansionViewHelper {
                         }
                     });
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -1259,11 +1266,6 @@ public class ExpansionViewHelper {
 
     class RemoveRetweet extends AsyncTask<String, Void, Boolean> {
 
-
-        public RemoveRetweet() {
-
-        }
-
         protected void onPreExecute() {
             Toast.makeText(context, context.getResources().getString(R.string.removing_retweet), Toast.LENGTH_SHORT).show();
         }
@@ -1272,9 +1274,9 @@ public class ExpansionViewHelper {
             try {
                 AppSettings settings = AppSettings.getInstance(context);
                 Twitter twitter =  getTwitter();
-                ResponseList<twitter4j.Status> retweets = twitter.getRetweets(id);
+                ResponseList<twitter4j.Status> retweets = twitter.getUserTimeline(settings.myId, new Paging(1, 100));
                 for (twitter4j.Status retweet : retweets) {
-                    if(retweet.getUser().getId() == settings.myId)
+                    if(retweet.isRetweet() && retweet.getRetweetedStatus().getId() == id)
                         twitter.destroyStatus(retweet.getId());
                 }
                 return true;
@@ -1290,8 +1292,9 @@ public class ExpansionViewHelper {
             int textColor = a.getResourceId(0, 0);
             a.recycle();
 
-            if (retweetText != null) {
+            if (retweetText != null && deleted) {
                 retweetText.setTextColor(context.getResources().getColor(textColor));
+                retweetIcon.clearColorFilter();
             }
 
             try {
