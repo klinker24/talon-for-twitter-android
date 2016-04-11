@@ -79,6 +79,12 @@ public class PhotoViewerActivity extends AppCompatActivity {
         }
     }
 
+    public static void startActivity(Context context, String link) {
+        Intent viewImage = new Intent(context, PhotoViewerActivity.class);
+        viewImage.putExtra("url", link);
+        context.startActivity(viewImage);
+    }
+
     public Context context;
     public HoloEditText text;
     public ListView list;

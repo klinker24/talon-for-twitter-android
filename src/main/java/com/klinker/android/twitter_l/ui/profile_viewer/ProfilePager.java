@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -222,6 +223,13 @@ public class ProfilePager extends SlidingActivity {
         Glide.with(this)
                 .load(proPic)
                 .into((CircleImageView) findViewById(R.id.profile_image));
+
+        findViewById(R.id.profile_pic).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoViewerActivity.startActivity(context, proPic);
+            }
+        });
     }
 
     public void setUpTheme() {
