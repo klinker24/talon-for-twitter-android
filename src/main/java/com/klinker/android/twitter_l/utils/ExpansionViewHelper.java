@@ -60,6 +60,7 @@ import java.util.List;
 
 public class ExpansionViewHelper {
 
+    private static final int CONVO_CARD_LIST_SIZE = 10;
     private static final int MAX_TWEETS_IN_CONVERSATION = 50;
 
     public interface TweetLoaded {
@@ -517,12 +518,10 @@ public class ExpansionViewHelper {
     private void showConvoCard(ArrayList<Status> tweets) {
         int numTweets = 0;
 
-        if (tweets.size() >= 3) {
-            numTweets = 3;
-        } else if (tweets.size() == 2) {
-            numTweets = 2;
-        } else if (tweets.size() == 1) {
-            numTweets = 1;
+        if (tweets.size() >= CONVO_CARD_LIST_SIZE) {
+            numTweets = CONVO_CARD_LIST_SIZE;
+        } else {
+            numTweets = tweets.size();
         }
 
         View tweetDivider = new View(context);
@@ -1346,6 +1345,7 @@ public class ExpansionViewHelper {
                         }
                     }
                 } catch (Exception e) { }
+
                 replies = new ArrayList<twitter4j.Status>();
                 try {
 
@@ -1361,7 +1361,6 @@ public class ExpansionViewHelper {
                                 return;
                             }
                             replies.add(replyStatus);
-                            Log.v("reply_status", replyStatus.getText());
 
                             replyStatus = twitter.showStatus(replyStatus.getInReplyToStatusId());
                         }
@@ -1394,6 +1393,8 @@ public class ExpansionViewHelper {
                                 replies = reversed;
 
                                 adapter = new TimelineArrayAdapter(context, replies);
+                                adapter.setCanUseQuickActions(false);
+
                                 replyList.setAdapter(adapter);
                                 replyList.setVisibility(View.VISIBLE);
                                 //adjustConversationSectionSize(replyList);
@@ -1414,9 +1415,10 @@ public class ExpansionViewHelper {
             }
         });
 
-        getConvo.setPriority(Thread.NORM_PRIORITY);
+        getConvo.setPriority(Thread.MAX_PRIORITY);
         getConvo.start();
     }
+
     public boolean isRunning = true;
     public ArrayList<Status> replies;
     public TimelineArrayAdapter adapter;
@@ -1451,13 +1453,8 @@ public class ExpansionViewHelper {
                     if (query == null) {
                         query = new Query("to:" + screenname);
                         query.sinceId(id);
+                        query.setCount(100);
 
-                        try {
-                            query.setCount(30);
-                        } catch (Throwable e) {
-                            // enlarge buffer error?
-                            query.setCount(30);
-                        }
                         firstRun = false;
                     }
 
@@ -1500,6 +1497,7 @@ public class ExpansionViewHelper {
                                         if (replies.size() > 0) {
                                             if (adapter == null || adapter.getCount() == 0) {
                                                 adapter = new TimelineArrayAdapter(context, replies);
+                                                adapter.setCanUseQuickActions(false);
                                                 replyList.setAdapter(adapter);
                                                 replyList.setVisibility(View.VISIBLE);
                                             } else {
@@ -1520,7 +1518,7 @@ public class ExpansionViewHelper {
                             result = twitter.search(query);
                         }
 
-                        if (replies.size() >= 3 && !cardShown) {
+                        if (replies.size() >= CONVO_CARD_LIST_SIZE && !cardShown) {
                             cardShown = true;
                             isRunning = false;
                             // we will start showing them below the buttons
@@ -1574,7 +1572,7 @@ public class ExpansionViewHelper {
                             }
                         }
                     });
-                } else if (replies.size() < 3) {
+                } else if (replies.size() < CONVO_CARD_LIST_SIZE) {
                     cardShown = true;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
