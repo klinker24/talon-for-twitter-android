@@ -431,6 +431,8 @@ public class ExpansionViewHelper {
             repliesButton.setVisibility(View.INVISIBLE);
         }
 
+        TextView convoTitle = (TextView) convoArea.findViewById(R.id.tweets_title_text);
+        convoTitle.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
         View tweetDivider = new View(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
         tweetDivider.setLayoutParams(params);

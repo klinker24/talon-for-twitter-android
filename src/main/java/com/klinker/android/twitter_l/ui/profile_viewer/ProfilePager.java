@@ -383,6 +383,7 @@ public class ProfilePager extends SlidingActivity {
 
         TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
 
+        statsTitle.setTextColor(settings.themeColors.primaryColorLight);
         statsTitle.setText("@" + user.getScreenName());
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
@@ -476,6 +477,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
+        tweetsTitle.setTextColor(settings.themeColors.primaryColorLight);
         showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
 
         tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
@@ -551,6 +553,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
+        mentionsTitle.setTextColor(settings.themeColors.primaryColorLight);
         showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
 
         mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser);
@@ -615,6 +618,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
+        favoritesTitle.setTextColor(settings.themeColors.primaryColorLight);
         showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
 
         favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser);
