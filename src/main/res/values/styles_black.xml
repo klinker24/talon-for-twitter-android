@@ -37,6 +37,7 @@
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
         <item name="dateColor">@color/dark_date</item>
         <item name="drawerBackground">@android:color/black</item>
+        <item name="embeddedTweetBackground">@color/dark_background</item>
         <item name="oppDrawerBackground">@color/light_drawer</item>
         <item name="headerTextColor">@android:color/white</item>
         <item name="textShadowColor">@android:color/black</item>
@@ -195,6 +196,7 @@
         <item name="drawerDividerColor">@color/dark_text_drawer</item>
         <item name="dateColor">@color/dark_date</item>
         <item name="drawerBackground">@android:color/black</item>
+        <item name="embeddedTweetBackground">@color/dark_background</item>
         <item name="oppDrawerBackground">@color/light_drawer</item>
         <item name="headerTextColor">@android:color/white</item>
         <item name="textShadowColor">@android:color/black</item>

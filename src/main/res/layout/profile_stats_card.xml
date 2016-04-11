@@ -23,16 +23,31 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:paddingLeft="16dp">
+                      android:layoutDirection="ltr"
+                      android:paddingLeft="16dp"
+                      android:layout_marginBottom="12dp">
 
             <TextView
                     android:id="@+id/stats_title_text"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/profile"
                     android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/verified"
+                android:src="?acceptButton"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
 
             <Button
                     android:id="@+id/pictures_button"
@@ -50,28 +65,11 @@
 
         </LinearLayout>
 
-        <View android:id="@+id/stats_text_divider"
-              android:layout_height="1dp"
-              android:layout_width="match_parent" />
-
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
-            android:id="@+id/verified"
-            android:drawableLeft="?acceptButton"
-            android:drawablePadding="8dp"
-            android:text="@string/verified"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?textColor"
-            android:textSize="13sp"
-            android:paddingLeft="16dp"
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:layout_marginTop="16dp"/>
-
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:id="@+id/lower_card">
 
             <!-- this is the buttons to follow and favorite the user -->
@@ -79,8 +77,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/header_button_section"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="8dp" >
+                android:layout_marginBottom="16dp" >
 
                 <LinearLayout android:layout_width="0dp"
                     android:layout_height="wrap_content"

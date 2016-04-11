@@ -192,10 +192,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-                        mDrawerLayout.closeDrawer(Gravity.START);
+                    if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
                     } else {
-                        mDrawerLayout.openDrawer(Gravity.START);
+                        mDrawerLayout.openDrawer(Gravity.LEFT);
                     }
                 }
             });
@@ -284,8 +284,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         try {
             mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
-            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
-            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_rev, Gravity.END);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
+            mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow_rev, Gravity.RIGHT);
 
             final boolean hasDrawer = getResources().getBoolean(R.bool.has_drawer);
 
@@ -390,10 +390,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                     Log.v("talon_drawer", "item clicked");
                     // Toggle drawer
                     if (item.getItemId() == android.R.id.home) {
-                        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-                            mDrawerLayout.closeDrawer(Gravity.START);
+                        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                            mDrawerLayout.closeDrawer(Gravity.LEFT);
                         } else {
-                            mDrawerLayout.openDrawer(Gravity.START);
+                            mDrawerLayout.openDrawer(Gravity.LEFT);
                         }
                         return true;
                     }
@@ -522,7 +522,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             @Override
             public void onClick(View view) {
                 try {
-                    mDrawerLayout.closeDrawer(Gravity.START);
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                 } catch (Exception e) {
 
                 }
@@ -549,7 +549,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             public boolean onLongClick(View view) {
 
                 try {
-                    mDrawerLayout.closeDrawer(Gravity.START);
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                 } catch (Exception e) {
 
                 }
@@ -816,7 +816,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         if(!settings.pushNotifications || !settings.useInteractionDrawer) {
             try {
-                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             } catch (Exception e) {
                 // no drawer?
             }
@@ -1340,7 +1340,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         if (!settings.pushNotifications || !settings.useInteractionDrawer) {
             try {
-                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END);
+                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             } catch (Exception x) {
                 // no drawer?
             }
@@ -1414,7 +1414,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
             // disable the left drawer so they can't switch activities in the popup.
             // causes problems with the layouts
-            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.START);
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.LEFT);
             actionBar.setDisplayShowHomeEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setHomeButtonEnabled(false);
@@ -1459,10 +1459,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-                    mDrawerLayout.closeDrawer(Gravity.START);
+                if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
                 } else {
-                    mDrawerLayout.openDrawer(Gravity.START);
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
                 }
                 return super.onOptionsItemSelected(item);
             case R.id.menu_search:

@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.MainActivity;
@@ -47,6 +49,8 @@ public class PrefActivity extends AppCompatActivity {
 
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
+        setContentView(R.layout.settings_base);
+
         final PrefFragment fragment = new PrefFragment();
         Bundle args = new Bundle();
         args.putInt("position", getIntent().getIntExtra("position", 0));
@@ -54,7 +58,7 @@ public class PrefActivity extends AppCompatActivity {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(android.R.id.content, fragment)
+                .replace(R.id.settings_content, fragment)
                 .commit();
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
@@ -65,6 +69,20 @@ public class PrefActivity extends AppCompatActivity {
         ab.setBackgroundDrawable(new ColorDrawable(AppSettings.getInstance(this).themeColors.primaryColor));
 
         //setIcon(ab, getIntent().getIntExtra("position", 0));
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View status = findViewById(R.id.settings_status);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+
+            status.setLayoutParams(params);
+
+            View nav = findViewById(R.id.settings_nav);
+            params = (LinearLayout.LayoutParams) nav.getLayoutParams();
+            params.height = Utils.hasNavBar(this) ? Utils.getNavBarHeight(this) : 0;
+
+            nav.setLayoutParams(params);
+        }
     }
 
     public void setUpTheme() {

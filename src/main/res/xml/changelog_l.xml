@@ -1,8 +1,21 @@
 <changelog>
 
-    <version name="4.6.8">
+    <version name="4.7.2">
+        <text>UI improvements</text>
+        <text>Improve removal of retweets</text>
+        <text>Changes for RTL languages</text>
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="4.7.1">
+        <text>Fix settings on KitKat</text>
+    </version>
+
+    <version name="4.7.0">
         <text>Improve profile UI</text>
         <text>Translating tweets now translates to the language set on your Twitter profile</text>
+        <text>UI tweaks</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="4.6.6">
