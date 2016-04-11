@@ -55,12 +55,12 @@
                 android:alpha=".6"/>
 
             <FrameLayout
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:scaleType="centerCrop"
@@ -69,6 +69,8 @@
                     android:id="@+id/image"/>
 
                 <ImageView
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:id="@+id/play_button"
                     android:visibility="gone"
                     android:layout_gravity="bottom|start"

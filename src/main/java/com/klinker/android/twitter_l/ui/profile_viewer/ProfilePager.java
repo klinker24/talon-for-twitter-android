@@ -385,7 +385,9 @@ public class ProfilePager extends SlidingActivity {
 
         statsTitle.setText("@" + user.getScreenName());
 
-        HoloTextView verified = (HoloTextView) findViewById(R.id.verified);
+        ImageView verified = (ImageView) findViewById(R.id.verified);
+        verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+
         HoloTextView createdAt = (HoloTextView) findViewById(R.id.created_at);
         HoloTextView listsCount = (HoloTextView) findViewById(R.id.number_of_lists);
 
