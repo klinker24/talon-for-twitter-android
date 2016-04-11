@@ -224,7 +224,7 @@ public class ProfilePager extends SlidingActivity {
                 .load(proPic)
                 .into((CircleImageView) findViewById(R.id.profile_image));
 
-        findViewById(R.id.profile_pic).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PhotoViewerActivity.startActivity(context, proPic);
@@ -386,7 +386,11 @@ public class ProfilePager extends SlidingActivity {
         statsTitle.setText("@" + user.getScreenName());
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
-        verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+        if (settings.darkTheme) {
+            verified.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        } else {
+            verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+        }
 
         HoloTextView createdAt = (HoloTextView) findViewById(R.id.created_at);
         HoloTextView listsCount = (HoloTextView) findViewById(R.id.number_of_lists);
