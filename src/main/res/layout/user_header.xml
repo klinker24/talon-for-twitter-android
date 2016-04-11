@@ -48,8 +48,9 @@
         android:minHeight="48dp" android:minWidth="48dp"
         android:maxWidth="48dp" android:maxHeight="48dp"
         android:contentDescription="Profile Picture 2"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+
         android:layout_marginTop="36dp"/>
 
     <LinearLayout

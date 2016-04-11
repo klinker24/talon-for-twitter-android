@@ -20,6 +20,7 @@
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layoutDirection="ltr"
             android:paddingLeft="16dp">
 
             <TextView
@@ -46,10 +47,6 @@
                 android:paddingRight="8dp"/>
 
         </LinearLayout>
-
-        <View android:id="@+id/favorites_text_divider"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
 
         <LinearLayout
             android:id="@+id/favorites_content"
