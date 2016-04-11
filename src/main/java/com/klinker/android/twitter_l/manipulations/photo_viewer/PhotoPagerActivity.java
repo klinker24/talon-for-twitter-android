@@ -106,10 +106,6 @@ public class PhotoPagerActivity extends AppCompatActivity {
         info = (ImageButton) findViewById(R.id.info_button);
         share = (ImageButton) findViewById(R.id.share_button);
 
-        if (getIntent().getBooleanExtra("hide_info", false)) {
-            findViewById(R.id.info_button_holder).setVisibility(View.GONE);
-        }
-
         bottomSheet = (BottomSheetLayout) findViewById(R.id.bottom_sheet);
 
         download.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +176,10 @@ public class PhotoPagerActivity extends AppCompatActivity {
         if (tweetId != 0) {
             prepareInfo(tweetId);
         } else {
+            ((View)info.getParent()).setVisibility(View.GONE);
+        }
+
+        if (getIntent().getBooleanExtra("hide_info", false)) {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
     }

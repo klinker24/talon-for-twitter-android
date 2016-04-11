@@ -83,7 +83,7 @@ public class PicturesGridAdapter extends BaseAdapter {
             public void onClick(View view) {
                 setPics();
 
-                PhotoPagerActivity.startActivity(context, id, pics, position);
+                PhotoPagerActivity.startActivity(context, id, pics, position, true);
             }
         });
 

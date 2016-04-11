@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="4.7.2">
+        <text>Changes for RTL languages</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="4.7.1">
         <text>Fix settings on KitKat</text>
     </version>
