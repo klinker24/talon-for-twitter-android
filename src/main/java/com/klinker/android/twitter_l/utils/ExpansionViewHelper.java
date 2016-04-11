@@ -60,7 +60,7 @@ import java.util.List;
 
 public class ExpansionViewHelper {
 
-    private static final int CONVO_CARD_LIST_SIZE = 10;
+    private static final int CONVO_CARD_LIST_SIZE = 6;
     private static final int MAX_TWEETS_IN_CONVERSATION = 50;
 
     public interface TweetLoaded {
