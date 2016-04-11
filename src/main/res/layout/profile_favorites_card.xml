@@ -30,7 +30,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/favorites"
-                android:textColor="?textColor"
                 android:textAllCaps="true"
                 android:textSize="18sp"/>
 
