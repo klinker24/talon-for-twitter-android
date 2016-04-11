@@ -33,7 +33,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/conversation"
                 android:textAllCaps="true"
-                android:textColor="?colorPrimary"
+                android:textColor="?textColor"
                 android:textSize="18sp"/>
 
             <Button
@@ -50,10 +50,6 @@
                 android:paddingRight="8dp"/>
 
         </LinearLayout>
-
-        <View android:id="@+id/tweet_text_divider"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
 
         <LinearLayout
             android:id="@+id/tweets_content"

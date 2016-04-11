@@ -374,11 +374,8 @@ public class ProfilePager extends SlidingActivity {
         }
 
         TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
-        View divider = findViewById(R.id.stats_text_divider);
 
         statsTitle.setText("@" + user.getScreenName());
-        statsTitle.setTextColor(settings.themeColors.primaryColor);
-        divider.setBackgroundColor(settings.themeColors.primaryColor);
 
         HoloTextView verified = (HoloTextView) findViewById(R.id.verified);
         HoloTextView createdAt = (HoloTextView) findViewById(R.id.created_at);
@@ -457,7 +454,6 @@ public class ProfilePager extends SlidingActivity {
     private void showTweets() {
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
-        View divider = findViewById(R.id.tweet_text_divider);
         final LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
 
         final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
@@ -466,9 +462,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        tweetsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
-        divider.setBackgroundColor(settings.themeColors.primaryColor);
 
         tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
 
@@ -535,7 +529,6 @@ public class ProfilePager extends SlidingActivity {
     private void showMentions() {
         TextView mentionsTitle = (TextView) findViewById(R.id.mentions_title_text);
         Button showAllMentions = (Button) findViewById(R.id.show_all_mentions_button);
-        View divider = findViewById(R.id.mentions_text_divider);
         LinearLayout content = (LinearLayout) findViewById(R.id.mentions_content);
 
         final View mentionsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
@@ -544,9 +537,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        mentionsTitle.setTextColor(settings.themeColors.primaryColor);
         showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
-        divider.setBackgroundColor(settings.themeColors.primaryColor);
 
         mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser);
 
@@ -602,7 +593,6 @@ public class ProfilePager extends SlidingActivity {
     private void showFavorites() {
         TextView favoritesTitle = (TextView) findViewById(R.id.favorites_title_text);
         Button showAllfavorites = (Button) findViewById(R.id.show_all_favorites_button);
-        View divider = findViewById(R.id.favorites_text_divider);
         LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
 
         final View favoritesLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
@@ -611,9 +601,7 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        favoritesTitle.setTextColor(settings.themeColors.primaryColor);
         showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
-        divider.setBackgroundColor(settings.themeColors.primaryColor);
 
         favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser);
 

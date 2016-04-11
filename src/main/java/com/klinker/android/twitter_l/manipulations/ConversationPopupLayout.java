@@ -20,7 +20,8 @@ public class ConversationPopupLayout extends PopupLayout {
         list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
-        setTitle(getContext().getString(R.string.conversation));
+        //setTitle(getContext().getString(R.string.conversation));
+        showTitle(false);
         setFullScreen();
 
         content.addView(main);

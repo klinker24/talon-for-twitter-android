@@ -1,6 +1,8 @@
 <changelog>
 
     <version name="4.7.2">
+        <text>UI improvements</text>
+        <text>Improve removal of retweets</text>
         <text>Changes for RTL languages</text>
         <text>Bug fixes</text>
     </version>
