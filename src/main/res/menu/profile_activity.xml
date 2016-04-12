@@ -88,4 +88,9 @@
           android:orderInCategory="18"
           android:title="@string/unmuffle_user"
           talon:showAsAction="never" />
+
+    <item android:id="@+id/menu_copy_link"
+        android:orderInCategory="19"
+        android:title="@string/copy_link"
+        talon:showAsAction="never" />
 </menu>

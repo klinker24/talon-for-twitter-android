@@ -1,8 +1,10 @@
 <changelog>
 
     <version name="4.7.2">
-        <text>UI improvements</text>
+        <text>UI tweaks across the board, because the little details matter</text>
+        <text>Clicking profile picture on profiles opens it full screen</text>
         <text>Improve removal of retweets</text>
+        <text>Copy a link to the profile from the three-dot overflow on profiles</text>
         <text>Changes for RTL languages</text>
         <text>Bug fixes</text>
     </version>
