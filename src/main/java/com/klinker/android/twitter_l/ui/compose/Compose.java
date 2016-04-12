@@ -865,7 +865,14 @@ public abstract class Compose extends Activity implements
             case SELECT_PHOTO:
                 if(resultCode == RESULT_OK){
                     try {
-                        Uri selectedImage = imageReturnedIntent.getData();
+                        Uri uri = imageReturnedIntent.getData();
+
+                        final int takeFlags = imageReturnedIntent.getFlags()
+                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContentResolver().takePersistableUriPermission(uri, takeFlags);
+
+                        Uri selectedImage = uri;
 
                         String filePath = IOUtils.getPath(selectedImage, context);
 
