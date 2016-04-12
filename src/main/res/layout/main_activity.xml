@@ -63,7 +63,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="60dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_action_new_dark"
+                android:src="@drawable/ic_fab_pencil"
                 fab:fab_colorNormal="#99CC00"
                 fab:fab_colorRipple="@android:color/white" />
 

@@ -207,7 +207,7 @@ public class ProfilePager extends SlidingActivity {
             }
         }, 300);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -287,7 +287,7 @@ public class ProfilePager extends SlidingActivity {
         params.topMargin = Utils.toDP(32, context);
         headerCard.setLayoutParams(params);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
