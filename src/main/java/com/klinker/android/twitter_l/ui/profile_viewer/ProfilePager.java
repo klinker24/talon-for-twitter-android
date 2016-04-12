@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -220,14 +221,22 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        Glide.with(this)
-                .load(proPic)
-                .into((CircleImageView) findViewById(R.id.profile_image));
+        try {
+            Glide.with(this)
+                    .load(proPic)
+                    .into((CircleImageView) findViewById(R.id.profile_image));
+        } catch (Exception e) {
+
+        }
 
         findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoViewerActivity.startActivity(context, proPic);
+                if (thisUser != null) {
+                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                } else {
+                    PhotoViewerActivity.startActivity(context, proPic);
+                }
             }
         });
     }
@@ -815,10 +824,14 @@ public class ProfilePager extends SlidingActivity {
                             setProfileCard(thisUser);
                             showStats(thisUser);
 
-                            Glide.with(context)
-                                    .load(thisUser.getProfileBannerURL())
-                                    .centerCrop()
-                                    .into((ImageView) findViewById(R.id.background_image));
+                            try {
+                                Glide.with(context)
+                                        .load(thisUser.getProfileBannerURL())
+                                        .centerCrop()
+                                        .into((ImageView) findViewById(R.id.background_image));
+                            } catch (Exception e) {
+
+                            }
                         }
                     });
                 }
