@@ -610,8 +610,7 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent intent = new Intent();
                         intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, SELECT_PHOTO);
                     } catch (Exception e) {
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
