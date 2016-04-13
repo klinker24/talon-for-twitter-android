@@ -102,7 +102,7 @@ dependencies {
     compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
 
-    compile 'com.klinkerapps:simple_videoview:1.1.4'
+    compile 'com.klinkerapps:simple_videoview:1.1.5'
     compile 'com.klinkerapps:launcher-apis:1.1.0'
     compile 'com.klinkerapps:sliding-activity:1.2.2'
 
