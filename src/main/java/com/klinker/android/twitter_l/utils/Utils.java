@@ -165,7 +165,7 @@ public class Utils {
 
             return value;
         } else {
-            return 48;
+            return Utils.toDP(48, context);
         }
     }
 
