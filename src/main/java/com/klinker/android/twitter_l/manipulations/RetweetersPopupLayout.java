@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
@@ -20,6 +21,7 @@ public class RetweetersPopupLayout extends PopupLayout {
     private ListView listView;
     private LinearLayout spinner;
     private LinearLayout noContent;
+    protected TextView noContentText;
 
     public RetweetersPopupLayout(Context context) {
         super(context);
@@ -30,6 +32,7 @@ public class RetweetersPopupLayout extends PopupLayout {
         View retweets = LayoutInflater.from(getContext()).inflate(R.layout.list_view_activity, (ViewGroup) getRootView(), false);
         spinner = (LinearLayout) retweets.findViewById(R.id.list_progress);
         noContent = (LinearLayout) retweets.findViewById(R.id.no_content);
+        noContentText = (TextView) retweets.findViewById(R.id.no_content_text);
         listView = (ListView) retweets.findViewById(R.id.listView);
 
         setUserWindowTitle();
