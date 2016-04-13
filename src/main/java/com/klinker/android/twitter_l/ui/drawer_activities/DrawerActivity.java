@@ -748,7 +748,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         View navBarSeperater = findViewById(R.id.nav_bar_seperator);
 
-        if (translucent && Utils.hasNavBar(context)) {
+        if (translucent && Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             try {
                 RelativeLayout.LayoutParams navParams = (RelativeLayout.LayoutParams) navBarSeperater.getLayoutParams();
                 navParams.height = navBarHeight;

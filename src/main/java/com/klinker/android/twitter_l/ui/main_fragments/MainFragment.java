@@ -330,7 +330,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             //moveActionBar = true;
         //}
 
-        moveActionBar = getResources().getBoolean(R.bool.duel_panel);
+        moveActionBar = !getResources().getBoolean(R.bool.duel_panel);
     }
 
     boolean moveActionBar = true;
@@ -544,7 +544,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         toastButton.setTextColor(settings.themeColors.accentColorLight);
 
         if (!Utils.hasNavBar(getActivity()) ||
-                (!getResources().getBoolean(R.bool.isTablet))) {
+                (landscape && !getResources().getBoolean(R.bool.isTablet))) {
             toastBar.setTranslationY(Utils.toDP(48, getActivity()));
         }
 

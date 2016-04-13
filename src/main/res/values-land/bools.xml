@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="options_drawer">true</bool>
+    <bool name="isTablet">false</bool>
     <bool name="has_drawer">true</bool>
     <bool name="duel_panel">false</bool>
 </resources>
