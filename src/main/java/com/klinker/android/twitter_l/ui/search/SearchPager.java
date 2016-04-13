@@ -410,10 +410,15 @@ public class SearchPager extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    private boolean rtUnchecked = false;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem i = menu.findItem(R.id.menu_remove_rt);
-        i.setChecked(true);
+        if (!rtUnchecked) {
+            MenuItem i = menu.findItem(R.id.menu_remove_rt);
+            i.setChecked(true);
+        }
+
+        rtUnchecked = false;
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -501,6 +506,8 @@ public class SearchPager extends AppCompatActivity {
                 } else {
                     searchQuery = searchQuery.replace(" -RT", "");
                     item.setChecked(false);
+
+                    rtUnchecked = true;
                 }
 
                 broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
