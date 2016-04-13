@@ -22,6 +22,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+    <LinearLayout android:id="@+id/no_content"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:gravity="center" >
+
+        <ImageView android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_biker"
+            android:id="@+id/picture"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_activity_yet"
+            android:textColor="?textColor"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_activity_yet_desc"
+            android:textColor="?textColor"
+            android:gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14dp"
+            android:layout_marginBottom="25dp"/>
+
+        <Button android:id="@+id/activity_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/info" />
+
+    </LinearLayout>
+
     <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -41,48 +81,6 @@
                 />
 
     </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
-
-    <LinearLayout android:id="@+id/no_content"
-                  android:orientation="vertical"
-                  android:layout_height="fill_parent"
-                  android:layout_width="fill_parent"
-                  android:gravity="center" >
-
-        <ImageView android:layout_width="100dp"
-                   android:layout_height="100dp"
-                   android:src="@drawable/ic_biker"
-                   android:id="@+id/picture"
-                   android:scaleType="fitCenter"/>
-
-        <TextView
-                android:layout_width="275dp"
-                android:layout_height="wrap_content"
-                android:text="@string/no_activity_yet"
-                android:textColor="?textColor"
-                android:gravity="center"
-                android:textSize="25dp"
-                android:fontFamily="sans-serif"
-                android:layout_marginBottom="30dp"/>
-
-        <TextView
-                android:layout_width="275dp"
-                android:layout_height="wrap_content"
-                android:text="@string/no_activity_yet_desc"
-                android:textColor="?textColor"
-                android:gravity="center"
-                android:fontFamily="sans-serif-light"
-                android:textSize="14dp"
-                android:layout_marginBottom="25dp"/>
-
-        <Button android:id="@+id/activity_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/info" />
-
-    </LinearLayout>
-
-
 
     <LinearLayout android:id="@+id/toastBar"
                   android:layout_width="match_parent"
