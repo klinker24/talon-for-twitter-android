@@ -224,7 +224,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             try {
                 RelativeLayout.LayoutParams toolParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                if (!getResources().getBoolean(R.bool.isTablet)) {
                     toolParams.topMargin = Utils.getStatusBarHeight(context);
                 }
                 toolbar.setLayoutParams(toolParams);
@@ -232,7 +232,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 // they are linear layout here
                 LinearLayout.LayoutParams toolParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                if (!getResources().getBoolean(R.bool.isTablet)) {
                     toolParams.topMargin = Utils.getStatusBarHeight(context);
                 }
                 toolbar.setLayoutParams(toolParams);
@@ -245,9 +245,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
 
             if (getResources().getBoolean(R.bool.isTablet) && toolbar != null) {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-                params.topMargin = Utils.getStatusBarHeight(context);
-                toolbar.setLayoutParams(params);
+                if (toolbar.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.topMargin = Utils.getStatusBarHeight(context);
+                    toolbar.setLayoutParams(params);
+                } else if (toolbar.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.topMargin = Utils.getStatusBarHeight(context);
+                    toolbar.setLayoutParams(params);
+                }
             }
         }
 
@@ -796,24 +802,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            if (toolbar != null) {
-                toolbar.setNavigationIcon(null);
-            }
-
-            if (!getResources().getBoolean(R.bool.seven_inch_tablet)) {
-                int amount = -1 * Utils.getActionBarHeight(context);
-                findViewById(R.id.header).setTranslationY(amount);
-
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) drawerList.getLayoutParams();
-                params.topMargin = amount;
-                params.height = params.height - amount;
-                drawerList.setLayoutParams(params);
-            }
-        }
-
         if(!settings.pushNotifications || !settings.useInteractionDrawer) {
             try {
                 mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
@@ -1159,6 +1147,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             translucent = true;
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+            try {
+                int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
+
+                if (immersive == 1) {
+                    translucent = false;
+                }
+            } catch (Exception e) {
+            }
+        } else if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
+            translucent = true;
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
             try {
                 int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
