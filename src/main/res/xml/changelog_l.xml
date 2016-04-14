@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.7.3">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="4.7.2">
         <text>UI tweaks across the board, because the little details matter</text>
         <text>Clicking profile picture on profiles opens it full screen</text>
