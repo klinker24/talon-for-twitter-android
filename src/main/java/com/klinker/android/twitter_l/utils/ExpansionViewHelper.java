@@ -464,7 +464,7 @@ public class ExpansionViewHelper {
 
         hideConvoProgress();
         if (numTweets != 0) {
-            startAlphaAnimation(convoCard, 0, AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
+            startAlphaAnimation(convoCard, 0, 1.0f);
         }
     }
 
