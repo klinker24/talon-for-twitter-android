@@ -58,7 +58,7 @@
             android:key="high_quality_images"
             android:title="@string/high_quality_images"
             android:summary="@string/high_quality_images_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <CheckBoxPreference
