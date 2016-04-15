@@ -610,8 +610,7 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent intent = new Intent();
                         intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, SELECT_PHOTO);
                     } catch (Exception e) {
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -625,8 +624,7 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("image/gif");
-                        gifIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        gifIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                        gifIntent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(gifIntent, SELECT_GIF);
                     } catch (Exception e) {
                         Intent gifIntent = new Intent();
@@ -640,8 +638,7 @@ public class ComposeActivity extends Compose {
                     try {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("surfaceView/mp4");
-                        gifIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        gifIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                        gifIntent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(gifIntent, SELECT_VIDEO);
                     } catch (Exception e) {
                         Intent gifIntent = new Intent();
