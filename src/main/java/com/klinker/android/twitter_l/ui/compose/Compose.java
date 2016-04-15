@@ -104,6 +104,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.yalantis.ucrop.UCrop;
+
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -846,6 +848,24 @@ public abstract class Compose extends Activity implements
         super.onStop();
     }
 
+    private void startUcrop(Uri sourceUri) {
+        try {
+            UCrop.Options options = new UCrop.Options();
+            options.setToolbarColor(settings.themeColors.primaryColor);
+            options.setStatusBarColor(settings.themeColors.primaryColorDark);
+            options.setActiveWidgetColor(settings.themeColors.accentColor);
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            options.setCompressionQuality(90);
+
+            File destination = File.createTempFile("ucrop", "jpg", getCacheDir());
+            UCrop.of(sourceUri, Uri.fromFile(destination))
+                    .withOptions(options)
+                    .start(Compose.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static final int SELECT_PHOTO = 100;
     public static final int CAPTURE_IMAGE = 101;
     public static final int SELECT_GIF = 102;
@@ -862,69 +882,44 @@ public abstract class Compose extends Activity implements
                                     Intent imageReturnedIntent) {
         Log.v("talon_image_attach", "got the result, code: " + requestCode);
         switch(requestCode) {
-            case SELECT_PHOTO:
+            case UCrop.REQUEST_CROP:
                 if(resultCode == RESULT_OK){
                     try {
-                        Uri uri = imageReturnedIntent.getData();
-
-                        final int takeFlags = imageReturnedIntent.getFlags()
-                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        getContentResolver().takePersistableUriPermission(uri, takeFlags);
-
-                        Uri selectedImage = uri;
+                        Uri selectedImage = UCrop.getOutput(imageReturnedIntent);
 
                         String filePath = IOUtils.getPath(selectedImage, context);
-
-                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
+                        Log.v("talon_compose_pic", "path to gif on sd card: " + filePath);
 
                         try {
                             attachImage[imagesAttached].setImageBitmap(getThumbnail(selectedImage));
                             holders[imagesAttached].setVisibility(View.VISIBLE);
                             attachedUri[imagesAttached] = selectedImage.toString();
                             imagesAttached++;
-                            //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                            //numberAttached.setVisibility(View.VISIBLE);
                         } catch (Throwable e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            //numberAttached.setText("");
-                            //numberAttached.setVisibility(View.GONE);
                         }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        //numberAttached.setText("");
-                        //numberAttached.setVisibility(View.GONE);
                     }
+                } else if (resultCode == UCrop.RESULT_ERROR) {
+                    final Throwable cropError = UCrop.getError(imageReturnedIntent);
+                    cropError.printStackTrace();
                 }
                 countHandler.post(getCount);
                 break;
-            case CAPTURE_IMAGE:
-                if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
-
-                        try {
-                            attachImage[imagesAttached].setImageURI(selectedImage);
-                            holders[imagesAttached].setVisibility(View.VISIBLE);
-                            attachedUri[imagesAttached] = selectedImage.toString();
-                            imagesAttached++;
-                            //numberAttached.setText(imagesAttached + " " + getResources().getString(R.string.attached_images));
-                            //numberAttached.setVisibility(View.VISIBLE);
-                        } catch (Throwable e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                            //numberAttached.setText("");
-                            //numberAttached.setVisibility(View.GONE);
-                        }
-
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        //numberAttached.setText("");
-                        //numberAttached.setVisibility(View.GONE);
-                    }
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK) {
+                    startUcrop(imageReturnedIntent.getData());
                 }
-                countHandler.post(getCount);
+
+                break;
+            case CAPTURE_IMAGE:
+                if(resultCode == RESULT_OK) {
+                    Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+                    startUcrop(selectedImage);
+                }
+
                 break;
             case PWICCER:
                 if (resultCode == Activity.RESULT_OK) {
