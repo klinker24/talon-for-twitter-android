@@ -1,6 +1,8 @@
 package com.klinker.android.twitter_l.ui.profile_viewer;
 
 import android.app.*;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +35,7 @@ import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -204,7 +207,7 @@ public class ProfilePager extends SlidingActivity {
             }
         }, 300);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -220,14 +223,22 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        Glide.with(this)
-                .load(proPic)
-                .into((CircleImageView) findViewById(R.id.profile_image));
+        try {
+            Glide.with(this)
+                    .load(proPic)
+                    .into((CircleImageView) findViewById(R.id.profile_image));
+        } catch (Exception e) {
+
+        }
 
         findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoViewerActivity.startActivity(context, proPic);
+                if (thisUser != null) {
+                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                } else {
+                    PhotoViewerActivity.startActivity(context, proPic);
+                }
             }
         });
     }
@@ -276,7 +287,7 @@ public class ProfilePager extends SlidingActivity {
         params.topMargin = Utils.toDP(32, context);
         headerCard.setLayoutParams(params);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_send_fab, new View.OnClickListener() {
+        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent compose = new Intent(context, ComposeActivity.class);
@@ -815,10 +826,14 @@ public class ProfilePager extends SlidingActivity {
                             setProfileCard(thisUser);
                             showStats(thisUser);
 
-                            Glide.with(context)
-                                    .load(thisUser.getProfileBannerURL())
-                                    .centerCrop()
-                                    .into((ImageView) findViewById(R.id.background_image));
+                            try {
+                                Glide.with(context)
+                                        .load(thisUser.getProfileBannerURL())
+                                        .centerCrop()
+                                        .into((ImageView) findViewById(R.id.background_image));
+                            } catch (Exception e) {
+
+                            }
                         }
                     });
                 }
@@ -1246,6 +1261,7 @@ public class ProfilePager extends SlidingActivity {
         final int MENU_UNMUTE_RT = 10;
         final int MENU_MUFFLE = 11;
         final int MENU_UNMUFFLE = 12;
+        final int MENU_COPY_LINK = 13;
 
         if (isMyProfile) {
             //menu.getItem(MENU_TWEET).setVisible(false);
@@ -1460,6 +1476,14 @@ public class ProfilePager extends SlidingActivity {
                 sharedPrefs.edit().putBoolean("refresh_me", true).commit();
                 sharedPrefs.edit().putBoolean("just_muted", true).commit();
                 finish();
+                return true;
+
+            case R.id.menu_copy_link:
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("profile_link", "http://twitter.com/" + screenName.replace("@", ""));
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

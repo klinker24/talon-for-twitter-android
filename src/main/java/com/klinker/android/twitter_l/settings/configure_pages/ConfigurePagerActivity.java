@@ -104,6 +104,20 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                     })
                     .create().show();
         }
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View status = findViewById(R.id.settings_status);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+
+            status.setLayoutParams(params);
+
+            View nav = findViewById(R.id.settings_nav);
+            params = (LinearLayout.LayoutParams) nav.getLayoutParams();
+            params.height = Utils.hasNavBar(this) ? Utils.getNavBarHeight(this) : 0;
+
+            nav.setLayoutParams(params);
+        }
     }
 
     public void setUpDoneDiscard() {
