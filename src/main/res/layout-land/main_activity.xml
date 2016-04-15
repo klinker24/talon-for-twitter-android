@@ -95,7 +95,7 @@
                     android:id="@+id/send_button"
                     android:layout_width="72dp"
                     android:layout_height="72dp"
-                    android:src="@drawable/ic_action_new_dark"
+                    android:src="@drawable/ic_fab_pencil"
                     fab:fab_colorNormal="#99CC00"
                     fab:fab_colorRipple="@color/dark_ripple"
                     android:layout_alignParentBottom="true"
