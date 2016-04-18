@@ -1628,22 +1628,22 @@ public class NotificationUtils {
 
     private static void cleanAlreadyNotifiedFavoriteTweets(SharedPreferences sharedPreferences, int account) {
         Set<String> alreadyNotified = sharedPreferences.getStringSet("favorite_user_already_notified_" + account, new HashSet());
-        long currentId = sharedPreferences.getLong("current_position_" + account, 1);
 
-        // we want to remove any already notified tweets that are less than the current id
-        // since they wouldn't be notified again anyways and just take up space.
-
-        List<String> toDelete = new ArrayList();
+        // we want to only keep 50 of these
+        List<String> all = new ArrayList();
         for (String s : alreadyNotified) {
-            long id = Long.parseLong(s);
-            if (id < currentId) {
-                toDelete.add(s);
-            }
+            all.add(s);
         }
 
-        for (String s : toDelete) {
-            alreadyNotified.remove(s);
+        List<String> list = new ArrayList<String>(alreadyNotified);
+        java.util.Collections.sort(list);
+
+        if (list.size() > 75) {
+            list = list.subList(0, 75);
         }
+
+        alreadyNotified.clear();
+        alreadyNotified.addAll(list);
 
         sharedPreferences.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
     }
