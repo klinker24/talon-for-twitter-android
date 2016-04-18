@@ -631,6 +631,7 @@ public class NotificationUtils {
 
     public static void favUsersNotification(int account, Context context, int newOnTimeline) {
 
+        AppSettings settings = AppSettings.getInstance(context);
         List<NotificationIdentifier> tweets = new ArrayList();
 
         HomeDataSource data = HomeDataSource.getInstance(context);
@@ -647,14 +648,20 @@ public class NotificationUtils {
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
                 if (favs.isFavUser(account, screenname)) {
-                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
+                    tweets.add(
+                            getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
+                                tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N. since that has its own summary notification
+                    );
                 }
             } while (cursor.moveToNext());
         } else if (cursor.moveToFirst()) { // talon pull for favorite users
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
                 if (favs.isFavUser(account, screenname)) {
-                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
+                    tweets.add(
+                            getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
+                                    tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N.
+                    );
                 }
             } while (cursor.moveToNext());
         }
@@ -696,8 +703,6 @@ public class NotificationUtils {
                     }
                 } while ((cursor.moveToNext()));
             }
-
-            AppSettings settings = AppSettings.getInstance(context);
 
             String shortText = notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets);
             int smallIcon = R.drawable.ic_stat_icon;
@@ -1148,6 +1153,10 @@ public class NotificationUtils {
     }
 
     private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser) {
+        return getNotificationFromCursor(context, cursor, group, accountNumberForTweets, favoriteUser, false);
+    }
+
+    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser, boolean useAlerts) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_icon)
@@ -1243,6 +1252,23 @@ public class NotificationUtils {
                 context.getResources().getString(R.string.favorite),
                 PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
         ).build());
+
+        if (useAlerts) {
+            AppSettings settings = AppSettings.getInstance(context);
+            if (settings.headsUp)
+                builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            if (settings.vibrate)
+                builder.setDefaults(Notification.DEFAULT_VIBRATE);
+            if (settings.led)
+                builder.setLights(0xFFFFFF, 1000, 1000);
+            if (settings.sound) {
+                try {
+                    builder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
+                    builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                }
+            }
+        }
 
         NotificationIdentifier notification = new NotificationIdentifier();
         notification.notificationId = notificationId;

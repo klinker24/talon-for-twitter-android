@@ -1,8 +1,12 @@
 <changelog>
 
-    <verison name="4.8.0">
+    <version name="4.8.0.1">
+        <text>Improvements for favorite user notifications getting duplicated</text>
+    </version>
+
+    <version name="4.8.0">
         <text>Crop, zoom, and rotate pictures before posting them</text>
-    </verison>
+    </version>
 
     <version name="4.7.3">
         <text>Bug fixes</text>
