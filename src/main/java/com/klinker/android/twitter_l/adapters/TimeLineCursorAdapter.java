@@ -117,7 +117,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int normalPictures;
     private int smallPictures;
+    private int thirdPartyVideoPictures;
 
     public static MultiplePicsPopup multPics;
     public boolean hasConvo = false;
@@ -174,7 +176,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         settings = AppSettings.getInstance(context);
 
+        normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
+        thirdPartyVideoPictures = Utils.toDP(80, context);
 
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -871,6 +875,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
                     params.height = smallPictures;
                     holder.imageHolder.setLayoutParams(params);
+                } else if (holder.imageHolder.getHeight() != normalPictures) {
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = normalPictures;
+                    holder.imageHolder.setLayoutParams(params);
                 }
 
                 if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
@@ -932,6 +940,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     });
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = thirdPartyVideoPictures;
+                    holder.imageHolder.setLayoutParams(params);
 
                     picture = false;
                 } else {

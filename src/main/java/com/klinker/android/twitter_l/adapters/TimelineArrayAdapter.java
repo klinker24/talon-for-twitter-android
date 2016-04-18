@@ -103,7 +103,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int normalPictures;
     private int smallPictures;
+    private int thirdPartyVideoPictures;
 
     private boolean canUseQuickActions = true;
 
@@ -437,7 +439,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         statuses = removeMutes(statuses);
 
+        normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
+        thirdPartyVideoPictures = Utils.toDP(80, context);
 
         mHandler = new Handler[4];
 
@@ -888,6 +892,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
                     params.height = smallPictures;
                     holder.imageHolder.setLayoutParams(params);
+                } else if (holder.imageHolder.getHeight() != normalPictures) {
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = normalPictures;
+                    holder.imageHolder.setLayoutParams(params);
                 }
 
                 if (holder.picUrl.contains("youtube") || (holder.animatedGif != null && !android.text.TextUtils.isEmpty(holder.animatedGif))) {
@@ -946,6 +954,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     });
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+                    params.height = thirdPartyVideoPictures;
+                    holder.imageHolder.setLayoutParams(params);
 
                     picture = false;
                 } else {
