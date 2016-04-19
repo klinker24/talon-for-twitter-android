@@ -204,6 +204,7 @@ public class AppSettings {
     public int timelineSize;
     public int mentionsSize;
     public int dmSize;
+    public int listSize;
     public int numberOfAccounts = 0;
     public int pageToOpen;
     public int quoteStyle;
@@ -396,6 +397,7 @@ public class AppSettings {
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
+        listSize = Integer.parseInt(sharedPrefs.getString("list_size", "200"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));

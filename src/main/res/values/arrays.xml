@@ -134,6 +134,13 @@
         <item>500</item>
     </string-array>
 
+    <string-array name="lists_size">
+        <item>200</item>
+        <item>400</item>
+        <item>600</item>
+        <item>800</item>
+    </string-array>
+
     <string-array name="lists_options">
         <item>@string/delete_list</item>
         <item>@string/view_users</item>

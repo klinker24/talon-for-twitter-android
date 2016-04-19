@@ -49,6 +49,15 @@
             android:entryValues="@array/mentions_size"
             />
 
+        <ListPreference
+            android:key="list_size"
+            android:title="@string/list_size"
+            android:summary="@string/list_size_summary"
+            android:defaultValue="200"
+            android:entries="@array/lists_size"
+            android:entryValues="@array/lists_size"
+            />
+
         <Preference
             android:key="trim_now"
             android:title="@string/clean_now"
