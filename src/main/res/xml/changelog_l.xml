@@ -1,11 +1,9 @@
 <changelog>
 
-    <version name="4.8.0.1">
-        <text>Improvements for favorite user notifications getting duplicated</text>
-    </version>
-
     <version name="4.8.0">
         <text>Crop, zoom, and rotate pictures before posting them</text>
+        <text>Improvements for favorite user notifications getting duplicated</text>
+        <text>Change the number of tweets to store for lists that are swipable pages, from memory management settings</text>
     </version>
 
     <version name="4.7.3">
