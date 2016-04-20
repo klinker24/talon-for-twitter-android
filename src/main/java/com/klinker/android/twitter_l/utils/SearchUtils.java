@@ -32,6 +32,10 @@ public class SearchUtils {
     public void setUpSearch() {
         mSearchView = (com.lapism.searchview.view.SearchView) activity.findViewById(R.id.searchView);
 
+        if (mSearchView == null) {
+            return;
+        }
+
         if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
                 correctActivity() ||
                 activity.getResources().getBoolean(R.bool.isTablet))
