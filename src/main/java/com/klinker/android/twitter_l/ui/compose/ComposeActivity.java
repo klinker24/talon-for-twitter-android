@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -591,7 +592,7 @@ public class ComposeActivity extends Compose {
             public void onClick(DialogInterface dialog, int item) {
                 if(item == 0) { // take picture
                     Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
+                    File f = new File(getCacheDir(), "photoToTweet.jpg");
 
                     if (!f.exists()) {
                         try {
@@ -604,8 +605,16 @@ public class ComposeActivity extends Compose {
 
                     captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IOUtils.getImageContentUri(context, f));
-                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+
+                    try {
+                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IOUtils.getImageContentUri(context, f));
+                        startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                    } catch (Exception e) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Toast.makeText(ComposeActivity.this, "Have you given Talon the storage permission?", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
                 } else if (item == 1) { // attach picture
                     try {
                         Intent intent = new Intent();
