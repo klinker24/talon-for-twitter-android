@@ -85,6 +85,7 @@ import com.klinker.android.twitter_l.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
+import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -743,13 +744,12 @@ public abstract class Compose extends Activity implements
         Intent resultIntent = new Intent(this, RetryCompose.class);
         QueuedDataSource.getInstance(this).createDraft(text, settings.currentAccount);
         resultIntent.setAction(Intent.ACTION_SEND);
-        resultIntent.setType("text/plain");
-        resultIntent.putExtra("failed_notification", true);
+        resultIntent.putExtra("failed_notification_text", text);
 
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
                         this,
-                        0,
+                        NotificationUtils.generateRandomId(),
                         resultIntent,
                         0
                 );
