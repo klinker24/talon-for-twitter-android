@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="4.8.1">
+        <text>Copy links to your own tweets</text>
+        <text>Internal changes for when you delete tweets</text>
+        <text>Fix blank compose screen after trying to retry the failed tweet</text>
+        <text>Fixes for favorite user notifications</text>
+        <text>Fix Giphy downloads sometimes failing</text>
+    </version>
     <version name="4.8.0.1">
         <text>Fixes for KitKat</text>
     </version>

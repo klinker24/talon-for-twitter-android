@@ -334,7 +334,7 @@ public class NotificationUtils {
 
                         Cursor latest = data.getCursor(currentAccount);
                         if (latest.moveToLast()) {
-                            Intent tweet = TweetActivity.getIntent(context, latest);
+                            Intent tweet = TweetActivity.getIntent(context, latest, false);
                             Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
                             contentIntent.putExtras(tweet);
                             contentIntent.putExtra("notification_id", notificationId);
