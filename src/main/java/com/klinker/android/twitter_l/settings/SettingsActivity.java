@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.settings_content, new MainPrefFrag())
                 .commit();
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && settings.darkTheme) {
 
             View status = findViewById(R.id.settings_status);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
@@ -98,24 +98,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             status.setLayoutParams(params);
 
-            isViewInTopLeft(status);
-
             View nav = findViewById(R.id.settings_nav);
             params = (LinearLayout.LayoutParams) nav.getLayoutParams();
             params.height = Utils.hasNavBar(this) ? Utils.getNavBarHeight(this) : 0;
 
             nav.setLayoutParams(params);
-        }
-    }
-
-    private void isViewInTopLeft(View view) {
-        Rect rectf = new Rect();
-        boolean val1 = view.getGlobalVisibleRect(rectf);
-        Rect local = new Rect();
-        boolean val2 = view.getLocalVisibleRect(local);
-
-        if (val1 && val2) {
-            return;
         }
     }
 
@@ -130,8 +117,6 @@ public class SettingsActivity extends AppCompatActivity {
                     refresh = false;
                     recreate();
                 }
-
-                isViewInTopLeft(findViewById(R.id.settings_status));
             }
         }, 300);
     }
