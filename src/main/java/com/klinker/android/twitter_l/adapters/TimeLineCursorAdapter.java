@@ -878,10 +878,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
                     params.height = smallPictures;
                     holder.imageHolder.setLayoutParams(params);
-                } else if (holder.imageHolder.getHeight() != normalPictures) {
-                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
-                    params.height = normalPictures;
-                    holder.imageHolder.setLayoutParams(params);
                 }
 
                 if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
@@ -944,11 +940,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
 
-                    if (BuildConfig.DEBUG) {
-                        ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
-                        params.height = thirdPartyVideoPictures;
-                        holder.imageHolder.setLayoutParams(params);
-                    } else if (holder.imageHolder.getVisibility() != View.GONE) {
+                    if (!BuildConfig.DEBUG) {
                         holder.imageHolder.setVisibility(View.GONE);
                     }
 
