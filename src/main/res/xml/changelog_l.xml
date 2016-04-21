@@ -2,11 +2,14 @@
 
     <version name="4.8.1">
         <text>Copy links to your own tweets</text>
+        <text>Favorite users are no longer unique to each account in Talon</text>
         <text>Internal changes for when you delete tweets</text>
+        <text>Fix for pictures sometimes being the wrong size</text>
         <text>Fix blank compose screen after trying to retry the failed tweet</text>
         <text>Fixes for favorite user notifications</text>
         <text>Fix Giphy downloads sometimes failing</text>
     </version>
+
     <version name="4.8.0.1">
         <text>Fixes for KitKat</text>
     </version>
