@@ -1,11 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_VERSION}"
-    }
-}
 apply plugin: 'com.android.application'
 
 repositories {
