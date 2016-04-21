@@ -143,6 +143,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         }
 
         playCurrentVideos();
+
+        if (sharedPrefs.getBoolean("just_muted", false)) {
+            getCursorAdapter(false);
+        }
     }
 
     public void resetVideoHandler() {

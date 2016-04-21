@@ -779,7 +779,16 @@ public class ExpansionViewHelper {
                             webPopup.show();
                             break;
                         case MARK_SPAM:
-                            new MarkSpam().execute();
+                            new MarkSpam(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                            .edit().putBoolean("just_muted", true).commit();
+
+                                    ((Activity)context).finish();
+                                }
+                            }).execute();
                             break;
                         case VIEW_LIKES:
                             if (favoritersPopup != null) {
@@ -1758,12 +1767,19 @@ public class ExpansionViewHelper {
 
     class MarkSpam extends AsyncTask<String, Void, Boolean> {
 
+        Runnable onFinish;
+
+        public MarkSpam(Runnable onFinish) {
+            this.onFinish = onFinish;
+        }
+
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = getTwitter();
 
             try {
                 HomeDataSource.getInstance(context).deleteTweet(id);
                 MentionsDataSource.getInstance(context).deleteTweet(id);
+                ListDataSource.getInstance(context).deleteTweet(id);
 
                 try {
                     twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
@@ -1796,7 +1812,7 @@ public class ExpansionViewHelper {
 
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
 
-            ((Activity)context).recreate();
+            onFinish.run();
         }
     }
 
