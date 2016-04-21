@@ -69,6 +69,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,9 +83,9 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 0;
+    public static final int TEST_TIMELINE_NUM = 40;
     public static final int TEST_MENTION_NUM = 0;
-    public static final int TEST_DM_NUM = 1;
+    public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions_group";
@@ -686,8 +687,6 @@ public class NotificationUtils {
             }
         }
 
-        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
-
         // on android N, we want to make the summary notification, for all other version, we just display all
         // the notifications
         if (Utils.isAndroidN() && notifiedCount > 0) {
@@ -755,7 +754,8 @@ public class NotificationUtils {
             sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
         }
 
-        cleanAlreadyNotifiedFavoriteTweets(sharedPrefs, account);
+        alreadyNotified = cleanAlreadyNotifiedFavoriteTweets(alreadyNotified);
+        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
         cursor.close();
     }
 
@@ -1652,8 +1652,7 @@ public class NotificationUtils {
         return randomGenerator.nextInt(100000);
     }
 
-    private static void cleanAlreadyNotifiedFavoriteTweets(SharedPreferences sharedPreferences, int account) {
-        Set<String> alreadyNotified = sharedPreferences.getStringSet("favorite_user_already_notified_" + account, new HashSet());
+    private static Set<String> cleanAlreadyNotifiedFavoriteTweets(Set<String> alreadyNotified) {
 
         // we want to only keep 50 of these
         List<String> all = new ArrayList();
@@ -1662,7 +1661,12 @@ public class NotificationUtils {
         }
 
         List<String> list = new ArrayList<String>(alreadyNotified);
+
+        // sorts in ascending order (1, 2, 3...)
         java.util.Collections.sort(list);
+
+        // we want to keep the latest tweets, so reverse it (3, 2, 1...)
+        Collections.reverse(list);
 
         if (list.size() > 75) {
             list = list.subList(0, 75);
@@ -1671,7 +1675,7 @@ public class NotificationUtils {
         alreadyNotified.clear();
         alreadyNotified.addAll(list);
 
-        sharedPreferences.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+        return alreadyNotified;
     }
 
     private static class NotificationIdentifier {
