@@ -664,8 +664,8 @@ public class ComposeActivity extends Compose {
 
     public void setUpReplyText() {
         // for failed notification
-        if (!sharedPrefs.getString("draft", "").equals("")) {
-            reply.setText(sharedPrefs.getString("draft", ""));
+        if (getIntent().getStringExtra("failed_notification_text") != null) {
+            reply.setText(getIntent().getStringExtra("failed_notification_text"));
             reply.setSelection(reply.getText().length());
         }
 
