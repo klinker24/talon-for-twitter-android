@@ -69,6 +69,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,9 +83,9 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 0;
+    public static final int TEST_TIMELINE_NUM = 40;
     public static final int TEST_MENTION_NUM = 0;
-    public static final int TEST_DM_NUM = 1;
+    public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 0;
 
     public static final String SECOND_ACC_MENTIONS_GROUP = "second_account_mentions_group";
@@ -333,7 +334,7 @@ public class NotificationUtils {
 
                         Cursor latest = data.getCursor(currentAccount);
                         if (latest.moveToLast()) {
-                            Intent tweet = TweetActivity.getIntent(context, latest);
+                            Intent tweet = TweetActivity.getIntent(context, latest, false);
                             Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
                             contentIntent.putExtras(tweet);
                             contentIntent.putExtra("notification_id", notificationId);
@@ -631,6 +632,7 @@ public class NotificationUtils {
 
     public static void favUsersNotification(int account, Context context, int newOnTimeline) {
 
+        AppSettings settings = AppSettings.getInstance(context);
         List<NotificationIdentifier> tweets = new ArrayList();
 
         HomeDataSource data = HomeDataSource.getInstance(context);
@@ -646,15 +648,21 @@ public class NotificationUtils {
         if(newOnTimeline != -1 && cursor.move(cursor.getCount() - newOnTimeline)) {
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-                if (favs.isFavUser(account, screenname)) {
-                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
+                if (favs.isFavUser(screenname)) {
+                    tweets.add(
+                            getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
+                                tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N. since that has its own summary notification
+                    );
                 }
             } while (cursor.moveToNext());
         } else if (cursor.moveToFirst()) { // talon pull for favorite users
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-                if (favs.isFavUser(account, screenname)) {
-                    tweets.add(getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true));
+                if (favs.isFavUser(screenname)) {
+                    tweets.add(
+                            getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
+                                    tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N.
+                    );
                 }
             } while (cursor.moveToNext());
         }
@@ -679,8 +687,6 @@ public class NotificationUtils {
             }
         }
 
-        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
-
         // on android N, we want to make the summary notification, for all other version, we just display all
         // the notifications
         if (Utils.isAndroidN() && notifiedCount > 0) {
@@ -690,14 +696,12 @@ public class NotificationUtils {
             if (cursor.move(cursor.getCount() - newOnTimeline)) {
                 do {
                     String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-                    if (favs.isFavUser(account, screenname)) {
+                    if (favs.isFavUser(screenname)) {
                         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
                         inbox.addLine(Html.fromHtml("<b>@" + screenname + ":</b> " + tweetText));
                     }
                 } while ((cursor.moveToNext()));
             }
-
-            AppSettings settings = AppSettings.getInstance(context);
 
             String shortText = notifiedCount + " " + context.getResources().getString(R.string.fav_user_tweets);
             int smallIcon = R.drawable.ic_stat_icon;
@@ -750,7 +754,8 @@ public class NotificationUtils {
             sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
         }
 
-        cleanAlreadyNotifiedFavoriteTweets(sharedPrefs, account);
+        alreadyNotified = cleanAlreadyNotifiedFavoriteTweets(alreadyNotified);
+        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
         cursor.close();
     }
 
@@ -1148,6 +1153,10 @@ public class NotificationUtils {
     }
 
     private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser) {
+        return getNotificationFromCursor(context, cursor, group, accountNumberForTweets, favoriteUser, false);
+    }
+
+    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser, boolean useAlerts) {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_stat_icon)
@@ -1243,6 +1252,23 @@ public class NotificationUtils {
                 context.getResources().getString(R.string.favorite),
                 PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
         ).build());
+
+        if (useAlerts) {
+            AppSettings settings = AppSettings.getInstance(context);
+            if (settings.headsUp)
+                builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+            if (settings.vibrate)
+                builder.setDefaults(Notification.DEFAULT_VIBRATE);
+            if (settings.led)
+                builder.setLights(0xFFFFFF, 1000, 1000);
+            if (settings.sound) {
+                try {
+                    builder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
+                    builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                }
+            }
+        }
 
         NotificationIdentifier notification = new NotificationIdentifier();
         notification.notificationId = notificationId;
@@ -1626,26 +1652,30 @@ public class NotificationUtils {
         return randomGenerator.nextInt(100000);
     }
 
-    private static void cleanAlreadyNotifiedFavoriteTweets(SharedPreferences sharedPreferences, int account) {
-        Set<String> alreadyNotified = sharedPreferences.getStringSet("favorite_user_already_notified_" + account, new HashSet());
-        long currentId = sharedPreferences.getLong("current_position_" + account, 1);
+    private static Set<String> cleanAlreadyNotifiedFavoriteTweets(Set<String> alreadyNotified) {
 
-        // we want to remove any already notified tweets that are less than the current id
-        // since they wouldn't be notified again anyways and just take up space.
-
-        List<String> toDelete = new ArrayList();
+        // we want to only keep 50 of these
+        List<String> all = new ArrayList();
         for (String s : alreadyNotified) {
-            long id = Long.parseLong(s);
-            if (id < currentId) {
-                toDelete.add(s);
-            }
+            all.add(s);
         }
 
-        for (String s : toDelete) {
-            alreadyNotified.remove(s);
+        List<String> list = new ArrayList<String>(alreadyNotified);
+
+        // sorts in ascending order (1, 2, 3...)
+        java.util.Collections.sort(list);
+
+        // we want to keep the latest tweets, so reverse it (3, 2, 1...)
+        Collections.reverse(list);
+
+        if (list.size() > 75) {
+            list = list.subList(0, 75);
         }
 
-        sharedPreferences.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+        alreadyNotified.clear();
+        alreadyNotified.addAll(list);
+
+        return alreadyNotified;
     }
 
     private static class NotificationIdentifier {

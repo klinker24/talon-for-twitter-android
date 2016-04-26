@@ -35,6 +35,9 @@ import twitter4j.Twitter;
 
 public class MaterialLogin extends MaterialLVLActivity {
 
+    // CHANGE THIS TO UPDATE THE KEY VERSION
+    public static final int KEY_VERSION = 2;
+
     public interface Callback {
         void onDone();
     }
@@ -45,6 +48,11 @@ public class MaterialLogin extends MaterialLVLActivity {
     @Override
     public void init(Bundle bundle) {
         super.init(bundle);
+
+        SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
+
+        int currAccount = sharedPrefs.getInt("current_account", 1);
+        sharedPrefs.edit().putInt("key_version_" + currAccount, KEY_VERSION).commit();
 
         addSlides();
 

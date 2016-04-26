@@ -35,6 +35,7 @@ import android.view.animation.Interpolator;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -103,7 +104,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int normalPictures;
     private int smallPictures;
+    private int thirdPartyVideoPictures;
 
     private boolean canUseQuickActions = true;
 
@@ -437,7 +440,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         statuses = removeMutes(statuses);
 
+        normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
+        thirdPartyVideoPictures = settings.picturesType == AppSettings.PICTURES_SMALL ?
+                smallPictures : normalPictures;
+                //Utils.toDP(80, context);
 
         mHandler = new Handler[4];
 
@@ -946,6 +953,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     });
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
+
+                    if (!BuildConfig.DEBUG) {
+                        holder.imageHolder.setVisibility(View.GONE);
+                    }
 
                     picture = false;
                 } else {

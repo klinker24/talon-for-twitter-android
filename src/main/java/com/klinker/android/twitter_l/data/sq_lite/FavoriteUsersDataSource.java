@@ -120,37 +120,35 @@ public class FavoriteUsersDataSource {
         }
     }
 
-    public synchronized void deleteAllUsers(int account) {
+    public synchronized void deleteAllUsers() {
 
         try {
-            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                    FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, null, null);
         } catch (Exception e) {
             open();
-            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                    FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
+            database.delete(FavoriteUsersSQLiteHelper.TABLE_HOME, null, null);
         }
     }
 
-    public synchronized Cursor getCursor(int account) {
+    public synchronized Cursor getCursor() {
 
         Cursor cursor;
         try {
             cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                    allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
+                    allColumns, null, null, null, null, null);
         } catch (Exception e) {
             open();
             cursor = database.query(FavoriteUsersSQLiteHelper.TABLE_HOME,
-                    allColumns, FavoriteUsersSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null, null, null, null);
+                    allColumns, null, null, null, null, null);
         }
 
         return cursor;
     }
 
-    public String getNames(int account) {
+    public String getNames() {
         String names = "";
 
-        Cursor cursor = getCursor(account);
+        Cursor cursor = getCursor();
 
         if (cursor.moveToFirst()) {
             do {
@@ -163,8 +161,8 @@ public class FavoriteUsersDataSource {
         return names;
     }
 
-    public boolean isFavUser(int account, String username) {
-        Cursor check = getCursor(account);
+    public boolean isFavUser(String username) {
+        Cursor check = getCursor();
 
         if (check.moveToFirst()) {
             do {

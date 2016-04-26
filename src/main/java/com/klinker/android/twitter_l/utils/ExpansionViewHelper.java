@@ -41,6 +41,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
@@ -652,11 +653,13 @@ public class ExpansionViewHelper {
             // my tweet
 
             final int DELETE_TWEET = 1;
-            final int COPY_TEXT = 2;
-            final int VIEW_LIKES = 3;
-            final int VIEW_RETWEETS = 4;
+            final int COPY_LINK = 2;
+            final int COPY_TEXT = 3;
+            final int VIEW_LIKES = 4;
+            final int VIEW_RETWEETS = 5;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
+            menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
             menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
@@ -666,12 +669,20 @@ public class ExpansionViewHelper {
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case DELETE_TWEET:
-                            new DeleteTweet().execute();
-                            context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                    Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                                    .edit().putBoolean("just_muted", true).commit();
+                            new DeleteTweet(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                            .edit().putBoolean("just_muted", true).commit();
 
-                            ((Activity)context).recreate();
+                                    ((Activity)context).finish();
+                                }
+                            }).execute();
+
+                            break;
+                        case COPY_LINK:
+                            copyLink();
                             break;
                         case COPY_TEXT:
                             copyText();
@@ -768,7 +779,16 @@ public class ExpansionViewHelper {
                             webPopup.show();
                             break;
                         case MARK_SPAM:
-                            new MarkSpam().execute();
+                            new MarkSpam(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                            .edit().putBoolean("just_muted", true).commit();
+
+                                    ((Activity)context).finish();
+                                }
+                            }).execute();
                             break;
                         case VIEW_LIKES:
                             if (favoritersPopup != null) {
@@ -1705,6 +1725,12 @@ public class ExpansionViewHelper {
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
+        Runnable onFinish;
+
+        public DeleteTweet(Runnable onFinish) {
+            this.onFinish = onFinish;
+        }
+
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = getTwitter();
 
@@ -1712,6 +1738,7 @@ public class ExpansionViewHelper {
 
                 HomeDataSource.getInstance(context).deleteTweet(id);
                 MentionsDataSource.getInstance(context).deleteTweet(id);
+                ListDataSource.getInstance(context).deleteTweet(id);
 
                 try {
                     twitter.destroyStatus(id);
@@ -1734,12 +1761,17 @@ public class ExpansionViewHelper {
             }
 
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
-
-            ((Activity)context).recreate();
+            onFinish.run();
         }
     }
 
     class MarkSpam extends AsyncTask<String, Void, Boolean> {
+
+        Runnable onFinish;
+
+        public MarkSpam(Runnable onFinish) {
+            this.onFinish = onFinish;
+        }
 
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = getTwitter();
@@ -1747,6 +1779,7 @@ public class ExpansionViewHelper {
             try {
                 HomeDataSource.getInstance(context).deleteTweet(id);
                 MentionsDataSource.getInstance(context).deleteTweet(id);
+                ListDataSource.getInstance(context).deleteTweet(id);
 
                 try {
                     twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
@@ -1779,7 +1812,7 @@ public class ExpansionViewHelper {
 
             PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
 
-            ((Activity)context).recreate();
+            onFinish.run();
         }
     }
 

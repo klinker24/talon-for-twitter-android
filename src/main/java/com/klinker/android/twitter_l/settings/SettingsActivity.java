@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -64,10 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
         if (SettingsActivity.useAnim) {
             overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
         }
@@ -93,7 +90,8 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.settings_content, new MainPrefFrag())
                 .commit();
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && settings.darkTheme) {
+
             View status = findViewById(R.id.settings_status);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
             params.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);

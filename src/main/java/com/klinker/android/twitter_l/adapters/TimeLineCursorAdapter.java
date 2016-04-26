@@ -39,6 +39,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.klinker.android.simple_videoview.SimpleVideoView;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -117,7 +118,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int normalPictures;
     private int smallPictures;
+    private int thirdPartyVideoPictures;
 
     public static MultiplePicsPopup multPics;
     public boolean hasConvo = false;
@@ -174,7 +177,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         settings = AppSettings.getInstance(context);
 
+        normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
+        thirdPartyVideoPictures = settings.picturesType == AppSettings.PICTURES_SMALL ?
+                smallPictures : normalPictures;
+                //Utils.toDP(80, context);
 
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
@@ -933,6 +940,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
 
+                    if (!BuildConfig.DEBUG) {
+                        holder.imageHolder.setVisibility(View.GONE);
+                    }
+
                     picture = false;
                 } else {
                     if (holder.playButton.getVisibility() == View.VISIBLE) {
@@ -987,9 +998,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (picture) {
             if (settings.preCacheImages){
-                Glide.with(context).load(holder.picUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+                Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
             } else {
-                Glide.with(context).load(holder.picUrl).into(holder.image);
+                Glide.with(context).load(holder.picUrl).centerCrop().into(holder.image);
             }
         }
 
