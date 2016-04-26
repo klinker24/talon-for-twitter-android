@@ -99,6 +99,8 @@ public class APIKeys {
      *
      * For steps to creating an application, view the Readme.md
      */
+
+    // Key version is stored in the MaterialLogin.KEY_VERSION field.
     // Talon Plus
     public static String TWITTER_CONSUMER_KEY = "***REMOVED***";
     public static String TWITTER_CONSUMER_SECRET = "***REMOVED***";
