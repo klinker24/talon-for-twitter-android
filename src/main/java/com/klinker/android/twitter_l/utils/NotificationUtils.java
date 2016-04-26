@@ -679,9 +679,9 @@ public class NotificationUtils {
 
         int notifiedCount = 0;
         for (NotificationIdentifier notification : tweets) {
-            if (!alreadyNotified.contains(notification.tweetId + "")) {
+            if (!alreadyNotified.contains(notification.tweetId)) {
                 notificationManager.notify(notification.notificationId, notification.notification);
-                alreadyNotified.add(notification.tweetId + "");
+                alreadyNotified.add(notification.tweetId);
 
                 notifiedCount++;
             }
@@ -1165,7 +1165,7 @@ public class NotificationUtils {
                 .setGroup(group);
 
         int notificationId = generateRandomId();
-        long tweetId = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
+        String tweetId = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         String pictureUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
@@ -1190,10 +1190,10 @@ public class NotificationUtils {
         }
 
         boolean isSecondAccount = AppSettings.getInstance(context).currentAccount != accountNumberForTweets;
-        Intent deleteIntent = MarkMentionReadReceiver.getIntent(context, tweetId);
+        Intent deleteIntent = MarkMentionReadReceiver.getIntent(context, Long.parseLong(tweetId));
         Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
-        Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
-        Intent retweetIntent = RetweetService.getIntent(context, accountNumberForTweets, tweetId, notificationId);
+        Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, accountNumberForTweets, Long.parseLong(tweetId), notificationId);
+        Intent retweetIntent = RetweetService.getIntent(context, accountNumberForTweets, Long.parseLong(tweetId), notificationId);
 
         Intent tweet = TweetActivity.getIntent(context, cursor, isSecondAccount);
         contentIntent.putExtras(tweet);
@@ -1219,7 +1219,7 @@ public class NotificationUtils {
 
             SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
             sharedPrefs.edit().putString("from_notification_second", "@" + screenname).commit();
-            sharedPrefs.edit().putLong("from_notification_long_second", tweetId).commit();
+            sharedPrefs.edit().putLong("from_notification_long_second", Long.parseLong(tweetId)).commit();
             sharedPrefs.edit().putString("from_notification_text_second", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
 
             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
@@ -1680,7 +1680,7 @@ public class NotificationUtils {
 
     private static class NotificationIdentifier {
         public int notificationId;
-        public long tweetId;
+        public String tweetId;
         public Notification notification;
     }
 }
