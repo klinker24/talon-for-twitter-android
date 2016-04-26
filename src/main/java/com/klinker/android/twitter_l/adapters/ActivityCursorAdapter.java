@@ -95,11 +95,70 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         }
                     }
                 });
+                holder.profilePic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.background.performClick();
+                    }
+                });
                 break;
             case ActivityDataSource.TYPE_FAVORITES:
             case ActivityDataSource.TYPE_RETWEETS:
-            case ActivityDataSource.TYPE_MENTION:
                 final String fRetweeter = retweeter;
+                holder.background.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (holder.preventNextClick) {
+                            holder.preventNextClick = false;
+                            return;
+                        }
+                        String link = "";
+
+                        boolean displayPic = holder.picUrl != null && !holder.picUrl.equals("") && !holder.picUrl.contains("youtube");
+                        if (displayPic) {
+                            link = holder.picUrl;
+                        } else {
+                            link = otherUrl.split("  ")[0];
+                        }
+
+                        String text = tweetText;
+                        String[] split = tweetText.split(" ");
+                        if (split.length > 2 && split[1].endsWith(":")) {
+                            text = "";
+                            for (int i = 2; i < split.length; i++) {
+                                text += split[i] + " ";
+                            }
+                        }
+
+                        Intent viewTweet = new Intent(context, TweetActivity.class);
+                        viewTweet.putExtra("name", settings.myName);
+                        viewTweet.putExtra("screenname", settings.myScreenName);
+                        viewTweet.putExtra("time", longTime);
+                        viewTweet.putExtra("tweet", text);
+                        viewTweet.putExtra("retweeter", fRetweeter);
+                        viewTweet.putExtra("webpage", link);
+                        viewTweet.putExtra("picture", displayPic);
+                        viewTweet.putExtra("other_links", otherUrl);
+                        viewTweet.putExtra("tweetid", holder.tweetId);
+                        viewTweet.putExtra("proPic", settings.myProfilePicUrl);
+                        viewTweet.putExtra("users", users);
+                        viewTweet.putExtra("hashtags", hashtags);
+                        viewTweet.putExtra("animated_gif", holder.gifUrl);
+
+                        context.startActivity(viewTweet);
+                    }
+                });
+
+                holder.profilePic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.background.performClick();
+                    }
+                });
+
+                break;
+            case ActivityDataSource.TYPE_MENTION:
+                final String finalRetweeter = retweeter;
                 holder.background.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -121,7 +180,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         viewTweet.putExtra("screenname", screenname);
                         viewTweet.putExtra("time", longTime);
                         viewTweet.putExtra("tweet", tweetText);
-                        viewTweet.putExtra("retweeter", fRetweeter);
+                        viewTweet.putExtra("retweeter", finalRetweeter);
                         viewTweet.putExtra("webpage", link);
                         viewTweet.putExtra("picture", displayPic);
                         viewTweet.putExtra("other_links", otherUrl);
@@ -134,25 +193,19 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         context.startActivity(viewTweet);
                     }
                 });
+
+                holder.profilePic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent viewProfile = new Intent(context, ProfilePager.class);
+                        viewProfile.putExtra("screenname", screenname);
+
+                        context.startActivity(viewProfile);
+                    }
+                });
+
                 break;
         }
-
-        holder.profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                if (screenname == null) {
-                    String[] userArray = users.split(" ");
-                    viewProfile.putExtra("screenname", userArray[0].replace("@", "").replace(" ", ""));
-                } else  if (screenname.contains(" ")) {
-                    holder.background.performClick();
-                } else {
-                    viewProfile.putExtra("screenname", screenname);
-                }
-
-                context.startActivity(viewProfile);
-            }
-        });
 
         holder.name.setText(title);
         holder.tweet.setText(tweetText);
