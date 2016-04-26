@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="4.8.3">
+        <text>Improvements to landscape UI</text>
+        <text>Fix issues with going to the profile/tweet viewer from the activity section</text>
+    </version>
+
     <version name="4.8.2">
         <text>Bug fixes</text>
     </version>
