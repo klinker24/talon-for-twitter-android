@@ -808,7 +808,7 @@ public class ProfilePager extends SlidingActivity {
                         isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
                         isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
                         isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
-                        isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(settings.currentAccount, otherUserName);
+                        isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(otherUserName);
 
                         isFollowingSet = true;
 
@@ -1059,7 +1059,7 @@ public class ProfilePager extends SlidingActivity {
                     isBlocking = friendship.isSourceBlockingTarget();
                     isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
                     isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
-                    isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(currentAccount, otherUserName);
+                    isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(otherUserName);
                     isFollowingSet = true;
 
                     return null;

@@ -941,7 +941,7 @@ public class HomeDataSource {
 
     public synchronized Cursor getFavUsersCursor(int account) {
 
-        String screennames = FavoriteUsersDataSource.getInstance(context).getNames(account);
+        String screennames = FavoriteUsersDataSource.getInstance(context).getNames();
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (";
 
         if (!screennames.equals("")) {

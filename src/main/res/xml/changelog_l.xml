@@ -1,8 +1,28 @@
 <changelog>
 
-    <verison name="4.7.4">
+    <version name="4.8.2">
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="4.8.1">
+        <text>Copy links to your own tweets</text>
+        <text>Favorite users are no longer unique to each account in Talon</text>
+        <text>Internal changes for when you delete tweets</text>
+        <text>Fix for pictures sometimes being the wrong size</text>
+        <text>Fix blank compose screen after trying to retry the failed tweet</text>
+        <text>Fixes for favorite user notifications</text>
+        <text>Fix Giphy downloads sometimes failing</text>
+    </version>
+
+    <version name="4.8.0.1">
+        <text>Fixes for KitKat</text>
+    </version>
+
+    <version name="4.8.0">
         <text>Crop, zoom, and rotate pictures before posting them</text>
-    </verison>
+        <text>Improvements for favorite user notifications getting duplicated</text>
+        <text>Change the number of tweets to store for lists that are swipable pages, from memory management settings</text>
+    </version>
 
     <version name="4.7.3">
         <text>Bug fixes</text>

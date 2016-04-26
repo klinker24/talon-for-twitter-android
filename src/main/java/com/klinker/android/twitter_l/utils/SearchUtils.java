@@ -32,7 +32,15 @@ public class SearchUtils {
     public void setUpSearch() {
         mSearchView = (com.lapism.searchview.view.SearchView) activity.findViewById(R.id.searchView);
 
-        mSearchView.setTranslationY(Utils.getStatusBarHeight(activity));
+        if (mSearchView == null) {
+            return;
+        }
+
+        if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
+                correctActivity() ||
+                activity.getResources().getBoolean(R.bool.isTablet))
+            mSearchView.setTranslationY(Utils.getStatusBarHeight(activity));
+
         mSearchView.setTheme(AppSettings.getInstance(activity).darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
 
         mSearchView.setOnQueryTextListener(new com.lapism.searchview.view.SearchView.OnQueryTextListener() {

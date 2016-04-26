@@ -196,7 +196,7 @@ public class GiphySearch extends Activity {
         @Override
         protected Uri doInBackground(Void... arg0) {
             try {
-                return IOUtils.saveGiffy(video);
+                return IOUtils.saveGiffy(activity, video);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

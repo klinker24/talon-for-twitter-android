@@ -1254,9 +1254,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         DMDataSource dmSource = DMDataSource.getInstance(context);
         dmSource.deleteAllTweets(currentAccount);
 
-        FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
-        favs.deleteAllUsers(currentAccount);
-
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
 

@@ -103,4 +103,6 @@
     <string name="high_quality_images_summary">Applied throughout the entire app.</string>
     <string name="view_likes">View Likes</string>
     <string name="view_retweets">View Retweets</string>
+    <string name="list_size">List Size</string>
+    <string name="list_size_summary">Max number of tweets to store for a swipable list, in the database.</string>
 </resources>
