@@ -38,16 +38,23 @@ public class APIKeys {
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        if (sharedPrefs.getInt("key_version_" + currentAccount, 1) == 1) {
-            consumerKey = TWITTER_CONSUMER_KEY;
-            consumerSecret = TWITTER_CONSUMER_SECRET;
-        } else {
-            consumerKey = getConsumerKey(c, sharedPrefs.getString("consumer_key_2", ""));
-            consumerSecret = TWITTER_CONSUMER_SECRET_2;
+        switch (sharedPrefs.getInt("key_version_" + currentAccount, 1)) {
+            case 1:
+                consumerKey = TWITTER_CONSUMER_KEY;
+                consumerSecret = TWITTER_CONSUMER_SECRET;
+                break;
+            case 2:
+                consumerKey = getConsumerKey(c, sharedPrefs.getString("consumer_key_2", ""), 2);
+                consumerSecret = TWITTER_CONSUMER_SECRET_2;
+                break;
+            case 3:
+                consumerKey = getConsumerKey(c, sharedPrefs.getString("consumer_key_3", ""), 3);
+                consumerSecret = TWITTER_CONSUMER_SECRET_3;
+                break;
         }
     }
 
-    private String getConsumerKey(Context c, String encrypted) {
+    private String getConsumerKey(Context c, String encrypted, int keyVersion) {
         try {
             Signature[] signatures =
                     c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
@@ -62,8 +69,19 @@ public class APIKeys {
             byte[] decrypted = cipher.doFinal(Base64.decode(encrypted));
 
             String decrypt = new String(decrypted);
-            return decrypt + TWITTER_CONSUMER_KEY_2_FINAL;
-        } catch (Exception e) {
+
+            switch (keyVersion) {
+                case 1:
+                    return TWITTER_CONSUMER_KEY;
+                case 2:
+                    return decrypt + TWITTER_CONSUMER_KEY_2_FINAL;
+                case 3:
+                    return decrypt + TWITTER_CONSUMER_KEY_3_FINAL;
+                default:
+                    return TWITTER_CONSUMER_KEY;
+            }
+
+        } catch (Throwable e) {
             e.printStackTrace();
             return encrypted;
         }
@@ -81,11 +99,17 @@ public class APIKeys {
      *
      * For steps to creating an application, view the Readme.md
      */
+    // Talon Plus
     public static String TWITTER_CONSUMER_KEY = "***REMOVED***";
     public static String TWITTER_CONSUMER_SECRET = "***REMOVED***";
 
+    // Talon (Plus)
     public static String TWITTER_CONSUMER_KEY_2_FINAL = "vs2feUuRy";
     public static String TWITTER_CONSUMER_SECRET_2 = "***REMOVED***";
+
+    // Talon - Plus
+    public static String TWITTER_CONSUMER_KEY_3_FINAL = "89gZ0FjMm";
+    public static String TWITTER_CONSUMER_SECRET_3 = "***REMOVED***";
 
     /**
      * For the In-App Youtube Player
