@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.8.2">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="4.8.1">
         <text>Copy links to your own tweets</text>
         <text>Favorite users are no longer unique to each account in Talon</text>
