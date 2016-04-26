@@ -17,9 +17,9 @@ public class FavoriteTweetService extends IntentService {
     private static final String ARG_TWEET_ID = "tweet_id";
     private static final String ARG_NOTIFICATION_ID = "notification_id";
 
-    public static Intent getIntent(Context callingContext, int accountNumberToRetweetWith, long tweetId, int notificationId) {
+    public static Intent getIntent(Context callingContext, int accountNumberToFavoriteWith, long tweetId, int notificationId) {
         Intent favorite = new Intent(callingContext, FavoriteTweetService.class);
-        favorite.putExtra(ARG_ACCOUNT_TO_FAVORITE_WITH, accountNumberToRetweetWith);
+        favorite.putExtra(ARG_ACCOUNT_TO_FAVORITE_WITH, accountNumberToFavoriteWith);
         favorite.putExtra(ARG_TWEET_ID, tweetId);
         favorite.putExtra(ARG_NOTIFICATION_ID, notificationId);
 

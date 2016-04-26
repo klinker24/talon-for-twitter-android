@@ -1041,8 +1041,8 @@ public class NotificationUtils {
                         .bigText(Html.fromHtml(settings.addonTheme ? messageLong.replaceAll("FF8800", settings.accentColor) : messageLong)));
             }
 
-            Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, settings.currentAccount, id, notificationId);
-            Intent retweetIntent = RetweetService.getIntent(context, settings.currentAccount, id, notificationId);
+            Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, secondAccount, id, notificationId);
+            Intent retweetIntent = RetweetService.getIntent(context, secondAccount, id, notificationId);
 
             // retweet button
             mBuilder.addAction(new NotificationCompat.Action.Builder(
