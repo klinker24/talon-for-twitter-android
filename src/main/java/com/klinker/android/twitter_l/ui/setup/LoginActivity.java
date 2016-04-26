@@ -51,6 +51,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -104,7 +105,7 @@ public class LoginActivity extends LVLActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
-        sharedPrefs.edit().putInt("key_version_" + currAccount, 2).commit();
+        sharedPrefs.edit().putInt("key_version_" + currAccount, MaterialLogin.KEY_VERSION).commit();
 
         context = this;
         settings = AppSettings.getInstance(context);

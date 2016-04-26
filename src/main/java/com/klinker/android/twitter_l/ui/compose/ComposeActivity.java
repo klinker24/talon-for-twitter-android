@@ -592,7 +592,7 @@ public class ComposeActivity extends Compose {
             public void onClick(DialogInterface dialog, int item) {
                 if(item == 0) { // take picture
                     Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(getCacheDir(), "photoToTweet.jpg");
+                    File f = new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg");
 
                     if (!f.exists()) {
                         try {
