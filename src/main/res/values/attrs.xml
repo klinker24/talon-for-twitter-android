@@ -90,6 +90,7 @@
     <attr name="quick_actions" format="reference"/>
     <attr name="supporter" format="reference" />
     <attr name="gif_button" format="reference"/>
+    <attr name="tweet_interactions" format="reference"/>
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>

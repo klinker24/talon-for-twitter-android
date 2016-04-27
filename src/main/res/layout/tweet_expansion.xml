@@ -153,8 +153,8 @@
                     android:id="@+id/web_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="?links"
-                    android:contentDescription="Open Web Page"
+                    android:src="?shareButton"
+                    android:contentDescription="Share"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp"
@@ -197,11 +197,32 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="?sendButton"
-                    android:contentDescription="Open Web Page"
+                    android:contentDescription="Reply"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp"
                     android:background="?android:attr/selectableItemBackground"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/info_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="?tweet_interactions"
+                android:contentDescription="Tweet Interactions"
+                android:minHeight="48dp" android:minWidth="48dp"
+                android:scaleType="center" android:adjustViewBounds="true"
+                android:maxWidth="48dp" android:maxHeight="48dp"
+                android:background="?android:attr/selectableItemBackground"/>
 
         </LinearLayout>
 
@@ -218,7 +239,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="?circle_overflow"
-                    android:contentDescription="Open Web Page"
+                    android:contentDescription="Overflow Menu"
                     android:minHeight="48dp" android:minWidth="48dp"
                     android:scaleType="center" android:adjustViewBounds="true"
                     android:maxWidth="48dp" android:maxHeight="48dp"
