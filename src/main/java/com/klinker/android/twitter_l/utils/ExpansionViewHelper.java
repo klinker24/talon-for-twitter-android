@@ -332,6 +332,14 @@ public class ExpansionViewHelper {
             }
         });
 
+        quoteButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Quote Tweet");
+                return false;
+            }
+        });
+
         repliesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -382,15 +390,28 @@ public class ExpansionViewHelper {
             }
         });
 
+        composeButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Compose a reply");
+                return false;
+            }
+        });
+
         webButton.setEnabled(false);
         webButton.setAlpha(.5f);
         webButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (shareOnWeb) {
-                    shareClick();
-                    return;
-                }
+                shareClick();
+            }
+        });
+
+        webButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Share Tweet");
+                return false;
             }
         });
 
@@ -416,6 +437,18 @@ public class ExpansionViewHelper {
                 interactionsPopup.show();
             }
         });
+
+        interactionsButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Interactions");
+                return false;
+            }
+        });
+    }
+
+    private void makeToast(String text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
     private void showEmbeddedCard(TweetView view) {
