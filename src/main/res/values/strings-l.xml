@@ -105,4 +105,6 @@
     <string name="view_retweets">View Retweets</string>
     <string name="list_size">List Size</string>
     <string name="list_size_summary">Max number of tweets to store for a swipable list, in the database.</string>
+    <string name="quotes">Quotes</string>
+    <string name="no_quotes">No quotes</string>
 </resources>

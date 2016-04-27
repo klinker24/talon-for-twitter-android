@@ -116,6 +116,7 @@ public class ExpansionViewHelper {
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
+    TweetInteractionsPopup interactionsPopup;
 
     ProgressBar convoProgress;
     RelativeLayout convoArea;
@@ -415,9 +416,23 @@ public class ExpansionViewHelper {
         interactionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("tweet_link", QuoteUtil.getSearchString(screenName, id));
-                clipboard.setPrimaryClip(clip);
+                if (interactionsPopup == null) {
+                    interactionsPopup = new TweetInteractionsPopup(context);
+                    if (context.getResources().getBoolean(R.bool.isTablet)) {
+                        if (landscape) {
+                            interactionsPopup.setWidthByPercent(.6f);
+                            interactionsPopup.setHeightByPercent(.8f);
+                        } else {
+                            interactionsPopup.setWidthByPercent(.85f);
+                            interactionsPopup.setHeightByPercent(.68f);
+                        }
+                        interactionsPopup.setCenterInScreen();
+                    }
+                }
+
+                interactionsPopup.setExpansionPointForAnim(v);
+                interactionsPopup.setInfo(screenName, id);
+                interactionsPopup.show();
             }
         });
     }
@@ -897,6 +912,14 @@ public class ExpansionViewHelper {
         try {
             if (mobilizedPopup.isShowing()) {
                 mobilizedPopup.hide();
+                hidden = true;
+            }
+        } catch (Exception e) {
+
+        }
+        try {
+            if (interactionsPopup.isShowing()) {
+                interactionsPopup.hide();
                 hidden = true;
             }
         } catch (Exception e) {
