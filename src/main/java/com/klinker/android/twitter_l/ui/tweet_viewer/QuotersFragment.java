@@ -14,6 +14,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.QuoteUtil;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.List;
