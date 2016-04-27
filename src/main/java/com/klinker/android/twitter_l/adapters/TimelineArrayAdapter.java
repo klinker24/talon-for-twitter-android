@@ -82,7 +82,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int embeddedTweetMinHeight = 0;
 
     public Context context;
-    public ArrayList<Status> statuses;
+    public List<Status> statuses;
     public LayoutInflater inflater;
     public AppSettings settings;
 
@@ -142,7 +142,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public boolean preventNextClick = false;
     }
 
-    private ArrayList<Status> removeMutes(ArrayList<Status> statuses) {
+    private List<Status> removeMutes(List<Status> statuses) {
         AppSettings settings = AppSettings.getInstance(context);
         SharedPreferences sharedPrefs = settings.sharedPrefs;
         String mutedUsers = sharedPrefs.getString("muted_users", "");
@@ -339,7 +339,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         setUpLayout();
     }
 
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses) {
+    public TimelineArrayAdapter(Context context, List<Status> statuses) {
         super(context, R.layout.tweet);
 
         this.context = context;
