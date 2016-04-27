@@ -14,6 +14,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.QuoteUtil;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -57,7 +58,7 @@ public class RetweetersFragment extends Fragment {
         context = getActivity();
         tweetId = getArguments().getLong(ARG_TWEET_ID);
 
-        View layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        View layout = inflater.inflate(R.layout.no_ptr_list_layout, null);
 
         listView = (ListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
