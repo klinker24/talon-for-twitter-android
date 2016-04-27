@@ -12,7 +12,9 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.ui.search.TimelineSearchFragment;
 import com.klinker.android.twitter_l.ui.search.TwitterSearchFragment;
 import com.klinker.android.twitter_l.ui.search.UserSearchFragment;
+import com.klinker.android.twitter_l.ui.tweet_viewer.LikersFragment;
 import com.klinker.android.twitter_l.ui.tweet_viewer.QuotersFragment;
+import com.klinker.android.twitter_l.ui.tweet_viewer.RetweetersFragment;
 
 public class TweetInteractionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -37,10 +39,10 @@ public class TweetInteractionsPagerAdapter extends FragmentPagerAdapter {
                 f = QuotersFragment.getInstance(screenname, tweetId);
                 break;
             case 1:
-                f = QuotersFragment.getInstance(screenname, tweetId);
+                f = RetweetersFragment.getInstance(tweetId);
                 break;
             case 2:
-                f = QuotersFragment.getInstance(screenname, tweetId);
+                f = LikersFragment.getInstance(tweetId);
                 break;
         }
         return f;
