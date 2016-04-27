@@ -111,8 +111,6 @@ public class ExpansionViewHelper {
 
     HoloTextView tweetSource;
 
-    RetweetersPopupLayout retweetersPopup;
-    FavoritersPopupLayout favoritersPopup;
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
@@ -213,23 +211,6 @@ public class ExpansionViewHelper {
                 }
             }
         });
-
-
-        retweetersPopup = new RetweetersPopupLayout(context);
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            retweetersPopup.setWidthByPercent(.5f);
-        } else {
-            retweetersPopup.setWidthByPercent(.8f);
-        }
-        retweetersPopup.setHeightByPercent(.6f);
-
-        favoritersPopup = new FavoritersPopupLayout(context);
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            favoritersPopup.setWidthByPercent(.5f);
-        } else {
-            favoritersPopup.setWidthByPercent(.8f);
-        }
-        favoritersPopup.setHeightByPercent(.6f);
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
@@ -681,14 +662,10 @@ public class ExpansionViewHelper {
             final int DELETE_TWEET = 1;
             final int COPY_LINK = 2;
             final int COPY_TEXT = 3;
-            final int VIEW_LIKES = 4;
-            final int VIEW_RETWEETS = 5;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
-            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
-            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -713,24 +690,6 @@ public class ExpansionViewHelper {
                         case COPY_TEXT:
                             copyText();
                             break;
-                        case VIEW_LIKES:
-                            if (favoritersPopup != null) {
-                                getFavoriters();
-
-                                favoritersPopup.setExpansionPointForAnim(overflowButton);
-                                favoritersPopup.setOnTopOfView(overflowButton);
-                                favoritersPopup.show();
-                            }
-                            break;
-                        case VIEW_RETWEETS:
-                            if (retweetersPopup != null) {
-                                getRetweeters();
-
-                                retweetersPopup.setExpansionPointForAnim(overflowButton);
-                                retweetersPopup.setOnTopOfView(overflowButton);
-                                retweetersPopup.show();
-                            }
-                            break;
                     }
                     return false;
                 }
@@ -742,15 +701,11 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
-            final int VIEW_LIKES = 5;
-            final int VIEW_RETWEETS = 6;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
-            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
-            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -816,24 +771,6 @@ public class ExpansionViewHelper {
                                 }
                             }).execute();
                             break;
-                        case VIEW_LIKES:
-                            if (favoritersPopup != null) {
-                                getFavoriters();
-
-                                favoritersPopup.setExpansionPointForAnim(overflowButton);
-                                favoritersPopup.setOnTopOfView(overflowButton);
-                                favoritersPopup.show();
-                            }
-                            break;
-                        case VIEW_RETWEETS:
-                            if (retweetersPopup != null) {
-                                getRetweeters();
-
-                                retweetersPopup.setExpansionPointForAnim(overflowButton);
-                                retweetersPopup.setOnTopOfView(overflowButton);
-                                retweetersPopup.show();
-                            }
-                            break;
                     }
                     return false;
                 }
@@ -877,22 +814,6 @@ public class ExpansionViewHelper {
 
     public boolean hidePopups() {
         boolean hidden = false;
-        try {
-            if (retweetersPopup.isShowing()) {
-                retweetersPopup.hide();
-                hidden = true;
-            }
-        } catch (Exception e) {
-
-        }
-        try {
-            if (favoritersPopup.isShowing()) {
-                favoritersPopup.hide();
-                hidden = true;
-            }
-        } catch (Exception e) {
-
-        }
         try {
             if (convoLayout.isShown()) {
                 convoPopup.hide();
@@ -1557,107 +1478,6 @@ public class ExpansionViewHelper {
         getReplies.setPriority(8);
         getReplies.start();
 
-    }
-
-    public void getRetweeters() {
-        Thread getRetweeters = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
-                try {
-                    Twitter twitter =  getTwitter();
-
-                    Status stat = status;
-                    if (stat.isRetweet()) {
-                        id = stat.getRetweetedStatus().getId();
-                    }
-
-                    // can get 100 retweeters is all
-                    ResponseList<twitter4j.Status> lists = twitter.getRetweets(id);
-
-                    List<String> urls = new ArrayList<String>();
-                    final ArrayList<User> users = new ArrayList<User>();
-
-                    for (Status s : lists) {
-                        users.add(s.getUser());
-                        urls.add(s.getUser().getBiggerProfileImageURL());
-                    }
-
-                    if (urls.size() > 4) {
-                        urls = urls.subList(0, 3);
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            retweetersPopup.setData(users);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } catch (OutOfMemoryError e) {
-                    e.printStackTrace();
-
-                }
-            }
-        });
-
-        getRetweeters.setPriority(Thread.MAX_PRIORITY);
-        getRetweeters.start();
-    }
-
-    public void getFavoriters() {
-        Thread getFavoriters = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
-                try {
-
-                    Status stat = status;
-                    long id = stat.getId();
-
-                    final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
-                    List<String> urls = new ArrayList<String>();
-
-                    for (User s : users) {
-                        urls.add(s.getBiggerProfileImageURL());
-                    }
-
-                    if (urls.size() > 4) {
-                        urls = urls.subList(0, 3);
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            favoritersPopup.setData(users);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } catch (OutOfMemoryError e) {
-                    e.printStackTrace();
-
-                }
-            }
-        });
-
-        getFavoriters.setPriority(Thread.MAX_PRIORITY);
-        getFavoriters.start();
     }
 
     private class HelloWebViewClient extends WebViewClient {
