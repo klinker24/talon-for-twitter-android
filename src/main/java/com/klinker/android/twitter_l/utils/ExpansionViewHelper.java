@@ -103,6 +103,7 @@ public class ExpansionViewHelper {
     View composeButton;
     View overflowButton;
     View quoteButton;
+    View interactionsButton;
 
     ListView replyList;
     LinearLayout convoSpinner;
@@ -163,6 +164,7 @@ public class ExpansionViewHelper {
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
+        interactionsButton = expansion.findViewById(R.id.info_button);
 
         tweetSource = (HoloTextView) expansion.findViewById(R.id.tweet_source);
 
@@ -407,6 +409,15 @@ public class ExpansionViewHelper {
                     shareClick();
                     return;
                 }
+            }
+        });
+
+        interactionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("tweet_link", QuoteUtil.getSearchString(screenName, id));
+                clipboard.setPrimaryClip(clip);
             }
         });
     }
