@@ -10,14 +10,14 @@ public class QuoteUtil {
 
         return  "(" +
                 "https://twitter.com/statuses/" + tweetId +
-                        " OR " +
+                " OR " +
                 "https://twitter.com/" + screenName + "/status/" + tweetId +
-                        " OR " +
+                " OR " +
 
                 "http://twitter.com/statuses/" + tweetId +
-                        " OR " +
+                " OR " +
                 "http://twitter.com/" + screenName + "/status/" + tweetId +
-                        " OR " +
+                " OR " +
 
                 screenName + "/status/" + tweetId +
                 ") " +

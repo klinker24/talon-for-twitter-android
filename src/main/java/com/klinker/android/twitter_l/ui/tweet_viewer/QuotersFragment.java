@@ -3,7 +3,6 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.QuoteUtil;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Query;
