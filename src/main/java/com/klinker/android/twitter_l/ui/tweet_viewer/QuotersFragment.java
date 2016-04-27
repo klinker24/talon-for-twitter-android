@@ -62,7 +62,7 @@ public class QuotersFragment extends Fragment {
         screenname = getArguments().getString(ARG_SCREENNAME);
         tweetId = getArguments().getLong(ARG_TWEET_ID);
 
-        View layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        View layout = inflater.inflate(R.layout.no_ptr_list_layout, null);
 
         listView = (ListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
