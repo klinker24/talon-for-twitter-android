@@ -433,7 +433,11 @@ public class ExpansionViewHelper {
                 }
 
                 interactionsPopup.setExpansionPointForAnim(v);
-                interactionsPopup.setInfo(screenName, id);
+                if (status != null) {
+                    interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
+                } else {
+                    interactionsPopup.setInfo(screenName, id);
+                }
                 interactionsPopup.show();
             }
         });
