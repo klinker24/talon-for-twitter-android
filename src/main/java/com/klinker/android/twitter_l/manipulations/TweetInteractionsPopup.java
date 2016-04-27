@@ -48,6 +48,7 @@ public class TweetInteractionsPopup extends PopupLayout {
     public void setInfo(String screenname, long tweetId) {
         TweetInteractionsPagerAdapter adapter = new TweetInteractionsPagerAdapter(((Activity) getContext()), screenname, tweetId);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(3);
         tabs.setupWithViewPager(viewPager);
     }
 }
