@@ -1,7 +1,9 @@
 <changelog>
 
-    <version name="4.8.3">
+    <version name="4.9.0">
+        <text>View quotes of any tweet</text>
         <text>Improvements to landscape UI</text>
+        <text>Easier access to the retweets and likes for a tweet</text>
         <text>Fix issues with going to the profile/tweet viewer from the activity section</text>
     </version>
 
