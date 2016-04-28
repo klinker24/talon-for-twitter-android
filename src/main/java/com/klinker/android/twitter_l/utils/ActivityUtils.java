@@ -347,7 +347,9 @@ public class ActivityUtils {
         boolean newActivity = false;
 
         try {
-            Query query = new Query(settings.myScreenName + "/status/");
+            Query query = new Query(useSecondAccount ?
+                    settings.secondScreenName : settings.myScreenName +
+                    "/status/");
 
             if (lastQuoteRefresh == 0L) { // just get last 5 if it is the first time.
                 query.setCount(5);
