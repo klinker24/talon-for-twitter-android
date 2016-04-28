@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public class StopPull extends IntentService {
+public class StopPull extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -30,7 +30,7 @@ public class StopPull extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         sharedPreferences.edit().putString("talon_pull", "0").commit();

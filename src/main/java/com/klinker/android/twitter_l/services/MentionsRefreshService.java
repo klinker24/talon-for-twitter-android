@@ -33,7 +33,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class MentionsRefreshService extends IntentService {
+public class MentionsRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -42,7 +42,7 @@ public class MentionsRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 

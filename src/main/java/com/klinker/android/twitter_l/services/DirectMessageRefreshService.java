@@ -34,7 +34,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class DirectMessageRefreshService extends IntentService {
+public class DirectMessageRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -43,7 +43,7 @@ public class DirectMessageRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 

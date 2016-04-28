@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-public class ReadInteractionsService extends IntentService {
+public class ReadInteractionsService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -29,7 +29,7 @@ public class ReadInteractionsService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
 
         sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);

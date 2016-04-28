@@ -41,7 +41,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class WidgetRefreshService  extends IntentService {
+public class WidgetRefreshService  extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -51,7 +51,7 @@ public class WidgetRefreshService  extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         // it is refreshing elsewhere, so don't start
         if (WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || CatchupPull.isRunning || !MainActivity.canSwitch) {
             return;
