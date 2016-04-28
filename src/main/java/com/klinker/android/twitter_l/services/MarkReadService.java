@@ -27,7 +27,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 
-public class MarkReadService extends IntentService {
+public class MarkReadService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -36,7 +36,7 @@ public class MarkReadService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
 
         Log.v("talon_mark_read", "running the mark read service for account 1");
 

@@ -7,7 +7,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class SecondActivityRefreshService extends IntentService {
+public class SecondActivityRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -16,7 +16,7 @@ public class SecondActivityRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         AppSettings settings = AppSettings.getInstance(this);
         ActivityUtils utils = new ActivityUtils(this, true);
 

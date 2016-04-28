@@ -41,7 +41,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 
-public class CatchupPull extends IntentService {
+public class CatchupPull extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -52,7 +52,7 @@ public class CatchupPull extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         if (CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || !MainActivity.canSwitch) {
             return;
         }

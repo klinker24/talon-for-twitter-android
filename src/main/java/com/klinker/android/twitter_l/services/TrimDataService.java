@@ -50,7 +50,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 
-public class TrimDataService extends IntentService {
+public class TrimDataService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -61,7 +61,7 @@ public class TrimDataService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         Log.v("trimming_database", "trimming database from service");
         IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
         IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account

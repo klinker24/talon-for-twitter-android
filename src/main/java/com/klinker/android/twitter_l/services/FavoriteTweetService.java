@@ -11,7 +11,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Twitter;
 
-public class FavoriteTweetService extends IntentService {
+public class FavoriteTweetService extends KillerIntentService {
 
     private static final String ARG_ACCOUNT_TO_FAVORITE_WITH = "account_num";
     private static final String ARG_TWEET_ID = "tweet_id";
@@ -31,7 +31,7 @@ public class FavoriteTweetService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void handleIntent(Intent intent) {
         int accountToFavoriteWith = intent.getIntExtra(ARG_ACCOUNT_TO_FAVORITE_WITH, 1);
         long tweetId = intent.getLongExtra(ARG_TWEET_ID, 1);
         int notificationId = intent.getIntExtra(ARG_NOTIFICATION_ID, 1);
