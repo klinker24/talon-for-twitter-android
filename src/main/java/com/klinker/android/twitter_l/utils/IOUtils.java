@@ -108,7 +108,12 @@ public class IOUtils {
 
     public static final Uri saveGiffy(Context context, String videoUrl) throws Exception {
 
-        final File file = new File(context.getCacheDir(), "giffy.gif");
+        final File directory = new File(Environment.getExternalStorageDirectory() + "/Talon/");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        final File file = new File(Environment.getExternalStorageDirectory() + "/Talon/", "giphy.gif");
         if (!file.createNewFile()) {
             // file already exists
         }
