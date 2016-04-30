@@ -1164,11 +1164,11 @@ public class NotificationUtils {
                 .setCategory(Notification.CATEGORY_SOCIAL)
                 .setGroup(group);
 
-        int notificationId = generateRandomId();
         String tweetId = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
         String tweetText = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TEXT));
         String pictureUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+        int notificationId = (int) Long.parseLong(tweetId);
 
         long time = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TIME));
 
