@@ -15,6 +15,7 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -48,6 +49,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -103,7 +105,7 @@ public class ExpansionViewHelper {
     View composeButton;
     View overflowButton;
     View quoteButton;
-    View interactionsButton;
+    public View interactionsButton;
 
     ListView replyList;
     LinearLayout convoSpinner;
@@ -418,27 +420,42 @@ public class ExpansionViewHelper {
         interactionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (interactionsPopup == null) {
-                    interactionsPopup = new TweetInteractionsPopup(context);
-                    if (context.getResources().getBoolean(R.bool.isTablet)) {
-                        if (landscape) {
-                            interactionsPopup.setWidthByPercent(.6f);
-                            interactionsPopup.setHeightByPercent(.8f);
-                        } else {
-                            interactionsPopup.setWidthByPercent(.85f);
-                            interactionsPopup.setHeightByPercent(.68f);
-                        }
-                        interactionsPopup.setCenterInScreen();
+                if (!(context instanceof TweetActivity)) {
+                    if (settings.bottomPictures) {
+                        background.performClick();
+                    } else {
+                        background.performLongClick();
                     }
-                }
 
-                interactionsPopup.setExpansionPointForAnim(v);
-                if (status != null) {
-                    interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
+                        }
+                    }, 400);
                 } else {
-                    interactionsPopup.setInfo(screenName, id);
+                    if (interactionsPopup == null) {
+                        interactionsPopup = new TweetInteractionsPopup(context);
+                        if (context.getResources().getBoolean(R.bool.isTablet)) {
+                            if (landscape) {
+                                interactionsPopup.setWidthByPercent(.6f);
+                                interactionsPopup.setHeightByPercent(.8f);
+                            } else {
+                                interactionsPopup.setWidthByPercent(.85f);
+                                interactionsPopup.setHeightByPercent(.68f);
+                            }
+                            interactionsPopup.setCenterInScreen();
+                        }
+                    }
+
+                    interactionsPopup.setExpansionPointForAnim(v);
+                    if (status != null) {
+                        interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
+                    } else {
+                        interactionsPopup.setInfo(screenName, id);
+                    }
+                    interactionsPopup.show();
                 }
-                interactionsPopup.show();
             }
         });
 
@@ -618,6 +635,7 @@ public class ExpansionViewHelper {
         composeButton.setVisibility(View.INVISIBLE);
         overflowButton.setVisibility(View.INVISIBLE);
         convoProgress.setVisibility(View.INVISIBLE);
+        interactionsButton.setVisibility(View.INVISIBLE);
 
         startAlphaAnimation(favoriteButton, 0);
         startAlphaAnimation(retweetButton, 75);
@@ -625,7 +643,9 @@ public class ExpansionViewHelper {
         startAlphaAnimation(quoteButton, 150);
         startAlphaAnimation(convoProgress, 175);
         startAlphaAnimation(composeButton, 225);
-        startAlphaAnimation(overflowButton, 250);
+        startAlphaAnimation(interactionsButton, 275);
+        startAlphaAnimation(overflowButton, 300);
+
     }
 
     private void startAlphaAnimation(final View v, long offset) {

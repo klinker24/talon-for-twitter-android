@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -382,6 +384,26 @@ public class TweetActivity extends SlidingActivity {
         }
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            expansionHelper.interactionsButton.performClick();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        registerReceiver(receiver, new IntentFilter("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        unregisterReceiver(receiver);
+    }
     @Override
     public void finish() {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",

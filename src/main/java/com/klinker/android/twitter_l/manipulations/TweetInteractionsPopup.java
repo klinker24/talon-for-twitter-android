@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class TweetInteractionsPopup extends PopupLayout {
     }
 
     public void setInfo(String screenname, long tweetId) {
-        TweetInteractionsPagerAdapter adapter = new TweetInteractionsPagerAdapter(((Activity) getContext()), screenname, tweetId);
+        TweetInteractionsPagerAdapter adapter = new TweetInteractionsPagerAdapter(((AppCompatActivity) getContext()), screenname, tweetId);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         tabs.setupWithViewPager(viewPager);
