@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.9.1">
+        <text>Improvements for in-line expansion of tweets</text>
+    </version>
+
     <version name="4.9.0">
         <text>View quotes of any tweet (open up the tweet viewer and hit the button that looks like a person)</text>
         <text>Improvements to landscape UI</text>
