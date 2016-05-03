@@ -59,7 +59,7 @@ public class NotificationComposeSecondAcc extends ComposeActivity {
         currentName.setText("@" + settings.secondScreenName);
 
         MentionsDataSource.getInstance(context).markAllRead(currentAccount);
-        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
 
         // set up the reply box
         reply.setText(sharedPrefs.getString("from_notification_second", ""));
@@ -67,10 +67,10 @@ public class NotificationComposeSecondAcc extends ComposeActivity {
         notiId = sharedPrefs.getLong("from_notification_long_second", 0);
         replyText = sharedPrefs.getString("from_notification_text_second", "");
 
-        sharedPrefs.edit().putLong("from_notification_id_second", 0).commit();
-        sharedPrefs.edit().putString("from_notification_text_second", "").commit();
-        sharedPrefs.edit().putString("from_notification_second", "").commit();
-        sharedPrefs.edit().putBoolean("from_notification_bool_second", false).commit();
+        sharedPrefs.edit().putLong("from_notification_id_second", 0).apply();
+        sharedPrefs.edit().putString("from_notification_text_second", "").apply();
+        sharedPrefs.edit().putString("from_notification_second", "").apply();
+        sharedPrefs.edit().putBoolean("from_notification_bool_second", false).apply();
 
         // try from android wear device
         CharSequence voiceReply = getVoiceReply(getIntent());

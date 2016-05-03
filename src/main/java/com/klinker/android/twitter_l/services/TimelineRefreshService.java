@@ -159,7 +159,7 @@ public class TimelineRefreshService extends KillerIntentService {
                 context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
                 return;
             } else {
-                sharedPrefs.edit().putLong("last_timeline_insert", currentTime).commit();
+                sharedPrefs.edit().putLong("last_timeline_insert", currentTime).apply();
             }
 
             int inserted = 0;
@@ -171,11 +171,11 @@ public class TimelineRefreshService extends KillerIntentService {
             }
 
             if (inserted > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
             }
 
             if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
                 if (settings.notifications && (settings.timelineNot || settings.favoriteUserNotifications) && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
                     NotificationUtils.refreshNotification(context, !settings.timelineNot);

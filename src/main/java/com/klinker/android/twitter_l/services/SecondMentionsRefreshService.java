@@ -83,7 +83,7 @@ public class SecondMentionsRefreshService extends KillerIntentService {
             numberNew = MentionsDataSource.getInstance(context).insertTweets(statuses, currentAccount);
 
             if (numberNew > 0) {
-                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
                 if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot) {
                     NotificationUtils.notifySecondMentions(context, currentAccount);

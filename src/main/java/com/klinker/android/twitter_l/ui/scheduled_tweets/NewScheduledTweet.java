@@ -487,7 +487,7 @@ public class NewScheduledTweet extends AppCompatActivity {
 
             SharedPreferences.Editor prefEdit = sharedPrefs.edit();
             prefEdit.putInt("scheduled_alarm_id", alarmIdNum);
-            prefEdit.commit();
+            prefEdit.apply();
 
             ScheduledTweet tweet = new ScheduledTweet(mEditText.getText().toString(), alarmIdNum, setDate.getTime(), settings.currentAccount);
             QueuedDataSource.getInstance(context).createScheduledTweet(tweet);

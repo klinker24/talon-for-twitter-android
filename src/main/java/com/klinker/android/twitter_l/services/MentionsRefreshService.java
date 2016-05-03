@@ -72,8 +72,8 @@ public class MentionsRefreshService extends KillerIntentService {
 
             int inserted = MentionsDataSource.getInstance(context).insertTweets(statuses, currentAccount);
 
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-            sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+            sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
             if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot && inserted > 0) {
                 if (intent.getBooleanExtra("from_launcher", false)) {

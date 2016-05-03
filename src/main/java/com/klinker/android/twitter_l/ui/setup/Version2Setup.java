@@ -143,11 +143,11 @@ public class Version2Setup extends Activity {
 
                     Intent timeline = new Intent(context, MainActivity.class);
                     timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
-                    sharedPrefs.edit().putBoolean("setup_v_two", true).commit();
+                    sharedPrefs.edit().putBoolean("should_refresh", false).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();
+                    sharedPrefs.edit().putBoolean("setup_v_two", true).apply();
                     AppSettings.invalidate();
                     startActivity(timeline);
                 }

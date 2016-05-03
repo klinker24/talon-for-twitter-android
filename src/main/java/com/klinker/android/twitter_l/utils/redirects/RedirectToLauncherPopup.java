@@ -36,7 +36,7 @@ public class RedirectToLauncherPopup extends AppCompatActivity {
                 .edit()
                 .putInt("current_account",
                         getIntent().getIntExtra("current_account", 1))
-                .commit();
+                .apply();
 
         AppSettings.invalidate();
 

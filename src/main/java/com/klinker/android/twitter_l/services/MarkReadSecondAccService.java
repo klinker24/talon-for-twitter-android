@@ -69,7 +69,7 @@ public class MarkReadSecondAccService extends KillerIntentService {
         HomeDataSource.getInstance(context).markAllRead(currentAccount);
         InteractionsDataSource.getInstance(context).markAllRead(currentAccount);
 
-        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
     }
 
 }

@@ -84,15 +84,15 @@ public class DashClockSettingsActivity extends PreferenceActivity implements Sha
         // get the values and write them to our world prefs
         try {
             String s = sharedPrefs.getString(key, "");
-            worldPrefs.edit().putString(key, s).commit();
+            worldPrefs.edit().putString(key, s).apply();
         } catch (Exception e) {
             try {
                 int i = sharedPrefs.getInt(key, -100);
-                worldPrefs.edit().putInt(key, i).commit();
+                worldPrefs.edit().putInt(key, i).apply();
             } catch (Exception x) {
                 try {
                     boolean b = sharedPrefs.getBoolean(key, false);
-                    worldPrefs.edit().putBoolean(key, b).commit();
+                    worldPrefs.edit().putBoolean(key, b).apply();
                 } catch (Exception m) {
 
                 }

@@ -44,16 +44,16 @@ public class NotificationCompose extends ComposeActivity {
         MentionsDataSource.getInstance(context).markAllRead(currentAccount);
 
         // set up the reply box
-        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
         reply.setText(getIntent().getStringExtra("from_noti"));
         reply.setSelection(reply.getText().toString().length());
         notiId = getIntent().getLongExtra("from_noti_long", 1);
         replyText = getIntent().getStringExtra("from_noti_text");
 
-        sharedPrefs.edit().putLong("from_notification_id", 0).commit();
-        sharedPrefs.edit().putString("from_notification_text", "").commit();
-        sharedPrefs.edit().putString("from_notification", "").commit();
-        sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+        sharedPrefs.edit().putLong("from_notification_id", 0).apply();
+        sharedPrefs.edit().putString("from_notification_text", "").apply();
+        sharedPrefs.edit().putString("from_notification", "").apply();
+        sharedPrefs.edit().putBoolean("from_notification_bool", false).apply();
 
         String t = reply.getText().toString();
         if (!android.text.TextUtils.isEmpty(t) && !t.endsWith(" ")) {

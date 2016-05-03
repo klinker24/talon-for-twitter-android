@@ -105,7 +105,7 @@ public class ListRefreshService extends KillerIntentService {
                 dataSource.insertTweets(statuses, listId);
 
                 if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).apply();
                 }
 
                 sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));

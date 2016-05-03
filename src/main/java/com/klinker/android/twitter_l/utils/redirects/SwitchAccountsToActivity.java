@@ -23,10 +23,10 @@ public class SwitchAccountsToActivity extends AppCompatActivity {
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         if (currentAccount == 1) {
-            sharedPrefs.edit().putInt("current_account", 2).commit();
+            sharedPrefs.edit().putInt("current_account", 2).apply();
             currentAccount = 2;
         } else {
-            sharedPrefs.edit().putInt("current_account", 1).commit();
+            sharedPrefs.edit().putInt("current_account", 1).apply();
             currentAccount = 1;
         }
 
@@ -43,8 +43,8 @@ public class SwitchAccountsToActivity extends AppCompatActivity {
             page = 0;
         }
 
-        sharedPrefs.edit().putBoolean("open_a_page", true).commit();
-        sharedPrefs.edit().putInt("open_what_page", page).commit();
+        sharedPrefs.edit().putBoolean("open_a_page", true).apply();
+        sharedPrefs.edit().putInt("open_what_page", page).apply();
 
         // close talon pull if it is on. will be restarted when the activity starts
         sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));

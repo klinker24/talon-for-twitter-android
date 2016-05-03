@@ -200,7 +200,7 @@ public class MentionsFragment extends MainFragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sharedPrefs.edit().putBoolean("refresh_me_mentions", false).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", false).apply();
                 }
             },1000);
         }

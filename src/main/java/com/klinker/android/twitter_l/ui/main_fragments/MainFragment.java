@@ -240,7 +240,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("dm_unread_" + sharedPrefs.getInt("current_account", 1), 0);
         e.putBoolean("refresh_me", false);
-        e.commit();
+        e.apply();
 
         getStrings();
 

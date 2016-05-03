@@ -132,7 +132,7 @@ public class GiphySearch extends Activity {
                             .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    sharedPrefs.edit().putBoolean("seen_giffy_disclaimer", true).commit();
+                                    sharedPrefs.edit().putBoolean("seen_giffy_disclaimer", true).apply();
                                 }
                             })
                             .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {

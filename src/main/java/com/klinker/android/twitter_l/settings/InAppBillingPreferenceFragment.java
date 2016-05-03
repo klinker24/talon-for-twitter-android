@@ -73,7 +73,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
 
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("com.klinker.android.twitter_world_preferences",
                             Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                    sharedPreferences.edit().putBoolean("2016_supporter", true).apply();
                 } catch (JSONException e) {
                     alert("Uh oh... Something went wrong with the purchase: Failed to parse purchase data.");
                     e.printStackTrace();
@@ -131,7 +131,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                             JSONObject purchaseData = new JSONObject(purchaseDataList.get(i));
                             consumePurchase(purchaseData);
 
-                            sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                            sharedPreferences.edit().putBoolean("2016_supporter", true).apply();
                         }
 
                     }

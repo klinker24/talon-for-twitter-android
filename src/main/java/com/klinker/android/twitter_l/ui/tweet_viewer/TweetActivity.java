@@ -231,7 +231,7 @@ public class TweetActivity extends SlidingActivity {
         );
 
         if (!sharedPrefs.getBoolean("knows_about_tweet_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).commit();
+            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).apply();
             Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
         }
 
@@ -410,7 +410,7 @@ public class TweetActivity extends SlidingActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         // this is used in the onStart() for the home fragment to tell whether or not it should refresh
         // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
-        //sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        //sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         if (expansionHelper != null) {
             expansionHelper.stop();
@@ -587,7 +587,7 @@ public class TweetActivity extends SlidingActivity {
                 Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
         }
     }
 
@@ -617,7 +617,7 @@ public class TweetActivity extends SlidingActivity {
 
                 }
 
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
                 return true;
             } catch (Throwable e) {

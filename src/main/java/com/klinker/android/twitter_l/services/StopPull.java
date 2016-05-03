@@ -33,10 +33,10 @@ public class StopPull extends KillerIntentService {
     public void handleIntent(Intent intent) {
         SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPreferences.edit().putString("talon_pull", "0").commit();
+        sharedPreferences.edit().putString("talon_pull", "0").apply();
 
         // write to normal prefs so that it appears in the settings
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("talon_pull", "0").commit();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("talon_pull", "0").apply();
 
         sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
     }

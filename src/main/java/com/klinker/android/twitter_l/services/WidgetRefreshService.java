@@ -140,7 +140,7 @@ public class WidgetRefreshService  extends KillerIntentService {
         int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
         if (inserted > 0 && statuses.size() > 0) {
-            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
         }
 
         if (settings.preCacheImages) {
@@ -149,7 +149,7 @@ public class WidgetRefreshService  extends KillerIntentService {
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
         mNotificationManager.cancel(6);
 

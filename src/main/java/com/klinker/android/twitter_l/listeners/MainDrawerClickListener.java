@@ -127,7 +127,7 @@ public class MainDrawerClickListener implements AdapterView.OnItemClickListener 
                 intent.putExtra("page_to_open", pos);
                 intent.putExtra("from_drawer", true);
 
-                sharedPreferences.edit().putBoolean("should_refresh", false).commit();
+                sharedPreferences.edit().putBoolean("should_refresh", false).apply();
 
                 final Intent fIntent = intent;
                 new Handler().postDelayed(new Runnable() {

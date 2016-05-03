@@ -38,12 +38,12 @@ public class ReadInteractionsService extends KillerIntentService {
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
         this.sendBroadcast(lightFlow);
 
-        sharedPrefs.edit().putBoolean("new_notification", false).commit();
-        sharedPrefs.edit().putInt("new_retweets", 0).commit();
-        sharedPrefs.edit().putInt("new_favorites", 0).commit();
-        sharedPrefs.edit().putInt("new_follows", 0).commit();
-        sharedPrefs.edit().putInt("new_quotes", 0).commit();
-        sharedPrefs.edit().putString("old_interaction_text", "").commit();
+        sharedPrefs.edit().putBoolean("new_notification", false).apply();
+        sharedPrefs.edit().putInt("new_retweets", 0).apply();
+        sharedPrefs.edit().putInt("new_favorites", 0).apply();
+        sharedPrefs.edit().putInt("new_follows", 0).apply();
+        sharedPrefs.edit().putInt("new_quotes", 0).apply();
+        sharedPrefs.edit().putString("old_interaction_text", "").apply();
     }
 
 }

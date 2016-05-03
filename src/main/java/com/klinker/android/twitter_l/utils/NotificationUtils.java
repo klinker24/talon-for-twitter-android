@@ -377,14 +377,14 @@ public class NotificationUtils {
 
                 if (grouped.size() > 0) {
                     notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
-                    sharedPrefs.edit().putInt("last_notification_id", 1).commit();
+                    sharedPrefs.edit().putInt("last_notification_id", 1).apply();
                 } else {
                     if (unreadCounts[1] == 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
                         notificationManager.notify(notificationId, mBuilder.build());
-                        sharedPrefs.edit().putInt("last_notification_id", notificationId).commit();
+                        sharedPrefs.edit().putInt("last_notification_id", notificationId).apply();
                     } else {
                         notificationManager.notify(1, mBuilder.build());
-                        sharedPrefs.edit().putInt("last_notification_id", 1).commit();
+                        sharedPrefs.edit().putInt("last_notification_id", 1).apply();
                     }
                 }
 
@@ -755,7 +755,7 @@ public class NotificationUtils {
         }
 
         alreadyNotified = cleanAlreadyNotifiedFavoriteTweets(alreadyNotified);
-        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).commit();
+        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).apply();
         cursor.close();
     }
 
@@ -965,9 +965,9 @@ public class NotificationUtils {
             } else {
                 reply = new Intent(context, NotificationComposeSecondAcc.class);
 
-                sharedPrefs.edit().putString("from_notification_second", "@" + name).commit();
-                sharedPrefs.edit().putLong("from_notification_long_second", id).commit();
-                sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+                sharedPrefs.edit().putString("from_notification_second", "@" + name).apply();
+                sharedPrefs.edit().putLong("from_notification_long_second", id).apply();
+                sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).apply();
 
                 replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
             }
@@ -1096,10 +1096,10 @@ public class NotificationUtils {
 
             if (numberNew == 1) {
                 notificationManager.notify(notificationId, mBuilder.build());
-                sharedPrefs.edit().putInt("last_second_account_mention_notification_id", notificationId).commit();
+                sharedPrefs.edit().putInt("last_second_account_mention_notification_id", notificationId).apply();
             } else {
                 notificationManager.notify(9, mBuilder.setGroup(SECOND_ACC_MENTIONS_GROUP).setGroupSummary(true).build());
-                sharedPrefs.edit().putInt("last_second_account_mention_notification_id", 9).commit();
+                sharedPrefs.edit().putInt("last_second_account_mention_notification_id", 9).apply();
             }
 
             // if we want to wake the screen on a new message
@@ -1218,9 +1218,9 @@ public class NotificationUtils {
             reply = new Intent(context, isSecondAccount ? NotificationComposeSecondAcc.class : NotificationCompose.class);
 
             SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
-            sharedPrefs.edit().putString("from_notification_second", "@" + screenname).commit();
-            sharedPrefs.edit().putLong("from_notification_long_second", Long.parseLong(tweetId)).commit();
-            sharedPrefs.edit().putString("from_notification_text_second", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).commit();
+            sharedPrefs.edit().putString("from_notification_second", "@" + screenname).apply();
+            sharedPrefs.edit().putLong("from_notification_long_second", Long.parseLong(tweetId)).apply();
+            sharedPrefs.edit().putString("from_notification_text_second", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).apply();
 
             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
         }
@@ -1340,7 +1340,7 @@ public class NotificationUtils {
         } else {
             text = currText + "<b>" + interactor.getName() + "</b> " + type;
         }
-        sharedPrefs.edit().putString("old_interaction_text", text).commit();
+        sharedPrefs.edit().putString("old_interaction_text", text).apply();
 
         // set icon
         int types = 0;
@@ -1564,9 +1564,9 @@ public class NotificationUtils {
         } else {
             reply = new Intent(context, NotificationComposeSecondAcc.class);
 
-            sharedPrefs.edit().putString("from_notification_second", "@test_for_talon").commit();
-            sharedPrefs.edit().putLong("from_notification_long_second", 1).commit();
-            sharedPrefs.edit().putString("from_notification_text_second", "@test_for_talon" + ": test").commit();
+            sharedPrefs.edit().putString("from_notification_second", "@test_for_talon").apply();
+            sharedPrefs.edit().putLong("from_notification_long_second", 1).apply();
+            sharedPrefs.edit().putString("from_notification_text_second", "@test_for_talon" + ": test").apply();
 
             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
         }

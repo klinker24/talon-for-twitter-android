@@ -43,6 +43,6 @@ public class HandleScrollService extends IntentService {
         SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
     }
 }

@@ -171,7 +171,7 @@ public class ComposeDMActivity extends Compose {
                             .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).commit();
+                                    sharedPrefs.edit().putBoolean("know_twitpic_for_mult_attach", true).apply();
                                     attachImage();
                                     dialogInterface.dismiss();
                                 }
