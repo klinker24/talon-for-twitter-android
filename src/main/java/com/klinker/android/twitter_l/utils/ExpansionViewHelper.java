@@ -191,8 +191,8 @@ public class ExpansionViewHelper {
                                                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
                                     String current = sharedPrefs.getString("muted_clients", "");
-                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
-                                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").apply();
+                                    sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
                                     dialogInterface.dismiss();
 
@@ -734,7 +734,7 @@ public class ExpansionViewHelper {
                                 public void run() {
                                     context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                                             Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                                            .edit().putBoolean("just_muted", true).commit();
+                                            .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();
                                 }
@@ -822,7 +822,7 @@ public class ExpansionViewHelper {
                                 public void run() {
                                     context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                                             Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                                            .edit().putBoolean("just_muted", true).commit();
+                                            .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();
                                 }
@@ -1671,7 +1671,7 @@ public class ExpansionViewHelper {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
             onFinish.run();
         }
     }
@@ -1705,7 +1705,7 @@ public class ExpansionViewHelper {
 
                 }
 
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
                 return true;
             } catch (Throwable e) {
@@ -1721,7 +1721,7 @@ public class ExpansionViewHelper {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
             onFinish.run();
         }

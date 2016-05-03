@@ -239,7 +239,7 @@ public class LoginFragment extends Fragment {
                     e.putBoolean("is_logged_in_2", true);
                 }
 
-                e.commit(); // save changes
+                e.apply(); // save changes
 
                 finishedCallback.onDone();
             }

@@ -439,7 +439,7 @@ public class SearchPager extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                sharedPrefs.edit().putBoolean("should_refresh", false).apply();
                 onBackPressed();
                 return true;
 

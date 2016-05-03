@@ -140,9 +140,9 @@ public class HomeFragment extends MainFragment {
 
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
-                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me", false).apply();
                     final long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
                     new Thread(new Runnable() {
                         @Override
@@ -169,7 +169,7 @@ public class HomeFragment extends MainFragment {
 
                 } else {
                     liveUnread++;
-                    sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me", false).apply();
 
                     newTweets = true;
                 }
@@ -303,7 +303,7 @@ public class HomeFragment extends MainFragment {
                                 }
                             }
 
-                            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+                            sharedPrefs.edit().putBoolean("just_muted", false).apply();
                         }
 
                         final int tweets = numTweets;
@@ -418,7 +418,7 @@ public class HomeFragment extends MainFragment {
             Cursor cursor = cursorAdapter.getCursor();
             if (cursor.moveToLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
                 HomeDataSource.getInstance(context).markPosition(currentAccount, id);
                 //HomeContentProvider.updateCurrent(currentAccount, context, id);
             }
@@ -533,7 +533,7 @@ public class HomeFragment extends MainFragment {
         }
 
         if (numberNew > 0 && statuses.size() > 0) {
-            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
         }
 
         Log.v("talon_inserting", "inserted " + numberNew + " tweets in " + (Calendar.getInstance().getTimeInMillis() - afterDownload));
@@ -833,7 +833,7 @@ public class HomeFragment extends MainFragment {
                     }
                 }
 
-                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
             } catch (TwitterException e) {
                 // Error in updating status
@@ -852,7 +852,7 @@ public class HomeFragment extends MainFragment {
                 if (updated) {
                     setStrings();
                     context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_MENTIONS"));
-                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
                     final CharSequence text = numberNew == 1 ?  numberNew + " " + sNewMention :  numberNew + " " + sNewMentions;
                     isToastShowing = false;
                     new Handler().postDelayed(new Runnable() {
@@ -878,7 +878,7 @@ public class HomeFragment extends MainFragment {
     public Runnable applyRefresh = new Runnable() {
         @Override
         public void run() {
-            sharedPrefs.edit().putBoolean("should_refresh", true).commit();
+            sharedPrefs.edit().putBoolean("should_refresh", true).apply();
         }
     };
 
@@ -951,7 +951,7 @@ public class HomeFragment extends MainFragment {
             //getLoaderManager().restartLoader(0, null, HomeFragment.this);
             Log.v("talon_home_frag", "getting cursor adapter in on resume");
             resetTimeline(true);
-            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", false).apply();
         }
     }
 
@@ -978,7 +978,7 @@ public class HomeFragment extends MainFragment {
         if (sharedPrefs.getBoolean("refresh_me", false)) { // this will restart the loader to display the new tweets
             Log.v("talon_home_frag", "getting cursor adapter in on start");
             resetTimeline(false);
-            sharedPrefs.edit().putBoolean("refresh_me", false).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", false).apply();
         } else if (!sharedPrefs.getBoolean("dont_refresh", false)) { // otherwise, if there are no new ones, it should start the refresh
             HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
             HomeFragment.refreshHandler.postDelayed(new Runnable() {
@@ -999,7 +999,7 @@ public class HomeFragment extends MainFragment {
 
                     waitOnRefresh.removeCallbacks(applyRefresh);
                     waitOnRefresh.postDelayed(applyRefresh, 30000);
-                    sharedPrefs.edit().putBoolean("dont_refresh", false).commit();
+                    sharedPrefs.edit().putBoolean("dont_refresh", false).apply();
 
                 }
             }, 600);
@@ -1027,7 +1027,7 @@ public class HomeFragment extends MainFragment {
                     if (!sharedPrefs.getBoolean("from_activity", false)) {
                         refreshOnStart();
                     } else {
-                        sharedPrefs.edit().putBoolean("from_activity", false).commit();
+                        sharedPrefs.edit().putBoolean("from_activity", false).apply();
                     }
                 }
             }, 600);
@@ -1162,7 +1162,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                                 }
                             }
 
-                            sharedPrefs.edit().putBoolean("just_muted", false).commit();
+                            sharedPrefs.edit().putBoolean("just_muted", false).apply();
 
                             Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
 
@@ -1377,7 +1377,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 Log.v("talon_marking_read", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)) + "");
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
                 new Thread(new Runnable() {
                     @Override
@@ -1388,7 +1388,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             } else {
                 if (cursor.moveToLast()) {
                     final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).commit();
+                    sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
                     new Thread(new Runnable() {
                         @Override

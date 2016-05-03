@@ -81,17 +81,17 @@ public class DownloadFragment extends Fragment {
                 activity.countUser(user.getScreenName());
 
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
-                    sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).commit();
-                    sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).commit();
-                    sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_1", user.getOriginalProfileImageURL()).commit();
-                    sharedPrefs.edit().putLong("twitter_id_1", user.getId()).commit();
+                    sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).apply();
+                    sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).apply();
+                    sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).apply();
+                    sharedPrefs.edit().putString("profile_pic_url_1", user.getOriginalProfileImageURL()).apply();
+                    sharedPrefs.edit().putLong("twitter_id_1", user.getId()).apply();
                 } else {
-                    sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).commit();
-                    sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).commit();
-                    sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_2", user.getOriginalProfileImageURL()).commit();
-                    sharedPrefs.edit().putLong("twitter_id_2", user.getId()).commit();
+                    sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).apply();
+                    sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).apply();
+                    sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).apply();
+                    sharedPrefs.edit().putString("profile_pic_url_2", user.getOriginalProfileImageURL()).apply();
+                    sharedPrefs.edit().putLong("twitter_id_2", user.getId()).apply();
                 }
 
                 // syncs 200 timeline tweets with 2 pages
@@ -113,7 +113,7 @@ public class DownloadFragment extends Fragment {
                 statuses = twitter.getHomeTimeline(paging);
 
                 if (statuses.size() > 0) {
-                    sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).apply();
                 }
 
                 for (twitter4j.Status status : statuses) {
@@ -148,7 +148,7 @@ public class DownloadFragment extends Fragment {
 
                     List<DirectMessage> dm = twitter.getDirectMessages(paging);
 
-                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).apply();
 
                     for (DirectMessage directMessage : dm) {
                         try {

@@ -32,7 +32,7 @@ public class LauncherSearchedTrends extends SearchedTrendsActivity {
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
                     .edit()
                     .putInt("current_account", acc)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }

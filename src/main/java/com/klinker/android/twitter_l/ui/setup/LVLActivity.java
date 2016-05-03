@@ -125,7 +125,7 @@ public class LVLActivity extends Activity {
                 SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                         Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-                sharedPrefs.edit().putString("consumer_key_2", key).commit();
+                sharedPrefs.edit().putString("consumer_key_2", key).apply();
 
                 return url;
             } else {

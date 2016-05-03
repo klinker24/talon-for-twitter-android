@@ -46,7 +46,7 @@ public class PermissionModelUtils {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         requestPermissions();
-                        sharedPrefs.edit().putBoolean(PERMISSION_CHECK_PREF, false).commit();
+                        sharedPrefs.edit().putBoolean(PERMISSION_CHECK_PREF, false).apply();
                     }
                 })
                 .setCancelable(false)

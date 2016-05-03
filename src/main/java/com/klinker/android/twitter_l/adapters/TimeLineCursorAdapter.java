@@ -790,7 +790,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
                             .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                            .commit();
+                            .apply();
                 }
 
                 viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
@@ -961,7 +961,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             if (isHomeTimeline) {
                                 sharedPrefs.edit()
                                         .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                        .commit();
+                                        .apply();
                             }
 
                             if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {

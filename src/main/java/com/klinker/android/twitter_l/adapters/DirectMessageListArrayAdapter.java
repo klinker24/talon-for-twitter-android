@@ -254,7 +254,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
             }
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
-            sharedPrefs.edit().putLong("last_direct_message_id_" + settings.currentAccount, 0).commit();
+            sharedPrefs.edit().putLong("last_direct_message_id_" + settings.currentAccount, 0).apply();
         }
     }
 }

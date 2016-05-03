@@ -95,7 +95,7 @@ public class DMFragment extends MainFragment {
                     List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
 
                     if (dm.size() != 0) {
-                        sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).commit();
+                        sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).apply();
                         update = true;
                         numberNew = dm.size();
                     } else {
@@ -260,13 +260,13 @@ public class DMFragment extends MainFragment {
             getCursorAdapter(false);
         }
 
-        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.UPDATE_DM");
         context.registerReceiver(updateDM, filter);
 
-        sharedPrefs.edit().putBoolean("refresh_me_dm", false).commit();
+        sharedPrefs.edit().putBoolean("refresh_me_dm", false).apply();
     }
 
     @Override

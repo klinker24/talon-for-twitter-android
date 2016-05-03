@@ -106,7 +106,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         // this is used in the onStart() for the home fragment to tell whether or not it should refresh
         // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
-        //sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        //sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         super.finish();
     }
@@ -542,7 +542,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            sharedPrefs.edit().putBoolean("show_swipe_dialog", false).commit();
+                            sharedPrefs.edit().putBoolean("show_swipe_dialog", false).apply();
                         }
                     })
                     .show();

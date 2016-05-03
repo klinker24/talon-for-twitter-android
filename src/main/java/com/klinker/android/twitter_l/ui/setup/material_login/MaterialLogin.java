@@ -52,7 +52,7 @@ public class MaterialLogin extends MaterialLVLActivity {
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
-        sharedPrefs.edit().putInt("key_version_" + currAccount, KEY_VERSION).commit();
+        sharedPrefs.edit().putInt("key_version_" + currAccount, KEY_VERSION).apply();
 
         addSlides();
 
@@ -133,7 +133,7 @@ public class MaterialLogin extends MaterialLVLActivity {
     public void finish() {
         SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPrefs.edit().putBoolean("version_3_2", false).commit();
+        sharedPrefs.edit().putBoolean("version_3_2", false).apply();
 
         super.finish();
     }

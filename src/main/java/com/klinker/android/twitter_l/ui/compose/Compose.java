@@ -430,7 +430,7 @@ public abstract class Compose extends Activity implements
                     @Override
                     public void onClick(View v) {
                         discardClicked = true;
-                        sharedPrefs.edit().putString("draft", "").commit();
+                        sharedPrefs.edit().putString("draft", "").apply();
                         if (emojiKeyboard.isShowing()) {
                             onBackPressed();
                         }

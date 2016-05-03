@@ -38,7 +38,7 @@ public class VideoViewerActivity extends AppCompatActivity {
     public void finish() {
         SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-        sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         super.finish();
     }

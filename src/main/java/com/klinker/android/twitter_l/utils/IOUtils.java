@@ -227,7 +227,7 @@ public class IOUtils {
                 }
             }
 
-            prefEdit.commit();
+            prefEdit.apply();
 
             res = true;
         } catch (Exception e) {

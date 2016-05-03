@@ -170,7 +170,7 @@ public class ActivityFragment extends MainFragment {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sharedPrefs.edit().putBoolean("refresh_me_activity", false).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_activity", false).apply();
                 }
             },1000);
         }

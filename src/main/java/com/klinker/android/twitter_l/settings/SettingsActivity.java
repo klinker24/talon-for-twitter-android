@@ -230,7 +230,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPreferences = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                             Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                    sharedPreferences.edit().putBoolean("2016_supporter", true).apply();
 
                     recreate();
                 } catch (JSONException e) {

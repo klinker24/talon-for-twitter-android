@@ -103,7 +103,7 @@ public class ProfilePager extends SlidingActivity {
 
 
         if (!sharedPrefs.getBoolean("knows_about_profile_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_profile_swipedown", true).commit();
+            sharedPrefs.edit().putBoolean("knows_about_profile_swipedown", true).apply();
             Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
         }
 
@@ -790,8 +790,8 @@ public class ProfilePager extends SlidingActivity {
                 if (isMyProfile) {
                     if (thisUser != null) {
                         // put in the banner and profile pic to shared prefs
-                        sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).commit();
-                        sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).commit();
+                        sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).apply();
+                        sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).apply();
                         isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
                         isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
                         isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
@@ -1043,8 +1043,8 @@ public class ProfilePager extends SlidingActivity {
             if (isMyProfile) {
                 if (thisUser != null) {
                     // put in the banner and profile pic to shared prefs
-                    sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getOriginalProfileImageURL()).commit();
-                    sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getProfileBannerURL()).commit();
+                    sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getOriginalProfileImageURL()).apply();
+                    sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), thisUser.getProfileBannerURL()).apply();
                 }
                 return null;
             } else {
@@ -1196,14 +1196,14 @@ public class ProfilePager extends SlidingActivity {
 
                         String favs = sharedPrefs.getString("favorite_user_names_" + currentAccount, "");
                         favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
-                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, favs).commit();
+                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, favs).apply();
 
                         return false;
 
                     } else {
                         FavoriteUsersDataSource.getInstance(context).createUser(thisUser, currentAccount);
 
-                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").commit();
+                        sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").apply();
 
                         return true;
                     }
@@ -1327,7 +1327,7 @@ public class ProfilePager extends SlidingActivity {
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
         // this is used in the onStart() for the home fragment to tell whether or not it should refresh
         // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
-        //sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        //sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         super.finish();
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
@@ -1373,7 +1373,7 @@ public class ProfilePager extends SlidingActivity {
 
             case R.id.menu_block:
                 new BlockUser().execute();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 return true;
 
             case R.id.menu_unblock:
@@ -1428,53 +1428,53 @@ public class ProfilePager extends SlidingActivity {
 
             case R.id.menu_mute:
                 String current = sharedPrefs.getString("muted_users", "");
-                sharedPrefs.edit().putString("muted_users", current + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putString("muted_users", current + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
             case R.id.menu_unmute:
                 String muted = sharedPrefs.getString("muted_users", "");
                 muted = muted.replace(screenName + " ", "");
-                sharedPrefs.edit().putString("muted_users", muted).commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putString("muted_users", muted).apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
             case R.id.menu_mute_rt:
                 String muted_rts = sharedPrefs.getString("muted_rts", "");
-                sharedPrefs.edit().putString("muted_rts", muted_rts + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putString("muted_rts", muted_rts + screenName.replaceAll(" ", "").replaceAll("@", "") + " ").apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
             case R.id.menu_unmute_rt:
                 String curr_muted = sharedPrefs.getString("muted_rts", "");
                 curr_muted = curr_muted.replace(screenName + " ", "");
-                sharedPrefs.edit().putString("muted_rts", curr_muted).commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putString("muted_rts", curr_muted).apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
             case R.id.menu_muffle_user:
                 Set<String> muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
                 muffled.add(screenName);
-                sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putStringSet("muffled_users", muffled).apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
             case R.id.menu_unmuffle_user:
                 muffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>());
                 muffled.remove(screenName);
-                sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                sharedPrefs.edit().putStringSet("muffled_users", muffled).apply();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                sharedPrefs.edit().putBoolean("just_muted", true).apply();
                 finish();
                 return true;
 
@@ -1522,7 +1522,7 @@ public class ProfilePager extends SlidingActivity {
                 if(name.getText().length() <= 20 && ok) {
                     if (name.getText().length() > 0){
                         nameS = name.getText().toString();
-                        sharedPrefs.edit().putString("twitter_users_name_" + sharedPrefs.getInt("current_account", 1), nameS).commit();
+                        sharedPrefs.edit().putString("twitter_users_name_" + sharedPrefs.getInt("current_account", 1), nameS).apply();
                     }
                 } else {
                     ok = false;
@@ -1827,7 +1827,7 @@ public class ProfilePager extends SlidingActivity {
                 }
 
                 String profileURL = thisUser.getProfileBannerURL();
-                sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
+                sharedPrefs.edit().putString("twitter_background_url_" + sharedPrefs.getInt("current_account", 1), profileURL).apply();
 
                 return true;
             } catch (Exception e) {
@@ -1909,7 +1909,7 @@ public class ProfilePager extends SlidingActivity {
 
 
                 String profileURL = user.getOriginalProfileImageURL();
-                sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).commit();
+                sharedPrefs.edit().putString("profile_pic_url_" + sharedPrefs.getInt("current_account", 1), profileURL).apply();
 
                 return true;
             } catch (Exception e) {

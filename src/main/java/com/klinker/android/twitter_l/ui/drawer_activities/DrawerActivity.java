@@ -357,7 +357,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         notificationList.enableSwipeToDismiss();
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         readButton.setImageResource(openMailResource);
-                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                        sharedPrefs.edit().putBoolean("new_notification", false).apply();
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
@@ -622,9 +622,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 public void onClick(View view) {
                     if (canSwitch) {
                         if (current == 1) {
-                            sharedPrefs.edit().putInt("current_account", 2).commit();
+                            sharedPrefs.edit().putInt("current_account", 2).apply();
                         } else {
-                            sharedPrefs.edit().putInt("current_account", 1).commit();
+                            sharedPrefs.edit().putInt("current_account", 1).apply();
                         }
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
@@ -669,8 +669,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sharedPrefs.edit().putInt("current_account", 2).commit();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    sharedPrefs.edit().putInt("current_account", 2).apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -702,8 +702,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sharedPrefs.edit().putInt("current_account", 1).commit();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    sharedPrefs.edit().putInt("current_account", 1).apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -1026,14 +1026,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         Intent settings = new Intent(context, SettingsActivity.class);
         finish();
-        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
         startActivity(settings);
     }
 
     public void onHelpClicked(View v) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         Intent settings = new Intent(context, PrefActivity.class);
         settings.putExtra("position", 8)
                 .putExtra("title",
@@ -1243,7 +1243,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         e.remove("original_activity_refresh_" + currentAccount);
         e.remove("activity_follower_count_" + currentAccount);
         e.remove("activity_latest_followers_" + currentAccount);
-        e.commit();
+        e.apply();
 
         HomeDataSource homeSources = HomeDataSource.getInstance(context);
         homeSources.deleteAllTweets(currentAccount);
@@ -1281,17 +1281,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         AppSettings.invalidate();
 
         if (currentAccount == 1 && login2) {
-            e.putInt("current_account", 2).commit();
+            e.putInt("current_account", 2).apply();
             finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
         } else if (currentAccount == 2 && login1) {
-            e.putInt("current_account", 1).commit();
+            e.putInt("current_account", 1).apply();
             finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
         } else { // only the one account
-            e.putInt("current_account", 1).commit();
+            e.putInt("current_account", 1).apply();
             finish();
             Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
@@ -1304,11 +1304,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         super.onStart();
 
         if (sharedPrefs.getBoolean("remake_me", false) && !MainActivity.isPopup) {
-            sharedPrefs.edit().putBoolean("remake_me", false).commit();
+            sharedPrefs.edit().putBoolean("remake_me", false).apply();
             recreate();
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
-                    .putBoolean("dont_refresh", true).commit();
+                    .putBoolean("dont_refresh", true).apply();
 
             return;
         }
@@ -1332,7 +1332,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         e.putInt("new_favorites", 0);
         e.putInt("new_retweets", 0);
         e.putString("old_interaction_text", "");
-        e.commit();
+        e.apply();
 
         DrawerActivity.settings = AppSettings.getInstance(context);
 
@@ -1469,13 +1469,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
             case R.id.menu_compose:
                 Intent compose = new Intent(context, ComposeActivity.class);
-                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).apply();
                 startActivity(compose);
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_direct_message:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
-                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).apply();
                 startActivity(dm);
                 return super.onOptionsItemSelected(item);
 
@@ -1483,7 +1483,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
                 Intent settings = new Intent(context, SettingsActivity.class);
                 finish();
-                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                sharedPrefs.edit().putBoolean("should_refresh", false).apply();
                 //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
                 startActivity(settings);
                 return super.onOptionsItemSelected(item);

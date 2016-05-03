@@ -242,11 +242,11 @@ public class ActivityUtils {
     }
 
     public void commitLastRefresh(long id) {
-        sharedPrefs.edit().putLong("last_activity_refresh_" + currentAccount, id).commit();
+        sharedPrefs.edit().putLong("last_activity_refresh_" + currentAccount, id).apply();
     }
 
     public void commitLastQuoteRefresh(long id) {
-        sharedPrefs.edit().putLong("last_activity_quote_refresh_" + currentAccount, id).commit();
+        sharedPrefs.edit().putLong("last_activity_quote_refresh_" + currentAccount, id).apply();
     }
 
     public void insertMentions(List<Status> mentions) {
@@ -414,7 +414,7 @@ public class ActivityUtils {
             SharedPreferences.Editor e = sharedPrefs.edit();
             e.putStringSet("activity_latest_followers_" + currentAccount, latestFollowers);
             e.putInt("activity_follower_count_" + currentAccount, me.getFollowersCount());
-            e.commit();
+            e.apply();
         } catch (Exception e) {
             e.printStackTrace();
         }

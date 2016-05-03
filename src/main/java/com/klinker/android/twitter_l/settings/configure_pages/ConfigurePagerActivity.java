@@ -99,7 +99,7 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                     .setNegativeButton("Don't Show Again", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            sharedPrefs.edit().putBoolean("show_performance_tip", false).commit();
+                            sharedPrefs.edit().putBoolean("show_performance_tip", false).apply();
                         }
                     })
                     .create().show();
@@ -151,7 +151,7 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                             }
                         }
 
-                        editor.commit();
+                        editor.apply();
 
                         onBackPressed();
                     }
@@ -205,7 +205,7 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sharedPrefs.edit().putInt("number_of_extra_pages", picker.getValue()).commit();
+                        sharedPrefs.edit().putInt("number_of_extra_pages", picker.getValue()).apply();
                         dialog.dismiss();
                         recreate();
                     }

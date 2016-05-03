@@ -326,8 +326,8 @@ public class DirectMessageConversation extends AppCompatActivity {
                     DMDataSource.getInstance(context).createDirectMessage(message, settings.currentAccount);
                 }
 
-                sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).commit();
-                sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
+                sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).apply();
+                sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();
 
                 return true;
 
@@ -409,7 +409,7 @@ public class DirectMessageConversation extends AppCompatActivity {
                             .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).commit();
+                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).apply();
                                     attachImage();
                                     dialogInterface.dismiss();
                                 }

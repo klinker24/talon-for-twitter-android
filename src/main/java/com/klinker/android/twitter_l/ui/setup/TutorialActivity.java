@@ -95,7 +95,7 @@ public class TutorialActivity extends Activity {
         overridePendingTransition(0, 0);
         getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                .edit().putBoolean("initial_tutorial", false).commit();
+                .edit().putBoolean("initial_tutorial", false).apply();
     }
 
     private class DrawingPanel extends SurfaceView implements
@@ -487,7 +487,7 @@ public class TutorialActivity extends Activity {
                     thread.setRunning(false);
                     finish();
                     overridePendingTransition(0, 0);
-                    PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).edit().putBoolean("initial_tutorial", false).commit();
+                    PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).edit().putBoolean("initial_tutorial", false).apply();
 
                     break;
             }

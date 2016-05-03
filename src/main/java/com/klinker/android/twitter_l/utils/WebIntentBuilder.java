@@ -134,16 +134,16 @@ public class WebIntentBuilder {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_4", true).commit();
-                                    sharedPreferences.edit().putBoolean("is_chrome_default", true).commit();
+                                    sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_4", true).apply();
+                                    sharedPreferences.edit().putBoolean("is_chrome_default", true).apply();
                                     fallbackToInternal(sharedPreferences);
                                 }
                             })
                             .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_4", true).commit();
-                                    sharedPreferences.edit().putBoolean("is_chrome_default", false).commit();
+                                    sharedPreferences.edit().putBoolean("shown_disclaimer_for_custom_tabs_4", true).apply();
+                                    sharedPreferences.edit().putBoolean("is_chrome_default", false).apply();
                                     fallbackToInternal(sharedPreferences);
                                 }
                             })

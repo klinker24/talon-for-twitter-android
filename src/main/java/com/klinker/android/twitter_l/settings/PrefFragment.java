@@ -177,13 +177,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sharedPreferences.edit().putBoolean("is_chrome_default", true).commit();
+                                sharedPreferences.edit().putBoolean("is_chrome_default", true).apply();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sharedPreferences.edit().putBoolean("is_chrome_default", false).commit();
+                                sharedPreferences.edit().putBoolean("is_chrome_default", false).apply();
                             }
                         })
                         .setNeutralButton(R.string.learn_more, new DialogInterface.OnClickListener() {
@@ -309,7 +309,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sharedPrefs.edit().putStringSet("drawer_elements_shown_" + currentAccount, set).commit();
+                                sharedPrefs.edit().putStringSet("drawer_elements_shown_" + currentAccount, set).apply();
                                 dialog.dismiss();
                             }
                         })
@@ -474,7 +474,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 e.remove("activity_follower_count_" + currentAccount);
                 e.remove("activity_latest_followers_" + currentAccount);
 
-                e.commit();
+                e.apply();
 
                 return false;
             }
@@ -574,7 +574,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 builder.setItems(set, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         users.remove(set[item]);
-                        sharedPrefs.edit().putStringSet("muffled_users", users).commit();
+                        sharedPrefs.edit().putStringSet("muffled_users", users).apply();
 
                         dialog.dismiss();
                     }
@@ -616,7 +616,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         final String exp = expTV.getText().toString();
                         if (!exp.equals("")) {
                             String newRegex = sharedPrefs.getString("muted_regex", "") + exp + "   ";
-                            sharedPrefs.edit().putString("muted_regex", newRegex).commit();
+                            sharedPrefs.edit().putString("muted_regex", newRegex).apply();
                             dialog.dismiss();
                         } else {
                             Toast.makeText(context, getResources().getString(R.string.no_expression), Toast.LENGTH_SHORT).show();
@@ -649,7 +649,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                 }
                             }
 
-                            sharedPrefs.edit().putString("muted_regex", newExps).commit();
+                            sharedPrefs.edit().putString("muted_regex", newExps).apply();
 
                             dialog.dismiss();
                         }
@@ -746,7 +746,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                 }
                             }
 
-                            sharedPrefs.edit().putString("muted_hashtags", newTags).commit();
+                            sharedPrefs.edit().putString("muted_hashtags", newTags).apply();
 
                             dialog.dismiss();
                         }
@@ -779,7 +779,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                 }
                             }
 
-                            sharedPrefs.edit().putString("muted_clients", newClients).commit();
+                            sharedPrefs.edit().putString("muted_clients", newClients).apply();
 
                             dialog.dismiss();
                         }
@@ -1023,12 +1023,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                            sharedPrefs.edit().putInt("night_start_hour", hourOfDay).putInt("night_start_min", minute).commit();
+                            sharedPrefs.edit().putInt("night_start_hour", hourOfDay).putInt("night_start_min", minute).apply();
 
                             com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                                 @Override
                                 public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                                    sharedPrefs.edit().putInt("day_start_hour", hourOfDay).putInt("day_start_min", minute).commit();
+                                    sharedPrefs.edit().putInt("day_start_hour", hourOfDay).putInt("day_start_min", minute).apply();
 
                                     nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
                                             " - " +
@@ -1156,12 +1156,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                            sharedPrefs.edit().putInt("quiet_start_hour", hourOfDay).putInt("quiet_start_min", minute).commit();
+                            sharedPrefs.edit().putInt("quiet_start_hour", hourOfDay).putInt("quiet_start_min", minute).apply();
 
                             com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                                 @Override
                                 public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                                    sharedPrefs.edit().putInt("quiet_end_hour", hourOfDay).putInt("quiet_end_min", minute).commit();
+                                    sharedPrefs.edit().putInt("quiet_end_hour", hourOfDay).putInt("quiet_end_min", minute).apply();
 
                                     quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
                                             " - " +
@@ -1320,7 +1320,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     }
                     e.putString("mentions_sync_interval", "0");
                     e.putString("dm_sync_interval", "0");
-                    e.commit();
+                    e.apply();
                 } else {
                     timeline.setEnabled(true);
                     mentions.setEnabled(true);
@@ -1432,8 +1432,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         String id = full[item][1];
                         String name = full[item][0];
 
-                        sharedPrefs.edit().putInt("woeid", Integer.parseInt(id)).commit();
-                        sharedPrefs.edit().putString("location", name).commit();
+                        sharedPrefs.edit().putInt("woeid", Integer.parseInt(id)).apply();
+                        sharedPrefs.edit().putString("location", name).apply();
 
                         cities.setSummary(name);
 
@@ -1473,15 +1473,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         // get the values and write them to our world prefs
         try {
             String s = sharedPrefs.getString(key, "");
-            worldPrefs.edit().putString(key, s).commit();
+            worldPrefs.edit().putString(key, s).apply();
         } catch (Exception e) {
             try {
                 int i = sharedPrefs.getInt(key, -100);
-                worldPrefs.edit().putInt(key, i).commit();
+                worldPrefs.edit().putInt(key, i).apply();
             } catch (Exception x) {
                 try {
                     boolean b = sharedPrefs.getBoolean(key, false);
-                    worldPrefs.edit().putBoolean(key, b).commit();
+                    worldPrefs.edit().putBoolean(key, b).apply();
                 } catch (Exception m) {
 
                 }
@@ -1540,43 +1540,43 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
             if (set.contains("1")) {
-                sharedPrefs.edit().putBoolean("vibrate", true).commit();
-                worldPrefs.edit().putBoolean("vibrate", true).commit();
+                sharedPrefs.edit().putBoolean("vibrate", true).apply();
+                worldPrefs.edit().putBoolean("vibrate", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("vibrate", false).commit();
-                worldPrefs.edit().putBoolean("vibrate", false).commit();
+                sharedPrefs.edit().putBoolean("vibrate", false).apply();
+                worldPrefs.edit().putBoolean("vibrate", false).apply();
             }
 
             if (set.contains("2")) {
-                sharedPrefs.edit().putBoolean("led", true).commit();
-                worldPrefs.edit().putBoolean("led", true).commit();
+                sharedPrefs.edit().putBoolean("led", true).apply();
+                worldPrefs.edit().putBoolean("led", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("led", false).commit();
-                worldPrefs.edit().putBoolean("led", false).commit();
+                sharedPrefs.edit().putBoolean("led", false).apply();
+                worldPrefs.edit().putBoolean("led", false).apply();
             }
 
             if (set.contains("3")) {
-                sharedPrefs.edit().putBoolean("wake", true).commit();
-                worldPrefs.edit().putBoolean("wake", true).commit();
+                sharedPrefs.edit().putBoolean("wake", true).apply();
+                worldPrefs.edit().putBoolean("wake", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("wake", false).commit();
-                worldPrefs.edit().putBoolean("wake", false).commit();
+                sharedPrefs.edit().putBoolean("wake", false).apply();
+                worldPrefs.edit().putBoolean("wake", false).apply();
             }
 
             if (set.contains("4")) {
-                sharedPrefs.edit().putBoolean("sound", true).commit();
-                worldPrefs.edit().putBoolean("sound", true).commit();
+                sharedPrefs.edit().putBoolean("sound", true).apply();
+                worldPrefs.edit().putBoolean("sound", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("sound", false).commit();
-                worldPrefs.edit().putBoolean("sound", false).commit();
+                sharedPrefs.edit().putBoolean("sound", false).apply();
+                worldPrefs.edit().putBoolean("sound", false).apply();
             }
 
             if (set.contains("5")) {
-                sharedPrefs.edit().putBoolean("heads_up", true).commit();
-                worldPrefs.edit().putBoolean("heads_up", true).commit();
+                sharedPrefs.edit().putBoolean("heads_up", true).apply();
+                worldPrefs.edit().putBoolean("heads_up", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("heads_up", false).commit();
-                worldPrefs.edit().putBoolean("heads_up", false).commit();
+                sharedPrefs.edit().putBoolean("heads_up", false).apply();
+                worldPrefs.edit().putBoolean("heads_up", false).apply();
             }
 
         } else if (key.equals("timeline_set")) {
@@ -1588,35 +1588,35 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
             if (set.contains("1")) {
-                sharedPrefs.edit().putBoolean("timeline_notifications", true).commit();
-                worldPrefs.edit().putBoolean("timeline_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("timeline_notifications", true).apply();
+                worldPrefs.edit().putBoolean("timeline_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("timeline_notifications", false).commit();
-                worldPrefs.edit().putBoolean("timeline_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("timeline_notifications", false).apply();
+                worldPrefs.edit().putBoolean("timeline_notifications", false).apply();
             }
 
             if (set.contains("2")) {
-                sharedPrefs.edit().putBoolean("mentions_notifications", true).commit();
-                worldPrefs.edit().putBoolean("mentions_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("mentions_notifications", true).apply();
+                worldPrefs.edit().putBoolean("mentions_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("mentions_notifications", false).commit();
-                worldPrefs.edit().putBoolean("mentions_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("mentions_notifications", false).apply();
+                worldPrefs.edit().putBoolean("mentions_notifications", false).apply();
             }
 
             if (set.contains("3")) {
-                sharedPrefs.edit().putBoolean("direct_message_notifications", true).commit();
-                worldPrefs.edit().putBoolean("direct_message_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("direct_message_notifications", true).apply();
+                worldPrefs.edit().putBoolean("direct_message_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("direct_message_notifications", false).commit();
-                worldPrefs.edit().putBoolean("direct_message_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("direct_message_notifications", false).apply();
+                worldPrefs.edit().putBoolean("direct_message_notifications", false).apply();
             }
 
             if (set.contains("4")) {
-                sharedPrefs.edit().putBoolean("activity_notifications", true).commit();
-                worldPrefs.edit().putBoolean("activity_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("activity_notifications", true).apply();
+                worldPrefs.edit().putBoolean("activity_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("activity_notifications", false).commit();
-                worldPrefs.edit().putBoolean("activity_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("activity_notifications", false).apply();
+                worldPrefs.edit().putBoolean("activity_notifications", false).apply();
             }
         } else if (key.equals("interactions_set")) {
             Log.v("notification_set", "interactions being set");
@@ -1627,27 +1627,27 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
             if (set.contains("1")) {
-                sharedPrefs.edit().putBoolean("favorite_notifications", true).commit();
-                worldPrefs.edit().putBoolean("favorite_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("favorite_notifications", true).apply();
+                worldPrefs.edit().putBoolean("favorite_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("favorite_notifications", false).commit();
-                worldPrefs.edit().putBoolean("favorite_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("favorite_notifications", false).apply();
+                worldPrefs.edit().putBoolean("favorite_notifications", false).apply();
             }
 
             if (set.contains("2")) {
-                sharedPrefs.edit().putBoolean("retweet_notifications", true).commit();
-                worldPrefs.edit().putBoolean("retweet_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("retweet_notifications", true).apply();
+                worldPrefs.edit().putBoolean("retweet_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("retweet_notifications", false).commit();
-                worldPrefs.edit().putBoolean("retweet_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("retweet_notifications", false).apply();
+                worldPrefs.edit().putBoolean("retweet_notifications", false).apply();
             }
 
             if (set.contains("3")) {
-                sharedPrefs.edit().putBoolean("follower_notifications", true).commit();
-                worldPrefs.edit().putBoolean("follower_notifications", true).commit();
+                sharedPrefs.edit().putBoolean("follower_notifications", true).apply();
+                worldPrefs.edit().putBoolean("follower_notifications", true).apply();
             } else {
-                sharedPrefs.edit().putBoolean("follower_notifications", false).commit();
-                worldPrefs.edit().putBoolean("follower_notifications", false).commit();
+                sharedPrefs.edit().putBoolean("follower_notifications", false).apply();
+                worldPrefs.edit().putBoolean("follower_notifications", false).apply();
             }
         } else if (key.equals("widget_theme") || key.equals("text_size")) {
             context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
@@ -1765,7 +1765,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 HomeDataSource.getInstance(context).markUnreadFilling(currentAccount);
 
                 context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit().putBoolean("refresh_me", true).commit();
+                        Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).edit().putBoolean("refresh_me", true).apply();
 
             } catch (TwitterException e) {
                 // Error in updating status
@@ -1911,8 +1911,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 Intent tutorial = new Intent(context, MainActivity.class);
                 tutorial.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 tutorial.putExtra("tutorial", true);
-                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                sharedPrefs.edit().putBoolean("done_tutorial", false).commit();
+                sharedPrefs.edit().putBoolean("should_refresh", false).apply();
+                sharedPrefs.edit().putBoolean("done_tutorial", false).apply();
                 startActivity(tutorial);
                 return false;
             }

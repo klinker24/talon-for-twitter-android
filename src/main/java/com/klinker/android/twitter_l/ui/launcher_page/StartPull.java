@@ -43,7 +43,7 @@ public class StartPull extends IntentService {
         sharedPrefs.edit()
                 .putBoolean("launcher_frag_switch", true)
                 .putInt("current_account", intent.getIntExtra("current_account", 1))
-                .commit();
+                .apply();
 
         AppSettings.invalidate();
 

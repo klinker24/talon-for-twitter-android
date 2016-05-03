@@ -327,9 +327,9 @@ public class AppSettings {
         higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
-            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();
+            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
         } else {
-            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", false).commit();
+            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", false).apply();
         }
 
         // set up tweetmarker
@@ -519,7 +519,7 @@ public class AppSettings {
 
         sharedPreferences.edit()
                 .putBoolean(key, value)
-                .commit();
+                .apply();
     }
 
     protected void setValue(String key, int value, Context context) {
@@ -529,7 +529,7 @@ public class AppSettings {
 
             sharedPreferences.edit()
                     .putInt(key, value)
-                    .commit();
+                    .apply();
         } catch (Exception e) {
 
         }
@@ -542,7 +542,7 @@ public class AppSettings {
 
         sharedPreferences.edit()
                 .putString(key, value)
-                .commit();
+                .apply();
 
     }
 

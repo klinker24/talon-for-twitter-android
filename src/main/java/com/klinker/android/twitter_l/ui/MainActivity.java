@@ -157,7 +157,7 @@ public class MainActivity extends DrawerActivity {
 
         }
 
-        sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).commit();
+        sharedPrefs.edit().putBoolean("refresh_me", getIntent().getBooleanExtra("from_notification", false)).apply();
 
         setUpTheme();
         setUpWindow();
@@ -249,7 +249,7 @@ public class MainActivity extends DrawerActivity {
 
         if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
             getIntent().putExtra("tutorial", false);
-            sharedPrefs.edit().putBoolean("done_tutorial", true).commit();
+            sharedPrefs.edit().putBoolean("done_tutorial", true).apply();
             registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -409,7 +409,7 @@ public class MainActivity extends DrawerActivity {
         super.onResume();
 
         if (sharedPrefs.getBoolean("open_a_page", false)) {
-            sharedPrefs.edit().putBoolean("open_a_page", false).commit();
+            sharedPrefs.edit().putBoolean("open_a_page", false).apply();
             int page = sharedPrefs.getInt("open_what_page", 1);
             String title = "" + mSectionsPagerAdapter.getPageTitle(page);
             actionBar.setTitle(title);
@@ -417,7 +417,7 @@ public class MainActivity extends DrawerActivity {
         }
 
         if (sharedPrefs.getBoolean("open_interactions", false)) {
-            sharedPrefs.edit().putBoolean("open_interactions", false).commit();
+            sharedPrefs.edit().putBoolean("open_interactions", false).apply();
             mDrawerLayout.openDrawer(Gravity.END);
         }
     }
@@ -469,7 +469,7 @@ public class MainActivity extends DrawerActivity {
                 (dark != settings.darkTheme)) {
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
-                              .putBoolean("dont_refresh", true).commit();
+                              .putBoolean("dont_refresh", true).apply();
 
             AppSettings.invalidate();
 
@@ -483,11 +483,11 @@ public class MainActivity extends DrawerActivity {
             MainActivity.caughtstarting = true;
 
             // return so that it doesn't start the background refresh, that is what caused the dups.
-            sharedPrefs.edit().putBoolean("dont_refresh_on_start", true).commit();
+            sharedPrefs.edit().putBoolean("dont_refresh_on_start", true).apply();
             return;
         } else {
             sharedPrefs.edit().putBoolean("dont_refresh", false)
-                              .putBoolean("should_refresh", true).commit();
+                              .putBoolean("should_refresh", true).apply();
 
             MainActivity.caughtstarting = false;
         }
@@ -506,14 +506,14 @@ public class MainActivity extends DrawerActivity {
         am.cancel(pendingIntent); // cancel the old one, then start the new one in 1 min
 
         // clear the pull unread
-        sharedPrefs.edit().putInt("pull_unread", 0).commit();
+        sharedPrefs.edit().putInt("pull_unread", 0).apply();
 
         UpdateUtils.checkUpdate(this);
 
         if (sharedPrefs.getBoolean("force_reverse_click", true)) {
             sharedPrefs.edit().putBoolean("reverse_click_option", false)
                     .putBoolean("force_reverse_click", false)
-                    .commit();
+                    .apply();
         }
 
         new Handler().postDelayed(new Runnable() {

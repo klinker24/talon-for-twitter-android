@@ -75,7 +75,7 @@ public class DirectMessageRefreshService extends KillerIntentService {
             List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
 
             if (dm.size() != 0) {
-                sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).apply();
                 numberNew = dm.size();
             } else {
                 numberNew = 0;
@@ -103,12 +103,12 @@ public class DirectMessageRefreshService extends KillerIntentService {
                 }
             }
 
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-            sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+            sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();
 
             if (settings.notifications && settings.dmsNot && inserted > 0) {
                 int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
-                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).commit();
+                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).apply();
 
                 NotificationUtils.refreshNotification(context);
             }
