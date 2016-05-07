@@ -905,7 +905,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
                     });
 
-                    if (holder.gifUrl.contains(".mp4")) {
+                    if (holder.gifUrl.contains(".mp4") || holder.gifUrl.contains(".m3u8")) {
                         videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl));
                     }
 
