@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.10.0">
+        <text>Use a "compact" (holo-style) layout for the timeline</text>
+    </version>
+
     <version name="4.9.1">
         <text>Improvements for in-line expansion of tweets</text>
     </version>
