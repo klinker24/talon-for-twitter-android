@@ -256,7 +256,7 @@ public class ActivityDataSource {
         String users = html[4];
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(ActivitySQLiteHelper.COLUMN_TITLE, "@" + status.getUser().getScreenName() + " " + context.getString(R.string.mentioned_you));
@@ -296,7 +296,7 @@ public class ActivityDataSource {
         String users = html[4];
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(ActivitySQLiteHelper.COLUMN_TITLE, "@" + status.getUser().getScreenName() + " " + context.getString(R.string.quoted_you));
@@ -337,7 +337,7 @@ public class ActivityDataSource {
             String users = html[4];
 
             if (media.contains("/tweet_video/")) {
-                media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+                media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");
             }
 
             values.put(ActivitySQLiteHelper.COLUMN_TITLE, buildUsersTitle(userList));
@@ -393,7 +393,7 @@ public class ActivityDataSource {
                 String userString = html[4];
 
                 if (media.contains("/tweet_video/")) {
-                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
                 }
 
                 values.put(ActivitySQLiteHelper.COLUMN_TITLE, buildUsersTitle(users));

@@ -313,7 +313,7 @@ public class TweetActivity extends SlidingActivity {
 
         if (youtube ||
                 (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
-                        (gifVideo.contains(".mp4") ||
+                        (gifVideo.contains(".mp4") || gifVideo.contains(".m3u8") ||
                                 gifVideo.contains("/photo/1") ||
                                 VideoMatcherUtil.containsThirdPartyVideo(gifVideo)))) {
             displayPlayButton = true;
