@@ -454,7 +454,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        layout = R.layout.tweet;
+        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            layout = R.layout.tweet;
+        } else {
+            layout = R.layout.tweet_condensed;
+        }
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
 
@@ -1019,8 +1023,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         Glide.with(context).load(profilePic).into(holder.profilePic);
         
-        if (picture)
-            Glide.with(context).load(holder.picUrl).into(holder.image);
+        if (picture) {
+            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+                Glide.with(context).load(holder.picUrl).into(holder.image);
+            } else {
+                Glide.with(context).load(holder.picUrl).fitCenter().into(holder.image);
+            }
+        }
 
         mHandler[currHandler].removeCallbacksAndMessages(null);
         mHandler[currHandler].postDelayed(new Runnable() {

@@ -107,4 +107,7 @@
     <string name="list_size_summary">Max number of tweets to store for a swipable list, in the database.</string>
     <string name="quotes">Quotes</string>
     <string name="no_quotes">No quotes</string>
+    <string name="tweet_style">Tweet Style</string>
+    <string name="tweet_style_description">How you want your tweets to look on the timeline.</string>
+    <string name="condensed_tweet_style">Compact Tweet Layout</string>
 </resources>

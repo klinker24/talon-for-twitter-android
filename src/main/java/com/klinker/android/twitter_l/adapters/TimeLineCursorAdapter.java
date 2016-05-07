@@ -186,7 +186,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
-        layout = R.layout.tweet;
+        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            layout = R.layout.tweet;
+        } else {
+            layout = R.layout.tweet_condensed;
+        }
 
         dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
@@ -997,11 +1001,21 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (picture) {
-            if (settings.preCacheImages){
-                Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+                if (settings.preCacheImages){
+                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+                } else {
+                    Glide.with(context).load(holder.picUrl).centerCrop().into(holder.image);
+                }
             } else {
-                Glide.with(context).load(holder.picUrl).centerCrop().into(holder.image);
+                if (settings.preCacheImages){
+                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+                } else {
+                    Glide.with(context).load(holder.picUrl).fitCenter().into(holder.image);
+                }
             }
+
+
         }
 
         if (settings.preCacheImages) {

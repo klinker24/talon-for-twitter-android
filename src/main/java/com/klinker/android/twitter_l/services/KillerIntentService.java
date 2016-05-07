@@ -6,7 +6,7 @@ import android.util.Log;
 
 public abstract class KillerIntentService extends IntentService {
 
-    private static final long TIMEOUT = 60000; // 60 seconds
+    private static final long TIMEOUT = 120000; // 120 seconds
 
     public KillerIntentService(String name) {
         super(name);

@@ -73,6 +73,7 @@ public class AppSettings {
     public static final int PICTURES_NORMAL = 0;
     public static final int PICTURES_SMALL = 1;
     public static final int PICTURES_NONE = 2;
+    public static final int CONDENSED_TWEETS = 3;
 
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
@@ -363,6 +364,11 @@ public class AppSettings {
             inlinePics = false;
         } else {
             inlinePics = true;
+        }
+
+        if (picturesType == CONDENSED_TWEETS) {
+            bottomPictures = true;
+            absoluteDate = false;
         }
 
         ringtone = PreferenceManager.getDefaultSharedPreferences(context)
