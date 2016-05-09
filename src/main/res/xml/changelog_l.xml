@@ -1,7 +1,8 @@
 <changelog>
 
     <version name="4.10.0">
-        <text>Use a "compact" (holo-style) layout for the timeline</text>
+        <text>New "compact" layout for the timeline, for those who just want everything on the screen</text>
+        <text>Fixes for duplicate favorite user notifications</text>
     </version>
 
     <version name="4.9.1">

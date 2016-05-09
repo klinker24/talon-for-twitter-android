@@ -87,7 +87,7 @@ public class RetweetersFragment extends Fragment {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (users.size() > 0) {
+                            if (users.size() > 0 && getActivity() != null) {
                                 listView.setAdapter(new PeopleArrayAdapter(getActivity(), users));
                                 listView.setVisibility(View.VISIBLE);
                             } else {
