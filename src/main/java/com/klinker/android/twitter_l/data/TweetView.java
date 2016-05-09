@@ -202,7 +202,9 @@ public class TweetView {
     }
 
     protected View createTweet() {
-        View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet, null, false);
+        View tweetView = ((Activity) context).getLayoutInflater().inflate(
+                settings.picturesType != AppSettings.CONDENSED_TWEETS ? R.layout.tweet : R.layout.tweet_condensed,
+                null, false);
         return tweetView;
     }
 

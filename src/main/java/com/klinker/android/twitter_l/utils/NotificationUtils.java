@@ -83,7 +83,7 @@ import twitter4j.User;
 public class NotificationUtils {
 
     public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 40;
+    public static final int TEST_TIMELINE_NUM = 100;
     public static final int TEST_MENTION_NUM = 0;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 0;
@@ -671,19 +671,26 @@ public class NotificationUtils {
                 NotificationManagerCompat.from(context);
         SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
 
-        Set<String> alreadyNotified = sharedPrefs.getStringSet("favorite_user_already_notified_" + account, new HashSet());
-
         if (!AppSettings.getInstance(context).notifications) {
             return;
         }
 
         int notifiedCount = 0;
         for (NotificationIdentifier notification : tweets) {
-            if (!alreadyNotified.contains(notification.tweetId)) {
-                notificationManager.notify(notification.notificationId, notification.notification);
-                alreadyNotified.add(notification.tweetId);
+            try {
+                FavoriteUserNotificationDataSource dataSource = new FavoriteUserNotificationDataSource(context);
+                dataSource.open();
 
-                notifiedCount++;
+                if (!dataSource.hasShownNotification(Long.parseLong(notification.tweetId))) {
+                    notificationManager.notify(notification.notificationId, notification.notification);
+                    dataSource.storeShowedNotification(Long.parseLong(notification.tweetId));
+
+                    notifiedCount++;
+                }
+
+                dataSource.close();
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
         }
 
@@ -754,8 +761,6 @@ public class NotificationUtils {
             sendToLightFlow(context, context.getResources().getString(R.string.favorite_users), shortText);
         }
 
-        alreadyNotified = cleanAlreadyNotifiedFavoriteTweets(alreadyNotified);
-        sharedPrefs.edit().putStringSet("favorite_user_already_notified_" + account, alreadyNotified).apply();
         cursor.close();
     }
 
@@ -1650,32 +1655,6 @@ public class NotificationUtils {
     public static int generateRandomId() {
         Random randomGenerator = new Random();
         return randomGenerator.nextInt(100000);
-    }
-
-    private static Set<String> cleanAlreadyNotifiedFavoriteTweets(Set<String> alreadyNotified) {
-
-        // we want to only keep 50 of these
-        List<String> all = new ArrayList();
-        for (String s : alreadyNotified) {
-            all.add(s);
-        }
-
-        List<String> list = new ArrayList<String>(alreadyNotified);
-
-        // sorts in ascending order (1, 2, 3...)
-        java.util.Collections.sort(list);
-
-        // we want to keep the latest tweets, so reverse it (3, 2, 1...)
-        Collections.reverse(list);
-
-        if (list.size() > 75) {
-            list = list.subList(0, 75);
-        }
-
-        alreadyNotified.clear();
-        alreadyNotified.addAll(list);
-
-        return alreadyNotified;
     }
 
     private static class NotificationIdentifier {
