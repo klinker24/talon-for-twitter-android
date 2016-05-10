@@ -1164,45 +1164,47 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.expandHelper.stop();
         }
 
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
-        translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationXAnimator);
-
         ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, holder.background.getTranslationY(), 0f);
         translationYAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
         translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(translationYAnimator);
 
-        int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (2 * padding));
-        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.width = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(widthAnimator);
+        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
+            translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+            translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationXAnimator);
 
-        int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
-        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
-        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.height = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
-        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorHeader);
+            int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
+            ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (2 * padding));
+            widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                    layoutParams.width = val;
+                    holder.imageHolder.setLayoutParams(layoutParams);
+                }
+            });
+            widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
+            widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(widthAnimator);
+
+            int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
+            ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
+            heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                    layoutParams.height = val;
+                    holder.imageHolder.setLayoutParams(layoutParams);
+                }
+            });
+            heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
+            heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(heightAnimatorHeader);
+        }
 
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -1320,64 +1322,64 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
+        final int headerHeight = (int) context.getResources().getDimension(R.dimen.header_expanded_height);//(int) (contentHeight * .5);
 
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
-        translationXAnimator.setDuration(ANIMATION_DURATION);
-        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationXAnimator);
+        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
+            translationXAnimator.setDuration(ANIMATION_DURATION);
+            translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationXAnimator);
 
-        if (!settings.bottomPictures) {
-            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-                ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-                translationYAnimator.setDuration(ANIMATION_DURATION);
-                translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(translationYAnimator);
+            ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
+            widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                    layoutParams.width = val;
+                    holder.imageHolder.setLayoutParams(layoutParams);
+                }
+            });
+            widthAnimator.setDuration(ANIMATION_DURATION);
+            widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(widthAnimator);
 
-                ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-                translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
-                translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(translationYAnimatorExpansion);
-            } else {
-                int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-                ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
-                translationYAnimator.setDuration(ANIMATION_DURATION);
-                translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(translationYAnimator);
-            }
+            ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
+            heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
+                    layoutParams.height = val;
+                    holder.imageHolder.setLayoutParams(layoutParams);
+                }
+            });
+            heightAnimatorHeader.setDuration(ANIMATION_DURATION);
+            heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(heightAnimatorHeader);
         }
 
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
-        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.width = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        widthAnimator.setDuration(ANIMATION_DURATION);
-        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(widthAnimator);
+        if (holder.imageHolder.getVisibility() == View.VISIBLE && settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimator.setDuration(ANIMATION_DURATION);
+            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimator);
 
-        final int headerHeight = (int) context.getResources().getDimension(R.dimen.header_expanded_height);//(int) (contentHeight * .5);
-        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
-        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.height = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        heightAnimatorHeader.setDuration(ANIMATION_DURATION);
-        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorHeader);
+            ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
+            translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
+            translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimatorExpansion);
+        } else {
+            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
+            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
+            translationYAnimator.setDuration(ANIMATION_DURATION);
+            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+            startAnimation(translationYAnimator);
+        }
 
         int d;
-        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
+        if (holder.imageHolder.getVisibility() == View.VISIBLE && settings.picturesType != AppSettings.CONDENSED_TWEETS) {
             d = contentHeight - headerHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();
         } else {
             d = contentHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();

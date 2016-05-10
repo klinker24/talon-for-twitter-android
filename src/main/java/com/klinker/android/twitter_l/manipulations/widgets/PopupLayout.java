@@ -35,16 +35,16 @@ public abstract class PopupLayout extends CardView {
     public static final int DEFAULT_DISTANCE_FROM_TOP = 50;
     public static final int DEFAULT_DISTANCE_FROM_LEFT = 10;
     public static final int DEFAULT_SLIDE_ANIMATION_TIME = 150;
-    public static final int DEFAULT_FADE_ANIMATION_TIME = 300;
+    public static final int DEFAULT_FADE_ANIMATION_TIME = 200;
     public static final int DEFAULT_WIDTH = 50;
     public static final int DEFAULT_HEIGHT = 50;
     public static final int DEFAULT_COLOR = 0xFFCC0000;
     public static final int DEFAULT_COLOR_SELECTED = 0xFFD94B4B;
 
-    public static final int LONG_ANIMATION_TIME = 200;
-    public static final int SHORT_ANIMATION_TIME = 100;
+    public static final int LONG_ANIMATION_TIME = 125;
+    public static final int SHORT_ANIMATION_TIME = 75;
 
-    public static final int REAL_ANIMATION_TIME = 400;
+    public static final int REAL_ANIMATION_TIME = 200;
 
     private static float FINAL_TITLE_ALPHA = .73f;
     private static float FINAL_DIM_ALPHA = .3f;
