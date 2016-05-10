@@ -3,6 +3,7 @@
     <version name="4.10.0">
         <text>New "compact" layout for the timeline, for those who just want everything on the screen. (UI Settings, Tweet Style)</text>
         <text>Fixes for duplicate favorite user notifications</text>
+        <text>Other various reported bug fixes</text>
     </version>
 
     <version name="4.9.1">
