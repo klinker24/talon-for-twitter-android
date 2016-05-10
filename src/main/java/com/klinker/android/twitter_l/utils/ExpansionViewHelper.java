@@ -47,8 +47,10 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 
 import org.jsoup.Jsoup;
@@ -197,6 +199,11 @@ public class ExpansionViewHelper {
                                     dialogInterface.dismiss();
 
                                     ((Activity) context).finish();
+
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -737,6 +744,11 @@ public class ExpansionViewHelper {
                                             .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();
+
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
                                 }
                             }).execute();
 
@@ -825,6 +837,11 @@ public class ExpansionViewHelper {
                                             .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();
+
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
                                 }
                             }).execute();
                             break;
