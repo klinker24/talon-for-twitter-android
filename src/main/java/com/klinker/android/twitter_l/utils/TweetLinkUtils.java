@@ -172,12 +172,12 @@ public class TweetLinkUtils {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/", "");
                     otherUrl += exp + "  ";
-                } else if (str.contains("i.imgur") && !str.contains("/a/")) {
+                } else if (str.contains("i.imgur") && !str.contains("/a/") && !str.contains(".gifv")) {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://i.imgur.com/" + exp.replace("http://i.imgur.com/", "").replace(".jpg", "") + "l.jpg";
                     imageUrl = imageUrl.replace("gallery/", "");
                     otherUrl += exp + "  ";
-                } else if (str.contains("imgur") && !str.contains("/a/")) {
+                } else if (str.contains("imgur") && !str.contains("/a/") && !str.contains(".gifv")) {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://i.imgur.com/" + exp.replace("http://imgur.com/", "").replace(".jpg", "") + "l.jpg";
                     imageUrl = imageUrl.replace("gallery/", "").replace("a/", "");
@@ -368,7 +368,7 @@ public class TweetLinkUtils {
                     int start = exp.indexOf(".com/") + 5;
                     imageUrl = "http://twitpic.com/show/full/" + exp.substring(start).replace("/", "");
                     otherUrl += exp + "  ";
-                } else if (str.contains("imgur") && !str.contains("/a/")) {
+                } else if (str.contains("imgur") && !str.contains("/a/") && !str.contains(".gifv")) {
                     int start = exp.indexOf(".com/") + 6;
                     imageUrl = "http://i.imgur.com/" + exp.substring(start) + "l.jpg" ;
                     imageUrl = imageUrl.replace("gallery/", "").replace("a/", ""); 
