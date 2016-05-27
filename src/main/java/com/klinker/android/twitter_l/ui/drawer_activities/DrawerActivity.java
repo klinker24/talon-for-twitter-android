@@ -1095,8 +1095,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         } else {
                             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
-                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter (Plus)");
+                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"luke@klinkerapps.com"});
+                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Plus)");
                             emailIntent.setType("plain/text");
 
                             startActivity(emailIntent);
