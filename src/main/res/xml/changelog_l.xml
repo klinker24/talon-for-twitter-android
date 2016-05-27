@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.10.1">
+        <text>Fixes for reported bugs</text>
+    </version>
+
     <version name="4.10.0">
         <text>New "compact" layout for the timeline, for those who just want everything on the screen. (UI Settings, Tweet Style)</text>
         <text>Fixes for duplicate favorite user notifications</text>
