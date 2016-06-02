@@ -54,6 +54,7 @@ import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.adapters.ColorPickerAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -1651,6 +1652,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         } else if (key.equals("widget_theme") || key.equals("text_size")) {
             context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        } else if (key.equals("locale")) {
+            App.updateResources(context);
+            getActivity().recreate();
         }
 
     }

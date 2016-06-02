@@ -118,6 +118,7 @@ public class AppSettings {
     public String myProfilePicUrl;
     public String secondProfilePicUrl;
     public String favoriteUserNames;
+    public String locale;
 
     public boolean transpartSystemBars;
     public boolean darkTheme;
@@ -370,6 +371,8 @@ public class AppSettings {
             bottomPictures = true;
             absoluteDate = false;
         }
+
+        locale = sharedPrefs.getString("locale", "none");
 
         ringtone = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
