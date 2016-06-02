@@ -17,11 +17,15 @@ package com.klinker.android.twitter_l.data;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
 import java.io.File;
+import java.util.Locale;
 
 public class App extends Application {
 
@@ -35,7 +39,20 @@ public class App extends Application {
                 EmojiUtils.init(App.this);
             }
         }).start();
+        updateResources(this);
+    }
 
+    public static void updateResources(Context app) {
+        AppSettings settings = AppSettings.getInstance(app);
+        Resources res = app.getResources();
+
+        if (!settings.locale.equals("none")) {
+            // Change locale settings in the app.
+            DisplayMetrics dm = res.getDisplayMetrics();
+            android.content.res.Configuration conf = res.getConfiguration();
+            conf.locale = new Locale(settings.locale);
+            res.updateConfiguration(conf, dm);
+        }
     }
 
     public static App getInstance(Context context) {

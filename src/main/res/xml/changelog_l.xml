@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="4.10.2">
+        <text>Manually select the language you want to use the app in</text>
+    </version>
+
     <version name="4.10.1">
         <text>Fixes for reported bugs</text>
     </version>

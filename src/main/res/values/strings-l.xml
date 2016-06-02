@@ -110,4 +110,6 @@
     <string name="tweet_style">Tweet Style</string>
     <string name="tweet_style_description">How you want your tweets to look on the timeline.</string>
     <string name="condensed_tweet_style">Compact Tweet Layout</string>
+    <string name="locale">Locale Selection</string>
+    <string name="locale_summary">Not all translations are complete.</string>
 </resources>
