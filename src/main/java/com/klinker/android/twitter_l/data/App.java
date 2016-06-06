@@ -52,6 +52,12 @@ public class App extends Application {
             android.content.res.Configuration conf = res.getConfiguration();
             conf.locale = new Locale(settings.locale);
             res.updateConfiguration(conf, dm);
+        } else {
+            // Change locale settings in the app.
+            DisplayMetrics dm = res.getDisplayMetrics();
+            android.content.res.Configuration conf = res.getConfiguration();
+            conf.locale = new Locale(Locale.getDefault().getLanguage());
+            res.updateConfiguration(conf, dm);
         }
     }
 
