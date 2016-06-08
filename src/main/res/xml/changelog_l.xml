@@ -1,8 +1,10 @@
 <changelog>
 
     <version name="4.10.3">
-        <text>Translation Updates</text>
-        <text>Bug fixes</text>
+        <text>Fix issue where favorite user notification didn't use a ringtone, for some users</text>
+        <text>Fix default user banner not displaying in the drawer, if user doesn't have a custom one</text>
+        <text>Translation updates</text>
+        <text>Other bug fixes</text>
     </version>
 
     <version name="4.10.2">
