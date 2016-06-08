@@ -682,6 +682,14 @@ public class NotificationUtils {
                 dataSource.open();
 
                 if (!dataSource.hasShownNotification(Long.parseLong(notification.tweetId))) {
+                    if (!Utils.isAndroidN() && notifiedCount == 0 && settings.sound) {
+                        try {
+                            notification.notification.sound = Uri.parse(settings.ringtone);
+                        } catch (Exception e) {
+                            notification.notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        }
+                    }
+
                     notificationManager.notify(notification.notificationId, notification.notification);
                     dataSource.storeShowedNotification(Long.parseLong(notification.tweetId));
 
