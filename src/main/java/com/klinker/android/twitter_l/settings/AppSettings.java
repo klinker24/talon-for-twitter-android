@@ -78,6 +78,7 @@ public class AppSettings {
     public static final int PICTURES_NORMAL = 0;
     public static final int PICTURES_SMALL = 1;
     public static final int PICTURES_NONE = 2;
+    public static final int CONDENSED_TWEETS = 3;
 
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
@@ -122,6 +123,7 @@ public class AppSettings {
     public String myProfilePicUrl;
     public String secondProfilePicUrl;
     public String favoriteUserNames;
+    public String locale;
 
     public boolean transpartSystemBars;
     public boolean darkTheme;
@@ -209,6 +211,7 @@ public class AppSettings {
     public int timelineSize;
     public int mentionsSize;
     public int dmSize;
+    public int listSize;
     public int numberOfAccounts = 0;
     public int pageToOpen;
     public int quoteStyle;
@@ -326,12 +329,12 @@ public class AppSettings {
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
         transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
         staticUi = sharedPrefs.getBoolean("static_ui", false);
-        higherQualityImages = sharedPrefs.getBoolean("high_quality_images", false);
+        higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
-            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).commit();
+            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
         } else {
-            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", false).commit();
+            sharedPrefs.edit().putBoolean("pre_cache_wifi_only", false).apply();
         }
 
         // set up tweetmarker
@@ -367,6 +370,13 @@ public class AppSettings {
             inlinePics = true;
         }
 
+        if (picturesType == CONDENSED_TWEETS) {
+            bottomPictures = true;
+            absoluteDate = false;
+        }
+
+        locale = sharedPrefs.getString("locale", "none");
+
         ringtone = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
         Log.v("talon_ringtone", ringtone);
@@ -399,6 +409,7 @@ public class AppSettings {
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
+        listSize = Integer.parseInt(sharedPrefs.getString("list_size", "200"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
@@ -520,7 +531,7 @@ public class AppSettings {
 
         sharedPreferences.edit()
                 .putBoolean(key, value)
-                .commit();
+                .apply();
     }
 
     protected void setValue(String key, int value, Context context) {
@@ -530,7 +541,7 @@ public class AppSettings {
 
             sharedPreferences.edit()
                     .putInt(key, value)
-                    .commit();
+                    .apply();
         } catch (Exception e) {
 
         }
@@ -543,7 +554,7 @@ public class AppSettings {
 
         sharedPreferences.edit()
                 .putString(key, value)
-                .commit();
+                .apply();
 
     }
 

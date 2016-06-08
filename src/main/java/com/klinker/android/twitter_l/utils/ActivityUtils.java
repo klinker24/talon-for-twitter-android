@@ -37,6 +37,7 @@ public class ActivityUtils {
     private boolean useSecondAccount = false;
     private int currentAccount;
     private long lastRefresh;
+    private long lastQuoteRefresh;
     private long originalTime; // if the tweets came before this time, then we don't want to show them in activity because it would just get blown up.
 
     private List<String> notificationItems = new ArrayList<String>();
@@ -71,6 +72,8 @@ public class ActivityUtils {
         }
 
         this.lastRefresh = sharedPrefs.getLong("last_activity_refresh_" + currentAccount, 0l);
+        this.lastQuoteRefresh = sharedPrefs.getLong("last_activity_quote_refresh_" + currentAccount, 0l);
+
         this.originalTime = sharedPrefs.getLong("original_activity_refresh_" + currentAccount, 0l);
 
         this.notificationTitle = context.getString(R.string.new_activity) + " - @" + (useSecondAccount ? settings.secondScreenName : settings.myScreenName);
@@ -111,6 +114,10 @@ public class ActivityUtils {
         }
 
         if (getMentions(twitter)) {
+            newActivity = true;
+        }
+
+        if (getQuotes(twitter)) {
             newActivity = true;
         }
 
@@ -235,12 +242,25 @@ public class ActivityUtils {
     }
 
     public void commitLastRefresh(long id) {
-        sharedPrefs.edit().putLong("last_activity_refresh_" + currentAccount, id).commit();
+        sharedPrefs.edit().putLong("last_activity_refresh_" + currentAccount, id).apply();
+    }
+
+    public void commitLastQuoteRefresh(long id) {
+        sharedPrefs.edit().putLong("last_activity_quote_refresh_" + currentAccount, id).apply();
     }
 
     public void insertMentions(List<Status> mentions) {
         try {
             List<String> notis = ActivityDataSource.getInstance(context).insertMentions(mentions, currentAccount);
+            notificationItems.addAll(notis);
+        } catch (Throwable t) {
+
+        }
+    }
+
+    public void insertQuotes(List<Status> quotes) {
+        try {
+            List<String> notis = ActivityDataSource.getInstance(context).insertQuotes(quotes, currentAccount);
             notificationItems.addAll(notis);
         } catch (Throwable t) {
 
@@ -299,7 +319,7 @@ public class ActivityUtils {
         boolean newActivity = false;
 
         try {
-            if (lastRefresh != 0l) {
+            if (lastRefresh != 0L) {
                 Paging paging = new Paging(1, 50, lastRefresh);
                 List<Status> mentions = twitter.getMentionsTimeline(paging);
 
@@ -317,6 +337,36 @@ public class ActivityUtils {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newActivity;
+    }
+
+    public boolean getQuotes(Twitter twitter) {
+        boolean newActivity = false;
+        String screenname = useSecondAccount ?
+                settings.secondScreenName : settings.myScreenName;
+
+        try {
+            Query query = new Query(screenname + "/status/");
+
+            if (lastQuoteRefresh == 0L) { // just get last 5 if it is the first time.
+                query.setCount(5);
+            } else {
+                query.setSinceId(lastQuoteRefresh);
+                query.setCount(100);
+            }
+
+            List<Status> quotes = twitter.search().search(query).getTweets();
+            quotes = QuoteUtil.stripNoQuotesForActivity(quotes, screenname);
+
+            if (quotes.size() > 0) {
+                insertQuotes(quotes);
+                commitLastQuoteRefresh(quotes.get(0).getId());
+                newActivity = true;
+            }
+        } catch (TwitterException e) {
             e.printStackTrace();
         }
 
@@ -364,7 +414,7 @@ public class ActivityUtils {
             SharedPreferences.Editor e = sharedPrefs.edit();
             e.putStringSet("activity_latest_followers_" + currentAccount, latestFollowers);
             e.putInt("activity_follower_count_" + currentAccount, me.getFollowersCount());
-            e.commit();
+            e.apply();
         } catch (Exception e) {
             e.printStackTrace();
         }

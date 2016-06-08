@@ -83,6 +83,7 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
     }
 
     private static final String SAVE_USER = "https://omega-jet-799.appspot.com/_ah/api/license/v1/saveUser/";
+    private static final String TWITTER_AUTH_ENDPOINT = "https://omega-jet-799.appspot.com/_ah/api/license/v1/twitterClientAuth/";
 
     public String getUserUrl() {
         try {
@@ -93,7 +94,7 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
 
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(
-                    SAVE_USER + sig
+                    TWITTER_AUTH_ENDPOINT + sig + "/" + MaterialLogin.KEY_VERSION
             );
 
             HttpResponse response = client.execute(post);
@@ -124,7 +125,7 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
                 SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
 
 
-                sharedPrefs.edit().putString("consumer_key_2", key).commit();
+                sharedPrefs.edit().putString("consumer_key_" + MaterialLogin.KEY_VERSION, key).apply();
 
                 return url;
             } else {
@@ -219,7 +220,7 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
                     doCheck();
                 } else {
                     isCheckComplete = true;
-                    licenced = false;
+                    licenced = true;
                 }
             } else {
                 isCheckComplete = true;

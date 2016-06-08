@@ -33,7 +33,7 @@ public class LauncherCompose extends ComposeActivity {
             AppSettings.getSharedPreferences(this)
                     .edit()
                     .putInt("current_account", acc)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }

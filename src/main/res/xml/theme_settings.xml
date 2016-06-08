@@ -90,8 +90,8 @@
 
         <ListPreference
             android:key="timeline_pictures"
-            android:title="@string/timeline_pictures"
-            android:summary="@string/timeline_pictures_summary"
+            android:title="@string/tweet_style"
+            android:summary="@string/tweet_style_description"
             android:defaultValue="0"
             android:entries="@array/timeline_pictures"
             android:entryValues="@array/timeline_pictures_inserted"/>

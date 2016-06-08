@@ -81,7 +81,7 @@ public class ListFragment extends MainFragment {
 
         if (sharedPrefs.getBoolean("refresh_me_list_" + listId, false)) { // this will restart the loader to display the new tweets
             getCursorAdapter(true);
-            sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, false).commit();
+            sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, false).apply();
         }
     }
 
@@ -308,10 +308,10 @@ public class ListFragment extends MainFragment {
                         int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
 
                         if (position > 0  && !settings.topDown) {
-                            int size = (getResources().getBoolean(R.bool.isTablet) ? 0 : mActionBarSize) + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
+                            int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
                             try {
                                 listView.setSelectionFromTop(position + listView.getHeaderViewsCount() -
-                                                (getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
+                                                //(getResources().getBoolean(R.bool.isTablet) ? 1 : 0) -
                                                 (settings.jumpingWorkaround ? 1 : 0),
                                         size);
                             } catch (Exception e) {
@@ -373,11 +373,11 @@ public class ListFragment extends MainFragment {
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
+                sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).apply();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).commit();
+                    sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).apply();
                 }
             }
         } catch (Exception e) {

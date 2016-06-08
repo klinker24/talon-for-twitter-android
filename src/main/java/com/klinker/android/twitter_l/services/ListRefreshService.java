@@ -22,7 +22,7 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ListRefreshService extends IntentService {
+public class ListRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -32,7 +32,7 @@ public class ListRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
             return;
         }
@@ -105,7 +105,7 @@ public class ListRefreshService extends IntentService {
                 dataSource.insertTweets(statuses, listId);
 
                 if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).commit();
+                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).apply();
                 }
 
                 sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));

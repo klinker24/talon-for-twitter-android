@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
 
-public class SendScheduledTweet extends IntentService {
+public class SendScheduledTweet extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -48,7 +48,7 @@ public class SendScheduledTweet extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         Log.v("talon_scheduled_tweet", "started service");
 
         final String text = intent.getStringExtra(ViewScheduledTweets.EXTRA_TEXT);

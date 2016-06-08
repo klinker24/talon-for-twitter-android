@@ -34,7 +34,7 @@ public class LauncherTweetActivity extends TweetActivity {
             AppSettings.getSharedPreferences(this)
                     .edit()
                     .putInt("current_account", acc)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }

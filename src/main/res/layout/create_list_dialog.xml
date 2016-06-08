@@ -43,6 +43,7 @@
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:contentDescription="@string/cancel"
+            android:textColor="?textColor"
             android:text="@string/cancel"
             android:id="@+id/cancel"/>
         <Button
@@ -52,6 +53,7 @@
             android:background="?android:selectableItemBackground"
             android:contentDescription="Private List"
             android:text="@string/sPrivate"
+            android:textColor="?textColor"
             android:id="@+id/private_btn"/>
         <Button
             android:layout_width="0dp"
@@ -60,6 +62,7 @@
             android:background="?android:selectableItemBackground"
             android:contentDescription="Public List"
             android:text="@string/sPublic"
+            android:textColor="?textColor"
             android:id="@+id/public_btn"/>
     </LinearLayout>
 

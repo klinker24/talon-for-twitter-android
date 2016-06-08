@@ -43,7 +43,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class TimelineRefreshService extends IntentService {
+public class TimelineRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -53,7 +53,7 @@ public class TimelineRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         scheduleRefresh(this);
 
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
@@ -159,7 +159,7 @@ public class TimelineRefreshService extends IntentService {
                 context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
                 return;
             } else {
-                sharedPrefs.edit().putLong("last_timeline_insert", currentTime).commit();
+                sharedPrefs.edit().putLong("last_timeline_insert", currentTime).apply();
             }
 
             int inserted = 0;
@@ -171,11 +171,11 @@ public class TimelineRefreshService extends IntentService {
             }
 
             if (inserted > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
             }
 
             if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
                 if (settings.notifications && (settings.timelineNot || settings.favoriteUserNotifications) && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
                     NotificationUtils.refreshNotification(context, !settings.timelineNot);

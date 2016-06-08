@@ -42,7 +42,7 @@ import java.net.URL;
 import java.util.Calendar;
 
 
-public class PreCacheService extends IntentService {
+public class PreCacheService extends KillerIntentService {
 
     private static final boolean DEBUG = false;
 
@@ -53,7 +53,7 @@ public class PreCacheService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
 
         if (DEBUG) {
             Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());

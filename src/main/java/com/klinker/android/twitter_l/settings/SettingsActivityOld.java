@@ -133,7 +133,7 @@ public class SettingsActivityOld extends FragmentActivity {
             if (sound) {
                 alert.add("4");
             }
-            sharedPrefs.edit().putStringSet("alert_types", alert).commit();
+            sharedPrefs.edit().putStringSet("alert_types", alert).apply();
 
             Set<String> timeline = sharedPrefs.getStringSet("timeline_set", new HashSet<String>());
             timeline.clear();
@@ -146,7 +146,7 @@ public class SettingsActivityOld extends FragmentActivity {
             if (dmsNot) {
                 timeline.add("3");
             }
-            sharedPrefs.edit().putStringSet("timeline_set", timeline).commit();
+            sharedPrefs.edit().putStringSet("timeline_set", timeline).apply();
 
             Set<String> interactions = sharedPrefs.getStringSet("interactions_set", new HashSet<String>());
             interactions.clear();
@@ -159,9 +159,9 @@ public class SettingsActivityOld extends FragmentActivity {
             if (followersNot) {
                 interactions.add("3");
             }
-            sharedPrefs.edit().putStringSet("interactions_set", interactions).commit();
+            sharedPrefs.edit().putStringSet("interactions_set", interactions).apply();
 
-            sharedPrefs.edit().putBoolean("version_1.20_1", false).commit();
+            sharedPrefs.edit().putBoolean("version_1.20_1", false).apply();
 
             recreate();
         }
@@ -330,7 +330,7 @@ public class SettingsActivityOld extends FragmentActivity {
                     if (!userKnows) {
                         userKnows = true;
 
-                        sharedPrefs.edit().putBoolean("user_knows_navigation_drawer", true).commit();
+                        sharedPrefs.edit().putBoolean("user_knows_navigation_drawer", true).apply();
                     }
                     return true;
                 }

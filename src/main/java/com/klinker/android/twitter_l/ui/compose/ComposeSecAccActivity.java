@@ -40,7 +40,7 @@ public class ComposeSecAccActivity extends ComposeActivity {
                 reply.requestFocus();
             }
 
-            sharedPrefs.edit().putString("draft", "").commit();
+            sharedPrefs.edit().putString("draft", "").apply();
         }
 
         notiId = getIntent().getLongExtra("id", 0);

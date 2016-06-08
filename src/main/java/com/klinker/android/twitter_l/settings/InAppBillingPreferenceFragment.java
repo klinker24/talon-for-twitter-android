@@ -130,7 +130,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                             JSONObject purchaseData = new JSONObject(purchaseDataList.get(i));
                             consumePurchase(purchaseData);
 
-                            sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                            sharedPreferences.edit().putBoolean("2016_supporter", true).apply();
                         }
 
                     }

@@ -71,9 +71,9 @@ public class UpdateUtils {
         if (rateItShown != 0l && currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
             // show dialog
             showRateItDialog(context, sharedPrefs);
-            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
+            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).apply();
         } if (rateItShown == 0l) {
-            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).commit();
+            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).apply();
         }
 
         boolean justInstalled = runFirstInstalled(sharedPrefs);
@@ -83,7 +83,7 @@ public class UpdateUtils {
             if (sharedPrefs.getBoolean("version_3_5", true)) {
                 sharedPrefs.edit().putBoolean("version_3_5", false)
                         .putBoolean("use_snackbar", false)
-                        .commit();
+                        .apply();
 
                 AppSettings.getInstance(context).useSnackbar = false;
                 AppSettings.invalidate();
@@ -102,7 +102,7 @@ public class UpdateUtils {
             }
 
             if (sharedPrefs.getBoolean("need_cache_cleared_for_glide", true)) {
-                sharedPrefs.edit().putBoolean("need_cache_cleared_for_glide", false).commit();
+                sharedPrefs.edit().putBoolean("need_cache_cleared_for_glide", false).apply();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -112,13 +112,13 @@ public class UpdateUtils {
             }
 
             if (sharedPrefs.getBoolean("need_translation_update", true)) {
-                sharedPrefs.edit().putBoolean("need_translation_update", false).commit();
+                sharedPrefs.edit().putBoolean("need_translation_update", false).apply();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             User user = Utils.getTwitter(context, AppSettings.getInstance(context)).verifyCredentials();
-                            sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).commit();
+                            sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).apply();
                         } catch (Exception e) {
 
                         }
@@ -126,7 +126,7 @@ public class UpdateUtils {
                 }).start();
             }
         } else {
-            sharedPrefs.edit().putBoolean("version_3_5", false).commit();
+            sharedPrefs.edit().putBoolean("version_3_5", false).apply();
         }
     }
 
@@ -140,14 +140,14 @@ public class UpdateUtils {
                 new Date().getTime() - sharedPrefs.getLong("first_run_time", 0) > SUPPORTER_TIMEOUT) {
             // we want to show them the supporter dialog if they haven't seen it
             if (!sharedPrefs.getBoolean("seen_supporter_dialog", false)) {
-                sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).commit();
+                sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).apply();
                 return true;
             }
         } else if (sharedPrefs.getLong("first_run_time", 0) == 0 &&
                 !sharedPrefs.getBoolean("seen_supporter_dialog", false)) {
             // if there is not a time set for the first run
             // and they have not seen the dialog
-            sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).commit();
+            sharedPrefs.edit().putBoolean("seen_supporter_dialog", true).apply();
             return true;
         }
 
@@ -195,7 +195,7 @@ public class UpdateUtils {
             e.putLong("original_activity_refresh_" + 1, Calendar.getInstance().getTimeInMillis());
             e.putLong("original_activity_refresh_" + 2, Calendar.getInstance().getTimeInMillis());
 
-            e.commit();
+            e.apply();
 
             return true;
         } else {
@@ -208,7 +208,7 @@ public class UpdateUtils {
         int currentAppVersion = getAppVersion(context);
 
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
-            sharedPrefs.edit().putInt("app_version", currentAppVersion).commit();
+            sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -231,7 +231,7 @@ public class UpdateUtils {
                         try {
                             context.startActivity(goToMarket);
 
-                            sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                            sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
                         } catch (ActivityNotFoundException e) {
                             Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
                         }
@@ -248,13 +248,13 @@ public class UpdateUtils {
 
                         context.startActivity(share);
 
-                        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
                     }
                 })
                 .setNeutralButton(R.string.ignore, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+                        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
                     }
                 })
                 .create().show();
@@ -351,7 +351,7 @@ public class UpdateUtils {
                             SharedPreferences.Editor e = sharedPrefs.edit();
                             e.putBoolean("is_logged_in_1", false);
                             e.putBoolean("is_logged_in_2", false);
-                            e.commit();
+                            e.apply();
 
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }

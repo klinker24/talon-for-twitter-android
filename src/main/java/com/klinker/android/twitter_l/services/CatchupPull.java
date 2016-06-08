@@ -41,7 +41,7 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 
-public class CatchupPull extends IntentService {
+public class CatchupPull extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -52,7 +52,7 @@ public class CatchupPull extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         if (CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || !MainActivity.canSwitch) {
             return;
         }
@@ -147,7 +147,7 @@ public class CatchupPull extends IntentService {
             int inserted = dataSource.insertTweets(statuses, currentAccount, lastId);
 
             if (inserted > 0 && statuses.size() > 0) {
-                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+                sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
                 unreadNow += statuses.size();
             }
 
@@ -161,7 +161,7 @@ public class CatchupPull extends IntentService {
                 }, 15000);
             }
 
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
         }
 
         try {
@@ -183,8 +183,8 @@ public class CatchupPull extends IntentService {
 
             int numNew = dataSource.insertTweets(statuses, currentAccount);
 
-            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-            sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+            sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
             if (settings.notifications && settings.mentionsNot && numNew > 0) {
                 NotificationUtils.refreshNotification(context);
@@ -195,7 +195,7 @@ public class CatchupPull extends IntentService {
             Log.d("Twitter Update Error", e.getMessage());
         }
 
-        sharedPrefs.edit().putInt("pull_unread", unreadNow).commit();
+        sharedPrefs.edit().putInt("pull_unread", unreadNow).apply();
         context.startService(new Intent(context, TalonPullNotificationService.class));
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));

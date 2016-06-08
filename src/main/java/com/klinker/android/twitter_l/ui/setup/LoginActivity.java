@@ -51,6 +51,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.ui.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
@@ -104,7 +105,7 @@ public class LoginActivity extends LVLActivity {
 
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
-        sharedPrefs.edit().putInt("key_version_" + currAccount, 2).commit();
+        sharedPrefs.edit().putInt("key_version_" + currAccount, MaterialLogin.KEY_VERSION).apply();
 
         context = this;
         settings = AppSettings.getInstance(context);
@@ -302,15 +303,15 @@ public class LoginActivity extends LVLActivity {
                     Intent timeline = new Intent(context, MainActivity.class);
                     timeline.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     timeline.putExtra("tutorial", true);
-                    sharedPrefs.edit().putBoolean("should_refresh", false).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
-                    sharedPrefs.edit().putBoolean("refresh_me_dm", true).commit();
-                    sharedPrefs.edit().putBoolean("need_new_dm", false).commit();
-                    sharedPrefs.edit().putBoolean("need_clean_databases_version_1_3_0", false).commit();
-                    sharedPrefs.edit().putBoolean("setup_v_two", true).commit();
-                    sharedPrefs.edit().putBoolean("version_2_2_7_1", false).commit();
-                    sharedPrefs.edit().putBoolean("version_1_3_2", false).commit();
+                    sharedPrefs.edit().putBoolean("should_refresh", false).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
+                    sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();
+                    sharedPrefs.edit().putBoolean("need_new_dm", false).apply();
+                    sharedPrefs.edit().putBoolean("need_clean_databases_version_1_3_0", false).apply();
+                    sharedPrefs.edit().putBoolean("setup_v_two", true).apply();
+                    sharedPrefs.edit().putBoolean("version_2_2_7_1", false).apply();
+                    sharedPrefs.edit().putBoolean("version_1_3_2", false).apply();
                     AppSettings.invalidate();
                     startActivity(timeline);
                 }
@@ -491,7 +492,7 @@ public class LoginActivity extends LVLActivity {
                     e.putBoolean("is_logged_in_2", true);
                 }
 
-                e.commit(); // save changes
+                e.apply(); // save changes
 
                 // Hide login_activity button
                 btnLoginTwitter.setText(getResources().getString(R.string.initial_sync));
@@ -536,18 +537,18 @@ public class LoginActivity extends LVLActivity {
                 countUser(user.getScreenName());
 
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
-                    sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).commit();
-                    sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).commit();
-                    sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).commit();
-                    sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_1", user.getOriginalProfileImageURL()).commit();
-                    sharedPrefs.edit().putLong("twitter_id_1", user.getId()).commit();
+                    sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).apply();
+                    sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).apply();
+                    sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).apply();
+                    sharedPrefs.edit().putString("twitter_background_url_1", user.getProfileBannerURL()).apply();
+                    sharedPrefs.edit().putString("profile_pic_url_1", user.getOriginalProfileImageURL()).apply();
+                    sharedPrefs.edit().putLong("twitter_id_1", user.getId()).apply();
                 } else {
-                    sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).commit();
-                    sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).commit();
-                    sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).commit();
-                    sharedPrefs.edit().putString("profile_pic_url_2", user.getOriginalProfileImageURL()).commit();
-                    sharedPrefs.edit().putLong("twitter_id_2", user.getId()).commit();
+                    sharedPrefs.edit().putString("twitter_users_name_2", user.getName()).apply();
+                    sharedPrefs.edit().putString("twitter_screen_name_2", user.getScreenName()).apply();
+                    sharedPrefs.edit().putString("twitter_background_url_2", user.getProfileBannerURL()).apply();
+                    sharedPrefs.edit().putString("profile_pic_url_2", user.getOriginalProfileImageURL()).apply();
+                    sharedPrefs.edit().putLong("twitter_id_2", user.getId()).apply();
                 }
 
                 // syncs 200 timeline tweets with 2 pages
@@ -569,7 +570,7 @@ public class LoginActivity extends LVLActivity {
                 statuses = twitter.getHomeTimeline(paging);
 
                 if (statuses.size() > 0) {
-                    sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_tweet_id_" + sharedPrefs.getInt("current_account", 1), statuses.get(0).getId()).apply();
                 }
 
                 for (twitter4j.Status status : statuses) {
@@ -618,7 +619,7 @@ public class LoginActivity extends LVLActivity {
 
                     List<DirectMessage> dm = twitter.getDirectMessages(paging);
 
-                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).commit();
+                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).apply();
 
                     for (DirectMessage directMessage : dm) {
                         try {

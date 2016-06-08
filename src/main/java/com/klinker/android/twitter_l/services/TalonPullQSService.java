@@ -66,8 +66,8 @@ public class TalonPullQSService extends TileService {
     }*/
 
     @Override
-    public int onTileAdded() {
-        int added = super.onTileAdded();
+    public void onTileAdded() {
+        super.onTileAdded();
 
         if (AppSettings.getInstance(this).pushNotifications) {
             getQsTile().setState(Tile.STATE_ACTIVE);
@@ -75,7 +75,6 @@ public class TalonPullQSService extends TileService {
             getQsTile().setState(Tile.STATE_INACTIVE);
         }
 
-        return added;
     }
 
     private void startPull() {

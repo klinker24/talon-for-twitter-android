@@ -31,7 +31,7 @@ public class LauncherProfilePager extends ProfilePager {
             AppSettings.getSharedPreferences(this)
                     .edit()
                     .putInt("current_account", acc)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }

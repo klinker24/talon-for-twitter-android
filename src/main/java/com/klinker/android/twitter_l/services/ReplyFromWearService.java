@@ -32,7 +32,7 @@ import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ReplyFromWearService extends IntentService {
+public class ReplyFromWearService extends KillerIntentService {
 
     public static final String REPLY_TO_NAME = "reply_to_name";
     public static final String IN_REPLY_TO_ID = "tweet_id";
@@ -56,7 +56,7 @@ public class ReplyFromWearService extends IntentService {
 
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void handleIntent(Intent intent) {
 
         final AppSettings settings = AppSettings.getInstance(this);
 

@@ -224,7 +224,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             try {
                 RelativeLayout.LayoutParams toolParams = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                if (!getResources().getBoolean(R.bool.isTablet)) {
                     toolParams.topMargin = Utils.getStatusBarHeight(context);
                 }
                 toolbar.setLayoutParams(toolParams);
@@ -232,7 +232,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 // they are linear layout here
                 LinearLayout.LayoutParams toolParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
                 toolParams.height = Utils.getActionBarHeight(context);
-                if (!getResources().getBoolean(R.bool.isTablet) && !landscape) {
+                if (!getResources().getBoolean(R.bool.isTablet)) {
                     toolParams.topMargin = Utils.getStatusBarHeight(context);
                 }
                 toolbar.setLayoutParams(toolParams);
@@ -245,9 +245,15 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
 
             if (getResources().getBoolean(R.bool.isTablet) && toolbar != null) {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
-                params.topMargin = Utils.getStatusBarHeight(context);
-                toolbar.setLayoutParams(params);
+                if (toolbar.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.topMargin = Utils.getStatusBarHeight(context);
+                    toolbar.setLayoutParams(params);
+                } else if (toolbar.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+                    params.topMargin = Utils.getStatusBarHeight(context);
+                    toolbar.setLayoutParams(params);
+                }
             }
         }
 
@@ -351,7 +357,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         notificationList.enableSwipeToDismiss();
                         oldInteractions.setText(getResources().getString(R.string.old_interactions));
                         readButton.setImageResource(openMailResource);
-                        sharedPrefs.edit().putBoolean("new_notification", false).commit();
+                        sharedPrefs.edit().putBoolean("new_notification", false).apply();
                     } catch (Exception e) {
                         // don't have talon pull on
                     }
@@ -616,9 +622,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 public void onClick(View view) {
                     if (canSwitch) {
                         if (current == 1) {
-                            sharedPrefs.edit().putInt("current_account", 2).commit();
+                            sharedPrefs.edit().putInt("current_account", 2).apply();
                         } else {
-                            sharedPrefs.edit().putInt("current_account", 1).commit();
+                            sharedPrefs.edit().putInt("current_account", 1).apply();
                         }
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
@@ -663,8 +669,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sharedPrefs.edit().putInt("current_account", 2).commit();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    sharedPrefs.edit().putInt("current_account", 2).apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -696,8 +702,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sharedPrefs.edit().putInt("current_account", 1).commit();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").commit();
+                                    sharedPrefs.edit().putInt("current_account", 1).apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -742,7 +748,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         View navBarSeperater = findViewById(R.id.nav_bar_seperator);
 
-        if (translucent && Utils.hasNavBar(context)) {
+        if (translucent && Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet))) {
             try {
                 RelativeLayout.LayoutParams navParams = (RelativeLayout.LayoutParams) navBarSeperater.getLayoutParams();
                 navParams.height = navBarHeight;
@@ -794,24 +800,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             status2Params.height = statusBarHeight;
             drawerStatusBar.setLayoutParams(status2Params);
             drawerStatusBar.setVisibility(View.VISIBLE);
-        }
-
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            if (toolbar != null) {
-                toolbar.setNavigationIcon(null);
-            }
-
-            if (!getResources().getBoolean(R.bool.seven_inch_tablet)) {
-                int amount = -1 * Utils.getActionBarHeight(context);
-                findViewById(R.id.header).setTranslationY(amount);
-
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) drawerList.getLayoutParams();
-                params.topMargin = amount;
-                params.height = params.height - amount;
-                drawerList.setLayoutParams(params);
-            }
         }
 
         if(!settings.pushNotifications || !settings.useInteractionDrawer) {
@@ -1038,14 +1026,14 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         Intent settings = new Intent(context, SettingsActivity.class);
         finish();
-        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
         startActivity(settings);
     }
 
     public void onHelpClicked(View v) {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
-        sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+        sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         Intent settings = new Intent(context, PrefActivity.class);
         settings.putExtra("position", 8)
                 .putExtra("title",
@@ -1107,8 +1095,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                         } else {
                             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@klinkerapps.com"});
-                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon for Twitter (Plus)");
+                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"luke@klinkerapps.com"});
+                            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Plus)");
                             emailIntent.setType("plain/text");
 
                             startActivity(emailIntent);
@@ -1159,6 +1147,19 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             translucent = true;
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+            try {
+                int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
+
+                if (immersive == 1) {
+                    translucent = false;
+                }
+            } catch (Exception e) {
+            }
+        } else if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
+            translucent = true;
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
             try {
                 int immersive = android.provider.Settings.System.getInt(getContentResolver(), "immersive_mode");
@@ -1242,7 +1243,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         e.remove("original_activity_refresh_" + currentAccount);
         e.remove("activity_follower_count_" + currentAccount);
         e.remove("activity_latest_followers_" + currentAccount);
-        e.commit();
+        e.apply();
 
         HomeDataSource homeSources = HomeDataSource.getInstance(context);
         homeSources.deleteAllTweets(currentAccount);
@@ -1252,9 +1253,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
         DMDataSource dmSource = DMDataSource.getInstance(context);
         dmSource.deleteAllTweets(currentAccount);
-
-        FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
-        favs.deleteAllUsers(currentAccount);
 
         InteractionsDataSource inters = InteractionsDataSource.getInstance(context);
         inters.deleteAllInteractions(currentAccount);
@@ -1283,17 +1281,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         AppSettings.invalidate();
 
         if (currentAccount == 1 && login2) {
-            e.putInt("current_account", 2).commit();
+            e.putInt("current_account", 2).apply();
             finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
         } else if (currentAccount == 2 && login1) {
-            e.putInt("current_account", 1).commit();
+            e.putInt("current_account", 1).apply();
             finish();
             Intent next = new Intent(context, MainActivity.class);
             startActivity(next);
         } else { // only the one account
-            e.putInt("current_account", 1).commit();
+            e.putInt("current_account", 1).apply();
             finish();
             Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
@@ -1306,11 +1304,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         super.onStart();
 
         if (sharedPrefs.getBoolean("remake_me", false) && !MainActivity.isPopup) {
-            sharedPrefs.edit().putBoolean("remake_me", false).commit();
+            sharedPrefs.edit().putBoolean("remake_me", false).apply();
             recreate();
 
             sharedPrefs.edit().putBoolean("launcher_frag_switch", false)
-                    .putBoolean("dont_refresh", true).commit();
+                    .putBoolean("dont_refresh", true).apply();
 
             return;
         }
@@ -1334,7 +1332,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         e.putInt("new_favorites", 0);
         e.putInt("new_retweets", 0);
         e.putString("old_interaction_text", "");
-        e.commit();
+        e.apply();
 
         DrawerActivity.settings = AppSettings.getInstance(context);
 
@@ -1471,13 +1469,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
             case R.id.menu_compose:
                 Intent compose = new Intent(context, ComposeActivity.class);
-                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).apply();
                 startActivity(compose);
                 return super.onOptionsItemSelected(item);
 
             case R.id.menu_direct_message:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
-                sharedPrefs.edit().putBoolean("from_notification_bool", false).commit();
+                sharedPrefs.edit().putBoolean("from_notification_bool", false).apply();
                 startActivity(dm);
                 return super.onOptionsItemSelected(item);
 
@@ -1485,7 +1483,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
                 Intent settings = new Intent(context, SettingsActivity.class);
                 finish();
-                sharedPrefs.edit().putBoolean("should_refresh", false).commit();
+                sharedPrefs.edit().putBoolean("should_refresh", false).apply();
                 //overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
                 startActivity(settings);
                 return super.onOptionsItemSelected(item);

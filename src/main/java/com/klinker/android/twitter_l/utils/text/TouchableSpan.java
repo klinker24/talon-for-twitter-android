@@ -255,8 +255,8 @@ public class TouchableSpan extends ClickableSpan {
                         String item = full.replace("#", "") + " ";
 
                         String current = sharedPreferences.getString("muted_hashtags", "");
-                        sharedPreferences.edit().putString("muted_hashtags", current + item).commit();
-                        sharedPreferences.edit().putBoolean("refresh_me", true).commit();
+                        sharedPreferences.edit().putString("muted_hashtags", current + item).apply();
+                        sharedPreferences.edit().putBoolean("refresh_me", true).apply();
 
                         if (mContext instanceof DrawerActivity) {
                             ((Activity)mContext).recreate();
@@ -303,7 +303,7 @@ public class TouchableSpan extends ClickableSpan {
 
                                     FavoriteUsersDataSource.getInstance(mContext).createUser(user, current);
 
-                                    sharedPrefs.edit().putString("favorite_user_names_" + current, sharedPrefs.getString("favorite_user_names_" + current, "") + user.getScreenName() + " ").commit();
+                                    sharedPrefs.edit().putString("favorite_user_names_" + current, sharedPrefs.getString("favorite_user_names_" + current, "") + user.getScreenName() + " ").apply();
                                 } catch (Exception e) {
 
                                 }
@@ -312,18 +312,18 @@ public class TouchableSpan extends ClickableSpan {
                         break;
                     case 4: // mute user
                         String current = sharedPrefs.getString("muted_users", "");
-                        sharedPrefs.edit().putString("muted_users", current + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
-                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                        sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                        sharedPrefs.edit().putString("muted_users", current + full.replaceAll(" ", "").replaceAll("@", "") + " ").apply();
+                        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                        sharedPrefs.edit().putBoolean("just_muted", true).apply();
                         if (mContext instanceof DrawerActivity) {
                             ((Activity)mContext).recreate();
                         }
                         break;
                     case 5: // mute retweets
                         String muted_rts = sharedPrefs.getString("muted_rts", "");
-                        sharedPrefs.edit().putString("muted_rts", muted_rts + full.replaceAll(" ", "").replaceAll("@", "") + " ").commit();
-                        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                        sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                        sharedPrefs.edit().putString("muted_rts", muted_rts + full.replaceAll(" ", "").replaceAll("@", "") + " ").apply();
+                        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                        sharedPrefs.edit().putBoolean("just_muted", true).apply();
                         if (mContext instanceof DrawerActivity) {
                             ((Activity)mContext).recreate();
                         }
@@ -334,9 +334,9 @@ public class TouchableSpan extends ClickableSpan {
 
                         if (!muffled.contains(name)) {
                             muffled.add(name);
-                            sharedPrefs.edit().putStringSet("muffled_users", muffled).commit();
-                            sharedPrefs.edit().putBoolean("refresh_me", true).commit();
-                            sharedPrefs.edit().putBoolean("just_muted", true).commit();
+                            sharedPrefs.edit().putStringSet("muffled_users", muffled).apply();
+                            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
+                            sharedPrefs.edit().putBoolean("just_muted", true).apply();
 
                             if (mContext instanceof DrawerActivity) {
                                 ((Activity)mContext).recreate();

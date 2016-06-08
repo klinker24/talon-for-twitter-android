@@ -134,6 +134,13 @@
         <item>500</item>
     </string-array>
 
+    <string-array name="lists_size">
+        <item>200</item>
+        <item>400</item>
+        <item>600</item>
+        <item>800</item>
+    </string-array>
+
     <string-array name="lists_options">
         <item>@string/delete_list</item>
         <item>@string/view_users</item>
@@ -375,12 +382,14 @@
         <item>@string/normal_pictures</item>
         <item>@string/smaller_pictures</item>
         <item>@string/no_pictures</item>
+        <item>@string/condensed_tweet_style</item>
     </string-array>
 
     <string-array name="timeline_pictures_inserted">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="long_click_mentions">
@@ -410,6 +419,54 @@
     <string-array name="long_click_cashtag">
         <item>@string/search_cashtag</item>
         <item>@string/copy_cashtag</item>
+    </string-array>
+
+    <string-array name="locale">
+        <item>Device Language</item>
+        <item>English</item>
+        <item>Arabic</item>
+        <item>Bulgarian (Bulgaria)</item>
+        <item>Catalan</item>
+        <item>Chinese (Simplified)</item>
+        <item>Danish</item>
+        <item>Dutch</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Hungarian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Polish</item>
+        <item>Portuguese</item>
+        <item>Russian</item>
+        <item>Spanish</item>
+        <item>Thai</item>
+        <item>Turkish</item>
+        <item>Ukrainian</item>
+    </string-array>
+
+    <string-array name="locale_inserted">
+        <item>none</item>
+        <item>en</item>
+        <item>ar</item>
+        <item>bg</item>
+        <item>ca</item>
+        <item>zh</item>
+        <item>da</item>
+        <item>nl</item>
+        <item>fi</item>
+        <item>fr</item>
+        <item>de</item>
+        <item>hu</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>pl</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>es</item>
+        <item>th</item>
+        <item>tr</item>
+        <item>uk</item>
     </string-array>
 
 </resources>

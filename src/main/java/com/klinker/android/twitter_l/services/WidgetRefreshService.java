@@ -41,7 +41,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class WidgetRefreshService  extends IntentService {
+public class WidgetRefreshService  extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -51,7 +51,7 @@ public class WidgetRefreshService  extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         // it is refreshing elsewhere, so don't start
         if (WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || CatchupPull.isRunning || !MainActivity.canSwitch) {
             return;
@@ -140,7 +140,7 @@ public class WidgetRefreshService  extends IntentService {
         int inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
 
         if (inserted > 0 && statuses.size() > 0) {
-            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).commit();
+            sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
         }
 
         if (settings.preCacheImages) {
@@ -149,7 +149,7 @@ public class WidgetRefreshService  extends IntentService {
 
         context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
         mNotificationManager.cancel(6);
 

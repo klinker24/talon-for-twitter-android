@@ -602,7 +602,7 @@ S
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Settings.Blue">
+            android:theme="@style/Theme.TalonLight.Settings">
 
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>

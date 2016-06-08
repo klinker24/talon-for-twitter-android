@@ -58,7 +58,7 @@ public class ThemeConfigurationReceiver extends BroadcastReceiver {
 
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
                         .putString("addon_theme_package", themePackage)
-                        .commit();
+                        .apply();
                 Toast.makeText(context, "Theme set!", Toast.LENGTH_SHORT).show();
                 Log.v(TAG, "successfully saved theme as package name " + themePackage);
 

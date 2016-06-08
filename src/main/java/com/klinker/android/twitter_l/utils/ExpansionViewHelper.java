@@ -15,6 +15,7 @@ import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -41,12 +42,16 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -102,6 +107,7 @@ public class ExpansionViewHelper {
     View composeButton;
     View overflowButton;
     View quoteButton;
+    public View interactionsButton;
 
     ListView replyList;
     LinearLayout convoSpinner;
@@ -109,11 +115,10 @@ public class ExpansionViewHelper {
 
     HoloTextView tweetSource;
 
-    RetweetersPopupLayout retweetersPopup;
-    FavoritersPopupLayout favoritersPopup;
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
     WebPopupLayout webPopup;
+    TweetInteractionsPopup interactionsPopup;
 
     ProgressBar convoProgress;
     RelativeLayout convoArea;
@@ -162,6 +167,7 @@ public class ExpansionViewHelper {
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
+        interactionsButton = expansion.findViewById(R.id.info_button);
 
         tweetSource = (HoloTextView) expansion.findViewById(R.id.tweet_source);
 
@@ -187,12 +193,17 @@ public class ExpansionViewHelper {
 
 
                                     String current = sharedPrefs.getString("muted_clients", "");
-                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").commit();
-                                    sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+                                    sharedPrefs.edit().putString("muted_clients", current + client + "   ").apply();
+                                    sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
                                     dialogInterface.dismiss();
 
                                     ((Activity) context).finish();
+
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
                                 }
                             })
                             .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -209,23 +220,6 @@ public class ExpansionViewHelper {
                 }
             }
         });
-
-
-        retweetersPopup = new RetweetersPopupLayout(context);
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            retweetersPopup.setWidthByPercent(.5f);
-        } else {
-            retweetersPopup.setWidthByPercent(.8f);
-        }
-        retweetersPopup.setHeightByPercent(.6f);
-
-        favoritersPopup = new FavoritersPopupLayout(context);
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            favoritersPopup.setWidthByPercent(.5f);
-        } else {
-            favoritersPopup.setWidthByPercent(.8f);
-        }
-        favoritersPopup.setHeightByPercent(.6f);
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
@@ -347,6 +341,14 @@ public class ExpansionViewHelper {
             }
         });
 
+        quoteButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Quote Tweet");
+                return false;
+            }
+        });
+
         repliesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -397,17 +399,84 @@ public class ExpansionViewHelper {
             }
         });
 
+        composeButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Compose a reply");
+                return false;
+            }
+        });
+
         webButton.setEnabled(false);
         webButton.setAlpha(.5f);
         webButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (shareOnWeb) {
-                    shareClick();
-                    return;
+                shareClick();
+            }
+        });
+
+        webButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Share Tweet");
+                return false;
+            }
+        });
+
+        interactionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(context instanceof TweetActivity)) {
+                    if (settings.bottomPictures) {
+                        background.performClick();
+                    } else {
+                        background.performLongClick();
+                    }
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
+                        }
+                    }, 400);
+                } else {
+                    if (interactionsPopup == null) {
+                        interactionsPopup = new TweetInteractionsPopup(context);
+                        if (context.getResources().getBoolean(R.bool.isTablet)) {
+                            if (landscape) {
+                                interactionsPopup.setWidthByPercent(.6f);
+                                interactionsPopup.setHeightByPercent(.8f);
+                            } else {
+                                interactionsPopup.setWidthByPercent(.85f);
+                                interactionsPopup.setHeightByPercent(.68f);
+                            }
+                            interactionsPopup.setCenterInScreen();
+                        }
+                    }
+
+                    interactionsPopup.setExpansionPointForAnim(v);
+                    if (status != null) {
+                        interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
+                    } else {
+                        interactionsPopup.setInfo(screenName, id);
+                    }
+                    interactionsPopup.show();
                 }
             }
         });
+
+        interactionsButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                makeToast("Interactions");
+                return false;
+            }
+        });
+    }
+
+    private void makeToast(String text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
     private void showEmbeddedCard(TweetView view) {
@@ -573,6 +642,7 @@ public class ExpansionViewHelper {
         composeButton.setVisibility(View.INVISIBLE);
         overflowButton.setVisibility(View.INVISIBLE);
         convoProgress.setVisibility(View.INVISIBLE);
+        interactionsButton.setVisibility(View.INVISIBLE);
 
         startAlphaAnimation(favoriteButton, 0);
         startAlphaAnimation(retweetButton, 75);
@@ -580,7 +650,9 @@ public class ExpansionViewHelper {
         startAlphaAnimation(quoteButton, 150);
         startAlphaAnimation(convoProgress, 175);
         startAlphaAnimation(composeButton, 225);
-        startAlphaAnimation(overflowButton, 250);
+        startAlphaAnimation(interactionsButton, 275);
+        startAlphaAnimation(overflowButton, 300);
+
     }
 
     private void startAlphaAnimation(final View v, long offset) {
@@ -652,46 +724,40 @@ public class ExpansionViewHelper {
             // my tweet
 
             final int DELETE_TWEET = 1;
-            final int COPY_TEXT = 2;
-            final int VIEW_LIKES = 3;
-            final int VIEW_RETWEETS = 4;
+            final int COPY_LINK = 2;
+            final int COPY_TEXT = 3;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
+            menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
-            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
-            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case DELETE_TWEET:
-                            new DeleteTweet().execute();
-                            AppSettings.getSharedPreferences(context)
-                                    .edit().putBoolean("just_muted", true).commit();
+                            new DeleteTweet(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                            .edit().putBoolean("just_muted", true).apply();
 
-                            ((Activity)context).recreate();
+                                    ((Activity)context).finish();
+
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
+                                }
+                            }).execute();
+
+                            break;
+                        case COPY_LINK:
+                            copyLink();
                             break;
                         case COPY_TEXT:
                             copyText();
-                            break;
-                        case VIEW_LIKES:
-                            if (favoritersPopup != null) {
-                                getFavoriters();
-
-                                favoritersPopup.setExpansionPointForAnim(overflowButton);
-                                favoritersPopup.setOnTopOfView(overflowButton);
-                                favoritersPopup.show();
-                            }
-                            break;
-                        case VIEW_RETWEETS:
-                            if (retweetersPopup != null) {
-                                getRetweeters();
-
-                                retweetersPopup.setExpansionPointForAnim(overflowButton);
-                                retweetersPopup.setOnTopOfView(overflowButton);
-                                retweetersPopup.show();
-                            }
                             break;
                     }
                     return false;
@@ -704,15 +770,11 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
-            final int VIEW_LIKES = 5;
-            final int VIEW_RETWEETS = 6;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
-            menu.getMenu().add(Menu.NONE, VIEW_LIKES, Menu.NONE, context.getString(R.string.view_likes));
-            menu.getMenu().add(Menu.NONE, VIEW_RETWEETS, Menu.NONE, context.getString(R.string.view_retweets));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -767,25 +829,21 @@ public class ExpansionViewHelper {
                             webPopup.show();
                             break;
                         case MARK_SPAM:
-                            new MarkSpam().execute();
-                            break;
-                        case VIEW_LIKES:
-                            if (favoritersPopup != null) {
-                                getFavoriters();
+                            new MarkSpam(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                            .edit().putBoolean("just_muted", true).apply();
 
-                                favoritersPopup.setExpansionPointForAnim(overflowButton);
-                                favoritersPopup.setOnTopOfView(overflowButton);
-                                favoritersPopup.show();
-                            }
-                            break;
-                        case VIEW_RETWEETS:
-                            if (retweetersPopup != null) {
-                                getRetweeters();
+                                    ((Activity)context).finish();
 
-                                retweetersPopup.setExpansionPointForAnim(overflowButton);
-                                retweetersPopup.setOnTopOfView(overflowButton);
-                                retweetersPopup.show();
-                            }
+                                    if (context instanceof DrawerActivity) {
+                                        context.startActivity(new Intent(context, MainActivity.class));
+                                        ((Activity) context).overridePendingTransition(0,0);
+                                    }
+                                }
+                            }).execute();
                             break;
                     }
                     return false;
@@ -831,22 +889,6 @@ public class ExpansionViewHelper {
     public boolean hidePopups() {
         boolean hidden = false;
         try {
-            if (retweetersPopup.isShowing()) {
-                retweetersPopup.hide();
-                hidden = true;
-            }
-        } catch (Exception e) {
-
-        }
-        try {
-            if (favoritersPopup.isShowing()) {
-                favoritersPopup.hide();
-                hidden = true;
-            }
-        } catch (Exception e) {
-
-        }
-        try {
             if (convoLayout.isShown()) {
                 convoPopup.hide();
                 hidden = true;
@@ -865,6 +907,14 @@ public class ExpansionViewHelper {
         try {
             if (mobilizedPopup.isShowing()) {
                 mobilizedPopup.hide();
+                hidden = true;
+            }
+        } catch (Exception e) {
+
+        }
+        try {
+            if (interactionsPopup.isShowing()) {
+                interactionsPopup.hide();
                 hidden = true;
             }
         } catch (Exception e) {
@@ -1504,107 +1554,6 @@ public class ExpansionViewHelper {
 
     }
 
-    public void getRetweeters() {
-        Thread getRetweeters = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
-                try {
-                    Twitter twitter =  getTwitter();
-
-                    Status stat = status;
-                    if (stat.isRetweet()) {
-                        id = stat.getRetweetedStatus().getId();
-                    }
-
-                    // can get 100 retweeters is all
-                    ResponseList<twitter4j.Status> lists = twitter.getRetweets(id);
-
-                    List<String> urls = new ArrayList<String>();
-                    final ArrayList<User> users = new ArrayList<User>();
-
-                    for (Status s : lists) {
-                        users.add(s.getUser());
-                        urls.add(s.getUser().getBiggerProfileImageURL());
-                    }
-
-                    if (urls.size() > 4) {
-                        urls = urls.subList(0, 3);
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            retweetersPopup.setData(users);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } catch (OutOfMemoryError e) {
-                    e.printStackTrace();
-
-                }
-            }
-        });
-
-        getRetweeters.setPriority(Thread.MAX_PRIORITY);
-        getRetweeters.start();
-    }
-
-    public void getFavoriters() {
-        Thread getFavoriters = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
-                try {
-
-                    Status stat = status;
-                    long id = stat.getId();
-
-                    final List<User> users = (new FavoriterUtils()).getFavoriters(context, id);
-                    List<String> urls = new ArrayList<String>();
-
-                    for (User s : users) {
-                        urls.add(s.getBiggerProfileImageURL());
-                    }
-
-                    if (urls.size() > 4) {
-                        urls = urls.subList(0, 3);
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            favoritersPopup.setData(users);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                } catch (OutOfMemoryError e) {
-                    e.printStackTrace();
-
-                }
-            }
-        });
-
-        getFavoriters.setPriority(Thread.MAX_PRIORITY);
-        getFavoriters.start();
-    }
-
     private class HelloWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -1704,6 +1653,12 @@ public class ExpansionViewHelper {
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
 
+        Runnable onFinish;
+
+        public DeleteTweet(Runnable onFinish) {
+            this.onFinish = onFinish;
+        }
+
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = getTwitter();
 
@@ -1711,6 +1666,7 @@ public class ExpansionViewHelper {
 
                 HomeDataSource.getInstance(context).deleteTweet(id);
                 MentionsDataSource.getInstance(context).deleteTweet(id);
+                ListDataSource.getInstance(context).deleteTweet(id);
 
                 try {
                     twitter.destroyStatus(id);
@@ -1732,13 +1688,18 @@ public class ExpansionViewHelper {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
-
-            ((Activity)context).recreate();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
+            onFinish.run();
         }
     }
 
     class MarkSpam extends AsyncTask<String, Void, Boolean> {
+
+        Runnable onFinish;
+
+        public MarkSpam(Runnable onFinish) {
+            this.onFinish = onFinish;
+        }
 
         protected Boolean doInBackground(String... urls) {
             Twitter twitter = getTwitter();
@@ -1746,6 +1707,7 @@ public class ExpansionViewHelper {
             try {
                 HomeDataSource.getInstance(context).deleteTweet(id);
                 MentionsDataSource.getInstance(context).deleteTweet(id);
+                ListDataSource.getInstance(context).deleteTweet(id);
 
                 try {
                     twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
@@ -1760,7 +1722,7 @@ public class ExpansionViewHelper {
 
                 }
 
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
                 return true;
             } catch (Throwable e) {
@@ -1776,9 +1738,9 @@ public class ExpansionViewHelper {
                 Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
-            ((Activity)context).recreate();
+            onFinish.run();
         }
     }
 

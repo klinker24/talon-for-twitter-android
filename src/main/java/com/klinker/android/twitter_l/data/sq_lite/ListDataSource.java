@@ -135,7 +135,7 @@ public class ListDataSource {
         String users = html[4];
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(ListSQLiteHelper.COLUMN_TEXT, text);
@@ -186,7 +186,7 @@ public class ListDataSource {
             String users = html[4];
 
             if (media.contains("/tweet_video/")) {
-                media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+                media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
             }
 
             values.put(ListSQLiteHelper.COLUMN_TEXT, text);

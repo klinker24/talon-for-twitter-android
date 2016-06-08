@@ -34,7 +34,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class SecondMentionsRefreshService extends IntentService {
+public class SecondMentionsRefreshService extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -43,9 +43,8 @@ public class SecondMentionsRefreshService extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         sharedPrefs = AppSettings.getSharedPreferences(this);
-
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
@@ -83,7 +82,7 @@ public class SecondMentionsRefreshService extends IntentService {
             numberNew = MentionsDataSource.getInstance(context).insertTweets(statuses, currentAccount);
 
             if (numberNew > 0) {
-                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).commit();
+                sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
                 if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot) {
                     NotificationUtils.notifySecondMentions(context, currentAccount);
