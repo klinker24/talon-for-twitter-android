@@ -64,9 +64,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.yalantis.ucrop.UCrop;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
+
+import static android.app.Activity.RESULT_OK;
 
 public class ProfilePager extends SlidingActivity {
 
@@ -1601,28 +1604,44 @@ public class ProfilePager extends SlidingActivity {
         }
     }
 
+    private boolean bannerUpdate = false;
+
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch(requestCode) {
+            case UCrop.REQUEST_CROP:
+                if(resultCode == RESULT_OK) {
+                    try {
+                        Uri selectedImage = UCrop.getOutput(imageReturnedIntent);
+
+                        if (bannerUpdate) {
+                            new UpdateBanner(selectedImage).execute();
+                        } else {
+                            new UpdateProPic(selectedImage).execute();
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
+                } else if (resultCode == UCrop.RESULT_ERROR) {
+                    final Throwable cropError = UCrop.getError(imageReturnedIntent);
+                    cropError.printStackTrace();
+                }
+                break;
             case SELECT_PRO_PIC:
                 if(resultCode == RESULT_OK){
-                    try {
-                        Uri selectedImage = imageReturnedIntent.getData();
-
-                        new UpdateProPic(selectedImage).execute();
-
-                    } catch (Exception e) {
-                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    bannerUpdate = false;
+                    startUcrop(selectedImage);
                 }
                 break;
             case SELECT_BANNER:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
-                    new UpdateBanner(selectedImage).execute();
+                    bannerUpdate = true;
+                    startUcrop(selectedImage);
                 }
         }
     }
@@ -1691,57 +1710,6 @@ public class ProfilePager extends SlidingActivity {
         return inSampleSize;
     }
 
-
-    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
-
-        Log.v("talon_composing_image", "rotation: " + orientation);
-
-        try{
-            Matrix matrix = new Matrix();
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_NORMAL:
-                    return bitmap;
-                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                    matrix.setScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    matrix.setRotate(180);
-                    break;
-                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                    matrix.setRotate(180);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_TRANSPOSE:
-                    matrix.setRotate(90);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    matrix.setRotate(90);
-                    break;
-                case ExifInterface.ORIENTATION_TRANSVERSE:
-                    matrix.setRotate(-90);
-                    matrix.postScale(-1, 1);
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    matrix.setRotate(-90);
-                    break;
-                default:
-                    return bitmap;
-            }
-            try {
-                Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                bitmap.recycle();
-                return bmRotated;
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-
     private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
         InputStream input = getContentResolver().openInputStream(uri);
 
@@ -1770,7 +1738,7 @@ public class ProfilePager extends SlidingActivity {
 
         input.close();
 
-        return rotateBitmap(bitmap, orientation);
+        return bitmap;
     }
 
     private static int getPowerOfTwoForSampleRatio(double ratio){
@@ -1854,6 +1822,21 @@ public class ProfilePager extends SlidingActivity {
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void startUcrop(Uri sourceUri) {
+        try {
+            UCrop.Options options = new UCrop.Options();
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            options.setCompressionQuality(90);
+
+            File destination = File.createTempFile("ucrop", "jpg", getCacheDir());
+            UCrop.of(sourceUri, Uri.fromFile(destination))
+                    .withOptions(options)
+                    .start(ProfilePager.this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
