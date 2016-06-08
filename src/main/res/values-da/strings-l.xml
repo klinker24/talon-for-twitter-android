@@ -19,8 +19,8 @@
     <string name="dont_use_pull">Brug ikke Talon Pull</string>
     <string name="always">Altid</string>
     <string name="never">Aldrig</string>
-    <string name="only_on_wifi">Kun når WiFi</string>
-    <string name="only_on_data">Kun ved mobil data</string>
+    <string name="only_on_wifi">Kun via WiFi</string>
+    <string name="only_on_data">Kun via mobil data</string>
     <string name="contact_me">Kontakt mig</string>
     <string name="my_google_plus">Mit Google+</string>
     <string name="follow_progress">Tap for at følge vores fremskridt:</string>
@@ -33,7 +33,7 @@
     <string name="use_snackbar">Vis aktiv info boks</string>
     <string name="use_snackbar_summary">Viser hvor mange tweets der er til toppen af tidslinjen</string>
     <string name="bottom_pictures">Billeder under tweets</string>
-    <string name="bottom_pictures_summary">Tweets vil ikke udvides in-line ved valg af dette</string>
+    <string name="bottom_pictures_summary">Tweets udvides ikke in-line ved valg af dette</string>
     <string name="preparing_signin">Forbereder log ind</string>
     <string name="verifying_login">Verificerer log ind</string>
     <string name="manage_muffles">Rediger begrænsede</string>
@@ -43,7 +43,7 @@
     <string name="muffle_user">Begræns profil</string>
     <string name="unmuffle_user">Fjern begrænsning for profil</string>
     <string name="enjoying_talon">Tilfreds med Talon?</string>
-    <string name="give_a_rating">Vil du give en bedømmelse eller dele det med en du kender?\n\nEn 5 stjernet bedømmelse vil være fantastisk!</string>
+    <string name="give_a_rating">Vil du give en bedømmelse af Talon eller dele app´en med en du kender?\n\nEn 5 stjernet bedømmelse vil være fantastisk!</string>
     <string name="rate_on_rating_dialog">Bedøm</string>
     <string name="share_on_rating_dialog">Del</string>
     <string name="ignore">Ignorer</string>
@@ -56,15 +56,15 @@
     <string name="nav_bar_present">Bruger navigationsbar</string>
     <string name="nav_bar_gone">Bruger ikke navigationsbar</string>
     <string name="tip_title">Tip:</string>
-    <string name="profile_pictures_helper_message">Tap og hold for at åbne tweetet der indeholder et billede\n\nEt kort tap vil vise billedet</string>
-    <string name="quote_disclaimer">Twitter´s link vil vises med status indlejret i moderne twitter clienter. Linket virker som når tweet citéres</string>
-    <string name="sync_options">Synkroniserings indstillinger</string>
+    <string name="profile_pictures_helper_message">Tap og hold for at åbne tweetet der indeholder et billede\n\nEt kort tap viser billedet</string>
+    <string name="quote_disclaimer">Twitter´s link vises med status indlejret i moderne twitter clienter. Linket virker som når tweet citéres</string>
+    <string name="sync_options">Indstillinger for synkronisering</string>
     <string name="manual_syncs">Manuelt synk.</string>
     <string name="timeline_notifications_summary">Interval for opdater i baggrunden skal vælges for at få vist disse notifikationer</string>
     <string name="favorite_user_notifications_summary">Interval for opdater i baggrunden skal vælges for tidslinjen eller live streaming, for at modtage notifikationer om favoritter</string>
     <string name="alert_methods_summary">Måder at modtage notifikationer på: vibrer, lyd, LED m.m.</string>
     <string name="windowed_helper_message">For at lukke et vindue på skærmen, tap i området uden for vinduet\n\nDet sikrer at din tidslinje aldrig er langt væk!</string>
-    <string name="permission_check_title">Talon´s tilladelser</string>
+    <string name="permission_check_title">Talon´s tilladelser:</string>
     <string name="permission_check_message">Talon vil anmode dig om to nye tilladelser: lokation og hukommelse\n\n
 
         - Lokation bruges til at tilgå lokale trends samt til at lokalisere din position i dine tweets (hvis du beder om det) Ellers gemmes din lokation ikke\n
@@ -90,10 +90,12 @@
     <string name="no_pictures">Ingen billeder</string>
     <string name="quick_actions">Vælg handling</string>
     <string name="liked_status">Liked</string>
-    <string name="become_supporter">Bliv en 2016 supporter</string>
-    <string name="are_supporter">Du er en 2016 supporter!</string>
+    <string name="become_supporter">Bliv 2016 supporter</string>
+    <string name="are_supporter">Du er 2016 supporter!</string>
     <string name="are_supporter_summary">Tak! Din support er højt værdsat. Hvis der er noget du ønsker jeg skal kikke på, skal du ikke tøve med at spørge</string>
     <string name="tweetmarker_disclaimer">Automatisk Tweetmarker vil altid opdatere tidslinjen ved opstart</string>
     <string name="discover_people">Personer</string>
     <string name="quote_style">Citat stil</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

@@ -10,11 +10,8 @@
     <string name="joined_twitter">Iscritto a Twitter:</string>
     <string name="top_down">Modalità su giù</string>
     <string name="top_down_summary">La Timeline non salverà la tua posizione. Partità dall\'inizio.</string>
-    <string name="timeline_text_size">Dimensione testo Timeline</string>
+    <string name="timeline_text_size">Dimensione Testo</string>
     <string name="manage_mutes">Impostazioni Muto</string>
-    <string name="quote_style">Stile citazione</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="location_settings">Impostazioni localizzazione</string>
     <string name="twitpic_summary_l">Tutti gli upload delle immagini passeranno per TwitPic.</string>
     <string name="interactions_only">Solo interazioni</string>
@@ -26,7 +23,7 @@
     <string name="only_on_data">Solo in Dati cellullare</string>
     <string name="contact_me">Contattami</string>
     <string name="my_google_plus">Il mio Google+</string>
-    <string name="follow_progress">Segui i nostri progressi!</string>
+    <string name="follow_progress">Premi per seguire i nostri progressi:</string>
     <string name="general">Generale</string>
     <string name="no_interactions">Nessuna interazione</string>
     <string name="emojis_summary">Ti permette di utilizzare le emoji di iOS scaricando la nostra Sliding Emoji Keyboard - iOS.</string>
@@ -34,7 +31,71 @@
     <string name="web">Web</string>
     <string name="heads_up">Heads Up</string>
     <string name="use_snackbar">Utilizza Snackbar</string>
-    <string name="use_snackbar_summary">Utilizzata per la funzionalità \"In alto\" nella Timeline principale.</string>
+    <string name="use_snackbar_summary">Visualizza il numero di tweet che ti separano dalla cima della timeline.</string>
     <string name="bottom_pictures">Immagini sotto ai Tweet</string>
     <string name="bottom_pictures_summary">I tweet non si espanderanno nella Timeline con questa opzione.</string>
+    <string name="preparing_signin">Preparazione Accesso</string>
+    <string name="verifying_login">Verifica Login</string>
+    <string name="manage_muffles">Gestisci utenti attenuati</string>
+    <string name="muffle_definition">Attenuando un utente rimuove la porzione principale dei sui tweet dalle tue timeline. Tu vedrai solo il nome e una piccola anteprima per darti l\'accesso completo se desideri vedere di più.</string>
+    <string name="muffled_users">Utenti attenuati</string>
+    <string name="click_to_remove_muffle">Premi un utente per eliminare l\'attenuazione.</string>
+    <string name="muffle_user">Attenua utente</string>
+    <string name="unmuffle_user">Rimuovi attenuazione utente</string>
+    <string name="enjoying_talon">Ti piace Talon?</string>
+    <string name="give_a_rating">Considera di valutarlo o condividerlo con i tuoi amici!\n\nLa tua recensione da 5 stelle mi riscalda il cuore :)</string>
+    <string name="rate_on_rating_dialog">Valuta</string>
+    <string name="share_on_rating_dialog">Condividi</string>
+    <string name="ignore">Ignora</string>
+    <string name="when_talon_pull_on">Applicato quando Talon Pull è attivo.</string>
+    <string name="transparent_system_bars">Usa Barre di Sistema Trasparenti</string>
+    <string name="accent_color">Colore Secondario</string>
+    <string name="nav_bar_option">Ignora la Barra di Navigazione</string>
+    <string name="nav_bar_option_summary">Le applicazioni non sono in grado di trovare con precisione se alcuni dispositivi hanno una barra di navigazione o meno. Dal momento che Talon si basa fortemente su questo per i layout, questa opzione consente di specificarlo manualmente.</string>
+    <string name="nav_bar_automatic">Rileva Automaticamente</string>
+    <string name="nav_bar_present">Usando una Barra di Navigazione</string>
+    <string name="nav_bar_gone">Non usando una Barra di Navigazione</string>
+    <string name="tip_title">Suggerimento:</string>
+    <string name="profile_pictures_helper_message">Per aprire il tweet che accompagna l\'immagine, semplicemente premi a lungo l\'immagine su questa griglia.\nPremendo normalmente si aprirà il visualizzatore di immagini.</string>
+    <string name="quote_disclaimer">Il collegamento allo stato twitter sarà mostrato come un tweet incorporato sui moderni client Twitter. Il collegamento si comporta come una citazione.</string>
+    <string name="sync_options">Opzioni di Sincronizzazione</string>
+    <string name="manual_syncs">Sincronizzazione Manuale</string>
+    <string name="timeline_notifications_summary">Deve essere attivato un intervallo di aggiornamento in background affinchè queste notifiche si verifichino.</string>
+    <string name="favorite_user_notifications_summary">Deve essere attivato un intervallo di aggiornamento in background per la timeline, o lo streaming dal vivo, per le notifiche degli utenti preferiti.</string>
+    <string name="alert_methods_summary">Come desideri essere avvisato: vibra, suona, LED, ecc.</string>
+    <string name="windowed_helper_message">Per chiudere una finestra sul tablet, semplicemente premi sull\'area scura fuori dalla finestra.\n\nQuesto garantisce alla timeline di non essere mai troppo lontana!</string>
+    <string name="permission_check_title">Permessi di Talon:</string>
+    <string name="permission_check_message">Talon sta per richiedere l\'autorizzazione per due permessi: Posizione e archiviazione.\n\n
+
+- La posizione viene utilizzata per accedere alle tendenze locali, nonché contrassegnare la tua posizione nei tuoi tweets (se lo richiedi). Non conservo mai la tua posizione.\n
+- L\'archiviazione viene utilizzata per salvare le immagini dei tweet nell\'archiviazione esterna (quando richiesto) e viene utilizzato quando si caricano le immagini su Twitter.\n\n
+
+Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualmente dalle impostazioni app del sistema.</string>
+    <string name="tell_about_swipe_down">Suggerimento: scorri verso il basso per chiudere questa schermata.</string>
+    <string name="download_video">Scarica Video</string>
+    <string name="download_gif">Scarica Gif</string>
+    <string name="error_downloading_video">Errore durante il download del video</string>
+    <string name="saving_video">Salvataggio</string>
+    <string name="saved_video">Salvataggio completato</string>
+    <string name="encoding_gif">Codifica Gif...</string>
+    <string name="scroll_options">Opzioni di Scorrimento</string>
+    <string name="static_ui_title">UI Statica</string>
+    <string name="static_ui_summary">Questo farà in modo che l\'App Bar, il FAB, e la SnackBar non scompaiano durante lo scorrimento.</string>
+    <string name="list_sync_interval">Frequenza aggiornamento lista</string>
+    <string name="list_sync_summary">Questo esegue una sincronizzazione in background per le liste che utilizzi come pagine extra sulla timeline principale.</string>
+    <string name="timeline_pictures">Immagini della Timeline</string>
+    <string name="timeline_pictures_summary">Imposta lo stile delle immagini che visualizzi quando si scorri la timeline.</string>
+    <string name="normal_pictures">Immagini Normali</string>
+    <string name="smaller_pictures">Immagini più Piccole</string>
+    <string name="no_pictures">Nessuna Immagine</string>
+    <string name="quick_actions">Azioni Rapide</string>
+    <string name="liked_status">Like Effettuato</string>
+    <string name="become_supporter">Diventa un SUPPORTER 2016</string>
+    <string name="are_supporter">Sei un SUPPORTER 2016!</string>
+    <string name="are_supporter_summary">Grazie! Il tuo supporto è immensamente apprezzato. Se c\'è qualcosa che posso fare, non esitare a chiedere.</string>
+    <string name="tweetmarker_disclaimer">Automatic TweetMarker aggiornerà la timeline ad ogni avvio.</string>
+    <string name="discover_people">Persone</string>
+    <string name="quote_style">Stile citazione</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
