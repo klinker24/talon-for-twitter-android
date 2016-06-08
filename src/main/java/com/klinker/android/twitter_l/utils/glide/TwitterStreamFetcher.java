@@ -34,7 +34,14 @@ public class TwitterStreamFetcher extends HttpUrlFetcher {
 
     @Override
     public InputStream loadData(Priority priority) throws Exception {
-        String urlString = URLDecoder.decode(url.toStringUrl());
+        String urlString;
+
+        if (!url.toStringUrl().contains("bytebucket.org/jklinker")) {
+            urlString = URLDecoder.decode(url.toStringUrl());
+        } else {
+            urlString = url.toStringUrl();
+        }
+
         if (urlString.contains("ton.twitter.com") || urlString.contains("twitter.com/messages/")) {
             // direct message picture. Need to authorize
             TwitterDMPicHelper helper = new TwitterDMPicHelper();

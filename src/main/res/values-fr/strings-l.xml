@@ -8,4 +8,6 @@
     <string name="never">Jamais</string>
     <string name="only_on_wifi">Seulement en Wifi</string>
     <string name="general">Général</string>
+    <string name="download_gif">Télécharger Gif</string>
+    <string name="tweetmarker_disclaimer">TweetMarker va toujours rafraîchir la Timeline au démarrage de l\'aplication.</string>
 </resources>

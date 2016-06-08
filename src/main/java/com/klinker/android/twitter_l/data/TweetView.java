@@ -509,7 +509,7 @@ public class TweetView {
         TextUtils.linkifyText(context, tweetTv, backgroundLayout, true, otherUrl, false);
         TextUtils.linkifyText(context, retweeterTv, backgroundLayout, true, "", false);
 
-        if (otherUrl != null && otherUrl.contains("/status/") &&
+        if (otherUrl != null && otherUrl.contains("/status/") && !otherUrl.contains("/photo/") &&
                 embeddedTweet.getChildCount() == 0) {
             loadEmbeddedTweet(otherUrl);
         }
@@ -528,7 +528,7 @@ public class TweetView {
             public void run() {
                 Long embeddedId = 0l;
                 for (String u : otherUrls.split(" ")) {
-                    if (u.contains("/status/")) {
+                    if (u.contains("/status/") && !otherUrl.contains("/photo/")) {
                         embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                         break;
                     }
