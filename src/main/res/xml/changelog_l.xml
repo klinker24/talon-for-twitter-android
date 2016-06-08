@@ -1,6 +1,8 @@
 <changelog>
 
     <version name="4.10.3">
+        <text>Apply the image editor to profile picture and banner picture uploads</text>
+        <text>Auto fill the current profile info when you try to update it from within Talon</text>
         <text>Fix issue where favorite user notification didn't use a ringtone, for some users</text>
         <text>Fix default user banner not displaying in the drawer, if user doesn't have a custom one</text>
         <text>Translation updates</text>
