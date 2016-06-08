@@ -171,7 +171,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
 
         protected Cursor doInBackground(String... urls) {
             try {
-                return FavoriteUsersDataSource.getInstance(sContext).getCursor(sSharedPrefs.getInt("current_account", 1));
+                return FavoriteUsersDataSource.getInstance(sContext).getCursor();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

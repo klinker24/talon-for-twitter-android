@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -503,12 +504,12 @@ public class ComposeActivity extends Compose {
             @Override
             public void onClick(View view) {
                 if (!addLocation) {
-                    sharedPrefs.edit().putBoolean("share_location", true).commit();
+                    sharedPrefs.edit().putBoolean("share_location", true).apply();
                     addLocation = true;
 
                     location.setColorFilter(settings.themeColors.accentColor);
                 } else {
-                    sharedPrefs.edit().putBoolean("share_location", false).commit();
+                    sharedPrefs.edit().putBoolean("share_location", false).apply();
                     addLocation = false;
 
                     location.clearColorFilter();
@@ -604,8 +605,16 @@ public class ComposeActivity extends Compose {
 
                     captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IOUtils.getImageContentUri(context, f));
-                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
+
+                    try {
+                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, IOUtils.getImageContentUri(context, f));
+                        startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                    } catch (Exception e) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Toast.makeText(ComposeActivity.this, "Have you given Talon the storage permission?", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
                 } else if (item == 1) { // attach picture
                     try {
                         Intent intent = new Intent();
@@ -655,8 +664,8 @@ public class ComposeActivity extends Compose {
 
     public void setUpReplyText() {
         // for failed notification
-        if (!sharedPrefs.getString("draft", "").equals("")) {
-            reply.setText(sharedPrefs.getString("draft", ""));
+        if (getIntent().getStringExtra("failed_notification_text") != null) {
+            reply.setText(getIntent().getStringExtra("failed_notification_text"));
             reply.setSelection(reply.getText().length());
         }
 
@@ -672,7 +681,7 @@ public class ComposeActivity extends Compose {
                 reply.requestFocus();
             }
 
-            sharedPrefs.edit().putString("draft", "").commit();
+            sharedPrefs.edit().putString("draft", "").apply();
         }
 
         notiId = getIntent().getLongExtra("id", 0);
@@ -747,7 +756,7 @@ public class ComposeActivity extends Compose {
 
     @Override
     public void onPause() {
-        sharedPrefs.edit().putString("draft", "").commit();
+        sharedPrefs.edit().putString("draft", "").apply();
         try {
             if (!(doneClicked || discardClicked)) {
                 QueuedDataSource.getInstance(context).createDraft(reply.getText().toString(), currentAccount);

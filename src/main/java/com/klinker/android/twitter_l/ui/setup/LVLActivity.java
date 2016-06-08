@@ -126,7 +126,7 @@ public class LVLActivity extends Activity {
                 SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
 
 
-                sharedPrefs.edit().putString("consumer_key_2", key).commit();
+                sharedPrefs.edit().putString("consumer_key_2", key).apply();
 
                 return url;
             } else {

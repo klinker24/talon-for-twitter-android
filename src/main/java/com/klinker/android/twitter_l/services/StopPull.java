@@ -23,7 +23,7 @@ import android.preference.PreferenceManager;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 
-public class StopPull extends IntentService {
+public class StopPull extends KillerIntentService {
 
     SharedPreferences sharedPrefs;
 
@@ -32,13 +32,13 @@ public class StopPull extends IntentService {
     }
 
     @Override
-    public void onHandleIntent(Intent intent) {
+    public void handleIntent(Intent intent) {
         SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(this);
 
         sharedPreferences.edit().putString("talon_pull", "0").commit();
 
         // write to normal prefs so that it appears in the settings
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("talon_pull", "0").commit();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("talon_pull", "0").apply();
 
         sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
     }

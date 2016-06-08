@@ -43,6 +43,6 @@ public class HandleScrollService extends IntentService {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
 
 
-        sharedPrefs.edit().putBoolean("refresh_me", true).commit();
+        sharedPrefs.edit().putBoolean("refresh_me", true).apply();
     }
 }

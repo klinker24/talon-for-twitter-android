@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.ui.tweet_viewer;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -229,7 +231,7 @@ public class TweetActivity extends SlidingActivity {
         );
 
         if (!sharedPrefs.getBoolean("knows_about_tweet_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).commit();
+            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).apply();
             Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
         }
 
@@ -311,7 +313,7 @@ public class TweetActivity extends SlidingActivity {
 
         if (youtube ||
                 (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
-                        (gifVideo.contains(".mp4") ||
+                        (gifVideo.contains(".mp4") || gifVideo.contains(".m3u8") ||
                                 gifVideo.contains("/photo/1") ||
                                 VideoMatcherUtil.containsThirdPartyVideo(gifVideo)))) {
             displayPlayButton = true;
@@ -382,13 +384,33 @@ public class TweetActivity extends SlidingActivity {
         }
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            expansionHelper.interactionsButton.performClick();
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        registerReceiver(receiver, new IntentFilter("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        unregisterReceiver(receiver);
+    }
     @Override
     public void finish() {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         // this is used in the onStart() for the home fragment to tell whether or not it should refresh
         // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
-        //sharedPrefs.edit().putBoolean("from_activity", true).commit();
+        //sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         if (expansionHelper != null) {
             expansionHelper.stop();
@@ -565,7 +587,7 @@ public class TweetActivity extends SlidingActivity {
                 Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
             }
 
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
         }
     }
 
@@ -595,7 +617,7 @@ public class TweetActivity extends SlidingActivity {
 
                 }
 
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
 
                 return true;
             } catch (Throwable e) {

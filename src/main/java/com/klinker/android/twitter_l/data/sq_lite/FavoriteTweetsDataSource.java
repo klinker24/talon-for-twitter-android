@@ -115,7 +115,7 @@ public class FavoriteTweetsDataSource {
         }
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_ACCOUNT, account);
@@ -169,7 +169,7 @@ public class FavoriteTweetsDataSource {
         }
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_ACCOUNT, account);
@@ -231,7 +231,7 @@ public class FavoriteTweetsDataSource {
                 }
 
                 if (media.contains("/tweet_video/")) {
-                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
                 }
 
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_ACCOUNT, currentAccount);

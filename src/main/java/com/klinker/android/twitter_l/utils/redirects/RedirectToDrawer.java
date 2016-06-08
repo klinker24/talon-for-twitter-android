@@ -38,7 +38,7 @@ public class RedirectToDrawer extends AppCompatActivity {
 
 
         if (AppSettings.getInstance(this).useInteractionDrawer) {
-            sharedPrefs.edit().putBoolean("open_interactions", true).commit();
+            sharedPrefs.edit().putBoolean("open_interactions", true).apply();
         }
 
         finish();

@@ -108,13 +108,13 @@ public class TweetMarkerHelper extends APIHelper {
                 if (responseCode == 200) {
                     // success, return true
                     int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).apply();
                     return true;
                 }
 
             } else {
                 int currentVersion = sharedPrefs.getInt("last_version_account_" + currentAccount, 0);
-                sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).commit();
+                sharedPrefs.edit().putInt("last_version_account_" + currentAccount, currentVersion + 1).apply();
                 return true;
             }
 
@@ -163,14 +163,14 @@ public class TweetMarkerHelper extends APIHelper {
                                         .setPositiveButton("Turn Off TM", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                sharedPrefs.edit().putString("tweetmarker_options", "0").commit();
+                                                sharedPrefs.edit().putString("tweetmarker_options", "0").apply();
                                                 AppSettings.invalidate();
                                             }
                                         })
                                         .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                sharedPrefs.edit().putBoolean("show_tweetmarker_length", false).commit();
+                                                sharedPrefs.edit().putBoolean("show_tweetmarker_length", false).apply();
                                                 dialog.dismiss();
                                             }
                                         })
@@ -206,7 +206,7 @@ public class TweetMarkerHelper extends APIHelper {
                                     .setPositiveButton("Turn Off TM", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            sharedPrefs.edit().putString("tweetmarker_options", "0").commit();
+                                            sharedPrefs.edit().putString("tweetmarker_options", "0").apply();
                                             AppSettings.invalidate();
                                         }
                                     })
@@ -252,7 +252,7 @@ public class TweetMarkerHelper extends APIHelper {
                         updated = true;
                     }
 
-                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
+                    sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).apply();
                 }
             } else { // there was an error, we will retry once
                 // wait first
@@ -293,7 +293,7 @@ public class TweetMarkerHelper extends APIHelper {
                             updated = true;
                         }
 
-                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).commit();
+                        sharedPrefs.edit().putInt("last_version_account_" + currentAccount, version).apply();
                     }
                 }
             }
@@ -311,7 +311,7 @@ public class TweetMarkerHelper extends APIHelper {
                                 .setPositiveButton("Turn Off TM", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        sharedPrefs.edit().putString("tweetmarker_options", "0").commit();
+                                        sharedPrefs.edit().putString("tweetmarker_options", "0").apply();
                                         AppSettings.invalidate();
                                     }
                                 })
@@ -335,7 +335,7 @@ public class TweetMarkerHelper extends APIHelper {
         }
 
         Log.v("talon_launcher_stuff", "writing " + currentId + " to shared prefs");
-        sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).commit();
+        sharedPrefs.edit().putLong("current_position_" + currentAccount, currentId).apply();
         if (contentProvider) {
             HomeContentProvider.updateCurrent(currentAccount, context, currentId);
         } else {

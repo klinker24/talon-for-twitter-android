@@ -54,11 +54,20 @@
             android:entryValues="@array/autoplay_inserted"
             />
 
+        <ListPreference
+            android:key="locale"
+            android:title="@string/locale"
+            android:summary="@string/locale_summary"
+            android:defaultValue="none"
+            android:entries="@array/locale"
+            android:entryValues="@array/locale_inserted"
+            />
+
         <CheckBoxPreference
             android:key="high_quality_images"
             android:title="@string/high_quality_images"
             android:summary="@string/high_quality_images_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <CheckBoxPreference

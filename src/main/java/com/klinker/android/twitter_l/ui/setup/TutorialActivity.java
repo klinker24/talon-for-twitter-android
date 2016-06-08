@@ -94,6 +94,7 @@ public class TutorialActivity extends Activity {
         thread.setRunning(false);
         finish();
         overridePendingTransition(0, 0);
+
         AppSettings.getSharedPreferences(this)
                 .edit().putBoolean("initial_tutorial", false).commit();
     }
@@ -487,7 +488,7 @@ public class TutorialActivity extends Activity {
                     thread.setRunning(false);
                     finish();
                     overridePendingTransition(0, 0);
-                    PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).edit().putBoolean("initial_tutorial", false).commit();
+                    PreferenceManager.getDefaultSharedPreferences(TutorialActivity.this).edit().putBoolean("initial_tutorial", false).apply();
 
                     break;
             }

@@ -31,7 +31,7 @@ public class LauncherSearchedTrends extends SearchedTrendsActivity {
             AppSettings.getSharedPreferences(this)
                     .edit()
                     .putInt("current_account", acc)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }

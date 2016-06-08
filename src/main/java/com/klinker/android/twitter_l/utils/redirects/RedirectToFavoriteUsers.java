@@ -36,8 +36,8 @@ public class RedirectToFavoriteUsers extends AppCompatActivity {
         Intent favs = new Intent(this, MainActivity.class);
 
         if (page != -1) {
-            sharedPrefs.edit().putBoolean("open_a_page", true).commit();
-            sharedPrefs.edit().putInt("open_what_page", page).commit();
+            sharedPrefs.edit().putBoolean("open_a_page", true).apply();
+            sharedPrefs.edit().putInt("open_what_page", page).apply();
         }
 
         finish();

@@ -30,6 +30,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
@@ -105,12 +106,14 @@ public class IOUtils {
         return Uri.fromFile(file);
     }
 
-    public static final Uri saveGiffy(String videoUrl) throws Exception {
+    public static final Uri saveGiffy(Context context, String videoUrl) throws Exception {
 
-        File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
-        myDir.mkdirs();
+        final File directory = new File(Environment.getExternalStorageDirectory() + "/Talon/");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
 
-        final File file = new File(Environment.getExternalStorageDirectory(), "Talon/giffy.gif");
+        final File file = new File(Environment.getExternalStorageDirectory() + "/Talon/", "giphy.gif");
         if (!file.createNewFile()) {
             // file already exists
         }
@@ -223,7 +226,7 @@ public class IOUtils {
                 }
             }
 
-            prefEdit.commit();
+            prefEdit.apply();
 
             res = true;
         } catch (Exception e) {
@@ -361,17 +364,17 @@ public class IOUtils {
             ListDataSource lists = ListDataSource.getInstance(context);
 
             for (int j = 0; j < 2; j++) {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
                     long listId = sharedPrefs.getLong("account_" + j + "_list_" + (i + 1) + "_long", 0);
                     lists.deleteDups(listId);
 
                     Cursor list1 = lists.getTrimmingCursor(listId);
 
                     Log.v("trimming", "lists size: " + list1.getCount());
-                    Log.v("trimming", "lists settings size: " + 400);
-                    if (list1.getCount() > 400) {
+                    Log.v("trimming", "lists settings size: " + settings.listSize);
+                    if (list1.getCount() > settings.listSize) {
 
-                        if(list1.moveToPosition(list1.getCount() - 400)) {
+                        if(list1.moveToPosition(list1.getCount() - settings.listSize)) {
                             Log.v("trimming", "in the trim section");
                             do {
                                 lists.deleteTweet(list1.getLong(list1.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));

@@ -32,7 +32,7 @@ public class NotificationDMCompose extends ComposeDMActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
 
-        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).commit();
+        sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
 
         notiId = 1;
         replyText = getIntent().getStringExtra("dm_text");

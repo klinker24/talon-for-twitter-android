@@ -118,7 +118,7 @@ public class PicturesPopup extends PopupLayout {
                     .setPositiveButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            sharedPreferences.edit().putBoolean("show_profile_pictures_helper_dialog", false).commit();
+                            sharedPreferences.edit().putBoolean("show_profile_pictures_helper_dialog", false).apply();
                         }
                     })
                     .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {

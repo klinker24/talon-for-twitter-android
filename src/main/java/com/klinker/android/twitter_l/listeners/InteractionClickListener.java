@@ -110,7 +110,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                         intent.putExtra("page_to_open", mentionsPage);
                         intent.putExtra("from_drawer", true);
 
-                        sharedPreferences.edit().putBoolean("should_refresh", false).commit();
+                        sharedPreferences.edit().putBoolean("should_refresh", false).apply();
 
                         try {
                             Thread.sleep(400);
@@ -208,6 +208,6 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
         data.markRead(sharedPreferences.getInt("current_account", 1), i);
 
         // tell the system to refresh the notifications when the user opens the drawer again
-        sharedPreferences.edit().putBoolean("new_notification", true).commit();
+        sharedPreferences.edit().putBoolean("new_notification", true).apply();
     }
 }

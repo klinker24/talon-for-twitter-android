@@ -135,7 +135,7 @@ public class HomeDataSource {
         }
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
@@ -189,7 +189,7 @@ public class HomeDataSource {
         }
 
         if (media.contains("/tweet_video/")) {
-            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+            media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
         }
 
         values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, account);
@@ -251,7 +251,7 @@ public class HomeDataSource {
                 }
 
                 if (media.contains("/tweet_video/")) {
-                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png");
+                    media = media.replace("tweet_video", "tweet_video_thumb").replace(".mp4", ".png").replace(".m3u8", ".png");;
                 }
 
                 values.put(HomeSQLiteHelper.COLUMN_ACCOUNT, currentAccount);
@@ -942,7 +942,7 @@ public class HomeDataSource {
 
     public synchronized Cursor getFavUsersCursor(int account) {
 
-        String screennames = FavoriteUsersDataSource.getInstance(context).getNames(account);
+        String screennames = FavoriteUsersDataSource.getInstance(context).getNames();
         String where = HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND (";
 
         if (!screennames.equals("")) {

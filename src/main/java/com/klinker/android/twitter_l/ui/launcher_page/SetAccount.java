@@ -44,12 +44,12 @@ public class SetAccount extends IntentService {
         if (launcherAccount != sharedPrefs.getInt("current_account", 1)) {
             sharedPrefs.edit()
                     .putBoolean("launcher_frag_switch", true)
-                    .commit();
+                    .apply();
 
             AppSettings.invalidate();
         }
 
-        sharedPrefs.edit().putInt("current_account", launcherAccount).commit();
+        sharedPrefs.edit().putInt("current_account", launcherAccount).apply();
 
         if (intent.getBooleanExtra("start_main", false)) {
             startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

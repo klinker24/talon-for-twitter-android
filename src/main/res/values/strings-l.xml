@@ -103,4 +103,13 @@
     <string name="high_quality_images_summary">Applied throughout the entire app.</string>
     <string name="view_likes">View Likes</string>
     <string name="view_retweets">View Retweets</string>
+    <string name="list_size">List Size</string>
+    <string name="list_size_summary">Max number of tweets to store for a swipable list, in the database.</string>
+    <string name="quotes">Quotes</string>
+    <string name="no_quotes">No quotes</string>
+    <string name="tweet_style">Tweet Style</string>
+    <string name="tweet_style_description">How you want your tweets to look on the timeline.</string>
+    <string name="condensed_tweet_style">Compact Tweet Layout</string>
+    <string name="locale">Locale Selection</string>
+    <string name="locale_summary">Not all translations are complete.</string>
 </resources>

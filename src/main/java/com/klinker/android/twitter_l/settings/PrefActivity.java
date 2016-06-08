@@ -70,7 +70,7 @@ public class PrefActivity extends AppCompatActivity {
 
         //setIcon(ab, getIntent().getIntExtra("position", 0));
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && AppSettings.getInstance(this).darkTheme) {
             View status = findViewById(R.id.settings_status);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
             params.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);

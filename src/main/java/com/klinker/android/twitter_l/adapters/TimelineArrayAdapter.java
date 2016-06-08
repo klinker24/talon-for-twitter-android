@@ -35,6 +35,7 @@ import android.view.animation.Interpolator;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
@@ -81,7 +82,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int embeddedTweetMinHeight = 0;
 
     public Context context;
-    public ArrayList<Status> statuses;
+    public List<Status> statuses;
     public LayoutInflater inflater;
     public AppSettings settings;
 
@@ -103,7 +104,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public int headerMultiplier = 0;
     public Expandable expander;
 
+    private int normalPictures;
     private int smallPictures;
+    private int thirdPartyVideoPictures;
 
     private boolean canUseQuickActions = true;
 
@@ -139,7 +142,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public boolean preventNextClick = false;
     }
 
-    private ArrayList<Status> removeMutes(ArrayList<Status> statuses) {
+    private List<Status> removeMutes(List<Status> statuses) {
         AppSettings settings = AppSettings.getInstance(context);
         SharedPreferences sharedPrefs = settings.sharedPrefs;
         String mutedUsers = sharedPrefs.getString("muted_users", "");
@@ -336,7 +339,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         setUpLayout();
     }
 
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses) {
+    public TimelineArrayAdapter(Context context, List<Status> statuses) {
         super(context, R.layout.tweet);
 
         this.context = context;
@@ -437,7 +440,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         statuses = removeMutes(statuses);
 
+        normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
+        thirdPartyVideoPictures = settings.picturesType == AppSettings.PICTURES_SMALL ?
+                smallPictures : normalPictures;
+                //Utils.toDP(80, context);
 
         mHandler = new Handler[4];
 
@@ -447,7 +454,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        layout = R.layout.tweet;
+        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            layout = R.layout.tweet;
+        } else {
+            layout = R.layout.tweet_condensed;
+        }
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
 
@@ -947,6 +958,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
 
+                    if (!BuildConfig.DEBUG) {
+                        holder.imageHolder.setVisibility(View.GONE);
+                    }
+
                     picture = false;
                 } else {
                     if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
@@ -1008,8 +1023,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         Glide.with(context).load(profilePic).into(holder.profilePic);
         
-        if (picture)
-            Glide.with(context).load(holder.picUrl).into(holder.image);
+        if (picture) {
+            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+                Glide.with(context).load(holder.picUrl).into(holder.image);
+            } else {
+                Glide.with(context).load(holder.picUrl).fitCenter().into(holder.image);
+            }
+        }
 
         mHandler[currHandler].removeCallbacksAndMessages(null);
         mHandler[currHandler].postDelayed(new Runnable() {
