@@ -179,7 +179,27 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     public void setUpWidgetCustomization() {
+        final AppSettings settings = AppSettings.getInstance(getActivity());
 
+        final Preference account = findPreference("account");
+        account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final CharSequence[] items = new CharSequence[] {"@" + settings.myScreenName, "@" + settings.secondScreenName};
+                new AlertDialog.Builder(getActivity())
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                settings.sharedPrefs.edit().putString("widget_account", items[which] + "").apply();
+                                account.setSummary(items[which]);
+                            }
+                        })
+                        .create().show();
+                return true;
+            }
+        });
+
+        account.setSummary(settings.sharedPrefs.getString("widget_account", ""));
     }
 
     public void setUpDataSaving() {
@@ -878,7 +898,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         int padding = getResources().getDimensionPixelSize(R.dimen.settings_text_padding);
         Spinner mainTheme = getSpinner(sharedPrefs);
         LinearLayout.LayoutParams darkThemeParams = getLayoutParams(padding);
-        darkThemeParams.bottomMargin = padding;
+        gridParams.bottomMargin = padding;
 
         colorPickerLayout.addView(grid, gridParams);
         //colorPickerLayout.addView(mainTheme, darkThemeParams);
@@ -1202,15 +1222,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        Preference interactionsSet = findPreference("interactions_set");
-        interactionsSet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                return true;
-            }
-        });
-
         Preference timelineSet = findPreference("timeline_set");
         timelineSet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -1282,118 +1293,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 mobileOnly.setEnabled(false);
             }
         }
-
-        final Preference fillGaps = findPreference("fill_gaps");
-        fillGaps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new FillGaps().execute();
-                return false;
-            }
-        });
-
-        final Preference noti = findPreference("show_pull_notification");
-        noti.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                return true;
-            }
-        });
-
-        final Preference stream = findPreference("talon_pull");
-        stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                if (!o.equals("2")) {
-                    timeline.setEnabled(true);
-                    onStart.setEnabled(true);
-                } else {
-                    timeline.setEnabled(false);
-                    onStart.setEnabled(false);
-                }
-
-                if (o.equals("2")) {
-                    if (settings.liveStreaming) {
-                        timeline.setEnabled(false);
-                        onStart.setEnabled(false);
-                    }
-                    mobileOnly.setEnabled(false);
-
-                    if (!mentionsChanges) {
-                        mentions.setEnabled(false);
-                        dms.setEnabled(false);
-                    }
-
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    PendingIntent pendingIntent1 = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-                    PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-                    PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-                    am.cancel(pendingIntent1);
-                    am.cancel(pendingIntent2);
-                    am.cancel(pendingIntent3);
-
-                    SharedPreferences.Editor e = sharedPrefs.edit();
-                    if (sharedPrefs.getBoolean("live_streaming", true)) {
-                        e.putString("timeline_sync_interval", "0");
-                    }
-                    e.putString("mentions_sync_interval", "0");
-                    e.putString("dm_sync_interval", "0");
-                    e.apply();
-                } else {
-                    timeline.setEnabled(true);
-                    mentions.setEnabled(true);
-                    dms.setEnabled(true);
-                    onStart.setEnabled(true);
-                    mobileOnly.setEnabled(true);
-                }
-
-                return true;
-            }
-        });
-
-        Preference sync = findPreference("sync_friends");
-        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.sync_friends))
-                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
-
-        if(count != 2) {
-            ((PreferenceGroup) findPreference("other_options")).removePreference(findPreference("sync_second_mentions"));
-        }
-
-        // remove the mobile data one if they have a tablet
-        /*if (context.getResources().getBoolean(R.bool.isTablet)) {
-            getPreferenceScreen().removePreference(getPreferenceManager().findPreference("sync_mobile_data"));
-        }*/
     }
 
     public void setUpOtherOptions() {
