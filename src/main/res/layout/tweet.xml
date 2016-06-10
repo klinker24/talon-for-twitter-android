@@ -85,10 +85,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:background="@android:color/black"
                 app:loop="true"
                 app:stopSystemAudio="false"
-                app:muted="true"/>
+                app:muted="true"
+                app:showSpinner="true"/>
 
 
         </FrameLayout>
@@ -241,10 +241,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                android:background="@android:color/black"
                 app:loop="true"
                 app:stopSystemAudio="false"
-                app:muted="true" />
+                app:muted="true"
+                app:showSpinner="true"/>
 
         </FrameLayout>
 

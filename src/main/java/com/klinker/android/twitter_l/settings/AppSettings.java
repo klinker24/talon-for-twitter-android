@@ -374,9 +374,8 @@ public class AppSettings {
 
         locale = sharedPrefs.getString("locale", "none");
 
-        ringtone = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
-        Log.v("talon_ringtone", ringtone);
+        ringtone = sharedPrefs.getString("ringtone",
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {

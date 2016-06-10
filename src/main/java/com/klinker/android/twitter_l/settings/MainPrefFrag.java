@@ -18,19 +18,14 @@ package com.klinker.android.twitter_l.settings;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference;
 import com.klinker.android.twitter_l.manipulations.ListTagHandler;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
@@ -51,42 +46,51 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-
-        ListView list = (ListView) v.findViewById(android.R.id.list);
-        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
-        list.setDividerHeight(0);
-
-        return v;
-    }
-
     String[] titles = new String[] {
-            "ui_settings",
-            "timeline_settings",
-            "sync_settings",
-            "notification_settings",
-            "browser_settings",
-            "advanced_settings",
-            "main_pages_and_drawer",
-            "memory_management",
-            "get_help",
-            "become_supporter"
+            "app_style",
+            "widget_customization",
+            "swipable_pages_and_app_drawer",
+            "in_app_browser",
+            "background_refreshes",
+            "notifications",
+            "data_saving_options",
+            "location",
+            "mute_management",
+            "app_memory",
+            "other_options",
+            "become_supporter",
+            "faq"
     };
+
+    public boolean mListStyled;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mListStyled) {
+            View rootView = getView();
+            if (rootView != null) {
+                ListView list = (ListView) rootView.findViewById(android.R.id.list);
+                list.setPadding(0, 0, 0, 0);
+                list.setDivider(null);
+                //any other styling call
+                mListStyled = true;
+            }
+        }
+    }
 
     public void setClicks() {
 
         for (int i = 0; i < titles.length; i++) {
             final Preference p = findPreference(titles[i]);
+
             final int num = i;
             p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                     if (titles[num].equals("become_supporter")) {
                         showSupporterDialog();
-                    } else if (titles[num].equals("get_help")) {
+                    } else if (titles[num].equals("faq")) {
                         showGetHelp();
                     } else {
                         showSettings(num, preference.getTitle().toString());
@@ -102,8 +106,6 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         startActivity(new Intent(getActivity(), PrefActivity.class)
                 .putExtra("position", position)
                 .putExtra("title", title));
-
-        getActivity().finish();
     }
 
     private void showGetHelp() {

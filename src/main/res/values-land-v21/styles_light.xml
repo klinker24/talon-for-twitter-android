@@ -194,6 +194,8 @@
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#aa000000</item>
 
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+
         <!-- For Slidr -->
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@color/light_background</item>
