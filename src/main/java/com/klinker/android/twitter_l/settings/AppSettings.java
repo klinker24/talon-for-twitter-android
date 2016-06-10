@@ -265,7 +265,7 @@ public class AppSettings {
         }
 
         // Booleans
-        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
+        int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
                 darkTheme = false;
@@ -494,7 +494,7 @@ public class AppSettings {
 
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
-        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
+        int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
                 dark = false;

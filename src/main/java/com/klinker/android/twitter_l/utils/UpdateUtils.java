@@ -81,6 +81,12 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+            if (sharedPrefs.getBoolean("version_4_11", true)) {
+                sharedPrefs.edit().putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "").commit();
+                sharedPrefs.edit().putBoolean("version_4_11", false).commit();
+                AppSettings.invalidate();
+            }
+
             if (sharedPrefs.getBoolean("version_3_5", true)) {
                 sharedPrefs.edit().putBoolean("version_3_5", false)
                         .putBoolean("use_snackbar", false)
