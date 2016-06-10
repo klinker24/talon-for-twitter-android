@@ -112,4 +112,17 @@
     <string name="condensed_tweet_style">Compact Tweet Layout</string>
     <string name="locale">Locale Selection</string>
     <string name="locale_summary">Not all translations are complete.</string>
+    <string name="look_and_feel">Look and Feel</string>
+    <string name="widget_settings">Widget Customization</string>
+    <string name="background">Background</string>
+    <string name="advanced">Advanced</string>
+    <string name="data_saving_settings">Data Saving Options</string>
+    <string name="supporter_2016">2016 Supporter</string>
+    <string name="app_style">App Style</string>
+    <string name="in_app_browser">In-App Browser</string>
+    <string name="location">Location</string>
+    <string name="color_options">Color Options</string>
+    <string name="advanced_options">Advanced Options</string>
+    <string name="material_color">Material Design Color</string>
+    <string name="base_theme">Base Theme</string>
 </resources>

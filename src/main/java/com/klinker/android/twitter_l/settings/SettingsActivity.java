@@ -54,22 +54,8 @@ import org.json.JSONObject;
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_zoom_enter, R.anim.slide_out_right);
-    }
-
-    public static boolean useAnim = true;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (SettingsActivity.useAnim) {
-            overridePendingTransition(R.anim.slide_in_left, R.anim.activity_zoom_exit);
-        }
-
-        SettingsActivity.useAnim = true;
 
         AppSettings.invalidate();
 
@@ -186,10 +172,10 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.menu_get_help:
-                showSettings(8, getString(R.string.get_help_settings));
+                showSettings(11, getString(R.string.get_help_settings));
                 return true;
             case R.id.menu_other_apps:
-                showSettings(9, getString(R.string.other_apps));
+                showSettings(12, getString(R.string.other_apps));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
