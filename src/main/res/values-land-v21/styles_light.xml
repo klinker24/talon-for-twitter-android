@@ -93,6 +93,10 @@
         <item name="supporter">@drawable/ic_supporter_light</item>
         <item name="gif_button">@drawable/ic_gif_light</item>
         <item name="tweet_interactions">@drawable/ic_tweet_interactions_light</item>
+        <item name="data_saver">@drawable/ic_data_saver_light</item>
+        <item name="widget_customization">@drawable/ic_widget_customization_light</item>
+        <item name="background_sync">@drawable/ic_background_sync_light</item>
+        <item name="notification_settings">@drawable/ic_notification_settings_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
@@ -294,6 +298,10 @@
         <item name="supporter">@drawable/ic_supporter_light</item>
         <item name="gif_button">@drawable/ic_gif_light</item>
         <item name="tweet_interactions">@drawable/ic_tweet_interactions_light</item>
+        <item name="data_saver">@drawable/ic_data_saver_light</item>
+        <item name="widget_customization">@drawable/ic_widget_customization_light</item>
+        <item name="background_sync">@drawable/ic_background_sync_light</item>
+        <item name="notification_settings">@drawable/ic_notification_settings_light</item>
 
         <item name="themeSettings">@drawable/drawer_theme_light</item>
         <item name="drawerTrends">@drawable/drawer_trends_light</item>
