@@ -94,7 +94,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int arg0) {
         int res = 0;
         switch (Integer.parseInt(mContext.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getString("widget_theme", "3"))) {
+                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE).getString("widget_theme", "4"))) {
             case 0:
                 res = R.layout.widget_conversation_light;
                 break;
@@ -104,7 +104,13 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             case 2:
                 res = R.layout.widget_conversation_light;
                 break;
-            default:
+            case 3:
+                res = R.layout.widget_conversation_dark;
+                break;
+            case 4:
+                res = R.layout.widget_conversation_light;
+                break;
+            case 5:
                 res = R.layout.widget_conversation_dark;
                 break;
         }

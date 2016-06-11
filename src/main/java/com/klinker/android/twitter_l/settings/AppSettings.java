@@ -65,6 +65,8 @@ public class AppSettings {
     public static final int WIDGET_DARK = 1;
     public static final int WIDGET_TRANS_LIGHT = 2;
     public static final int WIDGET_TRANS_BLACK = 3;
+    public static final int WIDGET_MATERIAL_LIGHT = 4;
+    public static final int WIDGET_MATERIAL_DARK = 5;
 
     public static final int PAGE_TWEET = 0;
     public static final int PAGE_WEB = 1;
