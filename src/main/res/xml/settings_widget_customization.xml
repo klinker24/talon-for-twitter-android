@@ -12,7 +12,7 @@
         <ListPreference
             android:key="widget_theme"
             android:title="@string/widget_theme"
-            android:defaultValue="3"
+            android:defaultValue="4"
             android:entries="@array/widget_themes"
             android:entryValues="@array/widget_themes_inserted" />
 
