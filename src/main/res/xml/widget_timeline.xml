@@ -20,6 +20,7 @@
     android:minWidth="180dp"
     android:minHeight="180dp"
     android:updatePeriodMillis="3600000"
+    android:previewImage="@drawable/widget_preview"
     android:initialLayout="@layout/widget_trans_black"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
