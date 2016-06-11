@@ -128,7 +128,7 @@ public class PhotoFragment extends Fragment {
 
                     String urlString = url;
 
-                    if (urlString.contains("pbs.twimg")) {
+                    if (urlString.contains("pbs.twimg") && !(urlString.contains("profile_image") || urlString.contains("profile_banner"))) {
                         urlString += ":orig";
                     }
 
@@ -165,6 +165,7 @@ public class PhotoFragment extends Fragment {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (final Exception e) {
+                    e.printStackTrace();
 
                     if (activity != null) {
                         activity.runOnUiThread(new Runnable() {
