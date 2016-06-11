@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/color_options">
+
+        <ListPreference
+            android:key="widget_theme"
+            android:title="@string/widget_theme"
+            android:defaultValue="3"
+            android:entries="@array/widget_themes"
+            android:entryValues="@array/widget_themes_inserted" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
+    <PreferenceCategory
+        android:title="@string/functionality_options">
+
+        <Preference
+            android:key="account"
+            android:title="@string/account_to_display"/>
+
+        <ListPreference
+            android:key="widget_timeline"
+            android:title="@string/timeline_to_display"
+            android:defaultValue="0"
+            android:entries="@array/widget_timelines"
+            android:entryValues="@array/widget_timelines_inserted" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
