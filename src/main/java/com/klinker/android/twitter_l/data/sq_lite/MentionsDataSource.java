@@ -341,6 +341,51 @@ public class MentionsDataSource {
         return cursor;
     }
 
+    public synchronized Cursor getWidgetCursor(int account) {
+
+        boolean mutedMentions = sharedPrefs.getBoolean("show_muted_mentions", false);
+        String users = sharedPrefs.getString("muted_users", "");
+        String hashtags = sharedPrefs.getString("muted_hashtags", "");
+        String expressions = sharedPrefs.getString("muted_regex", "");
+
+        expressions = expressions.replaceAll("'", "''");
+
+        String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;
+
+        if (!users.equals("") && !mutedMentions) {
+            String[] split = users.split(" ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_SCREEN_NAME + " NOT LIKE '" + s + "'";
+            }
+        }
+
+        if (!hashtags.equals("") && !mutedMentions) {
+            String[] split = hashtags.split(" ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_HASHTAGS + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        if (!expressions.equals("") && !mutedMentions) {
+            String[] split = expressions.split("   ");
+            for (String s : split) {
+                where += " AND " + MentionsSQLiteHelper.COLUMN_TEXT + " NOT LIKE " + "'%" + s + "%'";
+            }
+        }
+
+        Cursor cursor;
+        try {
+            cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                    allColumns, where, null, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
+        } catch (Exception e) {
+            open();
+            cursor = database.query(MentionsSQLiteHelper.TABLE_MENTIONS,
+                    allColumns, where, null, MentionsSQLiteHelper.COLUMN_TWEET_ID, null, MentionsSQLiteHelper.COLUMN_TWEET_ID + " DESC", "150");
+        }
+
+        return cursor;
+    }
+
     public synchronized Cursor getTrimmingCursor(int account) {
 
         String where = MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account;

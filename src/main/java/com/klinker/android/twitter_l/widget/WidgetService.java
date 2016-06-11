@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -192,9 +193,16 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onDataSetChanged() {
         mWidgetItems = new ArrayList<Tweet>();
+        AppSettings settings = AppSettings.getInstance(mContext);
+        Cursor query;
 
-        HomeDataSource data = HomeDataSource.getInstance(mContext);
-        Cursor query = data.getWidgetCursor(AppSettings.getInstance(mContext).widgetAccountNum);
+        if (!settings.useMentionsOnWidget) {
+            HomeDataSource data = HomeDataSource.getInstance(mContext);
+            query = data.getWidgetCursor(settings.widgetAccountNum);
+        } else {
+            MentionsDataSource data = MentionsDataSource.getInstance(mContext);
+            query = data.getWidgetCursor(settings.widgetAccountNum);
+        }
 
         try {
             if (query.moveToFirst()) {
