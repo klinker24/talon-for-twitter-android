@@ -296,7 +296,7 @@
     <string name="theme_light">Light Theme</string>
     <string name="theme_dark">Dark Theme</string>
     <string name="theme_black">Black Theme</string>
-    <string name="sync_settings">Sync Settings</string>
+    <string name="sync_settings">Background Syncing</string>
     <string name="sync_mobile_data">Sync Over Mobile Data</string>
     <string name="sync_mobile_data_summary">Auto-refresh timelines over both mobile data and WiFi.</string>
     <string name="auto_sync_notifications">Auto-Refresh Notification Options</string>
@@ -326,7 +326,7 @@
     <string name="push_notifications">Talon Pull</string>
     <string name="push_notifications_summary">This will start a listener to post notifications as you receive new interactions (mentions, dm\'s, likes, retweets, or new followers).</string>
     <string name="push_notification_warning">To read more about Talon Pull, click this preference.</string>
-    <string name="notification_settings">Notification Settings</string>
+    <string name="notification_settings">Notification</string>
     <string name="pebble_notifications">Pebble Notifications</string>
     <string name="pebble_notifications_summary">Used for the Pebble smart watch. Disable this if you are getting two notifications on your watch.</string>
     <string name="advanced_settings">Advanced Settings</string>
@@ -593,7 +593,7 @@
     <string name="viewer_page">Tweet Viewer</string>
     <string name="viewer_page_summary">Default page to open to when viewing a tweet.</string>
     <string name="browser_settings">Browser Settings</string>
-    <string name="memory_manage">Memory Management</string>
+    <string name="memory_manage">App Memory</string>
     <string name="protected_account">User has a protected account!</string>
     <string name="mute_rt">Mute Retweets</string>
     <string name="unmute_rt">Un-mute Retweets</string>
@@ -644,7 +644,7 @@
     <!-- %s will be replaced with a number for the currently selected page -->
     <string name="page">Page %s</string>
     <string name="set_as_default">Set as Default</string>
-    <string name="main_pages_and_drawer">Main Pages and Drawer</string>
+    <string name="main_pages_and_drawer">Swipable Pages and App Drawer</string>
     <string name="drawer_elements">Visible Drawer Items</string>
     <string name="drawer_elements_summary">Show or hide the items in the apps main navigation drawer.</string>
     <string name="second_acc_mentions">Second Account Mentions</string>
@@ -657,7 +657,7 @@
     <string name="fav_rt_multiple_accounts">Cross Account Actions</string>
     <string name="fav_rt_multiple_accounts_summary">If you have multiple accounts, this will let you select which account to perform the like or retweet with.</string>
     <string name="talon_pull_notifications">Talon Pull (Instant) Notifications</string>
-    <string name="talon_pull_turned_on">Talon Pull must be turned on from Sync Settings to use this feature.</string>
+    <string name="talon_pull_turned_on">Talon Pull must be turned on from Background Refresh Options to use this feature.</string>
     <string name="activity_sync_interval">Activity Refresh Rate</string>
     <string name="mentioned_you">mentioned you</string>
     <string name="favorites_lower">Likes</string>
