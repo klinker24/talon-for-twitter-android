@@ -31,6 +31,7 @@ import android.widget.RemoteViews;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
@@ -127,7 +128,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 try {
                     SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
                             Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
+                    int currentAccount = AppSettings.getInstance(this).widgetAccountNum;
                     String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
                     String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";
                     String home = HomeDataSource.getInstance(this).getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0)) + "";

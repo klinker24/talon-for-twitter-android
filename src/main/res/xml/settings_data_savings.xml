@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:summary="@string/background_refreshes_disclaimer" />
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+
+    <SwitchPreference
+        android:key="high_quality_images"
+        android:title="@string/high_quality_images"
+        android:summary="@string/high_quality_images_summary"
+        android:defaultValue="true" />
+
+    <ListPreference
+        android:key="pre_cache"
+        android:title="@string/pre_cache_images"
+        android:summary="@string/precache_text"
+        android:defaultValue="1"
+        android:entries="@array/pre_cache"
+        android:entryValues="@array/talon_pull_inserted" />
+
+    <ListPreference
+        android:key="autoplay"
+        android:title="@string/autoplay_title"
+        android:summary="@string/autoplay_summary"
+        android:defaultValue="1"
+        android:entries="@array/autoplay"
+        android:entryValues="@array/autoplay_inserted" />
+
 </PreferenceScreen>

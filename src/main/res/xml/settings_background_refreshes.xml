@@ -75,14 +75,6 @@
         android:title="@string/sync_options" >
 
         <ListPreference
-            android:key="pre_cache"
-            android:title="@string/pre_cache_images"
-            android:summary="@string/precache_text"
-            android:defaultValue="1"
-            android:entries="@array/pre_cache"
-            android:entryValues="@array/talon_pull_inserted" />
-
-        <ListPreference
             android:key="tweetmarker_options"
             android:title="@string/use_tweetmarker"
             android:summary="@string/tweetmarker_text"
@@ -100,7 +92,6 @@
             android:key="sync_mobile_data"
             android:title="@string/sync_mobile_data"
             android:defaultValue="true" />
-
 
     </PreferenceCategory>
 

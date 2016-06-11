@@ -213,6 +213,7 @@ public class AppSettings {
     public int navBarOption;
     public int picturesType;
     public int autoplay;
+    public int widgetAccountNum;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -321,7 +322,7 @@ public class AppSettings {
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", false);
         bottomPictures = sharedPrefs.getBoolean("bottom_pictures", true);
-        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
+        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", false);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
         transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
@@ -410,6 +411,17 @@ public class AppSettings {
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
         autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_WIFI + ""));
+
+        String widgetAccount = sharedPrefs.getString("widget_account", "").replace("@", "");
+        if (widgetAccount.equals(myScreenName.replace("@",""))) {
+            widgetAccountNum = currentAccount;
+        } else {
+            if (currentAccount == 1) {
+                widgetAccountNum = 2;
+            } else {
+                widgetAccountNum = 1;
+            }
+        }
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));

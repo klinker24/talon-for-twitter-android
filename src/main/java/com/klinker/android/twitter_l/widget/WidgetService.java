@@ -193,10 +193,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public void onDataSetChanged() {
         mWidgetItems = new ArrayList<Tweet>();
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
         HomeDataSource data = HomeDataSource.getInstance(mContext);
-        Cursor query = data.getWidgetCursor(sharedPrefs.getInt("current_account", 1));
+        Cursor query = data.getWidgetCursor(AppSettings.getInstance(mContext).widgetAccountNum);
 
         try {
             if (query.moveToFirst()) {

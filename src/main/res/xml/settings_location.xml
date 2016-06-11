@@ -3,22 +3,38 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <SwitchPreference
-        android:key="manually_config_location"
-        android:title="@string/manually_config_location"
-        android:defaultValue="false" />
-
     <ListPreference
-        android:key="country"
-        android:title="@string/country_region"
-        android:defaultValue="United States"
-        android:entries="@array/countries"
-        android:entryValues="@array/countries"
-        android:dependency="manually_config_location" />
+        android:key="locale"
+        android:title="@string/locale"
+        android:summary="@string/locale_summary"
+        android:defaultValue="none"
+        android:entries="@array/locale"
+        android:entryValues="@array/locale_inserted" />
 
-    <Preference
-        android:key="city"
-        android:title="@string/city"
-        android:dependency="manually_config_location" />
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
+    <PreferenceCategory
+        android:title="@string/discover_section_options" >
+
+        <SwitchPreference
+            android:key="manually_config_location"
+            android:title="@string/manually_config_location"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:key="country"
+            android:title="@string/country_region"
+            android:defaultValue="United States"
+            android:entries="@array/countries"
+            android:entryValues="@array/countries"
+            android:dependency="manually_config_location" />
+
+        <Preference
+            android:key="city"
+            android:title="@string/city"
+            android:dependency="manually_config_location" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

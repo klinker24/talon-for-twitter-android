@@ -19,58 +19,29 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:key="advanced_other"
-        android:title="@string/other_options" >
+    <ListPreference
+        android:key="quote_style"
+        android:title="@string/quote_style"
+        android:defaultValue="0"
+        android:entries="@array/quote_style"
+        android:entryValues="@array/quote_style_inserted" />
 
-        <ListPreference
-            android:key="quote_style"
-            android:title="@string/quote_style"
-            android:defaultValue="0"
-            android:entries="@array/quote_style"
-            android:entryValues="@array/quote_style_inserted" />
-        
-        <ListPreference
-            android:key="autoplay"
-            android:title="@string/autoplay_title"
-            android:summary="@string/autoplay_summary"
-            android:defaultValue="1"
-            android:entries="@array/autoplay"
-            android:entryValues="@array/autoplay_inserted" />
+    <SwitchPreference
+        android:key="fav_rt_multiple_accounts"
+        android:title="@string/fav_rt_multiple_accounts"
+        android:summary="@string/fav_rt_multiple_accounts_summary"
+        android:defaultValue="false" />
 
-        <ListPreference
-            android:key="locale"
-            android:title="@string/locale"
-            android:summary="@string/locale_summary"
-            android:defaultValue="none"
-            android:entries="@array/locale"
-            android:entryValues="@array/locale_inserted" />
+    <SwitchPreference
+        android:key="top_down_mode"
+        android:title="@string/top_down"
+        android:summary="@string/top_down_summary"
+        android:defaultValue="false" />
 
-        <SwitchPreference
-            android:key="high_quality_images"
-            android:title="@string/high_quality_images"
-            android:summary="@string/high_quality_images_summary"
-            android:defaultValue="true" />
-
-        <SwitchPreference
-            android:key="fav_rt_multiple_accounts"
-            android:title="@string/fav_rt_multiple_accounts"
-            android:summary="@string/fav_rt_multiple_accounts_summary"
-            android:defaultValue="true" />
-
-        <SwitchPreference
-            android:key="top_down_mode"
-            android:title="@string/top_down"
-            android:summary="@string/top_down_summary"
-            android:defaultValue="false" />
-
-
-        <SwitchPreference
-            android:key="auto_insert_hashtags"
-            android:title="@string/auto_insert_hashtags"
-            android:summary="@string/to_replies"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
+    <SwitchPreference
+        android:key="auto_insert_hashtags"
+        android:title="@string/auto_insert_hashtags"
+        android:summary="@string/to_replies"
+        android:defaultValue="false" />
 
 </PreferenceScreen>
