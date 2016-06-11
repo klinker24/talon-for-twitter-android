@@ -110,7 +110,7 @@
     <string name="tweet_style">Tweet Style</string>
     <string name="tweet_style_description">How you want your tweets to look on the timeline.</string>
     <string name="condensed_tweet_style">Compact Tweet Layout</string>
-    <string name="locale">Locale Selection</string>
+    <string name="locale">Locale Selection for Translations</string>
     <string name="locale_summary">Not all translations are complete.</string>
     <string name="look_and_feel">Look and Feel</string>
     <string name="widget_settings">Widget Customization</string>
@@ -135,5 +135,8 @@
     <string name="precache_text">This will download images after a background refresh, so that they are immediately available in the app.</string>
     <string name="timeline_notifications_text">These notifications will go off after a background refresh has been completed.</string>
     <string name="tweetmarker_always_refreshes">TweetMarker will always refresh on startup.</string>
-    <string name="background_refreshes_disclaimer">All preferences under \"Background Refreshes\" will also consume battery and data.</string>
+    <string name="background_refreshes_disclaimer">All preferences under \"Background Refreshes\" will also consume both battery and data.</string>
+    <string name="discover_section_options">Discover Section Options</string>
+    <string name="clear_memory">Clear Memory</string>
+    <string name="manage_mutes_options">Manage Mutes</string>
 </resources>

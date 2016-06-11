@@ -55,6 +55,13 @@
             android:entries="@array/lists_size"
             android:entryValues="@array/lists_size" />
 
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
+    <PreferenceCategory
+        android:title="@string/clear_memory">
+
         <Preference
             android:key="trim_now"
             android:title="@string/clean_now"
@@ -69,6 +76,8 @@
             android:title="@string/clear_searches" />
 
     </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
 
     <PreferenceCategory
         android:key="backup_category"

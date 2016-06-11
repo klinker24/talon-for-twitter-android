@@ -82,8 +82,12 @@ public class UpdateUtils {
 
         if (!justInstalled) {
             if (sharedPrefs.getBoolean("version_4_11", true)) {
-                sharedPrefs.edit().putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "").commit();
-                sharedPrefs.edit().putBoolean("version_4_11", false).commit();
+                sharedPrefs.edit()
+                        .putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "")
+                        .putString("widget_account", "@" + AppSettings.getInstance(context).myScreenName)
+                        .putBoolean("version_4_11", false)
+                        .commit();
+
                 AppSettings.invalidate();
             }
 
