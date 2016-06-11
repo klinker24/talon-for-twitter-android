@@ -77,7 +77,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
             int res = 0;
             switch (Integer.parseInt(getSharedPreferences("com.klinker.android.twitter_world_preferences",
                     Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
-                    .getString("widget_theme", "3"))) {
+                    .getString("widget_theme", "4"))) {
                 case 0:
                     res = R.layout.widget_unread_trans_light;
                     break;
@@ -88,6 +88,12 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                     res = R.layout.widget_unread_trans_light;
                     break;
                 case 3:
+                    res = R.layout.widget_unread_trans_black;
+                    break;
+                case 4:
+                    res = R.layout.widget_unread_trans_light;
+                    break;
+                case 5:
                     res = R.layout.widget_unread_trans_black;
                     break;
             }

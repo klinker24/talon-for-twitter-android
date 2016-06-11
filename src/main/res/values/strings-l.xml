@@ -139,4 +139,7 @@
     <string name="discover_section_options">Discover Section Options</string>
     <string name="clear_memory">Clear Memory</string>
     <string name="manage_mutes_options">Manage Mutes</string>
+    <string name="widget_disclaimer">You may need to remove, then re-add the widget to your homescreen, to apply these changes.</string>
+    <string name="widget_material_light">Material Design Light</string>
+    <string name="widget_material_dark">Material Design Dark</string>
 </resources>
