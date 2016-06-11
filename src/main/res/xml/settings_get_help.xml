@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="@string/help" >
+
+        <Preference
+            android:key="faq"
+            android:title="@string/faq" />
+
+        <Preference
+            android:key="tutorial"
+            android:title="@string/rerun_tutorial" />
+
+        <Preference
+            android:key="whats_new"
+            android:title="@string/whats_new" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/links" >
+
+        <Preference
+            android:key="google_plus"
+            android:title="@string/google_plus" />
+
+        <Preference
+            android:key="klinkerapps"
+            android:title="@string/our_website" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://klinkerapps.com" />
+        </Preference>
+
+        <Preference
+            android:key="youtube"
+            android:title="@string/youtube" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/contact_me">
+
+        <Preference
+            android:key="email_me"
+            android:title="@string/email_me" />
+
+        <Preference
+            android:key="tweet_me"
+            android:title="@string/tweet_me" />
+
+        <Preference
+            android:key="luke_google_plus"
+            android:title="@string/my_google_plus" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/+LukeKlinker/posts" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/general">
+
+        <Preference
+            android:key="follow_talon"
+            android:title="@string/follow_progress" />
+        <Preference
+            android:key="credits"
+            android:title="@string/credits" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="manage_mutes"
+        android:title="@string/muted_users" />
+
+    <Preference
+        android:key="manage_mutes_rt"
+        android:title="@string/muted_rts" />
+
+    <Preference
+        android:key="manage_mutes_hashtags"
+        android:title="@string/muted_hashtags"
+        android:summary="@string/muted_hashtags_summary" />
+
+    <Preference
+        android:key="manage_muted_clients"
+        android:title="@string/muted_clients"
+        android:summary="@string/muted_clients_summary" />
+
+    <Preference
+        android:key="mute_regex"
+        android:title="@string/mute_expression"
+        android:summary="@string/regex_disclaimer" />
+
+    <Preference
+        android:key="manage_regex_mute"
+        android:title="@string/view_muted_expressions" />
+
+    <SwitchPreference
+        android:key="ignore_retweets"
+        android:title="@string/ignore_retweets"
+        android:summary="@string/ignore_retweets_summary"
+        android:defaultValue="false" />
+
+    <SwitchPreference
+        android:key="show_muted_mentions"
+        android:title="@string/show_muted_mentions"
+        android:defaultValue="false" />
+
+    <PreferenceCategory
+        android:title="@string/manage_muffles" >
+
+        <Preference
+            android:summary="@string/muffle_definition" />
+
+        <Preference
+                android:key="manage_muffles"
+                android:title="@string/muffled_users"
+                android:summary="@string/click_to_remove_muffle"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

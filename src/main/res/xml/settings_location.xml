@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <SwitchPreference
+        android:key="manually_config_location"
+        android:title="@string/manually_config_location"
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:key="country"
+        android:title="@string/country_region"
+        android:defaultValue="United States"
+        android:entries="@array/countries"
+        android:entryValues="@array/countries"
+        android:dependency="manually_config_location" />
+
+    <Preference
+        android:key="city"
+        android:title="@string/city"
+        android:dependency="manually_config_location" />
+
+</PreferenceScreen>
