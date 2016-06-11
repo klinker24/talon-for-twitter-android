@@ -135,7 +135,7 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:textColor="?textColor"
-                    android:paddingTop="4dp"
+                    android:layout_marginTop="4dp"
                     android:singleLine="true"
                     android:gravity="top"/>
 
