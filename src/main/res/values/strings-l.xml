@@ -142,4 +142,6 @@
     <string name="widget_disclaimer">You may need to remove, then re-add the widget to your homescreen, to apply these changes.</string>
     <string name="widget_material_light">Material Design Light</string>
     <string name="widget_material_dark">Material Design Dark</string>
+    <string name="in_app_browser_summary">Disabling the in-app browser will send you to your default browser when opening links.</string>
+    <string name="chrome_custom_tabs_summary">A replacement to Talon\'s own in-app browswer. It uses services provided by Google Chrome.</string>
 </resources>
