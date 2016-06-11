@@ -70,6 +70,8 @@ public class AppSettings {
     public static final int WIDGET_DARK = 1;
     public static final int WIDGET_TRANS_LIGHT = 2;
     public static final int WIDGET_TRANS_BLACK = 3;
+    public static final int WIDGET_MATERIAL_LIGHT = 4;
+    public static final int WIDGET_MATERIAL_DARK = 5;
 
     public static final int PAGE_TWEET = 0;
     public static final int PAGE_WEB = 1;
@@ -176,6 +178,7 @@ public class AppSettings {
     public boolean useInteractionDrawer;
     public boolean staticUi;
     public boolean higherQualityImages;
+    public boolean useMentionsOnWidget;
 
     // notifications
     public boolean timelineNot;
@@ -218,6 +221,7 @@ public class AppSettings {
     public int navBarOption;
     public int picturesType;
     public int autoplay;
+    public int widgetAccountNum;
 
     public long timelineRefresh;
     public long mentionsRefresh;
@@ -268,7 +272,7 @@ public class AppSettings {
         }
 
         // Booleans
-        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
+        int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
                 darkTheme = false;
@@ -324,12 +328,13 @@ public class AppSettings {
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", false);
         bottomPictures = sharedPrefs.getBoolean("bottom_pictures", true);
-        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
+        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", false);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
         transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
         staticUi = sharedPrefs.getBoolean("static_ui", false);
         higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
+        useMentionsOnWidget = sharedPrefs.getString("widget_timeline", "0").equals("1");
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
@@ -377,9 +382,8 @@ public class AppSettings {
 
         locale = sharedPrefs.getString("locale", "none");
 
-        ringtone = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("ringtone", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
-        Log.v("talon_ringtone", ringtone);
+        ringtone = sharedPrefs.getString("ringtone",
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString());
 
         // if they have the keyboard trial installed, then go from their preference
         if (EmojiUtils.checkEmojisEnabled(context)) {
@@ -414,6 +418,17 @@ public class AppSettings {
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
         autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_WIFI + ""));
+
+        String widgetAccount = sharedPrefs.getString("widget_account", "").replace("@", "");
+        if (widgetAccount.equals(myScreenName.replace("@",""))) {
+            widgetAccountNum = currentAccount;
+        } else {
+            if (currentAccount == 1) {
+                widgetAccountNum = 2;
+            } else {
+                widgetAccountNum = 1;
+            }
+        }
 
         // Longs
         timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
@@ -498,7 +513,7 @@ public class AppSettings {
 
     public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
-        int mainTheme = sharedPrefs.getInt("main_theme", DEFAULT_MAIN_THEME);
+        int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
                 dark = false;

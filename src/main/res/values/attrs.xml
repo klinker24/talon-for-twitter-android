@@ -91,6 +91,10 @@
     <attr name="supporter" format="reference" />
     <attr name="gif_button" format="reference"/>
     <attr name="tweet_interactions" format="reference"/>
+    <attr name="data_saver" format="reference"/>
+    <attr name="widget_customization" format="reference" />
+    <attr name="background_sync" format="reference" />
+    <attr name="notification_settings" format="reference"/>
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>

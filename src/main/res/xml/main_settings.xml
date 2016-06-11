@@ -16,46 +16,99 @@
   limitations under the License.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference android:key="ui_settings"
-                android:title="@string/ui_settings"
-                android:icon="?themeSettings" />
-
-    <Preference android:key="sync_settings"
-                android:title="@string/sync_settings"
-                android:icon="?syncSettings" />
-
-    <Preference android:key="notification_settings"
-                android:title="@string/notification_settings"
-                android:icon="?notificationSettings" />
-
-    <Preference android:key="browser_settings"
-                android:title="@string/browser_settings"
-                android:icon="?links" />
-
-    <Preference android:key="advanced_settings"
-                android:title="@string/advanced_settings"
-                android:icon="?advancedSettings" />
-
-    <Preference android:key="timeline_settings"
-                android:title="@string/manage_mutes"
-                android:icon="?favUser" />
-
-    <Preference android:key="main_pages_and_drawer"
-                android:title="@string/main_pages_and_drawer"
-                android:icon="?settings_pages" />
-
-    <Preference android:key="memory_management"
-                android:title="@string/memory_manage"
-                android:icon="?memManagement" />
-
-    <Preference android:key="get_help"
+    <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+        android:key="faq"
         android:title="@string/faq"
         android:icon="?getHelp" />
 
-    <com.klinker.android.twitter_l.manipulations.BecomeSupporterPreference
-        android:key="become_supporter"
-        android:icon="?supporter" />
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+
+    <PreferenceCategory
+        android:title="@string/look_and_feel" >
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="app_style"
+            android:title="@string/app_style"
+            android:icon="?themeSettings" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="widget_customization"
+            android:title="@string/widget_settings"
+            android:icon="?widget_customization" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="swipable_pages_and_app_drawer"
+            android:title="@string/main_pages_and_drawer"
+            android:icon="?settings_pages" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="in_app_browser"
+            android:title="@string/in_app_browser"
+            android:icon="?links" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+
+    <PreferenceCategory
+        android:title="@string/background">
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="background_refreshes"
+            android:title="@string/sync_settings"
+            android:icon="?background_sync" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="notifications"
+            android:title="@string/notification_settings"
+            android:icon="?notification_settings" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="data_saving_options"
+            android:title="@string/data_saving_settings"
+            android:icon="?data_saver" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+
+    <PreferenceCategory
+        android:title="@string/advanced">
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="location"
+            android:title="@string/location"
+            android:icon="?location_button" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="mute_management"
+            android:title="@string/manage_mutes"
+            android:icon="?tweet_interactions" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="app_memory"
+            android:title="@string/memory_manage"
+            android:icon="?memManagement" />
+
+        <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+            android:key="other_options"
+            android:title="@string/other_options"
+            android:icon="?advancedSettings" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+
+    <PreferenceCategory
+        android:title="@string/supporter_2016">
+
+        <com.klinker.android.twitter_l.manipulations.preference.BecomeSupporterPreference
+            android:key="become_supporter"
+            android:icon="?supporter" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

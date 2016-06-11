@@ -163,7 +163,8 @@ public class TweetActivity extends SlidingActivity {
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
 
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+        disableHeader();
+        /*if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             disableHeader();
         } else {
             new Handler().postDelayed(new Runnable() {
@@ -206,7 +207,7 @@ public class TweetActivity extends SlidingActivity {
 
                 }
             }, NETWORK_ACTION_DELAY);
-        }
+        }*/
 
         setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
 
