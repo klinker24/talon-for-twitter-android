@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="5.0.0">
+        <text>Tweet images are shown on the widget</text>
+        <text>Links are highlighted on the widget</text>
+        <text>Settings overhauled and simplified</text>
+        <text>Improvements to tablet and landscape layouts</text>
+    </version>
+
     <version name="4.10.3">
         <text>Apply the image editor to profile picture and banner picture uploads</text>
         <text>Auto fill the current profile info when you try to update it from within Talon</text>

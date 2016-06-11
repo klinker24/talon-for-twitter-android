@@ -37,7 +37,7 @@
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="widget_customization"
             android:title="@string/widget_settings"
-            android:icon="?themeSettings" />
+            android:icon="?widget_customization" />
 
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="swipable_pages_and_app_drawer"
@@ -59,17 +59,17 @@
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="background_refreshes"
             android:title="@string/sync_settings"
-            android:icon="?syncSettings" />
+            android:icon="?background_sync" />
 
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="notifications"
             android:title="@string/notification_settings"
-            android:icon="?notificationSettings" />
+            android:icon="?notification_settings" />
 
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="data_saving_options"
             android:title="@string/data_saving_settings"
-            android:icon="?favUser" />
+            android:icon="?data_saver" />
 
     </PreferenceCategory>
 
@@ -86,7 +86,7 @@
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="mute_management"
             android:title="@string/manage_mutes"
-            android:icon="?favUser" />
+            android:icon="?tweet_interactions" />
 
         <com.klinker.android.twitter_l.manipulations.preference.IconPreference
             android:key="app_memory"
