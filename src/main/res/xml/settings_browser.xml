@@ -22,11 +22,13 @@
     <SwitchPreference
         android:key="inapp_browser"
         android:title="@string/use_inapp_browser"
+        android:summary="@string/in_app_browser_summary"
         android:defaultValue="true" />
 
     <Preference
         android:key="chrome_custom_tabs"
         android:title="@string/custom_tab_title"
+        android:summary="@string/chrome_custom_tabs_summary"
         android:dependency="inapp_browser" />
 
     <ListPreference
