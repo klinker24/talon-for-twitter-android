@@ -31,18 +31,17 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -72,7 +71,6 @@ import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragmen
 import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
@@ -93,6 +91,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
     public int position;
 
+    public boolean mListStyled;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,71 +102,111 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         Bundle args = getArguments();
         position = args.getInt("position");
 
-        DrawerArrayAdapter.current = position - 1;
+        setPreferences(position);
+    }
 
+    public void setPreferences(final int position) {
         switch (position) {
-            case 0:
-                addPreferencesFromResource(R.xml.theme_settings);
-                setUpThemeSettings();
+            case 0: // app style
+                addPreferencesFromResource(R.xml.settings_app_style);
+                setupAppStyle();
                 break;
-            case 1:
-                addPreferencesFromResource(R.xml.timelines_settings);
-                setUpTimelinesSettings();
+            case 1: // widget customization
+                addPreferencesFromResource(R.xml.settings_widget_customization);
+                setUpWidgetCustomization();
                 break;
-            case 2:
-                addPreferencesFromResource(R.xml.sync_settings);
-                setUpSyncSettings();
+            case 2: // swipable page and app drawer
+                addPreferencesFromResource(R.xml.settings_swipable_pages_and_app_drawer);
+                setUpSwipablePages();
                 break;
-            case 3:
-                addPreferencesFromResource(R.xml.notification_settings);
+            case 3: // in app browser
+                addPreferencesFromResource(R.xml.settings_browser);
+                setUpBrowser();
+                break;
+            case 4: // background refreshes
+                addPreferencesFromResource(R.xml.settings_background_refreshes);
+                setUpBackgroundRefreshes();
+                break;
+            case 5: // notifications
+                addPreferencesFromResource(R.xml.settings_notifications);
                 setUpNotificationSettings();
                 break;
-            case 4:
-                addPreferencesFromResource(R.xml.browser_settings);
-                setUpBrowserSettings();
+            case 6: // data saving
+                addPreferencesFromResource(R.xml.settings_data_savings);
+                setUpDataSaving();
                 break;
-            case 5:
-                addPreferencesFromResource(R.xml.advanced_settings);
-                setUpAdvancedSettings();
+            case 7: // location
+                addPreferencesFromResource(R.xml.settings_location);
+                setUpLocationSettings();
                 break;
-            case 6:
-                addPreferencesFromResource(R.xml.main_pages_and_drawer);
-                setUpPageSettings();
+            case 8: // mute management
+                addPreferencesFromResource(R.xml.settings_mutes);
+                setUpMuteSettings();
                 break;
-            case 7:
-                addPreferencesFromResource(R.xml.memory_management_settings);
-                setUpMemManagementSettings();
+            case 9: // app memory
+                addPreferencesFromResource(R.xml.settings_app_memory);
+                setUpAppMemorySettings();
                 break;
-            case 8:
-                addPreferencesFromResource(R.xml.get_help_settings);
+            case 10: // other options
+                addPreferencesFromResource(R.xml.settings_other_options);
+                setUpOtherOptions();
+                break;
+            case 11: // get help (from overflow)
+                addPreferencesFromResource(R.xml.settings_get_help);
                 setUpGetHelpSettings();
                 break;
-            case 9:
-                addPreferencesFromResource(R.xml.other_apps_settings);
+            case 12: // other apps (from overflow)
+                addPreferencesFromResource(R.xml.settings_other_apps);
                 setUpOtherAppSettings();
-                break;
-            case 10:
-                addPreferencesFromResource(R.xml.location_settings);
-                setUpLocationSettings();
                 break;
         }
 
+        Preference advanced = findPreference("advanced");
+        if (advanced != null) {
+            advanced.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent advanced = new Intent(context, PrefActivityAdvanced.class);
+                    advanced.putExtra("position", position);
+
+                    startActivity(advanced);
+
+                    return true;
+                }
+            });
+        }
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+    public void setUpWidgetCustomization() {
+        final AppSettings settings = AppSettings.getInstance(getActivity());
 
-        ListView list = (ListView) v.findViewById(android.R.id.list);
-        list.setDivider(new ColorDrawable(getResources().getColor(android.R.color.transparent))); // or some other color int
-        list.setDividerHeight(0);
+        final Preference account = findPreference("account");
+        account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final CharSequence[] items = new CharSequence[] {"@" + settings.myScreenName, "@" + settings.secondScreenName};
+                new AlertDialog.Builder(getActivity())
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                settings.sharedPrefs.edit().putString("widget_account", items[which] + "").apply();
+                                account.setSummary(items[which]);
+                            }
+                        })
+                        .create().show();
+                return true;
+            }
+        });
 
-        return v;
+        account.setSummary(settings.sharedPrefs.getString("widget_account", ""));
     }
 
-    public void setUpBrowserSettings() {
+    public void setUpDataSaving() {
+
+    }
+
+    public void setUpBrowser() {
         final SharedPreferences sharedPreferences =  PreferenceManager.getDefaultSharedPreferences(context);
         Preference customTabs = findPreference("chrome_custom_tabs");
         customTabs.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -202,7 +242,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         });
     }
 
-    public void setUpPageSettings() {
+    public void setUpSwipablePages() {
         Preference pages = findPreference("pages");
         pages.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -341,9 +381,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         return null;
     }
 
-    public void setUpMemManagementSettings() {
+    public void setUpAppMemorySettings() {
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-
 
         Preference clearSearch = findPreference("clear_searches");
         clearSearch.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -550,9 +589,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
     }
 
-    public void setUpTimelinesSettings() {
+    public void setUpMuteSettings() {
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(getActivity());
-
 
         final Preference showHandle = findPreference("display_screen_name");
         if (sharedPrefs.getBoolean("both_handle_name", false) && showHandle != null) {
@@ -858,10 +896,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         int padding = getResources().getDimensionPixelSize(R.dimen.settings_text_padding);
         Spinner mainTheme = getSpinner(sharedPrefs);
         LinearLayout.LayoutParams darkThemeParams = getLayoutParams(padding);
-        darkThemeParams.bottomMargin = padding;
+        gridParams.bottomMargin = padding;
 
         colorPickerLayout.addView(grid, gridParams);
-        colorPickerLayout.addView(mainTheme, darkThemeParams);
+        //colorPickerLayout.addView(mainTheme, darkThemeParams);
         scrollParent.addView(colorPickerLayout);
         dialog.show();
     }
@@ -974,7 +1012,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         return params;
     }
 
-    public void setUpThemeSettings() {
+    public void setupAppStyle() {
 
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(getActivity());
 
@@ -1020,7 +1058,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         nightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) nightMode).isChecked()) {
+                if (!((SwitchPreference) nightMode).isChecked()) {
                     com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
@@ -1153,7 +1191,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         quietHours.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) quietHours).isChecked()) {
+                if (!((SwitchPreference) quietHours).isChecked()) {
                     com.android.datetimepicker.time.TimePickerDialog dialog = com.android.datetimepicker.time.TimePickerDialog.newInstance(new com.android.datetimepicker.time.TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
@@ -1178,15 +1216,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     quietHours.setSummary("");
                 }
 
-                return true;
-            }
-        });
-
-        Preference interactionsSet = findPreference("interactions_set");
-        interactionsSet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                 return true;
             }
         });
@@ -1227,7 +1256,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         notification.setOnPreferenceChangeListener(click);
     }
 
-    public void setUpSyncSettings() {
+    public void setUpBackgroundRefreshes() {
         final Context context = getActivity();
 
         final AppSettings settings = AppSettings.getInstance(context);
@@ -1262,147 +1291,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 mobileOnly.setEnabled(false);
             }
         }
-
-        final Preference fillGaps = findPreference("fill_gaps");
-        fillGaps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new FillGaps().execute();
-                return false;
-            }
-        });
-
-        final Preference noti = findPreference("show_pull_notification");
-        noti.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                return true;
-            }
-        });
-
-        final Preference stream = findPreference("talon_pull");
-        stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                if (!o.equals("2")) {
-                    timeline.setEnabled(true);
-                    onStart.setEnabled(true);
-                } else {
-                    timeline.setEnabled(false);
-                    onStart.setEnabled(false);
-                }
-
-                if (o.equals("2")) {
-                    if (settings.liveStreaming) {
-                        timeline.setEnabled(false);
-                        onStart.setEnabled(false);
-                    }
-                    mobileOnly.setEnabled(false);
-
-                    if (!mentionsChanges) {
-                        mentions.setEnabled(false);
-                        dms.setEnabled(false);
-                    }
-
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    PendingIntent pendingIntent1 = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-                    PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-                    PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-                    am.cancel(pendingIntent1);
-                    am.cancel(pendingIntent2);
-                    am.cancel(pendingIntent3);
-
-                    SharedPreferences.Editor e = sharedPrefs.edit();
-                    if (sharedPrefs.getBoolean("live_streaming", true)) {
-                        e.putString("timeline_sync_interval", "0");
-                    }
-                    e.putString("mentions_sync_interval", "0");
-                    e.putString("dm_sync_interval", "0");
-                    e.apply();
-                } else {
-                    timeline.setEnabled(true);
-                    mentions.setEnabled(true);
-                    dms.setEnabled(true);
-                    onStart.setEnabled(true);
-                    mobileOnly.setEnabled(true);
-                }
-
-                return true;
-            }
-        });
-
-        Preference sync = findPreference("sync_friends");
-        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.sync_friends))
-                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
-        });
-
-        if(count != 2) {
-            ((PreferenceGroup) findPreference("other_options")).removePreference(findPreference("sync_second_mentions"));
-        }
-
-        // remove the mobile data one if they have a tablet
-        /*if (context.getResources().getBoolean(R.bool.isTablet)) {
-            getPreferenceScreen().removePreference(getPreferenceManager().findPreference("sync_mobile_data"));
-        }*/
     }
 
-    public void setUpAdvancedSettings() {
+    public void setUpOtherOptions() {
         final Context context = getActivity();
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
 
-        final Preference emojis = findPreference("use_emojis");
-        emojis.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                if (!((CheckBoxPreference) emojis).isChecked() && !EmojiUtils.checkEmojisEnabled(context)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.enable_emojis) + ":")
-                            .setMessage(context.getResources().getString(R.string.emoji_dialog_summary))
-                            .setNegativeButton(R.string.get_ios, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios")));
-                                }
-                            })
-                            .create()
-                            .show();
-                }
-
-                return true;
-            }
-
-        });
     }
 
     public void setUpLocationSettings() {
@@ -1455,6 +1350,17 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         // Set up a listener whenever a key changes
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
+
+        if (!mListStyled) {
+            View rootView = getView();
+            if (rootView != null) {
+                ListView list = (ListView) rootView.findViewById(android.R.id.list);
+                list.setPadding(0, 0, 0, 0);
+                list.setDivider(null);
+                //any other styling call
+                mListStyled = true;
+            }
+        }
     }
 
     @Override

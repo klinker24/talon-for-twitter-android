@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceFragment;
 import android.support.design.widget.Snackbar;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;

@@ -84,11 +84,12 @@
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:background="@android:color/black"
+                android:visibility="gone"
                 app:loop="true"
                 app:stopSystemAudio="false"
-                app:muted="true"/>
+                app:muted="true"
+                app:showSpinner="true"/>
 
 
         </FrameLayout>
@@ -240,11 +241,12 @@
                 android:id="@+id/video_view_below"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:background="@android:color/black"
+                android:visibility="gone"
                 app:loop="true"
                 app:stopSystemAudio="false"
-                app:muted="true" />
+                app:muted="true"
+                app:showSpinner="true"/>
 
         </FrameLayout>
 

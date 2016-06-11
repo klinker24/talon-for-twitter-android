@@ -76,7 +76,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
             int res = 0;
             switch (Integer.parseInt(AppSettings.getSharedPreferences(this)
-                    .getString("widget_theme", "3"))) {
+                    .getString("widget_theme", "4"))) {
                 case 0:
                     res = R.layout.widget_unread_trans_light;
                     break;
@@ -87,6 +87,12 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                     res = R.layout.widget_unread_trans_light;
                     break;
                 case 3:
+                    res = R.layout.widget_unread_trans_black;
+                    break;
+                case 4:
+                    res = R.layout.widget_unread_trans_light;
+                    break;
+                case 5:
                     res = R.layout.widget_unread_trans_black;
                     break;
             }
@@ -126,8 +132,8 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 // get the counts
                 try {
                     SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+                    int currentAccount = AppSettings.getInstance(this).widgetAccountNum;
 
-                    int currentAccount = sharedPrefs.getInt("current_account", 1);
                     String dm = sharedPrefs.getInt("dm_unread_" + currentAccount, 0) + "";
                     String mention = MentionsDataSource.getInstance(this).getUnreadCount(currentAccount) + "";
                     String home = HomeDataSource.getInstance(this).getPosition(currentAccount, sharedPrefs.getLong("current_position_" + currentAccount, 0)) + "";

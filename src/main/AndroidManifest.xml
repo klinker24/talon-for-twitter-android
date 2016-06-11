@@ -617,6 +617,14 @@ S
                   android:theme="@style/Theme.TalonLight.Settings">
         </activity>
 
+        <activity android:name="com.klinker.android.twitter_l.settings.PrefActivityAdvanced"
+            android:label="@string/talon_settings"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.TalonLight.Settings">
+        </activity>
+
         <service
             android:name=".services.TalonPullQSService"
             android:label="@string/talon_pull"
@@ -760,7 +768,7 @@ S
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/card_widget" />
+                android:resource="@xml/widget_timeline" />
         </receiver>
 
         <!-- unread widget -->
@@ -775,7 +783,7 @@ S
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/unread_widget" />
+                android:resource="@xml/widget_unread" />
         </receiver>
 
         <activity android:name="com.klinker.android.twitter_l.widget.WidgetProxyActivity"

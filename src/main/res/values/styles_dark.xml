@@ -92,6 +92,10 @@
         <item name="supporter">@drawable/ic_supporter_dark</item>
         <item name="gif_button">@drawable/ic_gif_dark</item>
         <item name="tweet_interactions">@drawable/ic_tweet_interactions_dark</item>
+        <item name="data_saver">@drawable/ic_data_saver_dark</item>
+        <item name="widget_customization">@drawable/ic_widget_customization_dark</item>
+        <item name="background_sync">@drawable/ic_background_sync_dark</item>
+        <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>
@@ -252,6 +256,10 @@
         <item name="supporter">@drawable/ic_supporter_dark</item>
         <item name="gif_button">@drawable/ic_gif_dark</item>
         <item name="tweet_interactions">@drawable/ic_tweet_interactions_dark</item>
+        <item name="data_saver">@drawable/ic_data_saver_dark</item>
+        <item name="widget_customization">@drawable/ic_widget_customization_dark</item>
+        <item name="background_sync">@drawable/ic_background_sync_dark</item>
+        <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>

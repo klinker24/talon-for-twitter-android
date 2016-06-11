@@ -80,6 +80,17 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+            if (sharedPrefs.getBoolean("version_5", true)) {
+                sharedPrefs.edit()
+                        .putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "")
+                        .putString("widget_account", "@" + AppSettings.getInstance(context).myScreenName)
+                        .putString("widget_theme", "4")
+                        .putBoolean("version_5", false)
+                        .commit();
+
+                AppSettings.invalidate();
+            }
+
             if (sharedPrefs.getBoolean("version_3_5", true)) {
                 sharedPrefs.edit().putBoolean("version_3_5", false)
                         .putBoolean("use_snackbar", false)

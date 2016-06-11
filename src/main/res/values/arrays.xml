@@ -311,6 +311,8 @@
         <item>@string/widget_dark</item>
         <item>@string/widget_trans_light</item>
         <item>@string/widget_trans_black</item>
+        <item>@string/widget_material_light</item>
+        <item>@string/widget_material_dark</item>
     </string-array>
 
     <string-array name="widget_themes_inserted">
@@ -318,6 +320,8 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string-array name="theme_colors">
@@ -469,4 +473,13 @@
         <item>uk</item>
     </string-array>
 
+    <string-array name="widget_timelines">
+        <item>@string/timeline</item>
+        <item>@string/mentions</item>
+    </string-array>
+
+    <string-array name="widget_timelines_inserted">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 </resources>

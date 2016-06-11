@@ -91,9 +91,10 @@ public class WidgetProvider extends AppWidgetProvider {
             ComponentName thisAppWidget = new ComponentName(this.getPackageName(), WidgetProvider.class.getName());
             int[] appWidgetIds = mgr.getAppWidgetIds(thisAppWidget);
 
+            boolean material = false;
             int res = 0;
             switch (Integer.parseInt(AppSettings.getSharedPreferences(this)
-                    .getString("widget_theme", "3"))) {
+                    .getString("widget_theme", "4"))) {
                 case 0:
                     res = R.layout.widget_light;
                     break;
@@ -105,6 +106,14 @@ public class WidgetProvider extends AppWidgetProvider {
                     break;
                 case 3:
                     res = R.layout.widget_trans_black;
+                    break;
+                case 4:
+                    res = R.layout.widget_material_light;
+                    material = true;
+                    break;
+                case 5:
+                    res = R.layout.widget_material_dark;
+                    material = true;
                     break;
             }
             RemoteViews views = new RemoteViews(this.getPackageName(), res);
@@ -138,6 +147,10 @@ public class WidgetProvider extends AppWidgetProvider {
                 views.setOnClickPendingIntent(R.id.launcherIcon, openAppPending);
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.syncButton, refreshPending);
+
+                if (material) {
+                    views.setInt(R.id.relLayout, "setBackgroundColor", AppSettings.getInstance(this).themeColors.primaryColor);
+                }
 
                 Intent openIntent = new Intent(this, WidgetProvider.class);
                 openIntent.setAction("OPEN_APP");

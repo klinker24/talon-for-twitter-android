@@ -16,34 +16,42 @@
 
 package com.klinker.android.twitter_l.widget;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.AppWidgetTarget;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
+import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +60,6 @@ import java.util.List;
 public class WidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Log.v("talon_widget", "setting factory");
         return new WidgetViewsFactory(this.getApplicationContext(), intent);
     }
 }
@@ -74,20 +81,18 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        Log.v("talon_widget", "oncreate");
         onDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        Log.v("talon_widget", "getting count");
         return mCount;
     }
 
     @Override
     public RemoteViews getViewAt(int arg0) {
         int res = 0;
-        switch (Integer.parseInt(AppSettings.getSharedPreferences(mContext).getString("widget_theme", "3"))) {
+        switch (Integer.parseInt(AppSettings.getSharedPreferences(mContext).getString("widget_theme", "4"))) {
             case 0:
                 res = R.layout.widget_conversation_light;
                 break;
@@ -97,7 +102,13 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             case 2:
                 res = R.layout.widget_conversation_light;
                 break;
-            default:
+            case 3:
+                res = R.layout.widget_conversation_dark;
+                break;
+            case 4:
+                res = R.layout.widget_conversation_light;
+                break;
+            case 5:
                 res = R.layout.widget_conversation_dark;
                 break;
         }
@@ -105,9 +116,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         final RemoteViews card = new RemoteViews(mContext.getPackageName(), res);
 
         try {
-            Log.v("talon_widget", "starting getviewat");
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
-            card.setTextViewText(R.id.contactText, mWidgetItems.get(arg0).getTweet());
+            card.setTextViewText(R.id.contactText, TextUtils.colorText(mContext, mWidgetItems.get(arg0).getTweet(), settings.themeColors.accentColor));
             card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
 
             if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
@@ -131,8 +141,11 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
             if (displayPic) {
                 link = picUrl;
+                card.setViewVisibility(R.id.picture, View.VISIBLE);
+                card.setImageViewBitmap(R.id.picture, getCachedPic(link));
             } else {
                 link = otherUrl.split("  ")[0];
+                card.setViewVisibility(R.id.picture, View.GONE);
             }
 
             Bundle extras = new Bundle();
@@ -163,7 +176,6 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public long getItemId(int position) {
-        Log.v("talon_widget", "getting item id");
         return position;
     }
 
@@ -174,25 +186,27 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        Log.v("talon_widget", "getting view type count");
         return 4;
     }
 
     @Override
     public boolean hasStableIds() {
-        Log.v("talon_widget", "getting stable ids");
         return false;
     }
 
     @Override
     public void onDataSetChanged() {
-        Log.v("talon_widget", "on data set changed");
         mWidgetItems = new ArrayList<Tweet>();
+        AppSettings settings = AppSettings.getInstance(mContext);
+        Cursor query;
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-        HomeDataSource data = HomeDataSource.getInstance(mContext);
-        Cursor query = data.getWidgetCursor(sharedPrefs.getInt("current_account", 1));
+        if (!settings.useMentionsOnWidget) {
+            HomeDataSource data = HomeDataSource.getInstance(mContext);
+            query = data.getWidgetCursor(settings.widgetAccountNum);
+        } else {
+            MentionsDataSource data = MentionsDataSource.getInstance(mContext);
+            query = data.getWidgetCursor(settings.widgetAccountNum);
+        }
 
         try {
             if (query.moveToFirst()) {
@@ -245,10 +259,11 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     .load(url)
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .transform(new CircleBitmapTransform(mContext))
+                    //.transform(new CircleBitmapTransform(mContext))
                     .into(200,200)
                     .get();
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

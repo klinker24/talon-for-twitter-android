@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/push_notification_options" >
+
+        <Preference
+            android:summary="@string/push_notification_warning" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
+        </Preference>
+
+        <ListPreference
+            android:key="talon_pull"
+            android:title="@string/talon_pull"
+            android:summary="@string/talon_pull_summary"
+            android:defaultValue="0"
+            android:entries="@array/talon_pull"
+            android:entryValues="@array/talon_pull_inserted" />
+
+        <SwitchPreference
+            android:key="show_pull_notification"
+            android:title="@string/show_pull_notification"
+            android:summary="@string/show_pull_notification_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:key="interaction_drawer"
+            android:title="@string/use_interaction_drawer"
+            android:summary="@string/when_talon_pull_on"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
+    <PreferenceCategory
+        android:key="other_options"
+        android:title="@string/sync_options" >
+
+        <SwitchPreference
+            android:key="sync_second_mentions"
+            android:title="@string/sync_second_mentions"
+            android:summary="@string/sync_second_mentions_summary"
+            android:defaultValue="true" />
+
+
+        <ListPreference
+            android:key="max_tweets"
+            android:title="@string/max_number_on_refresh"
+            android:summary="@string/max_number_summary"
+            android:defaultValue="1"
+            android:entries="@array/max_number"
+            android:entryValues="@array/max_number_inserted" />
+
+    </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
+    <PreferenceCategory
+        android:key="manual_options"
+        android:title="@string/sync_options" >
+
+        <Preference
+            android:key="sync_friends"
+            android:title="@string/sync_friends"
+            android:summary="@string/sync_friends_summary2" />
+
+        <Preference
+            android:key="fill_gaps"
+            android:title="@string/fill_gaps"
+            android:summary="@string/fill_gaps_summary" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
