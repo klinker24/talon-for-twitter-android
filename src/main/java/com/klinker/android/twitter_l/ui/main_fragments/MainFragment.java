@@ -704,7 +704,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     @Override
     public void expandViewOpen(int distanceFromTop, int position, View root, ExpansionViewHelper helper) {
         if (landscape) {
-            distanceFromTop = distanceFromTop + Utils.getStatusBarHeight(context);
+            distanceFromTop = distanceFromTop + Utils.getStatusBarHeight(context) * 2;
         }
 
         background = root;
@@ -715,16 +715,12 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (!settings.staticUi) {
             MainActivity.sendHandler.removeCallbacks(null);
             MainActivity.sendHandler.post(MainActivity.hideSend);
+            hideStatusBar();
         }
 
         hideToastBar(300);
 
-        if (getResources().getBoolean(R.bool.isTablet) || landscape) {
-            listView.smoothScrollBy(distanceFromTop + Utils.getStatusBarHeight(context), TimeLineCursorAdapter.ANIMATION_DURATION);
-        } else {
-            listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
-            if (!settings.staticUi) hideStatusBar();
-        }
+        listView.smoothScrollBy(distanceFromTop, TimeLineCursorAdapter.ANIMATION_DURATION);
     }
 
     @Override
@@ -736,9 +732,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (!settings.staticUi) {
             MainActivity.sendHandler.removeCallbacks(null);
             MainActivity.sendHandler.post(MainActivity.showSend);
-        }
-
-        if (listView.getFirstVisiblePosition() < 5 && !settings.staticUi) {
             showStatusBar();
         }
 
