@@ -1035,7 +1035,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         Intent settings = new Intent(context, PrefActivity.class);
-        settings.putExtra("position", 8)
+        settings.putExtra("position", 11)
                 .putExtra("title",
                         getResources().getString(R.string.get_help_settings));
         finish();
