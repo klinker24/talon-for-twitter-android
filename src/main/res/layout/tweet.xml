@@ -102,7 +102,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:background="?android:selectableItemBackground"
                     android:paddingRight="6dp"
                     android:paddingLeft="6dp"
                     android:gravity="right|center_vertical">
