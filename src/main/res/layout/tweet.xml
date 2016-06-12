@@ -76,8 +76,7 @@
                 android:layout_marginStart="13dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="6dp">
+                android:gravity="center_vertical" >
 
                 <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
                     android:id="@+id/name"
@@ -86,7 +85,6 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:textColor="?textColor"
-                    android:layout_marginTop="4dp"
                     android:singleLine="true"
                     android:gravity="top"/>
 
