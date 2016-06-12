@@ -1180,6 +1180,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         }
     }
 
+    NavBarOverlayLayout navOverlay;
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -1321,6 +1323,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (translucent && !settings.transpartSystemBars) {
+            if (navOverlay == null) {
+                navOverlay = new NavBarOverlayLayout(this);
+            }
+
+            if (!navOverlay.isShowing()) {
+                navOverlay.show();
+            }
+        }
 
         // cancels the notifications when the app is opened
         NotificationManager mNotificationManager =
