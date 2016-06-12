@@ -229,15 +229,9 @@ public class TweetView {
         embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         quickActions = v.findViewById(R.id.quick_actions);
 
-        if (!settings.bottomPictures) {
-            imageIv = (ImageView) v.findViewById(R.id.image);
-            playButton = (ImageView) v.findViewById(R.id.play_button);
-            imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
-        } else {
-            imageIv = (ImageView) v.findViewById(R.id.image_bellow);
-            playButton = (ImageView) v.findViewById(R.id.play_button_bellow);
-            imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
-        }
+        imageIv = (ImageView) v.findViewById(R.id.image);
+        playButton = (ImageView) v.findViewById(R.id.play_button);
+        imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             imageIv.setClipToOutline(true);
