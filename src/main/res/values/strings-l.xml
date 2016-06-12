@@ -135,7 +135,7 @@
     <string name="precache_text">This will download images after a background refresh, so that they are immediately available in the app.</string>
     <string name="timeline_notifications_text">These notifications will go off after a background refresh has been completed.</string>
     <string name="tweetmarker_always_refreshes">TweetMarker will always refresh on startup.</string>
-    <string name="background_refreshes_disclaimer">All preferences under \"Background Refreshes\" will also consume both battery and data.</string>
+    <string name="background_refreshes_disclaimer">All preferences under \"Background Syncing\" will also consume both data and battery.</string>
     <string name="discover_section_options">Discover Section Options</string>
     <string name="clear_memory">Clear Memory</string>
     <string name="manage_mutes_options">Manage Mutes</string>
