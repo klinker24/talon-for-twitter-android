@@ -47,6 +47,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.DMCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
@@ -245,7 +246,7 @@ public class DirectMessageConversation extends AppCompatActivity {
                 } catch (Exception e) {
 
                 }
-                cursorAdapter = new TimeLineCursorAdapter(context, cursor, true);
+                cursorAdapter = new DMCursorAdapter(context, cursor, true);
                 try {
                     listView.setAdapter(cursorAdapter);
                 } catch (Exception e) {

@@ -95,10 +95,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public Cursor cursor;
     public AppSettings settings;
     public Context context;
-    public final LayoutInflater inflater;
-    private boolean isDM = false;
+    public LayoutInflater inflater;
+    public boolean isDM = false;
     protected SharedPreferences sharedPrefs;
-    private boolean secondAcc = false;
+    public boolean secondAcc = false;
 
     protected Handler[] mHandlers;
     protected int currHandler;
@@ -121,9 +121,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     private int normalPictures;
     private int smallPictures;
-    private int thirdPartyVideoPictures;
 
-    public static MultiplePicsPopup multPics;
     public boolean hasConvo = false;
 
     public boolean hasExpandedTweet = false;
@@ -149,7 +147,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public View rootView;
         public CardView embeddedTweet;
         public View quickActions;
-        public View noMediaPreviewText;
         public SimpleVideoView videoView;
 
         public long tweetId;
@@ -197,9 +194,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
-        thirdPartyVideoPictures = settings.picturesType == AppSettings.PICTURES_SMALL ?
-                smallPictures : normalPictures;
-                //Utils.toDP(80, context);
 
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
@@ -356,20 +350,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         holder.quickActions = v.findViewById(R.id.quick_actions);
-
-        if (!settings.bottomPictures) {
-            holder.image = (ImageView) v.findViewById(R.id.image);
-            holder.playButton = (ImageView) v.findViewById(R.id.play_button);
-            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
-            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
-            holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
-        } else {
-            holder.image = (ImageView) v.findViewById(R.id.image_bellow);
-            holder.playButton = (ImageView) v.findViewById(R.id.play_button_bellow);
-            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
-            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
-            holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view_below);
-        }
+        holder.image = (ImageView) v.findViewById(R.id.image);
+        holder.playButton = (ImageView) v.findViewById(R.id.play_button);
+        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+        holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -379,9 +363,80 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
 
-        //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
+        }
+
+        // some things we just don't need to configure every time
+        holder.muffledName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.background.performClick();
+            }
+        });
+
+        holder.expandArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.background.performClick();
+            }
+        });
+
+        holder.expandArea.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                holder.background.performLongClick();
+                return false;
+            }
+        });
+
+        holder.tweet.setSoundEffectsEnabled(false);
+        holder.tweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performClick();
+                }
+            }
+        });
+
+        holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performLongClick();
+                    holder.preventNextClick = true;
+                }
+                return false;
+            }
+        });
+
+        holder.retweeter.setSoundEffectsEnabled(false);
+        holder.retweeter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performClick();
+                }
+            }
+        });
+
+        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performLongClick();
+                    holder.preventNextClick = true;
+                }
+                return false;
+            }
+        });
+
+        if (settings.picturesType == AppSettings.PICTURES_SMALL &&
+                holder.imageHolder.getHeight() != smallPictures) {
+            ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+            params.height = smallPictures;
+            holder.imageHolder.setLayoutParams(params);
         }
 
         holder.rootView = v;
@@ -433,14 +488,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.image.setTransitionName(null);
-            holder.name.setTransitionName(null);
-            holder.screenTV.setTransitionName(null);
-            holder.profilePic.setTransitionName(null);
-            holder.tweet.setTransitionName(null);
-        }
 
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
@@ -506,8 +553,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final String tweetText = tweetTexts;
 
         final boolean muffled;
-        if (!isDM && (muffledUsers.contains(screenname) ||
-                (retweeter != null && !android.text.TextUtils.isEmpty(retweeter) && muffledUsers.contains(retweeter)))) {
+        if (muffledUsers.contains(screenname) ||
+                (retweeter != null && !android.text.TextUtils.isEmpty(retweeter) && muffledUsers.contains(retweeter))) {
             if (holder.background.getVisibility() != View.GONE) {
                 holder.background.setVisibility(View.GONE);
                 holder.muffledName.setVisibility(View.VISIBLE);
@@ -521,28 +568,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             muffled = false;
         }
 
-        holder.muffledName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.background.performClick();
-            }
-        });
-
-        holder.expandArea.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.background.performClick();
-            }
-        });
-
-        holder.expandArea.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                holder.background.performLongClick();
-                return false;
-            }
-        });
-
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -553,7 +578,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || settings.bottomPictures || muffled) && !isDM) {
+        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled)) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -564,8 +589,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
 
                     String link;
-
-                    boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
                     boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
@@ -573,7 +596,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         link = otherUrl.split("  ")[0];
                     }
 
-                    Log.v("tweet_page", "clicked");
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
@@ -596,47 +618,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
 
                     viewTweet.putExtra("shared_trans", true);
-
                     viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
-                        holder.profilePic.setTransitionName("pro_pic");
-                        holder.screenTV.setTransitionName("screen_name");
-                        holder.name.setTransitionName("name");
-                        holder.tweet.setTransitionName("tweet");
-
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE &&
-                                holder.playButton.getVisibility() != View.VISIBLE) {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet"),
-                                            new Pair<View, String>(holder.image, "image")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        } else {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        }
-                    } else {
-                        context.startActivity(viewTweet);
-                    }
+                    context.startActivity(viewTweet);
                 }
             });
 
-            if (expander != null && ! MainActivity.isPopup) {
+            if (expander != null && !MainActivity.isPopup) {
                 holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
@@ -655,15 +643,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 });
             }
 
-        } else if (!isDM) {
+        } else  {
             final String fRetweeter = retweeter;
+
             holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-
                     String link;
 
-                    boolean hasGif = holder.gifUrl != null && !holder.gifUrl.isEmpty();
                     boolean displayPic = !holder.picUrl.equals("");
                     if (displayPic) {
                         link = holder.picUrl;
@@ -671,7 +658,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         link = otherUrl.split("  ")[0];
                     }
 
-                    Log.v("tweet_page", "clicked");
                     Intent viewTweet = new Intent(context, TweetActivity.class);
                     viewTweet.putExtra("name", name);
                     viewTweet.putExtra("screenname", screenname);
@@ -694,43 +680,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
 
                     viewTweet.putExtra("shared_trans", true);
-
                     viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !muffled) {
-                        holder.profilePic.setTransitionName("pro_pic");
-                        holder.screenTV.setTransitionName("screen_name");
-                        holder.name.setTransitionName("name");
-                        holder.tweet.setTransitionName("tweet");
-
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE &&
-                                holder.playButton.getVisibility() != View.VISIBLE) {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet"),
-                                            new Pair<View, String>(holder.image, "image")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        } else {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        }
-                    } else {
-                        context.startActivity(viewTweet);
-                    }
+                    context.startActivity(viewTweet);
 
                     return true;
                 }
@@ -744,6 +696,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             holder.preventNextClick = false;
                             return;
                         }
+
                         if (holder.expandArea.getVisibility() == View.GONE) {
                             if (!VideoMatcherUtil.containsThirdPartyVideo(tweetTexts)) {
                                 addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
@@ -753,46 +706,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         } else {
                             removeExpansion(holder, true);
                         }
-                    }
-                });
-            }
-        }
-
-        if (isDM) {
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                    builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            new DeleteTweet().execute("" + holder.tweetId);
-                        }
-                    });
-
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    builder.setTitle(R.string.delete_direct_message);
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
-                    return true;
-                }
-            });
-
-            if (otherUrl != null && !otherUrl.equals("")) {
-                holder.tweet.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent browser = new Intent(context, BrowserActivity.class);
-                        browser.putExtra("url", otherUrl);
-
-                        context.startActivity(browser);
                     }
                 });
             }
@@ -817,30 +730,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                 viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                    holder.profilePic.getVisibility() == View.VISIBLE) {
-
-                    /*surfaceView.profilePic.setTransitionName("pro_pic");
-                    ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(((Activity) context),
-                                    new Pair<View, String>(surfaceView.profilePic, "pro_pic")
-                            );
-
-                    context.startActivity(viewProfile, options.toBundle());*/
-                    context.startActivity(viewProfile);
-                } else {
-                    context.startActivity(viewProfile);
-                }
-
+                context.startActivity(viewProfile);
             }
         });
 
-
-        if (holder.screenTV.getVisibility() == View.GONE) {
-            holder.screenTV.setVisibility(View.VISIBLE);
-        }
         holder.screenTV.setText("@" + screenname);
         holder.name.setText(name);
+
         if (muffled) {
             String t = "<b>@" + screenname + "</b>: " + tweetText;
             holder.muffledName.setText(Html.fromHtml(t));
@@ -853,16 +749,23 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        boolean replace = false;
-        boolean embeddedTweetFound = TweetView.embeddedTweetPattern.matcher(tweetText).find();
-        if (settings.inlinePics && (tweetText.contains("pic.twitter.com/") || embeddedTweetFound)) {
+        boolean removeLastCharacters = false;
+        boolean embeddedTweetFound = false;
+
+        if (settings.inlinePics && tweetText.contains("pic.twitter.com/")) {
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
-                replace = true;
+                removeLastCharacters = true;
+            }
+        } else if (settings.inlinePics && TweetView.embeddedTweetPattern.matcher(tweetText).find()) {
+            embeddedTweetFound = true;
+
+            if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
+                removeLastCharacters = true;
             }
         }
 
         try {
-            holder.tweet.setText(replace ?
+            holder.tweet.setText(removeLastCharacters ?
                     tweetText.substring(0, tweetText.length() - (embeddedTweetFound ? 33 : 25)) :
                     tweetText);
         } catch (Exception e) {
@@ -875,145 +778,83 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.videoView.setVisibility(View.GONE);
         }
 
-        boolean playVideo = false;
-        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetTexts);
-        if((settings.inlinePics || isDM) && (holder.picUrl != null || containsThirdPartyVideo)) {
-            if (holder.picUrl != null && holder.picUrl.equals("") && !containsThirdPartyVideo) {
-                if (holder.imageHolder.getVisibility() != View.GONE) {
-                    holder.imageHolder.setVisibility(View.GONE);
+        if(settings.inlinePics && holder.picUrl != null && !holder.picUrl.equals("")) {
+            // there is a picture in the tweet
+
+            if (holder.imageHolder.getVisibility() == View.GONE) {
+                holder.imageHolder.setVisibility(View.VISIBLE);
+            }
+
+            if (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl))) {
+                // video tag on the picture
+
+                if (holder.playButton.getVisibility() == View.GONE) {
+                    holder.playButton.setVisibility(View.VISIBLE);
                 }
 
+                if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
+                    holder.playButton.setImageDrawable(new GifBadge(context));
+                } else {
+                    holder.playButton.setImageDrawable(new VideoBadge(context));
+                }
+
+                holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
+                    }
+                });
+
+                if (holder.gifUrl.contains(".mp4") || holder.gifUrl.contains(".m3u8")) {
+                    videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl));
+                }
+
+                picture = true;
+            } else {
+                // no video tag, just the picture
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
                     holder.playButton.setVisibility(View.GONE);
                 }
 
-                if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                    holder.noMediaPreviewText.setVisibility(View.GONE);
-                }
-            } else {
-                if (holder.imageHolder.getVisibility() == View.GONE) {
-                    holder.imageHolder.setVisibility(View.VISIBLE);
-                }
+                holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                if (settings.picturesType == AppSettings.PICTURES_SMALL &&
-                        holder.imageHolder.getHeight() != smallPictures) {
-                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
-                    params.height = smallPictures;
-                    holder.imageHolder.setLayoutParams(params);
-                }
-
-                if (!isDM && (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl)))) {
-                    if (holder.playButton.getVisibility() == View.GONE) {
-                        holder.playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                        holder.noMediaPreviewText.setVisibility(View.GONE);
-                    }
-
-                    if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl))
-                        holder.playButton.setImageDrawable(new GifBadge(context));
-                    else
-                        holder.playButton.setImageDrawable(new VideoBadge(context));
-
-                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
+                        if (isHomeTimeline) {
+                            sharedPrefs.edit()
+                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                    .apply();
                         }
-                    });
 
-                    if (holder.gifUrl.contains(".mp4") || holder.gifUrl.contains(".m3u8")) {
-                        videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl));
-                    }
-
-                    holder.image.setImageDrawable(null);
-
-                    picture = true;
-                } else if (containsThirdPartyVideo) {
-                    if (holder.playButton.getVisibility() == View.GONE) {
-                        holder.playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    if (holder.noMediaPreviewText.getVisibility() == View.GONE) {
-                        holder.noMediaPreviewText.setVisibility(View.VISIBLE);
-                    }
-
-                    String vid = null;
-                    for (String s : otherUrl.split("  ")) {
-                        if (VideoMatcherUtil.containsThirdPartyVideo(s))
-                            vid = s;
-                    }
-
-                    final String fVid = vid;
-
-                    if (VideoMatcherUtil.isTwitterGifLink(vid))
-                        holder.playButton.setImageDrawable(new GifBadge(context));
-                    else
-                        holder.playButton.setImageDrawable(new VideoBadge(context));
-
-                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (fVid != null)
-                                VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
+                        if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
+                            PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
+                        } else {
+                            PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
                         }
-                    });
-
-                    holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
-
-                    if (!BuildConfig.DEBUG) {
-                        holder.imageHolder.setVisibility(View.GONE);
                     }
+                });
 
-                    picture = false;
-                } else {
-                    if (holder.playButton.getVisibility() == View.VISIBLE) {
-                        holder.playButton.setVisibility(View.GONE);
-                    }
+                picture = true;
+            }
+        } else {
+            if (holder.imageHolder.getVisibility() != View.GONE) {
+                holder.imageHolder.setVisibility(View.GONE);
+            }
 
-                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                        holder.noMediaPreviewText.setVisibility(View.GONE);
-                    }
-
-                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            if (isHomeTimeline) {
-                                sharedPrefs.edit()
-                                        .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                        .apply();
-                            }
-
-                            if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                                /*multPics = new MultiplePicsPopup(context, surfaceView.picUrl);
-                                multPics.setFullScreen();
-                                multPics.setExpansionPointForAnim(view);
-                                multPics.show();*/
-
-                                PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-
-                            } else {
-                                PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                            }
-                        }
-                    });
-
-                    holder.image.setImageDrawable(null);
-
-                    picture = true;
-                }
+            if (holder.playButton.getVisibility() == View.VISIBLE) {
+                holder.playButton.setVisibility(View.GONE);
             }
         }
 
 
         if (retweeter.length() > 0 && !isDM) {
             String text = context.getResources().getString(R.string.retweeter);
-            //surfaceView.retweeter.setText(settings.displayScreenName ? text + retweeter : text.substring(0, text.length() - 2) + " " + name);
             holder.retweeter.setText(text + retweeter);
             holder.retweeterName = retweeter;
-            holder.retweeter.setVisibility(View.VISIBLE);
+
+            if (holder.retweeter.getVisibility() != View.VISIBLE) {
+                holder.retweeter.setVisibility(View.VISIBLE);
+            }
         } else if (holder.retweeter.getVisibility() == View.VISIBLE) {
             holder.retweeter.setVisibility(View.GONE);
         }
@@ -1021,25 +862,23 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (picture) {
             if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
                 if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {
-                    Glide.with(context).load(holder.picUrl).centerCrop().into(holder.image);
+                    Glide.with(context).load(holder.picUrl).centerCrop().placeholder(null).into(holder.image);
                 }
             } else {
                 if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.image);
+                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {
-                    Glide.with(context).load(holder.picUrl).fitCenter().into(holder.image);
+                    Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
                 }
             }
-
-
         }
 
         if (settings.preCacheImages) {
-            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.profilePic);
+            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.profilePic);
         } else {
-            Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
+            Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
         }
 
         mHandlers[currHandler].removeCallbacksAndMessages(null);
@@ -1047,59 +886,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void run() {
                 if (holder.tweetId == id) {
-
-                    if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
-                        String text = tweetText;
-                        if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
-                            holder.tweet.setText(span);
-                        }
-                    }
-
-                    holder.tweet.setSoundEffectsEnabled(false);
-                    holder.tweet.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                holder.background.performClick();
-                            }
-                        }
-                    });
-
-                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                holder.background.performLongClick();
-                                holder.preventNextClick = true;
-                            }
-                            return false;
-                        }
-                    });
-
-                    if (holder.retweeter.getVisibility() == View.VISIBLE) {
-                        holder.retweeter.setSoundEffectsEnabled(false);
-                        holder.retweeter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (!TouchableMovementMethod.touched) {
-                                    holder.background.performClick();
-                                }
-                            }
-                        });
-
-                        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                if (!TouchableMovementMethod.touched) {
-                                    holder.background.performLongClick();
-                                    holder.preventNextClick = true;
-                                }
-                                return false;
-                            }
-                        });
-                    }
-
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
@@ -1122,7 +908,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
-    private void tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
+    private boolean tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
         Long embeddedId = 0l;
         for (String u : otherUrl.split(" ")) {
             if (u.contains("/status/")) {
@@ -1140,6 +926,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
             holder.embeddedTweet.setMinimumHeight(0);
+
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -1157,18 +947,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         View v;
         if (convertView == null) {
-
             v = newView(context, cursor, parent);
-
         } else {
             v = convertView;
-
-            final ViewHolder holder = (ViewHolder) v.getTag();
-
-            holder.profilePic.setImageDrawable(transparent);
-            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                holder.imageHolder.setVisibility(View.GONE);
-            }
         }
 
         bindView(v, context, cursor);

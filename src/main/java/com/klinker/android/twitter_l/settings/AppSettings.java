@@ -173,7 +173,6 @@ public class AppSettings {
     public boolean topDown;
     public boolean headsUp;
     public boolean useSnackbar;
-    public boolean bottomPictures;
     public boolean crossAccActions;
     public boolean useInteractionDrawer;
     public boolean staticUi;
@@ -289,7 +288,7 @@ public class AppSettings {
         }
 
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
-        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", true);
+        reverseClickActions = sharedPrefs.getBoolean("reverse_click_option", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
         notifications = sharedPrefs.getBoolean("notifications", true);
         led = sharedPrefs.getBoolean("led", true);
@@ -327,7 +326,6 @@ public class AppSettings {
         preCacheImages = !sharedPrefs.getString("pre_cache", "1").equals("0");
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", false);
-        bottomPictures = sharedPrefs.getBoolean("bottom_pictures", true);
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", false);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
@@ -376,7 +374,6 @@ public class AppSettings {
         }
 
         if (picturesType == CONDENSED_TWEETS) {
-            bottomPictures = true;
             absoluteDate = false;
         }
 

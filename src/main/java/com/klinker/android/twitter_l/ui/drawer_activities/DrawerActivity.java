@@ -1730,9 +1730,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     public void onBackPressed() {
         if (searchUtils.isShowing()) {
             searchUtils.hideSearch(true);
-        } else if (TimeLineCursorAdapter.multPics != null && TimeLineCursorAdapter.multPics.isShowing()) {
-            TimeLineCursorAdapter.multPics.hide();
-            TimeLineCursorAdapter.multPics = null;
         } else {
             super.onBackPressed();
         }
