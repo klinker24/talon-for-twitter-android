@@ -715,7 +715,9 @@ public abstract class MainFragment extends Fragment implements Expandable {
         if (!settings.staticUi) {
             MainActivity.sendHandler.removeCallbacks(null);
             MainActivity.sendHandler.post(MainActivity.hideSend);
-            hideStatusBar();
+
+            if (moveActionBar)
+                hideStatusBar();
         }
 
         hideToastBar(300);
