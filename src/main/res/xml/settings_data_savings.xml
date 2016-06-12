@@ -7,6 +7,11 @@
     <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
 
     <SwitchPreference
+        android:key="sync_mobile_data"
+        android:title="@string/sync_mobile_data"
+        android:defaultValue="true" />
+
+    <SwitchPreference
         android:key="high_quality_images"
         android:title="@string/high_quality_images"
         android:summary="@string/high_quality_images_summary"
