@@ -10,10 +10,10 @@
             android:defaultValue="false" />
 
         <SwitchPreference
-            android:key="bottom_pictures"
-            android:title="@string/bottom_pictures"
-            android:summary="@string/bottom_pictures_summary"
-            android:defaultValue="true" />
+            android:key="reverse_click_actions"
+            android:title="@string/reverse_click_actions"
+            android:summary="@string/reverse_click_actions_default"
+            android:defaultValue="false" />
 
         <ListPreference
             android:key="nav_bar_option"

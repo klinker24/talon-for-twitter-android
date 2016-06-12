@@ -100,13 +100,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public java.text.DateFormat dateFormatter;
     public java.text.DateFormat timeFormatter;
 
-    public int contentHeight = 0;
-    public int headerMultiplier = 0;
-    public Expandable expander;
-
     private int normalPictures;
     private int smallPictures;
-    private int thirdPartyVideoPictures;
 
     private boolean canUseQuickActions = true;
 
@@ -130,7 +125,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public View rootView;
         public CardView embeddedTweet;
         public View quickActions;
-        public View noMediaPreviewText;
 
         public long tweetId;
         public boolean isFavorited;
@@ -174,137 +168,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         return android.text.TextUtils.isEmpty(s.replace(" ", ""));
     }
 
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst, Expandable expander) {
-        super(context, R.layout.tweet);
-
-        this.context = context;
-        this.statuses = statuses;
-        this.inflater = LayoutInflater.from(context);
-
-        this.settings = AppSettings.getInstance(context);
-
-        this.type = NORMAL;
-
-        this.username = "";
-        this.openFirst = openFirst;
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
-        setUpLayout();
-    }
-
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, Expandable expander) {
-        super(context, R.layout.tweet);
-
-        this.context = context;
-        this.statuses = statuses;
-        this.inflater = LayoutInflater.from(context);
-
-        this.settings = AppSettings.getInstance(context);
-
-        this.type = NORMAL;
-
-        this.username = "";
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
-        setUpLayout();
-    }
-
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, int type, Expandable expander) {
-        super(context, R.layout.tweet);
-
-        this.context = context;
-        this.statuses = statuses;
-        this.inflater = LayoutInflater.from(context);
-
-        this.settings = AppSettings.getInstance(context);
-
-        this.type = type;
-        this.username = "";
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
-        setUpLayout();
-    }
-
-    public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, String username, Expandable expander) {
-        super(context, R.layout.tweet);
-
-        this.context = context;
-        this.statuses = statuses;
-        this.inflater = LayoutInflater.from(context);
-
-        this.settings = AppSettings.getInstance(context);
-
-        this.type = NORMAL;
-        this.username = username;
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
-        setUpLayout();
-    }
-
     public TimelineArrayAdapter(Context context, ArrayList<Status> statuses, boolean openFirst) {
         super(context, R.layout.tweet);
 
@@ -318,23 +181,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.username = "";
         this.openFirst = openFirst;
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
 
         setUpLayout();
     }
@@ -352,23 +198,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.username = "";
 
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
         setUpLayout();
     }
 
@@ -383,23 +212,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         this.type = type;
         this.username = "";
-
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
 
         setUpLayout();
     }
@@ -416,23 +228,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         this.type = NORMAL;
         this.username = username;
 
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        contentHeight = size.y;
-
-        if (context.getResources().getBoolean(R.bool.isTablet)) {
-            // we need to take off the size of the action bar and status bar
-            contentHeight -= Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context);
-        }
-
-        this.expander = expander;
-
-        if (context.getResources().getBoolean(R.bool.isTablet) ||
-                context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            headerMultiplier = -25;
-        }
-
         setUpLayout();
     }
 
@@ -442,9 +237,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
-        thirdPartyVideoPictures = settings.picturesType == AppSettings.PICTURES_SMALL ?
-                smallPictures : normalPictures;
-                //Utils.toDP(80, context);
 
         mHandler = new Handler[4];
 
@@ -499,17 +291,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         holder.quickActions = v.findViewById(R.id.quick_actions);
 
-        if (!settings.bottomPictures) {
-            holder.playButton = (ImageView) v.findViewById(R.id.play_button);
-            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
-            holder.image = (ImageView) v.findViewById(R.id.image);
-            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview);
-        } else {
-            holder.playButton = (ImageView) v.findViewById(R.id.play_button_bellow);
-            holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder_bellow);
-            holder.image = (ImageView) v.findViewById(R.id.image_bellow);
-            holder.noMediaPreviewText = v.findViewById(R.id.no_media_preview_below);
-        }
+        holder.playButton = (ImageView) v.findViewById(R.id.play_button);
+        holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
+        holder.image = (ImageView) v.findViewById(R.id.image);
 
         //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -523,6 +307,56 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
 
+        // some things we just don't need to configure every time
+        holder.tweet.setSoundEffectsEnabled(false);
+        holder.tweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performClick();
+                }
+            }
+        });
+
+        holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performLongClick();
+                    holder.preventNextClick = true;
+                }
+                return false;
+            }
+        });
+
+        holder.retweeter.setSoundEffectsEnabled(false);
+        holder.retweeter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performClick();
+                }
+            }
+        });
+
+        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performLongClick();
+                    holder.preventNextClick = true;
+                }
+                return false;
+            }
+        });
+
+        if (settings.picturesType == AppSettings.PICTURES_SMALL &&
+                holder.imageHolder.getHeight() != smallPictures) {
+            ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
+            params.height = smallPictures;
+            holder.imageHolder.setLayoutParams(params);
+        }
+
         holder.rootView = v;
 
         v.setTag(holder);
@@ -531,10 +365,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public void bindView(final View view, Status status, final int position) {
         final ViewHolder holder = (ViewHolder) view.getTag();
-
-        if (holder.expandArea.getVisibility() == View.VISIBLE) {
-            removeExpansion(holder, false);
-        }
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
@@ -546,27 +376,20 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         String retweeter;
         final long time = status.getCreatedAt().getTime();
-        long originalTime = 0;
 
         if (status.isRetweet()) {
             retweeter = status.getUser().getScreenName();
-
             thisStatus = status.getRetweetedStatus();
-            originalTime = thisStatus.getCreatedAt().getTime();
         } else {
             retweeter = "";
-
             thisStatus = status;
         }
-
-        final long fOriginalTime = originalTime;
 
         User user = thisStatus.getUser();
 
         holder.tweetId = thisStatus.getId();
         final long id = holder.tweetId;
         final String profilePic = user.getOriginalProfileImageURL();
-        String tweetTexts = thisStatus.getText();
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
@@ -604,189 +427,49 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if(settings.reverseClickActions || expander == null) {
-            final String fRetweeter = retweeter;
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (holder.preventNextClick) {
-                        holder.preventNextClick = false;
-                        return;
-                    }
-
-                    String link;
-
-                    boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", time);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.animatedGif);
-
-                    viewTweet.putExtra("shared_trans", true);
-
-                    if (!openFirst)
-                        viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        holder.profilePic.setTransitionName("pro_pic");
-                        holder.screenTV.setTransitionName("screen_name");
-                        holder.name.setTransitionName("name");
-                        holder.tweet.setTransitionName("tweet");
-
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet"),
-                                            new Pair<View, String>(holder.image, "image")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        } else {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        }
-                    } else {
-                        context.startActivity(viewTweet);
-                    }
+        final String fRetweeter = retweeter;
+        holder.background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.preventNextClick) {
+                    holder.preventNextClick = false;
+                    return;
                 }
-            });
 
-            if (expander != null) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                        } else {
-                            removeExpansion(holder, true);
-                        }
+                String link;
 
-                        return true;
-                    }
-                });
-            }
+                boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
+                boolean displayPic = !holder.picUrl.equals("");
+                if (displayPic) {
+                    link = holder.picUrl;
+                } else {
+                    link = otherUrl.split("  ")[0];
+                }
 
-        } else {
-            final String fRetweeter = retweeter;
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
+                Log.v("tweet_page", "clicked");
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenname);
+                viewTweet.putExtra("time", time);
+                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("retweeter", fRetweeter);
+                viewTweet.putExtra("webpage", link);
+                viewTweet.putExtra("other_links", otherUrl);
+                viewTweet.putExtra("picture", displayPic);
+                viewTweet.putExtra("tweetid", holder.tweetId);
+                viewTweet.putExtra("proPic", profilePic);
+                viewTweet.putExtra("users", users);
+                viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                    String link;
+                viewTweet.putExtra("shared_trans", true);
 
-                    boolean hasGif = holder.animatedGif != null && !holder.animatedGif.isEmpty();
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Log.v("tweet_page", "clicked");
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", time);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.animatedGif);
-
-                    viewTweet.putExtra("shared_trans", true);
-
+                if (!openFirst)
                     viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        holder.profilePic.setTransitionName("pro_pic");
-                        holder.screenTV.setTransitionName("screen_name");
-                        holder.name.setTransitionName("name");
-                        holder.tweet.setTransitionName("tweet");
-
-                        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet"),
-                                            new Pair<View, String>(holder.image, "image")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        } else {
-                            ActivityOptions options = ActivityOptions
-                                    .makeSceneTransitionAnimation(((Activity) context),
-
-                                            new Pair<View, String>(holder.profilePic, "pro_pic"),
-                                            new Pair<View, String>(holder.screenTV, "screen_name"),
-                                            new Pair<View, String>(holder.name, "name"),
-                                            new Pair<View, String>(holder.tweet, "tweet")
-                                    );
-
-                            context.startActivity(viewTweet/*, options.toBundle()*/);
-                        }
-                    } else {
-                        context.startActivity(viewTweet);
-                    }
-
-                    return true;
-                }
-            });
-
-            if (expander != null) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (holder.preventNextClick) {
-                            holder.preventNextClick = false;
-                            return;
-                        }
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                        } else {
-                            removeExpansion(holder, true);
-                        }
-                    }
-                });
+                context.startActivity(viewTweet);
             }
-        }
+        });
 
         if (!screenname.equals(username)) {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {
@@ -842,13 +525,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             });
         }
 
-        if (holder.screenTV.getVisibility() == View.GONE) {
-            holder.screenTV.setVisibility(View.VISIBLE);
-        }
-
         holder.screenTV.setText("@" + screenname);
         holder.name.setText(name);
-
 
         if (!settings.absoluteDate) {
             holder.time.setText(Utils.getTimeAgo(time, context));
@@ -857,16 +535,23 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
         }
 
-        boolean replace = false;
-        boolean embeddedTweetFound = TweetView.embeddedTweetPattern.matcher(tweetText).find();
-        if (settings.inlinePics && tweetText.contains("pic.twitter.com/") || embeddedTweetFound) {
+        boolean removeLastCharacters = false;
+        boolean embeddedTweetFound = false;
+
+        if (settings.inlinePics && tweetText.contains("pic.twitter.com/")) {
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
-                replace = true;
+                removeLastCharacters = true;
+            }
+        } else if (settings.inlinePics && TweetView.embeddedTweetPattern.matcher(tweetText).find()) {
+            embeddedTweetFound = true;
+
+            if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
+                removeLastCharacters = true;
             }
         }
 
         try {
-            holder.tweet.setText(replace ?
+            holder.tweet.setText(removeLastCharacters ?
                     tweetText.substring(0, tweetText.length() - (embeddedTweetFound ? 33 : 25)) :
                     tweetText);
         } catch (Exception e) {
@@ -885,30 +570,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 if (holder.playButton.getVisibility() == View.VISIBLE) {
                     holder.playButton.setVisibility(View.GONE);
                 }
-
-                if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                    holder.noMediaPreviewText.setVisibility(View.GONE);
-                }
             } else {
                 if (holder.imageHolder.getVisibility() == View.GONE) {
                     holder.imageHolder.setVisibility(View.VISIBLE);
-                }
-
-                if (settings.picturesType == AppSettings.PICTURES_SMALL &&
-                        holder.imageHolder.getHeight() != smallPictures) {
-                    ViewGroup.LayoutParams params = holder.imageHolder.getLayoutParams();
-                    params.height = smallPictures;
-                    holder.imageHolder.setLayoutParams(params);
                 }
 
                 if (holder.picUrl.contains("youtube") || (holder.animatedGif != null && !android.text.TextUtils.isEmpty(holder.animatedGif))) {
 
                     if (holder.playButton.getVisibility() == View.GONE) {
                         holder.playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                        holder.noMediaPreviewText.setVisibility(View.GONE);
                     }
 
                     if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif))
@@ -928,45 +598,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     picture = true;
 
                 } else if (containsThirdPartyVideo) {
-                    if (holder.playButton.getVisibility() == View.GONE) {
-                        holder.playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    if (holder.noMediaPreviewText.getVisibility() == View.GONE) {
-                        holder.noMediaPreviewText.setVisibility(View.VISIBLE);
-                    }
-
-                    String vid = null;
-                    for (String s : otherUrl.split("  ")) {
-                        if (VideoMatcherUtil.containsThirdPartyVideo(s))
-                            vid = s;
-                    }
-
-                    final String fVid = vid;
-                    if (VideoMatcherUtil.isTwitterGifLink(fVid))
-                        holder.playButton.setImageDrawable(new GifBadge(context));
-                    else
-                        holder.playButton.setImageDrawable(new VideoBadge(context));
-
-                    holder.image.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (fVid != null)
-                                VideoViewerActivity.startActivity(context, id, fVid, otherUrl);
-                        }
-                    });
-
-                    holder.image.setImageDrawable(new ColorDrawable(Color.BLACK));
-
-                    if (!BuildConfig.DEBUG) {
+                    if (holder.imageHolder.getVisibility() != View.GONE) {
                         holder.imageHolder.setVisibility(View.GONE);
                     }
 
                     picture = false;
                 } else {
-                    if (holder.noMediaPreviewText.getVisibility() == View.VISIBLE) {
-                        holder.noMediaPreviewText.setVisibility(View.GONE);
-                    }
 
                     holder.image.setImageDrawable(transparent);
 
@@ -980,13 +617,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         @Override
                         public void onClick(View view) {
                             if (holder.picUrl.contains(" ")) {
-                                /*MultiplePicsPopup popup = new MultiplePicsPopup(context, surfaceView.picUrl);
-                                popup.setFullScreen();
-                                popup.setExpansionPointForAnim(view);
-                                popup.show();*/
-
                                 PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-
                             } else {
                                 PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
                             }
@@ -1021,13 +652,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        Glide.with(context).load(profilePic).into(holder.profilePic);
-        
+        holder.profilePic.setImageDrawable(null);
+        Glide.with(context).load(profilePic).placeholder(null).into(holder.profilePic);
+
+        holder.image.setImageDrawable(null);
         if (picture) {
             if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
-                Glide.with(context).load(holder.picUrl).into(holder.image);
+                Glide.with(context).load(holder.picUrl).placeholder(null).into(holder.image);
             } else {
-                Glide.with(context).load(holder.picUrl).fitCenter().into(holder.image);
+                Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
             }
         }
 
@@ -1036,59 +669,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             @Override
             public void run() {
                 if (holder.tweetId == id) {
-
-                    if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
-                        String text = tweetText;
-                        if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
-                            holder.tweet.setText(span);
-                        }
-                    }
-
-                    holder.tweet.setSoundEffectsEnabled(false);
-                    holder.tweet.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                holder.background.performClick();
-                            }
-                        }
-                    });
-
-                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                holder.background.performLongClick();
-                                holder.preventNextClick = true;
-                            }
-                            return false;
-                        }
-                    });
-
-                    if (holder.retweeter.getVisibility() == View.VISIBLE) {
-                        holder.retweeter.setSoundEffectsEnabled(false);
-                        holder.retweeter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (!TouchableMovementMethod.touched) {
-                                    holder.background.performClick();
-                                }
-                            }
-                        });
-
-                        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                if (!TouchableMovementMethod.touched) {
-                                    holder.background.performLongClick();
-                                    holder.preventNextClick = true;
-                                }
-                                return false;
-                            }
-                        });
-                    }
-
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
                     if (otherUrl != null && otherUrl.contains("/status/") && !otherUrl.contains("/photo/") &&
@@ -1149,246 +729,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         } else {
             v = convertView;
-
-            final ViewHolder holder = (ViewHolder) v.getTag();
-
-            holder.profilePic.setImageDrawable(null);
-            if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-                holder.imageHolder.setVisibility(View.GONE);
-            }
         }
 
         bindView(v, statuses.get(position), position);
 
         return v;
-    }
-
-    public void removeExpansion(final ViewHolder holder, boolean anim) {
-
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
-        translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationXAnimator);
-
-        ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, holder.background.getTranslationY(), 0f);
-        translationYAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationYAnimator);
-
-        int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (4 * padding));
-        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.width = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(widthAnimator);
-
-        int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
-        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
-        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.height = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
-        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorHeader);
-
-        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
-        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
-                layoutParams.height = val;
-                holder.expandArea.setLayoutParams(layoutParams);
-            }
-        });
-        heightAnimatorContent.setDuration(anim ? ANIMATION_DURATION : 0);
-        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorContent);
-
-        if (anim) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    holder.expandArea.setVisibility(View.GONE);
-                }
-            }, ANIMATION_DURATION);
-        } else {
-            holder.expandArea.setVisibility(View.GONE);
-        }
-
-        if (anim) {
-            // if they are just scrolling away from it, there is no reason to put them back at
-            // their original position, so we don't call the expander method.
-            expander.expandViewClosed((int) holder.rootView.getY());
-        } else {
-            expander.expandViewClosed(-1);
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                holder.expandArea.removeAllViews();
-            }
-        }, ANIMATION_DURATION);
-
-    }
-
-    protected void startAnimation(Animator animator) {
-        animator.start();
-    }
-
-    public static final int ANIMATION_DURATION = 200;
-    public static final Interpolator ANIMATION_INTERPOLATOR = new AccelerateDecelerateInterpolator();
-
-    public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
-        final String text = holder.tweet.getText().toString();
-        String extraNames = "";
-        String replyStuff = "";
-
-        if (text.contains("@")) {
-            for (String s : users.split("  ")) {
-                if (!s.equals(settings.myScreenName) && !extraNames.contains(s) && !s.equals(screenname)) {
-                    extraNames += "@" + s + " ";
-                }
-            }
-        }
-
-        try {
-            if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
-                extraNames += "@" + holder.retweeterName + " ";
-            }
-        } catch (NullPointerException e) {
-
-        }
-
-        if (!screenname.equals(settings.myScreenName)) {
-            replyStuff = "@" + screenname + " " + extraNames;
-        } else {
-            replyStuff = extraNames;
-        }
-
-        if (settings.autoInsertHashtags && hashtags != null) {
-            for (String s : hashtags) {
-                if (!s.equals("")) {
-                    replyStuff += "#" + s + " ";
-                }
-            }
-        }
-
-        int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
-        translationXAnimator.setDuration(ANIMATION_DURATION);
-        translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationXAnimator);
-
-        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-            translationYAnimator.setDuration(ANIMATION_DURATION);
-            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimator);
-        }
-
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
-        widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.width = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        widthAnimator.setDuration(ANIMATION_DURATION);
-        widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(widthAnimator);
-
-        final int headerHeight = (int) (contentHeight * .5);
-        ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
-        heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                layoutParams.height = val;
-                holder.imageHolder.setLayoutParams(layoutParams);
-            }
-        });
-        heightAnimatorHeader.setDuration(ANIMATION_DURATION);
-        heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorHeader);
-
-        final int distance;// = (int) context.getResources().getDimension(R.dimen.expansion_size);;
-        if (holder.imageHolder.getVisibility() == View.VISIBLE) {
-            distance = contentHeight - headerHeight;
-        } else {
-            distance = contentHeight;
-        }
-        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, distance);
-        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = holder.expandArea.getLayoutParams();
-                layoutParams.height = val;
-                holder.expandArea.setLayoutParams(layoutParams);
-            }
-        });
-        final String s = replyStuff;
-        heightAnimatorContent.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                holder.expandArea.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                holder.expandArea.setMinimumHeight(distance);
-                holder.expandArea.getLayoutParams().height = distance;
-                holder.expandArea.invalidate();
-
-                ExpansionViewHelper helper = new ExpansionViewHelper(context, holder.tweetId);
-                helper.setBackground(holder.background);
-                helper.setWebLink(otherLinks);
-                helper.setReplyDetails("@" + screenname + ": " + text, s);
-                View root = helper.getExpansion();
-
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(root, View.ALPHA, 0f, 1f);
-                alpha.setDuration(ANIMATION_DURATION);
-                alpha.setInterpolator(ANIMATION_INTERPOLATOR);
-                startAnimation(alpha);
-
-                holder.expandArea.addView(root);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-        heightAnimatorContent.setDuration(ANIMATION_DURATION);
-        heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(heightAnimatorContent);
-
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, null);
-
     }
 
     public void loadEmbeddedTweet(final ViewHolder holder, final String otherUrls) {
