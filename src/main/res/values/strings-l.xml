@@ -144,4 +144,5 @@
     <string name="widget_material_dark">Material Design Dark</string>
     <string name="in_app_browser_summary">Disabling the in-app browser will send you to your default browser when opening links.</string>
     <string name="chrome_custom_tabs_summary">A replacement to Talon\'s own in-app browswer. It uses services provided by Google Chrome.</string>
+    <string name="reverse_click_actions_default">Default (No reverse actions):\n- Short Click = Expand In-Line\n- Long Click = Tweet Viewer</string>
 </resources>

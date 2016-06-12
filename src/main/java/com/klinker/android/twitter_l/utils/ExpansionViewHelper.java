@@ -428,7 +428,7 @@ public class ExpansionViewHelper {
             @Override
             public void onClick(View v) {
                 if (!(context instanceof TweetActivity)) {
-                    if (settings.bottomPictures) {
+                    if (settings.reverseClickActions) {
                         background.performClick();
                     } else {
                         background.performLongClick();

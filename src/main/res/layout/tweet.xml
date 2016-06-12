@@ -45,55 +45,6 @@
         android:paddingBottom="16dp"
         android:background="?android:attr/selectableItemBackground">
 
-        <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="@dimen/header_condensed_height"
-                     android:id="@+id/picture_holder"
-                     android:layout_marginLeft="@dimen/header_side_padding"
-                     android:layout_marginRight="@dimen/header_side_padding"
-                     android:layout_marginTop="@dimen/header_top_padding"
-                     android:padding="@dimen/header_holder_padding"
-                     android:visibility="gone" >
-
-            <ImageView
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:scaleType="centerCrop"
-                       android:background="@drawable/rounded_rect"
-                       android:transitionName="image"
-                       android:id="@+id/image"/>
-
-            <ImageView
-                android:id="@+id/play_button"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:padding="12dp"
-                android:layout_gravity="bottom|start"/>
-
-            <TextView
-                android:id="@+id/no_media_preview"
-                android:layout_width="250dp"
-                android:textSize="14sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:visibility="gone"
-                android:text="@string/no_media_preview" />
-
-            <com.klinker.android.simple_videoview.SimpleVideoView
-                android:id="@+id/video_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/black"
-                android:visibility="gone"
-                app:loop="true"
-                app:stopSystemAudio="false"
-                app:muted="true"
-                app:showSpinner="true"/>
-
-
-        </FrameLayout>
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -204,7 +155,7 @@
 
         <FrameLayout android:layout_width="match_parent"
                      android:layout_height="@dimen/header_condensed_height"
-                     android:id="@+id/picture_holder_bellow"
+                     android:id="@+id/picture_holder"
                      android:layout_marginLeft="@dimen/header_side_padding"
                      android:layout_marginRight="@dimen/header_side_padding"
                      android:layout_marginTop="@dimen/header_top_padding"
@@ -217,28 +168,17 @@
                     android:scaleType="centerCrop"
                     android:background="@drawable/rounded_rect"
                     android:transitionName="image"
-                    android:id="@+id/image_bellow"/>
+                    android:id="@+id/image"/>
 
             <ImageView
-                android:id="@+id/play_button_bellow"
+                android:id="@+id/play_button"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:padding="12dp"
                 android:layout_gravity="bottom|start"/>
 
-            <TextView
-                android:id="@+id/no_media_preview_below"
-                android:layout_width="250dp"
-                android:textSize="14sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:visibility="gone"
-                android:text="@string/no_media_preview" />
-
             <com.klinker.android.simple_videoview.SimpleVideoView
-                android:id="@+id/video_view_below"
+                android:id="@+id/video_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/black"

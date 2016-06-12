@@ -154,7 +154,7 @@
                 <FrameLayout android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginLeft="4dp"
-                    android:id="@+id/picture_holder_bellow"
+                    android:id="@+id/picture_holder"
                     android:visibility="gone">
 
                     <ImageView
@@ -163,28 +163,17 @@
                         android:scaleType="fitCenter"
                         android:background="@drawable/rounded_rect"
                         android:transitionName="image"
-                        android:id="@+id/image_bellow"/>
+                        android:id="@+id/image"/>
 
                     <ImageView
-                        android:id="@+id/play_button_bellow"
+                        android:id="@+id/play_button"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:padding="12dp"
                         android:layout_gravity="bottom|start"/>
 
-                    <TextView
-                        android:id="@+id/no_media_preview_below"
-                        android:layout_width="250dp"
-                        android:textSize="14sp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="@android:color/white"
-                        android:visibility="gone"
-                        android:text="@string/no_media_preview" />
-
                     <com.klinker.android.simple_videoview.SimpleVideoView
-                        android:id="@+id/video_view_below"
+                        android:id="@+id/video_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone"
