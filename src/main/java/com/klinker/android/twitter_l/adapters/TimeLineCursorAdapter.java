@@ -568,17 +568,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             muffled = false;
         }
 
-        holder.quickActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetTexts, secondAcc);
-                popup.setExpansionPointForAnim(holder.quickActions);
-                popup.setOnTopOfView(holder.quickActions);
-                popup.show();
-            }
-        });
+        if (settings.reverseClickActions) {
+            holder.quickActions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetTexts, secondAcc);
+                    popup.setExpansionPointForAnim(holder.quickActions);
+                    popup.setOnTopOfView(holder.quickActions);
+                    popup.show();
+                }
+            });
+        }
 
-        if((settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled)) {
+        if(settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled) {
             final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -963,47 +965,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.expandHelper.stop();
         }
 
-        ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, holder.background.getTranslationY(), 0f);
-        translationYAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-        translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(translationYAnimator);
-
-        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
-            ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, holder.imageHolder.getTranslationX(), 0f);
-            translationXAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-            translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationXAnimator);
-
-            int padding = (int) context.getResources().getDimension(R.dimen.header_side_padding);
-            ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() - (2 * padding));
-            widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                    layoutParams.width = val;
-                    holder.imageHolder.setLayoutParams(layoutParams);
-                }
-            });
-            widthAnimator.setDuration(anim ? ANIMATION_DURATION : 0);
-            widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(widthAnimator);
-
-            int condensedHeight = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
-            ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), condensedHeight);
-            heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                    layoutParams.height = val;
-                    holder.imageHolder.setLayoutParams(layoutParams);
-                }
-            });
-            heightAnimatorHeader.setDuration(anim ? ANIMATION_DURATION : 0);
-            heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(heightAnimatorHeader);
-        }
+        final int sixteen = Utils.toDP(16, context);
+        final int eight = Utils.toDP(8, context);
+        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(holder.background.getPaddingTop(), 0);
+        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                holder.background.setPadding(0, val + (settings.picturesType == AppSettings.CONDENSED_TWEETS ? eight : 0), 0, sixteen);
+            }
+        });
+        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
+        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(paddingTopAnimator);
 
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -1121,76 +1095,30 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
-        final int headerHeight = (int) context.getResources().getDimension(R.dimen.header_expanded_height);//(int) (contentHeight * .5);
 
-        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
-            ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(holder.imageHolder, View.TRANSLATION_X, 0f, -1 * (holder.imageHolder.getX() + headerPadding * 2));
-            translationXAnimator.setDuration(ANIMATION_DURATION);
-            translationXAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationXAnimator);
-
-            ValueAnimator widthAnimator = ValueAnimator.ofInt(holder.imageHolder.getWidth(), holder.rootView.getWidth() + headerPadding * 4);
-            widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                    layoutParams.width = val;
-                    holder.imageHolder.setLayoutParams(layoutParams);
-                }
-            });
-            widthAnimator.setDuration(ANIMATION_DURATION);
-            widthAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(widthAnimator);
-
-            ValueAnimator heightAnimatorHeader = ValueAnimator.ofInt(holder.imageHolder.getHeight(), headerHeight);
-            heightAnimatorHeader.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    int val = (Integer) valueAnimator.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = holder.imageHolder.getLayoutParams();
-                    layoutParams.height = val;
-                    holder.imageHolder.setLayoutParams(layoutParams);
-                }
-            });
-            heightAnimatorHeader.setDuration(ANIMATION_DURATION);
-            heightAnimatorHeader.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(heightAnimatorHeader);
+        int topPadding = Utils.getStatusBarHeight(context);
+        if (settings.staticUi || context.getResources().getBoolean(R.bool.duel_panel)) {
+            // the app bar doesn't move, so we should use it for the top padding too
+            topPadding += Utils.getActionBarHeight(context);
         }
 
-        if (holder.imageHolder.getVisibility() == View.VISIBLE && settings.picturesType != AppSettings.CONDENSED_TWEETS) {
-            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-            translationYAnimator.setDuration(ANIMATION_DURATION);
-            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimator);
+        final int sixteen = Utils.toDP(16, context);
+        final int eight = Utils.toDP(8, context);
+        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(0, topPadding);
+        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                holder.background.setPadding(0, val + (settings.picturesType == AppSettings.CONDENSED_TWEETS ? eight : 0), 0, sixteen);
+            }
+        });
+        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
+        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
+        startAnimation(paddingTopAnimator);
 
-            ObjectAnimator translationYAnimatorExpansion = ObjectAnimator.ofFloat(holder.expandArea, View.TRANSLATION_Y, 0f, -1 * topPadding - 5);
-            translationYAnimatorExpansion.setDuration(ANIMATION_DURATION);
-            translationYAnimatorExpansion.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimatorExpansion);
-        } else {
-            int topPadding = (int) context.getResources().getDimension(R.dimen.header_top_padding);
-            ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(holder.background, View.TRANSLATION_Y, 0f, topPadding + 10);
-            translationYAnimator.setDuration(ANIMATION_DURATION);
-            translationYAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-            startAnimation(translationYAnimator);
-        }
+        final int expansionSize = contentHeight - holder.background.getHeight();
 
-        int d;
-        if (holder.imageHolder.getVisibility() == View.VISIBLE && settings.picturesType != AppSettings.CONDENSED_TWEETS) {
-            d = contentHeight - headerHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();
-        } else {
-            d = contentHeight - headerPadding - holder.tweet.getHeight() - holder.profilePic.getHeight();
-        }
-
-        if (holder.embeddedTweet.getVisibility() == View.VISIBLE) {
-            d -= holder.embeddedTweet.getHeight();
-        }
-
-        final int distance = d;
-
-        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, d);
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, expansionSize);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -1213,7 +1141,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.expandArea.removeAllViews();
                 }
 
-                holder.expandArea.setMinimumHeight(distance);
+                holder.expandArea.setMinimumHeight(expansionSize);
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
@@ -1244,35 +1172,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             return Utils.getSecondTwitter(context);
         } else {
             return Utils.getTwitter(context, settings);
-        }
-    }
-
-    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
-
-        protected Boolean doInBackground(String... urls) {
-            Twitter twitter = getTwitter();
-
-            try {
-                long tweetId = Long.parseLong(urls[0]);
-
-                DMDataSource source = DMDataSource.getInstance(context);
-                source.deleteTweet(tweetId);
-
-                twitter.destroyDirectMessage(tweetId);
-
-                return true;
-            } catch (TwitterException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        protected void onPostExecute(Boolean deleted) {
-            if (deleted) {
-                Toast.makeText(context, context.getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

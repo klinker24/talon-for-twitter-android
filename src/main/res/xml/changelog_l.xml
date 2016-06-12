@@ -1,15 +1,18 @@
 <changelog>
 
     <version name="5.0.0">
-        <text>Two new Material Design widget themes to choose from</text>
-        <text>Pick the account you want to use for the widget</text>
-        <text>Choose between viewing mentions or the home timeline on the widget</text>
-        <text>Tweet images are shown on the widget</text>
-        <text>Links are highlighted on the widget</text>
-        <text>Settings overhauled and simplified</text>
-        <text>Improvements to tablet and landscape layouts</text>
-        <text>Layout tweaks</text>
-        <text>Bug fixes</text>
+        <text>[New] Expand tweets directly on the timeline by default</text>
+        <text>[New] Two new Material Design widget themes to choose from</text>
+        <text>[New] Pick the account you want to use for the widget</text>
+        <text>[New] Choose between viewing mentions or the home timeline on the widget</text>
+        <text>[New] Tweet images are shown on the widget</text>
+        <text>[New] Links are highlighted on the widget</text>
+        <text>[New] Settings overhauled and simplified</text>
+        <text>[Improve] SUPER smooth list scrolling</text>
+        <text>[Improve] In-line tweet expansions</text>
+        <text>[Improve] Tablet and landscape layouts</text>
+        <text>[Improve] Layout tweaks</text>
+        <text>[Fix] Lots of bugs</text>
     </version>
 
     <version name="4.10.3">

@@ -88,11 +88,6 @@
             android:summary="@string/tweetmarker_always_refreshes"
             android:defaultValue="false" />
 
-        <SwitchPreference
-            android:key="sync_mobile_data"
-            android:title="@string/sync_mobile_data"
-            android:defaultValue="true" />
-
     </PreferenceCategory>
 
     <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>

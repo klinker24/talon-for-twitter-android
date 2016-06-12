@@ -51,7 +51,7 @@ public class BecomeSupporterPreference extends IconPreference {
             setTitle(R.string.are_supporter);
             setSummary(R.string.are_supporter_summary);
         } else {
-            textView.setTextSize(19);
+            //textView.setTextSize(19);
             setTitle(R.string.become_supporter);
         }
 
