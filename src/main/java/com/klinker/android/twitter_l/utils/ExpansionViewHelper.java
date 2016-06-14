@@ -1562,8 +1562,14 @@ public class ExpansionViewHelper {
 
     // expand collapse animation: http://stackoverflow.com/questions/4946295/android-expand-collapse-animation
     public void showInReplyToViews(List<twitter4j.Status> replies) {
-        for (twitter4j.Status status : replies) {
-            View statusView = new TweetView(context, status).setInReplyToSection(true).getView();
+        for (int i = 0; i < replies.size(); i++) {
+            View statusView = new TweetView(context, replies.get(i)).setInReplyToSection(true).getView();
+
+            // add a little padding to the last one
+            if (i == replies.size() - 1) {
+                statusView.setPadding(0,0,0,Utils.toDP(12, context));
+            }
+
             inReplyToArea.addView(statusView);
         }
 
