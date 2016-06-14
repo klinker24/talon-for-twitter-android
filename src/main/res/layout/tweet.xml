@@ -46,6 +46,15 @@
         android:background="?android:attr/selectableItemBackground">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/conversation_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:animateLayoutChanges="true"/>
+
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

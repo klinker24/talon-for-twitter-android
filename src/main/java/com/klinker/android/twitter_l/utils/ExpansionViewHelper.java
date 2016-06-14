@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.animation.Animator;
+import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -29,6 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.Transformation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -46,6 +50,7 @@ import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -88,6 +93,9 @@ public class ExpansionViewHelper {
 
     // background that touching will dismiss the popups
     View background;
+
+    // area that is used for the previous tweets in the conversation
+    LinearLayout inReplyToArea;
 
     // manage the favorite stuff
     TextView favCount;
@@ -886,6 +894,17 @@ public class ExpansionViewHelper {
         });
     }
 
+    public void setInReplyToArea(LinearLayout inReplyToArea) {
+        this.inReplyToArea = inReplyToArea;
+
+        this.inReplyToArea.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return hidePopups();
+            }
+        });
+    }
+
     public boolean hidePopups() {
         boolean hidden = false;
         try {
@@ -1334,14 +1353,8 @@ public class ExpansionViewHelper {
                         // the list of replies has ended, but we dont want to go to null
                     }
 
-
-
                 } catch (TwitterException e) {
                     e.printStackTrace();
-                }
-
-                if (status != null && replies.size() > 0) {
-                    replies.add(0, status);
                 }
 
                 ((Activity)context).runOnUiThread(new Runnable() {
@@ -1355,16 +1368,9 @@ public class ExpansionViewHelper {
                                     reversed.add(replies.get(i));
                                 }
 
-                                replies = reversed;
+                                showInReplyToViews(reversed);
 
-                                adapter = new TimelineArrayAdapter(context, replies);
-                                adapter.setCanUseQuickActions(false);
-
-                                replyList.setAdapter(adapter);
-                                replyList.setVisibility(View.VISIBLE);
-                                //adjustConversationSectionSize(replyList);
-                                convoSpinner.setVisibility(View.GONE);
-
+                                replies.clear();
                             }
                         } catch (Exception e) {
                             // none and it got the null object
@@ -1551,6 +1557,82 @@ public class ExpansionViewHelper {
 
         getReplies.setPriority(8);
         getReplies.start();
+
+    }
+
+    // expand collapse animation: http://stackoverflow.com/questions/4946295/android-expand-collapse-animation
+    public void showInReplyToViews(List<twitter4j.Status> replies) {
+        for (twitter4j.Status status : replies) {
+            View statusView = new TweetView(context, status).setInReplyToSection(true).getView();
+            inReplyToArea.addView(statusView);
+        }
+
+        inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = inReplyToArea.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        inReplyToArea.getLayoutParams().height = 1;
+        inReplyToArea.setVisibility(View.VISIBLE);
+        Animation a = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                inReplyToArea.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                inReplyToArea.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+        a.setAnimationListener(new Animation.AnimationListener() {
+            @Override public void onAnimationStart(Animation animation) { }
+            @Override public void onAnimationRepeat(Animation animation) { }
+            @Override public void onAnimationEnd(Animation animation) {
+                readjustExpansionArea();
+            }
+        });
+
+        // 1dp/ms
+        a.setDuration((int)(targetHeight / inReplyToArea.getContext().getResources().getDisplayMetrics().density));
+        inReplyToArea.startAnimation(a);
+    }
+
+    // used on the adapter
+    // when the in reply to section is shown, it will create a giant white area at the bottom of the
+    // screen that could be half the size. We get rid of that by readjusting the min height of the expansion
+    View expandArea;
+    public void setExpandArea(View expandArea) {
+        this.expandArea = expandArea;
+    }
+    public void readjustExpansionArea() {
+        if (expandArea != null) {
+            expandArea.setMinimumHeight(expandArea.getMinimumHeight() - inReplyToArea.getMeasuredHeight());
+            expandArea.requestLayout();
+        }
+    }
+
+    public void removeInReplyToViews() {
+        inReplyToArea.setLayoutTransition(null);
+        ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(inReplyToArea.getHeight(), 0);
+        heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams params = inReplyToArea.getLayoutParams();
+                params.height = val;
+                inReplyToArea.setLayoutParams(params);
+
+                if (val == 0) {
+                    inReplyToArea.removeAllViews();
+                }
+            }
+        });
+        heightAnimatorContent.setDuration(TimeLineCursorAdapter.ANIMATION_DURATION);
+        heightAnimatorContent.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        heightAnimatorContent.start();
 
     }
 

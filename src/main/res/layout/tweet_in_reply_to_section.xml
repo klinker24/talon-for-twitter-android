@@ -37,35 +37,45 @@
         android:background="?android:attr/selectableItemBackground" />
 
     <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/conversation_area"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:animateLayoutChanges="true"/>
-
-    <LinearLayout
         android:id="@+id/background"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="ltr"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="6dp"
         android:background="?android:attr/selectableItemBackground">
 
         <!-- The tweeters picture -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_pic"
-            android:layout_width="@dimen/pro_pic_size"
-            android:layout_height="@dimen/pro_pic_size"
-            android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-            android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="3dp"
-            app:civ_border_width="0dp"
-            app:civ_border_color="#FF000000"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_pic"
+                android:layout_width="@dimen/pro_pic_size"
+                android:layout_height="@dimen/pro_pic_size"
+                android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
+                android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="3dp"
+                app:civ_border_width="0dp"
+                app:civ_border_color="#FF000000"/>
+
+            <View
+                android:id="@+id/tweet_link"
+                android:layout_width="3dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="2dp"
+                android:background="?drawerDividerColor"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:orientation="vertical"
@@ -115,14 +125,6 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textColor="?dateColor" />
-
-                    <ImageView
-                        android:id="@+id/is_a_conversation"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="?directMessageItem"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone" />
 
                 </LinearLayout>
 

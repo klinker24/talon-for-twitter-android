@@ -145,6 +145,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public CardView embeddedTweet;
         public View quickActions;
         public SimpleVideoView videoView;
+        public LinearLayout conversationArea;
 
         public long tweetId;
         public boolean isFavorited;
@@ -336,6 +337,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.playButton = (ImageView) v.findViewById(R.id.play_button);
         holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
+        holder.conversationArea = (LinearLayout) v.findViewById(R.id.conversation_area);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -481,6 +483,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
             holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+        }
+
+        if (holder.conversationArea.getChildCount() > 0) {
+            holder.conversationArea.removeAllViews();
+
+            ViewGroup.LayoutParams params = holder.conversationArea.getLayoutParams();
+            params.height = 0;
+            holder.conversationArea.setLayoutParams(params);
         }
 
         for (int i = 0; i < videos.size(); i++) {
@@ -947,6 +957,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (holder.expandHelper != null) {
             holder.expandHelper.stop();
+            holder.expandHelper.removeInReplyToViews();
         }
 
         final int sixteen = Utils.toDP(16, context);
@@ -1065,6 +1076,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId);
         helper.setSecondAcc(secondAcc);
         helper.setBackground(holder.background);
+        helper.setExpandArea(holder.expandArea);
+        helper.setInReplyToArea(holder.conversationArea);
         helper.setWebLink(otherLinks);
         helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
         helper.setUser(screenname);
