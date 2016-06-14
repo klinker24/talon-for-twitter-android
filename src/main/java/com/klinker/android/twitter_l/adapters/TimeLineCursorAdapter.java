@@ -241,7 +241,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             CONVO_COL = -1;
         }
 
-        embeddedTweetMinHeight = Utils.toDP(140, context);
+        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
@@ -420,6 +420,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             params.height = smallPictures;
             holder.imageHolder.setLayoutParams(params);
         }
+
+        holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
 
         holder.rootView = v;
 
