@@ -100,7 +100,7 @@
             <ImageView
                 android:id="@+id/picture"
                 android:contentDescription="Image on Tweet"
-                android:layout_height="100dp"
+                android:layout_height="75dp"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="5dp"
