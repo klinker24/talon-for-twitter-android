@@ -184,7 +184,7 @@ public class PrefFragmentAdvanced extends PrefFragment {
                         .putString("ringtone", newValue.toString())
                         .commit();
                 AppSettings.invalidate();
-                
+
                 return false;
             }
         });
