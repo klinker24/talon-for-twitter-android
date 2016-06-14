@@ -1568,6 +1568,8 @@ public class ExpansionViewHelper {
             // add a little padding to the last one
             if (i == replies.size() - 1) {
                 statusView.setPadding(0,0,0,Utils.toDP(12, context));
+            } else if (i == 0) {
+                statusView.setPadding(0, Utils.toDP(12, context), 0,0);
             }
 
             inReplyToArea.addView(statusView);
