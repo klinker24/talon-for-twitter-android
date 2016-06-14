@@ -1568,6 +1568,8 @@ public class ExpansionViewHelper {
             // add a little padding to the last one
             if (i == replies.size() - 1) {
                 statusView.setPadding(0,0,0,Utils.toDP(12, context));
+            } else if (i == 0) {
+                statusView.setPadding(0, Utils.toDP(6, context), 0,0);
             }
 
             inReplyToArea.addView(statusView);
@@ -1621,7 +1623,6 @@ public class ExpansionViewHelper {
     }
 
     public void removeInReplyToViews() {
-        inReplyToArea.setLayoutTransition(null);
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(inReplyToArea.getHeight(), 0);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1639,6 +1640,22 @@ public class ExpansionViewHelper {
         heightAnimatorContent.setDuration(TimeLineCursorAdapter.ANIMATION_DURATION);
         heightAnimatorContent.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
         heightAnimatorContent.start();
+
+        ValueAnimator alpha = ValueAnimator.ofFloat(1f, 0f);
+        alpha.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float val = (Float) valueAnimator.getAnimatedValue();
+                inReplyToArea.setAlpha(val);
+
+                if (val == 0f) {
+                    inReplyToArea.setAlpha(1f);
+                }
+            }
+        });
+        alpha.setDuration((int) (TimeLineCursorAdapter.ANIMATION_DURATION * .75));
+        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        alpha.start();
 
     }
 

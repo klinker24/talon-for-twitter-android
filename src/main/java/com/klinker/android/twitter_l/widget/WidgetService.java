@@ -144,11 +144,11 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 card.setViewVisibility(R.id.picture, View.VISIBLE);
                 card.setImageViewBitmap(R.id.picture, getCachedPic(link));
 
-                if (settings.picturesType == AppSettings.PICTURES_NORMAL) {
+                /*if (settings.picturesType == AppSettings.PICTURES_NORMAL) {
                     card.setInt(R.id.picture, "setMinimumHeight", Utils.toDP(125, mContext));
                 } else {
                     card.setInt(R.id.picture, "setMinimumHeight", Utils.toDP(75, mContext));
-                }
+                }*/
             } else {
                 link = otherUrl.split("  ")[0];
                 card.setViewVisibility(R.id.picture, View.GONE);

@@ -1220,7 +1220,7 @@ public class NotificationUtils {
 
         if (Utils.isAndroidN()) {
             reply = new Intent(context, isSecondAccount ? ReplySecondAccountFromWearService.class : ReplyFromWearService.class);
-            reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, tweetId);
+            reply.putExtra(ReplyFromWearService.IN_REPLY_TO_ID, Long.parseLong(tweetId));
             reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + screenname);
             reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
 
