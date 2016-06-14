@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/conversation"
+                android:text="@string/replies"
                 android:textAllCaps="true"
                 android:textSize="18sp"/>
 
