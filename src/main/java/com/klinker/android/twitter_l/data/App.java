@@ -50,7 +50,11 @@ public class App extends Application {
             // Change locale settings in the app.
             DisplayMetrics dm = res.getDisplayMetrics();
             android.content.res.Configuration conf = res.getConfiguration();
-            conf.locale = new Locale(settings.locale);
+            if (settings.locale.equals("zh-rCN")) {
+                conf.locale = Locale.SIMPLIFIED_CHINESE;
+            } else {
+                conf.locale = new Locale(settings.locale);
+            }
             res.updateConfiguration(conf, dm);
         } else {
             // Change locale settings in the app.
