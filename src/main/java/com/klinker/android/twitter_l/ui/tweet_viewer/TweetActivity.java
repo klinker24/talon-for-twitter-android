@@ -834,6 +834,7 @@ public class TweetActivity extends SlidingActivity {
         expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
         expansionHelper.setSecondAcc(secondAcc);
         expansionHelper.setBackground(findViewById(R.id.content));
+        expansionHelper.setInReplyToArea((LinearLayout) findViewById(R.id.conversation_area));
         expansionHelper.setWebLink(otherLinks);
         expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
         expansionHelper.setUser(screenName);

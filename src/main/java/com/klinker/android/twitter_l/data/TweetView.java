@@ -98,6 +98,8 @@ public class TweetView {
 
     int embeddedTweets = 0;
 
+    boolean inReplyToSection = false;
+
     public TweetView(Context context) {
         this(context, 0);
     }
@@ -135,6 +137,11 @@ public class TweetView {
 
         setData(status);
         Log.v("embedded_tweets", embeddedTweets + "");
+    }
+
+    public TweetView setInReplyToSection(boolean inSection) {
+        this.inReplyToSection = inSection;
+        return this;
     }
 
     public void setCurrentUser(String s) {
@@ -202,10 +209,16 @@ public class TweetView {
     }
 
     protected View createTweet() {
-        View tweetView = ((Activity) context).getLayoutInflater().inflate(
-                settings.picturesType != AppSettings.CONDENSED_TWEETS ? R.layout.tweet : R.layout.tweet_condensed,
-                null, false);
-        return tweetView;
+        if (inReplyToSection) {
+            View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet_in_reply_to_section, null, false);
+            //tweetView.findViewById(R.id.tweet_link).setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
+            return tweetView;
+        } else {
+            View tweetView = ((Activity) context).getLayoutInflater().inflate(
+                    settings.picturesType != AppSettings.CONDENSED_TWEETS ? R.layout.tweet : R.layout.tweet_condensed,
+                    null, false);
+            return tweetView;
+        }
     }
 
     //private boolean images = true;
@@ -362,7 +375,7 @@ public class TweetView {
             retweeterTv.setVisibility(View.VISIBLE);
         }
 
-        if (isConvo) {
+        if (isConvo && isAConvo != null) {
             isAConvo.setVisibility(View.VISIBLE);
         }
 
