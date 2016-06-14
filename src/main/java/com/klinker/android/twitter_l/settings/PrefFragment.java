@@ -1259,46 +1259,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     public void setUpBackgroundRefreshes() {
-        final Context context = getActivity();
 
-        final AppSettings settings = AppSettings.getInstance(context);
-        final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
-
-        final Preference timeline = findPreference("timeline_sync_interval");
-        final Preference mentions = findPreference("mentions_sync_interval");
-        final Preference dms = findPreference("dm_sync_interval");
-        final Preference onStart = findPreference("refresh_on_start");
-        final Preference mobileOnly = findPreference("sync_mobile_data");
-
-        int count = 0;
-        if (sharedPrefs.getBoolean("is_logged_in_1", false)) {
-            count++;
-        }
-        if (sharedPrefs.getBoolean("is_logged_in_2", false)) {
-            count++;
-        }
-
-        final boolean mentionsChanges = count == 2;
-
-        if (settings.pushNotifications) {
-            if (settings.liveStreaming) {
-                timeline.setEnabled(false);
-                onStart.setEnabled(false);
-            }
-
-            if (!mentionsChanges) {
-                mentions.setEnabled(false);
-                dms.setEnabled(false);
-                mobileOnly.setEnabled(false);
-            }
-        }
     }
 
     public void setUpOtherOptions() {
-        final Context context = getActivity();
-        final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
 
     }
 
