@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceGroup;
+import android.preference.RingtonePreference;
+import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
@@ -171,6 +173,19 @@ public class PrefFragmentAdvanced extends PrefFragment {
             public boolean onPreferenceClick(Preference preference) {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
                 return true;
+            }
+        });
+
+        RingtonePreference ringtone = (RingtonePreference) findPreference("ringtone");
+        ringtone.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                AppSettings.getInstance(context).sharedPrefs.edit()
+                        .putString("ringtone", newValue.toString())
+                        .commit();
+                AppSettings.invalidate();
+                
+                return false;
             }
         });
     }
