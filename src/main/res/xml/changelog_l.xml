@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="5.0.0">
+        <text>[New] Built for Android N!</text>
         <text>[New] Way better conversation linking when a tweet is a reply to another</text>
         <text>[New] Expand tweets directly on the timeline by default</text>
         <text>[New] Two new Material Design widget themes to choose from</text>
