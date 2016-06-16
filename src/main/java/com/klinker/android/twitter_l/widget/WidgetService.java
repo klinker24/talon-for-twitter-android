@@ -54,7 +54,9 @@ import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class WidgetService extends RemoteViewsService {
@@ -72,11 +74,20 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private boolean darkTheme;
     private AppSettings settings;
 
+    public java.text.DateFormat dateFormatter;
+    public java.text.DateFormat timeFormatter;
+
     public WidgetViewsFactory(Context context, Intent intent) {
         mContext = context;
         darkTheme = Integer.parseInt(AppSettings.getSharedPreferences(context).getString("theme", "1")) != 0;
 
         settings = AppSettings.getInstance(context);
+
+        dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+        timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
     }
 
     @Override
@@ -118,7 +129,15 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         try {
             card.setTextViewText(R.id.contactName, settings.displayScreenName ? "@" + mWidgetItems.get(arg0).getScreenName() : mWidgetItems.get(arg0).getName());
             card.setTextViewText(R.id.contactText, TextUtils.colorText(mContext, mWidgetItems.get(arg0).getTweet(), settings.themeColors.accentColor));
-            card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+
+            if (!settings.absoluteDate) {
+                card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+            } else {
+                Date date = new Date(mWidgetItems.get(arg0).getTime());
+                String text = timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date);
+                card.setTextViewText(R.id.time, text);
+            }
+
 
             if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
                 try {
@@ -138,7 +157,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             String otherUrl = mWidgetItems.get(arg0).getOtherWeb();
             String link;
 
-            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
+            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube") && settings.widgetImages;
             if (displayPic) {
                 link = picUrl;
                 card.setViewVisibility(R.id.picture, View.VISIBLE);

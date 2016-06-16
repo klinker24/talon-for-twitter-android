@@ -206,7 +206,7 @@ S
             />
 
         <activity android:name="com.klinker.android.twitter_l.ui.search.SearchPager"
-            android:label="@string/search"
+            android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.TalonLight.Main.Launcher" >

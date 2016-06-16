@@ -178,6 +178,7 @@ public class AppSettings {
     public boolean staticUi;
     public boolean higherQualityImages;
     public boolean useMentionsOnWidget;
+    public boolean widgetImages;
 
     // notifications
     public boolean timelineNot;
@@ -326,13 +327,14 @@ public class AppSettings {
         preCacheImages = !sharedPrefs.getString("pre_cache", "1").equals("0");
         topDown = sharedPrefs.getBoolean("top_down_mode", false);
         useSnackbar = sharedPrefs.getBoolean("use_snackbar", false);
-        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", false);
+        crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
         transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
         staticUi = sharedPrefs.getBoolean("static_ui", false);
         higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
         useMentionsOnWidget = sharedPrefs.getString("widget_timeline", "0").equals("1");
+        widgetImages = sharedPrefs.getBoolean("widget_images", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
