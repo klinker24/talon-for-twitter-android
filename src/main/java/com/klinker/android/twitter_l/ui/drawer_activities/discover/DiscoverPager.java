@@ -131,7 +131,7 @@ public class DiscoverPager extends DrawerActivity {
         }
 
         switch (item.getItemId()) {
-            case R.id.location_settings:
+            /*case R.id.location_settings:
                 Intent settings = new Intent(context, PrefActivity.class);
                 settings.putExtra("position", 10)
                         .putExtra("title",
@@ -139,7 +139,7 @@ public class DiscoverPager extends DrawerActivity {
                 finish();
                 settings.putExtra("open_help", true);
                 startActivity(settings);
-                return true;
+                return true;*/
 
             default:
                 return super.onOptionsItemSelected(item);

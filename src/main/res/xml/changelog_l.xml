@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="5.0.1">
+        <text>Option to enable/disable images on the widget</text>
+        <text>Always enable quick actions, regardless of your timeline expansion setting</text>
+        <text>Show absolute timestamps on the widget if enabled</text>
+        <text>Force close fixes</text>
+        <text>Bug fixes</text>
+        <text>Slight UI improvements</text>
+    </version>
+
     <version name="5.0.0">
         <text>[New] Built for Android N!</text>
         <text>[New] Way better conversation linking when a tweet is a reply to another</text>

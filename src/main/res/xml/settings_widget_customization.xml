@@ -34,6 +34,11 @@
             android:entries="@array/widget_timelines"
             android:entryValues="@array/widget_timelines_inserted" />
 
+        <SwitchPreference
+            android:key="widget_images"
+            android:title="@string/show_images_on_widget"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

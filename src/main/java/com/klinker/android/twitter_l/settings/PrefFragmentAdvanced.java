@@ -66,8 +66,7 @@ public class PrefFragmentAdvanced extends PrefFragment {
         final Context context = getActivity();
 
         final AppSettings settings = AppSettings.getInstance(context);
-        final SharedPreferences sharedPrefs = context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        final SharedPreferences sharedPrefs = settings.sharedPrefs;
 
         int count = 0;
         if (sharedPrefs.getBoolean("is_logged_in_1", false)) {

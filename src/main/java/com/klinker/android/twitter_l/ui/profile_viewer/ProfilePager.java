@@ -317,9 +317,7 @@ public class ProfilePager extends SlidingActivity {
             location.setVisibility(View.GONE);
         }
         if (web != null && !web.equals("")) {
-            website.setText("");
-
-            expandUrl(web);
+            website.setText(user.getURLEntity().getDisplayURL());
 
             if (location.getVisibility() == View.GONE) {
                 website.setPadding(0, Utils.toDP(16, context), 0, 0);

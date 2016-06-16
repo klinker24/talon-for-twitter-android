@@ -18,8 +18,7 @@ public class RedirectToFavoriteUsers extends AppCompatActivity {
 
         overridePendingTransition(0, 0);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+        SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 

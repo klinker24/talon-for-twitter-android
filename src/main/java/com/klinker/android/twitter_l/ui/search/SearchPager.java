@@ -149,6 +149,7 @@ public class SearchPager extends AppCompatActivity {
         setContentView(R.layout.search_pager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.search);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
 

@@ -747,8 +747,7 @@ public class ExpansionViewHelper {
                             new DeleteTweet(new Runnable() {
                                 @Override
                                 public void run() {
-                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                    AppSettings.getInstance(context).sharedPrefs
                                             .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();
@@ -840,8 +839,7 @@ public class ExpansionViewHelper {
                             new MarkSpam(new Runnable() {
                                 @Override
                                 public void run() {
-                                    context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
-                                            Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE)
+                                    AppSettings.getInstance(context).sharedPrefs
                                             .edit().putBoolean("just_muted", true).apply();
 
                                     ((Activity)context).finish();

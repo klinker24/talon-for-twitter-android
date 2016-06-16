@@ -3,9 +3,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:talon="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/location_settings"
-        android:title="@string/location_settings"
-        android:orderInCategory="9"
-        talon:showAsAction="never" />
 </menu>
