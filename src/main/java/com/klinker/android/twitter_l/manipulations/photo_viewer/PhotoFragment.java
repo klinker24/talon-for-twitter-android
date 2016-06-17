@@ -40,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.Random;
 
@@ -146,7 +147,17 @@ public class PhotoFragment extends Fragment {
                     n = generator.nextInt(n);
                     String fname = "Image-" + n;
 
-                    Uri uri = IOUtils.saveImage(bitmap, fname, activity);
+                    Uri uri = IOUtils.saveImage(bitmap, fname, getActivity());
+                    String root = Environment.getExternalStorageDirectory().toString();
+                    File myDir = new File(root + "/Talon");
+                    File file = new File(myDir, fname + ".jpg");
+
+                    try {
+                        uri = IOUtils.getImageContentUri(getActivity(), file);
+                    } catch (Exception e) {
+
+                    }
+
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(uri, "image/*");

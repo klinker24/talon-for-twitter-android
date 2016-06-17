@@ -17,23 +17,23 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
 
     <ImageView android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_alignBottom="@+id/widget_card_background"
-               android:layout_alignParentTop="true"
-               android:id="@+id/itemBackground"/>
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/widget_card_background"
+        android:layout_alignParentTop="true"
+        android:id="@+id/itemBackground"/>
 
     <LinearLayout android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center_vertical"
-                  android:id="@+id/widget_card_background"
-                  android:background="?android:selectableItemBackground">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/widget_card_background"
+        android:background="?android:selectableItemBackground">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,14 +52,13 @@
                 android:layout_marginRight="15dp"
                 android:scaleType="centerCrop" />
 
-            </LinearLayout>
-
+        </LinearLayout>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="top">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="top">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,9 +70,8 @@
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:layout_weight="1"
                     android:textColor="@color/dark_text"
-                    android:paddingTop="10dp"/>
+                    android:paddingRight="12dp" />
 
                 <TextView
                     android:id="@+id/time"
@@ -85,17 +83,17 @@
                     android:paddingRight="12dp"
                     android:fontFamily="sans-serif-light"/>
 
-                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                    android:id="@+id/contactText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="@color/dark_text"
-                    android:paddingRight="12dp"
-                    android:paddingBottom="10dp"
-                    android:fontFamily="sans-serif-light"/>
+                android:id="@+id/contactText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/dark_text"
+                android:paddingRight="12dp"
+                android:fontFamily="sans-serif-light"
+                android:paddingBottom="10dp"/>
 
             <ImageView
                 android:id="@+id/picture"
