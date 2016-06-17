@@ -50,6 +50,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.Random;
 
@@ -338,7 +339,18 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     n = generator.nextInt(n);
                     String fname = "Image-" + n;
 
+
                     Uri uri = IOUtils.saveImage(bitmap, fname, context);
+                    String root = Environment.getExternalStorageDirectory().toString();
+                    File myDir = new File(root + "/Talon");
+                    File file = new File(myDir, fname + ".jpg");
+
+                    try {
+                        uri = IOUtils.getImageContentUri(context, file);
+                    } catch (Exception e) {
+
+                    }
+
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(uri, "image/*");
@@ -357,6 +369,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
                     mNotificationManager.notify(6, mBuilder.build());
                 } catch (final Exception e) {
+                    e.printStackTrace();
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
