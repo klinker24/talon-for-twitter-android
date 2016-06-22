@@ -157,11 +157,16 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             String otherUrl = mWidgetItems.get(arg0).getOtherWeb();
             String link;
 
-            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube") && settings.widgetImages;
+            boolean displayPic = !picUrl.equals("") && !picUrl.contains("youtube");
             if (displayPic) {
                 link = picUrl;
-                card.setViewVisibility(R.id.picture, View.VISIBLE);
-                card.setImageViewBitmap(R.id.picture, getCachedPic(link));
+
+                if (settings.widgetImages) {
+                    card.setViewVisibility(R.id.picture, View.VISIBLE);
+                    card.setImageViewBitmap(R.id.picture, getCachedPic(link));
+                } else {
+                    card.setViewVisibility(R.id.picture, View.GONE);
+                }
 
                 /*if (settings.picturesType == AppSettings.PICTURES_NORMAL) {
                     card.setInt(R.id.picture, "setMinimumHeight", Utils.toDP(125, mContext));
