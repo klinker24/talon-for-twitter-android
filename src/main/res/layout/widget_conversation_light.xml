@@ -73,18 +73,14 @@
                     android:textColor="@color/light_text"
                     android:paddingRight="12dp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <TextView
                     android:id="@+id/time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:singleLine="true"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/light_text"
+                    android:gravity="right"
                     android:paddingRight="12dp"
                     android:fontFamily="sans-serif-light"/>
 

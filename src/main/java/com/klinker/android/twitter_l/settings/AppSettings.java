@@ -419,7 +419,7 @@ public class AppSettings {
         autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_WIFI + ""));
 
         String widgetAccount = sharedPrefs.getString("widget_account", "").replace("@", "");
-        if (widgetAccount.equals(myScreenName.replace("@","")) || widgetAccount.equals("")) {
+        if (widgetAccount.equals(myScreenName.replace("@","")) || widgetAccount.isEmpty()) {
             widgetAccountNum = currentAccount;
         } else {
             if (currentAccount == 1) {
