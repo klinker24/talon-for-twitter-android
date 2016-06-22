@@ -2,6 +2,7 @@
 
     <version name="5.0.3">
         <text>Fix issue with the widget being blank for some people</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="5.0.2">
