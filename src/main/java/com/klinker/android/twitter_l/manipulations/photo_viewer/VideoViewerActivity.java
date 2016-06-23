@@ -102,12 +102,6 @@ public class VideoViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
 
-        try {
-            getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         /*getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
