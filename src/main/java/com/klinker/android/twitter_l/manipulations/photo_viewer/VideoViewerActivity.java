@@ -32,6 +32,8 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.WebIntentBuilder;
 
+import java.io.File;
+
 public class VideoViewerActivity extends AppCompatActivity {
 
     @Override
@@ -248,6 +250,17 @@ public class VideoViewerActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     if (videoFragment != null) {
                         Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
+
+                        String root = Environment.getExternalStorageDirectory().toString();
+                        File myDir = new File(root + "/Talon");
+                        File file = new File(myDir, uri.getLastPathSegment());
+
+                        try {
+                            uri = IOUtils.getImageContentUri(context, file);
+                        } catch (Exception e) {
+
+                        }
+
                         intent.setAction(Intent.ACTION_VIEW);
                         intent.setDataAndType(uri, "surfaceView/*");
                     }
@@ -318,7 +331,7 @@ public class VideoViewerActivity extends AppCompatActivity {
         context.startActivity(share);
     }
 
-    private void hideSystemUI() {
+    public void hideSystemUI() {
         sysUiShown = false;
 
         getWindow().getDecorView().setSystemUiVisibility(
@@ -326,15 +339,19 @@ public class VideoViewerActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
-        if (url != null && !url.contains("youtu"))
-            startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
-        startAlphaAnimation(share, 1, 0);
-        startAlphaAnimation(download, 1, 0);
-        startAlphaAnimation(info, 1, 0);
+        if (videoFragment != null && !videoFragment.isGif()) {
+            // we don't want to hide the buttons
+        } else {
+            if (url != null && !url.contains("youtu"))
+                startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
+            startAlphaAnimation(share, 1, 0);
+            startAlphaAnimation(download, 1, 0);
+            startAlphaAnimation(info, 1, 0);
+        }
     }
 
     boolean sysUiShown = true;
-    private void showSystemUI() {
+    public void showSystemUI() {
         sysUiShown = true;
 
         getWindow().getDecorView().setSystemUiVisibility(

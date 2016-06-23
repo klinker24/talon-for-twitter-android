@@ -8,11 +8,16 @@
     android:layout_gravity="center"
     android:background="@android:color/black">
 
-    <com.klinker.android.simple_videoview.SimpleVideoView
-        android:id="@+id/video_view"
+    <com.afollestad.easyvideoplayer.EasyVideoPlayer xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:loop="true"
-        app:stopSystemAudio="true" />
+        app:evp_autoPlay="true"
+        app:evp_disableControls="false"
+        app:evp_hideControlsOnPlay="true"
+        app:evp_leftAction="restart"
+        app:evp_rightAction="none"
+        app:evp_themeColor="?colorPrimary" />
 
 </FrameLayout>

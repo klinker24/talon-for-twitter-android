@@ -17,8 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import com.afollestad.easyvideoplayer.EasyVideoCallback;
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import org.apache.http.HttpEntity;
@@ -37,7 +40,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class VideoFragment extends Fragment {
+public class VideoFragment extends Fragment implements EasyVideoCallback {
 
     public static VideoFragment getInstance(String url) {
         Bundle args = new Bundle();
@@ -55,7 +58,7 @@ public class VideoFragment extends Fragment {
 
     private View layout;
 
-    public SimpleVideoView videoView;
+    public EasyVideoPlayer videoView;
 
     @Override
     public void onAttach(Activity activity) {
@@ -70,18 +73,13 @@ public class VideoFragment extends Fragment {
         tweetUrl = getArguments().getString("url");
 
         layout = inflater.inflate(R.layout.gif_player, null, false);
-        videoView = (SimpleVideoView) layout.findViewById(R.id.video_view);
+        videoView = (EasyVideoPlayer) layout.findViewById(R.id.player);
 
         getGif();
 
         return layout;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        videoView.release();
-    }
 
     private void getGif() {
         new Thread(new Runnable() {
@@ -112,12 +110,10 @@ public class VideoFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
-                            videoView.setStopSystemAudio(false);
+                        if (videoUrl != null) {
+                            videoView.setCallback(VideoFragment.this);
+                            videoView.setSource(Uri.parse(videoUrl));
                         }
-
-                        if (videoUrl != null)
-                            videoView.start(videoUrl);
                     }
                 });
 
@@ -247,5 +243,68 @@ public class VideoFragment extends Fragment {
 
     public String getLoadedVideoLink() {
         return videoUrl;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Make sure the player stops playing if the user presses the home button.
+        videoView.pause();
+    }
+
+    // Methods for the implemented EasyVideoCallback
+
+    @Override
+    public void onPreparing(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPrepared(EasyVideoPlayer player) {
+        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
+            //videoView.set(false);
+            videoView.setHideControlsOnPlay(true);
+            videoView.disableControls();
+            videoView.setVolume(0,0);
+        } else {
+            videoView.setHideControlsOnPlay(true);
+            videoView.enableControls(true);
+
+            ((VideoViewerActivity) getActivity()).hideSystemUI();
+        }
+    }
+
+    @Override
+    public void onBuffering(int percent) {
+
+    }
+
+    @Override
+    public void onError(EasyVideoPlayer player, Exception e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onCompletion(EasyVideoPlayer player) {
+        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
+            videoView.seekTo(0);
+            videoView.start();
+        } else {
+            videoView.showControls();
+        }
+    }
+
+    @Override
+    public void onRetry(EasyVideoPlayer player, Uri source) {
+
+    }
+
+    @Override
+    public void onSubmit(EasyVideoPlayer player, Uri source) {
+
+    }
+
+    public boolean isGif() {
+        return VideoMatcherUtil.isTwitterGifLink(videoUrl);
     }
 }
