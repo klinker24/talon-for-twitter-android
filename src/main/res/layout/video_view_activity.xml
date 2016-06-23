@@ -34,7 +34,6 @@
 
         <LinearLayout
             android:id="@+id/buttons_layout"
-            android:paddingTop="74dp"
             android:background="@drawable/gradient_darker_reversed"
             android:layout_gravity="top"
             android:layout_width="match_parent"
