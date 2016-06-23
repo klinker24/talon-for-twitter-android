@@ -102,6 +102,8 @@ public class VideoViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
 
+        getSupportActionBar().hide();
+
         /*getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
