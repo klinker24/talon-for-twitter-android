@@ -78,6 +78,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
 import twitter4j.User;
 
 public class NotificationUtils {
@@ -396,6 +397,8 @@ public class NotificationUtils {
                 }
             }
         }
+
+        ShortcutBadger.applyCount(context, unreadCounts[1] + unreadCounts[2]);
 
         try {
 
