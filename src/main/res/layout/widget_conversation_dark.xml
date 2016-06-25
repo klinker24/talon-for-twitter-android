@@ -94,7 +94,16 @@
                 android:textColor="@color/dark_text"
                 android:paddingRight="12dp"
                 android:fontFamily="sans-serif-light"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/retweeter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|end"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"/>
 
             <ImageView
                 android:id="@+id/picture"
@@ -102,7 +111,6 @@
                 android:layout_height="75dp"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="12dp"
                 android:scaleType="centerCrop" />

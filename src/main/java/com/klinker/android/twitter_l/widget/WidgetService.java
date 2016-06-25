@@ -144,6 +144,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     card.setTextViewTextSize(R.id.contactName, TypedValue.COMPLEX_UNIT_DIP, settings.textSize + 2);
                     card.setTextViewTextSize(R.id.contactText, TypedValue.COMPLEX_UNIT_DIP, settings.textSize);
                     card.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
+                    card.setTextViewTextSize(R.id.retweeter, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
                 } catch (Throwable t) {
 
                 }
@@ -178,12 +179,21 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 card.setViewVisibility(R.id.picture, View.GONE);
             }
 
+            String retweeter = mWidgetItems.get(arg0).getRetweeter();
+            if (retweeter != null && !retweeter.equals("")) {
+                String text = mContext.getResources().getString(R.string.retweeter) + retweeter;
+                card.setTextViewText(R.id.retweeter, TextUtils.colorText(mContext, text, settings.themeColors.accentColor));
+                card.setViewVisibility(R.id.retweeter, View.VISIBLE);
+            } else {
+                card.setViewVisibility(R.id.retweeter, View.GONE);
+            }
+
             Bundle extras = new Bundle();
             extras.putString("name", mWidgetItems.get(arg0).getName());
             extras.putString("screenname", mWidgetItems.get(arg0).getScreenName());
             extras.putLong("time", mWidgetItems.get(arg0).getTime());
             extras.putString("tweet", mWidgetItems.get(arg0).getTweet());
-            extras.putString("retweeter", mWidgetItems.get(arg0).getRetweeter());
+            extras.putString("retweeter", retweeter);
             extras.putString("webpage", link);
             extras.putBoolean("picture", displayPic);
             extras.putString("other_links", mWidgetItems.get(arg0).getOtherWeb());
