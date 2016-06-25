@@ -8,6 +8,7 @@
         <text>Put tags on GIFs and videos when viewing them on a user's pictures</text>
         <text>Added option to not dismiss notifications when the app is started (advanced notification settings)</text>
         <text>Close the drawers correctly when the back button is pressed</text>
+        <text>Fixes for some video providers</text>
         <text>Prepare for Twitter's new tweet character counting method</text>
     </version>
 
