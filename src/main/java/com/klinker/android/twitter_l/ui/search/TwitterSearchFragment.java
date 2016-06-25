@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.utils.Expandable;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -194,6 +195,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(searchQuery);
+                    query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
+
                     if (topTweets) {
                         query.setResultType(Query.POPULAR);
                     } else {
@@ -207,8 +210,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         tweets.add(status);
                     }
 
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
+                    if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
@@ -263,6 +266,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     Log.v("talon_searching", "query in frag: " + mQuery);
                     query = new Query(mQuery);
+                    query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
                     if (topTweets) {
                         query.setResultType(Query.ResultType.popular);
                     } else {
@@ -276,8 +280,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         tweets.add(status);
                     }
 
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
+                    if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
@@ -379,8 +383,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                             tweets.add(status);
                         }
 
-                        if (result.hasNext()) {
-                            query = result.nextQuery();
+                        if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                            query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
                             hasMore = false;
