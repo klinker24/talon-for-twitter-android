@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.*;
 import android.support.v7.app.AlertDialog;
@@ -1361,10 +1362,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             }
         }
 
-        // cancels the notifications when the app is opened
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        if (settings.autoDismissNotifications) {
+            // cancels the notifications when the app is opened
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancelAll();
+        }
 
         SharedPreferences.Editor e = sharedPrefs.edit();
         e.putInt("new_followers", 0);
@@ -1772,6 +1775,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     public void onBackPressed() {
         if (searchUtils.isShowing()) {
             searchUtils.hideSearch(true);
+        } else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+            mDrawerLayout.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }

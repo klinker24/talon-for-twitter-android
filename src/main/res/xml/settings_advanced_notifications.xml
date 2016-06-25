@@ -7,6 +7,12 @@
         android:ringtoneType="notification"
         android:defaultValue="content://settings/system/notification_sound" />
 
+    <SwitchPreference
+        android:key="auto_dismiss_notifications"
+        android:title="@string/auto_dismiss"
+        android:summary="@string/auto_dismiss_summary"
+        android:defaultValue="true" />
+
     <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
 
     <PreferenceCategory
