@@ -62,6 +62,7 @@ public class AppSettings {
     public static final int THEME_BROWN = 16;
     public static final int THEME_GREY = 17;
     public static final int THEME_BLUE_GREY = 18;
+    public static final int THEME_BLACK = 19;
 
     public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
     public static final int DEFAULT_MAIN_THEME = 1; // 0 = light, 1 = dark, 2 = black

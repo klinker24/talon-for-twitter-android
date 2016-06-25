@@ -703,4 +703,41 @@
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
         <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
+
+    <!-- Black -->
+    <style name="Theme.TalonBlack.Black" parent="Theme.TalonBlack.Base">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Main.Black" parent="Theme.TalonBlack.Main">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Tweet.Black" parent="Theme.TalonBlack.Tweet">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Profile.Black" parent="Theme.TalonBlack.Profile">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Popup.Black" parent="Theme.TalonBlack.Popup">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Notif.Black" parent="Theme.TalonBlack.Popup.Notif">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
 </resources>

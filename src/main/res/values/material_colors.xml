@@ -131,4 +131,10 @@
     <color name="blue_grey_accent_color">#ff9800</color>
     <color name="blue_grey_accent_color_light">#ffcc80</color>
 
+    <color name="black_primary_color">#000000</color>
+    <color name="black_primary_color_dark">#000000</color>
+    <color name="black_primary_color_light">#607d8b</color>
+    <color name="black_accent_color">#ff9800</color>
+    <color name="black_accent_color_light">#ffcc80</color>
+
 </resources>
