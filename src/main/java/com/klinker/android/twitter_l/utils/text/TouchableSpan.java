@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;
@@ -92,11 +93,14 @@ public class TouchableSpan extends ClickableSpan {
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             String url = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
 
-            new WebIntentBuilder(mContext)
-                    .setUrl(url)
-                    .setShouldForceExternal(extBrowser)
-                    .build().start();
-
+            if (url.contains("vine.co/v/")) {
+                VideoViewerActivity.startActivity(mContext, 0l, url, "");
+            } else {
+                new WebIntentBuilder(mContext)
+                        .setUrl(url)
+                        .setShouldForceExternal(extBrowser)
+                        .build().start();
+            }
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
             // found a hashtag, so open the hashtag search
             Intent search;
@@ -220,9 +224,15 @@ public class TouchableSpan extends ClickableSpan {
                         break;
                     case 1: // open internal
                         data = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
-                        launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
-                        launchBrowser.putExtra("url", data);
-                        mContext.startActivity(launchBrowser);
+
+                        if (data.contains("vine.co/v/")) {
+                            VideoViewerActivity.startActivity(mContext, 0l, data, "");
+                        } else {
+                            launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
+                            launchBrowser.putExtra("url", data);
+                            mContext.startActivity(launchBrowser);
+                        }
+
                         break;
                     case 2: // copy link
                         copy();
