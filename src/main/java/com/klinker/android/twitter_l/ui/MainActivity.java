@@ -189,7 +189,8 @@ public class MainActivity extends DrawerActivity {
 
         if (!Utils.hasNavBar(this) ||
                 (!getResources().getBoolean(R.bool.isTablet) &&
-                        getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)) {
+                        getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) ||
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode())) {
             MainActivity.sendButton.setTranslationY(Utils.toDP(48, this));
         }
 
