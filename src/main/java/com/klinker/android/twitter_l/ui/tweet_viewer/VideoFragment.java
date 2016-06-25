@@ -75,6 +75,11 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
         layout = inflater.inflate(R.layout.gif_player, null, false);
         videoView = (EasyVideoPlayer) layout.findViewById(R.id.player);
 
+        if (VideoMatcherUtil.isTwitterGifLink(tweetUrl)) {
+            videoView.disableControls();
+            videoView.hideControls();
+        }
+
         getGif();
 
         return layout;

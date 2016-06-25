@@ -16,7 +16,7 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -28,4 +28,13 @@
         android:adjustViewBounds="true"
         android:layout_margin="4dp"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/media_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:paddingBottom="12dp"
+        android:paddingStart="12dp"
+        android:paddingLeft="12dp"/>
+
+</FrameLayout>
