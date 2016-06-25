@@ -119,6 +119,7 @@ public abstract class Compose extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final boolean DEBUG = false;
+    private static final boolean NEW_TWITTER_TWEET_COUNTS = true;
 
     public GoogleApiClient mGoogleApiClient;
     public AppSettings settings;
@@ -162,31 +163,59 @@ public abstract class Compose extends Activity implements
     public Runnable getCount = new Runnable() {
         @Override
         public void run() {
-            String text = reply.getText().toString();
+            if (NEW_TWITTER_TWEET_COUNTS) {
+                // we don't count images or the screennames that are auto filled with a tweet
 
-            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
-                try {
-                    charRemaining.setText(140 - reply.getText().length() - (settings.twitpic ? imagesAttached * 23 : imagesAttached > 0 ? 23 : 0) + "");
-                } catch (Exception e) {
-                    charRemaining.setText("0");
+                String text = reply.getText().toString();
+
+                if (replyText != null) {
+                    text = text.replace(replyText, "");
+                }
+
+                if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                    try {
+                        charRemaining.setText(140 - text.length() + "");
+                    } catch (Exception e) {
+                        charRemaining.setText("0");
+                    }
+                } else {
+                    int count = text.length();
+                    Matcher m = p.matcher(text);
+                    while (m.find()) {
+                        String url = m.group();
+                        count -= url.length(); // take out the length of the url
+                        count += 23; // add 23 for the shortened url
+                    }
+
+                    charRemaining.setText(140 - count + "");
                 }
             } else {
-                int count = text.length();
-                Matcher m = p.matcher(text);
-                while(m.find()) {
-                    String url = m.group();
-                    count -= url.length(); // take out the length of the url
-                    count += 23; // add 23 for the shortened url
-                }
+                String text = reply.getText().toString();
 
-                if (imagesAttached > 0) {
-                    if (settings.twitpic)
-                        count += imagesAttached * 23;
-                    else
-                        count += 23;
-                }
+                if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                    try {
+                        charRemaining.setText(140 - reply.getText().length() - (settings.twitpic ? imagesAttached * 23 : imagesAttached > 0 ? 23 : 0) + "");
+                    } catch (Exception e) {
+                        charRemaining.setText("0");
+                    }
+                } else {
+                    int count = text.length();
+                    Matcher m = p.matcher(text);
+                    while (m.find()) {
+                        String url = m.group();
+                        count -= url.length(); // take out the length of the url
+                        count += 23; // add 23 for the shortened url
+                    }
 
-                charRemaining.setText(140 - count + "");
+                    if (imagesAttached > 0) {
+                        if (settings.twitpic)
+                            count += imagesAttached * 23;
+                        else
+                            count += 23;
+                    }
+
+                    charRemaining.setText(140 - count + "");
+                }
             }
 
             changeTextColor();
@@ -327,6 +356,8 @@ public abstract class Compose extends Activity implements
                 } catch (Exception e) {
 
                 }
+
+                replyText = reply.getText().toString();
             }
         }, 250);
 

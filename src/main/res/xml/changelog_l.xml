@@ -1,5 +1,12 @@
 <changelog>
 
+    <version name="5.0.5">
+        <text>Improvements for multi-window in Android N</text>
+        <text>Add support for ShortcutBadger to display notification counts on some homescreens (https://github.com/leolin310148/ShortcutBadger)</text>
+        <text>Added option to not dismiss notifications when the app is started (advanced notification settings)</text>
+        <text>Close the drawers correctly when the back button is pressed</text>
+    </version>
+
     <version name="5.0.4">
         <text>Improve video viewer and add playback controls</text>
     </version>

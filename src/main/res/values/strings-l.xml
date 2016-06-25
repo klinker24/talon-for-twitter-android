@@ -146,4 +146,6 @@
     <string name="chrome_custom_tabs_summary">A replacement to Talon\'s own in-app browswer. It uses services provided by Google Chrome.</string>
     <string name="reverse_click_actions_default">Default (No reverse actions):\n- Short Click = Expand In-Line\n- Long Click = Tweet Viewer</string>
     <string name="show_images_on_widget">Show Images on the Widget</string>
+    <string name="auto_dismiss">Auto-Dismiss Notifications</string>
+    <string name="auto_dismiss_summary">Automatically dismiss all Talon\'s notifications when it is opened. This is on by default.</string>
 </resources>

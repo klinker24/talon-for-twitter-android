@@ -179,6 +179,7 @@ public class AppSettings {
     public boolean higherQualityImages;
     public boolean useMentionsOnWidget;
     public boolean widgetImages;
+    public boolean autoDismissNotifications;
 
     // notifications
     public boolean timelineNot;
@@ -335,6 +336,7 @@ public class AppSettings {
         higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
         useMentionsOnWidget = sharedPrefs.getString("widget_timeline", "0").equals("1");
         widgetImages = sharedPrefs.getBoolean("widget_images", true);
+        autoDismissNotifications = sharedPrefs.getBoolean("auto_dismiss_notifications", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
