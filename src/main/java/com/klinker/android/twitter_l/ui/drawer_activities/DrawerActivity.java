@@ -70,6 +70,7 @@ import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLay
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import de.timroes.android.listview.EnhancedListView;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 import java.lang.reflect.Field;
 
@@ -1596,6 +1597,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     }
 
     public void cancelTeslaUnread() {
+
+        ShortcutBadger.applyCount(context, 0);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
