@@ -381,9 +381,9 @@ public class TweetView {
 
         boolean picture = false;
 
-        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweet);
         if(settings.inlinePics && shouldShowImage()) {
-            if (!containsThirdPartyVideo && imageUrl.equals("")) {
+            if (imageUrl.equals("")) {
+                // no image
                 if (imageHolder.getVisibility() != View.GONE) {
                     imageHolder.setVisibility(View.GONE);
                 }
@@ -392,7 +392,10 @@ public class TweetView {
                     playButton.setVisibility(View.GONE);
                 }
             } else {
+                // there is an image
+
                 if (imageUrl.contains("youtube") || (gifUrl != null && !android.text.TextUtils.isEmpty(gifUrl))) {
+                    // youtube or twitter video/gif
 
                     if (playButton.getVisibility() == View.GONE) {
                         playButton.setVisibility(View.VISIBLE);
@@ -414,34 +417,6 @@ public class TweetView {
 
                     picture = true;
 
-                } else if (containsThirdPartyVideo) {
-                    if (playButton.getVisibility() == View.GONE) {
-                        playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    String vid = null;
-                    for (String s : otherUrl.split("  ")) {
-                        if (VideoMatcherUtil.containsThirdPartyVideo(s))
-                            vid = s;
-                    }
-
-                    final String fVid = vid;
-                    if (VideoMatcherUtil.isTwitterGifLink(fVid))
-                        playButton.setImageDrawable(new GifBadge(context));
-                    else
-                        playButton.setImageDrawable(new VideoBadge(context));
-
-                    imageHolder.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (fVid != null)
-                                VideoViewerActivity.startActivity(context, tweetId, fVid, otherUrl);
-                        }
-                    });
-
-                    imageIv.setImageDrawable(new ColorDrawable(Color.BLACK));
-
-                    picture = false;
                 } else {
                     imageIv.setImageDrawable(new ColorDrawable(context.getResources().getColor(android.R.color.transparent)));
 

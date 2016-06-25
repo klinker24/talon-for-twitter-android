@@ -560,9 +560,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         boolean picture = false;
 
-        boolean containsThirdPartyVideo = VideoMatcherUtil.containsThirdPartyVideo(tweetText);
         if(settings.inlinePics) {
-            if (!containsThirdPartyVideo && holder.picUrl.equals("")) {
+            if (holder.picUrl.equals("")) {
                 if (holder.imageHolder.getVisibility() != View.GONE) {
                     holder.imageHolder.setVisibility(View.GONE);
                 }
@@ -597,12 +596,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                     picture = true;
 
-                } else if (containsThirdPartyVideo) {
-                    if (holder.imageHolder.getVisibility() != View.GONE) {
-                        holder.imageHolder.setVisibility(View.GONE);
-                    }
-
-                    picture = false;
                 } else {
 
                     holder.image.setImageDrawable(transparent);
