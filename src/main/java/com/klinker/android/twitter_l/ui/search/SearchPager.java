@@ -149,7 +149,7 @@ public class SearchPager extends AppCompatActivity {
         setContentView(R.layout.search_pager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.search);
+        toolbar.setTitle(searchQuery.replace("-RT", ""));
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
 
@@ -380,6 +380,7 @@ public class SearchPager extends AppCompatActivity {
         handleIntent(intent);
         removeKeyboard();
         actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setTitle(searchQuery.replace("-RT", ""));
 
         Log.v("talon_searching", "on new intent, query: " + searchQuery);
     }

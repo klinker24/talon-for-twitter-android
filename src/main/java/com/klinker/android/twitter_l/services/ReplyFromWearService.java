@@ -24,6 +24,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.compose.Compose;
 import com.klinker.android.twitter_l.ui.compose.RetryCompose;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -103,7 +104,7 @@ public class ReplyFromWearService extends KillerIntentService {
         try {
             Twitter twitter =  getTwitter();
 
-            if (message.length() > 140) {
+            if (message.length() - (Compose.NEW_TWITTER_TWEET_COUNTS ? users.length() : 0) > 140) {
                 TwitLongerHelper helper = new TwitLongerHelper(message, twitter, this);
                 helper.setInReplyToStatusId(tweetId);
 

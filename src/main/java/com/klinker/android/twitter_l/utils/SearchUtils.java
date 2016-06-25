@@ -30,13 +30,20 @@ public class SearchUtils {
     }
 
     public void setUpSearch() {
+        setUpSearch(true);
+    }
+
+    public void setUpSearch(boolean translate) {
         mSearchView = (com.lapism.searchview.view.SearchView) activity.findViewById(R.id.searchView);
 
         if (mSearchView == null) {
             return;
         }
 
-        mSearchView.setTranslationY(Utils.getStatusBarHeight(activity));
+        if (translate) {
+            mSearchView.setTranslationY(Utils.getStatusBarHeight(activity));
+        }
+
         mSearchView.setTheme(AppSettings.getInstance(activity).darkTheme ? SearchCodes.THEME_DARK : SearchCodes.THEME_LIGHT);
 
         mSearchView.setOnQueryTextListener(new com.lapism.searchview.view.SearchView.OnQueryTextListener() {
@@ -75,6 +82,7 @@ public class SearchUtils {
             search.setAction(Intent.ACTION_SEARCH);
             search.putExtra(SearchManager.QUERY, query);
             ((SearchPager) activity).handleIntent(search);
+            ((SearchPager) activity).actionBar.setTitle(query.replace("-RT", ""));
 
             Intent broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
             broadcast.putExtra("query", query);

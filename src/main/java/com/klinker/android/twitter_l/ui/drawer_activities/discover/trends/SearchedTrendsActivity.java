@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
@@ -54,6 +55,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -62,6 +64,8 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 public class SearchedTrendsActivity extends AppCompatActivity {
+    public static final int TWEETS_PER_REFRESH = 30;
+
     public AppSettings settings;
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -101,8 +105,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setNavigationBarColor(Color.BLACK);
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         Utils.setUpMainTheme(context, settings);
         setContentView(R.layout.searched_trends_layout);
@@ -118,20 +122,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         actionBar.setElevation(1);
 
         searchUtils = new SearchUtils(this);
-        searchUtils.setUpSearch();
-
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
-
-            if (kitkatStatusBar != null) {
-                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) kitkatStatusBar.getLayoutParams();
-                params.height = Utils.getStatusBarHeight(context);
-                kitkatStatusBar.setLayoutParams(params);
-
-                kitkatStatusBar.setVisibility(View.VISIBLE);
-                kitkatStatusBar.setBackgroundColor(getResources().getColor(android.R.color.black));
-            }
-        }
+        searchUtils.setUpSearch(false);
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
@@ -153,7 +144,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
             footer.setOnClickListener(null);
             footer.setOnLongClickListener(null);
             ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
-                    Utils.getNavBarHeight(context) + Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+                    Utils.getActionBarHeight(context));
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
@@ -162,7 +153,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
             footer.setOnClickListener(null);
             footer.setOnLongClickListener(null);
             ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
-                    Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+                    Utils.getActionBarHeight(context) );
             footer.setLayoutParams(params);
             listView.addFooterView(footer);
             listView.setFooterDividersEnabled(false);
@@ -172,7 +163,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         header.setOnClickListener(null);
         header.setOnLongClickListener(null);
         ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT,
-                Utils.getActionBarHeight(context) + Utils.getStatusBarHeight(context));
+                Utils.getActionBarHeight(context));
         header.setLayoutParams(params);
         listView.addHeaderView(header);
         listView.setHeaderDividersEnabled(false);
@@ -196,10 +187,6 @@ public class SearchedTrendsActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
 
         handleIntent(getIntent());
-
-        if (!settings.transpartSystemBars) {
-            new NavBarOverlayLayout(this).show();
-        }
     }
 
     @Override
@@ -224,7 +211,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
     public void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            searchQuery = intent.getStringExtra(SearchManager.QUERY).replaceAll("\"", "");
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionsProvider.AUTHORITY, MySuggestionsProvider.MODE);
@@ -249,6 +236,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                 searchQuery += " -RT";
             }
             String query = searchQuery;
+
+            getSupportActionBar().setTitle(query.replace("-RT", ""));
 
             doSearch(query);
         }
@@ -401,7 +390,14 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(searchQuery);
+                    query.setCount(TWEETS_PER_REFRESH);
                     QueryResult result = twitter.search(query);
+
+                    if (searchQuery.contains(" TOP")) {
+                        query.setResultType(Query.ResultType.popular);
+                    }
+
+                    query.setQuery(searchQuery.replace(" TOP", ""));
 
                     tweets.clear();
 
@@ -409,8 +405,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                         tweets.add(status);
                     }
 
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
+                    if (result.getCount() == TWEETS_PER_REFRESH) {
+                        query.setMaxId(getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
@@ -467,6 +463,7 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
                     Log.v("talon_search", "search query: " + mQuery);
                     query = new Query();
+                    query.setCount(TWEETS_PER_REFRESH);
 
                     if (mQuery.contains(" TOP")) {
                         query.setResultType(Query.ResultType.popular);
@@ -486,8 +483,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                         tweets.add(status);
                     }
 
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
+                    if (result.getCount() == TWEETS_PER_REFRESH) {
+                        query.setMaxId(getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
@@ -533,8 +530,8 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                             tweets.add(status);
                         }
 
-                        if (result.hasNext()) {
-                            query = result.nextQuery();
+                        if (result.getCount() == TWEETS_PER_REFRESH) {
+                            query.setMaxId(getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
                             hasMore = false;
@@ -561,5 +558,9 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                 }
             }).start();
         }
+    }
+
+    public static long getMaxIdFromList(List<Status> statuses) {
+        return statuses.get(statuses.size() - 1).getId() - 1;
     }
 }
