@@ -740,4 +740,10 @@
         <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
         <item name="colorAccent">@color/black_primary_color</item>
     </style>
+
+    <style name="Theme.TalonBlack.Settings.Black" parent="Theme.TalonBlack.Base">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/pressed_white</item>
+    </style>
 </resources>
