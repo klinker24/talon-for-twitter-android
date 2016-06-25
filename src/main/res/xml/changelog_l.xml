@@ -4,6 +4,8 @@
         <text>Improvements for multi-window in Android N</text>
         <text>Improvements and fixes for searching and trends</text>
         <text>Add support for ShortcutBadger to display notification counts on some launchers (https://github.com/leolin310148/ShortcutBadger)</text>
+        <text>Improvements to viewing GIFs</text>
+        <text>Put tags on GIFs and videos when viewing them on a user's pictures</text>
         <text>Added option to not dismiss notifications when the app is started (advanced notification settings)</text>
         <text>Close the drawers correctly when the back button is pressed</text>
         <text>Prepare for Twitter's new tweet character counting method</text>

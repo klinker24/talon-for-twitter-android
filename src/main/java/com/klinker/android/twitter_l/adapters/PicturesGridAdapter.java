@@ -12,9 +12,13 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.manipulations.GifBadge;
+import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
+import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
+import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,7 @@ public class PicturesGridAdapter extends BaseAdapter {
 
             ViewHolder holder = new ViewHolder();
             holder.iv = (ImageView) convertView.findViewById(R.id.picture);
+            holder.badge = (ImageView) convertView.findViewById(R.id.media_tag);
             convertView.setTag(holder);
         }
 
@@ -82,69 +87,93 @@ public class PicturesGridAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 setPics();
-
                 PhotoPagerActivity.startActivity(context, id, pics, position, true);
             }
         });
 
-        if (status == null) {
+
+        if (status != null) {
+            final String profilePic = status != null ? status.getUser().getBiggerProfileImageURL() : "";
+            final String name = status != null ? status.getUser().getName() : "";
+            final String screenname = status != null ? status.getUser().getScreenName() : "";
+
+            String[] html = TweetLinkUtils.getLinksInStatus(status);
+            final String tweetText = html[0];
+            final String picUrl = html[1];
+            final String otherUrl = html[2];
+            final String hashtags = html[3];
+            final String users = html[4];
+
+            final String gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
+
+            if (url.contains("youtube") || gifUrl != null && !gifUrl.isEmpty()) {
+                if (VideoMatcherUtil.isTwitterGifLink(gifUrl)) {
+                    holder.badge.setImageDrawable(new GifBadge(context));
+                } else {
+                    holder.badge.setImageDrawable(new VideoBadge(context));
+                }
+
+                if (holder.badge.getVisibility() != View.VISIBLE) {
+                    holder.badge.setVisibility(View.VISIBLE);
+                }
+
+                final long fStatusId = status.getId();
+                holder.iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        VideoViewerActivity.startActivity(context, fStatusId, gifUrl, otherUrl);
+                    }
+                });
+            } else if (holder.badge.getVisibility() != View.GONE) {
+                holder.badge.setVisibility(View.GONE);
+            }
+
+            holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    String link;
+
+                    boolean displayPic = !picUrl.equals("");
+                    if (displayPic) {
+                        link = picUrl;
+                    } else {
+                        link = otherUrl.split("  ")[0];
+                    }
+
+                    Intent viewTweet = new Intent(context, TweetActivity.class);
+                    viewTweet.putExtra("name", name);
+                    viewTweet.putExtra("screenname", screenname);
+                    viewTweet.putExtra("time", time);
+                    viewTweet.putExtra("tweet", tweetText);
+                    viewTweet.putExtra("retweeter", retweeter);
+                    viewTweet.putExtra("webpage", link);
+                    viewTweet.putExtra("other_links", otherUrl);
+                    viewTweet.putExtra("picture", displayPic);
+                    viewTweet.putExtra("tweetid", id);
+                    viewTweet.putExtra("proPic", profilePic);
+                    viewTweet.putExtra("users", users);
+                    viewTweet.putExtra("hashtags", hashtags);
+                    viewTweet.putExtra("animated_gif", "");
+
+                    viewTweet = addDimensForExpansion(viewTweet, holder.iv);
+
+                    context.startActivity(viewTweet);
+
+                    return false;
+                }
+            });
+
+            return convertView;
+        } else {
             holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     return true;
                 }
             });
-            
+
             return convertView;
         }
-
-        final String profilePic = status != null ? status.getUser().getBiggerProfileImageURL() : "";
-        final String name = status != null ? status.getUser().getName() : "";
-        final String screenname = status != null ? status.getUser().getScreenName() : "";
-
-        String[] html = TweetLinkUtils.getLinksInStatus(status);
-        final String tweetText = html[0];
-        final String picUrl = html[1];
-        final String otherUrl = html[2];
-        final String hashtags = html[3];
-        final String users = html[4];
-
-        holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                String link;
-
-                boolean displayPic = !picUrl.equals("");
-                if (displayPic) {
-                    link = picUrl;
-                } else {
-                    link = otherUrl.split("  ")[0];
-                }
-
-                Intent viewTweet = new Intent(context, TweetActivity.class);
-                viewTweet.putExtra("name", name);
-                viewTweet.putExtra("screenname", screenname);
-                viewTweet.putExtra("time", time);
-                viewTweet.putExtra("tweet", tweetText);
-                viewTweet.putExtra("retweeter", retweeter);
-                viewTweet.putExtra("webpage", link);
-                viewTweet.putExtra("other_links", otherUrl);
-                viewTweet.putExtra("picture", displayPic);
-                viewTweet.putExtra("tweetid", id);
-                viewTweet.putExtra("proPic", profilePic);
-                viewTweet.putExtra("users", users);
-                viewTweet.putExtra("hashtags", hashtags);
-                viewTweet.putExtra("animated_gif", "");
-
-                viewTweet = addDimensForExpansion(viewTweet, holder.iv);
-
-                context.startActivity(viewTweet);
-
-                return false;
-            }
-        });
-
-        return convertView;
     }
 
     @Override
@@ -164,6 +193,7 @@ public class PicturesGridAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         public ImageView iv;
+        public ImageView badge;
         public String url;
     }
 
