@@ -1,6 +1,6 @@
 <changelog>
 
-    <version name="5.0.5">
+    <version name="5.1.0">
         <text>[New] Added a pitch black "Material Design Color" option</text>
         <text>[New] Support for ShortcutBadger to display notification counts on some launchers</text>
         <text>[New] Option to not dismiss notifications when the app is started (advanced notification settings)</text>
@@ -9,6 +9,7 @@
         <text>[Improve] Multi-window in Android N</text>
         <text>[Improve] "Media" section on user profiles</text>
         <text>[Improve] Viewing GIFs</text>
+        <text>[Improve] Dark theme colors</text>
         <text>[Improve][Fix] Searching and trends</text>
         <text>[Fix] Close the drawers correctly when the back button is pressed</text>
         <text>[Fix] Fixes for some video providers</text>
