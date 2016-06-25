@@ -1,0 +1,11 @@
+Adding a new theme color to Talon:
+
+1.) Add the hex colors for the theme to material_colors.xml
+2.) Create 5 new themes for the colors under material_black_themes.xml
+3.) Create 5 new themes for the colors under material_dark_themes.xml
+4.) Create 6 new themes for the colors under material_light_themes.xml
+5.) Add a new identifier to the theme_colors array.xml
+6.) Add a new static int to the AppSettings.java for the theme
+7.) Add all the new themes to the Utils.java class (be sure to add the banner image too)
+
+Example Commit:

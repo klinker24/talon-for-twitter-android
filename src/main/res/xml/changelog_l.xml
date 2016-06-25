@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="5.0.5">
+        <text>[New] Added a pitch black "Material Theme" option</text>
         <text>[New] Support for ShortcutBadger to display notification counts on some launchers</text>
         <text>[New] Option to not dismiss notifications when the app is started (advanced notification settings)</text>
         <text>[New] View "Retweeted by @screenname" on the homescreen widget</text>
