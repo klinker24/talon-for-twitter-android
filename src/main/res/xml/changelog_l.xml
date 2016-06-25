@@ -1,16 +1,16 @@
 <changelog>
 
     <version name="5.0.5">
-        <text>Improvements for multi-window in Android N</text>
-        <text>Improvements and fixes for searching and trends</text>
-        <text>Put tags on GIFs and videos when viewing them on a user's pictures</text>
-        <text>Add support for ShortcutBadger to display notification counts on some launchers (https://github.com/leolin310148/ShortcutBadger)</text>
-        <text>Added option to not dismiss notifications when the app is started (advanced notification settings)</text>
-        <text>Improvements to viewing GIFs</text>
-        <text>Add "Retweeted by @screenname" to the homescreen widget</text>
-        <text>Close the drawers correctly when the back button is pressed</text>
-        <text>Fixes for some video providers</text>
-        <text>Prepare for Twitter's new tweet character counting method</text>
+        <text>[New] Support for ShortcutBadger to display notification counts on some launchers</text>
+        <text>[New] Option to not dismiss notifications when the app is started (advanced notification settings)</text>
+        <text>[New] View "Retweeted by @screenname" on the homescreen widget</text>
+        <text>[New] Prepare for Twitter's new tweet character counting method</text>
+        <text>[Improve] Multi-window in Android N</text>
+        <text>[Improve] "Media" section on user profiles</text>
+        <text>[Improve] Viewing GIFs</text>
+        <text>[Improve][Fix] Searching and trends</text>
+        <text>[Fix] Close the drawers correctly when the back button is pressed</text>
+        <text>[Fix] Fixes for some video providers</text>
     </version>
 
     <version name="5.0.4">

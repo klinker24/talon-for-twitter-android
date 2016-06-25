@@ -53,7 +53,7 @@
                     android:id="@+id/pictures_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pictures"
+                    android:text="@string/media"
                     android:textSize="12sp"
                     android:background="?android:selectableItemBackground"
                     android:fontFamily="sans-serif-light"
