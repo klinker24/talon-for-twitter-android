@@ -363,6 +363,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -424,6 +427,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -483,6 +489,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Black);
                         break;
                 }
             }
@@ -549,6 +558,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Main_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Main_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -610,6 +622,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Main_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Main_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -669,6 +684,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Main_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Main_Black);
                         break;
                 }
             }
@@ -735,6 +753,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Tweet_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Tweet_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -796,6 +817,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Tweet_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Tweet_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -855,6 +879,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Tweet_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Tweet_Black);
                         break;
                 }
             }
@@ -921,6 +948,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Profile_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Profile_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -982,6 +1012,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Profile_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Profile_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1041,6 +1074,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Profile_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Profile_Black);
                         break;
                 }
             }
@@ -1107,6 +1143,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Popup_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Popup_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1168,6 +1207,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Popup_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Popup_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1227,6 +1269,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Popup_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Popup_Black);
                         break;
                 }
             }
@@ -1293,6 +1338,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Settings_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1354,6 +1402,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1413,6 +1464,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Yellow);
+                        break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Black);
                         break;
                 }
             }
@@ -1479,6 +1533,9 @@ public class Utils {
                 case AppSettings.THEME_YELLOW:
                     context.setTheme(R.style.Theme_TalonLight_Notif_Yellow);
                     break;
+                case AppSettings.THEME_BLACK:
+                    context.setTheme(R.style.Theme_TalonLight_Notif_Black);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1540,6 +1597,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonDark_Notif_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonDark_Notif_Black);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1600,6 +1660,9 @@ public class Utils {
                     case AppSettings.THEME_YELLOW:
                         context.setTheme(R.style.Theme_TalonBlack_Notif_Yellow);
                         break;
+                    case AppSettings.THEME_BLACK:
+                        context.setTheme(R.style.Theme_TalonBlack_Notif_Black);
+                        break;
                 }
             }
         }
@@ -1623,6 +1686,7 @@ public class Utils {
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_deep_purple.jpg?token=cbaeab289e4cfaea4f555153fe8b3fb9515794d6";
             case AppSettings.THEME_GREEN:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_green.jpg?token=e55ba5aea66b9e0b76411bc3925297b23b69ca67";
+            case AppSettings.THEME_BLACK:
             case AppSettings.THEME_GREY:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_grey.jpg?token=00367e48d0865900f58afc672054157ad6adbd67";
             case AppSettings.THEME_INDIGO:

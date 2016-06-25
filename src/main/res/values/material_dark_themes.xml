@@ -704,4 +704,42 @@
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
         <item name="colorAccent">@color/blue_grey_primary_color</item>
     </style>
+
+
+    <!-- Black -->
+    <style name="Theme.TalonDark.Black" parent="Theme.TalonDark.Base">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Main.Black" parent="Theme.TalonDark.Main">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Tweet.Black" parent="Theme.TalonDark.Tweet">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Profile.Black" parent="Theme.TalonDark.Profile">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Popup.Black" parent="Theme.TalonDark.Popup">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Notif.Black" parent="Theme.TalonDark.Popup.Notif">
+        <item name="colorPrimary">@color/black_primary_color</item>
+        <item name="colorPrimaryDark">@color/black_primary_color_dark</item>
+        <item name="colorAccent">@color/black_primary_color</item>
+    </style>
 </resources>
