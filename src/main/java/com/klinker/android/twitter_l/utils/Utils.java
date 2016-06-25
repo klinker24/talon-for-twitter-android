@@ -1403,7 +1403,7 @@ public class Utils {
                         context.setTheme(R.style.Theme_TalonDark_Yellow);
                         break;
                     case AppSettings.THEME_BLACK:
-                        context.setTheme(R.style.Theme_TalonDark_Black);
+                        context.setTheme(R.style.Theme_TalonDark_Settings_Black);
                         break;
                 }
             } else {
@@ -1466,7 +1466,7 @@ public class Utils {
                         context.setTheme(R.style.Theme_TalonBlack_Yellow);
                         break;
                     case AppSettings.THEME_BLACK:
-                        context.setTheme(R.style.Theme_TalonBlack_Black);
+                        context.setTheme(R.style.Theme_TalonBlack_Settings_Black);
                         break;
                 }
             }
