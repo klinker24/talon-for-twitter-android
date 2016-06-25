@@ -19,6 +19,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
 import android.content.res.Configuration;
@@ -1193,8 +1194,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         }
 
         if (translucent) { // want to check translucent since some devices disable softkeys...
-            if (!settings.transpartSystemBars) {
-                new NavBarOverlayLayout(this).show();
+            if (!settings.transpartSystemBars &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInMultiWindowMode()) {
+                navOverlay = new NavBarOverlayLayout(this);
+                navOverlay.show();
             }
 
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
@@ -1320,17 +1323,40 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         invalidateOptionsMenu();
     }
 
+    @TargetApi(Build.VERSION_CODES.N) @Override
+    public void onMultiWindowModeChanged(boolean isMultiWindow) {
+        super.onMultiWindowModeChanged(isMultiWindow);
+
+        Log.v("talon_multiwindow", "is multi window: " + isMultiWindow);
+        if (isMultiWindow) {
+            if (navOverlay != null) {
+                navOverlay.hide();
+            }
+        } else {
+            recreate();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (translucent && !settings.transpartSystemBars) {
+        if (translucent && !settings.transpartSystemBars &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInMultiWindowMode()) {
             if (navOverlay == null) {
                 navOverlay = new NavBarOverlayLayout(this);
             }
 
             if (!navOverlay.isShowing()) {
                 navOverlay.show();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode()) {
+            if (navOverlay == null) {
+                navOverlay = new NavBarOverlayLayout(this);
+            }
+
+            if (navOverlay.isShowing()) {
+                navOverlay.hide();
             }
         }
 

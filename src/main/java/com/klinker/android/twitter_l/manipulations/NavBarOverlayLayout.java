@@ -78,6 +78,8 @@ public class NavBarOverlayLayout extends LinearLayout {
     public void show() {
         final Activity activity = (Activity) getContext();
 
+        setAlpha(1f);
+
         // set the correct width and height for ActionButton
         ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(width, height);
         this.setLayoutParams(params);
@@ -96,6 +98,24 @@ public class NavBarOverlayLayout extends LinearLayout {
 
         setTranslationY(distanceFromTop);
         setTranslationX(distanceFromLeft);
+    }
+
+    public void hide() {
+        final Activity activity = (Activity) getContext();
+
+        setAlpha(0f);
+
+        if (parent == null) {
+            // get the current content FrameLayout and add ActionButton to the top
+            parent = (FrameLayout) activity.findViewById(android.R.id.content);
+        }
+
+
+        try {
+            parent.addView(this);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
