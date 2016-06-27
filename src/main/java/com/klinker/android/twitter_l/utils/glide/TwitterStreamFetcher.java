@@ -4,8 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.util.ContentLengthInputStream;
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.integration.okhttp3.OkHttpStreamFetcher;
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.data.HttpUrlFetcher;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -20,16 +28,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLDecoder;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.ResponseBody;
 
 public class TwitterStreamFetcher extends HttpUrlFetcher {
 
+    private static final String TAG = "glide_ok";
     private Context context;
     private GlideUrl url;
 
-    public TwitterStreamFetcher(Context context, GlideUrl glideUrl) {
+    private final Call.Factory client;
+    private InputStream stream;
+    private ResponseBody responseBody;
+    private volatile Call call;
+
+    public TwitterStreamFetcher(Context context, Call.Factory client, GlideUrl glideUrl) {
         super(glideUrl);
         this.context = context;
         this.url = glideUrl;
+        this.client = client;
     }
 
     @Override
@@ -61,7 +80,25 @@ public class TwitterStreamFetcher extends HttpUrlFetcher {
             Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
             return convertToInputStream(combined);
         } else {
-            return super.loadData(priority);
+            Request.Builder requestBuilder = new Request.Builder().url(url.toStringUrl());
+
+            for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
+                String key = headerEntry.getKey();
+                requestBuilder.addHeader(key, headerEntry.getValue());
+            }
+            Request request = requestBuilder.build();
+
+            Response response;
+            call = client.newCall(request);
+            response = call.execute();
+            responseBody = response.body();
+            if (!response.isSuccessful()) {
+                throw new IOException("Request failed with code: " + response.code());
+            }
+
+            long contentLength = responseBody.contentLength();
+            stream = ContentLengthInputStream.obtain(responseBody.byteStream(), contentLength);
+            return stream;
         }
     }
 
