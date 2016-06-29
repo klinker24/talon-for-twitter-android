@@ -33,11 +33,11 @@ public class APIKeys {
     public String consumerKey;
     public String consumerSecret;
 
-    public APIKeys(Context c) {
+    public APIKeys(Context c, int currentAccount) {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(c);
-
-
-        int currentAccount = sharedPrefs.getInt("current_account", 1);
+        if (currentAccount == -1) {
+            currentAccount = sharedPrefs.getInt("current_account", 1);
+        }
 
         switch (sharedPrefs.getInt("key_version_" + currentAccount, 1)) {
             case 1:
@@ -53,6 +53,10 @@ public class APIKeys {
                 consumerSecret = TWITTER_CONSUMER_SECRET_3;
                 break;
         }
+    }
+
+    public APIKeys(Context c) {
+        this(c, -1);
     }
 
     private String getConsumerKey(Context c, String encrypted, int keyVersion) {

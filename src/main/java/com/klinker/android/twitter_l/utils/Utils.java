@@ -73,8 +73,15 @@ public class Utils {
     }
 
     public static Twitter getSecondTwitter(Context context) {
-        APIKeys keys = new APIKeys(context);
         AppSettings settings = AppSettings.getInstance(context);
+        
+        final APIKeys keys;
+        if (settings.currentAccount == 1) {
+            keys = new APIKeys(context, 2);
+        } else {
+            keys = new APIKeys(context, 1);
+        }
+
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(keys.consumerKey)
