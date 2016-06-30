@@ -121,6 +121,13 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        settings = AppSettings.getInstance(this);
+        if (getResources().getBoolean(R.bool.has_drawer)) {
+            Utils.setUpMainTheme(this, settings);
+        } else {
+            Utils.setUpTheme(this, settings);
+        }
+
         super.onCreate(savedInstanceState);
 
         actionBar = getSupportActionBar();
@@ -1174,12 +1181,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
             }
         } else {
             translucent = false;
-        }
-
-        if (getResources().getBoolean(R.bool.has_drawer)) {
-            Utils.setUpMainTheme(context, settings);
-        } else {
-            Utils.setUpTheme(context, settings);
         }
     }
 

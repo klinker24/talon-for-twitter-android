@@ -74,7 +74,7 @@ public class Utils {
 
     public static Twitter getSecondTwitter(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        
+
         final APIKeys keys;
         if (settings.currentAccount == 1) {
             keys = new APIKeys(context, 2);
