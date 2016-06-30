@@ -33,12 +33,12 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 EmojiUtils.init(App.this);
             }
-        }).start();
+        }).start();*/
         updateResources(this);
     }
 
