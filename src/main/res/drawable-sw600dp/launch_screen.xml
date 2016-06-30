@@ -3,9 +3,9 @@
 
     <item android:drawable="@color/dark_background"/>
 
-    <!--<item>
+    <item>
         <bitmap
             android:src="@drawable/talon_eye"
             android:gravity="center"/>
-    </item>-->
+    </item>
 </layer-list>
