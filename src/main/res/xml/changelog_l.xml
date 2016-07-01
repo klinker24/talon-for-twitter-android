@@ -2,11 +2,10 @@
 
     <version name="5.1.0">
         <text>[New] Added a pitch black "Material Design Color" option</text>
-        <text>[New] Support for ShortcutBadger to display notification counts on some launchers</text>
+        <text>[New] Support for ShortcutBadger to display notification counts on some launchers (https://goo.gl/cPD6MW)</text>
         <text>[New] Option to not dismiss notifications when the app is started (advanced notification settings)</text>
         <text>[New] View "Retweeted by @screenname" on the homescreen widget</text>
         <text>[New] Prepare for Twitter's new tweet character counting method</text>
-        <text>[New] Add a cold boot launch screen to cut down wasted time</text>
         <text>[Improve] Multi-window in Android N</text>
         <text>[Improve] "Media" section on user profiles</text>
         <text>[Improve] Viewing GIFs</text>
