@@ -1197,10 +1197,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
         }
 
         if (translucent) { // want to check translucent since some devices disable softkeys...
-            if (!settings.transpartSystemBars &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInMultiWindowMode()) {
-                navOverlay = new NavBarOverlayLayout(this);
-                navOverlay.show();
+            if (!settings.transpartSystemBars) {
+                if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode())) {
+                    navOverlay = new NavBarOverlayLayout(this);
+                    navOverlay.show();
+                }
             }
 
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
@@ -1344,15 +1345,17 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
     protected void onResume() {
         super.onResume();
 
-        if (translucent && !settings.transpartSystemBars &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !isInMultiWindowMode()) {
-            if (navOverlay == null) {
-                navOverlay = new NavBarOverlayLayout(this);
+        if (translucent && !settings.transpartSystemBars) {
+            if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode())) {
+                if (navOverlay == null) {
+                    navOverlay = new NavBarOverlayLayout(this);
+                }
+
+                if (!navOverlay.isShowing()) {
+                    navOverlay.show();
+                }
             }
 
-            if (!navOverlay.isShowing()) {
-                navOverlay.show();
-            }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode()) {
             if (navOverlay == null) {
                 navOverlay = new NavBarOverlayLayout(this);
