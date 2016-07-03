@@ -145,6 +145,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         playCurrentVideos();
 
         if (sharedPrefs.getBoolean("just_muted", false)) {
+            sharedPrefs.edit().putBoolean("just_muted", false).commit();
             getCursorAdapter(false);
         }
     }
