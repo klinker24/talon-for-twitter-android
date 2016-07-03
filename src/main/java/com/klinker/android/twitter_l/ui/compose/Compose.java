@@ -764,6 +764,7 @@ public abstract class Compose extends Activity implements
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
         mNotificationManager.notify(221, mBuilder.build());
     }
 
@@ -1271,11 +1272,16 @@ public abstract class Compose extends Activity implements
 
                         if (attachButton.isEnabled()) {
                             for (int i = 0; i < imagesAttached; i++) {
-                                files[i] = new File(URI.create(attachedUri[i]));
+                                double bytes = 0;
+                                try {
+                                    files[i] = new File(URI.create(attachedUri[i]));
+                                    bytes = files[i].length();
+                                } catch (Exception e) {
 
-                                double bytes = files[i].length();
+                                }
 
-                                if (bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
+
+                                if (bytes == 0 || bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
                                     files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
 
                                     Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));

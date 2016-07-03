@@ -15,19 +15,24 @@ package com.klinker.android.twitter_l.settings;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.manipulations.ListTagHandler;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
+import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 public class MainPrefFrag extends InAppBillingPreferenceFragment {
@@ -59,7 +64,8 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             "app_memory",
             "other_options",
             "become_supporter",
-            "faq"
+            "faq",
+            "whats_new",
     };
 
     public boolean mListStyled;
@@ -92,6 +98,8 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
                         showSupporterDialog();
                     } else if (titles[num].equals("faq")) {
                         showGetHelp();
+                    } else if (titles[num].equals("whats_new")) {
+                        showWhatsNew();
                     } else {
                         showSettings(num, preference.getTitle().toString());
                     }
@@ -106,6 +114,30 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         startActivity(new Intent(getActivity(), PrefActivity.class)
                 .putExtra("position", position)
                 .putExtra("title", title));
+    }
+
+    private void showWhatsNew() {
+        final Context context = getActivity();
+        final ListView list = new ListView(context);
+        list.setDividerHeight(0);
+
+        new AsyncTask<Spanned[], Void, Spanned[]>() {
+            @Override
+            public Spanned[] doInBackground(Spanned[]... params) {
+                return XmlChangelogUtils.parse(context);
+            }
+
+            @Override
+            public void onPostExecute(Spanned[] result) {
+                list.setAdapter(new ChangelogAdapter(context, result));
+            }
+        }.execute();
+
+        new android.app.AlertDialog.Builder(context)
+                .setTitle(R.string.changelog)
+                .setView(list)
+                .setPositiveButton(R.string.ok, null)
+                .show();
     }
 
     private void showGetHelp() {

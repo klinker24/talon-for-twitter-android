@@ -31,6 +31,7 @@
         android:paddingLeft="15dp">
 
         <ImageView
+            android:id="@+id/widget_pro_pic"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@mipmap/ic_launcher"
@@ -44,10 +45,9 @@
             android:layout_height="32dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="7dp"
-            android:alpha=".6"
             android:background="?android:selectableItemBackground"
             android:paddingBottom="3dp"
-            android:src="@drawable/ic_send_dark"
+            android:src="@drawable/ic_action_new_dark"
             android:scaleX=".85"
             android:scaleY=".85"/>
 
@@ -65,7 +65,6 @@
             android:id="@+id/timeline"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/timeline_dark"
@@ -77,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
             android:text="0"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -87,7 +87,6 @@
             android:id="@+id/mentions"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/mentions_dark"
@@ -100,6 +99,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="0"
+            android:textColor="@android:color/white"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="16sp"/>
@@ -109,7 +109,6 @@
             android:id="@+id/dms"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/ic_action_reply_dark"
@@ -122,6 +121,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="0"
+            android:textColor="@android:color/white"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textSize="16sp"/>

@@ -23,16 +23,20 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
+import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToTimeline;
@@ -141,6 +145,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                     views.setTextViewText(R.id.home_text, home);
                     views.setTextViewText(R.id.mention_text, mention);
                     views.setTextViewText(R.id.dm_text, dm);
+                    views.setImageViewBitmap(R.id.widget_pro_pic, getCachedPic(AppSettings.getInstance(this).myProfilePicUrl));
 
                     mgr.updateAppWidget(appWidgetId, views);
                 } catch (Exception e) {
@@ -157,6 +162,27 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
             }
 
             stopSelf();
+        }
+
+        public Bitmap getCachedPic(String url) {
+            try {
+            /*return ImageUtils.getCircleBitmap(Glide.
+                    with(mContext).
+                    load(url).
+                    asBitmap().
+                    into(200, 200).
+                    get());*/
+                return Glide.with(this)
+                        .load(url)
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .transform(new CircleBitmapTransform(this))
+                        .into(200,200)
+                        .get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 }

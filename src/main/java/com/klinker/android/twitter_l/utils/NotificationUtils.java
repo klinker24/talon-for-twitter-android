@@ -398,7 +398,11 @@ public class NotificationUtils {
             }
         }
 
-        ShortcutBadger.applyCount(context, unreadCounts[1] + unreadCounts[2]);
+        try {
+            ShortcutBadger.applyCount(context, unreadCounts[1] + unreadCounts[2]);
+        } catch (Exception e) {
+
+        }
 
         try {
 

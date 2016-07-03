@@ -32,6 +32,7 @@
         android:gravity="center_vertical">
 
         <ImageView
+            android:id="@+id/widget_pro_pic"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@mipmap/ic_launcher"
@@ -45,11 +46,10 @@
             android:layout_height="32dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="7dp"
-            android:alpha=".6"
             android:background="?android:selectableItemBackground"
-            android:src="@drawable/ic_send_light"
-            android:scaleX=".85"
-            android:scaleY=".85"/>
+            android:src="@drawable/ic_action_new_light"
+            android:scaleX=".60"
+            android:scaleY=".60"/>
 
     </LinearLayout>
 
@@ -65,7 +65,6 @@
             android:id="@+id/timeline"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/timeline_light"
@@ -89,7 +88,6 @@
             android:id="@+id/mentions"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/mentions_light"
@@ -113,7 +111,6 @@
             android:id="@+id/dms"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:alpha=".6"
             android:scaleX=".85"
             android:scaleY=".85"
             android:src="@drawable/ic_action_reply_light"

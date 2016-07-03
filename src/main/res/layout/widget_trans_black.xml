@@ -35,12 +35,16 @@
             android:padding="4dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/widget_pro_pic"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@mipmap/ic_launcher"
-                android:id="@+id/launcherIcon"
-                android:layout_alignBottom="@+id/replyButton"
-                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical"
                 android:background="?android:selectableItemBackground"
                 />
 
@@ -52,7 +56,7 @@
                 android:alpha=".6"
                 android:text="@string/app_name"
                 android:textSize="17sp"
-                android:layout_toRightOf="@+id/launcherIcon"
+                android:layout_toRightOf="@+id/widget_pro_pic"
                 android:textColor="@android:color/white"
                 android:layout_alignBottom="@+id/replyButton"
                 android:layout_alignParentTop="true"/>

@@ -15,6 +15,8 @@ import android.os.Build;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 
+import com.klinker.android.twitter_l.utils.Utils;
+
 public class VideoBadge  extends Drawable {
 
     private static final String VIDEO = "VIDEO";
@@ -22,6 +24,7 @@ public class VideoBadge  extends Drawable {
     private static final int PADDING = 4;       // dp
     private static final int CORNER_RADIUS = 2; // dp
     private static final int BACKGROUND_COLOR = Color.WHITE;
+    private static final int STROKE_COLOR = Color.DKGRAY;
     private static final String TYPEFACE = "sans-serif-black";
     private static final int TYPEFACE_STYLE = Typeface.NORMAL;
     private static Bitmap bitmap;
@@ -34,7 +37,7 @@ public class VideoBadge  extends Drawable {
             final DisplayMetrics dm = context.getResources().getDisplayMetrics();
             final float density = dm.density;
             final float scaledDensity = dm.scaledDensity;
-            final TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint
+            TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint
                     .SUBPIXEL_TEXT_FLAG);
             textPaint.setTypeface(Typeface.create(TYPEFACE, TYPEFACE_STYLE));
             textPaint.setTextSize(TEXT_SIZE * scaledDensity);
@@ -48,18 +51,41 @@ public class VideoBadge  extends Drawable {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             bitmap.setHasAlpha(true);
             final Canvas canvas = new Canvas(bitmap);
-            final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             backgroundPaint.setColor(BACKGROUND_COLOR);
 
             if (Build.VERSION.SDK_INT >= 21) {
                 canvas.drawRoundRect(0, 0, width, height, cornerRadius, cornerRadius,
                         backgroundPaint);
+
+                /*backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                backgroundPaint.setColor(STROKE_COLOR);
+                backgroundPaint.setStyle(Paint.Style.STROKE);
+                backgroundPaint.setStrokeWidth(Utils.toDP(1, context));
+                canvas.drawRoundRect(0, 0, width, height, cornerRadius, cornerRadius,
+                        backgroundPaint);*/
             } else {
                 canvas.drawRect(0, 0, width, height, backgroundPaint);
+
+                /*backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                backgroundPaint.setColor(Color.BLACK);
+                backgroundPaint.setStyle(Paint.Style.STROKE);
+                backgroundPaint.setStrokeWidth(Utils.toDP(1, context));
+                canvas.drawRect(0, 0, width, height, backgroundPaint);*/
             }
+
             // punch out the word 'GIF', leaving transparency
             textPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             canvas.drawText(VIDEO, padding, height - padding, textPaint);
+
+            /*textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
+            textPaint.setTypeface(Typeface.create(TYPEFACE, TYPEFACE_STYLE));
+            textPaint.setTextSize(TEXT_SIZE * scaledDensity);
+            textPaint.getTextBounds(VIDEO, 0, VIDEO.length(), textBounds);
+            textPaint.setStyle(Paint.Style.STROKE);
+            textPaint.setColor(STROKE_COLOR);
+            textPaint.setStrokeWidth(Utils.toDP(1, context));
+            canvas.drawText(VIDEO, padding, height - padding, textPaint);*/
         }
         paint = new Paint();
     }

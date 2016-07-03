@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="5.1.2">
+        <text>Widget Improvements</text>
+        <text>Various UI improvements</text>
+        <text>Bug/crash fixes</text>
+    </version>
+
     <version name="5.1.1">
         <text>Fix uploading GIFs to Twitter</text>
         <text>Improve upload quality of all media</text>

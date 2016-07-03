@@ -251,7 +251,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 a.recycle();
                 holder.icon.setImageResource(resource);
             }
-        } catch (OutOfMemoryError e) {
+        } catch (Exception e) {
 
         }
 

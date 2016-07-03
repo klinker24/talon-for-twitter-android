@@ -36,6 +36,18 @@
             android:gravity="center"
             android:background="@color/light_blue_primary_color" >
 
+
+            <ImageView
+                android:id="@+id/widget_pro_pic"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center_vertical"
+                android:background="?android:selectableItemBackground"
+                />
+
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="0dp"
