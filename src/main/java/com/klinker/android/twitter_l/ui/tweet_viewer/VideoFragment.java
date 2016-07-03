@@ -59,6 +59,7 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
     private View layout;
 
     public EasyVideoPlayer videoView;
+    private GestureDetector gestureDetector;
 
     @Override
     public void onAttach(Activity activity) {
@@ -81,6 +82,26 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
         }
 
         getGif();
+
+        gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if ((velocityY > 3000 || velocityY < -3000) &&
+                        (velocityX < 7000 && velocityX > -7000)) {
+                    getActivity().onBackPressed();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
 
         return layout;
     }
