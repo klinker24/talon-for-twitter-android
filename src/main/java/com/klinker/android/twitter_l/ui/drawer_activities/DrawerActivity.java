@@ -1605,8 +1605,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
 
     public void cancelTeslaUnread() {
 
-        ShortcutBadger.applyCount(context, 0);
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1621,6 +1619,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements System
                 } catch (IllegalArgumentException ex) {
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                }
+
+                try {
+                    ShortcutBadger.applyCount(context, 0);
+                } catch (Exception e) {
+
                 }
             }
         }).start();

@@ -24,6 +24,11 @@
         android:title="@string/faq"
         android:icon="?getHelp" />
 
+    <com.klinker.android.twitter_l.manipulations.preference.IconPreference
+        android:key="whats_new"
+        android:title="@string/whats_new"
+        android:icon="?rateIt" />
+
     <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
 
     <PreferenceCategory

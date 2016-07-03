@@ -138,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.menu_whats_new:
+            /*case R.id.menu_whats_new:
                 final Context context = this;
                 final ListView list = new ListView(this);
                 list.setDividerHeight(0);
@@ -160,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
                         .setView(list)
                         .setPositiveButton(R.string.ok, null)
                         .show();
-                return true;
+                return true;*/
             case R.id.menu_rate_it:
                 Uri uri = Uri.parse("market://details?id=" + getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

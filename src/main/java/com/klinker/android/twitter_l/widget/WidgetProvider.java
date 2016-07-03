@@ -23,11 +23,14 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.WidgetRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -35,6 +38,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivityWidget;
+import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 
 public class WidgetProvider extends AppWidgetProvider {
 
@@ -148,6 +152,9 @@ public class WidgetProvider extends AppWidgetProvider {
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);
                 views.setOnClickPendingIntent(R.id.syncButton, refreshPending);
 
+                views.setImageViewBitmap(R.id.widget_pro_pic, getCachedPic(AppSettings.getInstance(this).myProfilePicUrl));
+                views.setTextViewText(R.id.textView1, "@" + AppSettings.getInstance(this).myScreenName);
+
                 if (material) {
                     views.setInt(R.id.relLayout, "setBackgroundColor", AppSettings.getInstance(this).themeColors.primaryColor);
                 }
@@ -172,6 +179,27 @@ public class WidgetProvider extends AppWidgetProvider {
             }
 
             stopSelf();
+        }
+
+        public Bitmap getCachedPic(String url) {
+            try {
+            /*return ImageUtils.getCircleBitmap(Glide.
+                    with(mContext).
+                    load(url).
+                    asBitmap().
+                    into(200, 200).
+                    get());*/
+                return Glide.with(this)
+                        .load(url)
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .transform(new CircleBitmapTransform(this))
+                        .into(200,200)
+                        .get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
     }

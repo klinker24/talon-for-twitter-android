@@ -457,9 +457,9 @@ public class SearchPager extends AppCompatActivity {
                     public void run() {
                         try {
                             Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
-                            twitter.createSavedSearch(searchQuery.replace(" -RT", "").replace(" TOP", ""));
+                            twitter.createSavedSearch(searchQuery);
 
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                            (context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT).show();

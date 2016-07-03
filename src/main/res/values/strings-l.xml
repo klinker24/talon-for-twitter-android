@@ -149,4 +149,5 @@
     <string name="auto_dismiss">Auto-Dismiss Notifications</string>
     <string name="auto_dismiss_summary">Automatically dismiss all Talon\'s notifications when it is opened. This is on by default.</string>
     <string name="media">User\'s Media</string>
+    <string name="ignored_on_compact">This setting is ignored on the compact layout.</string>
 </resources>

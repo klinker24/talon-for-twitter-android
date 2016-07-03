@@ -18,16 +18,13 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:talon="http://schemas.android.com/apk/res-auto">
+
     <item android:id="@+id/menu_get_help"
           android:title="@string/get_help_settings"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_other_apps"
           android:title="@string/other_apps"
-          talon:showAsAction="never" />
-
-    <item android:id="@+id/menu_whats_new"
-          android:title="@string/whats_new"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_rate_it"
