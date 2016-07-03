@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.1.1">
+        <text>Fix uploading GIFs to Twitter</text>
+        <text>Improve upload quality of all media</text>
+    </version>
+
     <version name="5.1.0">
         <text>[New] Added a pitch black "Material Design Color" option</text>
         <text>[New] Support for ShortcutBadger to display notification counts on some launchers (https://goo.gl/cPD6MW)</text>

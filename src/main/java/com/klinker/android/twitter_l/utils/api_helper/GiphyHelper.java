@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.utils.api_helper;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.klinker.android.twitter_l.APIKeys;
 
@@ -24,7 +25,7 @@ public class GiphyHelper {
             "original", "downsized_medium", "fixed_height", "fixed_width", "fixed_height_small",
             /*"fixed_width_small",*/ "downsized_large", "downsized_medium", "downsized"
     };
-    private static final long TWITTER_SIZE_LIMIT = 300000;
+    public static final long TWITTER_SIZE_LIMIT = 500000;
 
     public interface Callback {
         void onResponse(List<Gif> gifs);
@@ -82,9 +83,11 @@ public class GiphyHelper {
                     JSONObject originalSize = images.getJSONObject("original");
                     JSONObject downsized = null;
 
-                    // get the highest quality that twitter can post (3 mb)
+                    // get the highest quality that twitter can post (5 mb)
                     for (String size : SIZE_OPTIONS) {
                         downsized = images.getJSONObject(size);
+                        Log.v("talon_giphy", size + ": " + downsized.getString("size") + " bytes");
+
                         if (Long.parseLong(downsized.getString("size")) < TWITTER_SIZE_LIMIT) {
                             break;
                         } else {
