@@ -628,7 +628,7 @@ public class ComposeActivity extends Compose {
                                 "Select Picture"), SELECT_PHOTO);
                     }
                 } else if (item == 2) {
-                    Toast.makeText(ComposeActivity.this, "GIFs must be less than 3 MB", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ComposeActivity.this, "GIFs must be less than 5 MB", Toast.LENGTH_SHORT).show();
 
                     try {
                         Intent gifIntent = new Intent();

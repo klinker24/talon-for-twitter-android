@@ -87,6 +87,7 @@ import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
+import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
@@ -98,6 +99,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -618,8 +620,8 @@ public abstract class Compose extends Activity implements
 
     public Bitmap getBitmapToSend(Uri uri) throws IOException {
         InputStream input = getContentResolver().openInputStream(uri);
-        int reqWidth = 750;
-        int reqHeight = 750;
+        int reqWidth = 1500;
+        int reqHeight = 1500;
 
         byte[] byteArr = new byte[0];
         byte[] buffer = new byte[1024];
@@ -886,7 +888,7 @@ public abstract class Compose extends Activity implements
             options.setStatusBarColor(settings.themeColors.primaryColorDark);
             options.setActiveWidgetColor(settings.themeColors.accentColor);
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-            options.setCompressionQuality(90);
+            options.setCompressionQuality(100);
 
             File destination = File.createTempFile("ucrop", "jpg", getCacheDir());
             UCrop.of(sourceUri, Uri.fromFile(destination))
@@ -1269,22 +1271,28 @@ public abstract class Compose extends Activity implements
 
                         if (attachButton.isEnabled()) {
                             for (int i = 0; i < imagesAttached; i++) {
-                                files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
+                                files[i] = new File(URI.create(attachedUri[i]));
 
-                                Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
-                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                double bytes = files[i].length();
 
-                                if (secondTry) {
-                                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                if (bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
+                                    files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
+
+                                    Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
+                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                                    if (secondTry) {
+                                        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+                                    }
+
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                                    byte[] bitmapdata = bos.toByteArray();
+
+                                    FileOutputStream fos = new FileOutputStream(files[i]);
+                                    fos.write(bitmapdata);
+                                    fos.flush();
+                                    fos.close();
                                 }
-
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                                byte[] bitmapdata = bos.toByteArray();
-
-                                FileOutputStream fos = new FileOutputStream(files[i]);
-                                fos.write(bitmapdata);
-                                fos.flush();
-                                fos.close();
                             }
                         }
 
@@ -1334,7 +1342,11 @@ public abstract class Compose extends Activity implements
                             // use twitter4j's because it is easier
                             if (attachButton.isEnabled()) {
                                 if (imagesAttached == 1) {
-                                    media.setMedia(files[0]);
+                                    //media.setMedia(files[0]);
+                                    UploadedMedia upload = twitter.uploadMedia(files[0]);
+                                    long mediaId = upload.getMediaId();
+
+                                    media.setMediaIds(new long[] { mediaId });
                                 } else {
                                     // has multiple images and should be done through twitters service
 
@@ -1349,7 +1361,12 @@ public abstract class Compose extends Activity implements
                             } else {
                                 // animated gif
                                 Log.v("talon_compose", "attaching: " + attachmentType);
-                                media.setMedia(attachmentType, getContentResolver().openInputStream(Uri.parse(attachedUri[0])));
+                                //media.setMedia(attachmentType, getContentResolver().openInputStream(Uri.parse(attachedUri[0])));
+
+                                UploadedMedia upload = twitter.uploadMedia(new File(URI.create(attachedUri[0])));
+                                long mediaId = upload.getMediaId();
+
+                                media.setMediaIds(new long[] { mediaId });
                             }
 
                             if (addLocation) {
