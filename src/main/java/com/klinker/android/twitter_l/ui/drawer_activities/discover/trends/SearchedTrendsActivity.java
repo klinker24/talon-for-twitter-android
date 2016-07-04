@@ -401,11 +401,12 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
                     tweets.clear();
 
-                    for (twitter4j.Status status : result.getTweets()) {
+                    List<Status> statuses = result.getTweets();
+                    for (twitter4j.Status status : statuses) {
                         tweets.add(status);
                     }
 
-                    if (result.getCount() == TWEETS_PER_REFRESH) {
+                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                         query.setMaxId(getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -479,11 +480,12 @@ public class SearchedTrendsActivity extends AppCompatActivity {
 
                     tweets.clear();
 
-                    for (twitter4j.Status status : result.getTweets()) {
+                    List<Status> statuses = result.getTweets();
+                    for (twitter4j.Status status : statuses) {
                         tweets.add(status);
                     }
 
-                    if (result.getCount() == TWEETS_PER_REFRESH) {
+                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                         query.setMaxId(getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -526,11 +528,12 @@ public class SearchedTrendsActivity extends AppCompatActivity {
                         Twitter twitter = Utils.getTwitter(context, settings);
                         QueryResult result = twitter.search(query);
 
-                        for (twitter4j.Status status : result.getTweets()) {
+                        List<Status> statuses = result.getTweets();
+                        for (twitter4j.Status status : statuses) {
                             tweets.add(status);
                         }
 
-                        if (result.getCount() == TWEETS_PER_REFRESH) {
+                        if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                             query.setMaxId(getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
