@@ -44,6 +44,7 @@ import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -206,11 +207,12 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
                     tweets.clear();
 
-                    for (twitter4j.Status status : result.getTweets()) {
+                    List<Status> statuses = result.getTweets();
+                    for (twitter4j.Status status : statuses) {
                         tweets.add(status);
                     }
 
-                    if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                         query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -275,12 +277,12 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();
-
-                    for (twitter4j.Status status : result.getTweets()) {
+                    List<Status> statuses = result.getTweets();
+                    for (twitter4j.Status status : statuses) {
                         tweets.add(status);
                     }
 
-                    if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                         query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -378,12 +380,12 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                     try {
                         Twitter twitter = Utils.getTwitter(context, settings);
                         QueryResult result = twitter.search(query);
-
-                        for (twitter4j.Status status : result.getTweets()) {
+                        List<Status> statuses = result.getTweets();
+                        for (twitter4j.Status status : statuses) {
                             tweets.add(status);
                         }
 
-                        if (result.getCount() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
                             query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
