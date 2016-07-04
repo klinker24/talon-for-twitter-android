@@ -123,7 +123,7 @@ public class GiphySearch extends Activity {
                 setAdapter(gifs);
 
                 // inform the user that there is a 3mb limit and talon is displaying those
-                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GiphySearch.this);
+                /*final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(GiphySearch.this);
                 if (!sharedPrefs.getBoolean("seen_giffy_disclaimer", false)) {
                     new AlertDialog.Builder(GiphySearch.this)
                             .setTitle(R.string.three_mb_limit)
@@ -141,7 +141,7 @@ public class GiphySearch extends Activity {
 
                                 }
                             }).create().show();
-                }
+                }*/
             }
         });
     }

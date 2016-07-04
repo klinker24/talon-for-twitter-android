@@ -281,6 +281,16 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
     // Methods for the implemented EasyVideoCallback
 
     @Override
+    public void onStarted(EasyVideoPlayer player) {
+
+    }
+
+    @Override
+    public void onPaused(EasyVideoPlayer player) {
+
+    }
+
+    @Override
     public void onPreparing(EasyVideoPlayer player) {
 
     }

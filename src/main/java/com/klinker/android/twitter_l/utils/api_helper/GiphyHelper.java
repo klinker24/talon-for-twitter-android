@@ -25,7 +25,7 @@ public class GiphyHelper {
             "original", "downsized_medium", "fixed_height", "fixed_width", "fixed_height_small",
             /*"fixed_width_small",*/ "downsized_large", "downsized_medium", "downsized"
     };
-    public static final long TWITTER_SIZE_LIMIT = 500000;
+    public static final long TWITTER_SIZE_LIMIT = 5242880; // 5 mb
 
     public interface Callback {
         void onResponse(List<Gif> gifs);

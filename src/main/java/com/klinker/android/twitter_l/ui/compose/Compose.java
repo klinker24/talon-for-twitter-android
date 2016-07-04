@@ -1302,129 +1302,102 @@ public abstract class Compose extends Activity implements
                             }
                         }
 
-                        if (settings.twitpic && attachButton.isEnabled()) {
-                            boolean isDone = false;
 
-                            if (useAccOne) {
-                                // attach pics 1 - 3
-                                for (int i = 1; i < imagesAttached; i++) {
-                                    TwitPicHelper helper = new TwitPicHelper(twitter, "", files[i], context);
-                                    text += " " + helper.uploadForUrl();
-                                }
-
-                                // post the status with the 0th picture attached
-                                TwitPicHelper helper = new TwitPicHelper(twitter, text, files[0], context);
-                                if (addLocation) {
-                                    if (waitForLocation()) {
-                                        Location location = mLastLocation;
-                                        GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                        media.setLocation(geolocation);
-                                    }
-                                }
-                                if (helper.createPost() != 0) {
-                                    isDone = true;
-                                }
-                            }
-                            if (useAccTwo) {
-                                for (int i = 1; i < imagesAttached; i++) {
-                                    TwitPicHelper helper = new TwitPicHelper(twitter2, "", files[i], context);
-                                    text += " " + helper.uploadForUrl();
-                                }
-
-                                TwitPicHelper helper = new TwitPicHelper(twitter2, text, files[0], context);
-                                if (addLocation) {
-                                    if (waitForLocation()) {
-                                        Location location = mLastLocation;
-                                        GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                        media.setLocation(geolocation);
-                                    }
-                                }
-                                if (helper.createPost() != 0) {
-                                    isDone = true;
-                                }
-                            }
-                            return isDone;
-                        } else {
-                            // use twitter4j's because it is easier
-                            if (attachButton.isEnabled()) {
-                                if (imagesAttached == 1) {
-                                    //media.setMedia(files[0]);
-                                    UploadedMedia upload = twitter.uploadMedia(files[0]);
-                                    long mediaId = upload.getMediaId();
-
-                                    media.setMediaIds(new long[] { mediaId });
-                                } else {
-                                    // has multiple images and should be done through twitters service
-
-                                    long[] mediaIds = new long[files.length];
-                                    for (int i = 0; i < files.length; i++) {
-                                        UploadedMedia upload = twitter.uploadMedia(files[i]);
-                                        mediaIds[i] = upload.getMediaId();
-                                    }
-
-                                    media.setMediaIds(mediaIds);
-                                }
-                            } else {
-                                // animated gif
-                                Log.v("talon_compose", "attaching: " + attachmentType);
-                                //media.setMedia(attachmentType, getContentResolver().openInputStream(Uri.parse(attachedUri[0])));
-
-                                UploadedMedia upload = twitter.uploadMedia(new File(URI.create(attachedUri[0])));
+                        // use twitter4j's because it is easier
+                        if (attachButton.isEnabled()) {
+                            if (imagesAttached == 1) {
+                                //media.setMedia(files[0]);
+                                UploadedMedia upload = twitter.uploadMedia(files[0]);
                                 long mediaId = upload.getMediaId();
 
                                 media.setMediaIds(new long[] { mediaId });
-                            }
+                            } else {
+                                // has multiple images and should be done through twitters service
 
-                            if (addLocation) {
-                                if (waitForLocation()) {
-                                    Location location = mLastLocation;
-                                    GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                    media.setLocation(geolocation);
+                                long[] mediaIds = new long[files.length];
+                                for (int i = 0; i < files.length; i++) {
+                                    UploadedMedia upload = twitter.uploadMedia(files[i]);
+                                    mediaIds[i] = upload.getMediaId();
                                 }
+
+                                media.setMediaIds(mediaIds);
+                            }
+                        } else {
+                            // animated gif
+                            Log.v("talon_compose", "attaching: " + attachmentType);
+                            // todo:
+                            // http://www.mkyong.com/java/how-to-convert-inputstream-to-file-in-java/
+
+                            files[0] = File.createTempFile("compose", "giphy_gif", outputDir);
+                            InputStream stream = getContentResolver().openInputStream(Uri.parse(attachedUri[0]));
+                            FileOutputStream fos = new FileOutputStream(files[0]);
+
+                            int read = 0;
+                            byte[] bytes = new byte[1024];
+
+                            while ((read = stream.read(bytes)) != -1) {
+                                fos.write(bytes, 0, read);
                             }
 
-                            twitter4j.Status s = null;
-                            if (useAccOne) {
-                                s = twitter.updateStatus(media);
+                            stream.close();
+                            fos.close();
+
+                            UploadedMedia upload = twitter.uploadMedia(files[0]);
+                            long mediaId = upload.getMediaId();
+
+                            media.setMediaIds(new long[] { mediaId });
+                        }
+
+                        if (addLocation) {
+                            if (waitForLocation()) {
+                                Location location = mLastLocation;
+                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                                media.setLocation(geolocation);
                             }
-                            if (useAccTwo) {
-                                s = twitter2.updateStatus(media);
-                            }
+                        }
 
-                            if (s != null) {
-                                final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
+                        twitter4j.Status s = null;
+                        if (useAccOne) {
+                            s = twitter.updateStatus(media);
+                        }
+                        if (useAccTwo) {
+                            s = twitter2.updateStatus(media);
+                        }
 
-                                if (hashtags != null) {
-                                    // we will add them to the auto complete
-                                    new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ArrayList<String> tags = new ArrayList<String>();
-                                            if (hashtags != null) {
-                                                for (String s : hashtags) {
-                                                    if (!s.equals("")) {
-                                                        tags.add("#" + s);
-                                                    }
-                                                }
-                                            }
+                        if (s != null) {
+                            final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
 
-                                            HashtagDataSource source = HashtagDataSource.getInstance(context);
-
-                                            for (String s : tags) {
-                                                if (s.contains("#")) {
-                                                    // we want to add it to the auto complete
-
-                                                    source.deleteTag(s);
-                                                    source.createTag(s);
+                            if (hashtags != null) {
+                                // we will add them to the auto complete
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ArrayList<String> tags = new ArrayList<String>();
+                                        if (hashtags != null) {
+                                            for (String s : hashtags) {
+                                                if (!s.equals("")) {
+                                                    tags.add("#" + s);
                                                 }
                                             }
                                         }
-                                    }).start();
-                                }
-                            }
 
-                            return true;
+                                        HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                                        for (String s : tags) {
+                                            if (s.contains("#")) {
+                                                // we want to add it to the auto complete
+
+                                                source.deleteTag(s);
+                                                source.createTag(s);
+                                            }
+                                        }
+                                    }
+                                }).start();
+                            }
                         }
+
+                        return true;
+
 
                     }
                 }
