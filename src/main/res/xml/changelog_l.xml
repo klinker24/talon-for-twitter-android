@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.1.3">
+        <text>Higher quality GIF uploads</text>
+    </version>
+
     <version name="5.1.2">
         <text>Widget Improvements</text>
         <text>Various UI improvements</text>
