@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -351,7 +352,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
                     if (i == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                         playCurrentVideos();
                     } else {
-                        stopCurrentVideos();
+                        try {
+                            cursorAdapter.stopOnScroll(listView.getFirstVisiblePosition(), listView.getLastVisiblePosition());
+                        } catch (Exception e) {
+
+                        }
                     }
                 }
             }

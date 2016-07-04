@@ -464,6 +464,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
     }
 
+    public void stopOnScroll(int firstVisible, int lastVisible) {
+        for (Video v : videos) {
+            Log.v("talon_video", "video position: " + v.positionOnTimeline + ", first: " + firstVisible + ", last: " + lastVisible);
+            if (v.positionOnTimeline > lastVisible || v.positionOnTimeline < firstVisible) {
+                v.stopOnScroll();
+            }
+        }
+    }
+
     public void resetVideoHandler() {
         videoHandler.removeCallbacksAndMessages(null);
     }
@@ -819,7 +828,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 });
 
                 if (holder.gifUrl.contains(".mp4") || holder.gifUrl.contains(".m3u8")) {
-                    videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl));
+                    videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl, cursor.getPosition()));
                 }
 
                 picture = true;
@@ -1254,14 +1263,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     private class Video {
+        public int positionOnTimeline;
         public String url;
         public long tweetId;
         public SimpleVideoView videoView;
 
-        public Video(SimpleVideoView videoView, long tweetId, String url) {
+        public Video(SimpleVideoView videoView, long tweetId, String url, int positionOnTimeline) {
             this.videoView = videoView;
             this.tweetId = tweetId;
             this.url = url;
+            this.positionOnTimeline = getCount() - positionOnTimeline + 1;
         }
 
         private boolean isPlaying = false;
