@@ -7,3 +7,6 @@ Other/Video/
 readme.md~
 local.properties
 *.mp4
+**/gen
+*~
+.DS_Store
