@@ -1,32 +1,10 @@
-# Talon for Twitter (Classic) #
+# Talon for Twitter
 
-![Main Drawer](/Other/'Promo Stuff'/Graphics/Classic/Screenshots/Phone/'Phone 1.png')
+![Main Drawer](https://raw.githubusercontent.com/klinker24/talon-plus/master/Other/Promo%20Stuff/Graphics/Plus/Final%20Promos/Feature%20graphic%204.png?token=AEpgLwVvs5sUhpFxrrFXqJe2MaM9ZP3Dks5XiORRwA%3D%3D)
 
-This is the complete version of the Twitter client that I created for Android. It is 100% open source The only thing that you will have to do plug in is your own API keys.
+This is the Material Design version of Talon, my popular Twitter client.
 
-I made the majority of this app when I was 19 years old, with one high school java class and half of a college one, and you can tell at some places. I know it isn't the prettiest code that you have ever seen, but it works, and it works pretty well! So don't judge to hard on the code, it definitely got better over time :)
-
-As of now, it doesn't have to many comments throughout it, most of it is pretty easy to understand if you just dig for awhile, but as time goes on, I will go through and attempt to comment more of it.
-
-
-### What you can use this for ###
-
-There are some pretty neat things in this app, not just twitter related either. Someone looking at this can get the full rundown of things like:
-
-1. theme engine
-2. windowed advances
-3. clickable links
-4. emoji support
-5. simple and extendable wearable app
-6. plenty of other gems that Jacob and I spent a lot of time on.
-
-
-Feel free to use this as a resource for those kinds of thing, that's one of the reasons I wanted to open source it in the first place. Lots to learn from a big project like this, and I think that is pretty important with the ever changing world of Android.
-
-I ask that you do not redistribute this application for your own gain though. If you make a build and want to share it with people, that's great, that's what this should be for. Do not charge them for that build though. I have spent a hard year creating this project and this is what I ask if you choose to make it for yourself.
-
-
-### Compiling Talon ###
+### Compiling Talon
 
 Please don't try to compile it as an ANT build. I beg you, just use Android Studio or IntelliJ and compile it with Gradle. It will make your life so much easier and I will not be answering questions about dependencies and compiling for Eclipse. We spent a long time changing all of our projects over to Gradle and I want it to help some people.
 
@@ -52,19 +30,19 @@ Once you get signed up and everything, just copy and paste your API key and API 
 If you get TwitLonger or TweetMarker support, you can paste the keys for that into APIKeys class as well. If you do not get them, then those services WILL NOT work.
 
 
-### Pull Requests ###
+### Pull Requests
 
 One of the reasons that I decided to open source this wasn't just because people would be able to learn from it. I also need help. There are somethings that I just don't know how to do any better. I don't have experience or knowledge yet to understand what is going wrong with them or why they randomly fail for some people.
 
 I have done the absolute best I can with this app, but the more minds working on it, the better. Chances are if you are here and actually reading the readme, you have far more experience programming than me anyways and know how things can be improved.
 
 
-### Issues ###
+### Issues
 
 If you think something could be done better, then tell me. I am not saying that I will agree with you on it or that it will ever be the way you think it should be, but there is no hurt in asking.
 
 
-### Wrap Up ###
+### Wrap Up
 
 There isn't to much more I have to say about this. I have put a ton of time and effort into this project and I truly hope that this helps someone out there. Take the leap, try something you never have before, see what you can learn from me and my mistakes.
 
@@ -73,16 +51,13 @@ Let me know if you have questions and I will answer them to the best of my abili
 Thanks and have fun with Talon!
 
 
-Luke Klinker (Klinker Apps Lead Developer)
-
-
 
 
 ---
 
 ## License
 
-    Copyright 2014 Luke Klinker
+    Copyright 2016 Luke Klinker
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
