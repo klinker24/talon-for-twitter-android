@@ -9,3 +9,7 @@ local.properties
 **/.DS_STORE
 **/*.mp4
 *.DS_STORE
+*.mp4
+**/gen
+*~
+.DS_Store
