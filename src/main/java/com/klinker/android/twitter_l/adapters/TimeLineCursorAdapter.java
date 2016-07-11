@@ -205,7 +205,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             layout = R.layout.tweet_condensed;
         }
 
-        dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
             timeFormatter = new SimpleDateFormat("kk:mm");
@@ -853,6 +853,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         } else {
                             PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
                         }
+
+                        holder.imageHolder.setOnClickListener(null);
+                        final View.OnClickListener thisListener = this;
+                        holder.imageHolder.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.imageHolder.setOnClickListener(thisListener);
+                            }
+                        }, 300);
                     }
                 });
 
