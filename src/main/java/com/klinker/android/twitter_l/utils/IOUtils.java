@@ -35,6 +35,7 @@ import com.klinker.android.twitter_l.data.sq_lite.*;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
@@ -84,24 +85,35 @@ public class IOUtils {
             throw new RuntimeException("Cannot download surfaceView - error creating file");
         }
 
-        URL url = new URL(videoUrl);
-        URLConnection connection = url.openConnection();
-        connection.setReadTimeout(5000);
-        connection.setConnectTimeout(30000);
+        URL u = null;
+        InputStream is = null;
 
-        InputStream is = connection.getInputStream();
-        BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-        FileOutputStream outStream = new FileOutputStream(file);
+        u = new URL(videoUrl);
+        is = u.openStream();
+        HttpURLConnection huc = (HttpURLConnection)u.openConnection(); //to know the size of video
+        int size = huc.getContentLength();
 
-        byte[] buffer = new byte[1024 * 5];
-        int len;
-        while ((len = inStream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, len);
+        if(huc != null) {
+
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int len1 = 0;
+            if(is != null) {
+                while ((len1 = is.read(buffer)) > 0) {
+                    fos.write(buffer,0, len1);
+                }
+            }
+            if(fos != null) {
+                fos.close();
+            }
         }
-
-        outStream.flush();
-        outStream.close();
-        inStream.close();
+        try {
+            if(is != null) {
+                is.close();
+            }
+        } catch (IOException ioe) {
+            // just going to ignore this one
+        }
 
         return Uri.fromFile(file);
     }
