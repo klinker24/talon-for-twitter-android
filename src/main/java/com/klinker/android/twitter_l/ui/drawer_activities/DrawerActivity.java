@@ -46,6 +46,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
@@ -75,7 +76,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 import java.lang.reflect.Field;
 
-public abstract class DrawerActivity extends AppCompatActivity implements SystemBarVisibility {
+public abstract class DrawerActivity extends PeekViewActivity implements SystemBarVisibility {
 
     public static AppSettings settings;
     public Activity context;

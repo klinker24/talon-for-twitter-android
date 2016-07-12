@@ -29,7 +29,7 @@
         android:key="autoplay"
         android:title="@string/autoplay_title"
         android:summary="@string/autoplay_summary"
-        android:defaultValue="1"
+        android:defaultValue="2"
         android:entries="@array/autoplay"
         android:entryValues="@array/autoplay_inserted" />
 
