@@ -50,6 +50,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
 import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
@@ -74,7 +75,7 @@ import java.util.Map;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SearchPager extends AppCompatActivity {
+public class SearchPager extends PeekViewActivity {
 
     private SearchPagerAdapter mSectionsPagerAdapter;
     public AppSettings settings;

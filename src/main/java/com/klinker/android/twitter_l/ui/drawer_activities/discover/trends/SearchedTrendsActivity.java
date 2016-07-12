@@ -40,6 +40,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
@@ -63,7 +64,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SearchedTrendsActivity extends AppCompatActivity {
+public class SearchedTrendsActivity extends PeekViewActivity {
     public static final int TWEETS_PER_REFRESH = 30;
 
     public AppSettings settings;

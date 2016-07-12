@@ -107,7 +107,7 @@ dependencies {
     compile "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
 
-    compile 'com.klinkerapps:peekview:1.0.0'
+    compile 'com.klinkerapps:peekview:1.0.1'
     compile 'com.klinkerapps:simple_videoview:1.2.0'
     compile 'com.klinkerapps:launcher-apis:1.1.0'
     compile 'com.klinkerapps:sliding-activity:1.3.2'

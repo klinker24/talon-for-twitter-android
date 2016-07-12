@@ -46,6 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.DMCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -72,7 +73,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 
-public class DirectMessageConversation extends AppCompatActivity {
+public class DirectMessageConversation extends PeekViewActivity{
 
     public AppSettings settings;
     private Context context;

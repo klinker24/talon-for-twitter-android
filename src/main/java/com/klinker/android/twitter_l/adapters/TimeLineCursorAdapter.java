@@ -39,6 +39,7 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
@@ -59,6 +60,7 @@ import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActiv
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
@@ -834,21 +836,29 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
                 }
 
-                if (layoutRes != 0) {
-                    Peek.into(layoutRes, new OnPeek() {
-                        private SimpleVideoView videoView;
+                if (context instanceof PeekViewActivity) {
+                    if (layoutRes != 0) {
+                        Peek.into(layoutRes, new OnPeek() {
+                            private SimpleVideoView videoView;
 
-                        @Override public void shown() { }
-                        @Override public void onInflated(View rootView) {
-                            videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                            videoView.start(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
-                        }
-                        @Override public void dismissed() {
-                            videoView.release();
-                        }
-                    }).with(options).applyTo((MainActivity) context, holder.imageHolder);
-                } else {
-                    holder.imageHolder.setOnTouchListener(null);
+                            @Override
+                            public void shown() {
+                            }
+
+                            @Override
+                            public void onInflated(View rootView) {
+                                videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+                                videoView.start(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                            }
+
+                            @Override
+                            public void dismissed() {
+                                videoView.release();
+                            }
+                        }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                    } else {
+                        holder.imageHolder.setOnTouchListener(null);
+                    }
                 }
 
                 holder.imageHolder.setOnClickListener(new View.OnClickListener() {
@@ -896,16 +906,18 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
                 });
 
-                PeekViewOptions options = new PeekViewOptions();
-                options.setFullScreenPeek(true);
-                options.setBackgroundDim(1f);
+                if (context instanceof PeekViewActivity) {
+                    PeekViewOptions options = new PeekViewOptions();
+                    options.setFullScreenPeek(true);
+                    options.setBackgroundDim(1f);
 
-                Peek.into(R.layout.image_peek, new SimpleOnPeek() {
-                    @Override
-                    public void onInflated(View rootView) {
-                        Glide.with(context).load(holder.picUrl).into((ImageView) rootView.findViewById(R.id.image));
-                    }
-                }).with(options).applyTo((MainActivity)context, holder.imageHolder);
+                    Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+                        @Override
+                        public void onInflated(View rootView) {
+                            Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                        }
+                    }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                }
 
                 picture = true;
             }

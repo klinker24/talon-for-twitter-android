@@ -35,6 +35,12 @@ import android.view.animation.Interpolator;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.OnPeek;
+import com.klinker.android.peekview.callback.SimpleOnPeek;
+import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.App;
@@ -45,6 +51,8 @@ import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
@@ -580,10 +588,46 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         holder.playButton.setVisibility(View.VISIBLE);
                     }
 
-                    if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif))
+                    PeekViewOptions options = new PeekViewOptions();
+                    options.setFullScreenPeek(true);
+                    options.setBackgroundDim(1f);
+
+                    int layoutRes = 0;
+                    if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif)) {
                         holder.playButton.setImageDrawable(new GifBadge(context));
-                    else
+                        layoutRes = R.layout.gif_peek;
+                    } else {
                         holder.playButton.setImageDrawable(new VideoBadge(context));
+
+                        if (!holder.picUrl.contains("youtube")) {
+                            layoutRes = R.layout.video_peek;
+                        }
+                    }
+
+                    if (context instanceof PeekViewActivity) {
+                        if (layoutRes != 0) {
+                            Peek.into(layoutRes, new OnPeek() {
+                                private SimpleVideoView videoView;
+
+                                @Override
+                                public void shown() {
+                                }
+
+                                @Override
+                                public void onInflated(View rootView) {
+                                    videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+                                    videoView.start(holder.animatedGif.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                                }
+
+                                @Override
+                                public void dismissed() {
+                                    videoView.release();
+                                }
+                            }).with(options).applyTo((PeekViewActivity) context, holder.image);
+                        } else {
+                            holder.image.setOnTouchListener(null);
+                        }
+                    }
 
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -616,6 +660,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             }
                         }
                     });
+
+                    if (context instanceof PeekViewActivity) {
+                        PeekViewOptions options = new PeekViewOptions();
+                        options.setFullScreenPeek(true);
+                        options.setBackgroundDim(1f);
+
+                        Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+                            @Override
+                            public void onInflated(View rootView) {
+                                Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                            }
+                        }).with(options).applyTo((PeekViewActivity) context, holder.image);
+                    }
                 }
 
                 if (holder.imageHolder.getVisibility() == View.GONE) {
