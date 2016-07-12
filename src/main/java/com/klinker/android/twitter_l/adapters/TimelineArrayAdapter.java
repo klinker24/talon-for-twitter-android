@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.*;
 
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
@@ -607,16 +609,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (context instanceof PeekViewActivity) {
                         if (layoutRes != 0) {
                             Peek.into(layoutRes, new OnPeek() {
-                                private SimpleVideoView videoView;
+                                private EasyVideoPlayer videoView;
 
-                                @Override
-                                public void shown() {
-                                }
+                                @Override public void shown() { }
 
                                 @Override
                                 public void onInflated(View rootView) {
-                                    videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                                    videoView.start(holder.animatedGif.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView.setSource(Uri.parse(holder.animatedGif.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                    videoView.setCallback(new EasyVideoCallbackWrapper());
                                 }
 
                                 @Override

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.text.Html;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
@@ -38,6 +40,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
+import com.klinker.android.twitter_l.utils.EasyVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -428,16 +431,16 @@ public class TweetView {
                     if (context instanceof PeekViewActivity) {
                         if (layoutRes != 0) {
                             Peek.into(layoutRes, new OnPeek() {
-                                private SimpleVideoView videoView;
+                                private EasyVideoPlayer videoView;
 
                                 @Override
-                                public void shown() {
-                                }
+                                public void shown() {}
 
                                 @Override
                                 public void onInflated(View rootView) {
-                                    videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                                    videoView.start(gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView.setSource(Uri.parse(gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                    videoView.setCallback(new EasyVideoCallbackWrapper());
                                 }
 
                                 @Override

@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.animation.*;
 import android.widget.*;
 
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
@@ -839,7 +841,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (context instanceof PeekViewActivity) {
                     if (layoutRes != 0) {
                         Peek.into(layoutRes, new OnPeek() {
-                            private SimpleVideoView videoView;
+                            private EasyVideoPlayer videoView;
 
                             @Override
                             public void shown() {
@@ -847,8 +849,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                             @Override
                             public void onInflated(View rootView) {
-                                videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
-                                videoView.start(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                                videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                videoView.setCallback(new EasyVideoCallbackWrapper());
                             }
 
                             @Override

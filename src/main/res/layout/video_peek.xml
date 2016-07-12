@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
 
-    <com.klinker.android.simple_videoview.SimpleVideoView
+    <com.afollestad.easyvideoplayer.EasyVideoPlayer
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/video"
+        app:evp_autoPlay="true"
+        app:evp_disableControls="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:loop="true"
-        app:stopSystemAudio="true"
-        app:muted="false"
-        app:showSpinner="true"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
