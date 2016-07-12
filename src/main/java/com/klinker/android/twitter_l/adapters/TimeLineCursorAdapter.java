@@ -39,6 +39,10 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.OnPeek;
+import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
@@ -814,10 +818,37 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.playButton.setVisibility(View.VISIBLE);
                 }
 
+                PeekViewOptions options = new PeekViewOptions();
+                options.setFullScreenPeek(true);
+                options.setBackgroundDim(1f);
+
+                int layoutRes = 0;
                 if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
                     holder.playButton.setImageDrawable(new GifBadge(context));
+                    layoutRes = R.layout.gif_peek;
                 } else {
                     holder.playButton.setImageDrawable(new VideoBadge(context));
+
+                    if (!holder.picUrl.contains("youtube")) {
+                        layoutRes = R.layout.video_peek;
+                    }
+                }
+
+                if (layoutRes != 0) {
+                    Peek.into(layoutRes, new OnPeek() {
+                        private SimpleVideoView videoView;
+
+                        @Override public void shown() { }
+                        @Override public void onInflated(View rootView) {
+                            videoView = (SimpleVideoView) rootView.findViewById(R.id.video);
+                            videoView.start(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4"));
+                        }
+                        @Override public void dismissed() {
+                            videoView.release();
+                        }
+                    }).with(options).applyTo((MainActivity) context, holder.imageHolder);
+                } else {
+                    holder.imageHolder.setOnTouchListener(null);
                 }
 
                 holder.imageHolder.setOnClickListener(new View.OnClickListener() {
@@ -864,6 +895,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }, 300);
                     }
                 });
+
+                PeekViewOptions options = new PeekViewOptions();
+                options.setFullScreenPeek(true);
+                options.setBackgroundDim(1f);
+
+                Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+                    @Override
+                    public void onInflated(View rootView) {
+                        Glide.with(context).load(holder.picUrl).into((ImageView) rootView.findViewById(R.id.image));
+                    }
+                }).with(options).applyTo((MainActivity)context, holder.imageHolder);
 
                 picture = true;
             }

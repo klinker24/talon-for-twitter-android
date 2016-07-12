@@ -419,7 +419,7 @@ public class AppSettings {
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
-        autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_WIFI + ""));
+        autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_NEVER + ""));
 
         String widgetAccount = sharedPrefs.getString("widget_account", "").replace("@", "");
         if (widgetAccount.equals(myScreenName.replace("@","")) || widgetAccount.isEmpty()) {
