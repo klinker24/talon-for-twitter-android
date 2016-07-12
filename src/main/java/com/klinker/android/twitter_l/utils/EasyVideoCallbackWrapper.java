@@ -42,7 +42,8 @@ public class EasyVideoCallbackWrapper implements EasyVideoCallback {
 
     @Override
     public void onCompletion(EasyVideoPlayer player) {
-
+        player.seekTo(0);
+        player.start();
     }
 
     @Override
