@@ -1,6 +1,8 @@
 <changelog>
 
-    <version name="5.1.4">
+    <version name="5.2.0">
+        <text>NEW ICON</text>
+        <text>Peek into profiles, images, GIFs, and videos from the timeline with a long click (similar to 3D Touch)</text>
         <text>Fixes for saving videos</text>
         <text>Update translations</text>
         <text>Bug fixes</text>
