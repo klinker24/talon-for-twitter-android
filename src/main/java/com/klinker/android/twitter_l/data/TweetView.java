@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -27,22 +26,19 @@ import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
-import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.manipulations.GifBadge;
+import com.klinker.android.twitter_l.manipulations.ProfilePeek;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.EasyVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
@@ -357,6 +353,16 @@ public class TweetView {
             });
         }
 
+        if (context instanceof PeekViewActivity) {
+            PeekViewOptions options = new PeekViewOptions()
+                    .setAbsoluteWidth(225)
+                    .setAbsoluteHeight(257);
+
+            Peek.into(R.layout.peek_profile, new ProfilePeek(screenName))
+                    .with(options)
+                    .applyTo((PeekViewActivity) context, profilePicIv);
+        }
+
         if (screenTV.getVisibility() == View.GONE) {
             screenTV.setVisibility(View.VISIBLE);
         }
@@ -419,12 +425,12 @@ public class TweetView {
                     int layoutRes = 0;
                     if (VideoMatcherUtil.isTwitterGifLink(gifUrl)) {
                         playButton.setImageDrawable(new GifBadge(context));
-                        layoutRes = R.layout.gif_peek;
+                        layoutRes = R.layout.peek_gif;
                     } else {
                         playButton.setImageDrawable(new VideoBadge(context));
 
                         if (!imageUrl.contains("youtube")) {
-                            layoutRes = R.layout.video_peek;
+                            layoutRes = R.layout.peek_video;
                         }
                     }
 
@@ -487,7 +493,7 @@ public class TweetView {
                         options.setFullScreenPeek(true);
                         options.setBackgroundDim(1f);
 
-                        Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+                        Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
                                 Glide.with(context).load(imageUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
