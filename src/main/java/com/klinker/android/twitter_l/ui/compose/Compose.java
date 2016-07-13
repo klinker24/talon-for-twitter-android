@@ -1306,11 +1306,11 @@ public abstract class Compose extends Activity implements
                         // use twitter4j's because it is easier
                         if (attachButton.isEnabled()) {
                             if (imagesAttached == 1) {
-                                //media.setMedia(files[0]);
-                                UploadedMedia upload = twitter.uploadMedia(files[0]);
+                                media.setMedia(files[0]);
+                                /*UploadedMedia upload = twitter.uploadMedia(files[0]);
                                 long mediaId = upload.getMediaId();
 
-                                media.setMediaIds(new long[] { mediaId });
+                                media.setMediaIds(new long[] { mediaId });*/
                             } else {
                                 // has multiple images and should be done through twitters service
 
@@ -1325,8 +1325,6 @@ public abstract class Compose extends Activity implements
                         } else {
                             // animated gif
                             Log.v("talon_compose", "attaching: " + attachmentType);
-                            // todo:
-                            // http://www.mkyong.com/java/how-to-convert-inputstream-to-file-in-java/
 
                             files[0] = File.createTempFile("compose", "giphy_gif", outputDir);
                             InputStream stream = getContentResolver().openInputStream(Uri.parse(attachedUri[0]));
