@@ -1,38 +1,19 @@
 package com.klinker.android.twitter_l.adapters;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
-import android.text.Html;
-import android.text.Spannable;
 import android.util.Log;
-import android.util.Pair;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.*;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
@@ -42,19 +23,15 @@ import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
-import com.klinker.android.simple_videoview.SimpleVideoView;
-import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.manipulations.GifBadge;
+import com.klinker.android.twitter_l.manipulations.ProfilePeek;
 import com.klinker.android.twitter_l.manipulations.QuickActionsPopup;
 import com.klinker.android.twitter_l.manipulations.VideoBadge;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
@@ -62,19 +39,12 @@ import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 import twitter4j.Status;
 import twitter4j.User;
@@ -481,6 +451,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         });
 
+        if (context instanceof PeekViewActivity) {
+            PeekViewOptions options = new PeekViewOptions()
+                    .setAbsoluteWidth(225)
+                    .setAbsoluteHeight(257);
+
+            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
+                    .with(options)
+                    .applyTo((PeekViewActivity) context, holder.profilePic);
+        }
+
         if (!screenname.equals(username)) {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -597,12 +577,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     int layoutRes = 0;
                     if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif)) {
                         holder.playButton.setImageDrawable(new GifBadge(context));
-                        layoutRes = R.layout.gif_peek;
+                        layoutRes = R.layout.peek_gif;
                     } else {
                         holder.playButton.setImageDrawable(new VideoBadge(context));
 
                         if (!holder.picUrl.contains("youtube")) {
-                            layoutRes = R.layout.video_peek;
+                            layoutRes = R.layout.peek_video;
                         }
                     }
 
@@ -667,7 +647,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         options.setFullScreenPeek(true);
                         options.setBackgroundDim(1f);
 
-                        Peek.into(R.layout.image_peek, new SimpleOnPeek() {
+                        Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
                                 Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
