@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.util.Log;
 
@@ -182,6 +183,10 @@ public class PrefFragmentAdvanced extends PrefFragment {
                 AppSettings.getInstance(context).sharedPrefs.edit()
                         .putString("ringtone", newValue.toString())
                         .commit();
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putString("ringtone", newValue.toString())
+                        .commit();
+
                 AppSettings.invalidate();
 
                 return false;
