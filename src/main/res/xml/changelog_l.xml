@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.2.1">
+        <text>Make the icon just a little bit bigger</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="5.2.0">
         <text>NEW ICON</text>
         <text>Peek into profiles, images, GIFs, and videos from the timeline with a long click (similar to 3D Touch)</text>
