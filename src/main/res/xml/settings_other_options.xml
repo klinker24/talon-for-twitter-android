@@ -44,4 +44,10 @@
         android:summary="@string/to_replies"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:key="use_peek"
+        android:title="@string/use_peek"
+        android:summary="@string/use_peek_description"
+        android:defaultValue="true" />
+
 </PreferenceScreen>
