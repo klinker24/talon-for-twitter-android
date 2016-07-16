@@ -737,16 +737,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-        if (context instanceof PeekViewActivity) {
-            PeekViewOptions options = new PeekViewOptions()
-                    .setAbsoluteWidth(225)
-                    .setAbsoluteHeight(257);
-
-            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
-                    .with(options)
-                    .applyTo((PeekViewActivity) context, holder.profilePic);
-        }
-
         holder.screenTV.setText("@" + screenname);
         holder.name.setText(name);
 
@@ -786,6 +776,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         boolean picture = false;
+        boolean picturePeek = false;
+        int videoPeekLayout = -1;
 
         if (holder.videoView.getVisibility() == View.VISIBLE) {
             holder.videoView.setVisibility(View.GONE);
@@ -805,45 +797,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     holder.playButton.setVisibility(View.VISIBLE);
                 }
 
-                PeekViewOptions options = new PeekViewOptions();
-                options.setFullScreenPeek(true);
-                options.setBackgroundDim(1f);
-
-                int layoutRes = 0;
                 if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
                     holder.playButton.setImageDrawable(new GifBadge(context));
-                    layoutRes = R.layout.peek_gif;
+                    videoPeekLayout = R.layout.peek_gif;
                 } else {
                     holder.playButton.setImageDrawable(new VideoBadge(context));
 
                     if (!holder.picUrl.contains("youtube")) {
-                        layoutRes = R.layout.peek_video;
-                    }
-                }
-
-                if (context instanceof PeekViewActivity) {
-                    if (layoutRes != 0) {
-                        Peek.into(layoutRes, new OnPeek() {
-                            private EasyVideoPlayer videoView;
-
-                            @Override
-                            public void shown() {
-                            }
-
-                            @Override
-                            public void onInflated(View rootView) {
-                                videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
-                                videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                videoView.setCallback(new EasyVideoCallbackWrapper());
-                            }
-
-                            @Override
-                            public void dismissed() {
-                                videoView.release();
-                            }
-                        }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
-                    } else {
-                        holder.imageHolder.setOnTouchListener(null);
+                        videoPeekLayout = R.layout.peek_video;
                     }
                 }
 
@@ -892,19 +853,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     }
                 });
 
-                if (context instanceof PeekViewActivity) {
-                    PeekViewOptions options = new PeekViewOptions();
-                    options.setFullScreenPeek(true);
-                    options.setBackgroundDim(1f);
-
-                    Peek.into(R.layout.peek_image, new SimpleOnPeek() {
-                        @Override
-                        public void onInflated(View rootView) {
-                            Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
-                        }
-                    }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
-                }
-
+                picturePeek = true;
                 picture = true;
             }
         } else {
@@ -952,6 +901,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
         }
 
+        final boolean picturePeekF = picturePeek;
+        final int videoPeekF = videoPeekLayout;
+
         mHandlers[currHandler].removeCallbacksAndMessages(null);
         mHandlers[currHandler].postDelayed(new Runnable() {
             @Override
@@ -963,6 +915,66 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     if (otherUrl != null && otherUrl.contains("/status/") &&
                             holder.embeddedTweet.getChildCount() == 0) {
                         loadEmbeddedTweet(holder, otherUrl);
+                    }
+
+                    if (settings.usePeek) {
+                        if (context instanceof PeekViewActivity) {
+                            PeekViewOptions options = new PeekViewOptions()
+                                    .setAbsoluteWidth(225)
+                                    .setAbsoluteHeight(257);
+
+                            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
+                                    .with(options)
+                                    .applyTo((PeekViewActivity) context, holder.profilePic);
+                        }
+
+                        if (picturePeekF) {
+                            if (context instanceof PeekViewActivity) {
+                                PeekViewOptions options = new PeekViewOptions();
+                                options.setFullScreenPeek(true);
+                                options.setBackgroundDim(1f);
+
+                                Peek.into(R.layout.peek_image, new SimpleOnPeek() {
+                                    @Override
+                                    public void onInflated(View rootView) {
+                                        Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                    }
+                                }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                            }
+                        }
+
+                        if (videoPeekF != -1) {
+                            if (context instanceof PeekViewActivity) {
+                                if (videoPeekF != 0) {
+
+                                    PeekViewOptions options = new PeekViewOptions();
+                                    options.setFullScreenPeek(true);
+                                    options.setBackgroundDim(1f);
+
+                                    Peek.into(videoPeekF, new OnPeek() {
+                                        private EasyVideoPlayer videoView;
+
+                                        @Override
+                                        public void shown() {
+                                        }
+
+                                        @Override
+                                        public void onInflated(View rootView) {
+                                            videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                            videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                            videoView.setCallback(new EasyVideoCallbackWrapper());
+                                        }
+
+                                        @Override
+                                        public void dismissed() {
+                                            videoView.release();
+                                        }
+                                    }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                                } else {
+                                    Peek.clear(holder.imageHolder);
+                                }
+                            }
+                        }
                     }
                 }
             }

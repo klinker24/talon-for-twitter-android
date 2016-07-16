@@ -37,6 +37,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.CatchupPull;
+import com.klinker.android.twitter_l.services.PreCacheService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.WidgetRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -549,6 +550,15 @@ public class HomeFragment extends MainFragment {
         } catch (Exception e) {
             unreadCount = numberNew;
         }
+
+        if (settings.preCacheImages) {
+            try {
+                getActivity().startService(new Intent(getActivity(), PreCacheService.class));
+            } catch (Throwable t) {
+
+            }
+        }
+
         return unreadCount;
     }
 

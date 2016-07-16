@@ -353,7 +353,7 @@ public class TweetView {
             });
         }
 
-        if (context instanceof PeekViewActivity) {
+        if (context instanceof PeekViewActivity && settings.usePeek) {
             PeekViewOptions options = new PeekViewOptions()
                     .setAbsoluteWidth(225)
                     .setAbsoluteHeight(257);
@@ -434,7 +434,7 @@ public class TweetView {
                         }
                     }
 
-                    if (context instanceof PeekViewActivity) {
+                    if (context instanceof PeekViewActivity && settings.usePeek) {
                         if (layoutRes != 0) {
                             Peek.into(layoutRes, new OnPeek() {
                                 private EasyVideoPlayer videoView;
@@ -488,7 +488,7 @@ public class TweetView {
                         }
                     });
 
-                    if (context instanceof PeekViewActivity) {
+                    if (context instanceof PeekViewActivity && settings.usePeek) {
                         PeekViewOptions options = new PeekViewOptions();
                         options.setFullScreenPeek(true);
                         options.setBackgroundDim(1f);

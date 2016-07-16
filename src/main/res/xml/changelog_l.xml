@@ -1,7 +1,9 @@
 <changelog>
 
     <version name="5.2.1">
+        <text>Make the "Peeking" optional from "Other Options"</text>
         <text>Make the icon just a little bit bigger</text>
+        <text>Performance improvements</text>
         <text>Bug fixes</text>
     </version>
 
