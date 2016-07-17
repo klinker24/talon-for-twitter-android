@@ -34,6 +34,7 @@ import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.WebIntentBuilder;
 
 import java.io.File;
+import java.util.Calendar;
 
 public class VideoViewerActivity extends AppCompatActivity {
 
@@ -231,6 +232,17 @@ public class VideoViewerActivity extends AppCompatActivity {
     }
 
     private void downloadVideo() {
+        Calendar calendar = Calendar.getInstance();
+        boolean afterAug1 = (calendar.get(Calendar.MONTH) >= Calendar.AUGUST &&
+                calendar.get(Calendar.DAY_OF_MONTH) >= 1) ||
+                calendar.get(Calendar.YEAR) >= 2017;
+
+        if (videoFragment != null && videoFragment.getLoadedVideoLink().contains(".m3u8") && afterAug1) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/+LukeKlinker/posts/4ZTM55gKVPi"));
+            startActivity(browserIntent);
+            return;
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {

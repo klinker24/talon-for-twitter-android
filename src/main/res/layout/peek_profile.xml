@@ -90,6 +90,8 @@
                 android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:alpha=".91"/>
 
             <TextView
@@ -104,6 +106,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:background="?colorPrimaryDark"
             android:orientation="horizontal"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"

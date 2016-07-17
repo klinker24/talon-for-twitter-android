@@ -556,23 +556,20 @@ public class TweetLinkUtils {
                     return url;
                 }
                 return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
-            } else if (e.getType().equals("surfaceView")) {
+            } else if (e.getType().equals("surfaceView") || e.getType().equals("video")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
                     for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
-                        if (v.getUrl().contains(".mp4") || v.getUrl().contains(".m3u8")) {
+                        if (v.getUrl().contains(".mp4")) {
                             url = v.getUrl();
                         }
                     }
 
-                    return url;
-                }
-            } else if (e.getType().equals("video")) {
-                if (e.getVideoVariants().length > 0) {
-                    String url = "";
-                    for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
-                        if (v.getUrl().contains(".mp4") || v.getUrl().contains(".m3u8")) {
-                            url = v.getUrl();
+                    if (url.isEmpty()) {
+                        for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
+                            if (v.getUrl().contains(".m3u8")) {
+                                url = v.getUrl();
+                            }
                         }
                     }
 
