@@ -198,11 +198,11 @@ public class QueuedDataSource {
         Cursor cursor;
         try {
             cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
-                    allColumns, QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_DRAFT, null, null, null, null);
+                    allColumns, QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_DRAFT, null, null, null, QueuedSQLiteHelper.COLUMN_ID + " DESC");
         } catch (Exception e) {
             open();
             cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
-                    allColumns, QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_DRAFT, null, null, null, null);
+                    allColumns, QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_DRAFT, null, null, null, QueuedSQLiteHelper.COLUMN_ID + " DESC");
         }
 
         return cursor;
