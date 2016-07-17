@@ -1263,7 +1263,7 @@ public class ProfilePager extends SlidingActivity {
         final int MENU_UNMUTE_RT = 10;
         final int MENU_MUFFLE = 11;
         final int MENU_UNMUFFLE = 12;
-        final int MENU_COPY_LINK = 13;
+        final int MENU_SHARE_LINK = 13;
 
         if (isMyProfile) {
             //menu.getItem(MENU_TWEET).setVisible(false);
@@ -1480,12 +1480,12 @@ public class ProfilePager extends SlidingActivity {
                 finish();
                 return true;
 
-            case R.id.menu_copy_link:
-                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Activity.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("profile_link", "http://twitter.com/" + screenName.replace("@", ""));
-                clipboard.setPrimaryClip(clip);
+            case R.id.menu_share_link:
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, "http://twitter.com/" + screenName.replace("@", ""));
 
-                Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
+                startActivity(Intent.createChooser(share, "Share with:"));
                 return true;
 
             default:

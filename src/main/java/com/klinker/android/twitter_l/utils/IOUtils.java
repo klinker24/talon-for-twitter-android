@@ -80,7 +80,7 @@ public class IOUtils {
         File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
         myDir.mkdirs();
 
-        final File file = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + ".mp4");
+        final File file = new File(Environment.getExternalStorageDirectory(), "Talon/Video-" + (new Date()).getTime() + (videoUrl.contains(".m3u8") ? ".m3u8" : ".mp4"));
         if (!file.createNewFile()) {
             throw new RuntimeException("Cannot download surfaceView - error creating file");
         }
