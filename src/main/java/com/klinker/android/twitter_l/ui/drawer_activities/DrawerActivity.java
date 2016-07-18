@@ -1322,9 +1322,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
             return;
         }
-
-        cancelTeslaUnread();
-
         invalidateOptionsMenu();
     }
 
@@ -1345,6 +1342,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
     @Override
     protected void onResume() {
         super.onResume();
+
+        cancelTeslaUnread();
 
         if (translucent && !settings.transpartSystemBars) {
             if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode())) {
@@ -1606,6 +1605,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
     public void cancelTeslaUnread() {
 
+        ShortcutBadger.removeCount(context);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1620,12 +1621,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 } catch (IllegalArgumentException ex) {
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                }
-
-                try {
-                    ShortcutBadger.applyCount(context, 0);
-                } catch (Exception e) {
-
                 }
             }
         }).start();
