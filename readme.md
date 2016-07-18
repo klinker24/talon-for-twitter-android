@@ -1,6 +1,6 @@
 # Talon for Twitter
 
-![Main Drawer](https://raw.githubusercontent.com/klinker24/talon-plus/master/Other/Promo%20Stuff/Graphics/Plus/Final%20Promos/Feature%20graphic%204.png?token=AEpgLwVvs5sUhpFxrrFXqJe2MaM9ZP3Dks5XiORRwA%3D%3D)
+![Main Drawer](Other/Promo\ Stuff/Graphics/Plus/Final\ Promos/Feature\ graphic\ 4.png)
 
 This is the Material Design version of Talon, my popular Twitter client.
 
