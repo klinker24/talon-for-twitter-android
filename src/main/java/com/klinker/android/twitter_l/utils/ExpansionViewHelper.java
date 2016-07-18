@@ -56,6 +56,7 @@ import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 
 import org.jsoup.Jsoup;
@@ -1421,8 +1422,8 @@ public class ExpansionViewHelper {
 
                     if (query == null) {
                         query = new Query("to:" + screenname);
+                        query.setCount(70);
                         query.sinceId(id);
-                        query.setCount(100);
 
                         firstRun = false;
                     }
@@ -1481,11 +1482,10 @@ public class ExpansionViewHelper {
                             });
                         }
 
-                        query = result.nextQuery();
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
+                        query.setCount(70);
 
-                        if (query != null) {
-                            result = twitter.search(query);
-                        }
+                        result = twitter.search(query);
 
                         if (replies.size() >= CONVO_CARD_LIST_SIZE && !cardShown) {
                             cardShown = true;
@@ -1502,7 +1502,7 @@ public class ExpansionViewHelper {
                         }
 
                         try {
-                            Thread.sleep(250);
+                            Thread.sleep(200);
                         } catch (Exception e) {
                             // since we are changing the arraylist for the adapter in the background, we need to make sure it
                             // gets updated before continuing
