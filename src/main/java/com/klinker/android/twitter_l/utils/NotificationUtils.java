@@ -398,10 +398,10 @@ public class NotificationUtils {
             }
         }
 
-        try {
+        if (unreadCounts[1] + unreadCounts[2] == 0) {
+            ShortcutBadger.removeCount(context);
+        } else {
             ShortcutBadger.applyCount(context, unreadCounts[1] + unreadCounts[2]);
-        } catch (Exception e) {
-
         }
 
         try {
