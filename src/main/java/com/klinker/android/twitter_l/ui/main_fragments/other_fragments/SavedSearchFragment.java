@@ -9,10 +9,12 @@ import android.widget.AbsListView;
 
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.App;
+import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.ui.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -73,6 +75,7 @@ public class SavedSearchFragment extends MainFragment {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
                     query = new Query(search);
+                    query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
                     QueryResult result = twitter.search(query);
 
                     tweets.clear();
@@ -81,15 +84,15 @@ public class SavedSearchFragment extends MainFragment {
                         tweets.add(status);
                     }
 
-                    if (result.hasNext()) {
-                        query = result.nextQuery();
+                    if (tweets.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
                     }
 
                     try {
-                        ((Activity)context).runOnUiThread(new Runnable() {
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
@@ -121,7 +124,7 @@ public class SavedSearchFragment extends MainFragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
-                        ((Activity)context).runOnUiThread(new Runnable() {
+                        context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 spinner.setVisibility(View.GONE);
@@ -149,19 +152,20 @@ public class SavedSearchFragment extends MainFragment {
                         Twitter twitter = Utils.getTwitter(context, settings);
                         QueryResult result = twitter.search(query);
 
-                        for (twitter4j.Status status : result.getTweets()) {
+                        List<Status> statuses = result.getTweets();
+                        for (twitter4j.Status status : statuses) {
                             tweets.add(status);
                         }
 
-                        if (result.hasNext()) {
-                            query = result.nextQuery();
+                        if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                            query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
                             hasMore = false;
                         }
 
                         try {
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                            context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (adapter != null) {
@@ -178,7 +182,7 @@ public class SavedSearchFragment extends MainFragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                         try {
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                            context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     refreshLayout.setRefreshing(false);
