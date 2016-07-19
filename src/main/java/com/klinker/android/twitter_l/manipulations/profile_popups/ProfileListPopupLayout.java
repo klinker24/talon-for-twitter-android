@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.manipulations.profile_popups;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AbsListView;
@@ -43,6 +44,17 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
         //setTitle(getTitle());
         showTitle(false);
         setFullScreen();
+
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setWidthByPercent(.6f);
+                setHeightByPercent(.8f);
+            } else {
+                setWidthByPercent(.85f);
+                setHeightByPercent(.68f);
+            }
+            setCenterInScreen();
+        }
 
         this.user = user;
 

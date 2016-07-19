@@ -1423,7 +1423,6 @@ public class ExpansionViewHelper {
                     if (query == null) {
                         query = new Query("to:" + screenname);
                         query.setCount(70);
-                        query.sinceId(id);
 
                         firstRun = false;
                     }
@@ -1483,7 +1482,6 @@ public class ExpansionViewHelper {
                         }
 
                         query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
-                        query.setCount(70);
 
                         result = twitter.search(query);
 
