@@ -1,11 +1,5 @@
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
-
 android {
 
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
@@ -28,7 +22,7 @@ android {
             minifyEnabled false
             // minifyEnabled true
             // shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
         }
     }
 
