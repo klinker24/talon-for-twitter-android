@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+
+android {
+    packagingOptions {
+        exclude 'LICENSE'
+        exclude 'README.md'
+        exclude 'Other/'
+        exclude 'keystore.jks'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+	    exclude 'META-INF/DEPENDENCIES'
+    }
+
+    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.klinker.android.twitter_l"
+        minSdkVersion Integer.parseInt(project.MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+
+        jackOptions {
+            enabled Boolean.parseBoolean(project.USE_JACK)
+        }
+    }
+
+    File keystore = new File("Other/keystore")
+    if (keystore.exists()) {
+        signingConfigs {
+            release {
+                storeFile file("../Other/keystore")
+                storePassword project.RELEASE_KEY_SIGNATURE
+                keyAlias "talon"
+                keyPassword project.RELEASE_KEY_SIGNATURE
+            }
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    sourceSets {
+        androidTest {
+            setRoot('src/test')
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    aaptOptions {
+        noCompress 'apk'
+    }
+
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+
+    wearApp project(':wear')
+
+    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1',
+            'org.hamcrest:hamcrest-core:1.1',
+            'org.hamcrest:hamcrest-library:1.1'
+    androidTestCompile 'junit:junit:4.11'
+    androidTestCompile 'org.robolectric:robolectric:3.0'
+    androidTestCompile 'com.squareup:fest-android:1.0.8'
+    androidTestCompile 'org.mockito:mockito-all:1.9.5'
+
+    provided 'org.projectlombok:lombok:1.14.8'
+
+    compile "com.android.support:appcompat-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:cardview-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
+
+    compile 'com.klinkerapps:peekview:1.1.1'
+    compile 'com.klinkerapps:simple_videoview:1.2.0'
+    compile 'com.klinkerapps:launcher-apis:1.1.0'
+    compile 'com.klinkerapps:sliding-activity:1.3.2'
+
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.github.paolorotolo:appintro:3.1.0'
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
+    compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
+    compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.flipboard:bottomsheet-core:1.5.0'
+    compile 'com.yalantis:ucrop:1.5.0'
+    compile 'com.afollestad:easyvideoplayer:0.2.9'
+    compile 'me.leolin:ShortcutBadger:1.1.6@aar'
+
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+    compile 'org.twitter4j:twitter4j-stream:4.0.4'
+    compile 'org.twitter4j:twitter4j-http2-support:4.0.4'
+
+    compile 'org.apache.httpcomponents:httpmime:4.3.5'
+    compile 'org.apache.httpcomponents:httpcore:4.3.2'
+    compile 'org.jsoup:jsoup:1.7.3'
+
+    compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
+    compile(name: 'datetimepicker', ext: 'aar')
+    compile(name: 'sectioned-recyclerview', ext: 'aar')
+
+    compile project(':searchview')
+    compile project(':lvl')
+    compile(project(":shared_assets"))
+}

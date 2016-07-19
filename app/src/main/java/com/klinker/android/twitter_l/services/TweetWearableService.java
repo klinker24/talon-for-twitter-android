@@ -42,7 +42,6 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
 import com.klinker.android.twitter_l.ui.launcher_page.HandleScrollService;
-import com.klinker.android.twitter_l.util.IoUtils;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
