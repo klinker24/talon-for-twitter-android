@@ -499,6 +499,7 @@ public class ProfilePager extends SlidingActivity {
             @Override
             public void onClick(View view) {
                 tweetsPopup.setExpansionPointForAnim(view);
+
                 tweetsPopup.show();
             }
         });

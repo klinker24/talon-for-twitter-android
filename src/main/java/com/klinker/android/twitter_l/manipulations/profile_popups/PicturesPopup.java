@@ -65,7 +65,19 @@ public class PicturesPopup extends PopupLayout {
         showTitle(false);
         //setTitle(getContext().getString(R.string.pictures));
 
-        View root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.picture_popup_layout, null, false);
+
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setWidthByPercent(.6f);
+                setHeightByPercent(.8f);
+            } else {
+                setWidthByPercent(.85f);
+                setHeightByPercent(.68f);
+            }
+            setCenterInScreen();
+        }
+
+        View root = ((Activity)getContext()).getLayoutInflater().inflate(R.layout.picture_popup_layout, this, false);
 
         listView = (GridView) root.findViewById(R.id.gridView);
         spinner = (LinearLayout) root.findViewById(R.id.spinner);
