@@ -46,6 +46,9 @@ android {
         }
 
         buildTypes {
+            debug {
+                signingConfig signingConfigs.debug
+            }
             release {
                 minifyEnabled true
                 shrinkResources true
@@ -61,6 +64,11 @@ android {
 	            keyAlias "androiddebugkey"
 	            keyPassword "android"
 	    	}
+        }
+        buildTypes {
+            debug {
+                signingConfig signingConfigs.debug
+            }
         }
     }
 
