@@ -8,7 +8,7 @@ if (keystoreProperties.exists()) {
     props['keystorefile'] = 'none';
 }
 
-def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(VERSION_CODE)
+def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
 
 android {
 
