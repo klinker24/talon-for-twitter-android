@@ -11,9 +11,9 @@ if (keystoreProperties.exists()) {
 android {
 
     try {
-        compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+        compileSdkVersion Integer.parseInt(project.COMPILE_SDK)
     } catch (Exception e) {
-        compileSdkVersion project.COMPILE_SDK_VERSION
+        compileSdkVersion project.COMPILE_SDK
     }
 
     buildToolsVersion project.BUILD_TOOLS_VERSION
@@ -22,9 +22,9 @@ android {
         applicationId "com.klinker.android.twitter_l"
 
         try {
-            targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+            targetSdkVersion Integer.parseInt(project.TARGET_SDK)
         } catch (Exception e) {
-            targetSdkVersion project.TARGET_SDK_VERSION
+            targetSdkVersion project.TARGET_SDK
         }
 
         minSdkVersion Integer.parseInt(project.MIN_SDK)
