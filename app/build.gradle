@@ -8,6 +8,8 @@ if (keystoreProperties.exists()) {
     props['keystorefile'] = 'none';
 }
 
+def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(VERSION_CODE)
+
 android {
     packagingOptions {
         exclude 'LICENSE'
@@ -19,16 +21,26 @@ android {
 	    exclude 'META-INF/DEPENDENCIES'
     }
 
-    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    try {
+        compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    } catch (Exception e) {
+        compileSdkVersion project.COMPILE_SDK_VERSION
+    }
+
     buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
+
+        try {
+            targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        } catch (Exception e) {
+            targetSdkVersion project.TARGET_SDK_VERSION
+        }
+
         minSdkVersion Integer.parseInt(project.MIN_SDK)
-        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionCode buildNumber
         versionName project.VERSION_NAME
-        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
 
         jackOptions {
             enabled Boolean.parseBoolean(project.USE_JACK)
