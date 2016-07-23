@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+File keystoreProperties = rootProject.file("keystore.properties")
+def props = new Properties()
+if (keystoreProperties.exists()) {
+    props.load(new FileInputStream(keystoreProperties))
+} else {
+    props['keystorefile'] = 'none';
+}
+
 android {
 
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
@@ -17,20 +25,20 @@ android {
         }
     }
 
-    File keystore = new File("../Other/keystore")
+    File keystore = new File(props['keystorefile'])
     if (keystore.exists()) {
         signingConfigs {
+            release {
+                storeFile keystore
+                storePassword props['keystorepassword']
+                keyAlias props['keyalias']
+                keyPassword props['keypassword']
+            }
             debug {
                 storeFile file("../Other/debug.keystore")
                 storePassword "android"
                 keyAlias "androiddebugkey"
                 keyPassword "android"
-            }
-            release {
-                storeFile file("../Other/keystore")
-                storePassword project.RELEASE_KEY_SIGNATURE
-                keyAlias "talon"
-                keyPassword project.RELEASE_KEY_SIGNATURE
             }
         }
 
