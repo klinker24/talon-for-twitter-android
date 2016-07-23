@@ -8,8 +8,6 @@ if (keystoreProperties.exists()) {
     props['keystorefile'] = 'none';
 }
 
-def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
-
 android {
 
     try {
@@ -30,7 +28,7 @@ android {
         }
 
         minSdkVersion Integer.parseInt(project.MIN_SDK)
-        versionCode buildNumber
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
 
         jackOptions {
