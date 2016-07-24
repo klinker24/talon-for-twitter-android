@@ -1,4 +1,0 @@
-<b>5.2.3</b>
-Project Cleanup
-Update strings
-Bug fixes

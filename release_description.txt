@@ -1,0 +1,1 @@
+v5.2.3 includes various bug fixes, UI improvements, and translation updates.
