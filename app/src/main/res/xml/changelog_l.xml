@@ -1,5 +1,9 @@
 <changelog>
 
+	<version name="5.2.3">
+		<text>Add a link to the privacy policy (http://privacy.klinker.xyz)</text>
+	</version>
+	
     <version name="5.2.2">
         <text>Share profile link from the overflow menu when viewing profiles</text>
         <text>Various UI tweaks</text>
