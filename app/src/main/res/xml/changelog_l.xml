@@ -1,6 +1,8 @@
 <changelog>
 
 	<version name="5.2.3">
+        <text>The peek background is blurred instead of just dimmed</text>
+        <text>Peeking is available on profiles and the tweet viewer</text>
 		<text>Add a link to the privacy policy (http://privacy.klinker.xyz)</text>
 	</version>
 	
