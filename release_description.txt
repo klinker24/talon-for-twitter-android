@@ -1,1 +1,1 @@
-v5.2.3 includes various bug fixes, UI improvements, and translation updates.
+v5.2.4 includes various bug fixes, UI improvements, translation updates, and a link to our privacy policy (http://privacy.klinkerapps.com)
