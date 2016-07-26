@@ -55,6 +55,13 @@
             android:key="youtube"
             android:title="@string/youtube" />
 
+        <Preference
+            android:key="privacy_policy"
+            android:title="@string/privacy_policy" >
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://privacy.klinkerapps.com" />
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory
