@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -23,8 +24,14 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.OnPeek;
+import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.sliding.TouchlessScrollView;
@@ -688,6 +695,14 @@ public class TweetActivity extends SlidingActivity {
             @Override
             public void run() {
                 glide(proPic, profilePic);
+
+                PeekViewOptions options = new PeekViewOptions()
+                        .setAbsoluteWidth(225)
+                        .setAbsoluteHeight(257);
+
+                Peek.into(R.layout.peek_profile, new ProfilePeek(screenName))
+                        .with(options)
+                        .applyTo((PeekViewActivity) context, profilePic);
             }
         }, NETWORK_ACTION_DELAY);
         profilePic.setOnClickListener(viewPro);
@@ -705,6 +720,45 @@ public class TweetActivity extends SlidingActivity {
                     @Override
                     public void run() {
                         glide(webpage, image);
+
+                        if (!displayPlayButton) {
+                            // load the image
+
+                            PeekViewOptions options = new PeekViewOptions();
+                            options.setFullScreenPeek(true);
+                            options.setBackgroundDim(1f);
+
+                            Peek.into(R.layout.peek_image, new SimpleOnPeek() {
+                                @Override
+                                public void onInflated(View rootView) {
+                                    Glide.with(context).load(webpage.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                }
+                            }).with(options).applyTo((PeekViewActivity) context, image);
+                        } else if (!gifVideo.contains("youtu")) {
+                            PeekViewOptions options = new PeekViewOptions();
+                            options.setFullScreenPeek(true);
+                            options.setBackgroundDim(1f);
+
+                            Peek.into(VideoMatcherUtil.isTwitterGifLink(gifVideo) ? R.layout.peek_gif : R.layout.peek_video, new OnPeek() {
+                                private EasyVideoPlayer videoView;
+
+                                @Override
+                                public void shown() {
+                                }
+
+                                @Override
+                                public void onInflated(View rootView) {
+                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView.setSource(Uri.parse(gifVideo.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                    videoView.setCallback(new EasyVideoCallbackWrapper());
+                                }
+
+                                @Override
+                                public void dismissed() {
+                                    videoView.release();
+                                }
+                            }).with(options).applyTo((PeekViewActivity) context, image);
+                        }
                     }
                 }, NETWORK_ACTION_DELAY);
             }
