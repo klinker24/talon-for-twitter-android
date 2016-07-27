@@ -32,7 +32,6 @@ allprojects {
         jcenter()
         maven { url "https://dl.bintray.com/drummer-aidan/maven" }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
         flatDir { dirs 'lib' }
     }
 }
