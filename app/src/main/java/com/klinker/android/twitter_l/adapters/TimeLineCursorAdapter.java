@@ -941,9 +941,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     }
                                 }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                             }
-                        }
-
-                        if (videoPeekF != -1) {
+                        } else if (videoPeekF != -1) {
                             if (context instanceof PeekViewActivity) {
                                 if (videoPeekF != 0 && !holder.gifUrl.contains("youtu")) {
 
