@@ -945,7 +945,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                         if (videoPeekF != -1) {
                             if (context instanceof PeekViewActivity) {
-                                if (videoPeekF != 0) {
+                                if (videoPeekF != 0 && !holder.gifUrl.contains("youtu")) {
 
                                     PeekViewOptions options = new PeekViewOptions();
                                     options.setFullScreenPeek(true);
@@ -974,6 +974,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     Peek.clear(holder.imageHolder);
                                 }
                             }
+                        } else {
+                            Peek.clear(holder.imageHolder);
                         }
                     }
                 }
