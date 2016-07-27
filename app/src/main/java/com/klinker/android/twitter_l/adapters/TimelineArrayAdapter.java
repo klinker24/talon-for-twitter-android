@@ -581,7 +581,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     } else {
                         holder.playButton.setImageDrawable(new VideoBadge(context));
 
-                        if (!holder.picUrl.contains("youtube")) {
+                        if (!holder.picUrl.contains("youtu")) {
                             layoutRes = R.layout.peek_video;
                         }
                     }
@@ -606,7 +606,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 }
                             }).with(options).applyTo((PeekViewActivity) context, holder.image);
                         } else {
-                            holder.image.setOnTouchListener(null);
+                            Peek.clear(holder.image);
                         }
                     }
 

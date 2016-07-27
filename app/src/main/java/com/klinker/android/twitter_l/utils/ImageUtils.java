@@ -384,22 +384,25 @@ public class ImageUtils {
         linePaint.setStrokeWidth(Utils.toDP(1, context));
         linePaint.setColor(context.getResources().getColor(android.R.color.white));
 
+        Paint background = new Paint();
+        background.setColor(Color.WHITE);
+
         try {
             switch (bitmaps.length) {
                 case 2:
                     Bitmap image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(image);
-                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, background);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, background);
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     return image;
                 case 3:
                     image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
-                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
-                    canvas.drawBitmap(bitmaps[2], GROUP_RES / 2, GROUP_RES / 2, null);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, background);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, background);
+                    canvas.drawBitmap(bitmaps[2], GROUP_RES / 2, GROUP_RES / 2, background);
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     canvas.drawLine(GROUP_RES / 2, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);
@@ -407,10 +410,10 @@ public class ImageUtils {
                 case 4:
                     image = Bitmap.createBitmap(GROUP_RES, GROUP_RES, Bitmap.Config.ARGB_8888);
                     canvas = new Canvas(image);
-                    canvas.drawBitmap(bitmaps[0], 0, 0, null);
-                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, null);
-                    canvas.drawBitmap(bitmaps[2], 0, GROUP_RES / 2, null);
-                    canvas.drawBitmap(bitmaps[3], GROUP_RES / 2, GROUP_RES / 2, null);
+                    canvas.drawBitmap(bitmaps[0], 0, 0, background);
+                    canvas.drawBitmap(bitmaps[1], GROUP_RES / 2, 0, background);
+                    canvas.drawBitmap(bitmaps[2], 0, GROUP_RES / 2, background);
+                    canvas.drawBitmap(bitmaps[3], GROUP_RES / 2, GROUP_RES / 2, background);
 
                     canvas.drawLine(GROUP_RES / 2, 0, GROUP_RES / 2, GROUP_RES, linePaint);
                     canvas.drawLine(0, GROUP_RES / 2, GROUP_RES, GROUP_RES / 2, linePaint);

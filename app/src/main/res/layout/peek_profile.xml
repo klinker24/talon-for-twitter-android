@@ -90,7 +90,7 @@
                 android:textColor="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
+                android:maxLines="1"
                 android:ellipsize="end"
                 android:alpha=".91"/>
 
