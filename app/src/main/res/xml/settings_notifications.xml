@@ -53,7 +53,7 @@
             android:key="timeline_set"
             android:title="@string/timeline_notifications"
             android:summary="@string/timeline_notifications_text"
-            android:defaultValue="@array/interaction_notifications_inserted"
+            android:defaultValue="@array/timeline_notifications_default"
             android:entries="@array/timeline_notifications"
             android:entryValues="@array/interaction_notifications_inserted"
             android:dependency="notifications" />
