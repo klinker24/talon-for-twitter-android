@@ -312,7 +312,7 @@ public class AppSettings {
         displayScreenName = sharedPrefs.getBoolean("display_screen_name", false);
         inAppBrowser = sharedPrefs.getBoolean("inapp_browser", true);
         showBoth = sharedPrefs.getBoolean("both_handle_name", false);
-        timelineNot = sharedPrefs.getBoolean("timeline_notifications", true);
+        timelineNot = sharedPrefs.getBoolean("timeline_notifications", false);
         mentionsNot = sharedPrefs.getBoolean("mentions_notifications", true);
         dmsNot = sharedPrefs.getBoolean("direct_message_notifications", true);
         favoritesNot = sharedPrefs.getBoolean("favorite_notifications", true);
