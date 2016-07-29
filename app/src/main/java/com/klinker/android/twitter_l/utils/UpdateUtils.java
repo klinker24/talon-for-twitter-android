@@ -80,6 +80,29 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+
+            if (sharedPrefs.getBoolean("version_5_2_4", true)) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putString("timeline_sync_interval", "1800000")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "1800000")
+                        .putString("activity_sync_interval", "1800000")
+                        .putString("list_sync_interval", "1800000")
+                        .putBoolean("version_5_2_4", false)
+                        .commit();
+
+                sharedPrefs.edit()
+                        .putString("timeline_sync_interval", "1800000")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "1800000")
+                        .putString("activity_sync_interval", "1800000")
+                        .putString("list_sync_interval", "1800000")
+                        .putBoolean("version_5_2_4", false)
+                        .commit();
+
+                AppSettings.invalidate();
+            }
+
             if (sharedPrefs.getBoolean("version_5", true)) {
                 sharedPrefs.edit()
                         .putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "")
