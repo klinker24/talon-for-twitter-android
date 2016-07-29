@@ -1,8 +1,11 @@
 <changelog>
 
-	<version name="5.2.3">
+	<version name="5.2.4">
         <text>The peek background is blurred instead of just dimmed</text>
         <text>Peeking is available on profiles and the tweet viewer</text>
+        <text>Bug fixes</text>
+        <text>Various UI improvements</text>
+        <text>Translation updates</text>
 		<text>Add a link to the privacy policy (http://privacy.klinker.xyz)</text>
 	</version>
 	
