@@ -1074,6 +1074,19 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                             " - " +
                                             getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));
 
+                                    new AlertDialog.Builder(context)
+                                            .setTitle(R.string.night_mode_theme)
+                                            .setItems(new String[]{context.getString(R.string.theme_dark), context.getString(R.string.theme_black)}, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    if (i == 0) {
+                                                        sharedPrefs.edit().putBoolean("night_mode_black", false);
+                                                    } else {
+                                                        sharedPrefs.edit().putBoolean("night_mode_black", true);
+                                                    }
+                                                }
+                                            }).show();
+
                                 }
                             }, 6, 0, sharedPrefs.getBoolean("military_time", false), getString(R.string.night_mode_day));
                             dialog.show(getFragmentManager(), "night_mode_day");

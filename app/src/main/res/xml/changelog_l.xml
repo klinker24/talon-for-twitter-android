@@ -2,6 +2,7 @@
 
     <version name="5.3.0">
         <text>Line spacing option (App Style -> Advanced Options)</text>
+        <text>Select between dark or black theme for night mode</text>
         <text>Improve compact layout for quoted tweets</text>
         <text>UI improvements</text>
     </version>

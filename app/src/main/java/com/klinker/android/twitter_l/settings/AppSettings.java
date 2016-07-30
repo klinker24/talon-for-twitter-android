@@ -453,6 +453,10 @@ public class AppSettings {
 
             if (isInsideRange(startHour, startMin, endHour, endMin)) {
                 darkTheme = true;
+
+                if (sharedPrefs.getBoolean("night_mode_black", false)) {
+                    blackTheme = true;
+                }
             }
         }
 
