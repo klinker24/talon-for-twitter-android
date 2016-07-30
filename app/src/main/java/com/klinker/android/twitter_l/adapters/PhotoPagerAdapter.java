@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.klinker.android.twitter_l.ui.media_viewer.PhotoFragment;
+import com.klinker.android.twitter_l.activities.media_viewer.PhotoFragment;
 
 public class PhotoPagerAdapter extends FragmentPagerAdapter {
 

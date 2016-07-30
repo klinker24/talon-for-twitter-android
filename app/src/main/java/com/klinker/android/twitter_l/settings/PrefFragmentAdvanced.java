@@ -11,15 +11,14 @@ import android.preference.Preference;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
-import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 
 public class PrefFragmentAdvanced extends PrefFragment {
 

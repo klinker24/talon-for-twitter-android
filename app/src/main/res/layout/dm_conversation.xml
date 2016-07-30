@@ -70,7 +70,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
-            <com.klinker.android.twitter_l.views.widgets.HoloEditText
+            <com.klinker.android.twitter_l.views.widgets.FontPrefEditText
                 android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"

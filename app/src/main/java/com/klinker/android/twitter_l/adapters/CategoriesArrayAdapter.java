@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.discover.people.PeopleSearch;
+import com.klinker.android.twitter_l.activities.drawer_activities.discover.people.PeopleSearch;
 
 import twitter4j.Category;
 import twitter4j.ResponseList;

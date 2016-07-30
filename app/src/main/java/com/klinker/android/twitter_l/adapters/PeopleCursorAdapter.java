@@ -4,21 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,10 +16,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 
 public class PeopleCursorAdapter extends CursorAdapter {
 

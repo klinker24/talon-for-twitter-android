@@ -1,6 +1,5 @@
 package com.klinker.android.twitter_l.services;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,13 +8,10 @@ import android.util.Log;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 
 import twitter4j.Paging;

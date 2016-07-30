@@ -23,9 +23,9 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.ui.search.TimelineSearchFragment;
-import com.klinker.android.twitter_l.ui.search.TwitterSearchFragment;
-import com.klinker.android.twitter_l.ui.search.UserSearchFragment;
+import com.klinker.android.twitter_l.activities.search.TimelineSearchFragment;
+import com.klinker.android.twitter_l.activities.search.TwitterSearchFragment;
+import com.klinker.android.twitter_l.activities.search.UserSearchFragment;
 
 
 public class SearchPagerAdapter extends FragmentPagerAdapter {

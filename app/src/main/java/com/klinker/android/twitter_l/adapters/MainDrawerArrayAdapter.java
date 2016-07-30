@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;

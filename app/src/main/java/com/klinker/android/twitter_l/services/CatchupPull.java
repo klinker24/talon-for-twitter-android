@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,7 +25,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 

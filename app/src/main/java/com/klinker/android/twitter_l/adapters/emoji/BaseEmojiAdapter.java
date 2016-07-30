@@ -19,7 +19,7 @@ package com.klinker.android.twitter_l.adapters.emoji;
 import android.content.Context;
 import android.widget.BaseAdapter;
 
-import com.klinker.android.twitter_l.views.EmojiKeyboard;
+import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
 
 public abstract class BaseEmojiAdapter extends BaseAdapter {
 

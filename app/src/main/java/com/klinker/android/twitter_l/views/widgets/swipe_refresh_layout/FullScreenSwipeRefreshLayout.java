@@ -38,7 +38,7 @@ import android.widget.AbsListView;
 
 import com.klinker.android.launcher.api.ResourceHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.SystemBarVisibility;
 import com.klinker.android.twitter_l.utils.Utils;
 

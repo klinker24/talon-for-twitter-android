@@ -34,10 +34,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.WidgetRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivityWidget;
+import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
+import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 
 public class WidgetProvider extends AppWidgetProvider {

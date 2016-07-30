@@ -35,7 +35,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.compose.WidgetCompose;
+import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;

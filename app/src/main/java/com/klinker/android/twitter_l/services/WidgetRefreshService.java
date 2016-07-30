@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +27,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,8 +37,6 @@ import java.util.List;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class WidgetRefreshService  extends KillerIntentService {
 

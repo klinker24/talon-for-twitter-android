@@ -15,38 +15,26 @@ package com.klinker.android.twitter_l.settings;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.*;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
-import com.klinker.android.twitter_l.ui.MainActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

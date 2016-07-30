@@ -29,8 +29,8 @@ import android.util.Patterns;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.compose.RetryCompose;
+import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.compose.RetryCompose;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 

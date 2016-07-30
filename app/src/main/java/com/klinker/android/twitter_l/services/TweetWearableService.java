@@ -16,13 +16,11 @@
 
 package com.klinker.android.twitter_l.services;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Handler;
 import android.text.Html;
 import android.text.TextUtils;
@@ -36,23 +34,18 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.transaction.KeyProperties;
-import com.klinker.android.twitter_l.ui.launcher_page.HandleScrollService;
+import com.klinker.android.twitter_l.activities.launcher_page.HandleScrollService;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.WearableUtils;
 import com.klinker.android.twitter_l.utils.api_helper.TweetMarkerHelper;
 
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
