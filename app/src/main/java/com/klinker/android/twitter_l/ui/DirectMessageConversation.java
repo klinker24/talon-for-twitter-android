@@ -30,7 +30,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -50,11 +49,10 @@ import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.DMCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
@@ -84,7 +82,7 @@ public class DirectMessageConversation extends PeekViewActivity{
     private ListView listView;
     private HoloEditText composeBar;
     private ImageButton sendButton;
-    private HoloTextView charRemaining;
+    private FontPrefTextView charRemaining;
 
     private String listName;
 
@@ -163,7 +161,7 @@ public class DirectMessageConversation extends PeekViewActivity{
         listView = (ListView) findViewById(R.id.listView);
         sendButton = (ImageButton) findViewById(R.id.send_button);
         composeBar = (HoloEditText) findViewById(R.id.tweet_content);
-        charRemaining = (HoloTextView) findViewById(R.id.char_remaining);
+        charRemaining = (FontPrefTextView) findViewById(R.id.char_remaining);
 
         charRemaining.setVisibility(View.GONE);
 

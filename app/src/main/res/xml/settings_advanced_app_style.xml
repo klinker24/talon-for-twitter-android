@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:key="line_spacing"
+        android:title="@string/line_spacing"
+        android:defaultValue="5"
+        android:entries="@array/line_spacing"
+        android:entryValues="@array/line_spacing_scalar" />
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+
     <PreferenceCategory
         android:title="@string/tweet_look_options" >
 
@@ -24,6 +33,8 @@
             android:entryValues="@array/nav_bar_inserted" />
 
     </PreferenceCategory>
+
+    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
 
     <PreferenceCategory
         android:title="@string/scroll_options" >

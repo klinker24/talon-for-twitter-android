@@ -152,4 +152,10 @@
     <string name="ignored_on_compact">This setting is ignored on the compact layout.</string>
     <string name="use_peek">Use \"Peeking\"</string>
     <string name="use_peek_description">Long click profile pictures, images, videos, and GIFs from the timeline to get a preview of their content.</string>
+    <string name="line_spacing">Line Spacing</string>
+    <string name="huge">Huge</string>
+    <string name="big">Big</string>
+    <string name="regular">Regular</string>
+    <string name="small">Small</string>
+    <string name="tiny">Tiny</string>
 </resources>

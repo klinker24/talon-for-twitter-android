@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class NotificationComposeSecondAcc extends ComposeActivity {
@@ -53,7 +53,7 @@ public class NotificationComposeSecondAcc extends ComposeActivity {
         useAccTwo = true;
 
         ImageView pic = (ImageView) findViewById(R.id.profile_pic);
-        HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+        FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
 
         Glide.with(this).load(settings.secondProfilePicUrl).into(pic);
 

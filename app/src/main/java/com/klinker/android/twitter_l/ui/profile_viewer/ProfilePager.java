@@ -1,8 +1,6 @@
 package com.klinker.android.twitter_l.ui.profile_viewer;
 
 import android.app.*;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,34 +17,28 @@ import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
-import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.manipulations.profile_popups.*;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.ui.compose.ComposeDMActivity;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -68,8 +60,6 @@ import com.yalantis.ucrop.UCrop;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
-
-import static android.app.Activity.RESULT_OK;
 
 public class ProfilePager extends SlidingActivity {
 
@@ -165,11 +155,11 @@ public class ProfilePager extends SlidingActivity {
     }
 
     public ImageView profilePic;
-    public HoloTextView followerCount;
-    public HoloTextView followingCount;
-    public HoloTextView description;
-    public HoloTextView location;
-    public HoloTextView website;
+    public FontPrefTextView followerCount;
+    public FontPrefTextView followingCount;
+    public FontPrefTextView description;
+    public FontPrefTextView location;
+    public FontPrefTextView website;
     public ImageView[] friends = new ImageView[3];
     public ImageView[] followers = new ImageView[3];
     public View profileCounts;
@@ -184,11 +174,11 @@ public class ProfilePager extends SlidingActivity {
         // first get all the views we need
         profilePic = (ImageView) findViewById(R.id.profile_pic);
 
-        followerCount = (HoloTextView) findViewById(R.id.followers_number);
-        followingCount = (HoloTextView) findViewById(R.id.following_number);
-        description = (HoloTextView) findViewById(R.id.user_description);
-        location = (HoloTextView) findViewById(R.id.user_location);
-        website = (HoloTextView) findViewById(R.id.user_webpage);
+        followerCount = (FontPrefTextView) findViewById(R.id.followers_number);
+        followingCount = (FontPrefTextView) findViewById(R.id.following_number);
+        description = (FontPrefTextView) findViewById(R.id.user_description);
+        location = (FontPrefTextView) findViewById(R.id.user_location);
+        website = (FontPrefTextView) findViewById(R.id.user_webpage);
         profileCounts = findViewById(R.id.profile_counts);
 
         friends[0] = (ImageView) findViewById(R.id.friend_1);
@@ -406,8 +396,8 @@ public class ProfilePager extends SlidingActivity {
             verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
         }
 
-        HoloTextView createdAt = (HoloTextView) findViewById(R.id.created_at);
-        HoloTextView listsCount = (HoloTextView) findViewById(R.id.number_of_lists);
+        FontPrefTextView createdAt = (FontPrefTextView) findViewById(R.id.created_at);
+        FontPrefTextView listsCount = (FontPrefTextView) findViewById(R.id.number_of_lists);
 
         if (user.isVerified()) {
             verified.setVisibility(View.VISIBLE);

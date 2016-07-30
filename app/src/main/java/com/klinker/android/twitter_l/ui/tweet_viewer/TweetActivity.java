@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,18 +25,13 @@ import android.widget.*;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
-import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
-import com.klinker.android.sliding.TouchlessScrollView;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.data.Tweet;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -647,23 +641,23 @@ public class TweetActivity extends SlidingActivity {
 
     public CircleImageView profilePic;
     public ImageView image;
-    public HoloTextView retweetertv;
-    public HoloTextView timetv;
-    public HoloTextView nametv;
-    public HoloTextView screennametv;
-    public HoloTextView tweettv;
+    public FontPrefTextView retweetertv;
+    public FontPrefTextView timetv;
+    public FontPrefTextView nametv;
+    public FontPrefTextView screennametv;
+    public FontPrefTextView tweettv;
 
     public void setUIElements(final View layout) {
 
         //findViewById(R.id.content_container).setPadding(0,0,0,0);
 
-        nametv = (HoloTextView) layout.findViewById(R.id.name);
-        screennametv = (HoloTextView) layout.findViewById(R.id.screen_name);
-        tweettv = (HoloTextView) layout.findViewById(R.id.tweet);
-        retweetertv = (HoloTextView) layout.findViewById(R.id.retweeter);
+        nametv = (FontPrefTextView) layout.findViewById(R.id.name);
+        screennametv = (FontPrefTextView) layout.findViewById(R.id.screen_name);
+        tweettv = (FontPrefTextView) layout.findViewById(R.id.tweet);
+        retweetertv = (FontPrefTextView) layout.findViewById(R.id.retweeter);
         profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
         image = (ImageView) layout.findViewById(R.id.image);
-        timetv = (HoloTextView) layout.findViewById(R.id.time);
+        timetv = (FontPrefTextView) layout.findViewById(R.id.time);
 
         tweettv.setTextSize(settings.textSize);
         screennametv.setTextSize(settings.textSize - 2);

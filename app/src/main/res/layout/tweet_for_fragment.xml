@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.MaterialTextView
                 android:id="@+id/tweet"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:textIsSelectable="true"
                 android:textColor="?textColor" />
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                 android:id="@+id/retweeter"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

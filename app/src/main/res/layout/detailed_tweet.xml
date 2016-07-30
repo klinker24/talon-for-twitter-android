@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+    <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
         android:id="@+id/muffled_name"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="6dp">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                     android:singleLine="true"
                     android:gravity="top"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 android:layout_marginRight="6dp"
                 android:gravity="right|bottom">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/time"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
 
         <!-- Holds the name, screen name, and time-->
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
             android:id="@+id/tweet"
             android:tag="tweet"
             android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp" />
 
-        <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
@@ -235,7 +235,7 @@
                     android:src="?heart_button"
                     android:layout_marginRight="8dp"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
                     android:src="?retweetButton"
                     android:layout_marginRight="8dp"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/retweets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
