@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.ui.compose;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
@@ -26,12 +25,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -54,19 +51,15 @@ import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,10 +69,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.manipulations.EmojiKeyboard;
 import com.klinker.android.twitter_l.ui.MainActivity;
@@ -101,8 +93,6 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,7 +131,7 @@ public abstract class Compose extends Activity implements
     public TextView charRemaining;
     public ListPopupWindow userAutoComplete;
     public ListPopupWindow hashtagAutoComplete;
-    public HoloTextView numberAttached;
+    public FontPrefTextView numberAttached;
 
     protected boolean useAccOne = true;
     protected boolean useAccTwo = false;
@@ -328,7 +318,7 @@ public abstract class Compose extends Activity implements
         }
 
         if (notiId != 0) {
-            HoloTextView replyTo = (HoloTextView) findViewById(R.id.reply_to);
+            FontPrefTextView replyTo = (FontPrefTextView) findViewById(R.id.reply_to);
             if (reply.getText().toString().contains("/status/")) {
                 replyTo.setText(replyText + "\n\n" + getString(R.string.quote_disclaimer));
             } else {
@@ -496,7 +486,7 @@ public abstract class Compose extends Activity implements
         });
 
         ImageView pic = (ImageView) findViewById(R.id.profile_pic);
-        HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+        FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
 
         if (!(this instanceof ComposeSecAccActivity))
             Glide.with(this).load(settings.myProfilePicUrl).into(pic);

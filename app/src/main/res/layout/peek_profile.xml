@@ -91,13 +91,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:textSize="14dp"
                 android:ellipsize="end"
                 android:alpha=".91"/>
 
             <TextView
                 android:id="@+id/description"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:maxLines="3"
+                android:textSize="14dp"
                 android:ellipsize="end"
                 android:textColor="@android:color/white"
                 android:layout_width="match_parent"

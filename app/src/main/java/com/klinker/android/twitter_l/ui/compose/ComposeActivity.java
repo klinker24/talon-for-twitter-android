@@ -36,16 +36,14 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.ui.GiphySearch;
 import com.klinker.android.twitter_l.ui.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
@@ -134,7 +132,7 @@ public class ComposeActivity extends Compose {
                     builder.setItems(options, new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int item) {
                             ImageView pic = (ImageView) findViewById(R.id.profile_pic);
-                            HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+                            FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
 
                             switch (item) {
                                 case 0:

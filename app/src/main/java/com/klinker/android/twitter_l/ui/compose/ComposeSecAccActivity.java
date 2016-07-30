@@ -6,9 +6,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.utils.ImageUtils;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 
 public class ComposeSecAccActivity extends ComposeActivity {
 
@@ -18,7 +16,7 @@ public class ComposeSecAccActivity extends ComposeActivity {
         useAccTwo = true;
 
         ImageView pic = (ImageView) findViewById(R.id.profile_pic);
-        HoloTextView currentName = (HoloTextView) findViewById(R.id.current_name);
+        FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
         Glide.with(this).load(settings.secondProfilePicUrl).into(pic);
         currentName.setText("@" + settings.secondScreenName);
 

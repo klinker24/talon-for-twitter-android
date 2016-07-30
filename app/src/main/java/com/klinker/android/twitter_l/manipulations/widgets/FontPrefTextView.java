@@ -22,19 +22,19 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class HoloTextView extends TextView {
+public class FontPrefTextView extends TextView {
 
-    public HoloTextView(Context context) {
+    public FontPrefTextView(Context context) {
         super(context);
         setTypeface(context);
     }
 
-    public HoloTextView(Context context, AttributeSet attrs) {
+    public FontPrefTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTypeface(context);
     }
 
-    public HoloTextView(Context context, AttributeSet attrs, int defStyle) {
+    public FontPrefTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setTypeface(context);
     }

@@ -12,16 +12,11 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.FavoriterUtils;
-import com.klinker.android.twitter_l.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import twitter4j.Status;
-import twitter4j.Twitter;
 import twitter4j.User;
 
 public class LikersFragment extends Fragment {
@@ -43,7 +38,7 @@ public class LikersFragment extends Fragment {
     private ListView listView;
     private LinearLayout spinner;
     private LinearLayout noContent;
-    private HoloTextView noContentText;
+    private FontPrefTextView noContentText;
 
     private Context context;
 
@@ -59,7 +54,7 @@ public class LikersFragment extends Fragment {
         listView = (ListView) layout.findViewById(R.id.listView);
         spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
         noContent = (LinearLayout) layout.findViewById(R.id.no_content);
-        noContentText = (HoloTextView) layout.findViewById(R.id.no_retweeters_text);
+        noContentText = (FontPrefTextView) layout.findViewById(R.id.no_retweeters_text);
 
         noContentText.setText(getActivity().getResources().getString(R.string.no_favorites));
 

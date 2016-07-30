@@ -16,8 +16,6 @@ package com.klinker.android.twitter_l.ui;
  */
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -27,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.jsoup.Jsoup;
@@ -37,14 +35,14 @@ import org.jsoup.select.Elements;
 
 public class PlainTextBrowserActivity extends BrowserActivity {
 
-    HoloTextView webText;
+    FontPrefTextView webText;
     ScrollView scrollView;
     LinearLayout spinner;
 
     @Override
     public void setUpLayout() {
         setContentView(R.layout.mobilized_fragment);
-        webText = (HoloTextView) findViewById(R.id.webpage_text);
+        webText = (FontPrefTextView) findViewById(R.id.webpage_text);
         scrollView = (ScrollView) findViewById(R.id.scrollview);
         spinner = (LinearLayout) findViewById(R.id.spinner);
 

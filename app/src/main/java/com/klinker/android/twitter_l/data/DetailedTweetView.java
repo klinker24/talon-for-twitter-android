@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -67,8 +66,8 @@ public class DetailedTweetView extends TweetView {
         root.addView(tweetView);
     }
 
-    private HoloTextView likesText;
-    private HoloTextView retweetsText;
+    private FontPrefTextView likesText;
+    private FontPrefTextView retweetsText;
 
     @Override
     public View getView() {
@@ -80,8 +79,8 @@ public class DetailedTweetView extends TweetView {
         super.setComponents(v);
 
         // find the like and retweet buttons
-        likesText = (HoloTextView) v.findViewById(R.id.likes);
-        retweetsText = (HoloTextView) v.findViewById(R.id.retweets);
+        likesText = (FontPrefTextView) v.findViewById(R.id.likes);
+        retweetsText = (FontPrefTextView) v.findViewById(R.id.retweets);
 
         likesText.setTextSize(settings.textSize);
         retweetsText.setTextSize(settings.textSize);

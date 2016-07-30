@@ -23,7 +23,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+    <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
         android:id="@+id/muffled_name"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                     android:textColor="?textColor"
                     android:singleLine="true"/>
 
-                <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -109,7 +109,7 @@
                     android:paddingLeft="6dp"
                     android:gravity="right|center_vertical">
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                         android:id="@+id/time"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -138,7 +138,7 @@
                     android:layout_weight="2"
                     android:layout_height="wrap_content">
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    <com.klinker.android.twitter_l.manipulations.widgets.MaterialTextView
                         android:id="@+id/tweet"
                         android:tag="tweet"
                         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                         android:textColor="?textColor"
                         android:layoutDirection="locale" />
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.HoloTextView
+                    <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
                         android:id="@+id/retweeter"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"

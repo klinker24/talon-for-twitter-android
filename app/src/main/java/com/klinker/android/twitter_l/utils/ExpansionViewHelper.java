@@ -1,7 +1,6 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.animation.Animator;
-import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -31,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -42,15 +40,13 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.manipulations.*;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloTextView;
-import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -122,7 +118,7 @@ public class ExpansionViewHelper {
     LinearLayout convoSpinner;
     View convoLayout;
 
-    HoloTextView tweetSource;
+    FontPrefTextView tweetSource;
 
     ConversationPopupLayout convoPopup;
     MobilizedWebPopupLayout mobilizedPopup;
@@ -178,7 +174,7 @@ public class ExpansionViewHelper {
         quoteButton = expansion.findViewById(R.id.quote_button);
         interactionsButton = expansion.findViewById(R.id.info_button);
 
-        tweetSource = (HoloTextView) expansion.findViewById(R.id.tweet_source);
+        tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
         repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
@@ -1663,7 +1659,7 @@ public class ExpansionViewHelper {
         }
     }
 
-    public void getTextFromSite(final String url, final HoloTextView browser, final View spinner, final ScrollView scroll) {
+    public void getTextFromSite(final String url, final FontPrefTextView browser, final View spinner, final ScrollView scroll) {
         Thread getText = new Thread(new Runnable() {
             @Override
             public void run() {
