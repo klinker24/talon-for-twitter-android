@@ -17,7 +17,6 @@ package com.klinker.android.twitter_l.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.ui.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 

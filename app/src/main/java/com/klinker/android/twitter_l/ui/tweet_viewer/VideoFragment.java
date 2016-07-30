@@ -3,25 +3,19 @@ package com.klinker.android.twitter_l.ui.tweet_viewer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
 
 import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
-import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.ui.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import org.apache.http.HttpEntity;

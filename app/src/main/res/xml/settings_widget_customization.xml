@@ -4,7 +4,7 @@
     <Preference
         android:summary="@string/widget_disclaimer"/>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/color_options">
@@ -18,7 +18,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/functionality_options">

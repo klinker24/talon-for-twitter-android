@@ -32,7 +32,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:key="other_options"
@@ -55,7 +55,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:key="manual_options"

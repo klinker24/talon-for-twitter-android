@@ -2,7 +2,6 @@ package com.klinker.android.twitter_l.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.GifBadge;
-import com.klinker.android.twitter_l.manipulations.VideoBadge;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.PhotoPagerActivity;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.views.GifBadge;
+import com.klinker.android.twitter_l.views.VideoBadge;
+import com.klinker.android.twitter_l.ui.media_viewer.PhotoPagerActivity;
+import com.klinker.android.twitter_l.ui.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;

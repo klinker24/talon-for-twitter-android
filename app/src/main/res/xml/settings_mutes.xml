@@ -51,7 +51,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/manage_muffles" >
@@ -66,7 +66,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/advanced">

@@ -8,7 +8,7 @@
         android:entries="@array/line_spacing"
         android:entryValues="@array/line_spacing_scalar" />
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/tweet_look_options" >
@@ -34,7 +34,7 @@
 
     </PreferenceCategory>
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/scroll_options" >

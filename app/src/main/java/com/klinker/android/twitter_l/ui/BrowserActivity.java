@@ -15,26 +15,21 @@ package com.klinker.android.twitter_l.ui;
  * limitations under the License.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.*;
 
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.HTML5WebView;
+import com.klinker.android.twitter_l.views.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 

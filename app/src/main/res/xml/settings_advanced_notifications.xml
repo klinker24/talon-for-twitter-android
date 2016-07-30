@@ -13,7 +13,7 @@
         android:summary="@string/auto_dismiss_summary"
         android:defaultValue="true" />
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/notification_types" >

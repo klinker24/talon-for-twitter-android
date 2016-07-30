@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.ui.search;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,37 +22,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.*;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
-import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
+import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
@@ -61,11 +46,7 @@ import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.utils.SearchUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import org.apache.http.NameValuePair;
-
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.URI;
 import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

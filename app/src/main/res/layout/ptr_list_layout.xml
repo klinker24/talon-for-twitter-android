@@ -44,7 +44,7 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
             android:id="@+id/no_retweeters_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
 
     </LinearLayout>
 
-    <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
+    <com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/swipe_refresh_layout">
@@ -69,7 +69,7 @@
             android:visibility="gone"
             />
 
-    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
+    </com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
 
     <View
             android:id="@+id/kitkat_status_bar"

@@ -11,7 +11,7 @@
         android:entries="@array/locale"
         android:entryValues="@array/locale_inserted" />
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider/>
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
         android:title="@string/discover_section_options" >

@@ -70,7 +70,7 @@
                             android:maxWidth="42dp" android:maxHeight="42dp"
                             app:civ_border_width="0dp"/>
 
-                    <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/current_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
 
             </LinearLayout>
 
-            <com.klinker.android.twitter_l.manipulations.widgets.MaterialTextView
+            <com.klinker.android.twitter_l.views.widgets.MaterialTextView
                 android:id="@+id/reply_to"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                 android:textColor="?dateColor"
                 android:visibility="gone"/>
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
+            <com.klinker.android.twitter_l.views.widgets.HoloEditText
                     android:id="@+id/tweet_content"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

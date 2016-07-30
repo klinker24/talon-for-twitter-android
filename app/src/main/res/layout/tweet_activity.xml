@@ -14,7 +14,7 @@
             android:id="@+id/background"
             android:background="?windowBackground" />
 
-        <com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView
+        <com.klinker.android.twitter_l.views.widgets.NotifyScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -254,7 +254,7 @@
 
             </LinearLayout>
 
-        </com.klinker.android.twitter_l.manipulations.widgets.NotifyScrollView>
+        </com.klinker.android.twitter_l.views.widgets.NotifyScrollView>
 
 
         <LinearLayout

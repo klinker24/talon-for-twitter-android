@@ -70,7 +70,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.HoloEditText
+            <com.klinker.android.twitter_l.views.widgets.HoloEditText
                 android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -86,7 +86,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                     android:id="@+id/char_remaining"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
