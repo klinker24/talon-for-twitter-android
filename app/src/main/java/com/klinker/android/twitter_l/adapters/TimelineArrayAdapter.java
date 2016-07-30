@@ -24,7 +24,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;

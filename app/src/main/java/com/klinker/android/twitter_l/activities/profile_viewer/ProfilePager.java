@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
