@@ -183,7 +183,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                final CharSequence[] items = new CharSequence[] {"@" + settings.myScreenName, "@" + settings.secondScreenName};
+                final CharSequence[] items = settings.numberOfAccounts == 1 ?
+                        new CharSequence[] { "@" + settings.myScreenName } :
+                        new CharSequence[] { "@" + settings.myScreenName, "@" + settings.secondScreenName };
+
                 new AlertDialog.Builder(getActivity())
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
