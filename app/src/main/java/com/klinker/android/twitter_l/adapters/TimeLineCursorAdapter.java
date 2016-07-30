@@ -1003,6 +1003,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
             TweetView v = new TweetView(context, status);
+            v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
@@ -1294,6 +1295,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 TweetView v = new TweetView(context, embedded);
+                                v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 

@@ -106,6 +106,11 @@ public class TweetView {
     int embeddedTweets = 0;
 
     boolean inReplyToSection = false;
+    boolean displayProfilePicture = true;
+
+    public void setDisplayProfilePicture(boolean displayProfilePicture) {
+        this.displayProfilePicture = displayProfilePicture;
+    }
 
     public TweetView(Context context) {
         this(context, 0);
@@ -266,6 +271,12 @@ public class TweetView {
 
         embeddedTweetMinHeight = Utils.toDP(140, context);
         embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+
+        if (!displayProfilePicture) {
+            profilePicIv.setVisibility(View.GONE);
+        } else if (profilePicIv.getVisibility() != View.VISIBLE) {
+            profilePicIv.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void bindData() {
