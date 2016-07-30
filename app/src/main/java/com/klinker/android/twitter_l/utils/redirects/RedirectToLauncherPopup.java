@@ -15,14 +15,12 @@ package com.klinker.android.twitter_l.utils.redirects;
  * limitations under the License.
  */
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.launcher_page.LauncherPopup;
+import com.klinker.android.twitter_l.activities.launcher_page.LauncherPopup;
 
 
 public class RedirectToLauncherPopup extends AppCompatActivity {

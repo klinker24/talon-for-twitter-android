@@ -15,18 +15,13 @@ package com.klinker.android.twitter_l.utils;
  * limitations under the License.
  */
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.*;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.vending.licensing.LicenseChecker;
@@ -34,16 +29,13 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.setup.LVLActivity;
-import org.apache.http.HttpResponse;
+import com.klinker.android.twitter_l.activities.setup.LVLActivity;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;

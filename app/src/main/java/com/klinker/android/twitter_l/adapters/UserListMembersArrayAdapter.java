@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;

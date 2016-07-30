@@ -22,8 +22,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.Html;
@@ -38,13 +36,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.DirectMessage;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.DirectMessageConversation;
-import com.klinker.android.twitter_l.utils.ImageUtils;
+import com.klinker.android.twitter_l.activities.DirectMessageConversation;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;

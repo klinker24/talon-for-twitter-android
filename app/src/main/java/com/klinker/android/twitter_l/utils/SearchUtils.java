@@ -3,14 +3,13 @@ package com.klinker.android.twitter_l.utils;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.view.View;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
-import com.klinker.android.twitter_l.ui.search.SearchPager;
+import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter_l.activities.search.SearchPager;
 import com.lapism.searchview.adapter.SearchAdapter;
 import com.lapism.searchview.adapter.SearchItem;
 import com.lapism.searchview.view.SearchCodes;

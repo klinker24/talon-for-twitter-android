@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.klinker.android.twitter_l.views.EmojiKeyboard;
+import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
 public class NatureEmojiAdapter extends BaseEmojiAdapter {

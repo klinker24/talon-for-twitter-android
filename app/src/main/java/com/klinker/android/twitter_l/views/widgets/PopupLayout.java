@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.views.WebPopupLayout;
+import com.klinker.android.twitter_l.views.popups.WebPopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 

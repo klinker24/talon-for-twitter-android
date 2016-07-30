@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.discover.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 
 import java.util.ArrayList;
 

@@ -16,11 +16,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
-import com.klinker.android.twitter_l.ui.media_viewer.PhotoPagerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.media_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 

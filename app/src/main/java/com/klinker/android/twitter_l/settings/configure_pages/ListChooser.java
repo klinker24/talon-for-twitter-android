@@ -15,8 +15,6 @@ package com.klinker.android.twitter_l.settings.configure_pages;
  * limitations under the License.
  */
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,7 +29,6 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Collections;

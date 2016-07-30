@@ -17,11 +17,9 @@ package com.klinker.android.twitter_l.settings.configure_pages;
  */
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -38,7 +36,6 @@ import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 

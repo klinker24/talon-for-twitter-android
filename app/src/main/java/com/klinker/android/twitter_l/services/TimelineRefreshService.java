@@ -16,7 +16,6 @@ package com.klinker.android.twitter_l.services;
  */
 
 import android.app.AlarmManager;
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +25,8 @@ import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.main_fragments.home_fragments.HomeFragment;
+import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -40,8 +39,6 @@ import java.util.List;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 public class TimelineRefreshService extends KillerIntentService {
 

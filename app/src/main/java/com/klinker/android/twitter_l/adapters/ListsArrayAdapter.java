@@ -29,8 +29,8 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.drawer_activities.lists.ChoosenListActivity;
-import com.klinker.android.twitter_l.ui.drawer_activities.lists.ViewUsers;
+import com.klinker.android.twitter_l.activities.drawer_activities.lists.ChoosenListActivity;
+import com.klinker.android.twitter_l.activities.drawer_activities.lists.ViewUsers;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.ResponseList;

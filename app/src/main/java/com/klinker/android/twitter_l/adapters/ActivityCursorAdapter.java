@@ -12,13 +12,11 @@ import android.text.Spannable;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.klinker.android.twitter_l.adapters.*;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ActivitySQLiteHelper;
-import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.tweet_viewer.TweetActivity;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
-import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 

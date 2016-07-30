@@ -63,12 +63,12 @@ import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity;
-import com.klinker.android.twitter_l.ui.compose.ComposeActivity;
-import com.klinker.android.twitter_l.ui.MainActivity;
-import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.ui.main_fragments.other_fragments.MentionsFragment;
-import com.klinker.android.twitter_l.views.widgets.HoloEditText;
+import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
+import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
@@ -639,7 +639,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 dialog.setContentView(R.layout.insert_regex_dialog);
                 dialog.setTitle(getResources().getString(R.string.mute_expression) + ":");
 
-                final HoloEditText expTV = (HoloEditText) dialog.findViewById(R.id.expression);
+                final FontPrefEditText expTV = (FontPrefEditText) dialog.findViewById(R.id.expression);
 
                 Button cancel = (Button) dialog.findViewById(R.id.cancel);
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -1041,7 +1041,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 FontPrefTextView.typeface = null;
-                HoloEditText.typeface = null;
+                FontPrefEditText.typeface = null;
 
                 return true;
             }
