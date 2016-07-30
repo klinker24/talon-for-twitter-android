@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+<com.klinker.android.twitter_l.views.widgets.FontPrefTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:id="@+id/text"
@@ -25,4 +25,4 @@
     android:paddingBottom="10dp" android:paddingTop="10dp"
     android:background="?android:selectableItemBackground">
 
-</com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView>
+</com.klinker.android.twitter_l.views.widgets.FontPrefTextView>

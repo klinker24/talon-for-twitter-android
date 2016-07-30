@@ -21,9 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,10 +37,9 @@ import com.klinker.android.twitter_l.ui.drawer_activities.RetweetActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.SavedSearchesActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.discover.DiscoverPager;
 import com.klinker.android.twitter_l.ui.drawer_activities.lists.ListsActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter_l.views.widgets.NotificationDrawerLayout;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class MainDrawerClickListener implements AdapterView.OnItemClickListener {

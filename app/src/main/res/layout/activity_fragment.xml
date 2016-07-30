@@ -62,7 +62,7 @@
 
     </LinearLayout>
 
-    <com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
+    <com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -80,7 +80,7 @@
                 android:visibility="gone"
                 />
 
-    </com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
+    </com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout>
 
     <LinearLayout android:id="@+id/toastBar"
                   android:layout_width="match_parent"

@@ -65,7 +65,7 @@
                         android:gravity="center_vertical"
                         android:paddingStart="8dp" >
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+                        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/name"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                             android:singleLine="true"
                             android:gravity="bottom"/>
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+                        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/screen_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                         android:layout_marginRight="6dp"
                         android:layout_gravity="right|bottom">
 
-                        <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+                        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/time"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"

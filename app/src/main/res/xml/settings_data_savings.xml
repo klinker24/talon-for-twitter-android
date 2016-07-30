@@ -4,7 +4,7 @@
     <Preference
         android:summary="@string/background_refreshes_disclaimer" />
 
-    <com.klinker.android.twitter_l.manipulations.preference.PreferenceDivider />
+    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <SwitchPreference
         android:key="sync_mobile_data"

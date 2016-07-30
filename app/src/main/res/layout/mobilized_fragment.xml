@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                 android:id="@+id/webpage_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

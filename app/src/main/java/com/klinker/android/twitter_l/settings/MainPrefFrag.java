@@ -18,7 +18,6 @@ package com.klinker.android.twitter_l.settings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -30,7 +29,7 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
-import com.klinker.android.twitter_l.manipulations.ListTagHandler;
+import com.klinker.android.twitter_l.views.ListTagHandler;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;

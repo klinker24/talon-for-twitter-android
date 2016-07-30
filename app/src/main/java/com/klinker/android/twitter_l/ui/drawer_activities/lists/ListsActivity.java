@@ -17,8 +17,6 @@ package com.klinker.android.twitter_l.ui.drawer_activities.lists;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -32,11 +30,9 @@ import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ListsArrayAdapter;
-import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
+import com.klinker.android.twitter_l.views.widgets.HoloEditText;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Collections;

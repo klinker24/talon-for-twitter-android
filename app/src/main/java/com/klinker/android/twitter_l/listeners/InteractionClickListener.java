@@ -38,7 +38,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.MainActivity;
 import com.klinker.android.twitter_l.ui.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout;
+import com.klinker.android.twitter_l.views.widgets.NotificationDrawerLayout;
 
 public class InteractionClickListener implements AdapterView.OnItemClickListener {
 

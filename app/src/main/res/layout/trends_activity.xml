@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout
+<com.klinker.android.twitter_l.views.widgets.NotificationDrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -97,4 +97,4 @@
         android:layout_height="match_parent"
         android:layout_gravity="right"/>
 
-</com.klinker.android.twitter_l.manipulations.widgets.NotificationDrawerLayout>
+</com.klinker.android.twitter_l.views.widgets.NotificationDrawerLayout>

@@ -32,9 +32,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter_l.data.App;
-import com.klinker.android.twitter_l.manipulations.NavBarOverlayLayout;
-import com.klinker.android.twitter_l.manipulations.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
+import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
+import com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 

@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 
 public class ComposeSecAccActivity extends ComposeActivity {
 

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.ThemeColor;
-import com.klinker.android.twitter_l.manipulations.widgets.ColorPreviewButton;
+import com.klinker.android.twitter_l.views.widgets.ColorPreviewButton;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.List;

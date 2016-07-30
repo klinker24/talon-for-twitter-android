@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -39,7 +38,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter_l.manipulations.photo_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.ui.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.ui.BrowserActivity;
 import com.klinker.android.twitter_l.ui.PlainTextBrowserActivity;

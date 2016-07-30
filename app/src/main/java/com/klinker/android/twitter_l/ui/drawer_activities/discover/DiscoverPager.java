@@ -15,35 +15,22 @@ package com.klinker.android.twitter_l.ui.drawer_activities.discover;
  * limitations under the License.
  */
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TrendsPagerAdapter;
-import com.klinker.android.twitter_l.manipulations.widgets.HoloEditText;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.settings.PrefActivity;
-import com.klinker.android.twitter_l.ui.setup.LoginActivity;
 import com.klinker.android.twitter_l.ui.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter_l.utils.Utils;
 
 public class DiscoverPager extends DrawerActivity {
 
