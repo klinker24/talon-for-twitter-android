@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.3.0">
+        <text>Line spacing option (App Style -> Advanced Options)</text>
+        <text>UI improvements</text>
+    </version>
+
 	<version name="5.2.4">
         <text>The peek background is blurred instead of just dimmed</text>
         <text>Peeking is available on profiles and the tweet viewer</text>
