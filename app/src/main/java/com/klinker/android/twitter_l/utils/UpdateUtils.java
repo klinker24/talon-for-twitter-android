@@ -44,6 +44,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -80,6 +81,29 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+            if (sharedPrefs.getBoolean("version_5_3", true)) {
+                HashSet<String> set = new HashSet();
+
+                if (AppSettings.getInstance(context).timelineNot) {
+                    set.addAll(Arrays.asList(new String[] {"1", "2", "3", "4"}));
+                } else {
+                    set.addAll(Arrays.asList(new String[] { "2", "3", "4"}));
+                }
+
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putStringSet("timeline_set", set)
+                        .putBoolean("timeline_notifications", false)
+                        .putBoolean("version_5_3", false)
+                        .commit();
+
+                sharedPrefs.edit()
+                        .putStringSet("timeline_set", set)
+                        .putBoolean("timeline_notifications", false)
+                        .putBoolean("version_5_3", false)
+                        .commit();
+
+                AppSettings.invalidate();
+            }
 
             if (sharedPrefs.getBoolean("version_5_2_4", true)) {
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
