@@ -108,7 +108,7 @@
 
             </LinearLayout>
 
-            <com.klinker.android.twitter_l.manipulations.widgets.FontPrefTextView
+            <com.klinker.android.twitter_l.manipulations.widgets.MaterialTextView
                 android:id="@+id/reply_to"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

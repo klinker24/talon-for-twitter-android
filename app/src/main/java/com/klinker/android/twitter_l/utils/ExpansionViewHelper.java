@@ -1588,10 +1588,18 @@ public class ExpansionViewHelper {
             }
         };
         a.setAnimationListener(new Animation.AnimationListener() {
-            @Override public void onAnimationStart(Animation animation) { }
+            @Override public void onAnimationStart(Animation animation) {
+                retweetButton.setEnabled(false);
+            }
             @Override public void onAnimationRepeat(Animation animation) { }
             @Override public void onAnimationEnd(Animation animation) {
                 readjustExpansionArea();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        retweetButton.setEnabled(true);
+                    }
+                }, 500);
             }
         });
 
