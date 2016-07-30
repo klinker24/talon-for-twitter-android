@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.data;
+package com.klinker.android.twitter_l.views;
 
 import android.app.Activity;
 import android.content.Context;

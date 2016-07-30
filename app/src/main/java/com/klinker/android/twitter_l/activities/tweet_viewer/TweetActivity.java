@@ -32,7 +32,7 @@ import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;

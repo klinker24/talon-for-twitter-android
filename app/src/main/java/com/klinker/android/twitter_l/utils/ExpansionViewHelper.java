@@ -40,7 +40,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;

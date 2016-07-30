@@ -14,7 +14,7 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.TweetView;
+import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;

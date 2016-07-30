@@ -30,7 +30,7 @@ import com.bumptech.glide.request.target.Target;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter_l.data.DetailedTweetView;
+import com.klinker.android.twitter_l.views.DetailedTweetView;
 import com.klinker.android.twitter_l.views.widgets.FullScreenImageView;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.settings.AppSettings;
