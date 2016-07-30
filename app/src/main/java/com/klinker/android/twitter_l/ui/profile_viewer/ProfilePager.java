@@ -330,12 +330,34 @@ public class ProfilePager extends SlidingActivity {
             followText.setText(getString(R.string.menu_follow));
         }
 
-        followButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FollowUser().execute();
-            }
-        });
+        if (isFollowing || !settings.crossAccActions) {
+            followButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new FollowUser(TYPE_ACC_ONE).execute();
+                }
+            });
+        } else if (settings.crossAccActions) {
+            followButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // dialog for favoriting
+                    String[] options = new String[3];
+
+                    options[0] = "@" + settings.myScreenName;
+                    options[1] = "@" + settings.secondScreenName;
+                    options[2] = context.getString(R.string.both_accounts);
+
+                    new android.app.AlertDialog.Builder(context)
+                            .setItems(options, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int item) {
+                                    new FollowUser(item + 1).execute();
+                                }
+                            })
+                            .create().show();
+                }
+            });
+        }
 
         if (followingYou) {
             followingStatus.setText(getString(R.string.follows_you));
@@ -1071,26 +1093,60 @@ public class ProfilePager extends SlidingActivity {
         }
     }
 
+    private final int TYPE_ACC_ONE = 1;
+    private final int TYPE_ACC_TWO = 2;
+    private final int TYPE_BOTH_ACC = 3;
+
     class FollowUser extends AsyncTask<String, Void, Boolean> {
 
         private Exception e = null;
 
+        private int followType;
+
+        public FollowUser(int followType) {
+            this.followType = followType;
+        }
+
         protected Boolean doInBackground(String... urls) {
             try {
                 if (thisUser != null) {
-                    Twitter twitter =  Utils.getTwitter(context, settings);
+                    Twitter twitter = null;
+                    Twitter secTwitter = null;
+                    if (followType == TYPE_ACC_ONE) {
+                        twitter = Utils.getTwitter(context, settings);
+                    } else if (followType == TYPE_ACC_TWO) {
+                        secTwitter = Utils.getSecondTwitter(context);
+                    } else {
+                        twitter = Utils.getTwitter(context, settings);
+                        secTwitter = Utils.getSecondTwitter(context);
+                    }
 
                     String otherUserName = thisUser.getScreenName();
+                    boolean isFollowing = false;
 
-                    Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
-
-                    boolean isFollowing = friendship.isSourceFollowingTarget();
+                    if (twitter != null) {
+                        Relationship friendship = twitter.showFriendship(settings.myScreenName, otherUserName);
+                        isFollowing = friendship.isSourceFollowingTarget();
+                    }
 
                     if (isFollowing) {
-                        twitter.destroyFriendship(otherUserName);
+                        if (twitter != null) {
+                            twitter.destroyFriendship(otherUserName);
+                        }
+
+                        if (secTwitter != null) {
+                            secTwitter.createFriendship(otherUserName);
+                        }
+
                         return false;
                     } else {
-                        twitter.createFriendship(otherUserName);
+                        if (twitter != null) {
+                            twitter.createFriendship(otherUserName);
+                        }
+
+                        if (secTwitter != null) {
+                            secTwitter.createFriendship(otherUserName);
+                        }
 
                         FollowersDataSource.getInstance(context).createUser(thisUser, sharedPrefs.getInt("current_account", 1));
 
