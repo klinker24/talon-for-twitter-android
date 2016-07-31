@@ -29,6 +29,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -363,6 +364,25 @@ public abstract class Compose extends Activity implements
 
         if (this instanceof ComposeDMActivity) {
             attachButton.setVisibility(View.GONE);
+        }
+
+        // change the background color for the cursor
+        if (settings.darkTheme && settings.theme == AppSettings.THEME_BLACK) {
+            try {
+                // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
+                Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
+                f.setAccessible(true);
+                f.set(reply, R.drawable.black_cursor);
+            } catch (Exception ignored) {
+            }
+
+            try {
+                // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
+                Field f = TextView.class.getDeclaredField("mHighlightColor");
+                f.setAccessible(true);
+                f.set(reply, context.getResources().getColor(R.color.pressed_white));
+            } catch (Exception ignored) {
+            }
         }
     }
 
