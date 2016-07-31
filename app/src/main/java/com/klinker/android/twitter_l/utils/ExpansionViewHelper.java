@@ -987,6 +987,7 @@ public class ExpansionViewHelper {
                         twitter.destroyFavorite(id);
                         try {
                             FavoriteTweetsDataSource.getInstance(context).deleteTweet(id);
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_FAVORITES"));
                         } catch (Exception e) { }
                     } else if (twitter != null) {
                         try {
