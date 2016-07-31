@@ -72,6 +72,7 @@ import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.utils.text.Regex;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -162,7 +163,8 @@ public abstract class Compose extends Activity implements
                 String text = reply.getText().toString();
 
                 if (replyText != null) {
-                    text = text.replace(replyText, "");
+                    String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+                    text = text.replaceAll(replaceable, "");
                 }
 
                 if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
