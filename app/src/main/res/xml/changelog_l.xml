@@ -9,6 +9,7 @@
         <text>Improve compact layout for quoted tweets</text>
         <text>Default timeline notifications to "off"</text>
         <text>Improve the some coloring for the pitch black theme</text>
+        <text>Disable the retweet button on protected accounts</text>
         <text>UI improvements</text>
         <text>Bug fixes</text>
     </version>

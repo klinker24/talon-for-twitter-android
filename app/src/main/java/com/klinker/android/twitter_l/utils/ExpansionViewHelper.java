@@ -1128,6 +1128,24 @@ public class ExpansionViewHelper {
 
                             retweetCount.setText(" " + retCount);
 
+                            if (status.getUser().isProtected()) {
+                                retweetCount.setText("N/A");
+
+                                retweetButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Toast.makeText(context, R.string.protected_account_retweet, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                quoteButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Toast.makeText(context, R.string.protected_account_quote, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
                             if (isRetweeted) {
                                 retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
                                 retweetIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
@@ -1590,6 +1608,7 @@ public class ExpansionViewHelper {
                 return true;
             }
         };
+        final boolean shouldEnableRetweet = retweetButton.isEnabled();
         a.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation) {
                 retweetButton.setEnabled(false);
@@ -1600,7 +1619,8 @@ public class ExpansionViewHelper {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        retweetButton.setEnabled(true);
+                        if (shouldEnableRetweet)
+                            retweetButton.setEnabled(true);
                     }
                 }, 500);
             }
