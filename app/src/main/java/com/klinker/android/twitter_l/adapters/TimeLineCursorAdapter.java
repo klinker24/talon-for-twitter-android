@@ -111,6 +111,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     private boolean isDataSaver = false;
 
+    private boolean duelPanel;
+
     public static class ViewHolder {
         public TextView name;
         public TextView muffledName;
@@ -178,6 +180,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         smallPictures = Utils.toDP(120, context);
 
         sharedPrefs = AppSettings.getSharedPreferences(context);
+
+        duelPanel = AppSettings.dualPanels(context);
 
 
         if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
@@ -1182,7 +1186,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
 
         int topPadding = Utils.getStatusBarHeight(context);
-        if (settings.staticUi || context.getResources().getBoolean(R.bool.duel_panel)) {
+        if (settings.staticUi || duelPanel) {
             // the app bar doesn't move, so we should use it for the top padding too
             topPadding += Utils.getActionBarHeight(context);
         }

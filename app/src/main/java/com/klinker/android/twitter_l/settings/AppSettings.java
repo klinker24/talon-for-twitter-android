@@ -2,21 +2,15 @@ package com.klinker.android.twitter_l.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -182,6 +176,7 @@ public class AppSettings {
     public boolean widgetImages;
     public boolean autoDismissNotifications;
     public boolean usePeek;
+    public boolean dualPanels;
 
     // notifications
     public boolean timelineNot;
@@ -341,6 +336,7 @@ public class AppSettings {
         widgetImages = sharedPrefs.getBoolean("widget_images", true);
         autoDismissNotifications = sharedPrefs.getBoolean("auto_dismiss_notifications", true);
         usePeek = sharedPrefs.getBoolean("use_peek", true);
+        dualPanels = sharedPrefs.getBoolean("dual_panel", context.getResources().getBoolean(R.bool.dual_panels));
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
@@ -590,5 +586,16 @@ public class AppSettings {
         String prefix = themePrefixes[theme];
 
         themeColors = new ThemeColor(prefix, context);
+    }
+
+    public static boolean dualPanels(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                settings.dualPanels) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

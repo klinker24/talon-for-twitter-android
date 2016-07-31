@@ -19,6 +19,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="dual_panel"
+            android:title="@string/dual_panels"
+            android:summary="@string/dual_panels_summary"
+            android:defaultValue="@bool/dual_panels" />
+
+        <SwitchPreference
             android:key="reverse_click_actions"
             android:title="@string/reverse_click_actions"
             android:summary="@string/reverse_click_actions_default"
