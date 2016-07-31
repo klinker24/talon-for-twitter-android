@@ -334,7 +334,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
             //moveActionBar = true;
         //}
 
-        moveActionBar = !getResources().getBoolean(R.bool.duel_panel);
+        moveActionBar = !AppSettings.dualPanels(context);
     }
 
     boolean moveActionBar = true;

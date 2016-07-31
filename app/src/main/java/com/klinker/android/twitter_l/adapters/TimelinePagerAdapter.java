@@ -208,7 +208,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        if (context.getResources().getBoolean(R.bool.duel_panel))
+        if (AppSettings.dualPanels(context))
             return(.5f);
         else
             return(1.0f);

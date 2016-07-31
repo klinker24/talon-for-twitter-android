@@ -3,5 +3,4 @@
     <bool name="options_drawer">true</bool>
     <bool name="isTablet">false</bool>
     <bool name="has_drawer">true</bool>
-    <bool name="duel_panel">false</bool>
 </resources>

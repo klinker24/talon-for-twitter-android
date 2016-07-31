@@ -2,11 +2,14 @@
 
     <version name="5.3.0">
         <text>Line spacing option (App Style -> Advanced Options)</text>
+        <text>Option to use dual (side-by-side) swipable pages on the timeline, in landscape mode, for phones and tablets (App Style -> Advanced Options)</text>
         <text>Select between dark or black theme for night mode</text>
         <text>Select which account to follow from if you enable Other Options -> Cross Account Actions for multiple accounts.</text>
         <text>Re-enable the swipe to close GIFs/videos</text>
         <text>Improve compact layout for quoted tweets</text>
+        <text>Default timeline notifications to "off"</text>
         <text>UI improvements</text>
+        <text>Bug fixes</text>
     </version>
 
 	<version name="5.2.4">

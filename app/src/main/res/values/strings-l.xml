@@ -158,4 +158,6 @@
     <string name="regular">Regular</string>
     <string name="small">Small</string>
     <string name="tiny">Tiny</string>
+    <string name="dual_panels">Dual Pages (Landscape)</string>
+    <string name="dual_panels_summary">Shows two swipable pages, side-by-side, in landscape mode.</string>
 </resources>
