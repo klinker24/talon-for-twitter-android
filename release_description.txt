@@ -1,1 +1,1 @@
-v5.3.0 includes an option for line spacing (App Style -> Advanced Options), improve the compact layout for quoted tweets, and other various UI improvements/bug fixes
+v5.3.0 includes an option for line spacing (App Style -> Advanced Options), adds an option for dual pages in landscape mode (phones and tablets), improves the compact layout for quoted tweets, and other various UI improvements/bug fixes
