@@ -73,7 +73,7 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
-            if (sharedPrefs.getBoolean("version_5_3", true)) {
+            if (sharedPrefs.getBoolean("version_5_3_1", true)) {
                 HashSet<String> set = new HashSet();
 
                 if (AppSettings.getInstance(context).timelineNot) {
@@ -83,15 +83,33 @@ public class UpdateUtils {
                 }
 
                 PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putString("timeline_sync_interval", "1800000")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "1800000")
+                        .putString("activity_sync_interval", "1800000")
+                        .putString("list_sync_interval", "1800000")
                         .putStringSet("timeline_set", set)
                         .putBoolean("timeline_notifications", false)
-                        .putBoolean("version_5_3", false)
+                        .putBoolean("mention_notifications", true)
+                        .putBoolean("direct_message_notifications", true)
+                        .putBoolean("activity_notifications", true)
+                        .putBoolean("favorite_notifications", true)
+                        .putBoolean("version_5_3_1", false)
                         .commit();
 
                 sharedPrefs.edit()
+                        .putString("timeline_sync_interval", "1800000")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "1800000")
+                        .putString("activity_sync_interval", "1800000")
+                        .putString("list_sync_interval", "1800000")
                         .putStringSet("timeline_set", set)
                         .putBoolean("timeline_notifications", false)
-                        .putBoolean("version_5_3", false)
+                        .putBoolean("mention_notifications", true)
+                        .putBoolean("direct_message_notifications", true)
+                        .putBoolean("activity_notifications", true)
+                        .putBoolean("favorite_notifications", true)
+                        .putBoolean("version_5_3_1", false)
                         .commit();
 
                 AppSettings.invalidate();
