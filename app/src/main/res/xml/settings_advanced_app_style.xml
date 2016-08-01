@@ -4,6 +4,7 @@
     <ListPreference
         android:key="line_spacing"
         android:title="@string/line_spacing"
+        android:summary="@string/line_spacing_summary"
         android:defaultValue="5"
         android:entries="@array/line_spacing"
         android:entryValues="@array/line_spacing_scalar" />
