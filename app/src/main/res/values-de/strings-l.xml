@@ -35,7 +35,7 @@
     <string name="bottom_pictures">Bilder unter Tweets</string>
     <string name="bottom_pictures_summary">Mit dieser Option werden Tweets bei kurzem Tap nicht mehr Interaktionen anzeigen.</string>
     <string name="preparing_signin">Bereite den Login vor</string>
-    <string name="verifying_login">Login überprüfen</string>
+    <string name="verifying_login">Überprüfe Login</string>
     <string name="manage_muffles">Verkleinerungseinstellungen</string>
     <string name="muffle_definition">Einen Nutzer verkleinern wird den Großteil seines Tweets von Deiner Timeline entfernen. Du wirst nur den Namen und einen schmalen Ausschnitt sehen, den Du vergrößern kannst wenn Du mehr sehen möchtest.</string>
     <string name="muffled_users">Verkleinerte Nutzer</string>
@@ -75,7 +75,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="download_video">Video herunterladen</string>
     <string name="download_gif">GIF herunterladen</string>
     <string name="error_downloading_video">Fehler beim Herunterladen des Videos</string>
-    <string name="saving_video">Speichern</string>
+    <string name="saving_video">Speichere</string>
     <string name="saved_video">Speichern abgeschlossen</string>
     <string name="encoding_gif">Erzeuge GIF…</string>
     <string name="scroll_options">Scroll-Optionen</string>
@@ -101,7 +101,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="view_retweets">Zeige Retweets</string>
     <string name="list_size">Listengröße</string>
     <string name="quotes">Zitate</string>
-    <string name="no_quotes">Neue Zitate</string>
+    <string name="no_quotes">Keine Zitate</string>
     <string name="tweet_style">Tweet-Design</string>
     <string name="tweet_style_description">Wie Deine Tweets in der Timeline aussehen sollen.</string>
     <string name="condensed_tweet_style">Kompaktes Tweet-Layout.</string>
@@ -119,7 +119,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="base_theme">Basisdesign</string>
     <string name="functionality_options">Funktionelle Optionen</string>
     <string name="clear_memory">Leere den Zwischenspeicher</string>
-    <string name="manage_mutes_options">Verwalte Stummlisten</string>
+    <string name="manage_mutes_options">Verwalte Stummschaltungen</string>
     <string name="widget_material_light">Material Design hell</string>
     <string name="widget_material_dark">Material Design dunkel</string>
     <string name="media">Medien des Nutzers</string>
