@@ -52,6 +52,8 @@ public class App extends Application {
             android.content.res.Configuration conf = res.getConfiguration();
             if (settings.locale.equals("zh-rCN")) {
                 conf.locale = Locale.SIMPLIFIED_CHINESE;
+            } else if (settings.locale.equals("pt-rBR")) {
+                conf.locale = new Locale("pt", "BR");
             } else {
                 conf.locale = new Locale(settings.locale);
             }

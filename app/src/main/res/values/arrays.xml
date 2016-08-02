@@ -454,6 +454,7 @@
         <item>Thai</item>
         <item>Turkish</item>
         <item>Ukrainian</item>
+        <item>Portuguese (Brasil)</item>
     </string-array>
 
     <string-array name="locale_inserted">
@@ -478,6 +479,7 @@
         <item>th</item>
         <item>tr</item>
         <item>uk</item>
+        <item>pt-rBR</item>
     </string-array>
 
     <string-array name="widget_timelines">
