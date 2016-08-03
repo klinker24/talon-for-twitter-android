@@ -420,7 +420,7 @@ public class AppSettings {
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));
         autoplay = Integer.parseInt(sharedPrefs.getString("autoplay", AUTOPLAY_NEVER + ""));
-        lineSpacingScalar = picturesType == CONDENSED_TWEETS ? 2 : Integer.parseInt(sharedPrefs.getString("line_spacing", "5"));
+        lineSpacingScalar = picturesType == CONDENSED_TWEETS ? 3 : Integer.parseInt(sharedPrefs.getString("line_spacing", "5"));
 
         String widgetAccount = sharedPrefs.getString("widget_account", "").replace("@", "");
         if (widgetAccount.equals(myScreenName.replace("@","")) || widgetAccount.isEmpty()) {
