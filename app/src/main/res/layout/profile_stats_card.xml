@@ -125,6 +125,7 @@
             </LinearLayout>
 
             <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+                android:paddingTop="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?textColor"
