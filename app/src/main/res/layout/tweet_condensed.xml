@@ -143,6 +143,7 @@
                         android:tag="tweet"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:paddingTop="4dp"
                         android:textColor="?textColor"
                         android:layoutDirection="locale" />
 
