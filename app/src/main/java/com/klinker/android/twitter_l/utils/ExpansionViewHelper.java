@@ -40,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
+import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -1971,6 +1972,46 @@ public class ExpansionViewHelper {
             Glide.with(context).load(url).into(target);
         } catch (Exception e) {
             // try to load into activity that is destroyed
+        }
+    }
+
+    public void writeToHashtagDataSource(final String[] hashtags) {
+        if (hashtags != null) {
+            // we will add them to the auto complete
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        Thread.sleep(NETWORK_ACTION_DELAY);
+                    } catch (Exception e) {
+
+                    }
+
+                    ArrayList<String> tags = new ArrayList<String>();
+                    if (hashtags != null) {
+                        for (String s : hashtags) {
+                            if (!s.equals("")) {
+                                tags.add("#" + s);
+                            }
+                        }
+                    }
+
+
+                    HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                    for (String s : tags) {
+                        Log.v("talon_hashtag", "trend: " + s);
+                        if (s.contains("#") && source != null) {
+                            // we want to add it to the auto complete
+                            Log.v("talon_hashtag", "adding: " + s);
+
+                            source.deleteTag(s);
+                            source.createTag(s);
+                        }
+                    }
+                }
+            }).start();
         }
     }
 }
