@@ -204,6 +204,7 @@ public class AppSettings {
     public Drawable actionBar = null;
     public Drawable customBackground = null;
 
+    public int baseTheme;
     public int theme;
     public int layout;
     public int currentAccount;
@@ -271,8 +272,8 @@ public class AppSettings {
         }
 
         // Booleans
-        int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
-        switch (mainTheme) {
+        baseTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
+        switch (baseTheme) {
             case 0:
                 darkTheme = false;
                 blackTheme = false;
@@ -449,9 +450,11 @@ public class AppSettings {
 
             if (isInsideRange(startHour, startMin, endHour, endMin)) {
                 darkTheme = true;
+                baseTheme = 1;
 
                 if (sharedPrefs.getBoolean("night_mode_black", false)) {
                     blackTheme = true;
+                    baseTheme = 2;
                 }
             }
         }
@@ -517,8 +520,9 @@ public class AppSettings {
         }
     }
 
-    public static boolean getCurrentTheme(SharedPreferences sharedPrefs) {
+    public static int getCurrentTheme(SharedPreferences sharedPrefs) {
         boolean dark = false;
+        boolean black = false;
         int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
@@ -529,6 +533,7 @@ public class AppSettings {
                 break;
             case 2:
                 dark = true;
+                black = true;
                 break;
         }
 
@@ -540,10 +545,19 @@ public class AppSettings {
 
             if (isInsideRange(startHour, startMin, endHour, endMin)) {
                 dark = true;
+                if (sharedPrefs.getBoolean("night_mode_black", false)) {
+                    black = true;
+                }
             }
         }
 
-        return dark;
+        if (black) {
+            return 2;
+        } else if (dark) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     protected void setValue(String key, boolean value, Context context) {

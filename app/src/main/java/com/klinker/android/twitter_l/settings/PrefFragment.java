@@ -1080,9 +1080,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     if (i == 0) {
-                                                        sharedPrefs.edit().putBoolean("night_mode_black", false);
+                                                        sharedPrefs.edit().putBoolean("night_mode_black", false).commit();
                                                     } else {
-                                                        sharedPrefs.edit().putBoolean("night_mode_black", true);
+                                                        sharedPrefs.edit().putBoolean("night_mode_black", true).commit();
                                                     }
                                                 }
                                             }).show();
