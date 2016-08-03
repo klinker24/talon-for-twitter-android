@@ -1175,6 +1175,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         helper.setUser(screenname);
         helper.setText(text);
         helper.setUpOverflow();
+        helper.writeToHashtagDataSource(hashtags);
         helper.showEmbedded(false);
         holder.expandHelper = helper;
 
