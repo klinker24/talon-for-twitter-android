@@ -645,6 +645,7 @@ S
             </intent-filter>
         </service>
 
+        <service android:name=".services.DataCheckService"/>
         <service android:name=".services.FavoriteTweetService"/>
         <service android:name=".services.RetweetService"/>
         <service android:name=".services.ReplyFromWearService"/>

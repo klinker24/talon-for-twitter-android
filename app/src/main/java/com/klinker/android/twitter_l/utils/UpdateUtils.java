@@ -29,6 +29,7 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.services.DataCheckService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.LVLActivity;
 
@@ -73,6 +74,11 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+            if (sharedPrefs.getBoolean("version_5_3_2", true)) {
+                DataCheckService.scheduleRefresh(context);
+                sharedPrefs.edit().putBoolean("version_5_3_2", false).commit();
+            }
+
             if (sharedPrefs.getBoolean("version_5_3_1", true)) {
                 HashSet<String> set = new HashSet();
 
@@ -135,63 +141,6 @@ public class UpdateUtils {
                         .commit();
 
                 AppSettings.invalidate();
-            }
-
-            if (sharedPrefs.getBoolean("version_5", true)) {
-                sharedPrefs.edit()
-                        .putString("main_theme_string", sharedPrefs.getInt("main_theme", 1) + "")
-                        .putString("widget_account", "@" + AppSettings.getInstance(context).myScreenName)
-                        .putString("widget_theme", "4")
-                        .putBoolean("version_5", false)
-                        .commit();
-
-                AppSettings.invalidate();
-            }
-
-            if (sharedPrefs.getBoolean("version_3_5", true)) {
-                sharedPrefs.edit().putBoolean("version_3_5", false)
-                        .putBoolean("use_snackbar", false)
-                        .apply();
-
-                AppSettings.getInstance(context).useSnackbar = false;
-                AppSettings.invalidate();
-
-                new AlertDialog.Builder(context)
-                        .setTitle("Snackbar Updates")
-                        .setMessage("With this version, the snackbar (which showed you the number of tweets from the top of your timeline) has been turned off by default.\n\n" +
-                                "- Clicking the app bar, at the top, shows how far into your timeline you are.\n" +
-                                "- Long clicking the app bar is a shortcut to take you directly to the top of the list.\n\n" +
-                                "If you would rather use the old method, it is available under UI Settings.")
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
-                        .create().show();
-            }
-
-            if (sharedPrefs.getBoolean("need_cache_cleared_for_glide", true)) {
-                sharedPrefs.edit().putBoolean("need_cache_cleared_for_glide", false).apply();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        IOUtils.trimCache(context);
-                    }
-                }).start();
-            }
-
-            if (sharedPrefs.getBoolean("need_translation_update", true)) {
-                sharedPrefs.edit().putBoolean("need_translation_update", false).apply();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            User user = Utils.getTwitter(context, AppSettings.getInstance(context)).verifyCredentials();
-                            sharedPrefs.edit().putString("translate_url", Utils.getTranslateURL(user.getLang())).apply();
-                        } catch (Exception e) {
-
-                        }
-                    }
-                }).start();
             }
         } else {
             sharedPrefs.edit().putBoolean("version_3_5", false).apply();

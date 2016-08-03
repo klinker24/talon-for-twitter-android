@@ -3,6 +3,8 @@
     <version name="5.3.1">
         <text>Black theme on night mode wouldn't always get applied</text>
         <text>The compact layout has some UI bugs with small font sizes</text>
+        <text>Some data saving things</text>
+        <text>Bug fixes</text>
     </version>
     <version name="5.3.0">
         <text>Line spacing option (App Style -> Advanced Options)</text>

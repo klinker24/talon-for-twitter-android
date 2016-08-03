@@ -46,6 +46,7 @@ public class BootReceiver extends BroadcastReceiver {
         this.context = context;
         AppSettings settings = AppSettings.getInstance(context);
 
+        DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
 
         if (settings.mentionsRefresh != 0) {
