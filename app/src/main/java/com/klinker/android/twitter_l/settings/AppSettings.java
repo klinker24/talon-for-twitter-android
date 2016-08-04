@@ -442,7 +442,7 @@ public class AppSettings {
 
         translateUrl = sharedPrefs.getString("translate_url", "http://translate.google.com/#auto|en|");
 
-        if (sharedPrefs.getBoolean("night_mode", false)) {
+        if (baseTheme != 2 && sharedPrefs.getBoolean("night_mode", false)) {
             int startHour = sharedPrefs.getInt("night_start_hour", 22);
             int startMin = sharedPrefs.getInt("night_start_min", 0);
             int endHour = sharedPrefs.getInt("day_start_hour", 6);
