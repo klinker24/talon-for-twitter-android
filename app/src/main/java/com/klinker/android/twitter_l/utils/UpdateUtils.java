@@ -74,6 +74,12 @@ public class UpdateUtils {
         runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+
+            if (sharedPrefs.getBoolean("version_5_3_3", true)) {
+                DataCheckService.scheduleRefresh(context);
+                sharedPrefs.edit().putBoolean("version_5_3_3", false).commit();
+            }
+
             if (sharedPrefs.getBoolean("version_5_3_2", true)) {
                 DataCheckService.scheduleRefresh(context);
                 sharedPrefs.edit().putBoolean("version_5_3_2", false).commit();
