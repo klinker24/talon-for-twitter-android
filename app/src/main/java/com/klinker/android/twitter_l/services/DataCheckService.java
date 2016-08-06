@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.TrafficStats;
+import android.os.Handler;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
@@ -32,8 +33,10 @@ public class DataCheckService extends IntentService {
 
         sharedPreferences.edit().putLong("last_check_data_mb", currentMb).commit();
 
-        if (oldMb != 0 && currentMb - oldMb > 200) {
-            android.os.Process.killProcess(android.os.Process.myPid());
+        if (oldMb != 0 && currentMb - oldMb > 150) {
+            Object o = null;
+            o.hashCode();
+            //android.os.Process.killProcess(android.os.Process.myPid());
         }
 
         scheduleRefresh(this);

@@ -6,6 +6,10 @@ import android.util.Log;
 
 public abstract class KillerIntentService extends IntentService {
 
+    interface KillerCallback {
+        void onKill();
+    }
+
     private static final long TIMEOUT = 120000; // 120 seconds
 
     public KillerIntentService(String name) {
@@ -16,6 +20,14 @@ public abstract class KillerIntentService extends IntentService {
 
     @Override
     public final void onHandleIntent(Intent intent) {
+        final KillerCallback callback = new KillerCallback() {
+            @Override
+            public void onKill() {
+                Object o = null;
+                o.hashCode();
+            }
+        };
+
         // activity sometimes get stuck and burns though data... I have not been able to find out why.
         // So, lets kill the process if it takes longer than 45 seconds
         Thread killer = new Thread(new Runnable() {
@@ -23,13 +35,13 @@ public abstract class KillerIntentService extends IntentService {
             public void run() {
                 try {
                     Thread.sleep(TIMEOUT);
+
                     Log.v("talon_killer", "activity refresh killed. What is the issue here...?");
 
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    callback.onKill();
                 } catch (InterruptedException e) {
 
                 }
-
             }
         });
 
