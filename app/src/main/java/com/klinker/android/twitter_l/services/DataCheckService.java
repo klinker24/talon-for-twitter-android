@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class DataCheckService extends IntentService {
 
-    public  static final long RESTART_INTERVAL = 20 * 60 * 1000; // 20 mins
+    public  static final long RESTART_INTERVAL = 15 * 60 * 1000; // 20 mins
 
     public DataCheckService() {
         super("DataCheckService");
@@ -33,7 +33,7 @@ public class DataCheckService extends IntentService {
 
         sharedPreferences.edit().putLong("last_check_data_mb", currentMb).commit();
 
-        if (oldMb != 0 && currentMb - oldMb > 150) {
+        if (oldMb != 0 && currentMb - oldMb > 100) {
             Object o = null;
             o.hashCode();
             //android.os.Process.killProcess(android.os.Process.myPid());
