@@ -649,92 +649,37 @@ S
         <service android:name=".services.FavoriteTweetService"/>
         <service android:name=".services.RetweetService"/>
         <service android:name=".services.ReplyFromWearService"/>
-        <service android:name="com.klinker.android.twitter_l.services.ReplySecondAccountFromWearService"/>
-
-        <service android:name="com.klinker.android.twitter_l.services.TalonPullNotificationService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.SendTweet">
-        </service>
-
-
-        <service android:name="com.klinker.android.twitter_l.services.SendQueue">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.CatchupPull">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.StopPull">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.PreCacheService"
-                 android:exported="true">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.MarkReadService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.MarkReadSecondAccService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.ReadInteractionsService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.TimelineRefreshService"
-                android:exported="true">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.ListRefreshService" >
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.WidgetRefreshService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.MentionsRefreshService"
-            android:exported="true">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.SecondMentionsRefreshService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.DirectMessageRefreshService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.ActivityRefreshService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.SecondActivityRefreshService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.SendScheduledTweet">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.TrimDataService">
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.activities.launcher_page.HandleScrollService"
-            android:exported="true" >
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.activities.launcher_page.SetAccount"
-                 android:exported="true" >
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.activities.launcher_page.StartPull"
-                 android:exported="true" >
-        </service>
-
-        <service android:name="com.klinker.android.twitter_l.services.TweetWearableService">
+        <service android:name=".services.ReplySecondAccountFromWearService"/>
+        <service android:name=".services.TalonPullNotificationService"/>
+        <service android:name=".services.SendTweet"/>
+        <service android:name=".services.SendQueue"/>
+        <service android:name=".services.CatchupPull"/>
+        <service android:name=".services.StopPull"/>
+        <service android:name=".services.MarkReadService"/>
+        <service android:name=".services.MarkReadSecondAccService"/>
+        <service android:name=".services.ReadInteractionsService"/>
+        <service android:name=".services.TimelineRefreshService"/>
+        <service android:name=".services.ListRefreshService"/>
+        <service android:name=".services.WidgetRefreshService"/>
+        <service android:name=".services.SecondMentionsRefreshService"/>
+        <service android:name=".services.DirectMessageRefreshService"/>
+        <service android:name=".services.ActivityRefreshService"/>
+        <service android:name=".services.SecondActivityRefreshService"/>
+        <service android:name=".services.SendScheduledTweet"/>
+        <service android:name=".services.TrimDataService"/>
+        <service android:name=".services.MentionsRefreshService" android:exported="true"/>
+        <service android:name=".services.PreCacheService" android:exported="true"/>
+        <service android:name=".services.TweetWearableService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
 
-        <receiver android:name="com.klinker.android.twitter_l.receivers.ConnectivityChangeReceiver" >
+        <!--<receiver android:name="com.klinker.android.twitter_l.receivers.ConnectivityChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <receiver android:name="com.klinker.android.twitter_l.receivers.BootReceiver">
             <intent-filter>
@@ -751,11 +696,11 @@ S
         <receiver android:name="com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverTwo"
                   android:exported="true"/>
 
-        <receiver android:name="com.klinker.android.twitter_l.receivers.QueueTweets" >
+        <!--<receiver android:name="com.klinker.android.twitter_l.receivers.QueueTweets" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <provider android:name="com.klinker.android.twitter_l.utils.MySuggestionsProvider"
             android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider" />
@@ -806,19 +751,19 @@ S
 
         <!-- DashClock -->
         <service android:name="com.klinker.android.twitter_l.widget.TalonDashClockExtension"
-                     android:icon="@mipmap/ic_launcher"
-                     android:label="@string/app_name_full"
-                     android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
-                     <intent-filter>
-                         <action android:name="com.google.android.apps.dashclock.Extension" />
-                     </intent-filter>
-                     <meta-data android:name="protocolVersion" android:value="2" />
-                     <meta-data android:name="worldReadable" android:value="true" />
-                     <meta-data android:name="description"
-                         android:value="@string/extension_description" />
-                     <meta-data android:name="settingsActivity"
-                         android:value=".settings.DashClockSettingsActivity" />
-                 </service>
+                 android:icon="@mipmap/ic_launcher"
+                 android:label="@string/app_name_full"
+                 android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+                 <intent-filter>
+                     <action android:name="com.google.android.apps.dashclock.Extension" />
+                 </intent-filter>
+                 <meta-data android:name="protocolVersion" android:value="2" />
+                 <meta-data android:name="worldReadable" android:value="true" />
+                 <meta-data android:name="description"
+                     android:value="@string/extension_description" />
+                 <meta-data android:name="settingsActivity"
+                     android:value=".settings.DashClockSettingsActivity" />
+        </service>
 
         <activity android:name="com.klinker.android.twitter_l.settings.DashClockSettingsActivity"
             android:label="@string/app_name"
