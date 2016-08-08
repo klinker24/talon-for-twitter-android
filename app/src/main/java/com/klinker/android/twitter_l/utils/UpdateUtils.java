@@ -30,6 +30,7 @@ import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.DataCheckService;
+import com.klinker.android.twitter_l.services.TrimDataService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.LVLActivity;
 
@@ -232,6 +233,10 @@ public class UpdateUtils {
 
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
             sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
+            
+            TrimDataService.scheduleRefresh(context, 60);
+            DataCheckService.scheduleRefresh(context);
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
