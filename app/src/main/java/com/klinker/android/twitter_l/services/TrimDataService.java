@@ -68,22 +68,9 @@ public class TrimDataService extends KillerIntentService {
 
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
-        setNextTrim(this);
+        scheduleRefresh(this, 60 * 24); // every 24 hours
 
         //checkForUpdate();
-    }
-
-    public void setNextTrim(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        long now = new Date().getTime();
-        long alarm = now + AlarmManager.INTERVAL_DAY;
-
-        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
-
-        PendingIntent pendingIntent = PendingIntent.getService(context, TRIM_ID, new Intent(context, TrimDataService.class), 0);
-
-        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
     }
 
     public void checkForUpdate() {
@@ -165,5 +152,18 @@ public class TrimDataService extends KillerIntentService {
         }
 
         return null;
+    }
+
+    public static void scheduleRefresh(Context context, long mins) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        long now = new Date().getTime();
+        long alarm = now + 1000 * 60 * mins;
+
+        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
+
+        PendingIntent pendingIntent = PendingIntent.getService(context, TrimDataService.TRIM_ID, new Intent(context, TrimDataService.class), 0);
+
+        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
     }
 }

@@ -48,6 +48,7 @@ public class BootReceiver extends BroadcastReceiver {
 
         DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
+        TrimDataService.scheduleRefresh(context, 1);
 
         if (settings.mentionsRefresh != 0) {
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -99,19 +100,6 @@ public class BootReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getService(context, ActivityFragment.ACTIVITY_REFRESH_ID, new Intent(context, ActivityRefreshService.class), 0);
 
             am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.activityRefresh, pendingIntent);
-        }
-
-        if (settings.autoTrim) { // user only wants manual
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + 1000*60;
-
-            Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, TrimDataService.TRIM_ID, new Intent(context, TrimDataService.class), 0);
-
-            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
         }
 
         if (settings.pushNotifications) {
