@@ -23,6 +23,7 @@ import android.util.DisplayMetrics;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 import java.io.File;
 import java.util.Locale;
@@ -33,7 +34,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 EmojiUtils.init(App.this);

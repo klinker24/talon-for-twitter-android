@@ -16,6 +16,7 @@ import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import org.apache.http.HttpEntity;
@@ -102,7 +103,7 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
 
 
     private void getGif() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 

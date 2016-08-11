@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
@@ -754,7 +755,7 @@ public class ProfilePager extends SlidingActivity {
     public User thisUser;
 
     public void getUser() {
-        Thread getUser = new Thread(new Runnable() {
+        TimeoutThread getUser = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -2082,7 +2083,7 @@ public class ProfilePager extends SlidingActivity {
     }
 
     private void expandUrl(final String web) {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 // resolve the link

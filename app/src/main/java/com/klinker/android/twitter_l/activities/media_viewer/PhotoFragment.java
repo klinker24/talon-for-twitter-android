@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -106,7 +107,7 @@ public class PhotoFragment extends Fragment {
     }
 
     public void saveImage() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -214,7 +215,7 @@ public class PhotoFragment extends Fragment {
             return;
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

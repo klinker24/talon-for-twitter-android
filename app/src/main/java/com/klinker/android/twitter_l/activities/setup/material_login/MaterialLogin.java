@@ -24,6 +24,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Date;
@@ -200,7 +201,7 @@ public class MaterialLogin extends MaterialLVLActivity {
     }
 
     private void followUsers() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Twitter twitter = Utils.getTwitter(MaterialLogin.this, null);

@@ -27,6 +27,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;
@@ -574,7 +575,7 @@ public class TweetView {
 
         embeddedTweet.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Long embeddedId = 0l;

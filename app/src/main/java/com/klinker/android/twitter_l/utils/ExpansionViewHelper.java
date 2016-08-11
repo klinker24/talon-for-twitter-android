@@ -968,7 +968,7 @@ public class ExpansionViewHelper {
 
     public void favoriteStatus(final int type) {
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -1025,7 +1025,7 @@ public class ExpansionViewHelper {
 
     public void retweetStatus(final int type) {
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -1086,7 +1086,7 @@ public class ExpansionViewHelper {
 
     public void getInfo() {
 
-        Thread getInfo = new Thread(new Runnable() {
+        Thread getInfo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -1184,7 +1184,7 @@ public class ExpansionViewHelper {
 
     public void getRetweetCount() {
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 boolean retweetedByMe;
@@ -1224,7 +1224,7 @@ public class ExpansionViewHelper {
     }
 
     public void getFavoriteCount() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -1313,7 +1313,7 @@ public class ExpansionViewHelper {
     }
 
     public void getConversationAndEmbeddedTweet() {
-        Thread getConvo = new Thread(new Runnable() {
+        Thread getConvo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -1417,7 +1417,7 @@ public class ExpansionViewHelper {
 
     public void getDiscussion() {
 
-        Thread getReplies = new Thread(new Runnable() {
+        Thread getReplies = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -1693,7 +1693,7 @@ public class ExpansionViewHelper {
     }
 
     public void getTextFromSite(final String url, final FontPrefTextView browser, final View spinner, final ScrollView scroll) {
-        Thread getText = new Thread(new Runnable() {
+        Thread getText = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -1978,7 +1978,7 @@ public class ExpansionViewHelper {
     public void writeToHashtagDataSource(final String[] hashtags) {
         if (hashtags != null) {
             // we will add them to the auto complete
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
 

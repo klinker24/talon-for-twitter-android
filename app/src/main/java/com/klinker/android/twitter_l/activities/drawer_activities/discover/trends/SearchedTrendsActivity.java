@@ -41,6 +41,7 @@ import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
@@ -285,7 +286,7 @@ public class SearchedTrendsActivity extends PeekViewActivity {
 
             case R.id.menu_save_search:
                 Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -372,7 +373,7 @@ public class SearchedTrendsActivity extends PeekViewActivity {
     }
 
     public void onRefreshStarted() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -452,7 +453,7 @@ public class SearchedTrendsActivity extends PeekViewActivity {
     public void doSearch(final String mQuery) {
         spinner.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -517,7 +518,7 @@ public class SearchedTrendsActivity extends PeekViewActivity {
         if (hasMore) {
             canRefresh = false;
             mPullToRefreshLayout.setRefreshing(true);
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     try {

@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.settings.SettingsActivity;
@@ -434,7 +435,7 @@ public class SearchPager extends PeekViewActivity {
 
             case R.id.menu_save_search:
                 Toast.makeText(context, getString(R.string.saving_search), Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
                         try {

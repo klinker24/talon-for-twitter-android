@@ -330,7 +330,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         holder.embeddedTweet.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Long embeddedId = 0l;

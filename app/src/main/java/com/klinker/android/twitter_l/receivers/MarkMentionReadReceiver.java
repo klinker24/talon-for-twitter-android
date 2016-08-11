@@ -8,6 +8,7 @@ import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.MarkReadService;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 public class MarkMentionReadReceiver extends BroadcastReceiver {
 
@@ -27,7 +28,7 @@ public class MarkMentionReadReceiver extends BroadcastReceiver {
         final long tweetId = intent.getLongExtra(ARG_TWEET_ID, 1);
 
         if (tweetId != 1) {
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);

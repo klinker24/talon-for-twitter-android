@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -63,7 +64,7 @@ public class PlainTextBrowserActivity extends BrowserActivity {
     }
 
     public void getTextFromSite() {
-        Thread getText = new Thread(new Runnable() {
+        TimeoutThread getText = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

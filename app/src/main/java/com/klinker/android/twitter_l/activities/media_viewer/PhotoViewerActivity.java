@@ -30,6 +30,7 @@ import com.bumptech.glide.request.target.Target;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.DetailedTweetView;
 import com.klinker.android.twitter_l.views.widgets.FullScreenImageView;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
@@ -287,7 +288,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     }
 
     public void downloadImage() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -429,7 +430,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
             return;
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class SavedSearchFragment extends MainFragment {
             spinner.setVisibility(View.VISIBLE);
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 final long topId;
@@ -143,7 +144,7 @@ public class SavedSearchFragment extends MainFragment {
             canRefresh = false;
             refreshLayout.setRefreshing(true);
 
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     try {

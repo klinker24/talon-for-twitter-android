@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.FavoriterUtils;
 
@@ -64,7 +65,7 @@ public class LikersFragment extends Fragment {
     }
 
     private void startSearch() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

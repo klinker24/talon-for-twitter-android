@@ -42,6 +42,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TweetMarkerHelper;
 
@@ -142,7 +143,7 @@ public class HomeFragment extends MainFragment {
                     final long id = sharedPrefs.getLong("account_" + currentAccount + "_lastid", 0l);
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
-                    new Thread(new Runnable() {
+                    new TimeoutThread(new Runnable() {
                         @Override
                         public void run() {
                             // sleep so that everyting loads correctly
@@ -193,7 +194,7 @@ public class HomeFragment extends MainFragment {
         public void onReceive(final Context context, Intent intent) {
             markReadForLoad();
             if (settings.tweetmarker) {
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
 
@@ -238,7 +239,7 @@ public class HomeFragment extends MainFragment {
     @Override
     public void getCursorAdapter(boolean showSpinner) {
 
-        Thread getCursor = new Thread(new Runnable() {
+        TimeoutThread getCursor = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 
@@ -659,7 +660,7 @@ public class HomeFragment extends MainFragment {
 
         DrawerActivity.canSwitch = false;
 
-        Thread refresh = new Thread(new Runnable() {
+        TimeoutThread refresh = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 if (!onStartRefresh) {
@@ -908,7 +909,7 @@ public class HomeFragment extends MainFragment {
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
 
         if (settings.tweetmarker && !isLauncher()) {
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
 
@@ -1386,7 +1387,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                 sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
                         markRead(currentAccount, context, id);
@@ -1397,7 +1398,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
                     final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
                     sharedPrefs.edit().putLong("current_position_" + currentAccount, id).apply();
 
-                    new Thread(new Runnable() {
+                    new TimeoutThread(new Runnable() {
                         @Override
                         public void run() {
                             markRead(currentAccount, context, id);

@@ -32,6 +32,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ListsArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -169,7 +170,7 @@ public class ListsActivity extends DrawerActivity {
     }
 
     public void getLists() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

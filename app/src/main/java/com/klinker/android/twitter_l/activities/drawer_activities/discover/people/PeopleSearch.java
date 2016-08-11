@@ -34,6 +34,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.material_login.MaterialLogin;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -131,7 +132,7 @@ public class PeopleSearch extends Activity {
     }
 
     public void getPeople() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

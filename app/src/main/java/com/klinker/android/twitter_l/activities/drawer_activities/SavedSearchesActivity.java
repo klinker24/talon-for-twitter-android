@@ -30,6 +30,7 @@ import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SavedSearchArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class SavedSearchesActivity extends DrawerActivity {
     public static Context context;
 
     public static void getSearches() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
