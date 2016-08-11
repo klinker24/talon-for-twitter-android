@@ -31,6 +31,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
 import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 
@@ -57,7 +58,7 @@ public class SendScheduledTweet extends KillerIntentService {
         final Context context = this;
         final AppSettings settings = AppSettings.getInstance(context);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
 

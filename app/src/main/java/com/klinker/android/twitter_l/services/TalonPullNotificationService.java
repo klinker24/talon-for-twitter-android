@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -192,7 +193,7 @@ public class TalonPullNotificationService extends Service {
             registerReceiver(clearPullUnread, filter);
         }
 
-        Thread start = new Thread(new Runnable() {
+        TimeoutThread start = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 // get the ids of everyone you follow
@@ -233,7 +234,7 @@ public class TalonPullNotificationService extends Service {
 
                     pullUnread = 0;
 
-                    Thread stop = new Thread(new Runnable() {
+                    TimeoutThread stop = new TimeoutThread(new Runnable() {
                         @Override
                         public void run() {
                             TalonPullNotificationService.shuttingDown = true;
@@ -272,7 +273,7 @@ public class TalonPullNotificationService extends Service {
                 } catch (OutOfMemoryError e) {
                     TalonPullNotificationService.isRunning = false;
 
-                    Thread stop = new Thread(new Runnable() {
+                    TimeoutThread stop = new TimeoutThread(new Runnable() {
                         @Override
                         public void run() {
                             TalonPullNotificationService.shuttingDown = true;
@@ -406,7 +407,7 @@ public class TalonPullNotificationService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Thread stop = new Thread(new Runnable() {
+            TimeoutThread stop = new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     TalonPullNotificationService.shuttingDown = true;
@@ -442,7 +443,7 @@ public class TalonPullNotificationService extends Service {
             sharedPreferences.edit().putInt("pull_unread", pullUnread).apply();
             pullUnread = 0;
 
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -462,7 +463,7 @@ public class TalonPullNotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
             thisInstanceOn = true;
 
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     while (TalonPullNotificationService.shuttingDown) {
@@ -572,7 +573,7 @@ public class TalonPullNotificationService extends Service {
                     }
 
                     if (settings.preCacheImages) {
-                        new Thread(new Runnable() {
+                        new TimeoutThread(new Runnable() {
                             @Override
                             public void run() {
                                 downloadImages(status);

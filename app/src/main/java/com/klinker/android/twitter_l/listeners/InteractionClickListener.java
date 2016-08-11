@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.NotificationDrawerLayout;
 
 public class InteractionClickListener implements AdapterView.OnItemClickListener {
@@ -101,7 +102,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                 } catch (Exception e) {
                     // landscape mode
                 }
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(context, MainActivity.class);

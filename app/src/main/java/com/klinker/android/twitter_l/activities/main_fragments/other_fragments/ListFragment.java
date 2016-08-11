@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.services.ListRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -258,7 +259,7 @@ public class ListFragment extends MainFragment {
             } catch (Exception e) { }
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 final Cursor cursor;

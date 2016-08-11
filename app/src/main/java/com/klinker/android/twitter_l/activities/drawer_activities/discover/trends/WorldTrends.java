@@ -34,6 +34,7 @@ import com.klinker.android.twitter_l.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class WorldTrends extends Fragment {
 
     public void getTrends() {
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

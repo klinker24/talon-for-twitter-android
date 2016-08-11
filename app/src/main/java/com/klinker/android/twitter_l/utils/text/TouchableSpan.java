@@ -45,6 +45,7 @@ import com.klinker.android.twitter_l.activities.PlainTextBrowserActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.WebIntentBuilder;
 
@@ -301,7 +302,7 @@ public class TouchableSpan extends ClickableSpan {
                         search();
                         break;
                     case 3: // favorite user
-                        new Thread(new Runnable() {
+                        new TimeoutThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {

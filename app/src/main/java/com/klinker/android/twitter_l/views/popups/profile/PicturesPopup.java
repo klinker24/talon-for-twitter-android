@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.PicturesGridAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.PopupLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -141,7 +142,7 @@ public class PicturesPopup extends PopupLayout {
     public void doSearch() {
         spinner.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -214,7 +215,7 @@ public class PicturesPopup extends PopupLayout {
     public void getMore() {
         canRefresh = false;
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

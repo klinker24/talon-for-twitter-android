@@ -29,6 +29,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.SavedSearchesActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class SavedSearchArrayAdapter extends TrendsArrayAdapter {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Toast.makeText(context, context.getString(R.string.deleting_search), Toast.LENGTH_SHORT).show();
-                                new Thread(new Runnable() {
+                                new TimeoutThread(new Runnable() {
                                     @Override
                                     public void run() {
 

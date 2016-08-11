@@ -233,11 +233,11 @@ public class UpdateUtils {
 
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
             sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
-            
+
             TrimDataService.scheduleRefresh(context, 60);
             DataCheckService.scheduleRefresh(context);
 
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     checkLicense(context);
@@ -337,8 +337,7 @@ public class UpdateUtils {
         public void showError() {
             final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     try {

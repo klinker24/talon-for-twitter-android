@@ -22,6 +22,7 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.DetailedTweetView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetYouTubeFragment;
@@ -243,7 +244,7 @@ public class VideoViewerActivity extends AppCompatActivity {
             return;
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

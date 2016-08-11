@@ -26,6 +26,7 @@ import android.view.View;
 
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.Twitter;
 
@@ -77,7 +78,7 @@ public class SecondAccMentionsFragment extends MentionsFragment {
             } catch (Exception e) { }
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 final Cursor cursor;

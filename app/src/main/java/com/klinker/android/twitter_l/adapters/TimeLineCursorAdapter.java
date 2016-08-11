@@ -157,7 +157,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         init(true);
     }
     public void init(boolean cont) {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -1269,7 +1269,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.embeddedTweet.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Long embeddedId = 0l;

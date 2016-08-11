@@ -17,6 +17,7 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.apache.http.HttpEntity;
@@ -175,7 +176,7 @@ public abstract class MaterialLVLActivity extends AppIntro2 {
     }
 
     public void countUser(final String name) {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

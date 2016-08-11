@@ -772,7 +772,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.embeddedTweet.setVisibility(View.VISIBLE);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 Long embeddedId = 0l;

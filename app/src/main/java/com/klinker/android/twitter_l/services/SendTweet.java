@@ -38,6 +38,7 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
@@ -95,7 +96,7 @@ public class SendTweet extends Service {
 
         sendingNotification();
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 boolean sent = sendTweet(settings, context);

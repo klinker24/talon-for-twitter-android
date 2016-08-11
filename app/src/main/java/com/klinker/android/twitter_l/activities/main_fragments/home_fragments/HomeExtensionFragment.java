@@ -27,6 +27,7 @@ import android.view.View;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 public abstract class HomeExtensionFragment extends MainFragment {
 
@@ -65,7 +66,7 @@ public abstract class HomeExtensionFragment extends MainFragment {
             } catch (Exception e) { }
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 if (!bSpinner) {

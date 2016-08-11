@@ -39,6 +39,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.InputStreamReader;
@@ -165,7 +166,7 @@ public class NearbyTweets extends Fragment implements
 
         canRefresh = false;
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -250,7 +251,7 @@ public class NearbyTweets extends Fragment implements
     public void getMore() {
         if (hasMore) {
             canRefresh = false;
-            new Thread(new Runnable() {
+            new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
                     try {

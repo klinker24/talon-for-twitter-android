@@ -198,6 +198,12 @@ public class TimelineRefreshService extends KillerIntentService {
         }
     }
 
+    // override since this is handled within this service
+    @Override
+    protected boolean dontRunMoreThanEveryMins() {
+        return true;
+    }
+
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

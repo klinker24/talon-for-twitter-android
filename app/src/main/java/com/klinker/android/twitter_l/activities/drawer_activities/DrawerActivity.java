@@ -1604,7 +1604,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
         ShortcutBadger.removeCount(context);
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

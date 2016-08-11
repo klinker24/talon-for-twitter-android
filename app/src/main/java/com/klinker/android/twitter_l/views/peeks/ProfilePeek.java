@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.User;
@@ -49,7 +50,7 @@ public class ProfilePeek extends SimpleOnPeek {
 
         final Activity activity = (Activity) rootView.getContext();
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {

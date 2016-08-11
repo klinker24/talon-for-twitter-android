@@ -72,6 +72,7 @@ import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.text.Regex;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -1379,7 +1380,7 @@ public abstract class Compose extends Activity implements
 
                             if (hashtags != null) {
                                 // we will add them to the auto complete
-                                new Thread(new Runnable() {
+                                new TimeoutThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         ArrayList<String> tags = new ArrayList<String>();

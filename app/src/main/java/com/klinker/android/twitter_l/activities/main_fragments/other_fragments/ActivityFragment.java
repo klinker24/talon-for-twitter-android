@@ -24,6 +24,7 @@ import com.klinker.android.twitter_l.services.SecondActivityRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.Twitter;
 
@@ -193,7 +194,7 @@ public class ActivityFragment extends MainFragment {
             } catch (Exception e) { }
         }
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 final Cursor cursor;

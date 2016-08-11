@@ -174,7 +174,7 @@ public class TweetActivity extends SlidingActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    new Thread(new Runnable() {
+                    new TimeoutThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -345,7 +345,7 @@ public class TweetActivity extends SlidingActivity {
 
             if (embeddedId != 0l) {
                 view.setVisibility(View.INVISIBLE);
-                new Thread(new Runnable() {
+                new TimeoutThread(new Runnable() {
                     @Override
                     public void run() {
                         Twitter twitter = getTwitter();

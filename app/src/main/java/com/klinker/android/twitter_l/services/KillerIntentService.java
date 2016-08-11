@@ -2,7 +2,12 @@ package com.klinker.android.twitter_l.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.klinker.android.twitter_l.settings.AppSettings;
+
+import java.util.Date;
 
 public abstract class KillerIntentService extends IntentService {
 
@@ -12,8 +17,11 @@ public abstract class KillerIntentService extends IntentService {
 
     private static final long TIMEOUT = 120000; // 120 seconds
 
+    private String name;
+
     public KillerIntentService(String name) {
         super(name);
+        this.name = name;
     }
 
     protected abstract void handleIntent(Intent intent);
@@ -47,9 +55,31 @@ public abstract class KillerIntentService extends IntentService {
 
         killer.start();
 
-        handleIntent(intent);
+        if (dontRunMoreThanEveryMins()) {
+            handleIntent(intent);
+        }
 
         // stop the killer from destroying the app
         killer.interrupt();
+    }
+
+    // return true if it should refresh, false if it has been refreshed within the last min
+    // this is overridden in the timeline refresh service
+    protected boolean dontRunMoreThanEveryMins() {
+        SharedPreferences prefs = AppSettings.getSharedPreferences(this);
+
+        long currentTime = new Date().getTime();
+        if (currentTime - prefs.getLong(name + "_killer_timeout", currentTime) < TIMEOUT) {
+            return false;
+        } else {
+            updateLastRunTime(prefs, currentTime);
+            return true;
+        }
+    }
+
+    private void updateLastRunTime(SharedPreferences prefs, long time) {
+        prefs.edit()
+                .putLong(name + "_killer_timeout", time)
+                .commit();
     }
 }

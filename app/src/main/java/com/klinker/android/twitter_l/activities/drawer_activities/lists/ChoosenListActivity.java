@@ -32,6 +32,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -181,7 +182,7 @@ public class ChoosenListActivity extends AppCompatActivity {
 
     boolean justRefreshed = false;
     public void onRefreshStarted() {
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -239,7 +240,7 @@ public class ChoosenListActivity extends AppCompatActivity {
     public void getLists() {
         canRefresh = false;
 
-        new Thread(new Runnable() {
+        new TimeoutThread(new Runnable() {
             @Override
             public void run() {
                 try {
