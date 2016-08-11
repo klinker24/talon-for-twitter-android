@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.2">
+        <text>Data saving changes</text>
+    </version>
+
     <version name="5.3.1.1">
         <text>Hotfix for night mode</text>
     </version>
