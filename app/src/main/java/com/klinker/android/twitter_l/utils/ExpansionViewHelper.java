@@ -1105,6 +1105,7 @@ public class ExpansionViewHelper {
 
                     if (status.isRetweet()) {
                         status = status.getRetweetedStatus();
+                        id = status.getId();
                     }
 
 
