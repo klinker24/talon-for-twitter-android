@@ -200,8 +200,12 @@ public class TimelineRefreshService extends KillerIntentService {
 
     // override since this is handled within this service
     @Override
-    protected boolean dontRunMoreThanEveryMins() {
-        return true;
+    protected boolean dontRunMoreThanEveryMins(Intent intent) {
+        if (intent.getBooleanExtra("on_start_refresh", false)) {
+            return true;
+        } else {
+            return super.dontRunMoreThanEveryMins(intent);
+        }
     }
 
     public static void scheduleRefresh(Context context) {

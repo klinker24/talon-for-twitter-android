@@ -245,4 +245,32 @@ public class DMDataSource {
         database.update(DMSQLiteHelper.TABLE_DM, cv, DMSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
 
     }
+
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            DMSQLiteHelper.TABLE_DM,
+                                    DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    DMSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            DMSQLiteHelper.TABLE_DM,
+                                    DMSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    DMSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

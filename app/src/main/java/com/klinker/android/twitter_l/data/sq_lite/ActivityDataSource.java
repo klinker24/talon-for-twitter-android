@@ -715,4 +715,32 @@ public class ActivityDataSource {
                     HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account, null);
         }
     }
+
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            ActivitySQLiteHelper.TABLE_ACTIVITY,
+                                    ActivitySQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    ActivitySQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            ActivitySQLiteHelper.TABLE_ACTIVITY,
+                                    ActivitySQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    ActivitySQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(ActivitySQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

@@ -31,6 +31,7 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -151,5 +152,10 @@ public class WidgetRefreshService  extends KillerIntentService {
         mNotificationManager.cancel(6);
 
         WidgetRefreshService.isRunning = false;
+    }
+
+    @Override
+    protected boolean dontRunMoreThanEveryMins(Intent intent) {
+        return true;
     }
 }

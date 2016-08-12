@@ -415,4 +415,31 @@ public class InteractionsDataSource {
         }
     }
 
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+               try {
+                   database.delete(
+                           InteractionsSQLiteHelper.TABLE_INTERACTIONS,
+                                InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                InteractionsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID)),
+                           null);
+                } catch (Exception e) {
+                    open();
+                   database.delete(
+                           InteractionsSQLiteHelper.TABLE_INTERACTIONS,
+                                InteractionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                InteractionsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID)),
+                           null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

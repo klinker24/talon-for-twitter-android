@@ -519,4 +519,32 @@ public class FavoriteTweetsDataSource {
         }
 
     }
+
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getTrimmingCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS,
+                                    FavoriteTweetsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    FavoriteTweetsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(FavoriteTweetsSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS,
+                                    FavoriteTweetsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    FavoriteTweetsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(FavoriteTweetsSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

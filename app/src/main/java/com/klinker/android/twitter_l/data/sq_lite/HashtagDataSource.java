@@ -147,5 +147,31 @@ public class HashtagDataSource {
 
         return cursor;
     }
+
+    public synchronized void trimDatabase(int trimSize) {
+        Cursor cursor = getCursor("");
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            HashtagSQLiteHelper.TABLE_HASHTAGS,
+                            HashtagSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HashtagSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            HashtagSQLiteHelper.TABLE_HASHTAGS,
+                            HashtagSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }
 

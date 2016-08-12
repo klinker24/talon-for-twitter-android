@@ -1,1 +1,1 @@
-v5.3.2 includes improvements for saving data.
+v5.3.2 includes changes to stop data spikes and improvements to database cleanup to provide a much faster experience for some heavier users.
