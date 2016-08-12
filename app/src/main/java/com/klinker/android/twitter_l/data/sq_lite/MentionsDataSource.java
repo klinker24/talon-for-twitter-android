@@ -654,4 +654,32 @@ public class MentionsDataSource {
         }
 
     }
+
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getTrimmingCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            MentionsSQLiteHelper.TABLE_MENTIONS,
+                                    MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    MentionsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            MentionsSQLiteHelper.TABLE_MENTIONS,
+                                    MentionsSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    MentionsSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

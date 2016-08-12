@@ -338,151 +338,40 @@ public class IOUtils {
             AppSettings settings = AppSettings.getInstance(context);
             SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
             InteractionsDataSource interactions = InteractionsDataSource.getInstance(context);
-            Cursor inters = interactions.getCursor(account);
-
-            if (inters.getCount() > 50) {
-                if (inters.moveToPosition(inters.getCount() - 50)) {
-                    do {
-                        interactions.deleteInteraction(inters.getLong(inters.getColumnIndex(InteractionsSQLiteHelper.COLUMN_ID)));
-                    } while (inters.moveToPrevious());
-                }
-            }
-
-            inters.close();
+            interactions.trimDatabase(account, 100);
 
             HomeDataSource home = HomeDataSource.getInstance(context);
-
             home.deleteDups(settings.currentAccount);
-
-            Cursor timeline = home.getTrimmingCursor(account);
-
-            Log.v("trimming", "timeline size: " + timeline.getCount());
-            Log.v("trimming", "timeline settings size: " + settings.timelineSize);
-            if (timeline.getCount() > settings.timelineSize) {
-
-                if(timeline.moveToPosition(timeline.getCount() - settings.timelineSize)) {
-                    Log.v("trimming", "in the trim section");
-                    do {
-                        home.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (timeline.moveToPrevious());
-                }
-            }
-
-            timeline.close();
+            home.trimDatabase(account, settings.timelineSize);
 
             // trimming the lists
             ListDataSource lists = ListDataSource.getInstance(context);
-
-            for (int j = 0; j < 2; j++) {
+            for (int accountIndex = 0; accountIndex < 2; accountIndex++) {
                 for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
-                    long listId = sharedPrefs.getLong("account_" + j + "_list_" + (i + 1) + "_long", 0);
+                    long listId = sharedPrefs.getLong("account_" + accountIndex + "_list_" + (i + 1) + "_long", 0);
                     lists.deleteDups(listId);
-
-                    Cursor list1 = lists.getTrimmingCursor(listId);
-
-                    Log.v("trimming", "lists size: " + list1.getCount());
-                    Log.v("trimming", "lists settings size: " + settings.listSize);
-                    if (list1.getCount() > settings.listSize) {
-
-                        if(list1.moveToPosition(list1.getCount() - settings.listSize)) {
-                            Log.v("trimming", "in the trim section");
-                            do {
-                                lists.deleteTweet(list1.getLong(list1.getColumnIndex(ListSQLiteHelper.COLUMN_TWEET_ID)));
-                            } while (list1.moveToPrevious());
-                        }
-                    }
-                    list1.close();
+                    lists.trimDatabase(listId, settings.listSize);
                 }
             }
 
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
-
-            mentions.deleteDups(settings.currentAccount);
-
-            timeline = mentions.getTrimmingCursor(account);
-
-            Log.v("trimming", "mentions size: " + timeline.getCount());
-            Log.v("trimming", "mentions settings size: " + settings.mentionsSize);
-            if (timeline.getCount() > settings.mentionsSize) {
-
-                if(timeline.moveToPosition(timeline.getCount() - settings.mentionsSize)) {
-                    do {
-                        mentions.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (timeline.moveToPrevious());
-                }
-            }
-
-            timeline.close();
+            mentions.deleteDups(account);
+            mentions.trimDatabase(account, settings.mentionsSize);
 
             DMDataSource dm = DMDataSource.getInstance(context);
-
-            dm.deleteDups(settings.currentAccount);
-
-            timeline = dm.getCursor(account);
-
-            Log.v("trimming", "dm size: " + timeline.getCount());
-            Log.v("trimming", "dm settings size: " + settings.dmSize);
-
-            if (timeline.getCount() > settings.dmSize) {
-                if(timeline.moveToPosition(timeline.getCount() - settings.dmSize)) {
-                    do {
-                        dm.deleteTweet(timeline.getLong(timeline.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (timeline.moveToPrevious());
-                }
-            }
-
-            timeline.close();
+            dm.deleteDups(account);
+            dm.trimDatabase(account, settings.dmSize);
 
             HashtagDataSource hashtag = HashtagDataSource.getInstance(context);
-
-            timeline = hashtag.getCursor("");
-
-            Log.v("trimming", "hashtag size: " + timeline.getCount());
-
-            if (timeline.getCount() > 300) {
-                if(timeline.moveToPosition(timeline.getCount() - 300)) {
-                    do {
-                        hashtag.deleteTag(timeline.getString(timeline.getColumnIndex(HashtagSQLiteHelper.COLUMN_TAG)));
-                    } while (timeline.moveToPrevious());
-                }
-            }
-
-            timeline.close();
+            hashtag.trimDatabase(500);
 
             ActivityDataSource activity = ActivityDataSource.getInstance(context);
-            Cursor actCurs = activity.getCursor(account);
+            activity.trimDatabase(account, 200);
 
-            Log.v("trimming", "activity size: " + actCurs.getCount());
-            Log.v("trimming", "activity settings size: " + 200);
-            if (actCurs.getCount() > 200) {
-                int toDelete = actCurs.getCount() - 200;
-                if(actCurs.moveToFirst()) {
-                    do {
-                        activity.deleteItem(actCurs.getLong(actCurs.getColumnIndex(ActivitySQLiteHelper.COLUMN_ID)));
-                        toDelete--;
-                    } while (timeline.moveToNext() &&  toDelete > 0);
-                }
-            }
-
-            actCurs.close();
             FavoriteTweetsDataSource favtweets = FavoriteTweetsDataSource.getInstance(context);
             favtweets.deleteDups(settings.currentAccount);
-
-            timeline = favtweets.getCursor(account);
-            Log.v("trimming", "favtweets size: " + timeline.getCount());
-            Log.v("trimming", "favtweets settings size: " + 200);
-            if (timeline.getCount() > 200) {
-
-                if(timeline.moveToPosition(timeline.getCount() - 200)) {
-                    do {
-                        favtweets.deleteTweet(timeline.getLong(timeline.getColumnIndex(FavoriteTweetsSQLiteHelper.COLUMN_TWEET_ID)));
-                    } while (timeline.moveToPrevious());
-                }
-            }
-
-            timeline.close();
+            favtweets.trimDatabase(account, 400);
 
             return true;
         } catch (Exception e) {

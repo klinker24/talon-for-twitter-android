@@ -94,4 +94,14 @@ public class MentionsRefreshService extends KillerIntentService {
             Log.d("Twitter Update Error", e.getMessage());
         }
     }
+
+    // override since this is handled within this service
+    @Override
+    protected boolean dontRunMoreThanEveryMins(Intent intent) {
+        if (intent.getBooleanExtra("from_push_sync", false)) {
+            return true;
+        } else {
+            return super.dontRunMoreThanEveryMins(intent);
+        }
+    }
 }

@@ -1245,4 +1245,32 @@ public class HomeDataSource {
             database.update(HomeSQLiteHelper.TABLE_HOME, cv, HomeSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[]{tweetId + ""});
         }
     }
+
+    public synchronized void trimDatabase(int account, int trimSize) {
+        Cursor cursor = getTrimmingCursor(account);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            HomeSQLiteHelper.TABLE_HOME,
+                                    HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    HomeSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            HomeSQLiteHelper.TABLE_HOME,
+                                    HomeSQLiteHelper.COLUMN_ACCOUNT + " = " + account + " AND " +
+                                    HomeSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

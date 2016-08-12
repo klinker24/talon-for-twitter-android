@@ -484,4 +484,32 @@ public class ListDataSource {
             database.update(ListSQLiteHelper.TABLE_HOME, cv, ListSQLiteHelper.COLUMN_TWEET_ID + " = ?", new String[] {tweetId + ""});
         }
     }
+
+    public synchronized void trimDatabase(long listId, int trimSize) {
+        Cursor cursor = getTrimmingCursor(listId);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            ListSQLiteHelper.TABLE_HOME,
+                                    ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId + " AND " +
+                                    ListSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            ListSQLiteHelper.TABLE_HOME,
+                                    ListSQLiteHelper.COLUMN_LIST_ID + " = " + listId + " AND " +
+                                    ListSQLiteHelper.COLUMN_ID + " < " + cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }
