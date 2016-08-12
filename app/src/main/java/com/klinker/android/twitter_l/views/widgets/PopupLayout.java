@@ -303,9 +303,17 @@ public abstract class PopupLayout extends CardView {
         int viewWidth = under.getWidth();
         int viewHeight = under.getHeight();
 
-        int startX = fromLeft + (int) (viewWidth / 2.0);
-        int startY = fromTop + (int) (viewHeight / 2.0);
+        int startX;
+        int startY;
 
+        if (getContext().getResources().getBoolean(R.bool.isRTL)) {
+            startX = fromLeft - (int) (viewWidth / 2.0);
+            startY = fromTop - (int) (viewHeight / 2.0);
+        } else {
+            startX = fromLeft + (int) (viewWidth / 2.0);
+            startY = fromTop + (int) (viewHeight / 2.0);
+        }
+        
         startX = startX - (width / 2);
         startY = startY - (height / 2);
 
@@ -329,6 +337,7 @@ public abstract class PopupLayout extends CardView {
 
         setDistanceFromLeft(startX);
         setDistanceFromTop(startY);
+
     }
 
     private boolean showTitle = true;
@@ -515,17 +524,6 @@ public abstract class PopupLayout extends CardView {
                     }
                 }, realAnimationTime);
 
-                /*new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // show the content
-                        titleDivider.setVisibility(View.VISIBLE);
-
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(titleDivider, View.ALPHA, 0.0f, 1.0f);
-                        animator.setDuration(fadeAnimationTime);
-                        animator.start();
-                    }
-                }, realAnimationTime + 100);*/ // was long + short + 30
             }
 
             new Handler().postDelayed(new Runnable() {

@@ -24,4 +24,6 @@
     <bool name="seven_inch_tablet">false</bool>
 
     <bool name="dual_panels">false</bool>
+
+    <bool name="isRTL">false</bool>
 </resources>
