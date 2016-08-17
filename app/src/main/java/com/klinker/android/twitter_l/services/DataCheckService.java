@@ -49,7 +49,7 @@ public class DataCheckService extends IntentService {
             //o.hashCode();
             PushSyncSender.sendToLuke(
                     "<b>Talon:</b>@" + AppSettings.getInstance(this).myScreenName + " had a data spike.",
-                    (currentMb - oldMb) + "MB was used in 15 mins. (" + sent + " sent, " + received + " received)"
+                    (currentMb - oldMb) + "MB in 15 mins."
             );
             android.os.Process.killProcess(android.os.Process.myPid());
         }

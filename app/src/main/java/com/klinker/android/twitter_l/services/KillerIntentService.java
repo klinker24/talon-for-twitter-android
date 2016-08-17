@@ -19,11 +19,8 @@ import java.util.Date;
 
 public abstract class KillerIntentService extends IntentService {
 
-    interface KillerCallback {
-        void onKill();
-    }
 
-    private static final long TIMEOUT = 120000; // 120 seconds
+    private static final long TIMEOUT = 2 * 60 * 1000; // 120 seconds
 
     private String name;
 
@@ -36,21 +33,9 @@ public abstract class KillerIntentService extends IntentService {
 
     @Override
     public final void onHandleIntent(Intent intent) {
-        final KillerCallback callback = new KillerCallback() {
-            @Override
-            public void onKill() {
-                //Object o = null;
-                //o.hashCode();
-                PushSyncSender.sendToLuke(
-                        "<b>Talon:</b>@" + AppSettings.getInstance(KillerIntentService.this).myScreenName + " had a problem.",
-                        "The " + name + " was shut down in the background after 2 mins."
-                );
-                android.os.Process.killProcess(android.os.Process.myPid());
-            }
-        };
 
         // activity sometimes get stuck and burns though data... I have not been able to find out why.
-        // So, lets kill the process if it takes longer than 45 seconds
+        // So, lets kill the process if it takes longer than 120 seconds
         Thread killer = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,7 +44,13 @@ public abstract class KillerIntentService extends IntentService {
 
                     Log.v("talon_killer", "activity refresh killed. What is the issue here...?");
 
-                    callback.onKill();
+                    //Object o = null;
+                    //o.hashCode();
+                    PushSyncSender.sendToLuke(
+                            "<b>Talon:</b> @" + AppSettings.getInstance(KillerIntentService.this).myScreenName + " had a problem.",
+                            name + " was force shut down."
+                    );
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 } catch (InterruptedException e) {
 
                 }
