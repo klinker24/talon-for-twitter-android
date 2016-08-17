@@ -37,7 +37,10 @@ public class DataCheckService extends IntentService {
         int uid = getApplicationInfo().uid;
 
         long oldMb = sharedPreferences.getLong("last_check_data_mb", 0L);
-        long currentMb = (TrafficStats.getUidRxBytes(uid) + TrafficStats.getUidTxBytes(uid)) / 1000000;
+
+        long sent = TrafficStats.getUidTxBytes(uid) / 1000000;
+        long received = TrafficStats.getUidRxBytes(uid) / 1000000;
+        long currentMb = sent + received;
 
         sharedPreferences.edit().putLong("last_check_data_mb", currentMb).commit();
 
@@ -46,7 +49,7 @@ public class DataCheckService extends IntentService {
             //o.hashCode();
             PushSyncSender.sendToLuke(
                     "<b>Talon:</b>@" + AppSettings.getInstance(this).myScreenName + " had a data spike.",
-                    (currentMb - oldMb) + "MB was used in 15 mins."
+                    (currentMb - oldMb) + "MB was used in 15 mins. (" + sent + " sent, " + received + " received)"
             );
             android.os.Process.killProcess(android.os.Process.myPid());
         }
