@@ -313,7 +313,7 @@ public abstract class PopupLayout extends CardView {
             startX = fromLeft + (int) (viewWidth / 2.0);
             startY = fromTop + (int) (viewHeight / 2.0);
         }
-        
+
         startX = startX - (width / 2);
         startY = startY - (height / 2);
 
