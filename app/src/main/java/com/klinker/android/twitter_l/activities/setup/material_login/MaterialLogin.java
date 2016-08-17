@@ -49,13 +49,6 @@ public class MaterialLogin extends MaterialLVLActivity {
     public void init(Bundle bundle) {
         super.init(bundle);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                PushSyncSender.sendToLuke("test", "testing");
-            }
-        }).start();
-
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
