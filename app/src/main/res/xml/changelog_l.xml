@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.3">
+        <text>Fix some force closes</text>
+    </version>
+
     <version name="5.3.2">
         <text>Stop data spikes</text>
         <text>Improvements to cleaning up the database for much better performance for some users</text>
