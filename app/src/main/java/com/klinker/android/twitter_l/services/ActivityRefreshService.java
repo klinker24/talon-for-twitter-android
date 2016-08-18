@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ActivityFragment;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
@@ -22,15 +23,29 @@ public class ActivityRefreshService extends LimitedRunService {
         super("ActivityRefreshService");
     }
 
-    public static void scheduleRefresh(Context context) {
-        ScheduledService.ScheduleInfo info = new ScheduledService.ScheduleInfo(ActivityRefreshService.class, ActivityFragment.ACTIVITY_REFRESH_ID, AppSettings.getInstance(context).activityRefresh);
-
+    public static void cancelRefresh(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, info.pendingIntentId, new Intent(context, info.clazz), 0);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
 
-        if (info.interval != 0) {
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent getRefreshPendingIntent(Context context) {
+        return PendingIntent.getService(
+                context,
+                ActivityFragment.ACTIVITY_REFRESH_ID,
+                new Intent(context, ActivityRefreshService.class),
+                0);
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+
+        if (settings.activityRefresh != 0) {
             long now = new Date().getTime();
-            long alarm = now + info.interval;
+            long alarm = now + settings.activityRefresh;
 
             am.cancel(pendingIntent);
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);

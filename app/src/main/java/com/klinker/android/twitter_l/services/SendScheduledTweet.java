@@ -44,7 +44,7 @@ public class SendScheduledTweet extends KillerIntentService {
     SharedPreferences sharedPrefs;
 
     public SendScheduledTweet() {
-        super("ScheduledService");
+        super("SendScheduledTweetService");
     }
 
     @Override

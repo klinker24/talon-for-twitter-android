@@ -13,7 +13,9 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.services.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.ListRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
@@ -103,14 +105,11 @@ public class PrefFragmentAdvanced extends PrefFragment {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
 
                 if (o.equals("2")) {
-                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    PendingIntent pendingIntent1 = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
-                    PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-                    PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-                    am.cancel(pendingIntent1);
-                    am.cancel(pendingIntent2);
-                    am.cancel(pendingIntent3);
+                    ActivityRefreshService.cancelRefresh(context);
+                    DirectMessageRefreshService.cancelRefresh(context);
+                    ListRefreshService.cancelRefresh(context);
+                    MentionsRefreshService.cancelRefresh(context);
+                    TimelineRefreshService.cancelRefresh(context);
 
                     SharedPreferences.Editor e = sharedPrefs.edit();
                     if (sharedPrefs.getBoolean("live_streaming", true)) {

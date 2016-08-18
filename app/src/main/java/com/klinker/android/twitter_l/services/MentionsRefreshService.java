@@ -48,15 +48,29 @@ public class MentionsRefreshService extends LimitedRunService {
         super("MentionsRefreshService");
     }
 
-    public static void scheduleRefresh(Context context) {
-        ScheduledService.ScheduleInfo info = new ScheduledService.ScheduleInfo(MentionsRefreshService.class, MentionsFragment.MENTIONS_REFRESH_ID, AppSettings.getInstance(context).mentionsRefresh);
-
+    public static void cancelRefresh(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, info.pendingIntentId, new Intent(context, info.clazz), 0);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
 
-        if (info.interval != 0) {
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent getRefreshPendingIntent(Context context) {
+        return PendingIntent.getService(
+                context,
+                MentionsFragment.MENTIONS_REFRESH_ID,
+                new Intent(context, MentionsRefreshService.class),
+                0);
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+
+        if (settings.mentionsRefresh != 0) {
             long now = new Date().getTime();
-            long alarm = now + info.interval;
+            long alarm = now + settings.mentionsRefresh;
 
             am.cancel(pendingIntent);
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);

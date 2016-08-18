@@ -33,15 +33,29 @@ public class ListRefreshService extends LimitedRunService {
         super("ListRefreshService");
     }
 
-    public static void scheduleRefresh(Context context) {
-        ScheduledService.ScheduleInfo info = new ScheduledService.ScheduleInfo(ListRefreshService.class, ListFragment.LIST_REFRESH_ID, AppSettings.getInstance(context).listRefresh);
-
+    public static void cancelRefresh(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, info.pendingIntentId, new Intent(context, info.clazz), 0);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
 
-        if (info.interval != 0) {
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent getRefreshPendingIntent(Context context) {
+        return PendingIntent.getService(
+                context,
+                ListFragment.LIST_REFRESH_ID,
+                new Intent(context, ListRefreshService.class),
+                0);
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+
+        if (settings.listRefresh != 0) {
             long now = new Date().getTime();
-            long alarm = now + info.interval;
+            long alarm = now + settings.listRefresh;
 
             am.cancel(pendingIntent);
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
