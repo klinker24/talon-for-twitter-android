@@ -650,7 +650,8 @@ public class NotificationUtils {
         if(newOnTimeline != -1 && cursor.move(cursor.getCount() - newOnTimeline)) {
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-                if (favs.isFavUser(screenname)) {
+                String retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+                if (favs.isFavUser(screenname) || favs.isFavUser(retweeter)) {
                     tweets.add(
                             getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
                                 tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N. since that has its own summary notification
@@ -660,7 +661,8 @@ public class NotificationUtils {
         } else if (cursor.moveToFirst()) { // talon pull for favorite users
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
-                if (favs.isFavUser(screenname)) {
+                String retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
+                if (favs.isFavUser(screenname) || favs.isFavUser(retweeter)) {
                     tweets.add(
                             getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
                                     tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N.
