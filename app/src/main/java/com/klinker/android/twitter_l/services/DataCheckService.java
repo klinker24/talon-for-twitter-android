@@ -25,7 +25,7 @@ import java.util.Date;
 
 public class DataCheckService extends IntentService {
 
-    public  static final long RESTART_INTERVAL = 15 * 60 * 1000; // 15 mins
+    public  static final long RESTART_INTERVAL = 10 * 60 * 1000; // 10 mins
 
     public DataCheckService() {
         super("DataCheckService");

@@ -49,58 +49,10 @@ public class BootReceiver extends BroadcastReceiver {
         DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
         TrimDataService.scheduleRefresh(context, 1);
-
-        if (settings.mentionsRefresh != 0) {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.mentionsRefresh;
-
-            Log.v("alarm_date", "mentions " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent);
-        }
-
-        if (settings.dmRefresh != 0) { // user only wants manual
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.dmRefresh;
-
-            Log.v("alarm_date", "dircet message " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent);
-        }
-
-        if (settings.listRefresh != 0) { // user only wants manual
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.listRefresh;
-
-            Log.v("alarm_date", "list: " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, ListFragment.LIST_REFRESH_ID, new Intent(context, ListRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.listRefresh, pendingIntent);
-        }
-
-        if (settings.activityRefresh != 0) { // user only wants manual
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.activityRefresh;
-
-            Log.v("alarm_date", "activity " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, ActivityFragment.ACTIVITY_REFRESH_ID, new Intent(context, ActivityRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.activityRefresh, pendingIntent);
-        }
+        new MentionsRefreshService().scheduleRefresh(context);
+        new DirectMessageRefreshService().scheduleRefresh(context);
+        new ListRefreshService().scheduleRefresh(context);
+        new ActivityRefreshService().scheduleRefresh(context);
 
         if (settings.pushNotifications) {
             context.startService(new Intent(context, CatchupPull.class));

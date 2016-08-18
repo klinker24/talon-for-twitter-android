@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -18,13 +20,18 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ListRefreshService extends KillerIntentService {
+public class ListRefreshService extends ScheduledService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
 
     public ListRefreshService() {
-        super("TimelineRefreshService");
+        super("ListRefreshService");
+    }
+
+    @Override
+    protected ScheduledService.ScheduleInfo getScheduleInfo(AppSettings settings) {
+        return new ScheduledService.ScheduleInfo(ListRefreshService.class, ListFragment.LIST_REFRESH_ID, settings.listRefresh);
     }
 
     @Override

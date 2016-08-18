@@ -21,6 +21,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ListFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
@@ -33,12 +36,17 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class MentionsRefreshService extends KillerIntentService {
+public class MentionsRefreshService extends ScheduledService {
 
     SharedPreferences sharedPrefs;
 
     public MentionsRefreshService() {
         super("MentionsRefreshService");
+    }
+
+    @Override
+    protected ScheduledService.ScheduleInfo getScheduleInfo(AppSettings settings) {
+        return new ScheduledService.ScheduleInfo(MentionsRefreshService.class, MentionsFragment.MENTIONS_REFRESH_ID, settings.mentionsRefresh);
     }
 
     @Override
