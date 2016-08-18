@@ -19,8 +19,7 @@ import java.util.Date;
 
 public abstract class KillerIntentService extends IntentService {
 
-
-    private static final long TIMEOUT = 2 * 60 * 1000; // 120 seconds
+    private static final long TIMEOUT = 3 * 60 * 1000; // 3 mins
 
     private String name;
 
