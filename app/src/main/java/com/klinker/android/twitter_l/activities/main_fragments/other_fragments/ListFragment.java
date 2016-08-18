@@ -130,7 +130,7 @@ public class ListFragment extends MainFragment {
             ListDataSource dataSource = ListDataSource.getInstance(context);
             numberNew = dataSource.insertTweets(statuses, listId);
 
-            ActivityRefreshService.scheduleRefresh(context);
+            ListRefreshService.scheduleRefresh(context);
 
             return numberNew;
 

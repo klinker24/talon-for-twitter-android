@@ -39,7 +39,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class DirectMessageRefreshService extends KillerIntentService {
+public class DirectMessageRefreshService extends LimitedRunService {
 
     private SharedPreferences sharedPrefs;
 
@@ -65,13 +65,9 @@ public class DirectMessageRefreshService extends KillerIntentService {
     }
 
     @Override
-    public final void onHandleIntent(Intent intent) {
-        super.onHandleIntent(intent);
+    public void handleIntentIfTime(Intent intent) {
         scheduleRefresh(this);
-    }
 
-    @Override
-    public void handleIntent(Intent intent) {
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
@@ -150,5 +146,17 @@ public class DirectMessageRefreshService extends KillerIntentService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
+    }
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

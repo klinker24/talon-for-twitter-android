@@ -28,7 +28,7 @@ import twitter4j.*;
 
 import java.util.List;
 
-public class SecondDMRefreshService extends KillerIntentService {
+public class SecondDMRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
 
@@ -37,7 +37,7 @@ public class SecondDMRefreshService extends KillerIntentService {
     }
 
     @Override
-    public void handleIntent(Intent intent) {
+    public void handleIntentIfTime(Intent intent) {
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
@@ -116,5 +116,18 @@ public class SecondDMRefreshService extends KillerIntentService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
+    }
+
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

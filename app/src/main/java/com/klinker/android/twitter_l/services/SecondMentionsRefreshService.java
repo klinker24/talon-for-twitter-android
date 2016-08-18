@@ -34,7 +34,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class SecondMentionsRefreshService extends KillerIntentService {
+public class SecondMentionsRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
 
@@ -43,7 +43,7 @@ public class SecondMentionsRefreshService extends KillerIntentService {
     }
 
     @Override
-    public void handleIntent(Intent intent) {
+    public void handleIntentIfTime(Intent intent) {
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
@@ -95,5 +95,17 @@ public class SecondMentionsRefreshService extends KillerIntentService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
+    }
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

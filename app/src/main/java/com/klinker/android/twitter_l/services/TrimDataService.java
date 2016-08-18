@@ -69,96 +69,13 @@ public class TrimDataService extends KillerIntentService {
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         scheduleRefresh(this, 60 * 24); // every 24 hours
-
-        //checkForUpdate();
-    }
-
-    public void checkForUpdate() {
-        String onlineVersion = getVersion();
-
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String currentVersion = pInfo.versionName;
-
-            if (!onlineVersion.contains(currentVersion)) {
-                notifyNewVersion(onlineVersion);
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    public void notifyNewVersion(String version) {
-        Intent goToStore = new Intent(this, RedirectToPlayStore.class);
-        PendingIntent storePending = PendingIntent.getActivity(this, 0, goToStore, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("Talon Version " + version);
-        builder.setContentText("Click to update.");
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_launcher));
-        builder.setSmallIcon(R.drawable.ic_stat_icon);
-        builder.setContentIntent(storePending);
-
-        NotificationManagerCompat notificationManager =
-                NotificationManagerCompat.from(this);
-
-        notificationManager.notify(552, builder.build());
-    }
-
-    public Document getDoc() {
-        try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget = new HttpGet("https://play.google.com/store/apps/details?id=com.klinker.android.twitter");
-            HttpResponse response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
-            InputStream is = entity.getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-                Log.v("talon_version", line);
-            }
-
-            String docHtml = sb.toString();
-
-            is.close();
-
-            return Jsoup.parse(docHtml);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public String getVersion() {
-        try {
-            Document doc = getDoc();
-
-            if(doc != null) {
-                Elements elements = doc.getElementsByAttributeValue("itemprop", "softwareVersion");
-
-                Log.v("talon_version", "elements size: " + elements.size());
-                for (Element e : elements) {
-                    Log.v("talon_version", e.val());
-                    return e.val();
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public static void scheduleRefresh(Context context, long mins) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         long now = new Date().getTime();
-        long alarm = now + 1000 * 60 * mins;
+        long alarm = now + (1000 * 60 * mins);
 
         Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
 
