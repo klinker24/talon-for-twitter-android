@@ -29,7 +29,12 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.services.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.DataCheckService;
+import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.ListRefreshService;
+import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.TrimDataService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.LVLActivity;
@@ -228,6 +233,15 @@ public class UpdateUtils {
     }
 
     public static void runEveryUpdate(final Context context, final SharedPreferences sharedPrefs) {
+
+        DataCheckService.scheduleRefresh(context);
+        TimelineRefreshService.scheduleRefresh(context);
+        TrimDataService.scheduleRefresh(context, 12 * 60);
+        MentionsRefreshService.scheduleRefresh(context);
+        DirectMessageRefreshService.scheduleRefresh(context);
+        ListRefreshService.scheduleRefresh(context);
+        ActivityRefreshService.scheduleRefresh(context);
+
         int storedAppVersion = sharedPrefs.getInt("app_version", 0);
         int currentAppVersion = getAppVersion(context);
 
