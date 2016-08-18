@@ -57,7 +57,13 @@ public class TweetView {
 
     private static final int MAX_EMBEDDED_TWEETS = 2;
 
-    public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");;
+    public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");
+    public static final Pattern twitterMomentPattern = Pattern.compile("\\stwitter.com/i/moments");
+
+    public static boolean isEmbeddedTweet(String text) {
+        return TweetView.embeddedTweetPattern.matcher(text).find() && !TweetView.twitterMomentPattern.matcher(text).find();
+    }
+
     Context context;
     AppSettings settings;
 
