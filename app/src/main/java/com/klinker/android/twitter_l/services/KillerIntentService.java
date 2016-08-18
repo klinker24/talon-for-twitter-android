@@ -19,7 +19,7 @@ import java.util.Date;
 
 public abstract class KillerIntentService extends IntentService {
 
-    private static final long TIMEOUT = 3 * 60 * 1000; // 3 mins
+    private static final long TIMEOUT = 5 * 60 * 1000; // 5 mins
 
     private String name;
 
@@ -34,7 +34,7 @@ public abstract class KillerIntentService extends IntentService {
     public void onHandleIntent(Intent intent) {
 
         // activity sometimes get stuck and burns though data... I have not been able to find out why.
-        // So, lets kill the process if it takes longer than 120 seconds
+        // So, lets kill the process if it takes longer than 5 mins
         Thread killer = new Thread(new Runnable() {
             @Override
             public void run() {
