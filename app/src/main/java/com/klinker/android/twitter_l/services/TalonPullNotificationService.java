@@ -716,9 +716,9 @@ public class TalonPullNotificationService extends Service {
                 sharedPreferences.edit().putBoolean("new_notification", true).apply();
 
                 if (settings.followersNot) {
-                    int newFollows = sharedPreferences.getInt("new_follows", 0);
+                    int newFollows = sharedPreferences.getInt("new_followers", 0);
                     newFollows++;
-                    sharedPreferences.edit().putInt("new_follows", newFollows).apply();
+                    sharedPreferences.edit().putInt("new_followers", newFollows).apply();
 
                     if (settings.notifications) {
                         NotificationUtils.newInteractions(source, mContext, sharedPreferences, " " + getResources().getString(R.string.followed));
