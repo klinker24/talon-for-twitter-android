@@ -1,4 +1,4 @@
 v5.3.5 includes changes to stop data spikes, improvements to the background refresh services, bug fixes, and other various user requests.
-</br>
-</br>
+<br/>
+<br/>
 This update may reset some of your background refresh intervals.
