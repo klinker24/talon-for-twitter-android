@@ -146,7 +146,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {
                 removeLastCharacters = true;
             }
-        } else if (settings.inlinePics && TweetView.embeddedTweetPattern.matcher(tweetText).find()) {
+        } else if (settings.inlinePics && TweetView.isEmbeddedTweet(tweetText)) {
             embeddedTweetFound = true;
 
             if (tweetText.lastIndexOf(".") == tweetText.length() - 1) {

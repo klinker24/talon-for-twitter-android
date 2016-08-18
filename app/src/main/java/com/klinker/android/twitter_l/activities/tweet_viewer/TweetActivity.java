@@ -774,7 +774,7 @@ public class TweetActivity extends SlidingActivity {
         screennametv.setText("@" + screenName);
 
         boolean replace = false;
-        boolean embeddedTweetFound = TweetView.embeddedTweetPattern.matcher(tweet).find();
+        boolean embeddedTweetFound = TweetView.isEmbeddedTweet(tweet);
 
         if (settings.inlinePics && (tweet.contains("pic.twitter.com/") || embeddedTweetFound)) {
             if (tweet.lastIndexOf(".") == tweet.length() - 1) {
