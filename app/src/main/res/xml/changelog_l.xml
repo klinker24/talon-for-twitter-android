@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.4">
+        <text>Improvements for background refreshes</text>
+    </version>
+
     <version name="5.3.3">
         <text>Fix some force closes</text>
     </version>
