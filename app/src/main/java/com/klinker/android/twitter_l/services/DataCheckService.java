@@ -64,6 +64,13 @@ public class DataCheckService extends IntentService {
                             "Activity Refresh: " + (settings.activityRefresh / (1000 * 60)) + " mins<br>" +
                             "Lists Refresh: " + (settings.listRefresh / (1000 * 60)) + " mins"
             );
+
+            ActivityRefreshService.cancelRefresh(this);
+            DirectMessageRefreshService.cancelRefresh(this);
+            ListRefreshService.cancelRefresh(this);
+            MentionsRefreshService.cancelRefresh(this);
+            TimelineRefreshService.cancelRefresh(this);
+
             android.os.Process.killProcess(android.os.Process.myPid());
         }
 
@@ -82,6 +89,5 @@ public class DataCheckService extends IntentService {
         am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
 
         Log.v("alarm_date", "data check: " + new Date(alarm).toString());
-
     }
 }

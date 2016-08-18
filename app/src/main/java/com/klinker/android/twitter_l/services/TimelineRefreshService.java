@@ -207,6 +207,21 @@ public class TimelineRefreshService extends LimitedRunService {
         }
     }
 
+    public static void cancelRefresh(Context context) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent getRefreshPendingIntent(Context context) {
+        return PendingIntent.getService(
+                context,
+                HomeFragment.HOME_REFRESH_ID,
+                new Intent(context, TimelineRefreshService.class),
+                0);
+    }
+
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -214,12 +229,11 @@ public class TimelineRefreshService extends LimitedRunService {
         long now = new Date().getTime();
         long alarm = now + settings.timelineRefresh;
 
-        PendingIntent pendingIntent = PendingIntent.getService(context, HomeFragment.HOME_REFRESH_ID, new Intent(context, TimelineRefreshService.class), 0);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
 
         if (settings.timelineRefresh != 0) {
             am.cancel(pendingIntent);
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-            // am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.timelineRefresh, pendingIntent);
         } else {
             am.cancel(pendingIntent);
         }

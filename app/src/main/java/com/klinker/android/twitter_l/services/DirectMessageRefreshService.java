@@ -47,15 +47,29 @@ public class DirectMessageRefreshService extends LimitedRunService {
         super("DirectMessageRefreshService");
     }
 
-    public static void scheduleRefresh(Context context) {
-        ScheduledService.ScheduleInfo info = new ScheduledService.ScheduleInfo(DirectMessageRefreshService.class, DMFragment.DM_REFRESH_ID, AppSettings.getInstance(context).dmRefresh);
-
+    public static void cancelRefresh(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, info.pendingIntentId, new Intent(context, info.clazz), 0);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
 
-        if (info.interval != 0) {
+        am.cancel(pendingIntent);
+    }
+
+    private static PendingIntent getRefreshPendingIntent(Context context) {
+        return PendingIntent.getService(
+                context,
+                DMFragment.DM_REFRESH_ID,
+                new Intent(context, DirectMessageRefreshService.class),
+                0);
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+
+        if (settings.dmRefresh != 0) {
             long now = new Date().getTime();
-            long alarm = now + info.interval;
+            long alarm = now + settings.dmRefresh;
 
             am.cancel(pendingIntent);
             am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
