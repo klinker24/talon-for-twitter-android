@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout;
@@ -161,6 +162,14 @@ public class UserSearchFragment extends Fragment {
 
         doUserSearch(searchQuery);
 
+        if (onlyProfile) {
+            Intent viewProfile = new Intent(context, ProfilePager.class);
+            viewProfile.putExtra("screenname", searchQuery.replace("@", "").replaceAll(" ", ""));
+
+            startActivity(viewProfile);
+            getActivity().finish();
+        }
+
         return layout;
     }
 
@@ -202,7 +211,7 @@ public class UserSearchFragment extends Fragment {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            peopleAdapter = new PeopleArrayAdapter(context, users, onlyProfile);
+                            peopleAdapter = new PeopleArrayAdapter(context, users, false);
                             listView.setAdapter(peopleAdapter);
                             listView.setVisibility(View.VISIBLE);
 
