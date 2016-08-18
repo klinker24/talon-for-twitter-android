@@ -109,19 +109,6 @@ class Linkify {
     };
 
     /**
-     * Transforms matched phone number text into something suitable
-     * to be used in a tel: URL.  It does this by removing everything
-     * but the digits and plus signs.  For instance:
-     * &apos;+1 (919) 555-1212&apos;
-     * becomes &apos;+19195551212&apos;
-     */
-    private static final TransformFilter sPhoneNumberTransformFilter = new TransformFilter() {
-        public final String transformUrl(final Matcher match, String url) {
-            return Regex.digitsAndPlusOnly(match);
-        }
-    };
-
-    /**
      * MatchFilter enables client code to have more control over
      * what is allowed to match and become a link, and what is not.
      * <p/>
