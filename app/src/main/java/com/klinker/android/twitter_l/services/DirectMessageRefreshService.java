@@ -15,7 +15,9 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +30,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;
@@ -36,7 +39,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class DirectMessageRefreshService extends ScheduledService {
+public class DirectMessageRefreshService extends KillerIntentService {
 
     private SharedPreferences sharedPrefs;
 
@@ -44,9 +47,27 @@ public class DirectMessageRefreshService extends ScheduledService {
         super("DirectMessageRefreshService");
     }
 
+    public static void scheduleRefresh(Context context) {
+        ScheduledService.ScheduleInfo info = new ScheduledService.ScheduleInfo(DirectMessageRefreshService.class, DMFragment.DM_REFRESH_ID, AppSettings.getInstance(context).dmRefresh);
+
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(context, info.pendingIntentId, new Intent(context, info.clazz), 0);
+
+        if (info.interval != 0) {
+            long now = new Date().getTime();
+            long alarm = now + info.interval;
+
+            am.cancel(pendingIntent);
+            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+        } else {
+            am.cancel(pendingIntent);
+        }
+    }
+
     @Override
-    protected ScheduledService.ScheduleInfo getScheduleInfo(AppSettings settings) {
-        return new ScheduledService.ScheduleInfo(DirectMessageRefreshService.class, DMFragment.DM_REFRESH_ID, settings.dmRefresh);
+    public final void onHandleIntent(Intent intent) {
+        super.onHandleIntent(intent);
+        scheduleRefresh(this);
     }
 
     @Override

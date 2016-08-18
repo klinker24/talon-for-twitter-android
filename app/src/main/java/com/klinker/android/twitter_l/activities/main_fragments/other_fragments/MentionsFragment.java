@@ -112,17 +112,7 @@ public class MentionsFragment extends MainFragment {
                     Log.d("Twitter Update Error", e.getMessage());
                 }
 
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.mentionsRefresh;
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-
-                if (DrawerActivity.settings.mentionsRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.mentionsRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
+                MentionsRefreshService.scheduleRefresh(context);
 
                 if (DrawerActivity.settings.syncSecondMentions) {
                     syncSecondMentions();

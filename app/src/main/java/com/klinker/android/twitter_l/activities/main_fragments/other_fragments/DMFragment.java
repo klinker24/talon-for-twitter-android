@@ -127,21 +127,7 @@ public class DMFragment extends MainFragment {
                     Log.d("Twitter Update Error", e.getMessage());
                 }
 
-
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.dmRefresh;
-
-                Log.v("alarm_date", "direct message " + new Date(alarm).toString());
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-                if (DrawerActivity.settings.dmRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.dmRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
-
+                DirectMessageRefreshService.scheduleRefresh(context);
 
                 return null;
             }

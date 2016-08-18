@@ -16,7 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.services.ActivityRefreshService;
+import com.klinker.android.twitter_l.services.DataCheckService;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.ListRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.TrimDataService;
@@ -163,34 +166,15 @@ public class MaterialLogin extends MaterialLVLActivity {
     }
 
     private void startTimeline() {
-        AppSettings settings = AppSettings.getInstance(this);
         Context context = this;
 
-        if (settings.timelineRefresh != 0) { // user only wants manual
-            TimelineRefreshService.scheduleRefresh(context);
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + settings.mentionsRefresh;
-
-            PendingIntent pendingIntent2 = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.mentionsRefresh, pendingIntent2);
-
-            alarm = now + settings.dmRefresh;
-
-            PendingIntent pendingIntent3 = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, settings.dmRefresh, pendingIntent3);
-        }
-
-        // set up the autotrim
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        long now = new Date().getTime();
-        long alarm = now + AlarmManager.INTERVAL_DAY;
-        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
-        PendingIntent pendingIntent = PendingIntent.getService(context, 161, new Intent(context, TrimDataService.class), 0);
-        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+        DataCheckService.scheduleRefresh(context);
+        TimelineRefreshService.scheduleRefresh(context);
+        TrimDataService.scheduleRefresh(context, 12 * 60);
+        MentionsRefreshService.scheduleRefresh(context);
+        DirectMessageRefreshService.scheduleRefresh(context);
+        ListRefreshService.scheduleRefresh(context);
+        ActivityRefreshService.scheduleRefresh(context);
 
         finish();
 
