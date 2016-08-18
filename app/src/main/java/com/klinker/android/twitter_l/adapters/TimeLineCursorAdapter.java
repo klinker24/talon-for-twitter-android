@@ -886,13 +886,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (picture) {
             if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
                 if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
+                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(null).into(holder.image);
                 } else {
                     Glide.with(context).load(holder.picUrl).centerCrop().placeholder(null).into(holder.image);
                 }
             } else {
                 if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
+                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(null).into(holder.image);
                 } else {
                     Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
                 }
@@ -900,7 +900,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (settings.preCacheImages) {
-            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.profilePic);
+            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(null).into(holder.profilePic);
         } else {
             Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
         }
