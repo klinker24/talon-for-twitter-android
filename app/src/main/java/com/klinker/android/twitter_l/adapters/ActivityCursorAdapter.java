@@ -214,15 +214,6 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
             @Override
             public void run() {
                 if (holder.tweetId == id) {
-
-                    if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
-                        String text = holder.tweet.getText().toString();
-                        if (EmojiUtils.emojiPattern.matcher(text).find()) {
-                            final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweetText));
-                            holder.tweet.setText(span);
-                        }
-                    }
-
                     holder.tweet.setSoundEffectsEnabled(false);
                     holder.tweet.setOnClickListener(new View.OnClickListener() {
                         @Override
