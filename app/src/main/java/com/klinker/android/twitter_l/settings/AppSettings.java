@@ -434,11 +434,11 @@ public class AppSettings {
         }
 
         // Longs
-        timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "1800000"));
+        timelineRefresh = Long.parseLong(sharedPrefs.getString("timeline_sync_interval", "0"));
         mentionsRefresh = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
-        dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "1800000"));
-        activityRefresh = Long.parseLong(sharedPrefs.getString("activity_sync_interval", "1800000"));
-        listRefresh = Long.parseLong(sharedPrefs.getString("list_sync_interval", "1800000"));
+        dmRefresh = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "0"));
+        activityRefresh = Long.parseLong(sharedPrefs.getString("activity_sync_interval", "0"));
+        listRefresh = Long.parseLong(sharedPrefs.getString("list_sync_interval", "0"));
 
         translateUrl = sharedPrefs.getString("translate_url", "http://translate.google.com/#auto|en|");
 

@@ -678,7 +678,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                                 @Override
                                 public void run() {
                                     sharedPrefs.edit().putInt("current_account", 2).apply();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_followers").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -711,7 +711,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                                 @Override
                                 public void run() {
                                     sharedPrefs.edit().putInt("current_account", 1).apply();
-                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_follows").apply();
+                                    sharedPrefs.edit().remove("new_notifications").remove("new_retweets").remove("new_favorites").remove("new_followers").apply();
                                     AppSettings.invalidate();
                                     finish();
                                     Intent next = new Intent(context, MainActivity.class);
@@ -1244,7 +1244,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
         e.remove("new_notification");
         e.remove("new_retweets");
         e.remove("new_favorites");
-        e.remove("new_follows");
+        e.remove("new_followers");
+        e.remove("new_quotes");
         e.remove("current_position_" + currentAccount);
         e.remove("last_activity_refresh_" + currentAccount);
         e.remove("original_activity_refresh_" + currentAccount);
@@ -1319,6 +1320,14 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
             return;
         }
+
+        // clear interactions notifications
+        sharedPrefs.edit().putInt("new_retweets", 0).commit();
+        sharedPrefs.edit().putInt("new_favorites", 0).commit();
+        sharedPrefs.edit().putInt("new_followers", 0).commit();
+        sharedPrefs.edit().putInt("new_quotes", 0).commit();
+        sharedPrefs.edit().putString("old_interaction_text", "").commit();
+
         invalidateOptionsMenu();
     }
 

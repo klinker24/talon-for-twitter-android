@@ -63,7 +63,7 @@ public class UpdateUtils {
     private static final long SUPPORTER_TIMEOUT = 90 * DAY;
 
     public static void checkUpdate(final Context context) {
-        final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
         long currentTime = Calendar.getInstance().getTimeInMillis();
@@ -77,9 +77,30 @@ public class UpdateUtils {
         }
 
         boolean justInstalled = runFirstInstalled(sharedPrefs);
-        runEveryUpdate(context, sharedPrefs);
 
         if (!justInstalled) {
+
+            if (sharedPrefs.getBoolean("version_5_3_4", true)) {
+                PreferenceManager.getDefaultSharedPreferences(context).edit()
+                        .putString("timeline_sync_interval", "0")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "0")
+                        .putString("activity_sync_interval", "0")
+                        .putString("list_sync_interval", "0")
+                        .putBoolean("version_5_3_4", false)
+                        .commit();
+
+                sharedPrefs.edit()
+                        .putString("timeline_sync_interval", "0")
+                        .putString("mentions_sync_interval", "1800000")
+                        .putString("dm_sync_interval", "0")
+                        .putString("activity_sync_interval", "0")
+                        .putString("list_sync_interval", "0")
+                        .putBoolean("version_5_3_4", false)
+                        .commit();
+
+                AppSettings.invalidate();
+            }
 
             if (sharedPrefs.getBoolean("version_5_3_3", true)) {
                 DataCheckService.scheduleRefresh(context);
@@ -157,6 +178,9 @@ public class UpdateUtils {
         } else {
             sharedPrefs.edit().putBoolean("version_3_5", false).apply();
         }
+
+        sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
+        runEveryUpdate(context, sharedPrefs);
     }
 
     public static boolean showSupporterDialog(Context context) {
