@@ -46,10 +46,10 @@ public abstract class KillerIntentService extends IntentService {
 
                     //Object o = null;
                     //o.hashCode();
-                    PushSyncSender.sendToLuke(
+                    /*PushSyncSender.sendToLuke(
                             "<b>Talon:</b> @" + AppSettings.getInstance(KillerIntentService.this).myScreenName + " had a problem.",
                             name + " was force shut down."
-                    );
+                    );*/
                     android.os.Process.killProcess(android.os.Process.myPid());
                 } catch (InterruptedException e) {
 

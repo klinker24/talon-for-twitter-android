@@ -92,17 +92,7 @@ public class ActivityFragment extends MainFragment {
 
                 update = utils.refreshActivity();
 
-                AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-                long now = new Date().getTime();
-                long alarm = now + DrawerActivity.settings.activityRefresh;
-
-                PendingIntent pendingIntent = PendingIntent.getService(context, ACTIVITY_REFRESH_ID, new Intent(context, ActivityRefreshService.class), 0);
-
-                if (DrawerActivity.settings.activityRefresh != 0)
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.activityRefresh, pendingIntent);
-                else
-                    am.cancel(pendingIntent);
+                ActivityRefreshService.scheduleRefresh(context);
 
                 if (settings.syncSecondMentions) {
                     context.startService(new Intent(context, SecondActivityRefreshService.class));

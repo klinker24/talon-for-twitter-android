@@ -1380,39 +1380,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         if (key.equals("timeline_sync_interval")) {
             TimelineRefreshService.scheduleRefresh(context);
         } else if (key.equals("mentions_sync_interval")) {
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long refreshRate = Long.parseLong(sharedPrefs.getString("mentions_sync_interval", "1800000"));
-
-            long now = new Date().getTime();
-            long alarm = now + refreshRate;
-
-            Log.v("alarm_date", "mentions " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, MentionsFragment.MENTIONS_REFRESH_ID, new Intent(context, MentionsRefreshService.class), 0);
-
-            if (refreshRate != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
-            else
-                am.cancel(pendingIntent);
+            MentionsRefreshService.scheduleRefresh(context);
         } else if (key.equals("dm_sync_interval")) {
-
-            long refreshRate = Long.parseLong(sharedPrefs.getString("dm_sync_interval", "1800000"));
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + refreshRate;
-
-            Log.v("alarm_date", "direct message " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, DMFragment.DM_REFRESH_ID, new Intent(context, DirectMessageRefreshService.class), 0);
-
-            if (refreshRate != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, refreshRate, pendingIntent);
-            else
-                am.cancel(pendingIntent);
+            DirectMessageRefreshService.scheduleRefresh(context);
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));

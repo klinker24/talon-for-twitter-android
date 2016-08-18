@@ -35,6 +35,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
+import com.klinker.android.twitter_l.services.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.ListRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
@@ -129,19 +130,7 @@ public class ListFragment extends MainFragment {
             ListDataSource dataSource = ListDataSource.getInstance(context);
             numberNew = dataSource.insertTweets(statuses, listId);
 
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            long now = new Date().getTime();
-            long alarm = now + DrawerActivity.settings.listRefresh;
-
-            Log.v("alarm_date", "List " + new Date(alarm).toString());
-
-            PendingIntent pendingIntent = PendingIntent.getService(context, LIST_REFRESH_ID, new Intent(context, ListRefreshService.class), 0);
-
-            if (DrawerActivity.settings.listRefresh != 0)
-                am.setRepeating(AlarmManager.RTC_WAKEUP, alarm, DrawerActivity.settings.listRefresh, pendingIntent);
-            else
-                am.cancel(pendingIntent);
+            ActivityRefreshService.scheduleRefresh(context);
 
             return numberNew;
 

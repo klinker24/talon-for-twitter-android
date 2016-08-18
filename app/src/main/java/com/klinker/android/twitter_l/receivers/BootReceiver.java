@@ -49,10 +49,10 @@ public class BootReceiver extends BroadcastReceiver {
         DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
         TrimDataService.scheduleRefresh(context, 1);
-        new MentionsRefreshService().scheduleRefresh(context);
-        new DirectMessageRefreshService().scheduleRefresh(context);
-        new ListRefreshService().scheduleRefresh(context);
-        new ActivityRefreshService().scheduleRefresh(context);
+        MentionsRefreshService.scheduleRefresh(context);
+        DirectMessageRefreshService.scheduleRefresh(context);
+        ListRefreshService.scheduleRefresh(context);
+        ActivityRefreshService.scheduleRefresh(context);
 
         if (settings.pushNotifications) {
             context.startService(new Intent(context, CatchupPull.class));

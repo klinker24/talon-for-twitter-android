@@ -224,8 +224,5 @@ public class TimelineRefreshService extends KillerIntentService {
         } else {
             am.cancel(pendingIntent);
         }
-
-        Log.v("alarm_date", "timeline refresh: " + new Date(alarm).toString());
-
     }
 }
