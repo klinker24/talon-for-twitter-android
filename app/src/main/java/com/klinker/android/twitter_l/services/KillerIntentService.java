@@ -21,7 +21,7 @@ public abstract class KillerIntentService extends IntentService {
 
     private static final long TIMEOUT = 5 * 60 * 1000; // 5 mins
 
-    private String name;
+    protected String name;
 
     public KillerIntentService(String name) {
         super(name);
@@ -58,31 +58,9 @@ public abstract class KillerIntentService extends IntentService {
 
         killer.start();
 
-        if (dontRunMoreThanEveryMins(intent)) {
-            handleIntent(intent);
-        }
+        handleIntent(intent);
 
         // stop the killer from destroying the app
         killer.interrupt();
-    }
-
-    // return true if it should refresh, false if it has been refreshed within the last min
-    // this is overridden in the timeline refresh service
-    protected boolean dontRunMoreThanEveryMins(Intent intent) {
-        SharedPreferences prefs = AppSettings.getSharedPreferences(this);
-
-        long currentTime = new Date().getTime();
-        if (prefs.contains(name + "_killer_timeout") && currentTime - prefs.getLong(name + "_killer_timeout", currentTime) < TIMEOUT) {
-            return false;
-        } else {
-            updateLastRunTime(prefs, currentTime);
-            return true;
-        }
-    }
-
-    private void updateLastRunTime(SharedPreferences prefs, long time) {
-        prefs.edit()
-                .putLong(name + "_killer_timeout", time)
-                .commit();
     }
 }

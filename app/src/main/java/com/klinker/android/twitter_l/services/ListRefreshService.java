@@ -24,7 +24,7 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ListRefreshService extends KillerIntentService {
+public class ListRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -51,13 +51,9 @@ public class ListRefreshService extends KillerIntentService {
     }
 
     @Override
-    public final void onHandleIntent(Intent intent) {
-        super.onHandleIntent(intent);
+    public void handleIntentIfTime(Intent intent) {
         scheduleRefresh(this);
-    }
 
-    @Override
-    public void handleIntent(Intent intent) {
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
             return;
         }
@@ -138,5 +134,17 @@ public class ListRefreshService extends KillerIntentService {
 
             ListRefreshService.isRunning = false;
         }
+    }
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

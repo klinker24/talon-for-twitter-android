@@ -1,7 +1,8 @@
 <changelog>
 
-    <version name="5.3.4">
-        <text>Improvements for background refreshes</text>
+    <version name="5.3.5">
+        <text>Keep better track of running background services</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="5.3.3">

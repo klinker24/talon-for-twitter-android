@@ -41,7 +41,7 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class TimelineRefreshService extends KillerIntentService {
+public class TimelineRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -51,7 +51,7 @@ public class TimelineRefreshService extends KillerIntentService {
     }
 
     @Override
-    public void handleIntent(Intent intent) {
+    public void handleIntentIfTime(Intent intent) {
         scheduleRefresh(this);
 
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
@@ -193,7 +193,6 @@ public class TimelineRefreshService extends KillerIntentService {
             sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
             getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
-
             TimelineRefreshService.isRunning = false;
         }
     }
@@ -224,5 +223,17 @@ public class TimelineRefreshService extends KillerIntentService {
         } else {
             am.cancel(pendingIntent);
         }
+    }
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

@@ -30,6 +30,8 @@ import java.util.Locale;
 
 public class App extends Application {
 
+    public static long DATA_USED = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();

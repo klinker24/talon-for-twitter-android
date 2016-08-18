@@ -103,12 +103,10 @@ public class UpdateUtils {
             }
 
             if (sharedPrefs.getBoolean("version_5_3_3", true)) {
-                DataCheckService.scheduleRefresh(context);
                 sharedPrefs.edit().putBoolean("version_5_3_3", false).commit();
             }
 
             if (sharedPrefs.getBoolean("version_5_3_2", true)) {
-                DataCheckService.scheduleRefresh(context);
                 sharedPrefs.edit().putBoolean("version_5_3_2", false).commit();
             }
 
@@ -260,7 +258,7 @@ public class UpdateUtils {
 
         DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
-        TrimDataService.scheduleRefresh(context, 12 * 60);
+        TrimDataService.scheduleRefresh(context, 60);
         MentionsRefreshService.scheduleRefresh(context);
         DirectMessageRefreshService.scheduleRefresh(context);
         ListRefreshService.scheduleRefresh(context);
@@ -271,9 +269,6 @@ public class UpdateUtils {
 
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
             sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
-
-            TrimDataService.scheduleRefresh(context, 60);
-            DataCheckService.scheduleRefresh(context);
 
             new TimeoutThread(new Runnable() {
                 @Override

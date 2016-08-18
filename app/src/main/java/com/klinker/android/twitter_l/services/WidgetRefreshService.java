@@ -153,9 +153,4 @@ public class WidgetRefreshService  extends KillerIntentService {
 
         WidgetRefreshService.isRunning = false;
     }
-
-    @Override
-    protected boolean dontRunMoreThanEveryMins(Intent intent) {
-        return true;
-    }
 }

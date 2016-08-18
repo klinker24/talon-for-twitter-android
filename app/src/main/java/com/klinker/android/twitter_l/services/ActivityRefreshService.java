@@ -14,7 +14,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Date;
 
-public class ActivityRefreshService extends KillerIntentService {
+public class ActivityRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
 
@@ -40,13 +40,9 @@ public class ActivityRefreshService extends KillerIntentService {
     }
 
     @Override
-    public final void onHandleIntent(Intent intent) {
-        super.onHandleIntent(intent);
+    public void handleIntentIfTime(Intent intent) {
         scheduleRefresh(this);
-    }
 
-    @Override
-    public void handleIntent(Intent intent) {
         AppSettings settings = AppSettings.getInstance(this);
         ActivityUtils utils = new ActivityUtils(this, false);
 
@@ -64,5 +60,17 @@ public class ActivityRefreshService extends KillerIntentService {
             Intent second = new Intent(this, SecondActivityRefreshService.class);
             startService(second);
         }
+    }
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }

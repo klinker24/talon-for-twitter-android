@@ -40,7 +40,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class MentionsRefreshService extends KillerIntentService {
+public class MentionsRefreshService extends LimitedRunService {
 
     SharedPreferences sharedPrefs;
 
@@ -66,13 +66,9 @@ public class MentionsRefreshService extends KillerIntentService {
     }
 
     @Override
-    public final void onHandleIntent(Intent intent) {
-        super.onHandleIntent(intent);
+    public void handleIntentIfTime(Intent intent) {
         scheduleRefresh(this);
-    }
 
-    @Override
-    public void handleIntent(Intent intent) {
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
@@ -133,5 +129,18 @@ public class MentionsRefreshService extends KillerIntentService {
         } else {
             return super.dontRunMoreThanEveryMins(intent);
         }
+    }
+
+
+    private static long LAST_RUN = 0;
+
+    @Override
+    protected long getLastRun() {
+        return LAST_RUN;
+    }
+
+    @Override
+    protected void setJustRun(long currentTime) {
+        LAST_RUN = currentTime;
     }
 }
