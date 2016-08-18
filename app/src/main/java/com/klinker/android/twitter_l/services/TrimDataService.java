@@ -164,6 +164,7 @@ public class TrimDataService extends KillerIntentService {
 
         PendingIntent pendingIntent = PendingIntent.getService(context, TrimDataService.TRIM_ID, new Intent(context, TrimDataService.class), 0);
 
+        am.cancel(pendingIntent);
         am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
     }
 }
