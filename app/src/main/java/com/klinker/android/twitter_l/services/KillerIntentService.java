@@ -32,7 +32,7 @@ public abstract class KillerIntentService extends IntentService {
     protected abstract void handleIntent(Intent intent);
 
     @Override
-    public final void onHandleIntent(Intent intent) {
+    public void onHandleIntent(Intent intent) {
 
         // activity sometimes get stuck and burns though data... I have not been able to find out why.
         // So, lets kill the process if it takes longer than 120 seconds

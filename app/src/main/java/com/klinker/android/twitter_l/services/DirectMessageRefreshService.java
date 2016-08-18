@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ActivityFragment;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
@@ -34,12 +36,17 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
-public class DirectMessageRefreshService extends KillerIntentService {
+public class DirectMessageRefreshService extends ScheduledService {
 
-    SharedPreferences sharedPrefs;
+    private SharedPreferences sharedPrefs;
 
     public DirectMessageRefreshService() {
         super("DirectMessageRefreshService");
+    }
+
+    @Override
+    protected ScheduledService.ScheduleInfo getScheduleInfo(AppSettings settings) {
+        return new ScheduledService.ScheduleInfo(DirectMessageRefreshService.class, DMFragment.DM_REFRESH_ID, settings.dmRefresh);
     }
 
     @Override
