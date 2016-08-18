@@ -791,12 +791,12 @@ public class TweetActivity extends SlidingActivity {
         }
         tweettv.setTextIsSelectable(true);
 
-        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+        /*if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
                 final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet.replaceAll("\n", "<br/>")));
                 tweettv.setText(span);
             }
-        }
+        }*/
 
         //Date tweetDate = new Date(time);
         setTime(time);

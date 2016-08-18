@@ -528,12 +528,12 @@ public class TweetView {
 
         glide(profilePicUrl, profilePicIv);
 
-        if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
+        /*if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
                 final Spannable span = EmojiUtils.getSmiledText(context, Html.fromHtml(tweet));
                 tweetTv.setText(span);
             }
-        }
+        }*/
 
         tweetTv.setSoundEffectsEnabled(false);
         tweetTv.setOnClickListener(new View.OnClickListener() {
