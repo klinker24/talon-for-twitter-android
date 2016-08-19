@@ -3,6 +3,7 @@
     <version name="5.3.5">
         <text>Get a notification when your favorite users retweet something too</text>
         <text>Keep better track of running background services</text>
+        <text>Fix some issues tweeting pictures from multiple or the second account</text>
         <text>Bug fixes</text>
         <text>Some visual improvements</text>
     </version>

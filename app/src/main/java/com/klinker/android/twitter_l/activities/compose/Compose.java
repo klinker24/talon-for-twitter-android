@@ -1254,9 +1254,11 @@ public abstract class Compose extends Activity implements
                     return isDone;
                 } else {
                     StatusUpdate media = new StatusUpdate(status);
+                    StatusUpdate media2 = new StatusUpdate(status);
 
                     if (notiId != 0) {
                         media.setInReplyToStatusId(notiId);
+                        media2.setInReplyToStatusId(notiId);
                     }
 
                     if (imagesAttached == 0) {
@@ -1266,6 +1268,7 @@ public abstract class Compose extends Activity implements
                                 Location location = mLastLocation;
                                 GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
                                 media.setLocation(geolocation);
+                                media2.setLocation(geolocation);
                             }
                         }
 
@@ -1273,7 +1276,7 @@ public abstract class Compose extends Activity implements
                             twitter.updateStatus(media);
                         }
                         if (useAccTwo) {
-                            twitter2.updateStatus(media);
+                            twitter2.updateStatus(media2);
                         }
 
                         return true;
@@ -1319,21 +1322,44 @@ public abstract class Compose extends Activity implements
                         // use twitter4j's because it is easier
                         if (attachButton.isEnabled()) {
                             if (imagesAttached == 1) {
-                                media.setMedia(files[0]);
-                                /*UploadedMedia upload = twitter.uploadMedia(files[0]);
-                                long mediaId = upload.getMediaId();
+                                //media.setMedia(files[0]);
+                                if (useAccOne) {
+                                    long mediaId = 0;
+                                    UploadedMedia upload = twitter.uploadMedia(files[0]);
+                                    mediaId = upload.getMediaId();
 
-                                media.setMediaIds(new long[] { mediaId });*/
+                                    media.setMediaIds(new long[]{mediaId});
+                                }
+
+                                if (useAccTwo) {
+                                    long mediaId = 0;
+                                    UploadedMedia upload = twitter2.uploadMedia(files[0]);
+                                    mediaId = upload.getMediaId();
+
+                                    media2.setMediaIds(new long[]{mediaId});
+                                }
                             } else {
                                 // has multiple images and should be done through twitters service
 
-                                long[] mediaIds = new long[files.length];
-                                for (int i = 0; i < files.length; i++) {
-                                    UploadedMedia upload = twitter.uploadMedia(files[i]);
-                                    mediaIds[i] = upload.getMediaId();
+                                if (useAccOne) {
+                                    long[] mediaIds = new long[files.length];
+                                    for (int i = 0; i < files.length; i++) {
+                                        UploadedMedia upload = twitter.uploadMedia(files[i]);
+                                        mediaIds[i] = upload.getMediaId();
+                                    }
+
+                                    media.setMediaIds(mediaIds);
                                 }
 
-                                media.setMediaIds(mediaIds);
+                                if (useAccTwo) {
+                                    long[] mediaIds = new long[files.length];
+                                    for (int i = 0; i < files.length; i++) {
+                                        UploadedMedia upload = twitter2.uploadMedia(files[i]);
+                                        mediaIds[i] = upload.getMediaId();
+                                    }
+
+                                    media2.setMediaIds(mediaIds);
+                                }
                             }
                         } else {
                             // animated gif
@@ -1353,10 +1379,19 @@ public abstract class Compose extends Activity implements
                             stream.close();
                             fos.close();
 
-                            UploadedMedia upload = twitter.uploadMedia(files[0]);
-                            long mediaId = upload.getMediaId();
+                            if (useAccOne) {
+                                UploadedMedia upload = twitter.uploadMedia(files[0]);
+                                long mediaId = upload.getMediaId();
 
-                            media.setMediaIds(new long[] { mediaId });
+                                media.setMediaIds(new long[]{mediaId});
+                            }
+
+                            if (useAccTwo) {
+                                UploadedMedia upload = twitter2.uploadMedia(files[0]);
+                                long mediaId = upload.getMediaId();
+
+                                media2.setMediaIds(new long[]{mediaId});
+                            }
                         }
 
                         if (addLocation) {
@@ -1364,6 +1399,7 @@ public abstract class Compose extends Activity implements
                                 Location location = mLastLocation;
                                 GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
                                 media.setLocation(geolocation);
+                                media2.setLocation(geolocation);
                             }
                         }
 
@@ -1372,7 +1408,7 @@ public abstract class Compose extends Activity implements
                             s = twitter.updateStatus(media);
                         }
                         if (useAccTwo) {
-                            s = twitter2.updateStatus(media);
+                            s = twitter2.updateStatus(media2);
                         }
 
                         if (s != null) {
