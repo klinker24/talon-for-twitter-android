@@ -57,11 +57,11 @@ public class DataCheckService extends IntentService {
             //o.hashCode();
             PushSyncSender.sendToLuke(
                     "<b>Talon:</b> @" + AppSettings.getInstance(this).myScreenName + " shut down a data spike.",
-                    (currentMb - oldMb) + "MB in 15 mins.<br>" +
-                            "Timeline Refresh: " + (settings.timelineRefresh / (1000 * 60)) + " mins<br>" +
-                            "Mentions Refresh: " + (settings.mentionsRefresh / (1000 * 60)) + " mins<br>" +
-                            "DMs Refresh: " + (settings.dmRefresh / (1000 * 60)) + " mins<br>" +
-                            "Activity Refresh: " + (settings.activityRefresh / (1000 * 60)) + " mins<br>" +
+                    (currentMb - oldMb) + "MB in 15 mins.<br/>" +
+                            "Timeline Refresh: " + (settings.timelineRefresh / (1000 * 60)) + " mins<br/>" +
+                            "Mentions Refresh: " + (settings.mentionsRefresh / (1000 * 60)) + " mins<br/>" +
+                            "DMs Refresh: " + (settings.dmRefresh / (1000 * 60)) + " mins<br/>" +
+                            "Activity Refresh: " + (settings.activityRefresh / (1000 * 60)) + " mins<br/>" +
                             "Lists Refresh: " + (settings.listRefresh / (1000 * 60)) + " mins"
             );
 
