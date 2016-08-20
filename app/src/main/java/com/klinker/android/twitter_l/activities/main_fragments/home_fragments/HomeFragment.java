@@ -549,13 +549,13 @@ public class HomeFragment extends MainFragment {
             unreadCount = numberNew;
         }
 
-        if (settings.preCacheImages) {
+        /*if (settings.preCacheImages) {
             try {
                 getActivity().startService(new Intent(getActivity(), PreCacheService.class));
             } catch (Throwable t) {
 
             }
-        }
+        }*/
 
         return unreadCount;
     }
