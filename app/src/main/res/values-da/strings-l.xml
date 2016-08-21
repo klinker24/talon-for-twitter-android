@@ -142,11 +142,11 @@
     <string name="widget_material_light">Material Design Lys</string>
     <string name="widget_material_dark">Material Design Mørk</string>
     <string name="in_app_browser_summary">Deaktivering af in-app browser vil åbne standard browseren ved tap på links</string>
-    <string name="chrome_custom_tabs_summary">Alternativ browser til Talon´s egen in-app browser. Den bruger services tildelt af Google Chrome</string>
+    <string name="chrome_custom_tabs_summary">Alternativ til Talon´s egen in-app browser. Bruger services tildelt af Google Chrome</string>
     <string name="reverse_click_actions_default">Standard (Ingen omvendte handlinger):\n- Tap = Vis In-Line\n- Tap &amp; hold = Vis Tweet</string>
     <string name="show_images_on_widget">Vis billeder på widget</string>
     <string name="auto_dismiss">Afvis automatisk notifikationer</string>
     <string name="auto_dismiss_summary">Afvis automatisk alle notifikationer ved åbning, fra Talon. Er aktive som standard</string>
-    <string name="media">Bruger´s medie</string>
+    <string name="media">Mine medier</string>
     <string name="ignored_on_compact">Indstillingen ignoreres ved brug af kompakt layout</string>
 </resources>
