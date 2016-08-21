@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fast_transitions">Transições Rápidas</string>
+    <string name="help">Ajuda</string>
+    <string name="send_feedback">Enviar Feedback</string>
+    <string name="to_top">Para Cima</string>
+    <string name="show_all">Exibir todos</string>
+    <string name="stats">Estatísticas</string>
+    <string name="list_count">Em %s listas.</string>
+    <string name="joined_twitter">Entrou no Twitter:</string>
+    <string name="top_down">Modo Cima a Baixo</string>
+    <string name="top_down_summary">A linha do tempo nunca irá gravar sua posição. Ela irá iniciar no topo.</string>
+    <string name="timeline_text_size">"Tamanho do Texto "</string>
+    <string name="manage_mutes">Gerenciamento de Silenciados</string>
+    <string name="location_settings">Configurações de Local</string>
+    <string name="twitpic_summary_l">Todas as imagens enviadas irão através do Twitpic.</string>
+    <string name="interactions_only">Interações somente</string>
+    <string name="inter_stream">Interações e Stream ao vivo</string>
+    <string name="dont_use_pull">Não Usar o Talon Pull</string>
+    <string name="always">Sempre</string>
+    <string name="never">Nunca</string>
+    <string name="only_on_wifi">"Somente em WiFi "</string>
+    <string name="only_on_data">Somente em Dados móveis</string>
+    <string name="contact_me">Contacte-me</string>
+    <string name="my_google_plus">Meu Google+</string>
+    <string name="follow_progress">Clique para acompanhar nosso progresso:</string>
+    <string name="general">Geral</string>
+    <string name="no_interactions">Nenhuma interação</string>
+    <string name="emojis_summary">"Permite usar emojis do iOS baixando nosso teclado Sliding Emoji Keyboard - iOS. "</string>
+    <string name="replies">Respostas</string>
+    <string name="web">Web</string>
+    <string name="heads_up">Notificação</string>
+    <string name="use_snackbar">Usar Snackbar</string>
+    <string name="use_snackbar_summary">"Exibe quantos tweets você está do topo da sua linha do tempo. "</string>
+    <string name="bottom_pictures">Fotos Abaixo dos Tweets</string>
+    <string name="bottom_pictures_summary">"Tweets não irão expandir em linha com essa opção. "</string>
+    <string name="preparing_signin">Preparando Entrada</string>
+    <string name="verifying_login">Verificando Login</string>
+    <string name="manage_muffles">Gerenciar Silenciados</string>
+    <string name="muffle_definition">Silenciando um usuário irá remover a maior parte dos Tweets dele da sua linha do tempo. Você verá somente o nome e uma pequena parte do texto para te dar acesso entendido se você quiser ver mais.</string>
+    <string name="muffled_users">Usuários Silenciados</string>
+    <string name="click_to_remove_muffle">Clique num usuário para remover o silêncio.</string>
+    <string name="muffle_user">Silenciar Usuário</string>
+    <string name="unmuffle_user">Remover silêncio do usuário</string>
+    <string name="enjoying_talon">"Curtindo o Talon? "</string>
+    <string name="give_a_rating">Considere o avaliar ou compartilhar com seus amigos!\n\nSuas avaliações de 5 estrelas aquecem meu coração :)</string>
+    <string name="rate_on_rating_dialog">Avaliar</string>
+    <string name="share_on_rating_dialog">Compartilhar</string>
+    <string name="ignore">Ignorar</string>
+    <string name="when_talon_pull_on">"Aplicado quando o Talon Pull está habilitado. "</string>
+    <string name="transparent_system_bars">Usar Barras do Sistema Transparentes</string>
+    <string name="accent_color">Cor Ascendente</string>
+    <string name="nav_bar_option">Sobrepor Barra de Navegação</string>
+    <string name="nav_bar_option_summary">"Aplicativos não são capazes de saber com precisão se alguns dispositivos tem uma barra de navegação ou não. Como o Talon depende fortemente disso para os layouts, está opção permite definir manualmente. "</string>
+    <string name="nav_bar_automatic">"Determinado automaticamente "</string>
+    <string name="nav_bar_present">Usando uma Barra de Navegação</string>
+    <string name="nav_bar_gone">Não Usando uma Barra de Navegação</string>
+    <string name="tip_title">Dica:</string>
+    <string name="profile_pictures_helper_message">Para abrir um tweet que contenha uma foto, simplesmente dê um clique longo na foto nesta grade.\n\nUm clique normal irá abrir o visualizador de fotos.</string>
+    <string name="quote_disclaimer">"O link para o tweet será exibido como um tweet incorporado nos clientes de Twitter modernos. O link atua como o tweet citado. "</string>
+    <string name="sync_options">Opções de Sincronização</string>
+    <string name="manual_syncs">"Sincronização Manual "</string>
+    <string name="timeline_notifications_summary">Um intervalo de atualização em segundo plano deve estar definido para estas notificações ocorrerem.</string>
+    <string name="favorite_user_notifications_summary">Um intervalo de atualização em segundo plano para a linha do tempo principal, ou streaming ao vivo, deve estar definido para notificações de usuários favoritos.</string>
+    <string name="alert_methods_summary">Como você prefere ser notificado: vibração, som, LED, etc.</string>
+    <string name="windowed_helper_message">Para fechar uma janela no tablet, simplesmente clique na área escurecida fora da janela. \n\nIsto garante que sua linha do tempo nunca esteja muito longe!</string>
+    <string name="permission_check_title">Permissões do Talon:</string>
+    <string name="permission_check_message">O Talon está prestes a pedir sua autorização em duas permissões: localização e armazenamento.
+
+
+
+- A Localização e utilizada para acessar tendências locais assim como rotular seus tweets com sua localização (se você requisitar isto também). Eu não salvo sua localização em nenhum momento.
+
+- O armazenamento é utilizado para salvar imagens de tweets no armazenamento externo (quando requisitado) e é utilizado quando enviar suas imagens para o Twitter.
+
+
+
+Sinta-se à vontade para negar qualquer uma das permissões. Você pode acessá-las manualmente nas suas configurações de app do sistema.</string>
+    <string name="tell_about_swipe_down">"Dica: simplesmente deslize para baixo para fechar esta tela. "</string>
+    <string name="download_video">Baixar Vídeo</string>
+    <string name="download_gif">Baixar GIF</string>
+    <string name="error_downloading_video">Erro ao baixar Vídeo</string>
+    <string name="saving_video">Salvando</string>
+    <string name="saved_video">Salvamento completo</string>
+    <string name="encoding_gif">Codificando GIF...</string>
+    <string name="scroll_options">Opções de Rolagem</string>
+    <string name="static_ui_title">UI estática</string>
+    <string name="static_ui_summary">"Isto irá fazer com que a barra do app, tela de composição e snackbar não desapareça ao rolar. "</string>
+    <string name="list_sync_interval">Taxa de Atualização da Lista</string>
+    <string name="list_sync_summary">"Isto irá realizar uma sincronização em segundo plano para qualquer lista que você utiliza como páginas extras na linha do tempo principal. "</string>
+    <string name="timeline_pictures">Fotos da Linha do tempo</string>
+    <string name="timeline_pictures_summary">Defina o estilo das fotos que deseja ver ao rolar sua linha do tempo</string>
+    <string name="normal_pictures">Fotos Normais</string>
+    <string name="smaller_pictures">Fotos menores</string>
+    <string name="no_pictures">Sem fotos</string>
+    <string name="quick_actions">Ações Rápidas</string>
+    <string name="liked_status">Curtido</string>
+    <string name="become_supporter">Torne-se um APOIADOR de 2016</string>
+    <string name="are_supporter">Você é um APOIADOR de 2016!</string>
+    <string name="are_supporter_summary">"Obrigado! Apreciamos muito o seu apoio. Se há algo que eu possa fazer, não hesite em pedir. "</string>
+    <string name="tweetmarker_disclaimer">TweetMarker Automático irá sempre atualizar a linha do tempo ao abrir o app</string>
+    <string name="discover_people">Pessoas</string>
+    <string name="no_media_preview">Nenhuma previsão está disponível para este serviço de vídeo</string>
+    <string name="autoplay_title">Auto-reprodução da Linha do tempo</string>
+    <string name="autoplay_summary">Reproduzir automaticamente GIFs e vídeos sem sair da linha do tempo</string>
+    <string name="high_quality_images">Usar imagens de Alta Qualidade</string>
+    <string name="high_quality_images_summary">Aplicado em todo o app.</string>
+    <string name="view_likes">Ver Curtidas</string>
+    <string name="view_retweets">"Ver Retweets "</string>
+    <string name="list_size">Tamanho da Lista</string>
+    <string name="list_size_summary">Número máximo de tweets a armazenar no banco de dados para uma lista deslizável.</string>
+    <string name="quotes">Citações</string>
+    <string name="no_quotes">Sem citações</string>
+    <string name="tweet_style">Estilo do Tweet</string>
+    <string name="tweet_style_description">Como você prefere a aparência dos seus tweets na linha do tempo.</string>
+    <string name="condensed_tweet_style">Layout compacto de Tweet</string>
+    <string name="locale">Seleção de local para traduções</string>
+    <string name="locale_summary">Nem todas as traduções estão completas.</string>
+    <string name="look_and_feel">Aparência</string>
+    <string name="widget_settings">Customização de Widget</string>
+    <string name="background">Segundo plano</string>
+    <string name="advanced">"Avançado "</string>
+    <string name="data_saving_settings">Opções de Economia de Dados</string>
+    <string name="supporter_2016">Apoiador de 2016</string>
+    <string name="app_style">Estilo do App</string>
+    <string name="in_app_browser">Navegador Interno</string>
+    <string name="location">Local</string>
+    <string name="color_options">Opções de Cores</string>
+    <string name="advanced_options">Opções Avançadas</string>
+    <string name="material_color">Cor do Material Design</string>
+    <string name="base_theme">Tema principal</string>
+    <string name="functionality_options">Opções de Funcionalidades</string>
+    <string name="account_to_display">Conta para exibir</string>
+    <string name="timeline_to_display">Linha do tempo para exibir</string>
+    <string name="swipable_pages">"Páginas Deslizáveis "</string>
+    <string name="app_drawer">Menu do Aplicativo</string>
+    <string name="notifications_for_background_refreshes">Notificações podem ser exibidas após estas atualizações de segundo plano terminarem.</string>
+    <string name="tweetmarker_text">O TweetMarker pode ser usado para sincronizar sua posição atual na linha do tempo entre dispositivos.</string>
+    <string name="precache_text">"Isto irá baixar imagens após uma atualização em segundo plano, de forma que ficarão imediatamente disponíveis no app. "</string>
+    <string name="timeline_notifications_text">Estas notificações irão desaparecer após uma atualização em segundo plano.</string>
+    <string name="tweetmarker_always_refreshes">O TweetMarker irá sempre atualizar na inicialização.</string>
+    <string name="background_refreshes_disclaimer">"Todas as preferências da \"Sincronização em segundo plano\" irá consumir dados e bateria. "</string>
+    <string name="discover_section_options">Opções da Secção Descobrir</string>
+    <string name="clear_memory">Limpar Memória</string>
+    <string name="manage_mutes_options">Gerenciar Silenciados</string>
+    <string name="widget_disclaimer">"Você pode precisar remover e então readicionar o Widget na sua tela de início para aplicar estas mudanças. "</string>
+    <string name="widget_material_light">Material Design Claro</string>
+    <string name="widget_material_dark">Material Design Escuro</string>
+    <string name="in_app_browser_summary">Desabilitando o navegador interno irá envia-lo para o navegador padrão ao abrir links.</string>
+    <string name="chrome_custom_tabs_summary">Um substituto para o navegador interno do Talon. Ele usa os serviços providos pelo Google Chrome.</string>
+    <string name="reverse_click_actions_default">Padrão (Nenhuma ação reversa):\n- Clique curto = Expandir Em Linha\n- Clique longo = Visualizador do Tweet</string>
+    <string name="show_images_on_widget">Exibir imagens no Widget</string>
+    <string name="auto_dismiss">Auto-dispensar Notificações</string>
+    <string name="auto_dismiss_summary">Automaticamente dispensar todas as notificações do Talon quando o app estiver aberto. Isto é ativado por padrão.</string>
+    <string name="media">Midia do Usuário</string>
+    <string name="ignored_on_compact">Esta configurado é ignorada no layout compacto.</string>
+</resources>

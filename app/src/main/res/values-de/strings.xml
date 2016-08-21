@@ -111,7 +111,7 @@
     <string name="new_interactions">Neue Interaktionen</string>
     <string name="retweeted">retweetete deinen Tweet</string>
     <string name="favorited">favte Deinen Tweet</string>
-    <string name="quoted">hat Deinen Tweet zitiert</string>
+    <string name="quoted">hat dich zitiert</string>
     <string name="followed">folgt dir</string>
     <string name="new_retweets">Retweets</string>
     <string name="new_favorites">Favs</string>
@@ -638,11 +638,15 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="rate_limit_reached">API-Limit erreicht</string>
     <string name="info">Info</string>
     <string name="help_and_feedback">Hilfe/Feedback</string>
+    <string name="contact">Kontakt</string>
     <string name="follow">Folgen</string>
     <string name="menu_number_of_pages">Anzahl von Extraspalten</string>
     <!-- %s will be replaced with a number for the currently selected page -->
+    <string name="page">Seite %s</string>
     <string name="set_as_default">Als Standard setzen</string>
+    <string name="using_second_account">Benutze Account %s!</string>
     <!-- the username will replace %s -->
+    <string name="saved_search">Gespeicherte Suche</string>
     <string name="activity">Aktivität</string>
     <string name="sending_direct_message">Sende Direktnachricht</string>
     <string name="mentioned_you">hat Dich erwähnt</string>
@@ -687,4 +691,9 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="open_to_web_summary">Falls ein Tweet eine Webseiten-URL beinhaltet, wird direkt diese URL anstatt des Tweets geöffnet.</string>
     <string name="open_webpage">Link öffnen</string>
     <string name="get_android">Android-Emojis</string>
+    <string name="play_gif">Abspielen</string>
+    <string name="add_to_tweet_gif">Zum Tweet hinzufügen</string>
+    <string name="find_a_gif">Suche ein GIF</string>
+    <string name="three_mb_limit">Maximal 5MB</string>
+    <string name="quoted_you">hat dich zitiert</string>
 </resources>

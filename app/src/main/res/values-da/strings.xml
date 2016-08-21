@@ -216,7 +216,7 @@ Flere data hentes
     <string name="retweet_lower">retweet</string>
     <string name="retweeter">retweetet af @</string>
     <!-- Tweet Activity -->
-    <string name="menu_open_web">Åbn weblink</string>
+    <string name="menu_open_web">Åbn web link</string>
     <string name="menu_copy_text">Kopiér tweet tekst</string>
     <string name="menu_share">Del tweet</string>
     <string name="menu_delete_tweet">Slet tweet</string>
@@ -318,7 +318,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="sync_second_mentions_summary">Tjek og informer automatisk for nye meninger, både for din primære og sekundære konto</string>
     <string name="max_number_summary">Høj max. grænse betyder langsommere opdatering</string>
     <string name="auto_refresh_category">Auto-opdatér indstillinger</string>
-    <string name="refresh_on_startup">Opdater ved åbn af Talon</string>
+    <string name="refresh_on_startup">Opdater ved start af applikation</string>
     <string name="timeline_sync_interval">Opdateringsinterval for tidslinje</string>
     <string name="mentions_sync_interval">Opdateringsinterval for meninger</string>
     <string name="dm_sync_interval">Opdateringsinterval for direkte beskeder</string>
@@ -338,7 +338,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="advanced_settings">Avancerede indstillinger</string>
     <string name="app_feel_category">Indstillinger af app oplevelsen</string>
     <string name="advance_windowed">Avanceret visning</string>
-    <string name="advance_windowed_summary">Åbn profiler og tweets i et \"vindue\" der vises foran tidslinjen</string>
+    <string name="advance_windowed_summary">Åbn profiler og tweets i en popup der vises ovenpå tidslinjen</string>
     <string name="full_screen_browsers">Fuldskærmsbrowser</string>
     <string name="full_screen_browsers_summary">Åbn tweets der indeholder links til websider med fuldskærmsvisning</string>
     <string name="reverse_click_actions">Omvendt tap funktion</string>
