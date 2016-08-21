@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.3.6">
+        <text>Bug fixes</text>
+        <text>Translation updates</text>
+    </version>
+
     <version name="5.3.5">
         <text>Get a notification when your favorite users retweet something too</text>
         <text>Keep better track of running background services</text>
