@@ -27,8 +27,9 @@ public class Tweet {
     private String otherWeb;
     private String users;
     private String hashtags;
+    private String animatedGif;
 
-    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage, String otherWeb, String users, String hashtags) {
+    public Tweet(long id, String text, String name, String picUrl, String screenName, long time, String retweeter, String webpage, String otherWeb, String users, String hashtags, String animatedGif) {
         this.id = id;
         this.text = text;
         this.name = name;
@@ -40,6 +41,7 @@ public class Tweet {
         this.otherWeb = otherWeb;
         this.users = users;
         this.hashtags = hashtags;
+        this.animatedGif = animatedGif;
     }
 
     public long getId() {
@@ -104,6 +106,10 @@ public class Tweet {
 
     public String getHashtags() {
         return hashtags;
+    }
+
+    public String getAnimatedGif() {
+        return animatedGif;
     }
 
     // Will be used by the ArrayAdapter in the ListView

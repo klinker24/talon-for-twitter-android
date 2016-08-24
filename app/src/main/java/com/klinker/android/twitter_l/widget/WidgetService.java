@@ -201,6 +201,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             extras.putString("propic", mWidgetItems.get(arg0).getPicUrl());
             extras.putString("users", mWidgetItems.get(arg0).getUsers());
             extras.putString("hashtags", mWidgetItems.get(arg0).getHashtags());
+            extras.putString("animated_gif", mWidgetItems.get(arg0).getAnimatedGif());
 
             // also have to add the strings in the widget provider
 
@@ -262,7 +263,8 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_URL)),
                             query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_USERS)),
-                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS))
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS)),
+                            query.getString(query.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF))
                     ));
                 } while (query.moveToNext());
             }

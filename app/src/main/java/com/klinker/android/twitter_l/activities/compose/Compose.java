@@ -1411,36 +1411,27 @@ public abstract class Compose extends Activity implements
                             s = twitter2.updateStatus(media2);
                         }
 
-                        if (s != null) {
-                            final String[] hashtags = TweetLinkUtils.getLinksInStatus(s)[3].split("  ");
+                        if (status != null) {
+                            final String[] text = status.split(" ");
 
-                            if (hashtags != null) {
-                                // we will add them to the auto complete
-                                new TimeoutThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ArrayList<String> tags = new ArrayList<String>();
-                                        if (hashtags != null) {
-                                            for (String s : hashtags) {
-                                                if (!s.equals("")) {
-                                                    tags.add("#" + s);
-                                                }
-                                            }
-                                        }
-
-                                        HashtagDataSource source = HashtagDataSource.getInstance(context);
-
-                                        for (String s : tags) {
-                                            if (s.contains("#")) {
-                                                // we want to add it to the auto complete
-
-                                                source.deleteTag(s);
-                                                source.createTag(s);
-                                            }
+                            new TimeoutThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ArrayList<String> tags = new ArrayList<String>();
+                                    for (final String split : text) {
+                                        if (split.contains("#")) {
+                                            tags.add(split);
                                         }
                                     }
-                                }).start();
-                            }
+
+                                    HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                                    for (String s : tags) {
+                                        source.deleteTag(s);
+                                        source.createTag(s);
+                                    }
+                                }
+                            }).start();
                         }
 
                         return true;
