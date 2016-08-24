@@ -69,6 +69,7 @@ public class WidgetProvider extends AppWidgetProvider {
             viewTweet.putExtra("users", intent.getStringExtra("users"));
             viewTweet.putExtra("hashtags", intent.getStringExtra("hashtags"));
             viewTweet.putExtra("other_links", intent.getStringExtra("other_links"));
+            viewTweet.putExtra("animated_gif", intent.getStringExtra("animated_gif"));
 
             viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
