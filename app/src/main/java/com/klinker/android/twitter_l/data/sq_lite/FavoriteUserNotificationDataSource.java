@@ -108,5 +108,34 @@ public class FavoriteUserNotificationDataSource {
             return true;
         }
     }
+
+    public synchronized void trimDatabase(int trimSize) {
+        Cursor cursor = database.query(FavoriteUserNotificationSQLiteHelper.TABLE,
+                allColumns, null, null, null, null, null);
+        if (cursor.getCount() > trimSize) {
+            if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
+                try {
+                    database.delete(
+                            HomeSQLiteHelper.TABLE_HOME,
+                            FavoriteUserNotificationSQLiteHelper.COLUMN_ID + " < " +
+                                    cursor.getLong(cursor.getColumnIndex(FavoriteUserNotificationSQLiteHelper.COLUMN_ID)),
+                            null);
+                } catch (Exception e) {
+                    open();
+                    database.delete(
+                            HomeSQLiteHelper.TABLE_HOME,
+                            FavoriteUserNotificationSQLiteHelper.COLUMN_ID + " < " +
+                                    cursor.getLong(cursor.getColumnIndex(FavoriteUserNotificationSQLiteHelper.COLUMN_ID)),
+                            null);
+                }
+            }
+        }
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+
+        }
+    }
 }
 

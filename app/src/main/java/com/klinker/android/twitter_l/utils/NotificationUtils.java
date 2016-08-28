@@ -78,8 +78,8 @@ import twitter4j.User;
 
 public class NotificationUtils {
 
-    public static final boolean TEST_NOTIFICATION = false;
-    public static final int TEST_TIMELINE_NUM = 100;
+    public static final boolean TEST_NOTIFICATION = true;
+    public static final int TEST_TIMELINE_NUM = 300;
     public static final int TEST_MENTION_NUM = 0;
     public static final int TEST_DM_NUM = 0;
     public static final int TEST_SECOND_MENTIONS_NUM = 0;
@@ -680,30 +680,34 @@ public class NotificationUtils {
         }
 
         int notifiedCount = 0;
-        for (NotificationIdentifier notification : tweets) {
-            try {
-                FavoriteUserNotificationDataSource dataSource = new FavoriteUserNotificationDataSource(context);
-                dataSource.open();
 
-                if (!dataSource.hasShownNotification(Long.parseLong(notification.tweetId))) {
-                    if (!Utils.isAndroidN() && notifiedCount == 0 && settings.sound) {
-                        try {
-                            notification.notification.sound = Uri.parse(settings.ringtone);
-                        } catch (Exception e) {
-                            notification.notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        try {
+            FavoriteUserNotificationDataSource dataSource = new FavoriteUserNotificationDataSource(context);
+            dataSource.open();
+            for (NotificationIdentifier notification : tweets) {
+                try {
+                    if (!dataSource.hasShownNotification(Long.parseLong(notification.tweetId))) {
+                        if (!Utils.isAndroidN() && notifiedCount == 0 && settings.sound) {
+                            try {
+                                notification.notification.sound = Uri.parse(settings.ringtone);
+                            } catch (Exception e) {
+                                notification.notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                            }
                         }
+
+                        notificationManager.notify(notification.notificationId, notification.notification);
+                        dataSource.storeShowedNotification(Long.parseLong(notification.tweetId));
+
+                        notifiedCount++;
                     }
-
-                    notificationManager.notify(notification.notificationId, notification.notification);
-                    dataSource.storeShowedNotification(Long.parseLong(notification.tweetId));
-
-                    notifiedCount++;
+                } catch (Throwable e) {
+                    e.printStackTrace();
                 }
-
-                dataSource.close();
-            } catch (Throwable e) {
-                e.printStackTrace();
             }
+
+            dataSource.close();
+        } catch (Exception e) {
+
         }
 
         // on android N, we want to make the summary notification, for all other version, we just display all
