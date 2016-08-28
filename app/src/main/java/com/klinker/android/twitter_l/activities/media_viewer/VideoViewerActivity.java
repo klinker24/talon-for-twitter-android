@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.*;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
@@ -20,6 +21,7 @@ import android.widget.ImageButton;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -265,7 +267,8 @@ public class VideoViewerActivity extends AppCompatActivity {
                         File file = new File(myDir, uri.getLastPathSegment());
 
                         try {
-                            uri = IOUtils.getImageContentUri(context, file);
+                            uri = FileProvider.getUriForFile(context,
+                                    BuildConfig.APPLICATION_ID + ".provider", file);
                         } catch (Exception e) {
 
                         }

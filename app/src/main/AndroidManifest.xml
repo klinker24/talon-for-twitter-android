@@ -61,6 +61,16 @@
             android:largeHeap="true"
             android:resizeableActivity="true" >
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <meta-data
             android:name="com.klinker.android.twitter_l.utils.glide.TwitterGlideModule"
             android:value="GlideModule" />
