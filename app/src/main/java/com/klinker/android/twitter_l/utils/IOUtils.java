@@ -345,6 +345,10 @@ public class IOUtils {
             home.deleteDups(settings.currentAccount);
             home.trimDatabase(account, settings.timelineSize);
 
+            FavoriteUserNotificationDataSource favoriteUserNotificationDataSource =
+                    FavoriteUserNotificationDataSource.getInstance(context);
+            favoriteUserNotificationDataSource.trimDatabase(100);
+
             // trimming the lists
             ListDataSource lists = ListDataSource.getInstance(context);
             for (int accountIndex = 0; accountIndex < 2; accountIndex++) {
