@@ -28,6 +28,7 @@ public class QuickActionsPopup extends PopupLayout {
 
     long tweetId;
     String screenName;
+    String retweeter;
     String tweetText;
     String replyText;
 
@@ -38,11 +39,16 @@ public class QuickActionsPopup extends PopupLayout {
     }
 
     public QuickActionsPopup(Context context, long tweetId, String screenName, String tweetText, boolean secondAccount) {
+        this(context, tweetId, screenName, null, tweetText, secondAccount);
+    }
+
+    public QuickActionsPopup(Context context, long tweetId, String screenName, String retweeter, String tweetText, boolean secondAccount) {
         super(context);
         this.context = context;
 
         this.tweetId = tweetId;
         this.screenName = screenName;
+        this.retweeter = retweeter;
         this.tweetText = tweetText;
 
         this.secondAccount = secondAccount;
@@ -235,6 +241,10 @@ public class QuickActionsPopup extends PopupLayout {
             replyStuff = "@" + screenName + " " + extraNames;
         } else {
             replyStuff = extraNames;
+        }
+
+        if (retweeter != null && !retweeter.isEmpty()) {
+            replyStuff += "@" + retweeter.replace("@", "");
         }
 
         replyText = replyStuff.replace(" @" + screenNameToUse, "");
