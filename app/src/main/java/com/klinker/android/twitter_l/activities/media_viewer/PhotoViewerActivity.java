@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.*;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
@@ -28,6 +29,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -340,7 +342,8 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     File file = new File(myDir, fname + ".jpg");
 
                     try {
-                        uri = IOUtils.getImageContentUri(context, file);
+                        uri = FileProvider.getUriForFile(context,
+                                BuildConfig.APPLICATION_ID + ".provider", file);
                     } catch (Exception e) {
 
                     }
@@ -477,7 +480,8 @@ public class PhotoViewerActivity extends AppCompatActivity {
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
 
-            return IOUtils.getImageContentUri(inContext, f);
+            return FileProvider.getUriForFile(context,
+                    BuildConfig.APPLICATION_ID + ".provider", f);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

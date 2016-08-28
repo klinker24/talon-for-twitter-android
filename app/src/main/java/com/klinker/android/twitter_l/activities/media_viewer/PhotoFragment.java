@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
@@ -151,7 +153,8 @@ public class PhotoFragment extends Fragment {
                     File file = new File(myDir, fname + ".jpg");
 
                     try {
-                        uri = IOUtils.getImageContentUri(getActivity(), file);
+                        uri = FileProvider.getUriForFile(getActivity(),
+                                BuildConfig.APPLICATION_ID + ".provider", file);
                     } catch (Exception e) {
 
                     }
@@ -264,7 +267,8 @@ public class PhotoFragment extends Fragment {
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
 
-            return IOUtils.getImageContentUri(inContext, f);
+            return FileProvider.getUriForFile(inContext,
+                    BuildConfig.APPLICATION_ID + ".provider", f);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
