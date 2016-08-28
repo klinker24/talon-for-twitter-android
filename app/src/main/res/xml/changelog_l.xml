@@ -2,6 +2,7 @@
 
     <version name="5.3.7">
         <text>Fix playing GIFs and videos from widget items</text>
+        <text>Some fixes for favorite user notifications</text>
         <text>Bug fixes</text>
     </version>
 

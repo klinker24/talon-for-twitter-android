@@ -555,6 +555,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } catch (Exception e) {
             retweeter = "";
         }
+        final String fRetweeter = retweeter;
 
         final String tweetText = tweetTexts;
 
@@ -577,7 +578,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, tweetTexts, secondAcc);
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
                 popup.setExpansionPointForAnim(holder.quickActions);
                 popup.setOnTopOfView(holder.quickActions);
                 popup.show();
@@ -586,7 +587,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
 
         if(settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled) {
-            final String fRetweeter = retweeter;
             holder.background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -651,8 +651,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
 
         } else  {
-            final String fRetweeter = retweeter;
-
             holder.background.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
