@@ -111,7 +111,7 @@ public class FavoriteUserNotificationDataSource {
 
     public synchronized void trimDatabase(int trimSize) {
         Cursor cursor = database.query(FavoriteUserNotificationSQLiteHelper.TABLE,
-                allColumns, null, null, null, null, null);
+                allColumns, null, null, null, null, FavoriteUserNotificationSQLiteHelper.COLUMN_ID + " ASC");
         if (cursor.getCount() > trimSize) {
             if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
                 try {
