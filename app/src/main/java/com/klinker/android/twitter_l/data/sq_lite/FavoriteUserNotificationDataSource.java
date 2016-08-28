@@ -116,14 +116,14 @@ public class FavoriteUserNotificationDataSource {
             if (cursor.moveToPosition(cursor.getCount() - trimSize)) {
                 try {
                     database.delete(
-                            HomeSQLiteHelper.TABLE_HOME,
+                            FavoriteUserNotificationSQLiteHelper.TABLE,
                             FavoriteUserNotificationSQLiteHelper.COLUMN_ID + " < " +
                                     cursor.getLong(cursor.getColumnIndex(FavoriteUserNotificationSQLiteHelper.COLUMN_ID)),
                             null);
                 } catch (Exception e) {
                     open();
                     database.delete(
-                            HomeSQLiteHelper.TABLE_HOME,
+                            FavoriteUserNotificationSQLiteHelper.TABLE,
                             FavoriteUserNotificationSQLiteHelper.COLUMN_ID + " < " +
                                     cursor.getLong(cursor.getColumnIndex(FavoriteUserNotificationSQLiteHelper.COLUMN_ID)),
                             null);
