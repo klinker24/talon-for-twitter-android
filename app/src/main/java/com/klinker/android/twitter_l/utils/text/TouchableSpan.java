@@ -93,7 +93,11 @@ public class TouchableSpan extends ClickableSpan {
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             String url = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
 
-            if (url.contains("vine.co/v/")) {
+            if (url.contains("/i/web/status/")) {
+                Intent browser = new Intent(mContext, BrowserActivity.class);
+                browser.putExtra("url", url);
+                mContext.startActivity(browser);
+            } else if (url.contains("vine.co/v/")) {
                 VideoViewerActivity.startActivity(mContext, 0l, url, "");
             } else {
                 new WebIntentBuilder(mContext)

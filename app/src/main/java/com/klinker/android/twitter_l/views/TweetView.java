@@ -59,9 +59,12 @@ public class TweetView {
 
     public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");
     public static final Pattern twitterMomentPattern = Pattern.compile("\\stwitter.com/i/moments");
+    public static final Pattern twitterExpandedTweetPattern = Pattern.compile("\\stwitter.com/i/web");
 
     public static boolean isEmbeddedTweet(String text) {
-        return TweetView.embeddedTweetPattern.matcher(text).find() && !TweetView.twitterMomentPattern.matcher(text).find();
+        return TweetView.embeddedTweetPattern.matcher(text).find() &&
+                !TweetView.twitterMomentPattern.matcher(text).find() &&
+                !TweetView.twitterExpandedTweetPattern.matcher(text).find();
     }
 
     Context context;
@@ -390,7 +393,7 @@ public class TweetView {
         timeTv.setText(time);
 
         boolean replace = false;
-        boolean embeddedTweetFound = embeddedTweets < MAX_EMBEDDED_TWEETS ? embeddedTweetPattern.matcher(tweet).find() : false;
+        boolean embeddedTweetFound = embeddedTweets < MAX_EMBEDDED_TWEETS ? isEmbeddedTweet(tweet) : false;
         if (settings.inlinePics && (tweet.contains("pic.twitter.com/")) || embeddedTweetFound) {
             if (tweet.lastIndexOf(".") == tweet.length() - 1) {
                 replace = true;
@@ -567,7 +570,7 @@ public class TweetView {
         TextUtils.linkifyText(context, tweetTv, backgroundLayout, true, otherUrl, false);
         TextUtils.linkifyText(context, retweeterTv, backgroundLayout, true, "", false);
 
-        if (otherUrl != null && otherUrl.contains("/status/") && !otherUrl.contains("/photo/") &&
+        if (TweetView.isEmbeddedTweet(otherUrl) && !otherUrl.contains("/photo/") &&
                 embeddedTweet.getChildCount() == 0) {
             loadEmbeddedTweet(otherUrl);
         }
@@ -586,7 +589,7 @@ public class TweetView {
             public void run() {
                 Long embeddedId = 0l;
                 for (String u : otherUrls.split(" ")) {
-                    if (u.contains("/status/") && !otherUrl.contains("/photo/")) {
+                    if (TweetView.isEmbeddedTweet(u) && !otherUrl.contains("/photo/")) {
                         embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                         break;
                     }
