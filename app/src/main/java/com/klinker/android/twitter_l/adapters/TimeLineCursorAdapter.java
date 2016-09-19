@@ -914,7 +914,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-                    if (TweetView.isEmbeddedTweet(otherUrl) &&
+                    if (TweetView.isEmbeddedTweet(tweetText) &&
                             holder.embeddedTweet.getChildCount() == 0) {
                         loadEmbeddedTweet(holder, otherUrl);
                     }
@@ -987,7 +987,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             currHandler = 0;
         }
 
-        if (TweetView.isEmbeddedTweet(otherUrl)) {
+        if (TweetView.isEmbeddedTweet(tweetText)) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
             tryImmediateEmbeddedLoad(holder, otherUrl);
         }
@@ -996,7 +996,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     private boolean tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
         Long embeddedId = 0l;
         for (String u : otherUrl.split(" ")) {
-            if (TweetView.isEmbeddedTweet(u)) {
+            if (u.contains("/status/") && !u.contains("/i/web/")) {
                 embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                 break;
             }
@@ -1272,7 +1272,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             public void run() {
                 Long embeddedId = 0l;
                 for (String u : otherUrls.split(" ")) {
-                    if (TweetView.isEmbeddedTweet(u)) {
+                    if (u.contains("/status/") && !u.contains("/i/web/")) {
                         embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                         break;
                     }

@@ -338,7 +338,7 @@ public class TweetActivity extends SlidingActivity {
             }
         }
 
-        if (hasWebpage && TweetView.isEmbeddedTweet(embedded)) {
+        if (hasWebpage && TweetView.isEmbeddedTweet(tweet)) {
             final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
 
             final long embeddedId = TweetLinkUtils.getTweetIdFromLink(embedded);
