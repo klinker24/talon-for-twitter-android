@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.9">
+        <text>New Twitter character counts!</text>
+    </version>
+
     <version name="5.3.8">
         <text>Fixes for sharing and taking pictures in Nougat</text>
     </version>
