@@ -114,7 +114,7 @@ public abstract class Compose extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final boolean DEBUG = false;
-    public static final boolean NEW_TWITTER_TWEET_COUNTS = false;
+    public static final boolean NEW_TWITTER_TWEET_COUNTS = true;
 
     public GoogleApiClient mGoogleApiClient;
     public AppSettings settings;

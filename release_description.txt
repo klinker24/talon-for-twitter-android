@@ -1,4 +1,1 @@
-v5.3.6 includes improvements to the background refresh services, bug fixes, and other various user requests.
-<br/>
-<br/>
-This update may reset some of your background refresh intervals.
+v5.3.9 includes Twitters new character counting methods, so you can use more characters within your tweets! For more info, head here: https://blog.twitter.com/express-even-more-in-140-characters
