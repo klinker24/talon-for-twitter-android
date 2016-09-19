@@ -702,7 +702,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 if (holder.tweetId == id) {
                     TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-                    if (otherUrl != null && otherUrl.contains("/status/") && !otherUrl.contains("/photo/") &&
+                    if (TweetView.isEmbeddedTweet(otherUrl) && !otherUrl.contains("/photo/") &&
                             holder.embeddedTweet.getChildCount() == 0) {
                         loadEmbeddedTweet(holder, otherUrl);
                     }
@@ -718,7 +718,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         // links are a problem on the array adapter popups... so lets do them immediately
         TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
 
-        if (otherUrl != null && otherUrl.contains("/status/") && !otherUrl.contains("/photo/")) {
+        if (TweetView.isEmbeddedTweet(otherUrl) && !otherUrl.contains("/photo/")) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
             tryImmediateEmbeddedLoad(holder, otherUrl);
         }
@@ -732,7 +732,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     private void tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
         Long embeddedId = 0l;
         for (String u : otherUrl.split(" ")) {
-            if (u.contains("/status/") && !otherUrl.contains("/photo/")) {
+            if (TweetView.isEmbeddedTweet(u) && !otherUrl.contains("/photo/")) {
                 embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                 break;
             }
@@ -777,7 +777,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             public void run() {
                 Long embeddedId = 0l;
                 for (String u : otherUrls.split(" ")) {
-                    if (u.contains("/status/") && !u.contains("/photo/")) {
+                    if (TweetView.isEmbeddedTweet(u) && !u.contains("/photo/")) {
                         embeddedId = TweetLinkUtils.getTweetIdFromLink(u);
                         break;
                     }

@@ -332,13 +332,13 @@ public class TweetActivity extends SlidingActivity {
         String embedded = page;
 
         for (int i = 0; i < webpages.size(); i++) {
-            if (webpages.get(i).contains("/status/")) {
+            if (TweetView.isEmbeddedTweet(webpages.get(i))) {
                 embedded = webpages.get(i);
                 break;
             }
         }
 
-        if (hasWebpage && embedded.contains("/status/")) {
+        if (hasWebpage && TweetView.isEmbeddedTweet(embedded)) {
             final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
 
             final long embeddedId = TweetLinkUtils.getTweetIdFromLink(embedded);
