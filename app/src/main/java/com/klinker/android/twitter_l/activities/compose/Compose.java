@@ -138,6 +138,7 @@ public abstract class Compose extends Activity implements
     protected boolean useAccOne = true;
     protected boolean useAccTwo = false;
 
+    protected boolean sharingSomething = false;
     protected String attachmentUrl = null; // quoted tweet
 
     // attach up to four images
@@ -161,7 +162,7 @@ public abstract class Compose extends Activity implements
         public void run() {
             String text = reply.getText().toString();
 
-            if (replyText != null && notiId != 0 && text.contains(replyText)) {
+            if (replyText != null && notiId != 0 && text.contains(replyText) && !sharingSomething) {
                 String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
                 text = text.replaceAll(replaceable, "");
             }
