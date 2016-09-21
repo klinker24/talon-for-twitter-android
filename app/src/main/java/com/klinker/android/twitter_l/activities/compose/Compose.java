@@ -161,7 +161,7 @@ public abstract class Compose extends Activity implements
         public void run() {
             String text = reply.getText().toString();
 
-            if (replyText != null && !replyText.contains("/status/")) {
+            if (replyText != null && notiId != 0 && text.contains(replyText)) {
                 String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
                 text = text.replaceAll(replaceable, "");
             }
@@ -1229,7 +1229,7 @@ public abstract class Compose extends Activity implements
                     return isDone;
                 } else {
                     boolean autoPopulateMetadata = false;
-                    if (replyText != null && !replyText.contains("/status/")) {
+                    if (replyText != null && notiId == 0 && text.contains(replyText)) {
                         String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
                         status = status.replaceAll(replaceable, "");
                         autoPopulateMetadata = true;
