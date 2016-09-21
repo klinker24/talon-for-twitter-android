@@ -340,7 +340,7 @@ public class ExpansionViewHelper {
                 }
                 quote.putExtra("user", text);
                 quote.putExtra("id", id);
-                quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet);
+                quote.putExtra("reply_to_text", "@" + screenName + ": " + tweet );
 
                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
                         v.getMeasuredWidth(), v.getMeasuredHeight());
