@@ -1,7 +1,11 @@
 <changelog>
 
+    <version name="5.3.10">
+        <text>Improvements to support for new character counts</text>
+    </version>
+
     <version name="5.3.9">
-        <text>New Twitter character counts!</text>
+        <text>Implement Twitter's new character counts for pictures!</text>
     </version>
 
     <version name="5.3.8">

@@ -1,1 +1,1 @@
-v5.3.9 includes Twitters new character counting methods, so you can use more characters within your tweets! For more info, head here: https://blog.twitter.com/express-even-more-in-140-characters
+v5.3.10 includes Twitters new character counting methods, so you can use more characters within your tweets! For more info, head here: https://blog.twitter.com/express-even-more-in-140-characters
