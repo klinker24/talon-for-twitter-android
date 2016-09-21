@@ -677,8 +677,15 @@ public class ComposeActivity extends Compose {
         if ((!to.equals("null ") && !isDM) || (isDM && !to.equals("null"))) {
             if(!isDM) {
                 Log.v("username_for_noti", "to place: " + to);
-                reply.setText(to);
-                reply.setSelection(reply.getText().toString().length());
+                if (to.contains("/status/")) {
+                    // quoting a tweet
+                    attachmentUrl = to;
+                    reply.setText(to);
+                    reply.setSelection(0);
+                } else {
+                    reply.setText(to);
+                    reply.setSelection(reply.getText().toString().length());
+                }
             } else {
                 contactEntry.setText(to);
                 reply.requestFocus();

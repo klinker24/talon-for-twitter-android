@@ -139,8 +139,8 @@ dependencies {
     compile 'com.afollestad:easyvideoplayer:0.2.9'
     compile 'me.leolin:ShortcutBadger:1.1.6@aar'
 
-    compile 'org.twitter4j:twitter4j-core:4.0.4'
-    compile 'org.twitter4j:twitter4j-stream:4.0.4'
+    //compile 'org.twitter4j:twitter4j-core:4.0.4'
+    //compile 'org.twitter4j:twitter4j-stream:4.0.4'
     //compile 'org.twitter4j:twitter4j-http2-support:4.0.4'
 
     compile 'org.apache.httpcomponents:httpmime:4.3.5'
@@ -148,6 +148,8 @@ dependencies {
     compile 'org.jsoup:jsoup:1.7.3'
 
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
+    compile files('lib/twitter4j-fork.jar')
+    compile files('lib/twitter4j-stream-fork.jar')
     compile(name: 'datetimepicker', ext: 'aar')
     compile(name: 'sectioned-recyclerview', ext: 'aar')
 

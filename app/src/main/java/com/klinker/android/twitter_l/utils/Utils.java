@@ -54,6 +54,7 @@ public class Utils {
                 .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
+        cb.setTweetModeExtended(true);
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
@@ -68,6 +69,7 @@ public class Utils {
                 .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.authenticationToken)
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
+        cb.setTweetModeExtended(true);
         TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
         return tf.getInstance();
     }

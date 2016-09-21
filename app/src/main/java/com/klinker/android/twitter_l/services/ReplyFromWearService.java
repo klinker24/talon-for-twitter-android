@@ -93,7 +93,7 @@ public class ReplyFromWearService extends KillerIntentService {
         try {
             Twitter twitter =  getTwitter();
 
-            if (message.length() - (Compose.NEW_TWITTER_TWEET_COUNTS ? users.length() : 0) > 140) {
+            if (message.length() /*- (Compose.NEW_TWITTER_TWEET_COUNTS ? users.length() : 0)*/ > 140) {
                 TwitLongerHelper helper = new TwitLongerHelper(message, twitter, this);
                 helper.setInReplyToStatusId(tweetId);
 

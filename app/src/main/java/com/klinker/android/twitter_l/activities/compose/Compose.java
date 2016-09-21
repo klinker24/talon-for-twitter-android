@@ -114,7 +114,6 @@ public abstract class Compose extends Activity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final boolean DEBUG = false;
-    public static final boolean NEW_TWITTER_TWEET_COUNTS = true;
 
     public GoogleApiClient mGoogleApiClient;
     public AppSettings settings;
@@ -139,6 +138,8 @@ public abstract class Compose extends Activity implements
     protected boolean useAccOne = true;
     protected boolean useAccTwo = false;
 
+    protected String attachmentUrl = null; // quoted tweet
+
     // attach up to four images
     public String[] attachedUri = new String[] {"","","",""};
     public int imagesAttached = 0;
@@ -158,60 +159,29 @@ public abstract class Compose extends Activity implements
     public Runnable getCount = new Runnable() {
         @Override
         public void run() {
-            if (NEW_TWITTER_TWEET_COUNTS) {
-                // we don't count images or the screennames that are auto filled with a tweet
+            String text = reply.getText().toString();
 
-                String text = reply.getText().toString();
+            if (replyText != null && !replyText.contains("/status/")) {
+                String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+                text = text.replaceAll(replaceable, "");
+            }
 
-                if (replyText != null) {
-                    String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
-                    text = text.replaceAll(replaceable, "");
-                }
-
-                if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - text.length() + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while (m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 23; // add 23 for the shortened url
-                    }
-
-                    charRemaining.setText(140 - count + "");
+            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+                try {
+                    charRemaining.setText(140 - text.length() + "");
+                } catch (Exception e) {
+                    charRemaining.setText("0");
                 }
             } else {
-                String text = reply.getText().toString();
-
-                if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
-                    try {
-                        charRemaining.setText(140 - reply.getText().length() - (settings.twitpic ? imagesAttached * 23 : imagesAttached > 0 ? 23 : 0) + "");
-                    } catch (Exception e) {
-                        charRemaining.setText("0");
-                    }
-                } else {
-                    int count = text.length();
-                    Matcher m = p.matcher(text);
-                    while (m.find()) {
-                        String url = m.group();
-                        count -= url.length(); // take out the length of the url
-                        count += 23; // add 23 for the shortened url
-                    }
-
-                    if (imagesAttached > 0) {
-                        if (settings.twitpic)
-                            count += imagesAttached * 23;
-                        else
-                            count += 23;
-                    }
-
-                    charRemaining.setText(140 - count + "");
+                int count = text.length();
+                Matcher m = p.matcher(text);
+                while (m.find()) {
+                    String url = m.group();
+                    count -= url.length(); // take out the length of the url
+                    count += 23; // add 23 for the shortened url
                 }
+
+                charRemaining.setText(140 - count + "");
             }
 
             changeTextColor();
@@ -312,7 +282,7 @@ public abstract class Compose extends Activity implements
             }
         });
 
-        if (reply.getText().toString().contains(" RT @") || reply.getText().toString().contains("/status/")) {
+        if (reply.getText().toString().contains(" RT @")) {
             reply.setSelection(0);
         }
 
@@ -324,6 +294,7 @@ public abstract class Compose extends Activity implements
         if (notiId != 0) {
             FontPrefTextView replyTo = (FontPrefTextView) findViewById(R.id.reply_to);
             if (reply.getText().toString().contains("/status/")) {
+                //reply.setText("");
                 replyTo.setText(replyText + "\n\n" + getString(R.string.quote_disclaimer));
             } else {
                 replyTo.setText(replyText);
@@ -874,8 +845,12 @@ public abstract class Compose extends Activity implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.v("location", "connected");
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
+        try {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -1253,8 +1228,25 @@ public abstract class Compose extends Activity implements
 
                     return isDone;
                 } else {
+                    boolean autoPopulateMetadata = false;
+                    if (replyText != null && !replyText.contains("/status/")) {
+                        String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+                        status = status.replaceAll(replaceable, "");
+                        autoPopulateMetadata = true;
+                    }
+
                     StatusUpdate media = new StatusUpdate(status);
                     StatusUpdate media2 = new StatusUpdate(status);
+
+                    if (autoPopulateMetadata) {
+                        media.setAutoPopulateReplyMetadata(autoPopulateMetadata);
+                        media2.setAutoPopulateReplyMetadata(autoPopulateMetadata);
+                    }
+
+                    /*if (attachmentUrl != null) {
+                        media.attachmentUrl(attachmentUrl);
+                        media2.attachmentUrl(attachmentUrl);
+                    }*/
 
                     if (notiId != 0) {
                         media.setInReplyToStatusId(notiId);
