@@ -90,6 +90,7 @@ public class Utils {
                 .setOAuthConsumerSecret(keys.consumerSecret)
                 .setOAuthAccessToken(settings.secondAuthToken)
                 .setOAuthAccessTokenSecret(settings.secondAuthTokenSecret);
+        cb.setTweetModeExtended(true);
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
