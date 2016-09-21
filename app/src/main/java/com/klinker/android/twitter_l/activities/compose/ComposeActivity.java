@@ -703,6 +703,7 @@ public class ComposeActivity extends Compose {
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
+            sharingSomething = true;
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent
             } else if (type.startsWith("image/")) {
