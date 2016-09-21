@@ -672,7 +672,8 @@ public class ComposeActivity extends Compose {
             reply.setSelection(reply.getText().length());
         }
 
-        String to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
+        to = getIntent().getStringExtra("user") + (isDM ? "" : " ");
+        to = to.trim() + " ";
 
         if ((!to.equals("null ") && !isDM) || (isDM && !to.equals("null"))) {
             if(!isDM) {
