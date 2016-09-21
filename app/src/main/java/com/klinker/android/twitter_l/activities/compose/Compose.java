@@ -149,6 +149,7 @@ public abstract class Compose extends Activity implements
 
     public boolean isDM = false;
 
+    public String to = null;
     public long notiId = 0;
     public String replyText = "";
 
@@ -162,8 +163,8 @@ public abstract class Compose extends Activity implements
         public void run() {
             String text = reply.getText().toString();
 
-            if (replyText != null && notiId != 0 && text.contains(replyText) && !sharingSomething) {
-                String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+            if (to != null && notiId != 0 && text.contains(to) && !sharingSomething && !to.contains("/status/")) {
+                String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
                 text = text.replaceAll(replaceable, "");
             }
 
@@ -1230,8 +1231,8 @@ public abstract class Compose extends Activity implements
                     return isDone;
                 } else {
                     boolean autoPopulateMetadata = false;
-                    if (replyText != null && notiId == 0 && text.contains(replyText)) {
-                        String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+                    if (to != null && notiId != 0 && text.contains(to) && !sharingSomething && !to.contains("/status/")) {
+                        String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
                         status = status.replaceAll(replaceable, "");
                         autoPopulateMetadata = true;
                     }
