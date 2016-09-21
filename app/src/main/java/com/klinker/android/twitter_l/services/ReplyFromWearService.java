@@ -92,14 +92,16 @@ public class ReplyFromWearService extends KillerIntentService {
     public boolean sendTweet() {
         try {
             Twitter twitter =  getTwitter();
+            String messageText = message.replace(users, "");
 
-            if (message.length() /*- (Compose.NEW_TWITTER_TWEET_COUNTS ? users.length() : 0)*/ > 140) {
-                TwitLongerHelper helper = new TwitLongerHelper(message, twitter, this);
+            if (messageText.length() > 140) {
+                TwitLongerHelper helper = new TwitLongerHelper(messageText, twitter, this);
                 helper.setInReplyToStatusId(tweetId);
 
                 return helper.createPost() != 0;
             } else {
-                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message);
+                twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(messageText);
+                reply.setAutoPopulateReplyMetadata(true);
                 reply.setInReplyToStatusId(tweetId);
 
                 // no picture
