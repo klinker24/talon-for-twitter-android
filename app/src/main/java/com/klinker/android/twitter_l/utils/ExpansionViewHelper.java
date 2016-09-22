@@ -871,7 +871,7 @@ public class ExpansionViewHelper {
         ClipData clip = ClipData.newPlainText("tweet_link", "https://twitter.com/" + screenName + "/status/" + id);
         clipboard.setPrimaryClip(clip);
 
-        Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.copied_link, Toast.LENGTH_SHORT).show();
     }
 
     private void copyText() {
