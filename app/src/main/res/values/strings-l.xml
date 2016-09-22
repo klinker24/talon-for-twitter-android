@@ -163,4 +163,5 @@
     <string name="dual_panels_summary">Shows two swipable pages, side-by-side, in landscape mode.</string>
     <string name="protected_account_quote">You can\'t quote a protected account!</string>
     <string name="protected_account_retweet">You can\'t retweet a protected account!</string>
+    <string name="copied_link">Copied Link!</string>
 </resources>
