@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.11">
+        <text>Fixes for mentioning yourself</text>
+    </version>
+
     <version name="5.3.10">
         <text>Improvements to support for new character counts</text>
     </version>
