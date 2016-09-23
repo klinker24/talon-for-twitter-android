@@ -164,4 +164,5 @@
     <string name="protected_account_quote">You can\'t quote a protected account!</string>
     <string name="protected_account_retweet">You can\'t retweet a protected account!</string>
     <string name="copied_link">Copied Link!</string>
+    <string name="original_probably_deleted">The original tweet was probably deleted.</string>
 </resources>

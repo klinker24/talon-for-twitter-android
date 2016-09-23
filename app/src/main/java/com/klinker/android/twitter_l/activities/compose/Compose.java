@@ -756,7 +756,7 @@ public abstract class Compose extends Activity implements
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.tweet_failed))
-                        .setContentText(getResources().getString(R.string.tap_to_retry));
+                        .setContentText(notiId != 0 ? getResources().getString(R.string.original_probably_deleted) : getResources().getString(R.string.tap_to_retry));
 
         Intent resultIntent = new Intent(this, RetryCompose.class);
         QueuedDataSource.getInstance(this).createDraft(text, settings.currentAccount);
