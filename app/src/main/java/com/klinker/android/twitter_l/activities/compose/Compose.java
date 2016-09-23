@@ -29,7 +29,6 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -73,7 +72,6 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.utils.text.Regex;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -81,7 +79,6 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
-import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.api_helper.GiphyHelper;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -163,7 +160,7 @@ public abstract class Compose extends Activity implements
         public void run() {
             String text = reply.getText().toString();
 
-            if (to != null && notiId != 0 && text.contains(to) && !sharingSomething && !to.contains("/status/")) {
+            if (shouldReplaceTo(text)) {
                 String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
                 text = text.replaceAll(replaceable, "");
             }
@@ -1057,6 +1054,13 @@ public abstract class Compose extends Activity implements
         super.onBackPressed();
     }
 
+    private boolean shouldReplaceTo(String tweetText) {
+        return to != null && to.contains("/status/") &&
+                notiId != 0 && !sharingSomething &&
+                !tweetText.contains(to) &&  tweetText.indexOf(".") != 0 &&
+                    !tweetText.contains("@" + AppSettings.getInstance(this));
+    }
+
     public boolean doneClicked = false;
     public boolean discardClicked = false;
 
@@ -1231,7 +1235,7 @@ public abstract class Compose extends Activity implements
                     return isDone;
                 } else {
                     boolean autoPopulateMetadata = false;
-                    if (to != null && notiId != 0 && text.contains(to) && !sharingSomething && !to.contains("/status/")) {
+                    if (shouldReplaceTo(text)) {
                         String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
                         status = status.replaceAll(replaceable, "");
                         autoPopulateMetadata = true;
