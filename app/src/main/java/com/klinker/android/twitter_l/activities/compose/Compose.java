@@ -1055,9 +1055,9 @@ public abstract class Compose extends Activity implements
     }
 
     private boolean shouldReplaceTo(String tweetText) {
-        return to != null && to.contains("/status/") &&
+        return tweetText != null && to != null && !to.contains("/status/") &&
                 notiId != 0 && !sharingSomething &&
-                !tweetText.contains(to) &&  tweetText.indexOf(".") != 0 &&
+                tweetText.contains(to) &&  tweetText.indexOf(".") != 0 &&
                     !tweetText.contains("@" + AppSettings.getInstance(this));
     }
 
