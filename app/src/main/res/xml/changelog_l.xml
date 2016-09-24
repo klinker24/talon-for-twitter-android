@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.3.12">
+        <text>Sometimes with twitters new expanded tweet counts, they would remove spaces from your tweets</text>
+    </version>
+
     <version name="5.3.11">
         <text>Fixes for mentioning yourself</text>
     </version>
