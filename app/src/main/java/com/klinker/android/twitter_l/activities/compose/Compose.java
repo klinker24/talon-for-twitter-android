@@ -1165,7 +1165,7 @@ public abstract class Compose extends Activity implements
                 public void run() {
                     makeTweetingNotification();
                 }
-            }, 200);
+            }, 50);
         }
 
         public updateTwitterStatus(String text, int length, boolean secondTry) {
@@ -1177,7 +1177,7 @@ public abstract class Compose extends Activity implements
                 public void run() {
                     makeTweetingNotification();
                 }
-            }, 200);
+            }, 50);
         }
 
         protected Boolean doInBackground(String... args) {
@@ -1238,8 +1238,10 @@ public abstract class Compose extends Activity implements
                     boolean autoPopulateMetadata = false;
                     if (shouldReplaceTo(text)) {
                         String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
-                        status = status.replaceAll(replaceable, "");
-                        autoPopulateMetadata = true;
+                        if (!replaceable.equals(" ")) {
+                            status = status.replaceAll(replaceable, "");
+                            autoPopulateMetadata = true;
+                        }
                     }
 
                     StatusUpdate media = new StatusUpdate(status);
