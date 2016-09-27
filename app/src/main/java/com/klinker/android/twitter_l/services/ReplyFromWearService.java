@@ -95,6 +95,7 @@ public class ReplyFromWearService extends KillerIntentService {
             String messageText = message.replace(users, "");
 
             if (messageText.length() > 140) {
+                messageText = users + " " + messageText;
                 TwitLongerHelper helper = new TwitLongerHelper(messageText, twitter, this);
                 helper.setInReplyToStatusId(tweetId);
 
