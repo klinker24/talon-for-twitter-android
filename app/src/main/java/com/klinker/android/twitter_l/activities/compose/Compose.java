@@ -162,7 +162,7 @@ public abstract class Compose extends Activity implements
 
             if (shouldReplaceTo(text)) {
                 String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
-                
+
                 if (!replaceable.equals(" ")) {
                     text = text.replaceAll(replaceable, "");
                 }
@@ -318,9 +318,15 @@ public abstract class Compose extends Activity implements
                         reply.setText(text);
                         reply.setSelection(text.length());
 
-                        if (!text.endsWith(" ")) {
+                        if (!text.isEmpty() && !text.endsWith(" ")) {
                             reply.append(" ");
                         }
+
+                        if (text.trim().isEmpty()) {
+                            reply.setText("");
+                        }
+                    } else if (text.contains("/status/")) {
+                        reply.setText(" " + text);
                     }
                 } catch (Exception e) {
 
