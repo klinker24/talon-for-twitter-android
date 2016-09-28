@@ -162,7 +162,10 @@ public abstract class Compose extends Activity implements
 
             if (shouldReplaceTo(text)) {
                 String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
-                text = text.replaceAll(replaceable, "");
+                
+                if (!replaceable.equals(" ")) {
+                    text = text.replaceAll(replaceable, "");
+                }
             }
 
             if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
