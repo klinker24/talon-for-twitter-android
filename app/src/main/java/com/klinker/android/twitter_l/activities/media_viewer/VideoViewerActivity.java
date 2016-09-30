@@ -64,7 +64,7 @@ public class VideoViewerActivity extends AppCompatActivity {
 
             if (otherLinks.length > 0 && !otherLinks[0].equals("")) {
                 for (String s : otherLinks) {
-                    if (s.contains("youtu")) {
+                    if (s.contains("youtu") && (gifVideo == null || gifVideo.isEmpty() || gifVideo.equals("no gif surfaceView"))) {
                         video = s;
                         break;
                     }
@@ -84,7 +84,9 @@ public class VideoViewerActivity extends AppCompatActivity {
 
             Log.v("video_url", video);
 
-            context.startActivity(viewVideo);
+            if (video != null) {
+                context.startActivity(viewVideo);
+            }
         }
     }
 
