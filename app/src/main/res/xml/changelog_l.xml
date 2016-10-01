@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.3.13">
+        <text>Support for launcher shortcuts (Action Launcher's Quickcut)</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="5.3.12">
         <text>Sometimes with twitters new expanded tweet counts, they would remove spaces from your tweets</text>
     </version>
