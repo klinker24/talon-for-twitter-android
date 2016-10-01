@@ -61,6 +61,10 @@
             android:largeHeap="true"
             android:resizeableActivity="true" >
 
+        <meta-data
+            android:name="android.app.shortcuts"
+            android:resource="@xml/shortcuts"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
