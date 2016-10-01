@@ -461,6 +461,7 @@ S
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:launchMode="singleTop"
+                  android:exported="true"
                   android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
                   android:theme="@style/Theme.TalonLight.Popup.Notif" >
 
@@ -608,7 +609,7 @@ S
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.Sliding.Light">
+                  android:theme="@style/Theme.Sliding.Light">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.activities.profile_viewer.LauncherProfilePager"
