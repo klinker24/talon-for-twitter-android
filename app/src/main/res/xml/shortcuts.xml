@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:icon="@drawable/ic_add_fab"
+        android:enabled="true"
+        shortcutId="manifest-shortcut-compose_tweet"
+        shortcutShortLabel="@string/shortcut_compose_short"
+        shortcutLongLabel="@string/shortcut_compose_long">
+
+        <intent
+            android:targetPackage="com.klinker.android.twitter_l"
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.klinker.android.twitter_l.activities.compose.ComposeActivity" />
+
+    </shortcut>
+
+</shortcuts>
