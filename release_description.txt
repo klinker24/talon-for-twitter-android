@@ -1,1 +1,1 @@
-v5.3.13 includes Twitters new character counting methods, and adds support for launcher shortcuts (Action Launcher's Quickcuts)
+v5.4.0 adds the ability to upload videos to Twitter!

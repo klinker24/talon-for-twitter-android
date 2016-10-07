@@ -645,6 +645,8 @@ public class ComposeActivity extends Compose {
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
                 } else if (item == 3) {
+                    // capture video
+                } else if (item == 4) {
                     try {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("video/mp4");

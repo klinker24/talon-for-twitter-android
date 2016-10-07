@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.4.0">
+        <text>Upload videos to Twitter</text>
+        <text>Capture videos to upload when attaching a tweet</text>
+    </version>
+
     <version name="5.3.13">
         <text>Support for launcher shortcuts (Action Launcher's Quickcut)</text>
         <text>Bug fixes</text>
