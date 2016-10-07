@@ -19,6 +19,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,9 +43,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -88,6 +93,7 @@ import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -100,6 +106,10 @@ import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.yalantis.ucrop.UCrop;
+
+import net.ypresto.androidtranscoder.MediaTranscoder;
+import net.ypresto.androidtranscoder.format.AndroidStandardFormatStrategy;
+import net.ypresto.androidtranscoder.format.MediaFormatStrategyPresets;
 
 import twitter4j.GeoLocation;
 import twitter4j.StatusUpdate;
@@ -1029,6 +1039,8 @@ public abstract class Compose extends Activity implements
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
+                        startVideoEncoding(imageReturnedIntent);
+
                         attachmentType = "video/mp4";
 
                         attachButton.setEnabled(false);
@@ -1619,5 +1631,52 @@ public abstract class Compose extends Activity implements
 
     public boolean isAndroidN() {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
+    }
+
+    public void startVideoEncoding(Intent data) {
+        final File file;
+        try {
+            File outputDir = new File(getExternalFilesDir(null), "outputs");
+            outputDir.mkdir();
+            file = File.createTempFile("transcode_video", ".mp4", outputDir);
+        } catch (IOException e) {
+            Toast.makeText(this, "Failed to create temporary file.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        ContentResolver resolver = getContentResolver();
+        final ParcelFileDescriptor parcelFileDescriptor;
+        try {
+            parcelFileDescriptor = resolver.openFileDescriptor(data.getData(), "r");
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "File not found.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.preparing_video));
+
+        final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
+            @Override public void onTranscodeProgress(double progress) { }
+            @Override public void onTranscodeCanceled() { }
+            @Override public void onTranscodeFailed(Exception exception) { }
+            @Override public void onTranscodeCompleted() {
+                attachedUri[0] = Uri.fromFile(file).toString();
+
+                try {
+                    progressDialog.cancel();
+                } catch (Exception e) {
+
+                }
+            }
+        };
+
+        progressDialog.show();
+        MediaTranscoder.getInstance().transcodeVideo(fileDescriptor, file.getAbsolutePath(),
+                MediaFormatStrategyPresets.createStandardFormatStrategy(AndroidStandardFormatStrategy.Encoding.HD_720P), listener);
+
     }
 }
