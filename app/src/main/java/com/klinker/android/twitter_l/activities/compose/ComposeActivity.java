@@ -645,8 +645,6 @@ public class ComposeActivity extends Compose {
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
                 } else if (item == 3) {
-                    Toast.makeText(ComposeActivity.this, "Videos must be less than 15 MB", Toast.LENGTH_SHORT).show();
-
                     try {
                         Intent gifIntent = new Intent();
                         gifIntent.setType("video/mp4");
