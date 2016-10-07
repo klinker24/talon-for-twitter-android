@@ -72,6 +72,8 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.utils.video.SamplerClip;
+import com.klinker.android.twitter_l.utils.video.VideoResampler;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -1017,23 +1019,17 @@ public abstract class Compose extends Activity implements
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
 
-                        // todo: on N, the file path doesn't work
-                        if (!isAndroidN()) {
-                            String filePath = IOUtils.getPath(selectedImage, context);
+                        Log.v("talon_compose_pic", "path to surfaceView on sd card: " + selectedImage);
 
-                            Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(filePath,
-                                    MediaStore.Images.Thumbnails.MINI_KIND);
-
-                            Log.v("talon_compose_pic", "path to surfaceView on sd card: " + filePath);
-
-                            attachImage[0].setImageBitmap(thumbnail);
-                        }
+                        Glide.with(this)
+                                .load(selectedImage)
+                                .into(attachImage[0]);
 
                         holders[0].setVisibility(View.VISIBLE);
                         attachedUri[0] = selectedImage.toString();
                         imagesAttached = 1;
 
-                        attachmentType = "surfaceView/mp4";
+                        attachmentType = "video/mp4";
 
                         attachButton.setEnabled(false);
                     } catch (Throwable e) {
@@ -1373,35 +1369,66 @@ public abstract class Compose extends Activity implements
                                 }
                             }
                         } else {
-                            // animated gif
+                            // animated gif or video
                             Log.v("talon_compose", "attaching: " + attachmentType);
+                            Log.v("talon_compose", "media: " + attachedUri[0]);
 
-                            files[0] = File.createTempFile("compose", "giphy_gif", outputDir);
-                            InputStream stream = getContentResolver().openInputStream(Uri.parse(attachedUri[0]));
-                            FileOutputStream fos = new FileOutputStream(files[0]);
+                            if (attachmentType.equals("animated_gif")) {
+                                files[0] = File.createTempFile("compose", "giphy_gif", outputDir);
+                                InputStream stream = getContentResolver().openInputStream(Uri.parse(attachedUri[0]));
+                                FileOutputStream fos = new FileOutputStream(files[0]);
 
-                            int read = 0;
-                            byte[] bytes = new byte[1024];
+                                int read = 0;
+                                byte[] bytes = new byte[1024];
 
-                            while ((read = stream.read(bytes)) != -1) {
-                                fos.write(bytes, 0, read);
-                            }
+                                while ((read = stream.read(bytes)) != -1) {
+                                    fos.write(bytes, 0, read);
+                                }
 
-                            stream.close();
-                            fos.close();
+                                stream.close();
+                                fos.close();
 
-                            if (useAccOne) {
-                                UploadedMedia upload = twitter.uploadMedia(files[0]);
-                                long mediaId = upload.getMediaId();
+                                if (useAccOne) {
+                                    UploadedMedia upload = twitter.uploadMedia(files[0]);
+                                    long mediaId = upload.getMediaId();
 
-                                media.setMediaIds(new long[]{mediaId});
-                            }
+                                    media.setMediaIds(new long[]{mediaId});
+                                }
 
-                            if (useAccTwo) {
-                                UploadedMedia upload = twitter2.uploadMedia(files[0]);
-                                long mediaId = upload.getMediaId();
+                                if (useAccTwo) {
+                                    UploadedMedia upload = twitter2.uploadMedia(files[0]);
+                                    long mediaId = upload.getMediaId();
 
-                                media2.setMediaIds(new long[]{mediaId});
+                                    media2.setMediaIds(new long[]{mediaId});
+                                }
+                            } else {
+                                files[0] = File.createTempFile("compose", "video", outputDir);
+                                InputStream stream = getContentResolver().openInputStream(Uri.parse(attachedUri[0]));
+                                FileOutputStream fos = new FileOutputStream(files[0]);
+
+                                int read = 0;
+                                byte[] bytes = new byte[1024];
+
+                                while ((read = stream.read(bytes)) != -1) {
+                                    fos.write(bytes, 0, read);
+                                }
+
+                                stream.close();
+                                fos.close();
+
+                                if (useAccOne) {
+                                    UploadedMedia upload = twitter.uploadVideo(files[0]);
+                                    long mediaId = upload.getMediaId();
+
+                                    media.setMediaIds(new long[]{mediaId});
+                                }
+
+                                if (useAccTwo) {
+                                    UploadedMedia upload = twitter2.uploadVideo(files[0]);
+                                    long mediaId = upload.getMediaId();
+
+                                    media2.setMediaIds(new long[]{mediaId});
+                                }
                             }
                         }
 
