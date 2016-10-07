@@ -33,6 +33,7 @@ import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import com.afollestad.materialcamera.MaterialCamera;
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
@@ -41,6 +42,7 @@ import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.activities.GiphySearch;
@@ -645,7 +647,15 @@ public class ComposeActivity extends Compose {
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
                 } else if (item == 3) {
-                    // capture video
+                    new MaterialCamera(ComposeActivity.this)
+                            .saveDir(getFilesDir().getPath())
+                            .qualityProfile(MaterialCamera.QUALITY_480P)
+                            .allowRetry(false)
+                            .autoSubmit(true)
+                            .primaryColor(AppSettings.getInstance(ComposeActivity.this).themeColors.primaryColor)
+                            .showPortraitWarning(false)
+                            .maxAllowedFileSize(14 * 1024 * 1024)
+                            .start(CAPTURE_VIDEO);
                 } else if (item == 4) {
                     try {
                         Intent gifIntent = new Intent();

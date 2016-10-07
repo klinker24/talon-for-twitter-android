@@ -33,6 +33,8 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- http://android-developers.blogspot.com/2016/05/bring-your-android-app-to-chromebooks.html -->
     <!-- http://www.chromium.org/chromium-os/android-apps -->
@@ -150,6 +152,14 @@
                   android:windowSoftInputMode="adjustResize"
                   android:theme="@style/Theme.TalonLight.Main.Launcher" >
         </activity>
+
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
+
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity2"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
 
         <activity android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoriteUsersActivity"
             android:label="@string/favorite_users"

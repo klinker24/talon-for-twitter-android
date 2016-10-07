@@ -913,6 +913,7 @@ public abstract class Compose extends Activity implements
     public static final int SELECT_GIF = 102;
     public static final int SELECT_VIDEO = 103;
     public static final int FIND_GIF = 104;
+    public static final int CAPTURE_VIDEO = 105;
     public static final int PWICCER = 420;
 
     public boolean pwiccer = false;
@@ -1024,6 +1025,24 @@ public abstract class Compose extends Activity implements
                 }
                 countHandler.post(getCount);
                 break;
+            case CAPTURE_VIDEO:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+
+                    Log.v("talon_compose_pic", "path to surfaceView on sd card: " + selectedImage);
+
+                    Glide.with(this)
+                            .load(selectedImage)
+                            .into(attachImage[0]);
+
+                    holders[0].setVisibility(View.VISIBLE);
+                    attachedUri[0] = selectedImage.toString();
+                    imagesAttached = 1;
+
+                    attachmentType = "video/mp4";
+                    attachButton.setEnabled(false);
+                }
+                break;
             case SELECT_VIDEO:
                 if(resultCode == RESULT_OK){
                     try {
@@ -1042,7 +1061,6 @@ public abstract class Compose extends Activity implements
                         startVideoEncoding(imageReturnedIntent);
 
                         attachmentType = "video/mp4";
-
                         attachButton.setEnabled(false);
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -1653,16 +1671,26 @@ public abstract class Compose extends Activity implements
             return;
         }
 
+        final int progressBarMax = 1000;
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMax(progressBarMax);
+        progressDialog.setProgress(0);
         progressDialog.setMessage(getString(R.string.preparing_video));
 
         final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
-            @Override public void onTranscodeProgress(double progress) { }
             @Override public void onTranscodeCanceled() { }
             @Override public void onTranscodeFailed(Exception exception) { }
+            @Override public void onTranscodeProgress(double progress) {
+                if (progress < 0) {
+                    progressDialog.setIndeterminate(true);
+                } else {
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.setProgress((int) Math.round(progress * progressBarMax));
+                }
+            }
             @Override public void onTranscodeCompleted() {
                 attachedUri[0] = Uri.fromFile(file).toString();
 
