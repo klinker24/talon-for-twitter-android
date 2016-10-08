@@ -1652,6 +1652,10 @@ public abstract class Compose extends Activity implements
     }
 
     public void startVideoEncoding(final Intent data) {
+        startVideoEncoding(data, AndroidStandardFormatStrategy.Encoding.HD_720P);
+    }
+
+    public void startVideoEncoding(final Intent data, final AndroidStandardFormatStrategy.Encoding encoding) {
         final File file;
         try {
             File outputDir = new File(getExternalFilesDir(null), "outputs");
@@ -1684,7 +1688,11 @@ public abstract class Compose extends Activity implements
             }
             @Override public void onTranscodeProgress(double progress) { }
             @Override public void onTranscodeCompleted() {
-                attachedUri[0] = Uri.fromFile(file).toString();
+                if (file.length() > 15 * 1024 * 1024 && !encoding.equals(AndroidStandardFormatStrategy.Encoding.SD_HIGH)) {
+                    startVideoEncoding(data, AndroidStandardFormatStrategy.Encoding.SD_HIGH);
+                } else {
+                    attachedUri[0] = Uri.fromFile(file).toString();
+                }
 
                 try {
                     progressDialog.cancel();
