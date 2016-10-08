@@ -16,4 +16,18 @@
 
     </shortcut>
 
+    <shortcut
+        android:icon="@drawable/ic_shortcut_my_account"
+        android:enabled="true"
+        shortcutId="manifest-shortcut-my-twitter"
+        shortcutShortLabel="@string/shortcut_my_account"
+        shortcutLongLabel="@string/shortcut_my_account">
+
+        <intent
+            android:targetPackage="com.klinker.android.twitter_l"
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.klinker.android.twitter_l.utils.redirects.RedirectToMyAccount" />
+
+    </shortcut>
+
 </shortcuts>
