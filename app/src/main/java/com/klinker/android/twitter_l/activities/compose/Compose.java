@@ -1651,7 +1651,7 @@ public abstract class Compose extends Activity implements
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
     }
 
-    public void startVideoEncoding(Intent data) {
+    public void startVideoEncoding(final Intent data) {
         final File file;
         try {
             File outputDir = new File(getExternalFilesDir(null), "outputs");
@@ -1671,26 +1671,18 @@ public abstract class Compose extends Activity implements
             return;
         }
 
-        final int progressBarMax = 1000;
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMax(progressBarMax);
-        progressDialog.setProgress(0);
+        progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.preparing_video));
 
         final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
             @Override public void onTranscodeCanceled() { }
-            @Override public void onTranscodeFailed(Exception exception) { }
-            @Override public void onTranscodeProgress(double progress) {
-                if (progress < 0) {
-                    progressDialog.setIndeterminate(true);
-                } else {
-                    progressDialog.setIndeterminate(false);
-                    progressDialog.setProgress((int) Math.round(progress * progressBarMax));
-                }
+            @Override public void onTranscodeFailed(Exception exception) {
+                attachedUri[0] = data.getData().toString();
             }
+            @Override public void onTranscodeProgress(double progress) { }
             @Override public void onTranscodeCompleted() {
                 attachedUri[0] = Uri.fromFile(file).toString();
 
