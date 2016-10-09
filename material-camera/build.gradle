@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile "com.android.support:appcompat-v7:24.2.1"
+    compile "com.afollestad.material-dialogs:core:0.9.0.2"
+
+    compile project(':easyvideoplayer')
+}

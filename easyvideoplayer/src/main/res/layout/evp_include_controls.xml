@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#BF000000"
+    android:clickable="true"
+    android:paddingBottom="@dimen/evp_content_inset_half"
+    android:paddingTop="@dimen/evp_content_inset">
+
+    <SeekBar
+        android:id="@+id/seeker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/evp_content_inset_less"
+        android:layout_marginRight="@dimen/evp_content_inset_less" />
+
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seeker"
+        android:layout_marginLeft="@dimen/evp_content_inset"
+        android:layout_marginStart="@dimen/evp_content_inset"
+        android:fontFamily="sans-serif"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_small"
+        tools:ignore="UnusedAttribute"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/seeker"
+        android:layout_marginEnd="@dimen/evp_content_inset"
+        android:layout_marginRight="@dimen/evp_content_inset"
+        android:fontFamily="sans-serif"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_small"
+        tools:ignore="UnusedAttribute"
+        tools:text="-05:00" />
+
+    <ImageButton
+        android:id="@+id/btnRestart"
+        android:layout_width="@dimen/evp_button_size"
+        android:layout_height="@dimen/evp_button_size"
+        android:layout_below="@+id/position"
+        android:layout_marginLeft="@dimen/evp_content_inset_iconbuttons"
+        android:layout_marginStart="@dimen/evp_content_inset_iconbuttons"
+        android:background="?selectableItemBackground"
+        android:paddingLeft="@dimen/evp_button_size"
+        android:paddingRight="@dimen/evp_button_size"
+        app:srcCompat="@drawable/evp_action_restart"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/btnRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/position"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:minHeight="@dimen/evp_button_size"
+        android:paddingLeft="@dimen/evp_content_inset"
+        android:paddingRight="@dimen/evp_content_inset"
+        android:text="@string/evp_retry"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_medium"
+        tools:ignore="ContentDescription,UnusedAttribute" />
+
+    <ImageButton
+        android:id="@+id/btnPlayPause"
+        android:layout_width="@dimen/evp_button_size"
+        android:layout_height="@dimen/evp_button_size"
+        android:layout_below="@+id/position"
+        android:layout_centerHorizontal="true"
+        android:background="?selectableItemBackground"
+        app:srcCompat="@drawable/evp_action_play"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/labelBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPlayPause"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_small"
+        tools:ignore="UnusedAttribute"
+        tools:text="-09:12" />
+
+    <TextView
+        android:id="@+id/btnSubmit"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/position"
+        android:background="?selectableItemBackground"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:minHeight="@dimen/evp_button_size"
+        android:paddingLeft="@dimen/evp_content_inset"
+        android:paddingRight="@dimen/evp_content_inset"
+        android:text="@string/evp_submit"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_medium"
+        tools:ignore="ContentDescription,UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/labelCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/position"
+        android:layout_marginEnd="@dimen/evp_content_inset"
+        android:layout_marginRight="@dimen/evp_content_inset"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/evp_button_size"
+        android:textColor="#fff"
+        android:textSize="@dimen/evp_text_size_medium"
+        tools:ignore="UnusedAttribute"
+        tools:text="-00:30" />
+
+</RelativeLayout>

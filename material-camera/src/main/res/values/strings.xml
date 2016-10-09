@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="mcam_defaultDuration">00:00</string>
+    <string name="mcam_permissions_needed">Permissions Needed</string>
+    <string name="mcam_video_perm_warning">Permission to access your microphone and camera is needed, the camera will now close.</string>
+    <string name="mcam_retry">RETRY</string>
+    <string name="mcam_use_video">USE VIDEO</string>
+    <string name="mcam_use_stillshot">USE STILLSHOT</string>
+    <string name="mcam_portrait">Portrait</string>
+    <string name="mcam_portrait_warning">It\'s recommended that you record in landscape. Record in portrait?</string>
+    <string name="mcam_yes">Yes</string>
+    <string name="mcam_error">Error</string>
+    <string name="mcam_video_capture_unsupported">Your device does not support video capture.</string>
+    <string name="mcam_no_audio_access">You haven\'t given access to your microphone; no audio will be recorded.</string>
+    <string name="mcam_file_size_limit_reached">You\'ve reached the maximum file size!</string>
+    <string name="mcam_image_preview_error_title">Image preview error</string>
+    <string name="mcam_image_preview_error_message">Could not decode bitmap</string>
+
+</resources>
