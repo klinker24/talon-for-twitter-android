@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="mcam_toolbar_elevation">4dp</dimen>
+    <dimen name="mcam_content_inset_less">16dp</dimen>
+    <dimen name="mcam_content_inset">24dp</dimen>
+    <dimen name="mcam_content_inset_double">48dp</dimen>
+    <dimen name="mcam_regular_content_fontsize">16sp</dimen>
+    <dimen name="mcam_regular_title_fontsize">18sp</dimen>
+    <dimen name="mcam_regular_header_fontsize">56sp</dimen>
+    <dimen name="mcam_action_icon_size">72dp</dimen>
+    <dimen name="mcam_action_icon_size_smaller">64dp</dimen>
+
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foreground="?selectableItemBackground"
+    tools:ignore="UnusedAttribute">
+
+    <ImageView
+        android:id="@+id/stillshot_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/controlsFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/mcam_content_inset_less"
+        android:paddingLeft="@dimen/mcam_content_inset"
+        android:paddingRight="@dimen/mcam_content_inset"
+        android:paddingTop="@dimen/mcam_content_inset_less">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            tools:ignore="UselessParent">
+
+            <Button
+                android:id="@+id/retry"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:background="@drawable/mcam_square_selector"
+                android:fontFamily="sans-serif-medium"
+                android:padding="@dimen/mcam_content_inset_less"
+                android:scaleType="fitXY"
+                android:text="@string/mcam_retry"
+                android:textColor="#fff"
+                android:textSize="@dimen/mcam_regular_title_fontsize" />
+
+            <Button
+                android:id="@+id/confirm"
+                style="?borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:background="@drawable/mcam_square_selector"
+                android:padding="@dimen/mcam_content_inset_less"
+                android:scaleType="fitXY"
+                android:text="@string/mcam_use_stillshot"
+                android:textColor="#fff"
+                android:textSize="@dimen/mcam_regular_title_fontsize" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="evp_content_inset">24dp</dimen>
+    <dimen name="evp_content_inset_half">12dp</dimen>
+    <dimen name="evp_content_inset_less">10dp</dimen>
+    <dimen name="evp_content_inset_iconbuttons">6dp</dimen>
+
+    <dimen name="evp_text_size_small">14sp</dimen>
+
+    <dimen name="evp_button_size">56dp</dimen>
+    <dimen name="evp_text_size_medium">17sp</dimen>
+
+    <dimen name="evp_negative_inset_large">-8dp</dimen>
+    <dimen name="evp_negative_inset_small">-2dp</dimen>
+
+</resources>
