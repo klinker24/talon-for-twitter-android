@@ -138,7 +138,7 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.yalantis:ucrop:1.5.0'
-    compile 'com.afollestad:easyvideoplayer:0.2.9'
+    compile 'com.afollestad:easyvideoplayer:0.2.13'
     compile 'me.leolin:ShortcutBadger:1.1.6@aar'
 
     //compile 'org.twitter4j:twitter4j-core:4.0.4'
