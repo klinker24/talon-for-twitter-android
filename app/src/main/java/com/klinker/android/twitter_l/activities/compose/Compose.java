@@ -1684,6 +1684,12 @@ public abstract class Compose extends Activity implements
         MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
             @Override public void onTranscodeCanceled() { }
             @Override public void onTranscodeFailed(Exception exception) {
+                try {
+                    progressDialog.cancel();
+                } catch (Exception e) {
+
+                }
+
                 attachedUri[0] = data.getData().toString();
             }
             @Override public void onTranscodeProgress(double progress) { }
