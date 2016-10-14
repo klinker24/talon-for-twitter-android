@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.4.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="5.4.0">
         <text>Upload videos to Twitter</text>
         <text>Capture videos to upload when attaching a tweet</text>
