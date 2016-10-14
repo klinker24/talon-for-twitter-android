@@ -547,7 +547,14 @@ public class TweetLinkUtils {
             if (e.getType().equals("animated_gif")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
-                    for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
+                    ExtendedMediaEntity.Variant variants[] = e.getVideoVariants();
+
+                    if (variants.length == 0) {
+                        return url;
+                    }
+
+                    for (int i = variants.length - 1; i >= 0; i--) {
+                        ExtendedMediaEntity.Variant v = variants[i];
                         if (v.getUrl().contains(".mp4") || v.getUrl().contains(".m3u8")) {
                             url = v.getUrl();
                         }
@@ -559,14 +566,22 @@ public class TweetLinkUtils {
             } else if (e.getType().equals("surfaceView") || e.getType().equals("video")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
-                    for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
+                    ExtendedMediaEntity.Variant variants[] = e.getVideoVariants();
+
+                    if (variants.length == 0) {
+                        return url;
+                    }
+
+                    for (int i = variants.length - 1; i >= 0; i--) {
+                        ExtendedMediaEntity.Variant v = variants[i];
                         if (v.getUrl().contains(".mp4")) {
                             url = v.getUrl();
                         }
                     }
 
                     if (url.isEmpty()) {
-                        for (ExtendedMediaEntity.Variant v : e.getVideoVariants()) {
+                        for (int i = variants.length - 1; i >= 0; i--) {
+                            ExtendedMediaEntity.Variant v = variants[i];
                             if (v.getUrl().contains(".m3u8")) {
                                 url = v.getUrl();
                             }

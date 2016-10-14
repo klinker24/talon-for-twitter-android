@@ -69,6 +69,7 @@ import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialcamera.util.ImageUtil;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -548,7 +549,7 @@ public abstract class Compose extends Activity implements
         }
     }
 
-    private Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+    private Bitmap getThumbnail(Uri uri) throws IOException {
         InputStream input = getContentResolver().openInputStream(uri);
         int reqWidth = 150;
         int reqHeight = 150;
@@ -619,62 +620,6 @@ public abstract class Compose extends Activity implements
             }
         } finally {
             cursor.close();
-        }
-    }
-
-    public Bitmap getBitmapToSend(Uri uri) throws IOException {
-        InputStream input = getContentResolver().openInputStream(uri);
-        int reqWidth = 1500;
-        int reqHeight = 1500;
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = input.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            Bitmap b = BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            if (!isAndroidN()) {
-                ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
-                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-
-                input.close();
-
-                return rotateBitmap(b, orientation);
-            } else {
-                input.close();
-                return b;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
         }
     }
 
@@ -1124,18 +1069,7 @@ public abstract class Compose extends Activity implements
                 if (!attachedUri.equals("")) {
                     try {
                         for (int i = 0; i < imagesAttached; i++) {
-                            File outputDir = context.getCacheDir();
-                            File f = File.createTempFile("compose", "picture_" + i, outputDir);
-
-                            Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
-                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                            byte[] bitmapdata = bos.toByteArray();
-
-                            FileOutputStream fos = new FileOutputStream(f);
-                            fos.write(bitmapdata);
-                            fos.flush();
-                            fos.close();
+                            File f = ImageUtils.scaleToSend(context, Uri.parse(attachedUri[i]));
 
                             // we wont attach any text to this image at least, since it is a direct message
                             TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
@@ -1335,22 +1269,7 @@ public abstract class Compose extends Activity implements
 
 
                                 if (bytes == 0 || bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
-                                    files[i] = File.createTempFile("compose", "picture_" + i, outputDir);
-
-                                    Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri[i]));
-                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-                                    if (secondTry) {
-                                        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
-                                    }
-
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                                    byte[] bitmapdata = bos.toByteArray();
-
-                                    FileOutputStream fos = new FileOutputStream(files[i]);
-                                    fos.write(bitmapdata);
-                                    fos.flush();
-                                    fos.close();
+                                    files[i] = ImageUtils.scaleToSend(Compose.this, Uri.parse(attachedUri[i]));
                                 }
                             }
                         }
