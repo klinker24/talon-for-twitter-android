@@ -63,10 +63,6 @@
             android:largeHeap="true"
             android:resizeableActivity="true" >
 
-        <meta-data
-            android:name="android.app.shortcuts"
-            android:resource="@xml/shortcuts"/>
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -99,6 +95,10 @@
                   android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
                   android:launchMode="singleTop"
                   android:theme="@style/Theme.TalonLight.Main.Launcher" >
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

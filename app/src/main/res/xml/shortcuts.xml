@@ -5,9 +5,9 @@
     <shortcut
         android:icon="@drawable/shortcut_compose"
         android:enabled="true"
-        shortcutId="manifest-shortcut-compose_tweet"
-        shortcutShortLabel="@string/shortcut_compose_short"
-        shortcutLongLabel="@string/shortcut_compose_short">
+        android:shortcutId="manifest-shortcut-compose_tweet"
+        android:shortcutShortLabel="@string/shortcut_compose_short"
+        android:shortcutLongLabel="@string/shortcut_compose_short">
 
         <intent
             android:targetPackage="com.klinker.android.twitter_l"
@@ -19,14 +19,16 @@
     <shortcut
         android:icon="@drawable/ic_shortcut_my_account"
         android:enabled="true"
-        shortcutId="manifest-shortcut-my-twitter"
-        shortcutShortLabel="@string/shortcut_my_account"
-        shortcutLongLabel="@string/shortcut_my_account">
+        android:shortcutId="manifest-shortcut-my-twitter"
+        android:shortcutShortLabel="@string/shortcut_my_account"
+        android:shortcutLongLabel="@string/shortcut_my_account">
 
         <intent
             android:targetPackage="com.klinker.android.twitter_l"
             android:action="android.intent.action.VIEW"
             android:targetClass="com.klinker.android.twitter_l.utils.redirects.RedirectToMyAccount" />
+
+        <categories android:name="android.shortcut.conversation" />
 
     </shortcut>
 
