@@ -47,6 +47,8 @@ import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.support.v13.view.inputmethod.InputConnectionCompat;
+import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
@@ -106,6 +108,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.klinker.android.twitter_l.views.widgets.ImageKeyboardEditText;
 import com.yalantis.ucrop.UCrop;
 
 import net.ypresto.androidtranscoder.MediaTranscoder;
@@ -121,7 +124,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public abstract class Compose extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        InputConnectionCompat.OnCommitContentListener {
 
     private static final boolean DEBUG = false;
 
@@ -131,7 +135,7 @@ public abstract class Compose extends Activity implements
     public SharedPreferences sharedPrefs;
 
     public EditText contactEntry;
-    public EditText reply;
+    public ImageKeyboardEditText reply;
     public ImageView[] attachImage = new ImageView[4];
     public ImageButton[] cancelButton = new ImageButton[4];
     public FrameLayout[] holders = new FrameLayout[4];
@@ -488,8 +492,10 @@ public abstract class Compose extends Activity implements
         gifButton = (ImageButton) findViewById(R.id.gif);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
         emojiKeyboard = (EmojiKeyboard) findViewById(R.id.emojiKeyboard);
-        reply = (EditText) findViewById(R.id.tweet_content);
+        reply = (ImageKeyboardEditText) findViewById(R.id.tweet_content);
         charRemaining = (TextView) findViewById(R.id.char_remaining);
+
+        reply.setCommitContentListener(this);
 
         findViewById(R.id.prompt_pos).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1631,5 +1637,47 @@ public abstract class Compose extends Activity implements
         MediaTranscoder.getInstance().transcodeVideo(fileDescriptor, file.getAbsolutePath(),
                 MediaFormatStrategyPresets.createStandardFormatStrategy(AndroidStandardFormatStrategy.Encoding.HD_720P), listener);
 
+    }
+
+    @Override
+    public boolean onCommitContent(InputContentInfoCompat inputContentInfo, int flags, Bundle opts) {
+        String mime = inputContentInfo.getDescription().getMimeType(0);
+
+        if (mime.equals("image/gif")) {
+            try {
+                attachImage[0].setImageBitmap(getThumbnail(inputContentInfo.getContentUri()));
+                holders[0].setVisibility(View.VISIBLE);
+                attachedUri[0] = inputContentInfo.getContentUri().toString();
+                imagesAttached = 1;
+
+                attachmentType = "animated_gif";
+
+                attachButton.setEnabled(false);
+            } catch (Exception e) {
+
+            }
+        } else if (mime.contains("image/")) {
+            try {
+                attachImage[imagesAttached].setImageBitmap(getThumbnail(inputContentInfo.getContentUri()));
+                holders[imagesAttached].setVisibility(View.VISIBLE);
+                attachedUri[imagesAttached] = inputContentInfo.getContentUri().toString();
+                imagesAttached++;
+            } catch (Throwable e) {
+                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
+            }
+        } else if (mime.contains("video/mp4")) {
+            Glide.with(this)
+                    .load(inputContentInfo.getContentUri())
+                    .into(attachImage[0]);
+
+            holders[0].setVisibility(View.VISIBLE);
+            attachedUri[0] = inputContentInfo.getContentUri().toString();
+            imagesAttached = 1;
+
+            attachmentType = "video/mp4";
+            attachButton.setEnabled(false);
+        }
+
+        return true;
     }
 }
