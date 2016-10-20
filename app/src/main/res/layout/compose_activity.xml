@@ -117,7 +117,7 @@
                 android:textColor="?dateColor"
                 android:visibility="gone"/>
 
-            <com.klinker.android.twitter_l.views.widgets.FontPrefEditText
+            <com.klinker.android.twitter_l.views.widgets.ImageKeyboardEditText
                     android:id="@+id/tweet_content"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

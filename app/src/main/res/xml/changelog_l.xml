@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="5.5.0">
+        <text>Built for Android 7.1!</text>
+        <text>Add launcher shortcuts to compose a tweet and view your profile</text>
+        <text>Add support for the image keyboard introduced in Android 7.1</text>
+    </version>
+
     <version name="5.4.1">
         <text>Bug fixes</text>
     </version>

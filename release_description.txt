@@ -1,1 +1,1 @@
-v5.4.1 adds the ability to upload videos to Twitter and tweaks the image upload process for better stability!
+WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, and implements launcher shortcuts.
