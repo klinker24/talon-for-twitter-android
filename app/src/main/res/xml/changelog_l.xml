@@ -2,6 +2,7 @@
 
     <version name="5.5.0">
         <text>Built for Android 7.1!</text>
+        <text>Round icon to use on launchers that support them</text>
         <text>Add launcher shortcuts to compose a tweet and view your profile</text>
         <text>Add support for the image keyboard introduced in Android 7.1</text>
     </version>
@@ -101,7 +102,7 @@
         <text>Translation updates</text>
 		<text>Add a link to the privacy policy (http://privacy.klinker.xyz)</text>
 	</version>
-	
+
     <version name="5.2.2">
         <text>Share profile link from the overflow menu when viewing profiles</text>
         <text>Various UI tweaks</text>

@@ -1,1 +1,1 @@
-WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, and implements launcher shortcuts.
+WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, has a round icon for launchers that support them, and implements launcher shortcuts.
