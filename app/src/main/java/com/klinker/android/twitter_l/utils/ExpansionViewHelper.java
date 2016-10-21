@@ -578,6 +578,7 @@ public class ExpansionViewHelper {
         Log.v("my_text_on_share", text1);
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenName);
         share.putExtra(Intent.EXTRA_TEXT, text1);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
