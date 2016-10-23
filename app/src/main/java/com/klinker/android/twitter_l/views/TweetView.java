@@ -220,14 +220,18 @@ public class TweetView {
         setComponents(tweet);
         bindData();
 
+        setupImage();
+
+        return tweet;
+    }
+
+    protected void setupImage() {
         if (smallImage && shouldShowImage()) {
             ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
             params.height = Utils.toDP(100, context);
 
             imageHolder.setLayoutParams(params);
         }
-
-        return tweet;
     }
 
     protected View createTweet() {
@@ -272,21 +276,30 @@ public class TweetView {
             imageIv.setClipToOutline(true);
         }
 
+        setupFontSizes();
+        setupProfilePicture();
+
+        embeddedTweetMinHeight = Utils.toDP(140, context);
+        embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+    }
+
+    protected void setupProfilePicture() {
+        if (profilePicIv != null) {
+            if (!displayProfilePicture) {
+                profilePicIv.setVisibility(View.GONE);
+            } else if (profilePicIv.getVisibility() != View.VISIBLE) {
+                profilePicIv.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    protected void setupFontSizes() {
         // sets up the font sizes
         tweetTv.setTextSize(settings.textSize);
         nameTv.setTextSize(settings.textSize + 4);
         screenTV.setTextSize(settings.textSize - 2);
         timeTv.setTextSize(settings.textSize - 3);
         retweeterTv.setTextSize(settings.textSize - 3);
-
-        embeddedTweetMinHeight = Utils.toDP(140, context);
-        embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
-
-        if (!displayProfilePicture) {
-            profilePicIv.setVisibility(View.GONE);
-        } else if (profilePicIv.getVisibility() != View.VISIBLE) {
-            profilePicIv.setVisibility(View.VISIBLE);
-        }
     }
 
     protected void bindData() {
@@ -334,18 +347,20 @@ public class TweetView {
                 viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    profilePicIv.setTransitionName("pro_pic");
+                    if (profilePicIv != null) {
+                        profilePicIv.setTransitionName("pro_pic");
+                    }
                     screenTV.setTransitionName("screen_name");
                     nameTv.setTransitionName("name");
                     tweetTv.setTransitionName("tweet");
-                    ActivityOptions options = ActivityOptions
+                    /*ActivityOptions options = ActivityOptions
                             .makeSceneTransitionAnimation(((Activity) context),
 
                                     new Pair<View, String>(profilePicIv, "pro_pic"),
                                     new Pair<View, String>(screenTV, "screen_name"),
                                     new Pair<View, String>(nameTv, "name"),
                                     new Pair<View, String>(tweetTv, "tweet")
-                            );
+                            );*/
 
                     context.startActivity(viewTweet/*, options.toBundle()*/);
                 } else {
@@ -355,7 +370,7 @@ public class TweetView {
             }
         });
 
-        if (currentUser == null || !screenName.equals(currentUser)) {
+        if ((currentUser == null || !screenName.equals(currentUser)) && profilePicIv != null) {
             profilePicIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -374,7 +389,7 @@ public class TweetView {
             });
         }
 
-        if (context instanceof PeekViewActivity && settings.usePeek) {
+        if (context instanceof PeekViewActivity && settings.usePeek && profilePicIv != null) {
             PeekViewOptions options = new PeekViewOptions()
                     .setAbsoluteWidth(225)
                     .setAbsoluteHeight(257);
@@ -646,10 +661,12 @@ public class TweetView {
     }
 
     private void glide(String url, ImageView target) {
-        try {
-            Glide.with(context).load(url).into(target);
-        } catch (Exception e) {
-            // load after activity is destroyed
+        if (target != null) {
+            try {
+                Glide.with(context).load(url).into(target);
+            } catch (Exception e) {
+                // load after activity is destroyed
+            }
         }
     }
 }

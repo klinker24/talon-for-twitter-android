@@ -205,7 +205,7 @@
             android:id="@+id/embedded_tweet_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="140dp"
+            android:minHeight="@dimen/quoted_tweet_height"
             android:maxWidth="300dp"
             android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"
