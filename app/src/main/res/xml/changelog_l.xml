@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.5.2">
+        <text>Bug fixes</text>
+        <text>Lots of performance improvements</text>
+    </version>
+
     <version name="5.5.1">
         <text>Improve sharing tweets</text>
         <text>Improve Android 7.1 launcher shortcut support</text>
