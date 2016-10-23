@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,6 +140,17 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppSettings settings = AppSettings.getInstance(this);
+        if (settings.myScreenName == null || settings.myScreenName.isEmpty()) {
+            if (settings.currentAccount == 1) {
+                settings.sharedPrefs.edit().putInt("current_account", 2).commit();
+            } else {
+                settings.sharedPrefs.edit().putInt("current_account", 1).commit();
+            }
+
+            AppSettings.invalidate();
+        }
 
         UpdateUtils.checkUpdate(this);
 
