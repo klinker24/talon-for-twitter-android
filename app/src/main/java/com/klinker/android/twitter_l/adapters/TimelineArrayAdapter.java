@@ -71,9 +71,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public ColorDrawable transparent;
 
-    public Handler[] mHandler;
-    public int currHandler = 0;
-
     public int type;
     public String username;
 
@@ -218,8 +215,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
 
-        mHandler = new Handler[4];
-
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
@@ -233,12 +228,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
-
-        mHandler = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandler[i] = new Handler();
-        }
-        currHandler = 0;
 
         embeddedTweetMinHeight = Utils.toDP(140, context);
     }
@@ -695,32 +684,16 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        mHandler[currHandler].removeCallbacksAndMessages(null);
-        mHandler[currHandler].postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (holder.tweetId == id) {
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-                    if (TweetView.isEmbeddedTweet(tweetText) && otherUrl != null && !otherUrl.contains("/photo/") &&
-                            holder.embeddedTweet.getChildCount() == 0) {
-                        loadEmbeddedTweet(holder, otherUrl);
-                    }
-                }
-            }
-        }, 400);
-        currHandler++;
 
-        if (currHandler == 10) {
-            currHandler = 0;
-        }
-
-        // links are a problem on the array adapter popups... so lets do them immediately
+        TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
         TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
 
         if (TweetView.isEmbeddedTweet(tweetText) && otherUrl != null && !otherUrl.contains("/photo/")) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
-            tryImmediateEmbeddedLoad(holder, otherUrl);
+            if (!tryImmediateEmbeddedLoad(holder, otherUrl)) {
+                loadEmbeddedTweet(holder, otherUrl);
+            }
         }
 
         if (openFirst && position == 0) {
@@ -729,7 +702,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
     }
 
-    private void tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
+    private boolean tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
         Long embeddedId = 0l;
         for (String u : otherUrl.split(" ")) {
             if (u.contains("/status/") && !u.contains("/i/web/") && !otherUrl.contains("/photo/")) {
@@ -748,6 +721,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
             holder.embeddedTweet.setMinimumHeight(0);
+
+            return true;
+        } else {
+            return false;
         }
     }
 

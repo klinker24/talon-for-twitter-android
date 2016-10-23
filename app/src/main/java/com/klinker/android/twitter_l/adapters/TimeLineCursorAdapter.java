@@ -81,9 +81,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     protected SharedPreferences sharedPrefs;
     public boolean secondAcc = false;
 
-    protected Handler[] mHandlers;
-    protected int currHandler;
-
     public int layout;
     public Resources res;
 
@@ -197,11 +194,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
-
-        mHandlers = new Handler[10];
-        for (int i = 0; i < 10; i++) {
-            mHandlers[i] = new Handler();
-        }
 
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -903,93 +895,74 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
         }
 
-        final boolean picturePeekF = picturePeek;
-        final int videoPeekF = videoPeekLayout;
+        TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
+        TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
-        mHandlers[currHandler].removeCallbacksAndMessages(null);
-        mHandlers[currHandler].postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (holder.tweetId == id) {
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
+        if (settings.usePeek) {
+            if (context instanceof PeekViewActivity) {
+                PeekViewOptions options = new PeekViewOptions()
+                        .setAbsoluteWidth(225)
+                        .setAbsoluteHeight(257);
 
-                    if (TweetView.isEmbeddedTweet(tweetText) &&
-                            holder.embeddedTweet.getChildCount() == 0) {
-                        loadEmbeddedTweet(holder, otherUrl);
-                    }
+                Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
+                        .with(options)
+                        .applyTo((PeekViewActivity) context, holder.profilePic);
+            }
 
-                    if (settings.usePeek) {
-                        if (context instanceof PeekViewActivity) {
-                            PeekViewOptions options = new PeekViewOptions()
-                                    .setAbsoluteWidth(225)
-                                    .setAbsoluteHeight(257);
+            if (picturePeek) {
+                if (context instanceof PeekViewActivity) {
+                    PeekViewOptions options = new PeekViewOptions();
+                    options.setFullScreenPeek(true);
+                    options.setBackgroundDim(1f);
 
-                            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
-                                    .with(options)
-                                    .applyTo((PeekViewActivity) context, holder.profilePic);
+                    Peek.into(R.layout.peek_image, new SimpleOnPeek() {
+                        @Override
+                        public void onInflated(View rootView) {
+                            Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
                         }
+                    }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                }
+            } else if (videoPeekLayout != -1) {
+                if (context instanceof PeekViewActivity) {
+                    if (videoPeekLayout != 0 && !holder.gifUrl.contains("youtu")) {
 
-                        if (picturePeekF) {
-                            if (context instanceof PeekViewActivity) {
-                                PeekViewOptions options = new PeekViewOptions();
-                                options.setFullScreenPeek(true);
-                                options.setBackgroundDim(1f);
+                        PeekViewOptions options = new PeekViewOptions();
+                        options.setFullScreenPeek(true);
+                        options.setBackgroundDim(1f);
 
-                                Peek.into(R.layout.peek_image, new SimpleOnPeek() {
-                                    @Override
-                                    public void onInflated(View rootView) {
-                                        Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
-                                    }
-                                }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                        Peek.into(videoPeekLayout, new OnPeek() {
+                            private EasyVideoPlayer videoView;
+
+                            @Override
+                            public void shown() {
                             }
-                        } else if (videoPeekF != -1) {
-                            if (context instanceof PeekViewActivity) {
-                                if (videoPeekF != 0 && !holder.gifUrl.contains("youtu")) {
 
-                                    PeekViewOptions options = new PeekViewOptions();
-                                    options.setFullScreenPeek(true);
-                                    options.setBackgroundDim(1f);
-
-                                    Peek.into(videoPeekF, new OnPeek() {
-                                        private EasyVideoPlayer videoView;
-
-                                        @Override
-                                        public void shown() {
-                                        }
-
-                                        @Override
-                                        public void onInflated(View rootView) {
-                                            videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
-                                            videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                            videoView.setCallback(new EasyVideoCallbackWrapper());
-                                        }
-
-                                        @Override
-                                        public void dismissed() {
-                                            videoView.release();
-                                        }
-                                    }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
-                                } else {
-                                    Peek.clear(holder.imageHolder);
-                                }
+                            @Override
+                            public void onInflated(View rootView) {
+                                videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
+                                videoView.setCallback(new EasyVideoCallbackWrapper());
                             }
-                        } else {
-                            Peek.clear(holder.imageHolder);
-                        }
+
+                            @Override
+                            public void dismissed() {
+                                videoView.release();
+                            }
+                        }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
+                    } else {
+                        Peek.clear(holder.imageHolder);
                     }
                 }
+            } else {
+                Peek.clear(holder.imageHolder);
             }
-        }, 400);
-        currHandler++;
-
-        if (currHandler == 10) {
-            currHandler = 0;
         }
 
         if (TweetView.isEmbeddedTweet(tweetText)) {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
-            tryImmediateEmbeddedLoad(holder, otherUrl);
+            if (!tryImmediateEmbeddedLoad(holder, otherUrl)) {
+                loadEmbeddedTweet(holder, otherUrl);
+            }
         }
     }
 
