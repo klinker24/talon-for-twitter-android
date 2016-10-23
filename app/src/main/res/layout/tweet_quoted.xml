@@ -20,60 +20,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:orientation="vertical"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/quoted_tweet_height"
     android:layout_width="match_parent">
-
-    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
-        android:id="@+id/muffled_name"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:textColor="?textColor"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:singleLine="true"
-        android:visibility="gone"
-        android:background="?android:attr/selectableItemBackground" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/conversation_area"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
 
     <LinearLayout
         android:id="@+id/background"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/quoted_tweet_height"
         android:layoutDirection="ltr"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/selectableItemBackground">
-
-        <!-- The tweeters picture -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_pic"
-            android:layout_width="@dimen/pro_pic_size"
-            android:layout_height="@dimen/pro_pic_size"
-            android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-            android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:layout_marginRight="2dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="3dp"
-            app:civ_border_width="0dp"
-            app:civ_border_color="#FF000000"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layoutDirection="ltr"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -85,19 +52,18 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
-                    android:textColor="?textColor"
-                    android:singleLine="true"/>
+                    android:textSize="13dp"
+                    android:textColor="?textColor" />
 
                 <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp"
-                    android:textColor="?dateColor"
-                    android:singleLine="true"
-                    android:gravity="center_vertical"/>
+                    android:textSize="13dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginStart="6dp"
+                    android:textColor="?dateColor" />
 
                 <LinearLayout
                     android:id="@+id/quick_actions"
@@ -113,6 +79,7 @@
                         android:id="@+id/time"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:textSize="12dp"
                         android:textColor="?dateColor" />
 
                     <ImageView
@@ -121,7 +88,8 @@
                         android:layout_height="16dp"
                         android:src="?directMessageItem"
                         android:scaleType="fitCenter"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        android:layout_marginStart="8dp"/>
 
                 </LinearLayout>
 
@@ -130,20 +98,24 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content">
 
-                    <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                         android:id="@+id/tweet"
                         android:tag="tweet"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_width="match_parent"
-                        android:paddingTop="4dp"
+                        android:textSize="14dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="4"
                         android:textColor="?textColor"
                         android:layoutDirection="locale" />
 
@@ -151,23 +123,27 @@
                         android:id="@+id/retweeter"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
-                        android:paddingTop="3dp"
+                        android:layout_marginTop="3dp"
                         android:gravity="left"
+                        android:textSize="13dp"
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 
                 </LinearLayout>
 
-                <FrameLayout android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_marginLeft="4dp"
+                <FrameLayout
+                    android:layout_width="75dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="4dp"
                     android:id="@+id/picture_holder"
                     android:visibility="gone">
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitCenter"
+                        android:scaleType="centerCrop"
                         android:background="@drawable/rounded_rect"
                         android:transitionName="image"
                         android:id="@+id/image"/>
@@ -179,16 +155,6 @@
                         android:padding="12dp"
                         android:layout_gravity="bottom|start"/>
 
-                    <com.klinker.android.simple_videoview.SimpleVideoView
-                        android:id="@+id/video_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:background="@android:color/black"
-                        app:loop="true"
-                        app:stopSystemAudio="false"
-                        app:muted="true" />
-
                 </FrameLayout>
 
             </LinearLayout>
@@ -197,7 +163,8 @@
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/embedded_tweet_card"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/quoted_tweet_height"
+                android:layout_height="wrap_content"
+                android:minHeight="140dp"
                 android:maxWidth="300dp"
                 android:layout_marginRight="2dp"
                 android:layout_marginLeft="2dp"
@@ -209,18 +176,6 @@
                 android:visibility="gone" />
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:gravity="top"
-        android:id="@+id/expansion"
-        android:visibility="gone">
 
     </LinearLayout>
 

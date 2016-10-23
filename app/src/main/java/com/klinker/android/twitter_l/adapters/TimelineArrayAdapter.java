@@ -24,6 +24,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
@@ -58,8 +59,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public static final int NORMAL = 0;
     public static final int RETWEET = 1;
     public static final int FAVORITE = 2;
-
-    public int embeddedTweetMinHeight = 0;
 
     public Context context;
     public List<Status> statuses;
@@ -228,8 +227,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
-
-        embeddedTweetMinHeight = Utils.toDP(140, context);
     }
 
     @Override
@@ -338,7 +335,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
-            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
         Status thisStatus;
@@ -713,14 +709,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            TweetView v = new TweetView(context, status);
+            QuotedTweetView v = new QuotedTweetView(context, status);
             v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
-            holder.embeddedTweet.setMinimumHeight(0);
 
             return true;
         } else {
@@ -779,7 +774,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TweetView v = new TweetView(context, embedded);
+                                QuotedTweetView v = new QuotedTweetView(context, embedded);
                                 v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);

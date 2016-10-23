@@ -14,6 +14,7 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
@@ -43,7 +44,6 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
-            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
         final long id = cursor.getLong(TWEET_COL);
@@ -251,7 +251,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            TweetView v = new TweetView(context, status);
+            QuotedTweetView v = new QuotedTweetView(context, status);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
@@ -360,7 +360,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TweetView v = new TweetView(context, embedded);
+                                QuotedTweetView v = new QuotedTweetView(context, embedded);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 

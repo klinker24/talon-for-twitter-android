@@ -38,6 +38,7 @@ import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
@@ -93,8 +94,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public java.text.DateFormat timeFormatter;
 
     public boolean isHomeTimeline;
-
-    public int embeddedTweetMinHeight = 0;
 
     public int contentHeight = 0;
     public int headerMultiplier = 0;
@@ -251,8 +250,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         } else {
             CONVO_COL = -1;
         }
-
-        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
     }
 
     public TimeLineCursorAdapter(Context context, Cursor cursor, boolean isDM, boolean isHomeTimeline, Expandable expander) {
@@ -433,8 +430,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.imageHolder.setLayoutParams(params);
         }
 
-        holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
-
         holder.rootView = v;
 
         v.setTag(holder);
@@ -501,7 +496,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
-            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
         }
 
         if (holder.conversationArea.getChildCount() > 0) {
@@ -1083,14 +1077,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            TweetView v = new TweetView(context, status);
+            QuotedTweetView v = new QuotedTweetView(context, status);
             v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
-            holder.embeddedTweet.setMinimumHeight(0);
 
             return true;
         } else {
@@ -1376,7 +1369,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                TweetView v = new TweetView(context, embedded);
+                                QuotedTweetView v = new QuotedTweetView(context, embedded);
                                 v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
