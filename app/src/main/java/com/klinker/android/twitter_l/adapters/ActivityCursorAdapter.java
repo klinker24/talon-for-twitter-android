@@ -210,54 +210,42 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
 
         Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
 
-        mHandlers[currHandler].postDelayed(new Runnable() {
+        holder.tweet.setSoundEffectsEnabled(false);
+        holder.tweet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                if (holder.tweetId == id) {
-                    holder.tweet.setSoundEffectsEnabled(false);
-                    holder.tweet.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                // we need to manually set the background for click feedback because the spannable
-                                // absorbs the click on the background
-                                if (!holder.preventNextClick) {
-                                    holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
-                                        }
-                                    }, 25);
-                                }
-
-                                holder.background.performClick();
+            public void onClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    // we need to manually set the background for click feedback because the spannable
+                    // absorbs the click on the background
+                    if (!holder.preventNextClick) {
+                        holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.background.getBackground().setState(new int[]{android.R.attr.state_empty});
                             }
-                        }
-                    });
+                        }, 25);
+                    }
 
-                    holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if (!TouchableMovementMethod.touched) {
-                                holder.background.performLongClick();
-                                holder.preventNextClick = true;
-                            }
-                            return false;
-                        }
-                    });
-
-                    TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
-                    TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
-
+                    holder.background.performClick();
                 }
             }
-        }, 400);
-        currHandler++;
+        });
 
-        if (currHandler == 10) {
-            currHandler = 0;
-        }
+        holder.tweet.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!TouchableMovementMethod.touched) {
+                    holder.background.performLongClick();
+                    holder.preventNextClick = true;
+                }
+                return false;
+            }
+        });
+
+        TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
+        TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
+
     }
 
     public void displayUserDialog(final String[] users) {
