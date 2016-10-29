@@ -17,6 +17,20 @@
     </shortcut>
 
     <shortcut
+        android:icon="@drawable/shortcut_compose"
+        android:enabled="true"
+        android:shortcutId="manifest-shortcut-compose_dm"
+        android:shortcutShortLabel="@string/shortcut_compose_dm"
+        android:shortcutLongLabel="@string/shortcut_compose_dm">
+
+        <intent
+            android:targetPackage="com.klinker.android.twitter_l"
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.klinker.android.twitter_l.activities.compose.ComposeDMActivity" />
+
+    </shortcut>
+
+    <shortcut
         android:icon="@drawable/ic_shortcut_my_account"
         android:enabled="true"
         android:shortcutId="manifest-shortcut-my-twitter"
