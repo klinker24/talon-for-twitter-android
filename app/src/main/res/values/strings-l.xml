@@ -166,6 +166,7 @@
     <string name="copied_link">Copied Link!</string>
     <string name="original_probably_deleted">The original tweet was probably deleted.</string>
     <string name="shortcut_compose_short">Compose Tweet</string>
+    <string name="shortcut_compose_dm">Compose DM</string>
     <string name="shortcut_my_account">My Account</string>
     <string name="preparing_video">Preparing video&#8230;</string>
     <string name="take_video">Capture Video</string>
