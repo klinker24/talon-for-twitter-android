@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.5.3">
+        <text>Launcher shortcut for "Compose DM"</text>
+    </version>
+
     <version name="5.5.2">
         <text>Bug fixes</text>
         <text>Lots of performance improvements</text>
