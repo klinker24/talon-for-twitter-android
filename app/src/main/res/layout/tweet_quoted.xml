@@ -29,15 +29,13 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/quoted_tweet_height"
         android:layoutDirection="ltr"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:background="?android:attr/selectableItemBackground">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
             android:layoutDirection="ltr"
             android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp">
@@ -52,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:textColor="?textColor" />
 
                 <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
@@ -60,7 +58,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginStart="6dp"
                     android:textColor="?dateColor" />
@@ -105,14 +103,14 @@
                     android:orientation="vertical"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                         android:id="@+id/tweet"
                         android:tag="tweet"
                         android:layout_height="80dp"
                         android:layout_width="match_parent"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:maxLines="4"
@@ -125,7 +123,7 @@
                         android:layout_width="fill_parent"
                         android:layout_marginTop="3dp"
                         android:gravity="left"
-                        android:textSize="13dp"
+                        android:textSize="14dp"
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 
@@ -133,7 +131,7 @@
 
                 <FrameLayout
                     android:layout_width="75dp"
-                    android:layout_height="60dp"
+                    android:layout_height="75dp"
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="4dp"
