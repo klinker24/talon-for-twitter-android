@@ -18,7 +18,7 @@
 
 <resources>
 
-    <dimen name="quoted_tweet_height">120dp</dimen>
+    <dimen name="quoted_tweet_height">140dp</dimen>
     <dimen name="action_bar_default_height">48dp</dimen>
     <dimen name="neg_action_bar_default_height">-48dp</dimen>
     <dimen name="contact_picture_border">5dp</dimen>
