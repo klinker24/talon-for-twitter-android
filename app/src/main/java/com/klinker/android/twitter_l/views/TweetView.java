@@ -423,10 +423,7 @@ public class TweetView {
             tweetTv.setText(tweet);
         }
 
-        if (retweeter != null) {
-            retweeterTv.setText(retweetText);
-            retweeterTv.setVisibility(View.VISIBLE);
-        }
+        handleRetweeter();
 
         if (isConvo && isAConvo != null) {
             isAConvo.setVisibility(View.VISIBLE);
@@ -588,6 +585,13 @@ public class TweetView {
         if (TweetView.isEmbeddedTweet(tweet) && !otherUrl.contains("/photo/") &&
                 embeddedTweet.getChildCount() == 0) {
             loadEmbeddedTweet(otherUrl);
+        }
+    }
+
+    protected void handleRetweeter() {
+        if (retweeter != null) {
+            retweeterTv.setText(retweetText);
+            retweeterTv.setVisibility(View.VISIBLE);
         }
     }
 

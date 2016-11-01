@@ -251,7 +251,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            QuotedTweetView v = new QuotedTweetView(context, status);
+            TweetView v = QuotedTweetView.create(context, status);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
@@ -360,7 +360,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                QuotedTweetView v = new QuotedTweetView(context, embedded);
+                                TweetView v = QuotedTweetView.create(context, embedded);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 

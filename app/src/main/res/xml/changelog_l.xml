@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.5.4">
+        <text>Option to use the older, more detailed, quoted tweet style</text>
+    </version>
+
     <version name="5.5.3">
         <text>Launcher shortcut for "Compose DM"</text>
         <text>Improve font size of quoted tweets</text>

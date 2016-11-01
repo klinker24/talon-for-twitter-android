@@ -25,6 +25,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.*;
 import android.widget.*;
 
@@ -115,6 +116,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     private boolean duelPanel;
 
+    int embeddedTweetMinHeight;
+
     public static class ViewHolder {
         public TextView name;
         public TextView muffledName;
@@ -177,6 +180,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         videoHandler = new Handler();
 
         settings = AppSettings.getInstance(context);
+        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
 
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
@@ -430,6 +434,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             holder.imageHolder.setLayoutParams(params);
         }
 
+        if (settings.detailedQuotes) {
+            holder.embeddedTweet.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+        }
+
         holder.rootView = v;
 
         v.setTag(holder);
@@ -496,6 +505,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
+
+            if (settings.detailedQuotes) {
+                holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+            }
         }
 
         if (holder.conversationArea.getChildCount() > 0) {
@@ -1077,13 +1090,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            QuotedTweetView v = new QuotedTweetView(context, status);
+            TweetView v = QuotedTweetView.create(context, status);
             v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
+
+            if (settings.detailedQuotes) {
+                holder.embeddedTweet.setMinimumHeight(0);
+            }
 
             return true;
         } else {
@@ -1369,7 +1386,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                QuotedTweetView v = new QuotedTweetView(context, embedded);
+                                TweetView v = QuotedTweetView.create(context, embedded);
                                 v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
