@@ -10,6 +10,15 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import twitter4j.Status;
 
 public class QuotedTweetView extends TweetView {
+
+    public static TweetView create(Context context, Status status) {
+        if (AppSettings.getInstance(context).detailedQuotes) {
+            return new TweetView(context, status);
+        } else {
+            return new QuotedTweetView(context, status);
+        }
+    }
+
     public QuotedTweetView(Context context, Status status) {
         super(context, status);
     }
@@ -31,6 +40,16 @@ public class QuotedTweetView extends TweetView {
 
     @Override
     public void setupProfilePicture() {
+
+    }
+
+    @Override
+    public void loadEmbeddedTweet(String url) {
+
+    }
+
+    @Override
+    protected void handleRetweeter() {
 
     }
 }

@@ -80,6 +80,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     private int smallPictures;
 
     private boolean canUseQuickActions = true;
+    int embeddedTweetMinHeight;
 
     public void setCanUseQuickActions(boolean bool) {
         canUseQuickActions = bool;
@@ -226,6 +227,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             layout = R.layout.tweet_condensed;
         }
 
+        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
+
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
     }
 
@@ -323,6 +326,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.imageHolder.setLayoutParams(params);
         }
 
+        if (settings.detailedQuotes) {
+            holder.embeddedTweet.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+        }
+
         holder.rootView = v;
 
         v.setTag(holder);
@@ -335,6 +343,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.setVisibility(View.GONE);
+            if (settings.detailedQuotes) {
+                holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+            }
         }
 
         Status thisStatus;
@@ -709,13 +720,17 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
-            QuotedTweetView v = new QuotedTweetView(context, status);
+            TweetView v = QuotedTweetView.create(context, status);
             v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
             holder.embeddedTweet.removeAllViews();
             holder.embeddedTweet.addView(v.getView());
+
+            if (settings.detailedQuotes) {
+                holder.embeddedTweet.setMinimumHeight(0);
+            }
 
             return true;
         } else {

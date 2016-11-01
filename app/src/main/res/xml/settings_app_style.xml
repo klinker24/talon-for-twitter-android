@@ -27,6 +27,12 @@
         android:entries="@array/timeline_pictures"
         android:entryValues="@array/timeline_pictures_inserted"/>
 
+    <SwitchPreference
+        android:key="detailed_quotes"
+        android:title="@string/detailed_quotes"
+        android:summary="@string/detailed_quotes_summary"
+        android:defaultValue="false" />
+
     <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory

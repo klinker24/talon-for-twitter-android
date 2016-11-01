@@ -177,6 +177,7 @@ public class AppSettings {
     public boolean autoDismissNotifications;
     public boolean usePeek;
     public boolean dualPanels;
+    public boolean detailedQuotes;
 
     // notifications
     public boolean timelineNot;
@@ -338,6 +339,7 @@ public class AppSettings {
         autoDismissNotifications = sharedPrefs.getBoolean("auto_dismiss_notifications", true);
         usePeek = sharedPrefs.getBoolean("use_peek", true);
         dualPanels = sharedPrefs.getBoolean("dual_panel", context.getResources().getBoolean(R.bool.dual_panels));
+        detailedQuotes = sharedPrefs.getBoolean("detailed_quotes", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
