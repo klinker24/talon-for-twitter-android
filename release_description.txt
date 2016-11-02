@@ -1,1 +1,1 @@
-WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, has a round icon for launchers that support them, and implements launcher shortcuts.
+v5.5.3: WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, has a round icon for launchers that support them, and implements launcher shortcuts. This update also includes a settings option to switch to a more detailed quoted tweets style.
