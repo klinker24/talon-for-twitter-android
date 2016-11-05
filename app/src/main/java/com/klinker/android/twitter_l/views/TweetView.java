@@ -602,6 +602,7 @@ public class TweetView {
         }
 
         embeddedTweet.setVisibility(View.VISIBLE);
+        embeddedTweet.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         new TimeoutThread(new Runnable() {
             @Override
