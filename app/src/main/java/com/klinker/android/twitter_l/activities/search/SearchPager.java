@@ -98,6 +98,8 @@ public class SearchPager extends PeekViewActivity {
             searchQuery = "";
         }
 
+        String rawQuery = searchQuery;
+
         if (searchQuery == null) {
             searchQuery = "";
         }
@@ -144,6 +146,7 @@ public class SearchPager extends PeekViewActivity {
 
         searchUtils = new SearchUtils(this);
         searchUtils.setUpSearch();
+        searchUtils.setText(rawQuery);
 
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
