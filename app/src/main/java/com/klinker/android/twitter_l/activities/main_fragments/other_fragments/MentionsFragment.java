@@ -99,7 +99,7 @@ public class MentionsFragment extends MainFragment {
                     MentionsDataSource dataSource = MentionsDataSource.getInstance(context);
 
                     try {
-                        dataSource.markAllRead(settings.currentAccount);
+                        dataSource.markAllRead(currentAccount);
                     } catch (Throwable e) {
 
                     }
