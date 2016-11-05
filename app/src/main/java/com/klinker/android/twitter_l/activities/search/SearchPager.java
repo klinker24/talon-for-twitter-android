@@ -266,8 +266,9 @@ public class SearchPager extends PeekViewActivity {
                 String name = uriString.substring(uriString.indexOf(".com/"));
                 name = name.replaceAll("/", "").replaceAll(".com", "");
                 if (name.contains("?ref_src"))
-                    name= name.substring(0, name.indexOf("?ref"));
-                name = name.replace("?lang=en", "");
+                    name = name.substring(0, name.indexOf("?ref"));
+                if (name.contains("?lang")) // something like ?lang=en
+                    name = name.substring(0, name.indexOf("?lang"));
 
                 searchQuery = name;
                 onlyProfile = true;
