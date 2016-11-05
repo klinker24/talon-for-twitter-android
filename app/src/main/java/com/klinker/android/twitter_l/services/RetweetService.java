@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -55,6 +56,8 @@ public class RetweetService extends KillerIntentService {
 
         notificationManager.cancel(notificationId);
 
-        NotificationUtils.cancelGroupedNotificationWithNoContent(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            NotificationUtils.cancelGroupedNotificationWithNoContent(this);
+        }
     }
 }
