@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
@@ -23,6 +24,7 @@ public class SearchUtils {
 
     private com.lapism.searchview.view.SearchView mSearchView;
     private List<SearchItem> mSuggestionsList = new ArrayList();
+    private String defaultQuery;
 
     public SearchUtils(Activity activity) {
         this.activity = activity;
@@ -118,6 +120,17 @@ public class SearchUtils {
         mSuggestionsList.clear();
         mSuggestionsList.addAll(provider.getAllSuggestions(activity));
         mSearchView.show(true);
+        setText(defaultQuery);
+    }
+
+    public void setText(String text) {
+        defaultQuery = text;
+        EditText et = (EditText) mSearchView.findViewById(com.lapism.searchview.R.id.editText_input);
+        et.setText(text);
+
+        if (text != null) {
+            et.setSelection(text.length());
+        }
     }
 }
 

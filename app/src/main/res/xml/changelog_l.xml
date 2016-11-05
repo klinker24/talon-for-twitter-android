@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.5.5">
+        <text>Edit search results</text>
+    </version>
+
     <version name="5.5.4">
         <text>Option to use the older, more detailed, quoted tweet style</text>
     </version>
