@@ -2,6 +2,9 @@
 
     <version name="5.5.5">
         <text>Edit search results</text>
+        <text>Improvements to notifying for second account mentions</text>
+        <text>"Retweet" and "Like" improvements on notification buttons</text>
+        <text>Fixes for opening profiles in different languages, from a google search</text>
     </version>
 
     <version name="5.5.4">
