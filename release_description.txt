@@ -1,1 +1,1 @@
-v5.5.3: WOW Android 7.1 changes already?! Yup. The app is now built for Android 7.1, can use it's brand new image keyboard, has a round icon for launchers that support them, and implements launcher shortcuts. This update also includes a settings option to switch to a more detailed quoted tweets style.
+v5.5.5 comes with the ability to edit search results, some improvements to notifications, and fixes for opening profiles from an internation link. Check out the changelog in the app for a complete list of improvements!
