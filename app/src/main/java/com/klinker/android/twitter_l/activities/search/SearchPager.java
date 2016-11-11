@@ -368,8 +368,7 @@ public class SearchPager extends PeekViewActivity {
         removeKeyboard();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setTitle(searchQuery.replace("-RT", ""));
-
-        Log.v("talon_searching", "on new intent, query: " + searchQuery);
+        searchUtils.setText(searchQuery.replace("-RT", ""));
     }
 
     @Override
