@@ -38,6 +38,7 @@ import android.widget.*;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.BrowserActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
@@ -736,10 +737,12 @@ public class ExpansionViewHelper {
             final int DELETE_TWEET = 1;
             final int COPY_LINK = 2;
             final int COPY_TEXT = 3;
+            final int OPEN_TO_BROWSER = 4;
 
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
+            menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -768,6 +771,9 @@ public class ExpansionViewHelper {
                         case COPY_TEXT:
                             copyText();
                             break;
+                        case OPEN_TO_BROWSER:
+                            openToBrowser();
+                            break;
                     }
                     return false;
                 }
@@ -779,11 +785,13 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 2;
             final int MARK_SPAM = 3;
             final int TRANSLATE = 4;
+            final int OPEN_TO_BROWSER = 5;
 
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
             menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
+            menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -853,6 +861,9 @@ public class ExpansionViewHelper {
                                 }
                             }).execute();
                             break;
+                        case OPEN_TO_BROWSER:
+                            openToBrowser();
+                            break;
                     }
                     return false;
                 }
@@ -881,6 +892,12 @@ public class ExpansionViewHelper {
         clipboard.setPrimaryClip(clip);
 
         Toast.makeText(context, R.string.copied, Toast.LENGTH_SHORT).show();
+    }
+
+    private void openToBrowser() {
+        Intent browser = new Intent(context, BrowserActivity.class);
+        browser.putExtra("url","https://twitter.com/" + screenName + "/status/" + id);
+        context.startActivity(browser);
     }
 
     public void setBackground(View v) {

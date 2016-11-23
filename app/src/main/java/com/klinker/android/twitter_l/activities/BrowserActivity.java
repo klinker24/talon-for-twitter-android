@@ -17,6 +17,7 @@ package com.klinker.android.twitter_l.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -66,7 +67,7 @@ public class BrowserActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-            getWindow().setNavigationBarColor(settings.themeColors.primaryColorDark);
+            getWindow().setNavigationBarColor(Color.BLACK);
         }
 
         url = getIntent().getStringExtra("url");
