@@ -172,4 +172,5 @@
     <string name="take_video">Capture Video</string>
     <string name="detailed_quotes">Detailed Quotes</string>
     <string name="detailed_quotes_summary">Show more information in quoted tweets on the timeline.</string>
+    <string name="open_to_browser">Open to Browser</string>
 </resources>

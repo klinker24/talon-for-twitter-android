@@ -55,6 +55,7 @@ public class WebIntentBuilder {
     private Intent intent;
     private String webpage;
     private boolean forceExternal;
+    private boolean skipAlwaysExternalCheck;
 
     private CustomTabsIntent customTab;
 
@@ -72,6 +73,11 @@ public class WebIntentBuilder {
 
     public WebIntentBuilder setShouldForceExternal(boolean forceExternal) {
         this.forceExternal = forceExternal;
+        return this;
+    }
+
+    public WebIntentBuilder setSkipAlwaysExternalCheck(boolean skip) {
+        skipAlwaysExternalCheck = skip;
         return this;
     }
 
@@ -189,6 +195,10 @@ public class WebIntentBuilder {
     }
 
     private boolean shouldAlwaysForceExternal(String url) {
+        if (skipAlwaysExternalCheck) {
+            return false;
+        }
+
         for (String s : ALWAYS_EXTERNAL)
             if (url.contains(s))
                 return true;
