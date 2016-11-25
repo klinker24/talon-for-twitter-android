@@ -289,13 +289,9 @@ public class MentionsFragment extends MainFragment {
 
     @Override
     public void onPause() {
-
-        int mUnread = listView.getFirstVisiblePosition();
-
         if (unread > 0) {
-            MentionsDataSource.getInstance(context).markMultipleRead(mUnread, currentAccount);
-
-            unread = mUnread;
+            MentionsDataSource.getInstance(context).markAllRead(currentAccount);
+            unread = 0;
         }
 
         context.unregisterReceiver(refreshMentions);
