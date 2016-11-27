@@ -1,1 +1,1 @@
-v5.5.6 comes with the ability to edit search results, option to open tweets in a browser (from the three dot overflow), some improvements to notifications, and fixes for opening profiles from an internation link. Check out the changelog in the app for a complete list of improvements!
+This version brings a beautiful, brand new web browser with amazing readability support! It is enabled for all links by default, if you want to go back to your old internal/external browser, the options for it are under "Settings -> "Other Options".
