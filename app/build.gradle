@@ -9,6 +9,10 @@ if (keystoreProperties.exists()) {
 }
 
 android {
+    dexOptions {
+        jumboMode true
+    }
+
     packagingOptions {
         exclude 'LICENSE'
         exclude 'README.md'
@@ -124,6 +128,7 @@ dependencies {
     compile 'com.klinkerapps:launcher-apis:1.1.0'
     compile 'com.klinkerapps:sliding-activity:1.4.3'
     compile 'com.klinkerapps:android-transcoder:1.0.1'
+    compile 'com.klinkerapps:article_viewer:0.9.0-SNAPSHOT'
 
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -131,7 +136,6 @@ dependencies {
     compile 'com.afollestad:material-camera:0.4.4'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.paolorotolo:appintro:3.1.0'
-    compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'

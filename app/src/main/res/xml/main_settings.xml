@@ -49,11 +49,6 @@
             android:title="@string/main_pages_and_drawer"
             android:icon="?settings_pages" />
 
-        <com.klinker.android.twitter_l.views.preference.IconPreference
-            android:key="in_app_browser"
-            android:title="@string/in_app_browser"
-            android:icon="?links" />
-
     </PreferenceCategory>
 
     <com.klinker.android.twitter_l.views.preference.PreferenceDivider />

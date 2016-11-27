@@ -142,4 +142,5 @@ public class APIKeys {
     public static final String TWITLONGER_API_KEY = "rU5qsRgK23glt5dcUQ55b4hsN8F5rak0";
     public static final String TWITPIC_API_KEY = "8cd3757bb6acb94c61e3cbf840c91872";
     public static final String GIPHY_API_KEY = "3oEduMYKu0Rj1WA4dG";
+    public static final String ARTICLE_API_KEY = "df3f7fe7fc691b6019ccf37c3f2f5606";
 }
