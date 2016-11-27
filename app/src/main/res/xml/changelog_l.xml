@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.6.0">
+        <text>Brand new web browser with vastly improved article support! (Settings -> Other Options)</text>
+    </version>
+
     <version name="5.5.6">
         <text>Option to open a tweet in the browser, from the three dot overflow</text>
     </version>
