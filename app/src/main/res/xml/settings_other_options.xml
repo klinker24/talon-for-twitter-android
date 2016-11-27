@@ -20,6 +20,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
+        android:key="browser_selection"
+        android:title="@string/browser_selection"
+        android:defaultValue="article"
+        android:entries="@array/browser_selection"
+        android:entryValues="@array/browser_selection_inserted" />
+
+    <ListPreference
         android:key="quote_style"
         android:title="@string/quote_style"
         android:defaultValue="0"

@@ -508,4 +508,19 @@
         <item>3</item>
         <item>1</item>
     </string-array>
+
+    <string-array name="browser_selection">
+        <item>@string/article_enhancer</item>
+        <item>@string/custom_tab_title</item>
+        <item>@string/open_to_internal_browser</item>
+        <item>@string/open_to_external_browser</item>
+    </string-array>
+
+    <string-array name="browser_selection_inserted">
+        <item>article</item>
+        <item>custom_tab</item>
+        <item>internal</item>
+        <item>external</item>
+    </string-array>
+
 </resources>

@@ -117,43 +117,43 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 addPreferencesFromResource(R.xml.settings_swipable_pages_and_app_drawer);
                 setUpSwipablePages();
                 break;
-            case 3: // in app browser
+            /*case 3: // in app browser
                 addPreferencesFromResource(R.xml.settings_browser);
                 setUpBrowser();
-                break;
-            case 4: // background refreshes
+                break;*/
+            case 3: // background refreshes
                 addPreferencesFromResource(R.xml.settings_background_refreshes);
                 setUpBackgroundRefreshes();
                 break;
-            case 5: // notifications
+            case 4: // notifications
                 addPreferencesFromResource(R.xml.settings_notifications);
                 setUpNotificationSettings();
                 break;
-            case 6: // data saving
+            case 5: // data saving
                 addPreferencesFromResource(R.xml.settings_data_savings);
                 setUpDataSaving();
                 break;
-            case 7: // location
+            case 6: // location
                 addPreferencesFromResource(R.xml.settings_location);
                 setUpLocationSettings();
                 break;
-            case 8: // mute management
+            case 7: // mute management
                 addPreferencesFromResource(R.xml.settings_mutes);
                 setUpMuteSettings();
                 break;
-            case 9: // app memory
+            case 8: // app memory
                 addPreferencesFromResource(R.xml.settings_app_memory);
                 setUpAppMemorySettings();
                 break;
-            case 10: // other options
+            case 9: // other options
                 addPreferencesFromResource(R.xml.settings_other_options);
                 setUpOtherOptions();
                 break;
-            case 11: // get help (from overflow)
+            case 10: // get help (from overflow)
                 addPreferencesFromResource(R.xml.settings_get_help);
                 setUpGetHelpSettings();
                 break;
-            case 12: // other apps (from overflow)
+            case 11: // other apps (from overflow)
                 addPreferencesFromResource(R.xml.settings_other_apps);
                 setUpOtherAppSettings();
                 break;

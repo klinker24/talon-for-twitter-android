@@ -54,7 +54,6 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             "app_style",
             "widget_customization",
             "swipable_pages_and_app_drawer",
-            "in_app_browser",
             "background_refreshes",
             "notifications",
             "data_saving_options",
