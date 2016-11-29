@@ -1043,7 +1043,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
         context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
         sharedPrefs.edit().putBoolean("should_refresh", false).apply();
         Intent settings = new Intent(context, PrefActivity.class);
-        settings.putExtra("position", 11)
+        settings.putExtra("position", 10)
                 .putExtra("title",
                         getResources().getString(R.string.get_help_settings));
         finish();

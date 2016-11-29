@@ -160,10 +160,10 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.menu_get_help:
-                showSettings(11, getString(R.string.get_help_settings));
+                showSettings(10, getString(R.string.get_help_settings));
                 return true;
             case R.id.menu_other_apps:
-                showSettings(12, getString(R.string.other_apps));
+                showSettings(11, getString(R.string.other_apps));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

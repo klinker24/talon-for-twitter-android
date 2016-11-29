@@ -35,25 +35,23 @@ public class PrefFragmentAdvanced extends PrefFragment {
                 break;
             case 2: // advanced swipable page and app drawer
                 break;
-            case 3: // in app browser
-                break;
-            case 4: // advanced background refreshes
+            case 3: // advanced background refreshes
                 addPreferencesFromResource(R.xml.settings_advanced_background_refreshes);
                 setUpBackgroundRefreshes();
                 break;
-            case 5: // advanced notifications
+            case 4: // advanced notifications
                 addPreferencesFromResource(R.xml.settings_advanced_notifications);
                 setUpNotificationSettings();
                 break;
-            case 6: // data saving
+            case 5: // data saving
                 break;
-            case 7: // location
+            case 6: // location
                 break;
-            case 8: // mute management
+            case 7: // mute management
                 break;
-            case 9: // app memory
+            case 8: // app memory
                 break;
-            case 10: // other options
+            case 9: // other options
                 break;
         }
     }
