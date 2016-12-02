@@ -37,6 +37,8 @@ import xyz.klinker.android.article.ArticleIntent;
  */
 public class WebIntentBuilder {
 
+    private static boolean JUST_RAN = false;
+
     private static final String PLAY_STORE = "play.google.com";
     private static final String YOUTUBE = "youtu";
     private static final String TWITTER = "twitter.com";
@@ -119,7 +121,21 @@ public class WebIntentBuilder {
         if (customTab != null) {
             customTab.launchUrl(context, Uri.parse(webpage));
         } else if (articleIntent != null) {
-            articleIntent.launchUrl(context, Uri.parse(webpage));
+            if (!JUST_RAN) {
+                articleIntent.launchUrl(context, Uri.parse(webpage));
+            }
+
+            WebIntentBuilder.JUST_RAN = true;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) { }
+
+                    WebIntentBuilder.JUST_RAN = false;
+                }
+            }).start();
         } else {
             context.startActivity(intent);
         }
