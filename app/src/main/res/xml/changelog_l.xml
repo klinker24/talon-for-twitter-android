@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="5.6.1">
+        <text>Browser now applies text size preference</text>
+        <text>Browser allows you to copy and paste paragraphs</text>
+        <text>Bug/crash fixes</text>
+    </version>
+
     <version name="5.6.0">
         <text>Save time and data using the brand new, readability style, web browser with beautiful layouts and quick load times! (Settings -> Other Options)</text>
     </version>
