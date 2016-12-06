@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.6.2">
+        <text>Fix some issues with quoting tweets, not using Twitter's quote style</text>
+    </version>
+
     <version name="5.6.1">
         <text>Browser now applies text size preference</text>
         <text>Browser allows you to copy and paste paragraphs</text>
