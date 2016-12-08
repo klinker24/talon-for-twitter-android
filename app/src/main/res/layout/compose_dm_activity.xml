@@ -112,7 +112,8 @@
                     android:textCursorDrawable="@null"
                     android:textColorHint="?dateColor"
                     android:background="@android:color/transparent"
-                    android:inputType="textCapSentences|textMultiLine" />
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:imeOptions="flagNoExtractUi" />
 
 
             <View
