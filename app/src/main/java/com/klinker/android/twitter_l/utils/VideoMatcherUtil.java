@@ -21,7 +21,7 @@ public class VideoMatcherUtil {
 
         // Ex: http://pbs.twimg.com/tweet_video/CcAargSUAAADXgD.mp4
         return (link.contains("/photo/1") && link.contains("twitter.com/")) || // before gifs were in api
-                (link.contains("video.twimg.com/tweet_video")); // after gifs in api
+                (link.contains("video.twimg.com/tweet_video") || link.contains("pbs.twimg.com/tweet_video")); // after gifs in api
     }
 
     public static boolean isTwitterVideoLink(String link) {
