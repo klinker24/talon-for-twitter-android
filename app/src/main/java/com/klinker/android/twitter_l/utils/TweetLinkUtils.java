@@ -544,7 +544,7 @@ public class TweetLinkUtils {
     public static String getGIFUrl(Status s, String otherUrls) {
 
         for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
-            if (e.getType().equals("animated_gif")) {
+            if (e.getType().contains("gif")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
                     ExtendedMediaEntity.Variant variants[] = e.getVideoVariants();
