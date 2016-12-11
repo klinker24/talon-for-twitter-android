@@ -1,6 +1,6 @@
 <changelog>
 
-    <version nmae="5.6.3">
+    <version name="5.6.3">
         <text>Fix GIFs displaying as videos for some people</text>
     </version>
 
