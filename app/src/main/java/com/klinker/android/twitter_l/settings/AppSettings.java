@@ -76,6 +76,7 @@ public class AppSettings {
     public static final int PICTURES_SMALL = 1;
     public static final int PICTURES_NONE = 2;
     public static final int CONDENSED_TWEETS = 3;
+    public static final int CONDENSED_NO_IMAGES = 4;
 
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
@@ -376,7 +377,7 @@ public class AppSettings {
         }
 
         picturesType = Integer.parseInt(sharedPrefs.getString("timeline_pictures", "0"));
-        if (picturesType == PICTURES_NONE) {
+        if (picturesType == PICTURES_NONE || picturesType == CONDENSED_NO_IMAGES) {
             inlinePics = false;
         } else {
             inlinePics = true;
@@ -615,5 +616,9 @@ public class AppSettings {
         } else {
             return false;
         }
+    }
+
+    public boolean condensedTweets() {
+        return picturesType == CONDENSED_NO_IMAGES || picturesType == CONDENSED_TWEETS;
     }
 }

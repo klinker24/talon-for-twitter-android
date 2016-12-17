@@ -179,7 +179,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         videoHandler = new Handler();
 
         settings = AppSettings.getInstance(context);
-        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
+        embeddedTweetMinHeight = settings.condensedTweets() ? Utils.toDP(70, context) : Utils.toDP(140, context);
 
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
@@ -198,7 +198,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
-        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+        if (!settings.condensedTweets()) {
             layout = R.layout.tweet;
         } else {
             layout = R.layout.tweet_condensed;
@@ -895,7 +895,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         }
 
         if (picture) {
-            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            if (!settings.condensedTweets()) {
                 if (settings.preCacheImages){
                     Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {
@@ -1090,7 +1090,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
             TweetView v = QuotedTweetView.create(context, status);
-            v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
+            v.setDisplayProfilePicture(!settings.condensedTweets());
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
@@ -1145,7 +1145,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.picturesType == AppSettings.CONDENSED_TWEETS ? eight : 0), 0, sixteen);
+                holder.background.setPadding(0, val + (settings.condensedTweets()? eight : 0), 0, sixteen);
             }
         });
         paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
@@ -1285,7 +1285,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.picturesType == AppSettings.CONDENSED_TWEETS ? eight : 0), 0, sixteen);
+                holder.background.setPadding(0, val + (settings.condensedTweets() ? eight : 0), 0, sixteen);
             }
         });
         paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
@@ -1386,7 +1386,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             @Override
                             public void run() {
                                 TweetView v = QuotedTweetView.create(context, embedded);
-                                v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
+                                v.setDisplayProfilePicture(!settings.condensedTweets());
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 

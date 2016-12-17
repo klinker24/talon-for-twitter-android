@@ -395,6 +395,7 @@
         <item>@string/smaller_pictures</item>
         <item>@string/no_pictures</item>
         <item>@string/condensed_tweet_style</item>
+        <item>@string/compact_layout_no_pictures</item>
     </string-array>
 
     <string-array name="timeline_pictures_inserted">
@@ -402,6 +403,7 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 
     <string-array name="long_click_mentions">

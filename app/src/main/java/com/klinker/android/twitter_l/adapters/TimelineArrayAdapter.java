@@ -221,13 +221,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
-        if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+        if (!settings.condensedTweets()) {
             layout = R.layout.tweet;
         } else {
             layout = R.layout.tweet_condensed;
         }
 
-        embeddedTweetMinHeight = settings.picturesType == AppSettings.CONDENSED_TWEETS ? Utils.toDP(70, context) : Utils.toDP(140, context);
+        embeddedTweetMinHeight = settings.condensedTweets() ? Utils.toDP(70, context) : Utils.toDP(140, context);
 
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
     }
@@ -684,7 +684,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         holder.image.setImageDrawable(null);
         if (picture) {
-            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            if (!settings.condensedTweets()) {
                 Glide.with(context).load(holder.picUrl).placeholder(null).into(holder.image);
             } else {
                 Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
@@ -721,7 +721,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         if (embeddedId != 0l && quotedTweets.containsKey(embeddedId)) {
             Status status = quotedTweets.get(embeddedId);
             TweetView v = QuotedTweetView.create(context, status);
-            v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
+            v.setDisplayProfilePicture(!settings.condensedTweets());
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
             v.setSmallImage(true);
 
@@ -790,7 +790,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                             @Override
                             public void run() {
                                 QuotedTweetView v = new QuotedTweetView(context, embedded);
-                                v.setDisplayProfilePicture(settings.picturesType != AppSettings.CONDENSED_TWEETS);
+                                v.setDisplayProfilePicture(!settings.condensedTweets());
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
 
