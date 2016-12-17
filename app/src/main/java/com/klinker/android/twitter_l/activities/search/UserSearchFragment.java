@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
@@ -98,6 +99,8 @@ public class UserSearchFragment extends Fragment {
         context = activity;
     }
 
+    public View noContent;
+    public TextView noContentText;
     public View layout;
 
     @Override
@@ -114,6 +117,10 @@ public class UserSearchFragment extends Fragment {
 
         inflater = LayoutInflater.from(context);
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        noContent = layout.findViewById(R.id.no_content);
+        noContentText = (TextView) layout.findViewById(R.id.no_retweeters_text);
+
+        noContentText.setText(getString(R.string.no_users));
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
@@ -217,6 +224,12 @@ public class UserSearchFragment extends Fragment {
 
                             spinner.setVisibility(View.GONE);
 
+                            if (peopleAdapter.getCount() == 0) {
+                                noContent.setVisibility(View.VISIBLE);
+                            } else {
+                                noContent.setVisibility(View.GONE);
+                            }
+
                             canRefresh = true;
                         }
                     });
@@ -230,6 +243,8 @@ public class UserSearchFragment extends Fragment {
                         }
                     });
                     hasMore = false;
+
+                    noContent.setVisibility(View.VISIBLE);
 
                     canRefresh = true;
                 }

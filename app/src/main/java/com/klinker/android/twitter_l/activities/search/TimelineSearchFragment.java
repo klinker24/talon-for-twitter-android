@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -89,6 +90,8 @@ public class TimelineSearchFragment extends Fragment {
     }
 
     public View layout;
+    public View noContent;
+    public TextView noContentText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,6 +104,10 @@ public class TimelineSearchFragment extends Fragment {
 
         inflater = LayoutInflater.from(context);
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        noContent = layout.findViewById(R.id.no_content);
+        noContentText = (TextView) layout.findViewById(R.id.no_retweeters_text);
+
+        noContentText.setText(getString(R.string.no_tweets));
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
@@ -195,6 +202,12 @@ public class TimelineSearchFragment extends Fragment {
 
                                 listView.setVisibility(View.VISIBLE);
                                 spinner.setVisibility(View.GONE);
+
+                                if (cursor.getCount() == 0) {
+                                    noContent.setVisibility(View.VISIBLE);
+                                } else {
+                                    noContent.setVisibility(View.GONE);
+                                }
                             }
                         });
                     } else {
@@ -202,6 +215,7 @@ public class TimelineSearchFragment extends Fragment {
                             @Override
                             public void run() {
                                 spinner.setVisibility(View.GONE);
+                                noContent.setVisibility(View.VISIBLE);
                             }
                         });
                     }
@@ -211,6 +225,7 @@ public class TimelineSearchFragment extends Fragment {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                         }
                     });
                 }

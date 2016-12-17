@@ -152,19 +152,13 @@ public class ListFragment extends MainFragment {
             @Override
             protected void onPreExecute() {
                 try {
-                    //transformer.setRefreshingText(getResources().getString(R.string.loading) + "...");
                     DrawerActivity.canSwitch = false;
-                } catch (Exception e) {
-
-                }
-
+                } catch (Exception e) { }
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
-
                 numberNew = doRefresh();
-
                 return numberNew > 0;
             }
 

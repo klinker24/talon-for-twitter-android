@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -110,6 +111,8 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     }
 
     public View layout;
+    public View noContent;
+    public TextView noContentText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,6 +126,10 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
         inflater = LayoutInflater.from(context);
         layout = inflater.inflate(R.layout.ptr_list_layout, null);
+        noContent = layout.findViewById(R.id.no_content);
+        noContentText = (TextView) layout.findViewById(R.id.no_retweeters_text);
+
+        noContentText.setText(getString(R.string.no_tweets));
 
         mPullToRefreshLayout = (MaterialSwipeRefreshLayout) layout.findViewById(R.id.swipe_refresh_layout);
         mPullToRefreshLayout.setOnRefreshListener(new MaterialSwipeRefreshLayout.OnRefreshListener() {
@@ -238,6 +245,12 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                             spinner.setVisibility(View.GONE);
 
                             mPullToRefreshLayout.setRefreshing(false);
+
+                            if (adapter.getCount() == 0) {
+                                noContent.setVisibility(View.VISIBLE);
+                            } else {
+                                noContent.setVisibility(View.GONE);
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -246,6 +259,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                             mPullToRefreshLayout.setRefreshing(false);
                         }
                     });
@@ -297,6 +311,13 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                             listView.setVisibility(View.VISIBLE);
 
                             spinner.setVisibility(View.GONE);
+
+
+                            if (adapter.getCount() == 0) {
+                                noContent.setVisibility(View.VISIBLE);
+                            } else {
+                                noContent.setVisibility(View.GONE);
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -305,6 +326,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (OutOfMemoryError e) {
@@ -313,6 +335,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -343,6 +366,12 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                             listView.setAdapter(adapter);
                             listView.setVisibility(View.VISIBLE);
                             spinner.setVisibility(View.GONE);
+
+                            if (adapter.getCount() == 0) {
+                                noContent.setVisibility(View.VISIBLE);
+                            } else {
+                                noContent.setVisibility(View.GONE);
+                            }
                         }
                     });
                 } catch (Exception e) {
@@ -352,6 +381,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                         }
                     });
                     hasMore = false;
