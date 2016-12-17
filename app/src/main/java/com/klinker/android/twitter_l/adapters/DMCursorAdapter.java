@@ -209,7 +209,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
         }
 
         if (picture) {
-            if (settings.picturesType != AppSettings.CONDENSED_TWEETS) {
+            if (!settings.condensedTweets()) {
                 if (settings.preCacheImages){
                     Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {

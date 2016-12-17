@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.6.4">
+        <text>Improvements to searches</text>
+    </version>
+
     <version name="5.6.3">
         <text>Fix GIFs displaying as videos for some people</text>
     </version>

@@ -175,4 +175,5 @@
     <string name="open_to_browser">Open in Web</string>
     <string name="browser_selection">Web Browser</string>
     <string name="article_enhancer">Article Enhancer (Readability)</string>
+    <string name="compact_layout_no_pictures">Compact Tweets (No Pictures)</string>
 </resources>

@@ -241,7 +241,7 @@ public class TweetView {
             return tweetView;
         } else {
             View tweetView = ((Activity) context).getLayoutInflater().inflate(
-                    settings.picturesType != AppSettings.CONDENSED_TWEETS ? R.layout.tweet : R.layout.tweet_condensed,
+                    !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
                     null, false);
             return tweetView;
         }
