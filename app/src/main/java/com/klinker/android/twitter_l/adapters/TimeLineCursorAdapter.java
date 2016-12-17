@@ -74,7 +74,6 @@ import twitter4j.Twitter;
 
 public class TimeLineCursorAdapter extends CursorAdapter {
 
-    @Getter @Setter
     public Map<Long, Status> quotedTweets = new HashMap();
 
     public Set<String> muffledUsers = new HashSet<String>();
@@ -1469,5 +1468,14 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 url = null;
             }
         }
+    }
+
+
+    public Map<Long, Status> getQuotedTweets() {
+        return quotedTweets;
+    }
+
+    public void setQuotedTweets(Map<Long, Status> quotedTweets) {
+        this.quotedTweets = quotedTweets;
     }
 }
