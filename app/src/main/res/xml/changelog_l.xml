@@ -1,7 +1,10 @@
 <changelog>
 
-    <version name="5.6.4">
+    <version name="5.7.0">
+        <text>New Layout: Compact tweet layout without pictures</text>
         <text>Improvements to searches</text>
+        <text>More improvements on Twitter's new expanded tweet counts</text>
+        <text>Bug fixes</text>
     </version>
 
     <version name="5.6.3">
