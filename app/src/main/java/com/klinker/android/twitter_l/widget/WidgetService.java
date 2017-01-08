@@ -141,10 +141,10 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
             if (mContext.getResources().getBoolean(R.bool.expNotifications)) {
                 try {
-                    card.setTextViewTextSize(R.id.contactName, TypedValue.COMPLEX_UNIT_DIP, settings.textSize + 2);
-                    card.setTextViewTextSize(R.id.contactText, TypedValue.COMPLEX_UNIT_DIP, settings.textSize);
-                    card.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
-                    card.setTextViewTextSize(R.id.retweeter, TypedValue.COMPLEX_UNIT_DIP, settings.textSize - 2);
+                    card.setTextViewTextSize(R.id.contactName, TypedValue.COMPLEX_UNIT_DIP, settings.widgetTextSize + 2);
+                    card.setTextViewTextSize(R.id.contactText, TypedValue.COMPLEX_UNIT_DIP, settings.widgetTextSize);
+                    card.setTextViewTextSize(R.id.time, TypedValue.COMPLEX_UNIT_DIP, settings.widgetTextSize - 2);
+                    card.setTextViewTextSize(R.id.retweeter, TypedValue.COMPLEX_UNIT_DIP, settings.widgetTextSize - 2);
                 } catch (Throwable t) {
 
                 }

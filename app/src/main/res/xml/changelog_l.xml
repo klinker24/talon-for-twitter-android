@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.8.0">
+        <text>Option to change the widget's text size separate from the app's text size</text>
+    </version>
+
     <version name="5.7.0">
         <text>New Layout: Compact tweet layout without pictures</text>
         <text>Improvements to searches</text>

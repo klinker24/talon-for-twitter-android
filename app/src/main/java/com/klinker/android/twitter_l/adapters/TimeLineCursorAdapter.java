@@ -204,6 +204,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             layout = R.layout.tweet_condensed;
         }
 
+
         dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
