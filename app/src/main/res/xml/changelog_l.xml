@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="5.8.0">
+        <text>Search all the users on Twitter when mentioning someone in a tweet</text>
         <text>Option to change the widget's text size separate from the app's text size</text>
         <text>Absolute date formats can now be used on the compact tweet layout</text>
         <text>Improve the format of absolute dates on the timeline</text>
