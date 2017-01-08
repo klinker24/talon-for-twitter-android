@@ -204,7 +204,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(this);
 
-                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                    sharedPreferences.edit().putBoolean("2017_supporter", true).commit();
 
                     recreate();
                 } catch (JSONException e) {

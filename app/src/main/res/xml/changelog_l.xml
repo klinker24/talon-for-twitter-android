@@ -1,6 +1,7 @@
 <changelog>
-\
+
     <version name="5.8.0">
+        <text>If you love my work, become a 2017 supporter from the settings menu!</text>
         <text>Search all the users on Twitter when auto-completing a mention in a tweet</text>
         <text>Option to change the widget's text size separate from the app's text size</text>
         <text>Absolute date formats can now be used on the compact tweet layout</text>
