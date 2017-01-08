@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import twitter4j.Status;
@@ -215,9 +216,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
         smallPictures = Utils.toDP(120, context);
 
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
+            dateFormatter = new SimpleDateFormat("EEE, MMM dd", Locale.getDefault());
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
