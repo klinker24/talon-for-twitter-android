@@ -74,7 +74,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
 
                     SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(getActivity());
 
-                    sharedPreferences.edit().putBoolean("2016_supporter", true).commit();
+                    sharedPreferences.edit().putBoolean("2017_supporter", true).commit();
                 } catch (JSONException e) {
                     alert("Uh oh... Something went wrong with the purchase: Failed to parse purchase data.");
                     e.printStackTrace();
@@ -98,7 +98,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
     }
 
     protected void start2016SupporterPurchase(String amount) {
-        new StartPurchase("2016_supporter_" + amount).execute();
+        new StartPurchase("2017_supporter_" + amount).execute();
     }
 
     class ConsumeItems extends AsyncTask<Void, Void, Void> {
@@ -131,7 +131,7 @@ public class InAppBillingPreferenceFragment extends PreferenceFragment {
                             JSONObject purchaseData = new JSONObject(purchaseDataList.get(i));
                             consumePurchase(purchaseData);
 
-                            sharedPreferences.edit().putBoolean("2016_supporter", true).apply();
+                            sharedPreferences.edit().putBoolean("2017_supporter", true).apply();
                         }
 
                     }

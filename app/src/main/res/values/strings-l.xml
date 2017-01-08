@@ -91,8 +91,8 @@
     <string name="no_pictures">No Pictures</string>
     <string name="quick_actions">Quick Actions</string>
     <string name="liked_status">Like Successful</string>
-    <string name="become_supporter">Become a 2016 SUPPORTER</string>
-    <string name="are_supporter">You are a 2016 SUPPORTER!</string>
+    <string name="become_supporter">Become a 2017 SUPPORTER</string>
+    <string name="are_supporter">You are a 2017 SUPPORTER!</string>
     <string name="are_supporter_summary">Thanks! Your support is immensely appreciated. If there is anything I can do, don\'t hesitate to ask.</string>
     <string name="tweetmarker_disclaimer">Automatic TweetMarker will always refresh the timeline on startup of the app.</string>
     <string name="discover_people">People</string>
@@ -117,7 +117,7 @@
     <string name="background">Background</string>
     <string name="advanced">Advanced</string>
     <string name="data_saving_settings">Data Saving Options</string>
-    <string name="supporter_2016">2016 Supporter</string>
+    <string name="supporter_2016">2017 Supporter</string>
     <string name="app_style">App Style</string>
     <string name="in_app_browser">In-App Browser</string>
     <string name="location">Location</string>

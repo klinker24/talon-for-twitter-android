@@ -146,7 +146,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Love Talon?")
                 .setMessage(Html.fromHtml("Talon has been available for almost a year and a half now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.<br><br>" +
-                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2016 SUPPORTER to help out development!<br><br>" +
+                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2017 SUPPORTER to help out development!<br><br>" +
                         "I do want to be clear that becoming a supporter doesn't enhance the app or its feature set in any way. This is purely a voluntary contribution if you have enjoyed my work, like I know many of you have.<br><br>" +
                         "<b>So, why should I become a Supporter?</b>" +
                         "<ul>" +
@@ -154,7 +154,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
                         "<li>You understand that development is hard. I put all my free time into this product, and I think it shows! I hope you agree.</li>" +
                         "<li>You want the warm-fuzzy feeling that comes with giving a little extra for something that you enjoy and use every day.</li><br>" +
                         "</ul><br>" +
-                        "Even the $10 Supporter option is less than $1 per month for 2016. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
+                        "Even the $10 Supporter option is less than $1 per month for 2017. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
                         "Continue enjoying Talon either way, but I love when my users show me their support :)", null, new ListTagHandler()))
                 .setPositiveButton("$10", new DialogInterface.OnClickListener() {
                     @Override
