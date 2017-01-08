@@ -63,6 +63,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -204,10 +205,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             layout = R.layout.tweet_condensed;
         }
 
-
-        dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
+            dateFormatter = new SimpleDateFormat("EEE, MMM dd", Locale.getDefault());
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
