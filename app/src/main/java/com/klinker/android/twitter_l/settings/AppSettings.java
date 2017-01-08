@@ -384,10 +384,6 @@ public class AppSettings {
             inlinePics = true;
         }
 
-        if (picturesType == CONDENSED_TWEETS) {
-            absoluteDate = false;
-        }
-
         locale = sharedPrefs.getString("locale", "none");
 
         ringtone = sharedPrefs.getString("ringtone",
