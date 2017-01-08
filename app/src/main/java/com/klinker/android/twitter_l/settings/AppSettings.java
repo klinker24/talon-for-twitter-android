@@ -211,6 +211,7 @@ public class AppSettings {
     public int layout;
     public int currentAccount;
     public int textSize;
+    public int widgetTextSize;
     public int maxTweetsRefresh;
     public int timelineSize;
     public int mentionsSize;
@@ -416,6 +417,7 @@ public class AppSettings {
         theme = sharedPrefs.getInt("material_theme_" + currentAccount, DEFAULT_THEME);
         layout = LAYOUT_FULL_SCREEN;
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
+        widgetTextSize = Integer.parseInt(sharedPrefs.getString("widget_text_size", "14"));
         maxTweetsRefresh = Integer.parseInt(sharedPrefs.getString("max_tweets", "1"));
         timelineSize = Integer.parseInt(sharedPrefs.getString("timeline_size", "500"));
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));

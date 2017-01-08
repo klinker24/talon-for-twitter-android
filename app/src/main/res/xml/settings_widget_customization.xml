@@ -39,6 +39,13 @@
             android:title="@string/show_images_on_widget"
             android:defaultValue="true" />
 
+        <ListPreference
+            android:key="widget_text_size"
+            android:title="@string/timeline_text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
