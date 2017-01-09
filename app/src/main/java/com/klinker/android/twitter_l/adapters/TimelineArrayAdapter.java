@@ -223,6 +223,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
+        Locale locale = context.getResources().getConfiguration().locale;
+        if (locale != null && !locale.getLanguage().equals("en")) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        }
+
         if (!settings.condensedTweets()) {
             layout = R.layout.tweet;
         } else {
