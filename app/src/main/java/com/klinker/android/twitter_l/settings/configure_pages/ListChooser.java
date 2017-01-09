@@ -104,7 +104,7 @@ public class ListChooser extends AppCompatActivity {
             try {
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
-                ResponseList<UserList> lists = twitter.getUserLists(settings.myScreenName);
+                ResponseList<UserList> lists = twitter.getUserLists(settings.myId);
 
                 Collections.sort(lists, new Comparator<UserList>() {
                     public int compare(UserList result1, UserList result2) {

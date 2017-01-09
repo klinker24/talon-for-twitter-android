@@ -178,7 +178,7 @@ public class ListsActivity extends DrawerActivity {
 
                     final ResponseList<UserList> lists;
                     try {
-                        lists = twitter.getUserLists(settings.myScreenName);
+                        lists = twitter.getUserLists(settings.myId);
                     } catch (OutOfMemoryError e) {
                         return;
                     }
