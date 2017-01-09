@@ -87,7 +87,6 @@
         <SwitchPreference
             android:key="absolute_date"
             android:title="@string/absolute_date"
-            android:summary="@string/ignored_on_compact"
             android:defaultValue="false" />
 
     </PreferenceCategory>
