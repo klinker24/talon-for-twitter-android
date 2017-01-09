@@ -212,6 +212,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
+        Locale locale = context.getResources().getConfiguration().locale;
+        if (locale != null && !locale.getLanguage().equals("en")) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        }
+
         transparent = new ColorDrawable(context.getResources().getColor(android.R.color.transparent));
 
         Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
