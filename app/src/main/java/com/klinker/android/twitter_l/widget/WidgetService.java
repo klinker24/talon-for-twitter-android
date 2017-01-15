@@ -58,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class WidgetService extends RemoteViewsService {
     @Override
@@ -83,10 +84,16 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
         settings = AppSettings.getInstance(context);
 
-        dateFormatter = android.text.format.DateFormat.getMediumDateFormat(context);
+        dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
+            dateFormatter = new SimpleDateFormat("EEE, MMM dd", Locale.getDefault());
             timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+        Locale locale = context.getResources().getConfiguration().locale;
+        if (locale != null && !locale.getLanguage().equals("en")) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         }
     }
 
