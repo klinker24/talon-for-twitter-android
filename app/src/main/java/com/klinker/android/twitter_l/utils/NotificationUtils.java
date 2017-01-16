@@ -255,8 +255,12 @@ public class NotificationUtils {
 
             if ((TEST_NOTIFICATION || settings.notifications) && newC > 0) {
 
-                if (settings.vibrate) {
+                if (settings.vibrate && settings.led) {
+                    mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+                } else if (settings.vibrate) {
                     mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+                } else if (settings.led) {
+                    mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
                 }
 
                 if (settings.sound) {
@@ -266,9 +270,6 @@ public class NotificationUtils {
                         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     }
                 }
-
-                if (settings.led)
-                    mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
                 if (addButton) { // the reply and read button should be shown
 
@@ -745,10 +746,14 @@ public class NotificationUtils {
 
             if (settings.headsUp)
                 mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
-            if (settings.vibrate)
+
+            if (settings.vibrate && settings.led) {
+                mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+            } else if (settings.vibrate) {
                 mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
-            if (settings.led)
-                mBuilder.setLights(0xFFFFFF, 1000, 1000);
+            } else if (settings.led) {
+                mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
+            }
 
             if (settings.sound) {
                 try {
@@ -888,8 +893,12 @@ public class NotificationUtils {
             mBuilder.setStyle(inbox);
         }
 
-        if (settings.vibrate) {
+        if (settings.vibrate && settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        } else if (settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
         if (settings.sound) {
@@ -900,11 +909,7 @@ public class NotificationUtils {
             }
         }
 
-        if (settings.led)
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
-
         if (settings.notifications) {
-
             NotificationManagerCompat notificationManager =
                     NotificationManagerCompat.from(context);
 
@@ -1093,8 +1098,12 @@ public class NotificationUtils {
             }
         }
 
-        if (settings.vibrate) {
+        if (settings.vibrate && settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        } else if (settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
         if (settings.sound) {
@@ -1104,9 +1113,6 @@ public class NotificationUtils {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
-
-        if (settings.led)
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
 
@@ -1276,10 +1282,15 @@ public class NotificationUtils {
             AppSettings settings = AppSettings.getInstance(context);
             if (settings.headsUp)
                 builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-            if (settings.vibrate)
+
+            if (settings.vibrate && settings.led) {
+                builder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+            } else if (settings.vibrate) {
                 builder.setDefaults(Notification.DEFAULT_VIBRATE);
-            if (settings.led)
-                builder.setLights(0xFFFFFF, 1000, 1000);
+            } else if (settings.led) {
+                builder.setDefaults(Notification.DEFAULT_LIGHTS);
+            }
+
             if (settings.sound) {
                 try {
                     builder.setSound(Uri.parse(settings.ringtone));
@@ -1420,10 +1431,13 @@ public class NotificationUtils {
             mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(Html.fromHtml(settings.addonTheme ? text.replaceAll("FF8800", settings.accentColor) : text)));
         }
 
-        if (settings.vibrate) {
+        if (settings.vibrate && settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        } else if (settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
-
         if (settings.sound) {
             try {
                 mBuilder.setSound(Uri.parse(settings.ringtone));
@@ -1431,9 +1445,6 @@ public class NotificationUtils {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
-
-        if (settings.led)
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         if (settings.notifications) {
 
@@ -1545,8 +1556,12 @@ public class NotificationUtils {
         // Light Flow notification
         sendToLightFlow(context, shortText, shortText);
 
-        if (settings.vibrate) {
+        if (settings.vibrate && settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else if (settings.vibrate) {
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+        } else if (settings.led) {
+            mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
@@ -1561,9 +1576,6 @@ public class NotificationUtils {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
-
-        if (settings.led)
-            mBuilder.setLights(0xFFFFFF, 1000, 1000);
 
         // Get an instance of the NotificationManager service
         NotificationManagerCompat notificationManager =
