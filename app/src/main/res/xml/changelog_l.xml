@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="5.8.1">
+        <text>Improvements for the article viewer, on some websites</text>
+        <text>Improvements/fixes for the LED on notifications</text>
+    </version>
+
     <version name="5.8.0">
         <text>If you love my work, become a 2017 supporter from the settings menu!</text>
         <text>Search all the users on Twitter when auto-completing a mention in a tweet</text>
