@@ -208,7 +208,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
-            dateFormatter = new SimpleDateFormat("EEE, MMM dd", Locale.getDefault());
+            dateFormatter = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault());
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
