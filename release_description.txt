@@ -1,1 +1,1 @@
-New with v5.8.0: the app will now search all of Twitter when auto-completing users to mention, instead of just your followers! It also adds an option to change the font size on the widget separate from the app, allows you to use the "absolute date" format on the compact layouts, and improves on the absolute date format. Enjoy!
+v5.8.1 comes with improvements to detailed quoted tweets, the article viewer, and some fixes for the LED not working. ICYMI, the latest update also added the ability to search all of Twitter for users, when mentioning them in a tweet!

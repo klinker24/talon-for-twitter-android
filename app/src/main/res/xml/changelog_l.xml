@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="5.8.1">
+        <text>Improvements to the detailed style of quoted tweet on the timeline</text>
         <text>Improvements for the article viewer, on some websites</text>
         <text>Improvements/fixes for the LED on notifications</text>
     </version>
