@@ -796,7 +796,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                QuotedTweetView v = new QuotedTweetView(context, embedded);
+                                TweetView v = QuotedTweetView.create(context, embedded);
                                 v.setDisplayProfilePicture(!settings.condensedTweets());
                                 v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                 v.setSmallImage(true);
