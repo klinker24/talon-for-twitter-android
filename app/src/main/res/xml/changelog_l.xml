@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.8.2">
+        <text>Performance improvements for in-line video playback</text>
+    </version>
+
     <version name="5.8.1">
         <text>Improvements to the detailed style of quoted tweet on the timeline</text>
         <text>Improvements for the article viewer, on some websites</text>
