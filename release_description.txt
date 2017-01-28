@@ -1,1 +1,1 @@
-v5.8.1 comes with improvements to detailed quoted tweets, the article viewer, and some fixes for the LED not working. ICYMI, the latest update also added the ability to search all of Twitter for users, when mentioning them in a tweet!
+v5.8.2 comes with performance improvements to the in-line video and GIF playback! ICYMI, the latest update also added the ability to search all of Twitter for users, when mentioning them in a tweet!
