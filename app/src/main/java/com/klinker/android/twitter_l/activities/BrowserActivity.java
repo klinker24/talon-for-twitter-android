@@ -200,9 +200,21 @@ public class BrowserActivity extends AppCompatActivity {
     class WebClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-            webView.loadUrl(url);
-            getIntent().putExtra("url", url);
-            return true;
+            if (url.contains("twitter://")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                try {
+                    startActivity(intent);
+                } catch (Exception e) { }
+
+                return false;
+            } else {
+                webView.loadUrl(url);
+                getIntent().putExtra("url", url);
+
+                return true;
+            }
         }
     }
 }
