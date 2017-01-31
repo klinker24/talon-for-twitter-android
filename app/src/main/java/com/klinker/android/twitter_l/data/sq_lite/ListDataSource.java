@@ -341,7 +341,8 @@ public class ListDataSource {
             count = statement.simpleQueryForLong();
         }
         Log.v("talon_database", "list database has " + count + " entries");
-        if (count > 400) {
+        int maxListSize = AppSettings.getInstance(context).listSize;
+        if (count > maxListSize) {
             try {
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
                         allColumns,
@@ -350,7 +351,7 @@ public class ListDataSource {
                         null,
                         null,
                         ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
-                        (count - 400) + "," + 400);
+                        (count - maxListSize) + "," + maxListSize);
             } catch (Exception e) {
                 open();
                 cursor = database.query(ListSQLiteHelper.TABLE_HOME,
@@ -360,7 +361,7 @@ public class ListDataSource {
                         null,
                         null,
                         ListSQLiteHelper.COLUMN_TWEET_ID + " ASC",
-                        (count - 400) + "," + 400);
+                        (count - maxListSize) + "," + maxListSize);
             }
         } else {
             try {
