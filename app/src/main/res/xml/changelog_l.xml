@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.8.3">
+        <text>Fix list swipable pages being limited to 400 tweets</text>
+    </version>
+
     <version name="5.8.2">
         <text>Performance improvements for in-line video playback</text>
     </version>
