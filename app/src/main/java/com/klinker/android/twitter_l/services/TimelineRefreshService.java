@@ -176,7 +176,7 @@ public class TimelineRefreshService extends LimitedRunService {
                 sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
                 if (settings.notifications && (settings.timelineNot || settings.favoriteUserNotifications) && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
-                    NotificationUtils.refreshNotification(context, !settings.timelineNot);
+                    NotificationUtils.refreshNotification(context);
                 }
 
                 if (settings.preCacheImages) {
