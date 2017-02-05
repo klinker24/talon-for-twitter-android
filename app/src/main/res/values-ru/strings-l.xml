@@ -150,7 +150,4 @@
     <string name="auto_dismiss_summary">Не отображать уведомления, когда приложение открыто. Включено по умолчанию.</string>
     <string name="media">Пользовательские медиа-данные</string>
     <string name="ignored_on_compact">Эти настройки будут игнорироваться при компактном стиле.</string>
-    <string name="quote_style">Стиль цитаты</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

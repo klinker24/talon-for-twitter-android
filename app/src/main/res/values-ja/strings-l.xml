@@ -130,7 +130,4 @@
     <string name="show_images_on_widget">ウィジェットで画像を表示</string>
     <string name="media">ユーザーのメディア</string>
     <string name="ignored_on_compact">この設定はコンパクトレイアウトをオンにしている場合は無視されます。</string>
-    <string name="quote_style">引用スタイル</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

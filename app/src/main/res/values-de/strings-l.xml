@@ -124,7 +124,4 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="widget_material_dark">Material Design dunkel</string>
     <string name="media">Medien des Nutzers</string>
     <string name="ignored_on_compact">Diese Einstellung wird im kompakten Layout ignoriert.</string>
-    <string name="quote_style">Zitat-Aussehen</string>
-    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
