@@ -76,7 +76,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="download_gif">GIF herunterladen</string>
     <string name="error_downloading_video">Fehler beim Herunterladen des Videos</string>
     <string name="saving_video">Speichere</string>
-    <string name="saved_video">Speichern abgeschlossen</string>
+    <string name="saved_video">Speichern erfolgreich</string>
     <string name="encoding_gif">Erzeuge GIF…</string>
     <string name="scroll_options">Scroll-Optionen</string>
     <string name="static_ui_title">Statische Oberfläche</string>
@@ -92,11 +92,11 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="liked_status">Fav erfolgreich</string>
     <string name="become_supporter">Werde ein 2016er Unterstützer!</string>
     <string name="are_supporter">Du bist ein 2016er Unterstützer!</string>
-    <string name="are_supporter_summary">Vielen Dank! Deine Unterstützung wird enorm gewertschätzt! Wenn es irgendetwas gibt was ich für Dich tun kann, zögere nicht zu fragen!</string>
+    <string name="are_supporter_summary">Vielen Dank! Deine Unterstützung wird enorm wertgeschätzt! Wenn es irgendetwas gibt was ich für Dich tun kann, zögere nicht zu fragen!</string>
     <string name="tweetmarker_disclaimer">Das Einschalten von TweetMarker wird beim Start der App immer die Timeline auffrischen.</string>
     <string name="discover_people">Leute</string>
     <string name="high_quality_images">Lade Bilder in höherer Auflösung</string>
-    <string name="high_quality_images_summary">Gilt für die gesamte App.</string>
+    <string name="high_quality_images_summary">Wird durchgehend in der App angewendet.</string>
     <string name="view_likes">Zeige Favs</string>
     <string name="view_retweets">Zeige Retweets</string>
     <string name="list_size">Listengröße</string>
@@ -124,4 +124,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="widget_material_dark">Material Design dunkel</string>
     <string name="media">Medien des Nutzers</string>
     <string name="ignored_on_compact">Diese Einstellung wird im kompakten Layout ignoriert.</string>
+    <string name="quote_style">Zitat-Aussehen</string>
+    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
