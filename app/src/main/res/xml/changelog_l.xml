@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="5.8.4">
+        <text>Update translations</text>
+        <text>Update dependencies</text>
+        <text>Crash fixes</text>
+    </version>
+
     <version name="5.8.3">
         <text>Fix list swipable pages being limited to 400 tweets</text>
     </version>
