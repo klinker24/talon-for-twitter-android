@@ -261,7 +261,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
                 final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
                 List<Integer> pageTypes = new ArrayList<Integer>();
                 List<String> pageNames = new ArrayList<String>();
                 List<String> searches = new ArrayList<String>();
@@ -282,6 +281,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         searches.add(sharedPrefs.getString(searchIdentifier, ""));
                     }
                 }
+
                 for (int i = 0; i < pageTypes.size(); i++) {
                     switch (pageTypes.get(i)) {
                         case AppSettings.PAGE_TYPE_HOME:
@@ -369,6 +369,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
     public String getName(String listName, int type) {
         switch (type) {
+            case AppSettings.PAGE_TYPE_USER_TWEETS:
             case AppSettings.PAGE_TYPE_LIST:
                 return listName;
             case AppSettings.PAGE_TYPE_LINKS:

@@ -227,18 +227,20 @@
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TalonLight.Tweet.Launcher"
-            />
+            android:theme="@style/Theme.TalonLight.Tweet.Launcher" />
 
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.ListChooser"
             android:label="@string/lists"
+            android:theme="@style/Theme.TalonLight.Launcher" />
+
+        <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.UserChooser"
+            android:label="@string/user_tweets"
             android:theme="@style/Theme.TalonLight.Launcher"
-            />
-S
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+
         <activity android:name="com.klinker.android.twitter_l.settings.configure_pages.SearchChooser"
             android:label="@string/saved_searches"
-            android:theme="@style/Theme.TalonLight.Launcher"
-            />
+            android:theme="@style/Theme.TalonLight.Launcher" />
 
         <activity android:name="com.klinker.android.twitter_l.activities.search.SearchPager"
             android:label="@string/app_name"

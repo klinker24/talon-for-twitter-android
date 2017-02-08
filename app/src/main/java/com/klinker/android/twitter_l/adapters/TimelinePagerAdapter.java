@@ -46,6 +46,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
     private SystemBarVisibility watcher;
 
     public List<Long> listIds = new ArrayList<Long>(); // 0 is the furthest to the left
+    public List<Long> userIds = new ArrayList<>();
     public List<Integer> pageTypes = new ArrayList<Integer>();
     public List<String> pageNames = new ArrayList<String>();
     public List<String> searches = new ArrayList<String>();
@@ -66,6 +67,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
         for (int i = 0; i < MAX_EXTRA_PAGES; i++) {
             String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";
+            String userIdentifier = "account_" + currentAccount + "_user_tweets_" + (i + 1) + "_long";
             String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
             String nameIdentifier = "account_" + currentAccount + "_name_" + (i + 1);
             String searchIdentifier = "account_" + currentAccount + "_search_" + (i + 1);
@@ -76,6 +78,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     !(removeHome && type == AppSettings.PAGE_TYPE_HOME)) {
                 pageTypes.add(type);
                 listIds.add(sharedPrefs.getLong(listIdentifier, 0l));
+                userIds.add(sharedPrefs.getLong(userIdentifier, 0l));
                 pageNames.add(sharedPrefs.getString(nameIdentifier, ""));
                 searches.add(sharedPrefs.getString(searchIdentifier, ""));
             }
@@ -126,9 +129,27 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     names.add(context.getString(R.string.activity));
                     mentionIndex = i;
                     break;
+                case AppSettings.PAGE_TYPE_LIST:
+                    b = new Bundle();
+                    b.putLong("list_id", listIds.get(i));
+                    f = new ListFragment();
+                    f.setArguments(b);
+
+                    frags.add(f);
+                    names.add(pageNames.get(i));
+                    break;
+                case AppSettings.PAGE_TYPE_USER_TWEETS:
+                    b = new Bundle();
+                    b.putLong("user_id", userIds.get(i));
+                    f = new UserTweetsFragment();
+                    f.setArguments(b);
+
+                    frags.add(f);
+                    names.add(pageNames.get(i));
+                    break;
                 default:
-                    frags.add(getFrag(pageTypes.get(i), listIds.get(i)));
-                    names.add(getName(pageNames.get(i), pageTypes.get(i)));
+                    frags.add(getFrag(pageTypes.get(i), -1L));
+                    names.add(getName(pageTypes.get(i)));
                     break;
             }
         }
@@ -167,15 +188,6 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
 
     public MainFragment getFrag(int type, long listId) {
         switch (type) {
-            case AppSettings.PAGE_TYPE_LIST:
-                MainFragment f = new ListFragment();
-
-                Bundle b = new Bundle();
-                b.putLong("list_id", listId);
-
-                f.setArguments(b);
-
-                return f;
             case AppSettings.PAGE_TYPE_LINKS:
                 return new LinksFragment();
             case AppSettings.PAGE_TYPE_PICS:
@@ -187,10 +199,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
-    public String getName(String listName, int type) {
+    public String getName(int type) {
         switch (type) {
-            case AppSettings.PAGE_TYPE_LIST:
-                return listName;
             case AppSettings.PAGE_TYPE_LINKS:
                 return context.getResources().getString(R.string.links);
             case AppSettings.PAGE_TYPE_PICS:

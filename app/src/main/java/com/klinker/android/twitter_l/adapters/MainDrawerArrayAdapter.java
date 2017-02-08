@@ -44,6 +44,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
     public int textSize;
 
     public List<Long> listIds = new ArrayList<Long>(); // 0 is the furthest to the left
+    public List<Long> userIds = new ArrayList<Long>(); // 0 is the furthest to the left
     public List<Integer> pageTypes = new ArrayList<Integer>();
     public List<String> pageNames = new ArrayList<String>();
     public List<String> searchPages = new ArrayList<String>();
@@ -73,13 +74,13 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         this.context = (Activity) context;
         this.sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
         textSize = 15;
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
             String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";
+            String userIdentifier = "account_" + currentAccount + "_user_tweets_" + (i + 1) + "_long";
             String pageIdentifier = "account_" + currentAccount + "_page_" + (i + 1);
             String nameIdentifier = "account_" + currentAccount + "_name_" + (i + 1);
             String searchIdentifier = "account_" + currentAccount + "_search_" + (i + 1);
@@ -89,6 +90,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
             if (type != AppSettings.PAGE_TYPE_NONE) {
                 pageTypes.add(type);
                 listIds.add(sharedPrefs.getLong(listIdentifier, 0l));
+                userIds.add(sharedPrefs.getLong(userIdentifier, 0l));
                 pageNames.add(sharedPrefs.getString(nameIdentifier, ""));
                 searchNames.add(sharedPrefs.getString(searchIdentifier, ""));
             }
@@ -96,42 +98,26 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
 
         for (int i = 0; i < pageTypes.size(); i++) {
             switch (pageTypes.get(i)) {
-                case AppSettings.PAGE_TYPE_HOME:
-                    text.add(context.getResources().getString(R.string.timeline));
-                    break;
-                case AppSettings.PAGE_TYPE_MENTIONS:
-                    text.add(context.getResources().getString(R.string.mentions));
-                    break;
-                case AppSettings.PAGE_TYPE_DMS:
-                    text.add(context.getResources().getString(R.string.direct_messages));
-                    break;
                 case AppSettings.PAGE_TYPE_SECOND_MENTIONS:
                     text.add(AppSettings.getInstance(context).secondScreenName);
-                    break;
-                case AppSettings.PAGE_TYPE_WORLD_TRENDS:
-                    text.add(context.getResources().getString(R.string.world_trends));
-                    break;
-                case AppSettings.PAGE_TYPE_LOCAL_TRENDS:
-                    text.add(context.getString(R.string.local_trends));
                     break;
                 case AppSettings.PAGE_TYPE_SAVED_SEARCH:
                     text.add(searchNames.get(i));
                     searchPages.add(pageNames.get(i));
                     break;
-                case AppSettings.PAGE_TYPE_ACTIVITY:
-                    text.add(context.getString(R.string.activity));
-                    break;
-                case AppSettings.PAGE_TYPE_FAVORITE_STATUS:
-                    text.add(context.getString(R.string.favorite_tweets));
+                case AppSettings.PAGE_TYPE_LIST:
+                case AppSettings.PAGE_TYPE_USER_TWEETS:
+                    text.add(pageNames.get(i));
                     break;
                 default:
-                    text.add(getName(pageNames.get(i), pageTypes.get(i)));
+                    text.add(getName(pageTypes.get(i)));
                     break;
             }
         }
 
         for (String s : getItems(context)) {
             text.add(s);
+            pageTypes.add(-1);
         }
 
         shownItems = sharedPrefs.getStringSet("drawer_elements_shown_" + currentAccount, new HashSet<String>());
@@ -139,6 +125,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         for (int i = text.size() - 1; i >= 0; i--) {
             if (!shownItems.contains(i + "")) {
                 text.remove(i);
+                pageTypes.remove(i);
             }
         }
     }
@@ -171,86 +158,53 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         holder.name.setText(settingName);
 
         try {
-            if (text.get(position).equals(context.getResources().getString(R.string.timeline))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.timelineItem});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.mentions)) || text.get(position).equals(AppSettings.getInstance(context).secondScreenName)) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.mentionItem});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.direct_messages))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.directMessageItem});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.retweets))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.retweetButton});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_tweets))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.heart_button});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.favorite_users)) ||
-                    text.get(position).equals(context.getString(R.string.favorite_users_tweets))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.favUser});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.discover)) ||
-                    text.get(position).equals(context.getString(R.string.world_trends)) ||
-                    text.get(position).equals(context.getString(R.string.local_trends))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.drawerTrends});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.search))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.search_icon});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.lists))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.saved_searches)) ||
-                    pageTypes.get(position) == AppSettings.PAGE_TYPE_SAVED_SEARCH) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.search_icon});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.links))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.links});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if (text.get(position).equals(context.getResources().getString(R.string.pictures))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.picturePlaceholder});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
-            } else if(text.get(position).equals(context.getString(R.string.activity))) {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.notification_button});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
+            int iconRes = -1;
+
+            int pageType = pageTypes.get(position);
+            String pageName = text.get(position);
+
+            if (pageType == AppSettings.PAGE_TYPE_HOME) {
+                iconRes = R.attr.timelineItem;
+            } else if (pageType == AppSettings.PAGE_TYPE_MENTIONS || pageType == AppSettings.PAGE_TYPE_SECOND_MENTIONS) {
+                iconRes = R.attr.mentionItem;
+            } else if (pageType == AppSettings.PAGE_TYPE_DMS) {
+                iconRes = R.attr.directMessageItem;
+            } else if (pageName.equals(context.getResources().getString(R.string.retweets))) {
+                iconRes = R.attr.retweetButton;
+            } else if (pageName.equals(context.getResources().getString(R.string.favorite_tweets))) {
+                iconRes = R.attr.heart_button;
+            } else if (pageName.equals(context.getResources().getString(R.string.favorite_users)) || pageType == AppSettings.PAGE_TYPE_FAV_USERS || pageType == AppSettings.PAGE_TYPE_USER_TWEETS) {
+                iconRes = R.attr.favUser;
+            } else if (pageName.equals(context.getResources().getString(R.string.discover)) || pageName.equals(context.getString(R.string.world_trends)) || pageName.equals(context.getString(R.string.local_trends))) {
+                iconRes = R.attr.drawerTrends;
+            } else if (text.get(position).equals(context.getResources().getString(R.string.lists)) || pageType == AppSettings.PAGE_TYPE_LIST) {
+                iconRes = R.attr.listIcon;
+            } else if (pageName.equals(context.getResources().getString(R.string.saved_searches)) || pageTypes.get(position) == AppSettings.PAGE_TYPE_SAVED_SEARCH) {
+                iconRes = R.attr.search_icon;
+            } else if (pageType == AppSettings.PAGE_TYPE_LINKS) {
+                iconRes = R.attr.links;
+            } else if (pageType == AppSettings.PAGE_TYPE_PICS) {
+                iconRes = R.attr.picturePlaceholder;
+            } else if (pageType == AppSettings.PAGE_TYPE_ACTIVITY) {
+                iconRes = R.attr.notification_button;
+            } else {
+                iconRes = R.attr.favUser;
+            }
+
+            if (pageType == AppSettings.PAGE_TYPE_ACTIVITY) {
                 if (AppSettings.getInstance(context).darkTheme) {
-                     holder.icon.setAlpha(.8f);
+                    holder.icon.setAlpha(.8f);
                 } else {
                     holder.icon.setAlpha(.6f);
                 }
             } else {
-                TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.listIcon});
-                int resource = a.getResourceId(0, 0);
-                a.recycle();
-                holder.icon.setImageResource(resource);
+                holder.icon.setAlpha(1.0f);
             }
+
+            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{iconRes});
+            int resource = a.getResourceId(0, 0);
+            a.recycle();
+            holder.icon.setImageResource(resource);
         } catch (Exception e) {
 
         }
@@ -280,7 +234,6 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         Set<String> shownItems = sharedPrefs.getStringSet("drawer_elements_shown_" + currentAccount, new HashSet<String>());
@@ -291,10 +244,22 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
         }
     }
 
-    public String getName(String listName, int type) {
+    public String getName(int type) {
         switch (type) {
-            case AppSettings.PAGE_TYPE_LIST:
-                return listName;
+            case AppSettings.PAGE_TYPE_HOME:
+                return context.getResources().getString(R.string.timeline);
+            case AppSettings.PAGE_TYPE_MENTIONS:
+                return context.getResources().getString(R.string.mentions);
+            case AppSettings.PAGE_TYPE_DMS:
+                return context.getResources().getString(R.string.direct_messages);
+            case AppSettings.PAGE_TYPE_WORLD_TRENDS:
+                return context.getResources().getString(R.string.world_trends);
+            case AppSettings.PAGE_TYPE_LOCAL_TRENDS:
+                return context.getString(R.string.local_trends);
+            case AppSettings.PAGE_TYPE_ACTIVITY:
+                return context.getString(R.string.activity);
+            case AppSettings.PAGE_TYPE_FAVORITE_STATUS:
+                return context.getString(R.string.favorite_tweets);
             case AppSettings.PAGE_TYPE_LINKS:
                 return context.getResources().getString(R.string.links);
             case AppSettings.PAGE_TYPE_PICS:

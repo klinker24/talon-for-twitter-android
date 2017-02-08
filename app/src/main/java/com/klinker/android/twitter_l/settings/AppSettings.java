@@ -92,6 +92,7 @@ public class AppSettings {
     public static final int PAGE_TYPE_SAVED_SEARCH = 11;
     public static final int PAGE_TYPE_ACTIVITY = 12;
     public static final int PAGE_TYPE_FAVORITE_STATUS = 13;
+    public static final int PAGE_TYPE_USER_TWEETS = 14;
 
     public static final int LAYOUT_TALON = 0;
     public static final int LAYOUT_HANGOUT = 1;
@@ -217,6 +218,7 @@ public class AppSettings {
     public int mentionsSize;
     public int dmSize;
     public int listSize;
+    public int userTweetsSize;
     public int numberOfAccounts = 0;
     public int pageToOpen;
     public int quoteStyle;
@@ -419,6 +421,7 @@ public class AppSettings {
         mentionsSize = Integer.parseInt(sharedPrefs.getString("mentions_size", "100"));
         dmSize = Integer.parseInt(sharedPrefs.getString("dm_size", "100"));
         listSize = Integer.parseInt(sharedPrefs.getString("list_size", "200"));
+        userTweetsSize = Integer.parseInt(sharedPrefs.getString("user_tweets_size", "200"));
         pageToOpen = Integer.parseInt(sharedPrefs.getString("viewer_page", "0"));
         quoteStyle = Integer.parseInt(sharedPrefs.getString("quote_style", "0"));
         navBarOption = Integer.parseInt(sharedPrefs.getString("nav_bar_option", "0"));

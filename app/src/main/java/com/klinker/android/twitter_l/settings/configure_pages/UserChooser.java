@@ -1,0 +1,131 @@
+package com.klinker.android.twitter_l.settings.configure_pages;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Display;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
+import android.widget.ListView;
+
+import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.adapters.AutoCompleteUserArrayAdapter;
+import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
+import com.klinker.android.twitter_l.utils.UserAutoCompleteHelper;
+import com.klinker.android.twitter_l.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import twitter4j.Twitter;
+import twitter4j.User;
+import twitter4j.UserList;
+
+public class UserChooser extends AppCompatActivity {
+
+    private AppSettings settings;
+    private android.support.v7.app.ActionBar actionBar;
+
+    private List<User> users = new ArrayList<>();
+    private EditText user;
+    private ListPopupWindow userAutoComplete;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        settings = AppSettings.getInstance(this);
+
+        Utils.setUpTheme(this, settings);
+        setContentView(R.layout.user_chooser);
+
+        actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.user_tweets));
+
+        user = (EditText) findViewById(R.id.user);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        userAutoComplete = new ListPopupWindow(this);
+        userAutoComplete.setHeight(Utils.toDP(200, this));
+        userAutoComplete.setWidth((int)(width * .75));
+        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
+
+        user.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override public void afterTextChanged(Editable editable) { }
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String tvText = user.getText().toString();
+
+                try {
+                    search(tvText);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    userAutoComplete.dismiss();
+                }
+            }
+        });
+
+        userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("userId", users.get(i).getId());
+                returnIntent.putExtra("name", users.get(i).getName());
+                setResult(RESULT_OK,returnIntent);
+                finish();
+            }
+        });
+
+        user.post(new Runnable() {
+            @Override
+            public void run() {
+                userAutoComplete.setAnchorView(user);
+                userAutoComplete.show();
+            }
+        });
+
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            View status = findViewById(R.id.activity_status_bar);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
+            params.height = Utils.getStatusBarHeight(this);
+            status.setLayoutParams(params);
+
+            status.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void search(final String screenName) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Twitter twitter = Utils.getTwitter(UserChooser.this, AppSettings.getInstance(UserChooser.this));
+
+                try {
+                    users = twitter.searchUsers("@" + screenName, 0);
+                } catch (Exception e) { }
+
+                UserChooser.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        userAutoComplete.setAdapter(new AutoCompleteUserArrayAdapter(UserChooser.this, users));
+                    }
+                });
+            }
+        }).start();
+    }
+}
