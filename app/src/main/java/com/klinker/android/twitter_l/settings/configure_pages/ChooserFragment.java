@@ -85,6 +85,7 @@ public class ChooserFragment extends Fragment {
         list.add(getString(R.string.saved_search));
         list.add(getString(R.string.activity));
         list.add(getString(R.string.favorite_tweets));
+        list.add(context.getString(R.string.user_tweets));
 
         View layout = inflater.inflate(R.layout.configuration_page, null);
 
@@ -118,13 +119,15 @@ public class ChooserFragment extends Fragment {
 
         if (type != AppSettings.PAGE_TYPE_NONE) {
             String listIdentifier = "account_" + curr + "_list_" + (position + 1) + "_long";
+            String userIdentifier = "account_" + curr + "_user_tweets_" + (position + 1) + "_long";
             String nameIdentifier = "account_" + curr + "_name_" + (position + 1);
             String searchIdentifier = "account_" + curr + "_search_" + (position + 1);
 
             setType(type);
-            setListName(sharedPrefs.getString(nameIdentifier, ""));
+            setName(sharedPrefs.getString(nameIdentifier, ""));
             setSearchQuery(sharedPrefs.getString(searchIdentifier, ""));
-            setId(sharedPrefs.getLong(listIdentifier, 0l));
+            setListId(sharedPrefs.getLong(listIdentifier, 0l));
+            setUserId(sharedPrefs.getLong(userIdentifier, 0l));
         }
 
         switch (type) {
@@ -166,6 +169,9 @@ public class ChooserFragment extends Fragment {
                 break;
             case AppSettings.PAGE_TYPE_ACTIVITY:
                 spinner.setSelection(12);
+                break;
+            case AppSettings.PAGE_TYPE_USER_TWEETS:
+                spinner.setSelection(14);
                 break;
             default:
                 spinner.setSelection(0);
@@ -218,14 +224,15 @@ public class ChooserFragment extends Fragment {
                         chooser = new Intent(context, SearchChooser.class);
                         startActivityForResult(chooser, REQUEST_SAVED_SEARCH);
                         break;
-                    case 12:
-                        setType(AppSettings.PAGE_TYPE_ACTIVITY);
-                        break;
                     case 13:
                         setType(AppSettings.PAGE_TYPE_FAVORITE_STATUS);
                         break;
+                    case 14:
+                        chooser = new Intent(context, UserChooser.class);
+                        startActivityForResult(chooser, REQUEST_USER);
+                        break;
                     default:
-                        setType(AppSettings.PAGE_TYPE_NONE);
+                        setType(position);
                         break;
                 }
             }
@@ -246,52 +253,76 @@ public class ChooserFragment extends Fragment {
         return layout;
     }
 
-    public static int REQUEST_LIST = 1;
-    public static int REQUEST_SAVED_SEARCH = 2;
+    public static final int REQUEST_LIST = 1;
+    public static final int REQUEST_SAVED_SEARCH = 2;
+    public static final int REQUEST_USER = 3;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_LIST) {
             if(resultCode == Activity.RESULT_OK) {
-                setId(data.getLongExtra("listId", 0));
-                String listName = data.getStringExtra("listName");
-                setListName(listName);
+                setListId(data.getLongExtra("listId", 0));
+                setUserId(0);
+                String listName = data.getStringExtra("name");
+                setName(listName);
                 setSearchQuery("");
                 setType(AppSettings.PAGE_TYPE_LIST);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 setType(AppSettings.PAGE_TYPE_NONE);
-                setListName("");
-                setId(0);
+                setName("");
+                setListId(0);
+                setUserId(0);
                 setSearchQuery("");
             }
         } else if (requestCode == REQUEST_SAVED_SEARCH) {
             if (resultCode == Activity.RESULT_OK) {
                 setSearchQuery(data.getStringExtra("search_query"));
                 setType(AppSettings.PAGE_TYPE_SAVED_SEARCH);
-                setListName("");
-                setId(0);
+                setName("");
+                setUserId(0);
+                setListId(0);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 setType(AppSettings.PAGE_TYPE_NONE);
                 setSearchQuery("");
-                setListName("");
-                setId(0);
+                setName("");
+                setUserId(0);
+                setListId(0);
+            }
+        } else if (requestCode == REQUEST_USER) {
+            if (resultCode == Activity.RESULT_OK) {
+                setUserId(data.getLongExtra("userId", 0));
+                String listName = data.getStringExtra("name");
+                setListId(0);
+                setName(listName);
+                setSearchQuery("");
+                setType(AppSettings.PAGE_TYPE_USER_TWEETS);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                setType(AppSettings.PAGE_TYPE_NONE);
+                setName("");
+                setListId(0);
+                setUserId(0);
+                setSearchQuery("");
             }
         }
     }
 
     public int type = AppSettings.PAGE_TYPE_NONE;
     public long listId = 0;
-    public String listName = "";
+    public long userId = 0;
+    public String name = "";
     public String searchQuery = "";
 
     protected void setType(int type) {
         this.type = type;
     }
-    protected void setId(long id) {
+    protected void setListId(long id) {
         this.listId = id;
     }
-    protected void setListName(String listName) {
-        this.listName = listName;
+    protected void setUserId(long id) {
+        this.userId = id;
+    }
+    protected void setName(String listName) {
+        this.name = listName;
     }
     protected void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;

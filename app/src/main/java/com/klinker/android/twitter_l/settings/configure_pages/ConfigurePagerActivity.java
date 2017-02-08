@@ -139,7 +139,8 @@ public class ConfigurePagerActivity extends AppCompatActivity {
                                 int num = i + 1;
                                 editor.putInt("account_" + currentAccount + "_page_" + num, f.type);
                                 editor.putLong("account_" + currentAccount + "_list_" + num + "_long", f.listId);
-                                editor.putString("account_" + currentAccount + "_name_" + num, f.listName);
+                                editor.putLong("account_" + currentAccount + "_user_tweets_" + num + "_long", f.userId);
+                                editor.putString("account_" + currentAccount + "_name_" + num, f.name);
                                 editor.putString("account_" + currentAccount + "_search_" + num, f.searchQuery);
 
                                 if (f.check != null && f.check.isChecked()) {

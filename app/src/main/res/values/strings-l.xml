@@ -176,4 +176,7 @@
     <string name="browser_selection">Web Browser</string>
     <string name="article_enhancer">Article Enhancer (Readability)</string>
     <string name="compact_layout_no_pictures">Compact Tweets (No Pictures)</string>
+    <string name="user_tweets">Selected User\'s Tweets</string>
+    <string name="user_tweets_size">User Page Size</string>
+    <string name="user_tweets_size_summary">Max number of tweets to store for a swipable user page, in the database.</string>
 </resources>

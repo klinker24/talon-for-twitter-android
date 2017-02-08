@@ -76,7 +76,7 @@ public class ListChooser extends AppCompatActivity {
                 UserList list = arrayAdapter.getItem(i);
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("listId", list.getId());
-                returnIntent.putExtra("listName", list.getName());
+                returnIntent.putExtra("name", list.getName());
                 setResult(RESULT_OK,returnIntent);
                 finish();
             }

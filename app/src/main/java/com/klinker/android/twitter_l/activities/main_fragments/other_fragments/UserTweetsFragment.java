@@ -19,8 +19,7 @@ import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
-import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter_l.services.ListRefreshService;
+import com.klinker.android.twitter_l.data.sq_lite.UserTweetsDataSource;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -32,12 +31,12 @@ import twitter4j.Status;
 
 public class UserTweetsFragment extends MainFragment {
 
-    public static final int LIST_REFRESH_ID = 122;
+    public static final int USER_TWEETS_REFRESH_ID = 1575;
 
     public boolean newTweets = false;
 
     public UserTweetsFragment() {
-        this.listId = 0;
+        this.userId = 0;
     }
 
     public BroadcastReceiver resetLists = new BroadcastReceiver() {
@@ -49,7 +48,7 @@ public class UserTweetsFragment extends MainFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        listId = getArguments().getLong("list_id", 0l);
+        userId = getArguments().getLong("user_id", 0l);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -58,13 +57,13 @@ public class UserTweetsFragment extends MainFragment {
         super.onResume();
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.RESET_LISTS");
-        filter.addAction("com.klinker.android.twitter.LIST_REFRESHED_" + listId);
+        filter.addAction("com.klinker.android.twitter.RESET_USER");
+        filter.addAction("com.klinker.android.twitter.USER_REFRESHED_" + userId);
         context.registerReceiver(resetLists, filter);
 
-        if (sharedPrefs.getBoolean("refresh_me_list_" + listId, false)) { // this will restart the loader to display the new tweets
+        if (sharedPrefs.getBoolean("refresh_me_user_" + userId, false)) { // this will restart the loader to display the new tweets
             getCursorAdapter(true);
-            sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, false).apply();
+            sharedPrefs.edit().putBoolean("refresh_me_user_" + userId, false).apply();
         }
     }
 
@@ -77,7 +76,7 @@ public class UserTweetsFragment extends MainFragment {
 
             twitter = Utils.getTwitter(context, DrawerActivity.settings);
 
-            long[] lastId = ListDataSource.getInstance(context).getLastIds(listId);
+            long[] lastId = UserTweetsDataSource.getInstance(context).getLastIds(userId);
 
             final List<Status> statuses = new ArrayList<Status>();
 
@@ -94,7 +93,7 @@ public class UserTweetsFragment extends MainFragment {
                 try {
                     if (!foundStatus) {
                         paging.setPage(i + 1);
-                        List<Status> list = twitter.getUserListStatuses(listId, paging);
+                        List<Status> list = twitter.getUserTimeline(userId, paging);
 
                         statuses.addAll(list);
                     }
@@ -108,13 +107,10 @@ public class UserTweetsFragment extends MainFragment {
 
             manualRefresh = false;
 
-            ListDataSource dataSource = ListDataSource.getInstance(context);
-            numberNew = dataSource.insertTweets(statuses, listId);
-
-            ListRefreshService.scheduleRefresh(context);
+            UserTweetsDataSource dataSource = UserTweetsDataSource.getInstance(context);
+            numberNew = dataSource.insertTweets(statuses, userId);
 
             return numberNew;
-
         } catch (Exception e) {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
@@ -210,7 +206,7 @@ public class UserTweetsFragment extends MainFragment {
         super.onPause();
     }
 
-    public long listId;
+    public long userId;
 
     public void getCursorAdapter(final boolean bSpinner) {
 
@@ -228,10 +224,10 @@ public class UserTweetsFragment extends MainFragment {
             public void run() {
                 final Cursor cursor;
                 try {
-                    cursor = ListDataSource.getInstance(context).getCursor(listId);
+                    cursor = UserTweetsDataSource.getInstance(context).getCursor(userId);
                 } catch (Exception e) {
-                    ListDataSource.dataSource = null;
-                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
+                    UserTweetsDataSource.dataSource = null;
+                    context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_USERS"));
                     return;
                 }
 
@@ -250,12 +246,12 @@ public class UserTweetsFragment extends MainFragment {
                         }
 
                         try {
-                            Log.v("talon_list", "number of tweets in list: " + cursor.getCount());
+                            Log.v("talon_user", "number of tweets in user timeline: " + cursor.getCount());
                         } catch (Exception e) {
                             e.printStackTrace();
                             // the cursor or database is closed, so we will null out the datasource and restart the get cursor method
-                            ListDataSource.dataSource = null;
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_LISTS"));
+                            UserTweetsDataSource.dataSource = null;
+                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_USERS"));
                             return;
                         }
 
@@ -270,7 +266,7 @@ public class UserTweetsFragment extends MainFragment {
 
                         applyAdapter();
 
-                        int position = getPosition(cursor, sharedPrefs.getLong("current_list_" + listId + "_account_" + currentAccount, 0));
+                        int position = getPosition(cursor, sharedPrefs.getLong("current_user_tweets_" + userId + "_account_" + currentAccount, 0));
 
                         if (position > 0  && !settings.topDown) {
                             int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
@@ -338,11 +334,11 @@ public class UserTweetsFragment extends MainFragment {
 
             if (cursor.moveToPosition(cursor.getCount() - current)) {
                 final long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).apply();
+                sharedPrefs.edit().putLong("current_user_tweets_" + userId + "_account_" + currentAccount, id).apply();
             } else {
                 if (cursor.moveToLast()) {
                     long id = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
-                    sharedPrefs.edit().putLong("current_list_" + listId + "_account_" + currentAccount, id).apply();
+                    sharedPrefs.edit().putLong("current_user_tweets_" + userId + "_account_" + currentAccount, id).apply();
                 }
             }
         } catch (Exception e) {

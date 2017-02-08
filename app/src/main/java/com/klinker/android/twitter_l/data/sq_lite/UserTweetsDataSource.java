@@ -320,7 +320,7 @@ public class UserTweetsDataSource {
             count = statement.simpleQueryForLong();
         }
         Log.v("talon_database", "list database has " + count + " entries");
-        int maxListSize = AppSettings.getInstance(context).listSize;
+        int maxListSize = AppSettings.getInstance(context).userTweetsSize;
         if (count > maxListSize) {
             try {
                 cursor = database.query(UserTweetsSQLiteHelper.TABLE_HOME,

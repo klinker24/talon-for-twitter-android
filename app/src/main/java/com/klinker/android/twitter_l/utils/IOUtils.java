@@ -336,6 +336,16 @@ public class IOUtils {
                 }
             }
 
+            // trimming the user tweets
+            UserTweetsDataSource userTweets = UserTweetsDataSource.getInstance(context);
+            for (int accountIndex = 0; accountIndex < 2; accountIndex++) {
+                for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
+                    long userId = sharedPrefs.getLong("account_" + accountIndex + "_user_tweets_" + (i + 1) + "_long", 0);
+                    userTweets.deleteDups(userId);
+                    userTweets.trimDatabase(userId, settings.userTweetsSize);
+                }
+            }
+
             MentionsDataSource mentions = MentionsDataSource.getInstance(context);
             mentions.deleteDups(account);
             mentions.trimDatabase(account, settings.mentionsSize);
