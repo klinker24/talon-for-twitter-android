@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.9.1">
+        <text>Fix some issues with auto-completing mentions</text>
+    </version>
+
     <version name="5.9.0">
         <text>New swipe-able page to display all of a user's tweets</text>
     </version>
