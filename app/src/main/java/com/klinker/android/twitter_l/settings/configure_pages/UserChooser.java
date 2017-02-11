@@ -71,7 +71,7 @@ public class UserChooser extends AppCompatActivity {
                 String tvText = user.getText().toString();
 
                 try {
-                    search(tvText);
+                    search(tvText.replace("@", ""));
                 } catch (Exception e) {
                     e.printStackTrace();
                     userAutoComplete.dismiss();
