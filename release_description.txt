@@ -1,1 +1,1 @@
-v5.8.2 comes with performance improvements to the in-line video and GIF playback! ICYMI, the latest update also added the ability to search all of Twitter for users, when mentioning them in a tweet!
+v5.9 comes with the highly-requested feature of swipable pages for individual users! From settings, head to the swipable pages section, then set up a user page to get all their tweets in one place, directly on the timeline!
