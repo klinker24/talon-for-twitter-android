@@ -70,6 +70,10 @@ public class UserChooser extends AppCompatActivity {
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String tvText = user.getText().toString();
 
+                if (!userAutoComplete.isShowing()) {
+                    userAutoComplete.show();
+                }
+
                 try {
                     search(tvText.replace("@", ""));
                 } catch (Exception e) {
