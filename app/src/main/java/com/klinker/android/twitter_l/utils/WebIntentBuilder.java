@@ -46,6 +46,7 @@ public class WebIntentBuilder {
     private static final String MEERKAT = "mkr.tv";
     private static final String NEOGAF = "neogaf.com";
     private static final String FACEBOOK = "facebook.com";
+    private static final String PIXIV = "pixiv.net";
 
     private static final String[] ALWAYS_EXTERNAL = new String[] {
             PLAY_STORE,
@@ -54,7 +55,8 @@ public class WebIntentBuilder {
             PERISCOPE,
             MEERKAT,
             NEOGAF,
-            FACEBOOK
+            FACEBOOK,
+            PIXIV
     };
 
     private Context context;
