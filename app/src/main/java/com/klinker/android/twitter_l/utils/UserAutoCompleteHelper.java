@@ -76,7 +76,7 @@ public class UserAutoCompleteHelper {
                     int position = textView.getSelectionStart() - 1;
                     if (tvText.charAt(position) == '@') {
                         userAutoComplete.show();
-                    } else if (!tvText.contains("@")) {
+                    } else if (!tvText.contains("@") || position < tvText.indexOf("@")) {
                         userAutoComplete.dismiss();
                     } else if (userAutoComplete.isShowing()) {
                         String searchText = "";
@@ -109,22 +109,29 @@ public class UserAutoCompleteHelper {
     }
 
     private void search(final String screenName) {
-        new Thread(new Runnable() {
+        handler.removeCallbacksAndMessages(null);
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
-
-                try {
-                    users = twitter.searchUsers("@" + screenName, 0);
-                } catch (Exception e) { }
-
-                context.runOnUiThread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        userAutoComplete.setAdapter(new AutoCompleteUserArrayAdapter(context, users));
+                        Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+
+                        try {
+                            users = twitter.searchUsers("@" + screenName, 0);
+                        } catch (Exception e) { }
+
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                userAutoComplete.setAdapter(new AutoCompleteUserArrayAdapter(context, users));
+                            }
+                        });
                     }
-                });
+                }).start();
             }
-        }).start();
+        }, 150);
+
     }
 }
