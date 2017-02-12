@@ -654,16 +654,10 @@ public class TweetActivity extends SlidingActivity {
             @Override
             public void run() {
                 glide(proPic, profilePic);
-
-                PeekViewOptions options = new PeekViewOptions()
-                        .setAbsoluteWidth(225)
-                        .setAbsoluteHeight(257);
-
-                Peek.into(R.layout.peek_profile, new ProfilePeek(screenName))
-                        .with(options)
-                        .applyTo((PeekViewActivity) context, profilePic);
+                ProfilePeek.create(context, profilePic, screenName);
             }
         }, NETWORK_ACTION_DELAY);
+
         profilePic.setOnClickListener(viewPro);
 
         findViewById(R.id.person_info).setOnClickListener(viewPro);

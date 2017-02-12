@@ -454,15 +454,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         });
 
-        if (context instanceof PeekViewActivity && settings.usePeek) {
-            PeekViewOptions options = new PeekViewOptions()
-                    .setAbsoluteWidth(225)
-                    .setAbsoluteHeight(257);
-
-            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
-                    .with(options)
-                    .applyTo((PeekViewActivity) context, holder.profilePic);
-        }
+        ProfilePeek.create(context, holder.profilePic, screenname);
 
         if (!screenname.equals(username)) {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {

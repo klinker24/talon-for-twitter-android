@@ -941,15 +941,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         }
 
                         if (settings.usePeek) {
-                            if (context instanceof PeekViewActivity) {
-                                PeekViewOptions options = new PeekViewOptions()
-                                        .setAbsoluteWidth(225)
-                                        .setAbsoluteHeight(257);
-
-                                Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
-                                        .with(options)
-                                        .applyTo((PeekViewActivity) context, holder.profilePic);
-                            }
+                            ProfilePeek.create(context, holder.profilePic, screenname);
 
                             if (picturePeekF) {
                                 if (context instanceof PeekViewActivity) {
@@ -1017,15 +1009,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
 
             if (settings.usePeek) {
-                if (context instanceof PeekViewActivity) {
-                    PeekViewOptions options = new PeekViewOptions()
-                            .setAbsoluteWidth(225)
-                            .setAbsoluteHeight(257);
-
-                    Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
-                            .with(options)
-                            .applyTo((PeekViewActivity) context, holder.profilePic);
-                }
+                ProfilePeek.create(context, holder.profilePic, screenname);
 
                 if (picturePeek) {
                     if (context instanceof PeekViewActivity) {
