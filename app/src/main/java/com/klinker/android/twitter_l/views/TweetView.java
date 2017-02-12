@@ -389,14 +389,8 @@ public class TweetView {
             });
         }
 
-        if (context instanceof PeekViewActivity && settings.usePeek && profilePicIv != null) {
-            PeekViewOptions options = new PeekViewOptions()
-                    .setAbsoluteWidth(225)
-                    .setAbsoluteHeight(257);
-
-            Peek.into(R.layout.peek_profile, new ProfilePeek(screenName))
-                    .with(options)
-                    .applyTo((PeekViewActivity) context, profilePicIv);
+        if (settings.usePeek && profilePicIv != null) {
+            ProfilePeek.create(context, profilePicIv, screenName);
         }
 
         if (screenTV.getVisibility() == View.GONE) {

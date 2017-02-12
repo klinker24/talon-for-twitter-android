@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.views.peeks;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -17,6 +21,18 @@ import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.User;
 
 public class ProfilePeek extends SimpleOnPeek {
+
+    public static void create(Context context, View view, String screenname) {
+        if (context instanceof PeekViewActivity) {
+            PeekViewOptions options = new PeekViewOptions()
+                    .setAbsoluteWidth(225)
+                    .setAbsoluteHeight(279);
+
+            Peek.into(R.layout.peek_profile, new ProfilePeek(screenname))
+                    .with(options)
+                    .applyTo((PeekViewActivity) context, view);
+        }
+    }
 
     private String profileScreenName;
 
@@ -31,7 +47,7 @@ public class ProfilePeek extends SimpleOnPeek {
     private TextView friendCount;
     private TextView tweetCount;
 
-    public ProfilePeek(String screenName) {
+    private ProfilePeek(String screenName) {
         this.profileScreenName = screenName;
     }
 
