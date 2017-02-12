@@ -18,6 +18,8 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
+import twitter4j.Relationship;
+import twitter4j.Twitter;
 import twitter4j.User;
 
 public class ProfilePeek extends SimpleOnPeek {
@@ -46,6 +48,7 @@ public class ProfilePeek extends SimpleOnPeek {
     private TextView followerCount;
     private TextView friendCount;
     private TextView tweetCount;
+    private TextView followingStatus;
 
     private ProfilePeek(String screenName) {
         this.profileScreenName = screenName;
@@ -63,6 +66,7 @@ public class ProfilePeek extends SimpleOnPeek {
         followerCount = (TextView) rootView.findViewById(R.id.followers_count);
         friendCount = (TextView) rootView.findViewById(R.id.following_count);
         tweetCount = (TextView) rootView.findViewById(R.id.tweet_count);
+        followingStatus = (TextView) rootView.findViewById(R.id.following_status);
 
         final Activity activity = (Activity) rootView.getContext();
 
@@ -70,7 +74,8 @@ public class ProfilePeek extends SimpleOnPeek {
             @Override
             public void run() {
                 try {
-                    final User user = Utils.getTwitter(activity, AppSettings.getInstance(activity)).showUser(profileScreenName);
+                    final Twitter twitter = Utils.getTwitter(activity, AppSettings.getInstance(activity));
+                    final User user = twitter.showUser(profileScreenName);
 
                     activity.runOnUiThread(new Runnable() {
                         @Override
@@ -106,6 +111,18 @@ public class ProfilePeek extends SimpleOnPeek {
                             if (user.isVerified()) {
                                 verified.setVisibility(View.VISIBLE);
                                 verified.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+                            }
+                        }
+                    });
+
+                    final Relationship friendship = twitter.showFriendship(AppSettings.getInstance(activity).myScreenName, profileScreenName);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (friendship.isTargetFollowingSource()) {
+                                followingStatus.setText(activity.getString(R.string.follows_you));
+                            } else {
+                                followingStatus.setText(activity.getString(R.string.not_following_you));
                             }
                         }
                     });
