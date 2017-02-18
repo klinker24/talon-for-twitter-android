@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="5.10.0">
+        <text>Peeking into a profile (by long clicking their picture) will show you whether or not they follow you</text>
+    </version>
+
     <version name="5.9.2">
         <text>Some fixes for selecting individual user pages</text>
     </version>
