@@ -240,11 +240,10 @@ public class UserSearchFragment extends Fragment {
                         @Override
                         public void run() {
                             spinner.setVisibility(View.GONE);
+                            noContent.setVisibility(View.VISIBLE);
                         }
                     });
                     hasMore = false;
-
-                    noContent.setVisibility(View.VISIBLE);
 
                     canRefresh = true;
                 }
