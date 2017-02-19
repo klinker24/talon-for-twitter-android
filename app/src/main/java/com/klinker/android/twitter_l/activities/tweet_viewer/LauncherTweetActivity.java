@@ -17,13 +17,16 @@ package com.klinker.android.twitter_l.activities.tweet_viewer;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class LauncherTweetActivity extends TweetActivity {
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
 
         fromLauncher = true;
 
@@ -38,6 +41,6 @@ public class LauncherTweetActivity extends TweetActivity {
             AppSettings.invalidate();
         }
 
-        super.init(savedInstanceState);
+        return super.onCreateContent(inflater, parent);
     }
 }

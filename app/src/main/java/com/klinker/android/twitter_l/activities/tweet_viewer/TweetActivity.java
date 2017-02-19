@@ -58,8 +58,9 @@ import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
-public class TweetActivity extends SlidingActivity {
+public class TweetActivity extends DragDismissActivity {
 
     public static Intent getIntent(Context context, Cursor cursor) {
         return getIntent(context, cursor, false);
@@ -149,7 +150,7 @@ public class TweetActivity extends SlidingActivity {
     private boolean sharedTransition = false;
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
 
         Utils.setTaskDescription(this);
 
@@ -166,8 +167,6 @@ public class TweetActivity extends SlidingActivity {
         settings = AppSettings.getInstance(this);
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
-        disableHeader();
         /*if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             disableHeader();
         } else {
@@ -201,7 +200,7 @@ public class TweetActivity extends SlidingActivity {
 
                     // for some reason, with this, the scroll view starts at the bottom.
                     // this will set it to the top
-                    findViewById(R.id.content_scroller).post(new Runnable() {
+                    root.findViewById(R.id.content_scroller).post(new Runnable() {
                         @Override
                         public void run() {
                             ((TouchlessScrollView) findViewById(R.id.content_scroller))
@@ -213,27 +212,10 @@ public class TweetActivity extends SlidingActivity {
             }, NETWORK_ACTION_DELAY);
         }*/
 
-        setPrimaryColors(settings.themeColors.primaryColor, settings.themeColors.primaryColorDark);
-
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        int screenHeight = size.y;
-        int screenWidth = size.x;
-
-        Intent intent = getIntent();
-
-        if (getIntent().getBooleanExtra(USE_EXPANSION, false)) {
-            enableFullscreen();
-        }
-
-        expandFromPoints(
-                intent.getIntExtra(EXPANSION_DIMEN_LEFT_OFFSET, 0),
-                intent.getIntExtra(EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
-                intent.getIntExtra(EXPANSION_DIMEN_WIDTH, screenWidth),
-                intent.getIntExtra(EXPANSION_DIMEN_HEIGHT, 0)
-        );
 
         if (!sharedPrefs.getBoolean("knows_about_tweet_swipedown", false)) {
             sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).apply();
@@ -306,15 +288,7 @@ public class TweetActivity extends SlidingActivity {
 
         Utils.setUpTweetTheme(context, settings);
 
-        setContent(R.layout.tweet_activity_new);
-
-        if (settings.darkTheme) {
-            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.dark_background));
-        } else if (settings.blackTheme){
-            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.black_background));
-        } else {
-            findViewById(R.id.content_scroller).setBackgroundColor(getResources().getColor(R.color.light_background));
-        }
+        View root = inflater.inflate(R.layout.tweet_activity_new, parent, false);
 
         if (youtube ||
                 (null != gifVideo && !android.text.TextUtils.isEmpty(gifVideo) &&
@@ -324,8 +298,8 @@ public class TweetActivity extends SlidingActivity {
             displayPlayButton = true;
         }
 
-        setUpTheme();
-        setUIElements(getWindow().getDecorView().findViewById(android.R.id.content));
+        setUpTheme(root);
+        setUIElements(root);
 
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
@@ -339,7 +313,7 @@ public class TweetActivity extends SlidingActivity {
         }
 
         if (hasWebpage && TweetView.isEmbeddedTweet(tweet)) {
-            final CardView view = (CardView) findViewById(R.id.embedded_tweet_card);
+            final CardView view = (CardView) root.findViewById(R.id.embedded_tweet_card);
 
             final long embeddedId = TweetLinkUtils.getTweetIdFromLink(embedded);
 
@@ -374,6 +348,8 @@ public class TweetActivity extends SlidingActivity {
                 }).start();
             }
         }
+
+        return root;
     }
 
     boolean displayPlayButton = false;
@@ -437,7 +413,7 @@ public class TweetActivity extends SlidingActivity {
 
     public View insetsBackground;
 
-    public void setUpTheme() {
+    public void setUpTheme(View root) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
@@ -452,7 +428,7 @@ public class TweetActivity extends SlidingActivity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         actionBar.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));
 
-        final View content = findViewById(R.id.content);
+        final View content = root.findViewById(R.id.content);
         content.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -660,7 +636,7 @@ public class TweetActivity extends SlidingActivity {
 
         profilePic.setOnClickListener(viewPro);
 
-        findViewById(R.id.person_info).setOnClickListener(viewPro);
+        layout.findViewById(R.id.person_info).setOnClickListener(viewPro);
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
 
@@ -681,18 +657,18 @@ public class TweetActivity extends SlidingActivity {
                             options.setFullScreenPeek(true);
                             options.setBackgroundDim(1f);
 
-                            Peek.into(R.layout.peek_image, new SimpleOnPeek() {
+                            /*Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                                 @Override
                                 public void onInflated(View rootView) {
                                     Glide.with(context).load(webpage.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
                                 }
-                            }).with(options).applyTo((PeekViewActivity) context, image);
+                            }).with(options).applyTo((PeekViewActivity) context, image);*/
                         } else if (!gifVideo.contains("youtu")) {
                             PeekViewOptions options = new PeekViewOptions();
                             options.setFullScreenPeek(true);
                             options.setBackgroundDim(1f);
 
-                            Peek.into(VideoMatcherUtil.isTwitterGifLink(gifVideo) ? R.layout.peek_gif : R.layout.peek_video, new OnPeek() {
+                            /*Peek.into(VideoMatcherUtil.isTwitterGifLink(gifVideo) ? R.layout.peek_gif : R.layout.peek_video, new OnPeek() {
                                 private EasyVideoPlayer videoView;
 
                                 @Override
@@ -710,18 +686,18 @@ public class TweetActivity extends SlidingActivity {
                                 public void dismissed() {
                                     videoView.release();
                                 }
-                            }).with(options).applyTo((PeekViewActivity) context, image);
+                            }).with(options).applyTo((PeekViewActivity) context, image);*/
                         }
                     }
                 }, NETWORK_ACTION_DELAY);
             }
 
             if (displayPlayButton) {
-                findViewById(R.id.play_button).setVisibility(View.VISIBLE);
+                layout.findViewById(R.id.play_button).setVisibility(View.VISIBLE);
                 if (gifVideo != null && VideoMatcherUtil.isTwitterGifLink(gifVideo)) {
-                    ((ImageView) findViewById(R.id.play_button)).setImageDrawable(new GifBadge(this));
+                    ((ImageView) layout.findViewById(R.id.play_button)).setImageDrawable(new GifBadge(this));
                 } else {
-                    ((ImageView) findViewById(R.id.play_button)).setImageDrawable(new VideoBadge(this));
+                    ((ImageView) layout.findViewById(R.id.play_button)).setImageDrawable(new VideoBadge(this));
                 }
             }
 
@@ -840,8 +816,8 @@ public class TweetActivity extends SlidingActivity {
 
         expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
         expansionHelper.setSecondAcc(secondAcc);
-        expansionHelper.setBackground(findViewById(R.id.content));
-        expansionHelper.setInReplyToArea((LinearLayout) findViewById(R.id.conversation_area));
+        expansionHelper.setBackground(layout.findViewById(R.id.content));
+        expansionHelper.setInReplyToArea((LinearLayout) layout.findViewById(R.id.conversation_area));
         expansionHelper.setWebLink(otherLinks);
         expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
         expansionHelper.setUser(screenName);
@@ -855,7 +831,7 @@ public class TweetActivity extends SlidingActivity {
             }
         });
 
-        LinearLayout ex = (LinearLayout) findViewById(R.id.expansion_area);
+        LinearLayout ex = (LinearLayout) layout.findViewById(R.id.expansion_area);
         ex.addView(expansionHelper.getExpansion());
         expansionHelper.startFlowAnimation();
     }
