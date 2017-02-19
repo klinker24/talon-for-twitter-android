@@ -21,6 +21,7 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 
+import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -43,6 +44,7 @@ public class App extends Application {
             }
         }).start();
         updateResources(this);
+        Reprint.initialize(this);
     }
 
     public static void updateResources(Context app) {

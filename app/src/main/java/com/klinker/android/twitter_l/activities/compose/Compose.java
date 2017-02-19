@@ -79,6 +79,7 @@ import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.utils.FingerprintDialog;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.video.SamplerClip;
 import com.klinker.android.twitter_l.utils.video.VideoResampler;
@@ -243,6 +244,10 @@ public abstract class Compose extends Activity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (AppSettings.getInstance(this).fingerprintLock) {
+            new FingerprintDialog(this).show();
+        }
 
         Utils.setTaskDescription(this);
 
