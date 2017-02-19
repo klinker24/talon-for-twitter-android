@@ -35,6 +35,7 @@ import android.widget.*;
 
 import com.afollestad.materialcamera.MaterialCamera;
 import com.bumptech.glide.Glide;
+import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
@@ -291,6 +292,8 @@ public class ComposeActivity extends Compose {
         final int VIEW_DRAFTS = 1;
         final int VIEW_QUEUE = 2;
         final int SCHEDULE = 3;
+        final int ENABLE_FINGERPRINT_LOCK = 4;
+        final int DISABLE_FINGERPRINT_LOCK = 5;
 
         final ImageButton overflow = (ImageButton) findViewById(R.id.overflow_button);
         overflow.setOnClickListener(new View.OnClickListener() {
@@ -303,10 +306,27 @@ public class ComposeActivity extends Compose {
                 menu.getMenu().add(Menu.NONE, VIEW_QUEUE, Menu.NONE, context.getString(R.string.menu_view_queued));
                 menu.getMenu().add(Menu.NONE, SCHEDULE, Menu.NONE, context.getString(R.string.menu_schedule_tweet));
 
+                if (Reprint.isHardwarePresent() && Reprint.hasFingerprintRegistered()) {
+                    if (!AppSettings.getInstance(ComposeActivity.this).fingerprintLock) {
+                        menu.getMenu().add(Menu.NONE, ENABLE_FINGERPRINT_LOCK, Menu.NONE, context.getString(R.string.enable_fingerprint_lock));
+                    } else {
+                        menu.getMenu().add(Menu.NONE, DISABLE_FINGERPRINT_LOCK, Menu.NONE, context.getString(R.string.disable_fingerprint_lock));
+                    }
+                }
+
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
+                            case DISABLE_FINGERPRINT_LOCK:
+                                sharedPrefs.edit().putBoolean("fingerprint_lock", false).apply();
+                                AppSettings.invalidate();
+                                break;
+                            case ENABLE_FINGERPRINT_LOCK:
+                                sharedPrefs.edit().putBoolean("fingerprint_lock", true).apply();
+                                AppSettings.invalidate();
+                                finish();
+                                break;
                             case SAVE_DRAFT:
                                 if (reply.getText().length() > 0) {
                                     QueuedDataSource.getInstance(context).createDraft(reply.getText().toString(), currentAccount);

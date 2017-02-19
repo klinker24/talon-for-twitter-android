@@ -179,4 +179,7 @@
     <string name="user_tweets">Selected User\'s Tweets</string>
     <string name="user_tweets_size">User Page Size</string>
     <string name="user_tweets_size_summary">Max number of tweets to store for a swipable user page, in the database.</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="enable_fingerprint_lock">Enable Fingerprint Lock</string>
+    <string name="disable_fingerprint_lock">Disable Fingerprint Lock</string>
 </resources>

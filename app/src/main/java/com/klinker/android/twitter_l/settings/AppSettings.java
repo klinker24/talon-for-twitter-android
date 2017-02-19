@@ -180,6 +180,7 @@ public class AppSettings {
     public boolean usePeek;
     public boolean dualPanels;
     public boolean detailedQuotes;
+    public boolean fingerprintLock;
 
     // notifications
     public boolean timelineNot;
@@ -346,6 +347,7 @@ public class AppSettings {
         dualPanels = sharedPrefs.getBoolean("dual_panel", context.getResources().getBoolean(R.bool.dual_panels));
         detailedQuotes = sharedPrefs.getBoolean("detailed_quotes", false);
         browserSelection = sharedPrefs.getString("browser_selection", "article");
+        fingerprintLock = sharedPrefs.getBoolean("fingerprint_lock", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
