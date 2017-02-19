@@ -1,1 +1,1 @@
-v5.9 comes with the highly-requested feature of swipable pages for individual users! From settings, head to the swipable pages section, then set up a user page to get all their tweets in one place, directly on the timeline!
+v5.10 gives you the option to require a fingerprint for authentication, before being able to send a tweet! Enable it by opening the compose screen, then hitting the three dot overflow button in the top right corner. It also shows a following status whenever you "peek" into a user's profile, by long clicking their profile picture.
