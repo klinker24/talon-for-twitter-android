@@ -73,6 +73,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialcamera.util.ImageUtil;
 import com.bumptech.glide.Glide;
+import com.github.ajalt.reprint.core.Reprint;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -245,7 +246,8 @@ public abstract class Compose extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (AppSettings.getInstance(this).fingerprintLock) {
+        if (Reprint.isHardwarePresent() && Reprint.hasFingerprintRegistered() &&
+                AppSettings.getInstance(this).fingerprintLock) {
             new FingerprintDialog(this).show();
         }
 
