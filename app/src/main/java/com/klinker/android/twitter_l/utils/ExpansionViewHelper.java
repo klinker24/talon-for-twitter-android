@@ -646,24 +646,23 @@ public class ExpansionViewHelper {
     }
 
     public void startFlowAnimation() {
-        favoriteButton.setVisibility(View.INVISIBLE);
-        retweetButton.setVisibility(View.INVISIBLE);
-        webButton.setVisibility(View.INVISIBLE);
-        quoteButton.setVisibility(View.INVISIBLE);
-        composeButton.setVisibility(View.INVISIBLE);
-        overflowButton.setVisibility(View.INVISIBLE);
-        convoProgress.setVisibility(View.INVISIBLE);
-        interactionsButton.setVisibility(View.INVISIBLE);
-
-        startAlphaAnimation(favoriteButton, 0);
-        startAlphaAnimation(retweetButton, 75);
-        startAlphaAnimation(webButton, 75);
-        startAlphaAnimation(quoteButton, 150);
-        startAlphaAnimation(convoProgress, 175);
-        startAlphaAnimation(composeButton, 225);
-        startAlphaAnimation(interactionsButton, 275);
-        startAlphaAnimation(overflowButton, 300);
-
+//        favoriteButton.setVisibility(View.INVISIBLE);
+//        retweetButton.setVisibility(View.INVISIBLE);
+//        webButton.setVisibility(View.INVISIBLE);
+//        quoteButton.setVisibility(View.INVISIBLE);
+//        composeButton.setVisibility(View.INVISIBLE);
+//        overflowButton.setVisibility(View.INVISIBLE);
+//        convoProgress.setVisibility(View.INVISIBLE);
+//        interactionsButton.setVisibility(View.INVISIBLE);
+//
+//        startAlphaAnimation(favoriteButton, 0);
+//        startAlphaAnimation(retweetButton, 75);
+//        startAlphaAnimation(webButton, 75);
+//        startAlphaAnimation(quoteButton, 150);
+//        startAlphaAnimation(convoProgress, 175);
+//        startAlphaAnimation(composeButton, 225);
+//        startAlphaAnimation(interactionsButton, 275);
+//        startAlphaAnimation(overflowButton, 300);
     }
 
     private void startAlphaAnimation(final View v, long offset) {
@@ -1107,13 +1106,6 @@ public class ExpansionViewHelper {
         Thread getInfo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
                 try {
                     Twitter twitter =  getTwitter();
 
@@ -1335,13 +1327,6 @@ public class ExpansionViewHelper {
         Thread getConvo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
                 if (!isRunning) {
                     return;
                 }
@@ -1439,13 +1424,6 @@ public class ExpansionViewHelper {
         Thread getReplies = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
                 if (!isRunning || (!firstRun && query == null)) {
                     return;
                 }
@@ -1460,7 +1438,7 @@ public class ExpansionViewHelper {
 
                     if (query == null) {
                         query = new Query("to:" + screenname);
-                        query.setCount(70);
+                        query.setCount(30);
 
                         firstRun = false;
                     }
@@ -1535,13 +1513,6 @@ public class ExpansionViewHelper {
                             });
 
                             return;
-                        }
-
-                        try {
-                            Thread.sleep(200);
-                        } catch (Exception e) {
-                            // since we are changing the arraylist for the adapter in the background, we need to make sure it
-                            // gets updated before continuing
                         }
 
                         if (!repliesChangedOnThisIteration) {
@@ -1709,95 +1680,6 @@ public class ExpansionViewHelper {
             view.loadUrl(url);
             return true;
         }
-    }
-
-    public void getTextFromSite(final String url, final FontPrefTextView browser, final View spinner, final ScrollView scroll) {
-        Thread getText = new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
-                try {
-                    Document doc = Jsoup.connect(url).get();
-
-                    String text = "";
-                    String title = doc.title();
-
-                    if(doc != null) {
-                        Elements paragraphs = doc.getElementsByTag("p");
-
-                        if (paragraphs.hasText()) {
-                            for (int i = 0; i < paragraphs.size(); i++) {
-                                Element s = paragraphs.get(i);
-                                if (!s.html().contains("<![CDATA")) {
-                                    text += paragraphs.get(i).html().replaceAll("<br/>", "") + "<br/><br/>";
-                                }
-                            }
-                        }
-                    }
-
-                    final String article =
-                            "<strong><big>" + title + "</big></strong>" +
-                                    "<br/><br/>" +
-                                    text.replaceAll("<img.+?>", "") +
-                                    "<br/>"; // one space at the bottom to make it look nicer
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                browser.setText(Html.fromHtml(article));
-                                browser.setMovementMethod(LinkMovementMethod.getInstance());
-                                browser.setTextSize(AppSettings.getInstance(context).textSize);
-                                scroll.setVisibility(View.VISIBLE);
-                                spinner.setVisibility(View.INVISIBLE);
-                            } catch (Exception e) {
-                                // fragment not attached
-                            }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    try {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    browser.setText(context.getResources().getString(R.string.error_loading_page));
-                                } catch (Exception e) {
-                                    // fragment not attached
-                                }
-                            }
-                        });
-                    } catch (Exception x) {
-                        // not attached
-                    }
-                } catch (OutOfMemoryError e) {
-                    e.printStackTrace();
-                    try {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    browser.setText(context.getResources().getString(R.string.error_loading_page));
-                                } catch (Exception e) {
-                                    // fragment not attached
-                                }
-                            }
-                        });
-                    } catch (Exception x) {
-                        // not attached
-                    }
-                }
-            }
-        });
-
-        getText.setPriority(8);
-        getText.start();
     }
 
     class DeleteTweet extends AsyncTask<String, Void, Boolean> {
@@ -1986,21 +1868,12 @@ public class ExpansionViewHelper {
         }
     }
 
-    private void glide(String url, ImageView target) {
-        try {
-            Glide.with(context).load(url).into(target);
-        } catch (Exception e) {
-            // try to load into activity that is destroyed
-        }
-    }
-
     public void writeToHashtagDataSource(final String[] hashtags) {
         if (hashtags != null) {
             // we will add them to the auto complete
             new TimeoutThread(new Runnable() {
                 @Override
                 public void run() {
-
                     try {
                         Thread.sleep(NETWORK_ACTION_DELAY);
                     } catch (Exception e) {
