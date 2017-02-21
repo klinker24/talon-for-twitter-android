@@ -217,7 +217,9 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         final Handler sysUi = new Handler();
 
-        Glide.with(this).load(url).dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
+        Glide.with(this).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .dontAnimate().listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                 return false;
@@ -440,7 +442,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     final Bitmap bitmap = Glide.with(PhotoViewerActivity.this)
                             .load(url)
                             .asBitmap()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                             .get();
 

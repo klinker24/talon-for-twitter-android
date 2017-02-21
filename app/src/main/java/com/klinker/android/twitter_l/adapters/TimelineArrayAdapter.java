@@ -18,6 +18,7 @@ import android.widget.*;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -645,7 +646,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into((ImageView) rootView.findViewById(R.id.image));
                             }
                         }).with(options).applyTo((PeekViewActivity) context, holder.image);
                     }
@@ -679,14 +682,20 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         holder.profilePic.setImageDrawable(null);
-        Glide.with(context).load(profilePic).placeholder(null).into(holder.profilePic);
+        Glide.with(context).load(profilePic).placeholder(null)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(holder.profilePic);
 
         holder.image.setImageDrawable(null);
         if (picture) {
             if (!settings.condensedTweets()) {
-                Glide.with(context).load(holder.picUrl).placeholder(null).into(holder.image);
+                Glide.with(context).load(holder.picUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             } else {
-                Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
+                Glide.with(context).load(holder.picUrl).fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             }
         }
 

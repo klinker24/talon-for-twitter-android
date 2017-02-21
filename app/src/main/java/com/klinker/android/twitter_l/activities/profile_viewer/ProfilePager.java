@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.sliding.MultiShrinkScroller;
 import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
@@ -218,8 +219,8 @@ public class ProfilePager extends SlidingActivity {
         }
 
         try {
-            Glide.with(this)
-                    .load(proPic)
+            Glide.with(this).load(proPic)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into((CircleImageView) findViewById(R.id.profile_image));
         } catch (Exception e) {
 
@@ -845,6 +846,7 @@ public class ProfilePager extends SlidingActivity {
                             try {
                                 Glide.with(context)
                                         .load(thisUser.getProfileBannerURL())
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .centerCrop()
                                         .into((ImageView) findViewById(R.id.background_image));
                             } catch (Exception e) {
@@ -2125,7 +2127,9 @@ public class ProfilePager extends SlidingActivity {
 
     private void glide(String url, ImageView target) {
         try {
-            Glide.with(this).load(url).into(target);
+            Glide.with(this).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(target);
         } catch (Exception e) {
             // activity destroyed
         }
