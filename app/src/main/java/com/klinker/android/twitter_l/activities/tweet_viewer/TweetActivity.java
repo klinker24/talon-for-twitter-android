@@ -25,6 +25,7 @@ import android.widget.*;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -181,6 +182,7 @@ public class TweetActivity extends DragDismissActivity {
                                         .load(getIntent().getStringExtra("proPic"))
                                         .asBitmap()
                                         .dontAnimate()
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                                         .get();
 
@@ -660,7 +662,9 @@ public class TweetActivity extends DragDismissActivity {
                             /*Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                                 @Override
                                 public void onInflated(View rootView) {
-                                    Glide.with(context).load(webpage.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                    Glide.with(context).load(webpage.split(" ")[0])
+                                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                            .into((ImageView) rootView.findViewById(R.id.image));
                                 }
                             }).with(options).applyTo((PeekViewActivity) context, image);*/
                         } else if (!gifVideo.contains("youtu")) {
@@ -920,7 +924,9 @@ public class TweetActivity extends DragDismissActivity {
 
     private void glide(String url, ImageView target) {
         try {
-            Glide.with(this).load(url).into(target);
+            Glide.with(TweetActivity.this).load(url)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(target);
         } catch (Exception e) {
             // activity destroyed
         }

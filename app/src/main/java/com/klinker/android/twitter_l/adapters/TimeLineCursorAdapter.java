@@ -903,25 +903,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (picture) {
             if (!settings.condensedTweets()) {
-                if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
-                } else {
-                    Glide.with(context).load(holder.picUrl).centerCrop().placeholder(null).into(holder.image);
-                }
+                Glide.with(context).load(holder.picUrl).centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             } else {
-                if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
-                } else {
-                    Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
-                }
+                Glide.with(context).load(holder.picUrl).fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             }
         }
 
-        if (settings.preCacheImages) {
-            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.profilePic);
-        } else {
-            Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
-        }
+        Glide.with(context).load(holder.proPicUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .placeholder(null).into(holder.profilePic);
 
         if (mHandlers != null) {
             final boolean picturePeekF = picturePeek;
@@ -952,7 +946,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                                         @Override
                                         public void onInflated(View rootView) {
-                                            Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                            Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                                    .into((ImageView) rootView.findViewById(R.id.image));
                                         }
                                     }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                                 }
@@ -1020,7 +1016,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into((ImageView) rootView.findViewById(R.id.image));
                             }
                         }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                     }

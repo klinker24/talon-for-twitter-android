@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -523,7 +524,9 @@ public class TweetView {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(imageUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                Glide.with(context).load(imageUrl.split(" ")[0])
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into((ImageView) rootView.findViewById(R.id.image));
                             }
                         }).with(options).applyTo((PeekViewActivity) context, imageIv);
                     }
@@ -662,7 +665,9 @@ public class TweetView {
     private void glide(String url, ImageView target) {
         if (target != null) {
             try {
-                Glide.with(context).load(url).into(target);
+                Glide.with(context).load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(target);
             } catch (Exception e) {
                 // load after activity is destroyed
             }
