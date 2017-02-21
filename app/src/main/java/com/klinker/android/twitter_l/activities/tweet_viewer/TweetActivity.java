@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -59,6 +60,7 @@ import com.klinker.android.twitter_l.utils.text.TextUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
+import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class TweetActivity extends DragDismissActivity {
@@ -113,7 +115,30 @@ public class TweetActivity extends DragDismissActivity {
         viewTweet.putExtra("animated_gif", gifUrl);
         viewTweet.putExtra("second_account", isSecondAccount);
 
+        viewTweet.putExtras(createDragDismissBundle(context));
+
         return viewTweet;
+    }
+
+    public static Bundle createDragDismissBundle(Context context) {
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimary});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        DragDismissBundleBuilder.Theme theme = DragDismissBundleBuilder.Theme.LIGHT;
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.darkTheme) {
+            theme = DragDismissBundleBuilder.Theme.DARK;
+        } else if (settings.blackTheme) {
+            theme = DragDismissBundleBuilder.Theme.BLACK;
+        }
+
+        return new DragDismissBundleBuilder()
+                .setShowToolbar(false)
+                .setTheme(theme)
+                .setPrimaryColorResource(resource)
+                .build();
     }
 
     private static final long NETWORK_ACTION_DELAY = 200;
