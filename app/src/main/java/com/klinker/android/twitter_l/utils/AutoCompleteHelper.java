@@ -21,6 +21,11 @@ public class AutoCompleteHelper {
 
     public String completeTweet(EditText text, String completeTo, char type) {
         String tweetText = text.getText().toString();
+
+        if (tweetText.length() == 0) {
+            return "@" + completeTo;
+        }
+
         int position = text.getSelectionStart() - 1;
         int endPosition = text.getSelectionStart();
         int startPosition = position;
