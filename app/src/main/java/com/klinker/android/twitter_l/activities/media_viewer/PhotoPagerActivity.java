@@ -179,6 +179,16 @@ public class PhotoPagerActivity extends DragDismissActivity {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
 
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
+            ab.setBackgroundDrawable(transparent);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setDisplayShowHomeEnabled(true);
+            ab.setTitle("");
+            ab.setIcon(transparent);
+        }
+
         return root;
     }
 
