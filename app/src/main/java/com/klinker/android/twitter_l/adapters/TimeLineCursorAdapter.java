@@ -644,8 +644,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("second_account", true);
                     }
 
-                    viewTweet.putExtra("shared_trans", true);
-                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
+                    viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
 
                     context.startActivity(viewTweet);
                 }
@@ -704,8 +703,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("second_account", true);
                     }
 
-                    viewTweet.putExtra("shared_trans", true);
-                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
+                    viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
 
                     context.startActivity(viewTweet);
 

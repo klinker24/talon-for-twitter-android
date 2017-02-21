@@ -446,10 +446,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                viewTweet.putExtra("shared_trans", true);
-
-                if (!openFirst)
-                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
+                viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
 
                 context.startActivity(viewTweet);
             }

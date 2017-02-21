@@ -56,6 +56,7 @@ public class WidgetProvider extends AppWidgetProvider {
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
             Intent viewTweet = new Intent(context, TweetActivity.class);
+
             viewTweet.putExtra("name", intent.getStringExtra("name"));
             viewTweet.putExtra("screenname", intent.getStringExtra("screenname"));
             viewTweet.putExtra("time", intent.getLongExtra("time", 0));
@@ -70,6 +71,9 @@ public class WidgetProvider extends AppWidgetProvider {
             viewTweet.putExtra("hashtags", intent.getStringExtra("hashtags"));
             viewTweet.putExtra("other_links", intent.getStringExtra("other_links"));
             viewTweet.putExtra("animated_gif", intent.getStringExtra("animated_gif"));
+
+            viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+
 
             viewTweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

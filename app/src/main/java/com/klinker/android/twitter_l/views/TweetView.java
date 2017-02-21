@@ -343,31 +343,8 @@ public class TweetView {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
 
-                viewTweet.putExtra("shared_trans", true);
-
-                viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (profilePicIv != null) {
-                        profilePicIv.setTransitionName("pro_pic");
-                    }
-                    screenTV.setTransitionName("screen_name");
-                    nameTv.setTransitionName("name");
-                    tweetTv.setTransitionName("tweet");
-                    /*ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(((Activity) context),
-
-                                    new Pair<View, String>(profilePicIv, "pro_pic"),
-                                    new Pair<View, String>(screenTV, "screen_name"),
-                                    new Pair<View, String>(nameTv, "name"),
-                                    new Pair<View, String>(tweetTv, "tweet")
-                            );*/
-
-                    context.startActivity(viewTweet/*, options.toBundle()*/);
-                } else {
-                    context.startActivity(viewTweet);
-                }
-
+                viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+                context.startActivity(viewTweet);
             }
         });
 

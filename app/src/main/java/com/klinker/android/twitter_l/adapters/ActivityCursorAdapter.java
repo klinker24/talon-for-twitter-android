@@ -143,6 +143,8 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("animated_gif", holder.gifUrl);
 
+                        viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+
                         context.startActivity(viewTweet);
                     }
                 });
@@ -187,6 +189,8 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         viewTweet.putExtra("users", users);
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("animated_gif", holder.gifUrl);
+
+                        viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
 
                         context.startActivity(viewTweet);
                     }
