@@ -25,7 +25,10 @@ import com.klinker.android.twitter_l.views.widgets.HackyViewPager;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class PhotoPagerActivity extends AppCompatActivity {
+import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+
+public class PhotoPagerActivity extends DragDismissActivity {
 
     public static void startActivity(Context context, long tweetId, String links, int startPage) {
         startActivity(context, tweetId, links, startPage, false);
@@ -38,6 +41,11 @@ public class PhotoPagerActivity extends AppCompatActivity {
         viewImage.putExtra("start_page", startPage);
         viewImage.putExtra("tweet_id", tweetId);
         viewImage.putExtra("hide_info", hideInfo);
+
+        viewImage.putExtras(new DragDismissBundleBuilder()
+                .setShowToolbar(true)
+                .setPrimaryColorResource(android.R.color.black)
+                .build());
 
         context.startActivity(viewImage);
     }
@@ -66,8 +74,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
 
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
@@ -84,7 +91,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(url)) {
             finish();
-            return;
+            return new View(this);
         }
 
         for (int i = 0; i < urlList.length; i++) {
@@ -98,14 +105,14 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }
 
         Utils.setUpTweetTheme(this, AppSettings.getInstance(this));
-        setContentView(R.layout.photo_pager_activity);
+        final View root = inflater.inflate(R.layout.photo_pager_activity, parent, false);
 
-        gradient = findViewById(R.id.buttons_layout);
-        download = (ImageButton) findViewById(R.id.save_button);
-        info = (ImageButton) findViewById(R.id.info_button);
-        share = (ImageButton) findViewById(R.id.share_button);
+        gradient = root.findViewById(R.id.buttons_layout);
+        download = (ImageButton) root.findViewById(R.id.save_button);
+        info = (ImageButton) root.findViewById(R.id.info_button);
+        share = (ImageButton) root.findViewById(R.id.share_button);
 
-        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottom_sheet);
+        bottomSheet = (BottomSheetLayout) root.findViewById(R.id.bottom_sheet);
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,21 +135,11 @@ public class PhotoPagerActivity extends AppCompatActivity {
             }
         });
 
-        pager = (HackyViewPager) findViewById(R.id.pager);
+        pager = (HackyViewPager) root.findViewById(R.id.pager);
         adapter = new PhotoPagerAdapter(getSupportFragmentManager(), this, urlList);
 
         pager.setAdapter(adapter);
         pager.setCurrentItem(startPage);
-
-        ab = getSupportActionBar();
-        if (ab != null) {
-            ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
-            ab.setBackgroundDrawable(transparent);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setTitle("");
-            ab.setIcon(transparent);
-        }
 
         setCurrentPageTitle(startPage);
 
@@ -181,6 +178,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("hide_info", false)) {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
+
+        return root;
     }
 
     android.support.v7.app.ActionBar ab;

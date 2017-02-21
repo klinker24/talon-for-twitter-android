@@ -137,15 +137,15 @@
 
         <activity android:name=".activities.media_viewer.PhotoPagerActivity"
                   android:configChanges="orientation|screenSize"
-                  android:theme="@style/Theme.TalonLight.ImageViewer" />
+                  android:theme="@style/DragDismissTheme" />
 
         <activity android:name=".activities.media_viewer.PhotoViewerActivity"
                     android:configChanges="orientation|screenSize"
-                    android:theme="@style/Theme.TalonLight.ImageViewer" />
+                    android:theme="@style/DragDismissTheme" />
 
         <activity android:name=".activities.media_viewer.VideoViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:theme="@style/Theme.TalonLight.VideoViewer" />
+            android:theme="@style/DragDismissTheme" />
 
         <activity android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"

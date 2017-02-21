@@ -39,7 +39,10 @@ import com.klinker.android.twitter_l.utils.WebIntentBuilder;
 import java.io.File;
 import java.util.Calendar;
 
-public class VideoViewerActivity extends AppCompatActivity {
+import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+
+public class VideoViewerActivity extends DragDismissActivity {
 
     @Override
     public void finish() {
@@ -84,6 +87,11 @@ public class VideoViewerActivity extends AppCompatActivity {
 
             Log.v("video_url", video);
 
+            viewVideo.putExtras(new DragDismissBundleBuilder()
+                    .setShowToolbar(false)
+                    .setPrimaryColorResource(android.R.color.black)
+                    .build());
+
             if (video != null) {
                 context.startActivity(viewVideo);
             }
@@ -104,47 +112,24 @@ public class VideoViewerActivity extends AppCompatActivity {
     private VideoFragment videoFragment;
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        gestureDetector.onTouchEvent(event);
-        return super.dispatchTouchEvent(event);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
         context = this;
-
-        getSupportActionBar().hide();
-
-        /*getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        );*/
 
         url = getIntent().getStringExtra("url");
 
         if (url == null) {
             finish();
-            return;
+            return new View(this);
         }
 
         AppSettings settings = new AppSettings(context);
         Utils.setUpTheme(this, settings);
 
-        /*if (Build.VERSION.SDK_INT > 18 && settings.uiExtras) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }*/
+        final View root = inflater.inflate(R.layout.video_view_activity, parent, false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Color.BLACK);
-        }
-
-        setContentView(R.layout.video_view_activity);
-
-        download = (ImageButton) findViewById(R.id.save_button);
-        info = (ImageButton) findViewById(R.id.info_button);
-        share = (ImageButton) findViewById(R.id.share_button);
+        download = (ImageButton) root.findViewById(R.id.save_button);
+        info = (ImageButton) root.findViewById(R.id.info_button);
+        share = (ImageButton) root.findViewById(R.id.share_button);
 
         if (url.contains("youtu")) {
             // add a youtube fragment
@@ -153,7 +138,7 @@ public class VideoViewerActivity extends AppCompatActivity {
                     .add(R.id.fragment, fragment)
                     .commit();
 
-            findViewById(R.id.buttons_layout).setVisibility(View.GONE);
+            root.findViewById(R.id.buttons_layout).setVisibility(View.GONE);
             getSupportActionBar().hide();
         } else {
             // add a surfaceView fragment
@@ -163,7 +148,7 @@ public class VideoViewerActivity extends AppCompatActivity {
                     .commit();
         }
 
-        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+        bottomSheet = (BottomSheetLayout) root.findViewById(R.id.bottomsheet);
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,20 +169,6 @@ public class VideoViewerActivity extends AppCompatActivity {
             }
         });
 
-        final Handler sysUi = new Handler();
-
-        /*findViewById(android.R.id.content).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sysUi.removeCallbacksAndMessages(null);
-                if (sysUiShown) {
-                    hideSystemUI();
-                } else {
-                    showSystemUI();
-                }
-            }
-        });*/
-
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
@@ -208,32 +179,14 @@ public class VideoViewerActivity extends AppCompatActivity {
             ab.setIcon(transparent);
         }
 
-        /*sysUi.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideSystemUI();
-            }
-        }, 6000);*/
-
         final long tweetId = getIntent().getLongExtra("tweet_id", 0);
         if (tweetId != 0) {
             prepareInfo(tweetId);
         } else {
-            findViewById(R.id.buttons_layout).setVisibility(View.GONE);
+            root.findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
 
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if ((velocityY > 3000 || velocityY < -3000) &&
-                        (velocityX < 7000 && velocityX > -7000)) {
-                    onBackPressed();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+        return root;
     }
 
     private void downloadVideo() {
@@ -345,40 +298,6 @@ public class VideoViewerActivity extends AppCompatActivity {
         context.startActivity(share);
     }
 
-    public void hideSystemUI() {
-        /*sysUiShown = false;
-
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
-
-        if (videoFragment != null && !videoFragment.isGif()) {
-            // we don't want to hide the buttons
-        } else {
-            if (url != null && !url.contains("youtu"))
-                startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
-            startAlphaAnimation(share, 1, 0);
-            startAlphaAnimation(download, 1, 0);
-            startAlphaAnimation(info, 1, 0);
-        }*/
-    }
-
-    boolean sysUiShown = true;
-    public void showSystemUI() {
-        /*sysUiShown = true;
-
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-
-        if (url != null && !url.contains("youtu"))
-            startAlphaAnimation(findViewById(R.id.buttons_layout), 0, 1);
-        startAlphaAnimation(share, 0, 1);
-        startAlphaAnimation(download, 0, 1);
-        startAlphaAnimation(info, 0, 1);*/
-    }
-
     private DetailedTweetView tweetView;
 
     public void prepareInfo(final long tweetId) {
@@ -398,45 +317,14 @@ public class VideoViewerActivity extends AppCompatActivity {
         bottomSheet.showWithSheetView(v);
     }
 
-    private void startAlphaAnimation(final View v, float start, final float finish) {
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, start, finish);
-        alpha.setDuration(350);
-        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
-        alpha.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                v.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (finish == 0) {
-                    v.setEnabled(false);
-                } else {
-                    v.setEnabled(true);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) { }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) { }
-        });
-        alpha.start();
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //findViewById(R.id.buttons_layout).getLayoutParams().height = 0;
             findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         } else if (url != null && !url.contains("youtu")) {
             findViewById(R.id.buttons_layout).setVisibility(View.VISIBLE);
         }
     }
-
-    private GestureDetector gestureDetector;
 }

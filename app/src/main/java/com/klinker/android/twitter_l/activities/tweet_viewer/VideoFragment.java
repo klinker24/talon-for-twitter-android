@@ -300,8 +300,6 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
         } else {
             videoView.setHideControlsOnPlay(true);
             videoView.enableControls(true);
-
-            ((VideoViewerActivity) getActivity()).hideSystemUI();
         }
     }
 

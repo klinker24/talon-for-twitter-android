@@ -55,8 +55,10 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
+import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
-public class PhotoViewerActivity extends AppCompatActivity {
+public class PhotoViewerActivity extends DragDismissActivity {
 
     // image view is not null if you want the shared transition
     public static void startActivity(Context context, long tweetId, String link, ImageView imageView) {
@@ -64,6 +66,11 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         viewImage.putExtra("url", link);
         viewImage.putExtra("tweet_id", tweetId);
+
+        viewImage.putExtras(new DragDismissBundleBuilder()
+                .setShowToolbar(true)
+                .setPrimaryColorResource(android.R.color.black)
+                .build());
 
         if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             viewImage.putExtra("shared_trans", true);
@@ -109,8 +116,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
         context = this;
 
         try {
@@ -135,7 +141,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
         if (url == null) {
             finish();
-            return;
+            return new View(context);
         }
 
         // get higher quality twitpic and imgur pictures
@@ -156,13 +162,13 @@ public class PhotoViewerActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        setContentView(R.layout.photo_dialog_layout);
+        final View root = inflater.inflate(R.layout.photo_dialog_layout, parent, false);
 
-        download = (ImageButton) findViewById(R.id.save_button);
-        info = (ImageButton) findViewById(R.id.info_button);
-        share = (ImageButton) findViewById(R.id.share_button);
+        download = (ImageButton) root.findViewById(R.id.save_button);
+        info = (ImageButton) root.findViewById(R.id.info_button);
+        share = (ImageButton) root.findViewById(R.id.share_button);
 
-        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+        bottomSheet = (BottomSheetLayout) root.findViewById(R.id.bottomsheet);
 
         download.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,20 +192,20 @@ public class PhotoViewerActivity extends AppCompatActivity {
         });
 
         if (!doRestart || getIntent().getBooleanExtra("config_changed", false)) {
-            LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+            LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
             spinner.setVisibility(View.GONE);
         }
 
         if (url == null) {
             finish();
-            return;
+            return new View(context);
         }
 
         if (url.contains("insta")) {
             url = url.substring(0, url.length() - 1) + "l";
         }
 
-        picture = (FullScreenImageView) findViewById(R.id.picture);
+        picture = (FullScreenImageView) root.findViewById(R.id.picture);
         picture.setDisplayType(FullScreenImageView.DisplayType.FIT_TO_SCREEN);
 
         if (getIntent().getBooleanExtra("shared_trans", false)) {
@@ -233,7 +239,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     didTransition = true;
                 }
 
-                LinearLayout spinner = (LinearLayout) findViewById(R.id.list_progress);
+                LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
 
                 mAttacher = new TalonPhotoViewAttacher(picture);
@@ -241,9 +247,9 @@ public class PhotoViewerActivity extends AppCompatActivity {
                     @Override
                     public void onViewTap(View view, float x, float y) {
                         if (sysUiShown) {
-                            hideSystemUI();
+                            hideSystemUI(root);
                         } else {
-                            showSystemUI();
+                            showSystemUI(root);
                         }
                     }
                 });
@@ -277,7 +283,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
         sysUi.postDelayed(new Runnable() {
             @Override
             public void run() {
-                hideSystemUI();
+                hideSystemUI(root);
             }
         }, 6000);
 
@@ -289,6 +295,8 @@ public class PhotoViewerActivity extends AppCompatActivity {
         } else {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
+
+        return root;
     }
 
     public void downloadImage() {
@@ -517,7 +525,7 @@ public class PhotoViewerActivity extends AppCompatActivity {
     }
 
 
-    private void hideSystemUI() {
+    private void hideSystemUI(View root) {
         sysUiShown = false;
 
         getWindow().getDecorView().setSystemUiVisibility(
@@ -525,21 +533,21 @@ public class PhotoViewerActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
-        startAlphaAnimation(findViewById(R.id.buttons_layout), 1, 0);
+        startAlphaAnimation(root.findViewById(R.id.buttons_layout), 1, 0);
         startAlphaAnimation(share, 1, 0);
         startAlphaAnimation(download, 1, 0);
         startAlphaAnimation(info, 1, 0);
     }
 
     boolean sysUiShown = true;
-    private void showSystemUI() {
+    private void showSystemUI(View root) {
         sysUiShown = true;
 
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        startAlphaAnimation(findViewById(R.id.buttons_layout), 0, 1);
+        startAlphaAnimation(root.findViewById(R.id.buttons_layout), 0, 1);
         startAlphaAnimation(share, 0, 1);
         startAlphaAnimation(download, 0, 1);
         startAlphaAnimation(info, 0, 1);
