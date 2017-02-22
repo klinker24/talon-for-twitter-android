@@ -87,10 +87,10 @@ public class VideoViewerActivity extends DragDismissActivity {
 
             Log.v("video_url", video);
 
-            viewVideo.putExtras(new DragDismissBundleBuilder()
+            new DragDismissBundleBuilder(context)
                     .setShowToolbar(false)
                     .setPrimaryColorResource(android.R.color.black)
-                    .build());
+                    .build(viewVideo);
 
             if (video != null) {
                 context.startActivity(viewVideo);

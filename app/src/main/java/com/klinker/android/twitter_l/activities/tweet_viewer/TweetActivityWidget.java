@@ -26,7 +26,7 @@ public class TweetActivityWidget extends TweetActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Intent activity = new Intent(context, TweetActivity.class).putExtras(getIntent());
-            activity.putExtras(TweetActivity.createDragDismissBundle(context));
+            TweetActivity.applyDragDismissBundle(context, activity);
 
             startActivity(activity);
             finish();

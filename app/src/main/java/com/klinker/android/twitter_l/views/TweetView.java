@@ -1,17 +1,13 @@
 package com.klinker.android.twitter_l.views;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.CardView;
-import android.text.Html;
-import android.text.Spannable;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -40,7 +36,6 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.EasyVideoCallbackWrapper;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
@@ -343,7 +338,7 @@ public class TweetView {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
 
-                viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
                 context.startActivity(viewTweet);
             }
         });
