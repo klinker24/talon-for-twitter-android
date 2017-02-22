@@ -120,12 +120,12 @@ public class TweetActivity extends DragDismissActivity {
         viewTweet.putExtra("animated_gif", gifUrl);
         viewTweet.putExtra("second_account", isSecondAccount);
 
-        viewTweet.putExtras(createDragDismissBundle(context));
+        applyDragDismissBundle(context, viewTweet);
 
         return viewTweet;
     }
 
-    public static Bundle createDragDismissBundle(Context context) {
+    public static void applyDragDismissBundle(Context context, Intent intent) {
 
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
         int resource = a.getResourceId(0, 0);
@@ -139,11 +139,11 @@ public class TweetActivity extends DragDismissActivity {
             theme = DragDismissBundleBuilder.Theme.BLACK;
         }
 
-        return new DragDismissBundleBuilder()
+        new DragDismissBundleBuilder(context)
                 .setShowToolbar(false)
                 .setTheme(theme)
-                .setPrimaryColorResource(resource)
-                .build();
+                .setPrimaryColorValue(settings.blackTheme ? Color.BLACK : Color.TRANSPARENT)
+                .build(intent);
     }
 
     private static final long NETWORK_ACTION_DELAY = 200;

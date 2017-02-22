@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityManagerCompat;
-import android.support.v4.os.BuildCompat;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Log;
@@ -25,7 +24,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.*;
 import android.widget.*;
 
@@ -68,8 +66,6 @@ import java.util.Map;
 import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import lombok.Getter;
-import lombok.Setter;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
@@ -644,7 +640,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("second_account", true);
                     }
 
-                    viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+                    TweetActivity.applyDragDismissBundle(context, viewTweet);
 
                     context.startActivity(viewTweet);
                 }
@@ -703,7 +699,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         viewTweet.putExtra("second_account", true);
                     }
 
-                    viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+                    TweetActivity.applyDragDismissBundle(context, viewTweet);
 
                     context.startActivity(viewTweet);
 

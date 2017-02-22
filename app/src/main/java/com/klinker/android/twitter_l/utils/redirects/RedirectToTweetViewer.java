@@ -19,8 +19,9 @@ public class RedirectToTweetViewer extends AppCompatActivity {
 
         Intent tweet = new Intent(this, TweetActivity.class);
         tweet.putExtras(getIntent());
-        tweet.putExtras(TweetActivity.createDragDismissBundle(this));
         tweet.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        TweetActivity.applyDragDismissBundle(this, tweet);
 
         finish();
         overridePendingTransition(0,0);

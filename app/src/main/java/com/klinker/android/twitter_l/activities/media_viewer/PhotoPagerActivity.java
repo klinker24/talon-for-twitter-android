@@ -42,10 +42,11 @@ public class PhotoPagerActivity extends DragDismissActivity {
         viewImage.putExtra("tweet_id", tweetId);
         viewImage.putExtra("hide_info", hideInfo);
 
-        viewImage.putExtras(new DragDismissBundleBuilder()
+
+        new DragDismissBundleBuilder(context)
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
-                .build());
+                .build(viewImage);
 
         context.startActivity(viewImage);
     }

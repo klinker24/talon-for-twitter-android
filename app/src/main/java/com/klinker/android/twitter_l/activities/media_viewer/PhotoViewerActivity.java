@@ -67,10 +67,10 @@ public class PhotoViewerActivity extends DragDismissActivity {
         viewImage.putExtra("url", link);
         viewImage.putExtra("tweet_id", tweetId);
 
-        viewImage.putExtras(new DragDismissBundleBuilder()
+        new DragDismissBundleBuilder(context)
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
-                .build());
+                .build(viewImage);
 
         if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             viewImage.putExtra("shared_trans", true);

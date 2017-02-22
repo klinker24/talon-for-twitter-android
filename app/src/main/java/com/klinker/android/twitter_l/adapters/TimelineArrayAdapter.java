@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -446,7 +445,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", holder.animatedGif);
 
-                viewTweet.putExtras(TweetActivity.createDragDismissBundle(context));
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
 
                 context.startActivity(viewTweet);
             }
