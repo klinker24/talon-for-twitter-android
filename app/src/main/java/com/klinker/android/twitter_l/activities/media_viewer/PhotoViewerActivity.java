@@ -57,6 +57,7 @@ import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
 public class PhotoViewerActivity extends DragDismissActivity {
 
@@ -105,19 +106,20 @@ public class PhotoViewerActivity extends DragDismissActivity {
     private boolean didTransition = false;
 
     @Override
-    public void finish() {
-        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-
-        // this is used in the onStart() for the home fragment to tell whether or not it should refresh
-        // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
-        //sharedPrefs.edit().putBoolean("from_activity", true).apply();
-
-        super.finish();
-    }
-
-    @Override
     protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
         context = this;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ElasticDragDismissFrameLayout dragDismissLayout = (ElasticDragDismissFrameLayout)
+                    findViewById(R.id.dragdismiss_drag_dismiss_layout);
+            dragDismissLayout.setListener(new ElasticDragDismissFrameLayout.ElasticDragDismissCallback() {
+                @Override
+                public void onDragDismissed() {
+                    super.onDragDismissed();
+                    finishAfterTransition();
+                }
+            });
+        }
 
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
