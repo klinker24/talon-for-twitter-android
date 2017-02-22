@@ -601,134 +601,65 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
 
-
-        if(settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled) {
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (holder.preventNextClick) {
-                        holder.preventNextClick = false;
-                        return;
-                    }
-
-                    String link;
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", longTime);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.gifUrl);
-
-                    if (secondAcc) {
-                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                        viewTweet.putExtra("second_account", true);
-                    }
-
-                    TweetActivity.applyDragDismissBundle(context, viewTweet);
-
-                    context.startActivity(viewTweet);
+        holder.background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.preventNextClick) {
+                    holder.preventNextClick = false;
+                    return;
                 }
-            });
 
-            if (expander != null && !MainActivity.isPopup) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!(VideoMatcherUtil.containsThirdPartyVideo(tweetTexts))) {
-                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                            } else {
-                                holder.background.performClick();
-                            }
-                        } else {
-                            removeExpansion(holder, true);
-                        }
-
-                        return true;
-                    }
-                });
-            }
-
-        } else  {
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    String link;
-
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", longTime);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.gifUrl);
-
-                    if (secondAcc) {
-                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                        viewTweet.putExtra("second_account", true);
-                    }
-
-                    TweetActivity.applyDragDismissBundle(context, viewTweet);
-
-                    context.startActivity(viewTweet);
-
-                    return true;
+                String link;
+                boolean displayPic = !holder.picUrl.equals("");
+                if (displayPic) {
+                    link = holder.picUrl;
+                } else {
+                    link = otherUrl.split("  ")[0];
                 }
-            });
 
-            if (expander != null) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (holder.preventNextClick) {
-                            holder.preventNextClick = false;
-                            return;
-                        }
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenname);
+                viewTweet.putExtra("time", longTime);
+                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("retweeter", fRetweeter);
+                viewTweet.putExtra("webpage", link);
+                viewTweet.putExtra("other_links", otherUrl);
+                viewTweet.putExtra("picture", displayPic);
+                viewTweet.putExtra("tweetid", holder.tweetId);
+                viewTweet.putExtra("proPic", profilePic);
+                viewTweet.putExtra("users", users);
+                viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", holder.gifUrl);
 
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!VideoMatcherUtil.containsThirdPartyVideo(tweetTexts)) {
-                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                            } else {
-                                holder.background.performLongClick();
-                            }
-                        } else {
-                            removeExpansion(holder, true);
-                        }
-                    }
-                });
+                if (secondAcc) {
+                    String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                    viewTweet.putExtra("second_account", true);
+                }
+
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
+
+                context.startActivity(viewTweet);
             }
-        }
+        });
+
+        holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (holder.expandArea.getVisibility() == View.GONE) {
+                    if (!(VideoMatcherUtil.containsThirdPartyVideo(tweetTexts))) {
+                        addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
+                    } else {
+                        holder.background.performClick();
+                    }
+                } else {
+                    removeExpansion(holder, true);
+                }
+
+                return true;
+            }
+        });
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
