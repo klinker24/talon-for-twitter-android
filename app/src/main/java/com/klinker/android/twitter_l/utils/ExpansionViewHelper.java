@@ -1615,7 +1615,8 @@ public class ExpansionViewHelper {
         });
 
         // 1dp/ms
-        a.setDuration((int)(targetHeight / inReplyToArea.getContext().getResources().getDisplayMetrics().density));
+        //a.setDuration((int)(targetHeight / inReplyToArea.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration(200);
         inReplyToArea.startAnimation(a);
     }
 
