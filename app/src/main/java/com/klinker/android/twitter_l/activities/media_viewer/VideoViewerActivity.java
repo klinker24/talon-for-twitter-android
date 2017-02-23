@@ -90,6 +90,7 @@ public class VideoViewerActivity extends DragDismissActivity {
             new DragDismissBundleBuilder(context)
                     .setShowToolbar(false)
                     .setPrimaryColorResource(android.R.color.black)
+                    .setShouldScrollToolbar(false)
                     .build(viewVideo);
 
             if (video != null) {
