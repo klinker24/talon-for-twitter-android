@@ -68,12 +68,13 @@ public class UserAutoCompleteHelper {
 
         textView.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override public void afterTextChanged(Editable editable) {
+            @Override public void afterTextChanged(Editable editable) { }
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String tvText = textView.getText().toString();
 
                 try {
                     int position = textView.getSelectionStart() - 1;
-                    if (tvText.lastIndexOf("@") == tvText.length() - 1) {
+                    if (tvText.charAt(position) == '@') {
                         userAutoComplete.show();
                     } else if (!tvText.contains("@") || position < tvText.indexOf("@")) {
                         userAutoComplete.dismiss();
@@ -91,9 +92,6 @@ public class UserAutoCompleteHelper {
                     e.printStackTrace();
                     userAutoComplete.dismiss();
                 }
-            }
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
         });
 
