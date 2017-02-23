@@ -20,4 +20,9 @@ public class TalonPhotoViewAttacher extends PhotoViewAttacher {
             return false;
         }
     }
+
+    @Override
+    public void onGlobalLayout() {
+        try { super.onGlobalLayout(); } catch (Exception e) { }
+    }
 }
