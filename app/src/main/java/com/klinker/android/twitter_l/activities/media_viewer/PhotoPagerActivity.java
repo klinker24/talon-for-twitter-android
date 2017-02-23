@@ -46,6 +46,7 @@ public class PhotoPagerActivity extends DragDismissActivity {
         new DragDismissBundleBuilder(context)
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
+                .setShouldScrollToolbar(false)
                 .build(viewImage);
 
         context.startActivity(viewImage);
