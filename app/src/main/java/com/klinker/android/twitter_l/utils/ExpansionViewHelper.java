@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -20,7 +21,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
@@ -36,7 +36,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
 
-import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.BrowserActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
@@ -59,11 +58,6 @@ import com.klinker.android.twitter_l.activities.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import twitter4j.*;
 
@@ -99,21 +93,18 @@ public class ExpansionViewHelper {
     // area that is used for the previous tweets in the conversation
     LinearLayout inReplyToArea;
 
+    TextView tweetCounts;
+
     // manage the favorite stuff
-    TextView favCount;
-    TextView favText;
     ImageView favoriteIcon;
-    View favoriteButton; // linear layout
 
     // manage the retweet stuff
-    TextView retweetCount;
-    TextView retweetText;
     ImageView retweetIcon;
-    View retweetButton; // linear layout
 
     // buttons at the bottom
-    ImageButton webButton;
-    Button repliesButton;
+    ImageButton shareButton;
+    TextView repliesText;
+    View repliesButton;
     View composeButton;
     View overflowButton;
     View quoteButton;
@@ -132,7 +123,7 @@ public class ExpansionViewHelper {
 
     ProgressBar convoProgress;
     RelativeLayout convoArea;
-    CardView convoCard;
+    FrameLayout convoCard;
     CardView embeddedTweetCard;
     LinearLayout convoTweetArea;
 
@@ -162,26 +153,21 @@ public class ExpansionViewHelper {
     boolean windowedPopups;
 
     private void setViews(boolean windowedPopups) {
-        favCount = (TextView) expansion.findViewById(R.id.fav_count);
-        favText = (TextView) expansion.findViewById(R.id.favorite_text);
-        favoriteIcon = (ImageView) expansion.findViewById(R.id.heart_icon);
-        favoriteButton = expansion.findViewById(R.id.favorite);
+        tweetCounts = (TextView) expansion.findViewById(R.id.tweet_counts);
+        favoriteIcon = (ImageView) expansion.findViewById(R.id.favorite);
+        retweetIcon = (ImageView) expansion.findViewById(R.id.retweet);
 
-        retweetCount = (TextView) expansion.findViewById(R.id.retweet_count);
-        retweetText = (TextView) expansion.findViewById(R.id.retweet_text);
-        retweetButton = expansion.findViewById(R.id.retweet);
-        retweetIcon = (ImageView) expansion.findViewById(R.id.retweet_icon);
-
-        webButton = (ImageButton) expansion.findViewById(R.id.web_button);
-        repliesButton = (Button)expansion.findViewById(R.id.show_all_tweets_button);
+        shareButton = (ImageButton) expansion.findViewById(R.id.web_button);
+        repliesButton = expansion.findViewById(R.id.show_all_tweets_button);
+        repliesText = (TextView) expansion.findViewById(R.id.replies_text);
         composeButton = expansion.findViewById(R.id.compose_button);
         overflowButton = expansion.findViewById(R.id.overflow_button);
         quoteButton = expansion.findViewById(R.id.quote_button);
-        interactionsButton = expansion.findViewById(R.id.info_button);
+        interactionsButton = expansion.findViewById(R.id.tweet_counts);
 
         tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
-        repliesButton.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
+        repliesText.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (ListView) convoLayout.findViewById(R.id.listView);
@@ -233,14 +219,14 @@ public class ExpansionViewHelper {
 
         convoArea = (RelativeLayout) expansion.findViewById(R.id.convo_area);
         convoProgress = (ProgressBar) expansion.findViewById(R.id.convo_spinner);
-        convoCard = (CardView) expansion.findViewById(R.id.convo_card);
+        convoCard = (FrameLayout) expansion.findViewById(R.id.convo_card);
         embeddedTweetCard = (CardView) expansion.findViewById(R.id.embedded_tweet_card);
         convoTweetArea = (LinearLayout) expansion.findViewById(R.id.tweets_content);
     }
 
     private void setClicks(final boolean windowedPopups) {
 
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
+        favoriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isFavorited || !settings.crossAccActions) {
@@ -264,7 +250,7 @@ public class ExpansionViewHelper {
             }
         });
 
-        retweetButton.setOnClickListener(new View.OnClickListener() {
+        retweetIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isRetweeted || !settings.crossAccActions) {
@@ -288,7 +274,7 @@ public class ExpansionViewHelper {
             }
         });
 
-        retweetButton.setOnLongClickListener(new View.OnLongClickListener() {
+        retweetIcon.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(context)
@@ -417,16 +403,16 @@ public class ExpansionViewHelper {
             }
         });
 
-        webButton.setEnabled(false);
-        webButton.setAlpha(.5f);
-        webButton.setOnClickListener(new View.OnClickListener() {
+        shareButton.setEnabled(false);
+        shareButton.setAlpha(.5f);
+        shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 shareClick();
             }
         });
 
-        webButton.setOnLongClickListener(new View.OnLongClickListener() {
+        shareButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 makeToast("Share Tweet");
@@ -503,11 +489,11 @@ public class ExpansionViewHelper {
         if (tweets.size() > CONVO_CARD_LIST_SIZE) {
             repliesButton.setVisibility(View.VISIBLE);
         } else {
-            repliesButton.setVisibility(View.INVISIBLE);
+            repliesText.setVisibility(View.GONE);
+            repliesButton.getLayoutParams().height = Utils.toDP(24, context);
+            repliesButton.requestLayout();
         }
 
-        TextView convoTitle = (TextView) convoArea.findViewById(R.id.tweets_title_text);
-        convoTitle.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
         View tweetDivider = new View(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
         tweetDivider.setLayoutParams(params);
@@ -626,7 +612,7 @@ public class ExpansionViewHelper {
         TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.shareButton});
         int resource = a.getResourceId(0, 0);
         a.recycle();
-        webButton.setImageResource(resource);
+        shareButton.setImageResource(resource);
         shareOnWeb = true;
 
         if (webLink != null && webLink.contains("/status/")) {
@@ -637,14 +623,14 @@ public class ExpansionViewHelper {
             }
         }
 
-        webButton.setEnabled(true);
-        webButton.setAlpha(1.0f);
+        shareButton.setEnabled(true);
+        shareButton.setAlpha(1.0f);
     }
 
     public void startFlowAnimation() {
 //        favoriteButton.setVisibility(View.INVISIBLE);
 //        retweetButton.setVisibility(View.INVISIBLE);
-//        webButton.setVisibility(View.INVISIBLE);
+//        shareButton.setVisibility(View.INVISIBLE);
 //        quoteButton.setVisibility(View.INVISIBLE);
 //        composeButton.setVisibility(View.INVISIBLE);
 //        overflowButton.setVisibility(View.INVISIBLE);
@@ -653,7 +639,7 @@ public class ExpansionViewHelper {
 //
 //        startAlphaAnimation(favoriteButton, 0);
 //        startAlphaAnimation(retweetButton, 75);
-//        startAlphaAnimation(webButton, 75);
+//        startAlphaAnimation(shareButton, 75);
 //        startAlphaAnimation(quoteButton, 150);
 //        startAlphaAnimation(convoProgress, 175);
 //        startAlphaAnimation(composeButton, 225);
@@ -671,7 +657,7 @@ public class ExpansionViewHelper {
 
     private void startAlphaAnimation(final View v, long offset, float start, float finish) {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, start, finish);
-        alpha.setDuration(1000);
+        alpha.setDuration(300);
         alpha.setStartDelay(offset);
         alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
         alpha.addListener(new Animator.AnimatorListener() {
@@ -1131,52 +1117,9 @@ public class ExpansionViewHelper {
                                 loadedCallback.onLoad(status);
                             }
 
-                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                            int textColor = a.getResourceId(0, 0);
-                            a.recycle();
-
-                            retweetCount.setText(" " + retCount);
-
-                            if (status.getUser().isProtected()) {
-                                retweetCount.setText("N/A");
-
-                                retweetButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Toast.makeText(context, R.string.protected_account_retweet, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                                quoteButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Toast.makeText(context, R.string.protected_account_quote, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-                            if (isRetweeted) {
-                                retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
-                                retweetIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-                            } else {
-                                retweetText.setTextColor(context.getResources().getColor(textColor));
-                                retweetIcon.clearColorFilter();
-                            }
-
-                            favCount.setText(" " + sfavCount);
-
-                            if (fStatus.isFavorited()) {
-                                favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
-                                favoriteIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-                                isFavorited = true;
-                            } else {
-                                favText.setTextColor(context.getResources().getColor(textColor));
-                                favoriteIcon.clearColorFilter();
-                                isFavorited = false;
-                            }
-
                             String via = context.getResources().getString(R.string.via) + "<br><b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
                             tweetSource.setText(Html.fromHtml(via));
+                            updateTweetCounts(fStatus);
                         }
                     });
                 } catch (Exception e) {
@@ -1189,38 +1132,73 @@ public class ExpansionViewHelper {
         getInfo.start();
     }
 
+    private void updateTweetCounts(twitter4j.Status status) {
+        if (status.isRetweet()) {
+            status = status.getRetweetedStatus();
+        }
+
+        AppSettings settings = AppSettings.getInstance(context);
+
+        String retweets = status.getRetweetCount() == 1 ? context.getString(R.string.retweet).toLowerCase() : context.getString(R.string.new_retweets);
+        String likes = status.getFavoriteCount() == 1 ? context.getString(R.string.favorite).toLowerCase() : context.getString(R.string.new_favorites);
+        String tweetCount = status.getFavoriteCount() + " <b>" + likes + "</b>  " +
+                (!status.getUser().isProtected() ? status.getRetweetCount() + " <b>" + retweets + "</b> " : "");
+        tweetCounts.setText(Html.fromHtml(tweetCount));
+
+        if (status.getUser().isProtected()) {
+            retweetIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, R.string.protected_account_retweet, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            quoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, R.string.protected_account_quote, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        if (status.isRetweetedByMe()) {
+            retweetIcon.setImageResource(R.drawable.ic_action_repeat_dark);
+            retweetIcon.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+        } else {
+            if(!settings.darkTheme) {
+                favoriteIcon.setImageResource(R.drawable.ic_action_repeat_light);
+            }
+
+            retweetIcon.clearColorFilter();
+        }
+
+        if (status.isFavorited()) {
+            favoriteIcon.setImageResource(R.drawable.ic_heart_dark);
+            favoriteIcon.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+            isFavorited = true;
+        } else {
+            if(!settings.darkTheme) {
+                favoriteIcon.setImageResource(R.drawable.ic_heart_light);
+            }
+
+            favoriteIcon.clearColorFilter();
+            isFavorited = false;
+        }
+    }
+
     public void getRetweetCount() {
 
         new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-                boolean retweetedByMe;
                 try {
                     Twitter twitter =  getTwitter();
-                    twitter4j.Status status = twitter.showStatus(id);
+                    final twitter4j.Status status = twitter.showStatus(id);
 
-                    retweetedByMe = status.isRetweetedByMe();
-                    final String retCount = "" + status.getRetweetCount();
-
-
-                    final boolean fRet = retweetedByMe;
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                            int textColor = a.getResourceId(0, 0);
-                            a.recycle();
-
-                            retweetCount.setText(" " + retCount);
-
-                            if (fRet) {
-                                retweetText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
-                                retweetIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-                            } else {
-                                retweetText.setTextColor(context.getResources().getColor(textColor));
-                                retweetIcon.clearColorFilter();
-                            }
+                            updateTweetCounts(status);
                         }
                     });
                 } catch (Exception e) {
@@ -1236,31 +1214,12 @@ public class ExpansionViewHelper {
             public void run() {
                 try {
                     Twitter twitter =  getTwitter();
-                    Status status = twitter.showStatus(id);
-                    if (status.isRetweet()) {
-                        Status retweeted = status.getRetweetedStatus();
-                        status = retweeted;
-                    }
+                    final Status status = twitter.showStatus(id);
 
-                    final Status fStatus = status;
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            favCount.setText(" " + fStatus.getFavoriteCount());
-
-                            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-                            int textColor = a.getResourceId(0, 0);
-                            a.recycle();
-
-                            if (fStatus.isFavorited()) {
-                                favText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
-                                favoriteIcon.setColorFilter(AppSettings.getInstance(context).themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
-                                isFavorited = true;
-                            } else {
-                                favText.setTextColor(context.getResources().getColor(textColor));
-                                favoriteIcon.clearColorFilter();
-                                isFavorited = false;
-                            }
+                            updateTweetCounts(status);
                         }
                     });
                 } catch (Exception e) {
@@ -1293,13 +1252,7 @@ public class ExpansionViewHelper {
         }
 
         protected void onPostExecute(Boolean deleted) {
-
-            TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.textColor});
-            int textColor = a.getResourceId(0, 0);
-            a.recycle();
-
-            if (retweetText != null && deleted) {
-                retweetText.setTextColor(context.getResources().getColor(textColor));
+            if (deleted) {
                 retweetIcon.clearColorFilter();
             }
 
@@ -1596,21 +1549,12 @@ public class ExpansionViewHelper {
                 return true;
             }
         };
-        final boolean shouldEnableRetweet = retweetButton.isEnabled();
+
         a.setAnimationListener(new Animation.AnimationListener() {
-            @Override public void onAnimationStart(Animation animation) {
-                retweetButton.setEnabled(false);
-            }
             @Override public void onAnimationRepeat(Animation animation) { }
+            @Override public void onAnimationStart(Animation animation) { }
             @Override public void onAnimationEnd(Animation animation) {
                 readjustExpansionArea();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (shouldEnableRetweet)
-                            retweetButton.setEnabled(true);
-                    }
-                }, 500);
             }
         });
 

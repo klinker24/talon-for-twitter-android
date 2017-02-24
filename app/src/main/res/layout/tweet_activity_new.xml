@@ -4,33 +4,34 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?windowBackground">
+    android:background="?tweet_activity_background">
 
         <LinearLayout
             android:id="@+id/content"
-            android:paddingTop="12dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:background="?windowBackground"
                 android:orientation="vertical"
                 android:id="@+id/conversation_area"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp" />
+                android:paddingTop="12dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="8dp" />
 
             <LinearLayout
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
+                android:background="?windowBackground"
                 android:orientation="vertical"
+                android:paddingTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout android:layout_width="match_parent"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:id="@+id/actionbar_bar"
@@ -54,7 +55,6 @@
                             android:contentDescription="Profile Picture"/>
 
                     </FrameLayout>
-
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -83,30 +83,27 @@
                             android:singleLine="true"
                             android:gravity="top"/>
 
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginRight="6dp"
-                        android:layout_gravity="right|bottom">
+                        android:layout_gravity="end|bottom">
 
                         <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/time"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:textColor="?dateColor"
-                            android:gravity="right"
                             android:paddingBottom="14dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-
                 <include android:id="@+id/tweet_background"
+                    android:background="?windowBackground"
                     layout="@layout/tweet_for_fragment"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent" />
@@ -116,11 +113,9 @@
             <LinearLayout
                 android:id="@+id/expansion_area"
                 android:orientation="vertical"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content"
+                android:background="?windowBackground"/>
 
         </LinearLayout>
 

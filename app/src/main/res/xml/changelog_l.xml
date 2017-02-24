@@ -2,8 +2,10 @@
 
     <version name="6.0.0">
         <text>Woah. Speed. Everything is faster. You will feel the difference.</text>
-        <text>NEW: Tweet viewer revamp</text>
-        <text>New: Image viewer revamp</text>
+        <text>NEW: tweet viewer revamp</text>
+        <text>New: image viewer revamp</text>
+        <text>New: profiles revamp</text>
+        <text>Improvements to the article viewer</text>
         <text>Improved image loading</text>
         <text>Improved tablet support</text>
         <text>Reduce data usage</text>
