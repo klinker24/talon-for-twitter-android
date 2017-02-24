@@ -52,6 +52,7 @@
         <item name="drawer_subtext">@color/drawer_subtext_dark</item>
         <item name="drawer_options_background">@color/drawer_options_background_dark</item>
         <item name="tweet_background">@color/dark_drawer</item>
+        <item name="tweet_activity_background">@color/black_background</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_black</item>
         <item name="cancelButton">@drawable/ic_cancel_dark</item>
@@ -98,6 +99,7 @@
         <item name="widget_customization">@drawable/ic_widget_customization_dark</item>
         <item name="background_sync">@drawable/ic_background_sync_dark</item>
         <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
+        <item name="reply_button">@drawable/ic_reply_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>
@@ -200,6 +202,7 @@
         <item name="drawer_subtext">@color/drawer_subtext_dark</item>
         <item name="drawer_options_background">@color/drawer_options_background_dark</item>
         <item name="tweet_background">@color/dark_drawer</item>
+        <item name="tweet_activity_background">@color/black_background</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_dark</item>
         <item name="cancelButton">@drawable/ic_cancel_dark</item>
@@ -246,6 +249,7 @@
         <item name="widget_customization">@drawable/ic_widget_customization_dark</item>
         <item name="background_sync">@drawable/ic_background_sync_dark</item>
         <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
+        <item name="reply_button">@drawable/ic_reply_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>

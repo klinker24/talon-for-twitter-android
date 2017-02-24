@@ -285,7 +285,7 @@ public abstract class PopupLayout extends CardView {
 
         // makes sure it is centered and below the
         float usableHeight = screenHeight - statusBarSize - navBarSize;
-        setDistanceFromTop((int) (statusBarSize + 10 + ((usableHeight - height) / 2)));
+        setDistanceFromTop((int) (statusBarSize + Utils.toDP(24, getContext()) + ((usableHeight - height) / 2)));
     }
 
     /**
