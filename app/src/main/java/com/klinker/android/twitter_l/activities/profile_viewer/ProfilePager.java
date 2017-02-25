@@ -62,8 +62,44 @@ import com.yalantis.ucrop.UCrop;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.*;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
-public class ProfilePager extends SlidingActivity {
+public class ProfilePager extends DragDismissActivity {
+
+    public static void start(Context context, User user) {
+        start(context, user.getName(), user.getScreenName(), user.getOriginalProfileImageURL());
+    }
+
+    public static void start(Context context, String screenname) {
+        start(context, null, screenname, null);
+    }
+
+    public static void start(Context context, String name, String screenName, String profilePic) {
+        Intent intent = new Intent(context, ProfilePager.class);
+
+        DragDismissIntentBuilder.Theme theme = DragDismissIntentBuilder.Theme.LIGHT;
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.darkTheme) {
+            theme = DragDismissIntentBuilder.Theme.DARK;
+        } else if (settings.blackTheme) {
+            theme = DragDismissIntentBuilder.Theme.BLACK;
+        }
+
+        new DragDismissIntentBuilder(context)
+                .setShowToolbar(true)
+                .setShouldScrollToolbar(true)
+                .setTheme(theme)
+                .setToolbarTitle(name)
+                .setPrimaryColorValue(AppSettings.getInstance(context).themeColors.primaryColor)
+                .build(intent);
+
+        intent.putExtra("name", name);
+        intent.putExtra("screenname", screenName);
+        intent.putExtra("proPic", profilePic);
+
+        context.startActivity(intent);
+    }
 
     private static final long NETWORK_ACTION_DELAY = 200;
 
@@ -82,72 +118,25 @@ public class ProfilePager extends SlidingActivity {
     private boolean isFollowingSet = false;
 
     @Override
-    public void init(Bundle savedInstanceState) {
+    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
 
         Utils.setTaskDescription(this);
+        Utils.setSharedContentTransition(this);
 
         context = this;
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
         settings = AppSettings.getInstance(this);
 
-        setPrimaryColors(
-                settings.themeColors.primaryColor,
-                settings.themeColors.primaryColorDark
-        );
-
-
-        if (!sharedPrefs.getBoolean("knows_about_profile_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_profile_swipedown", true).apply();
-            Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
-        }
-
-        Utils.setSharedContentTransition(this);
-
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if(menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception ex) {
-            // Ignore
-        }
-
         setUpTheme();
         getFromIntent();
-        setContent(R.layout.user_profile);
-        setHeaderContent(R.layout.sliding_profile_header);
-        setUpContent();
+        View root = inflater.inflate(R.layout.user_profile, parent, false);
+
+        showProgressBar();
+        setUpContent(root);
         getUser();
-        enableFullscreen();
 
-        /*WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenHeight = size.y;
-        int screenWidth = size.x;
-
-        Intent intent = getIntent();
-
-        if (getIntent().getBooleanExtra(TweetActivity.USE_EXPANSION, false)) {
-            enableFullscreen();
-        }
-        
-        expandFromPoints(
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, 0),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, screenWidth),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, 0)
-        );*/
-    }
-
-    @Override
-    protected void configureScroller(MultiShrinkScroller scroller) {
-        super.configureScroller(scroller);
-        scroller.setIntermediateHeaderHeightRatio(.75f);
+        return root;
     }
 
     @Override
@@ -166,48 +155,26 @@ public class ProfilePager extends SlidingActivity {
     public ImageView[] followers = new ImageView[3];
     public View profileCounts;
 
-    public void setTransitionNames() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            profilePic.setTransitionName("pro_pic");
-        }
-    }
-
-    public void setUpContent() {
+    public void setUpContent(View root) {
         // first get all the views we need
-        profilePic = (ImageView) findViewById(R.id.profile_pic);
+        profilePic = (ImageView) root.findViewById(R.id.profile_pic);
 
-        followerCount = (FontPrefTextView) findViewById(R.id.followers_number);
-        followingCount = (FontPrefTextView) findViewById(R.id.following_number);
-        description = (FontPrefTextView) findViewById(R.id.user_description);
-        location = (FontPrefTextView) findViewById(R.id.user_location);
-        website = (FontPrefTextView) findViewById(R.id.user_webpage);
-        profileCounts = findViewById(R.id.profile_counts);
+        followerCount = (FontPrefTextView) root.findViewById(R.id.followers_number);
+        followingCount = (FontPrefTextView) root.findViewById(R.id.following_number);
+        description = (FontPrefTextView) root.findViewById(R.id.user_description);
+        location = (FontPrefTextView) root.findViewById(R.id.user_location);
+        website = (FontPrefTextView) root.findViewById(R.id.user_webpage);
+        profileCounts = root.findViewById(R.id.profile_counts);
 
-        friends[0] = (ImageView) findViewById(R.id.friend_1);
-        friends[1] = (ImageView) findViewById(R.id.friend_2);
-        friends[2] = (ImageView) findViewById(R.id.friend_3);
+        friends[0] = (ImageView) root.findViewById(R.id.friend_1);
+        friends[1] = (ImageView) root.findViewById(R.id.friend_2);
+        friends[2] = (ImageView) root.findViewById(R.id.friend_3);
 
-        followers[0] = (ImageView) findViewById(R.id.follower_1);
-        followers[1] = (ImageView) findViewById(R.id.follower_2);
-        followers[2] = (ImageView) findViewById(R.id.follower_3);
+        followers[0] = (ImageView) root.findViewById(R.id.follower_1);
+        followers[1] = (ImageView) root.findViewById(R.id.follower_2);
+        followers[2] = (ImageView) root.findViewById(R.id.follower_3);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            setTransitionNames();
-        }
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadProfilePicture();
-            }
-        }, 300);
-
-        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        loadProfilePicture();
     }
 
     private boolean loaded = false;
@@ -218,24 +185,24 @@ public class ProfilePager extends SlidingActivity {
             return;
         }
 
-        try {
-            Glide.with(this).load(proPic)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into((CircleImageView) findViewById(R.id.profile_image));
-        } catch (Exception e) {
-
-        }
-
-        findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (thisUser != null) {
-                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
-                } else {
-                    PhotoViewerActivity.startActivity(context, proPic);
-                }
-            }
-        });
+//        try {
+//            Glide.with(this).load(proPic)
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                    .into((CircleImageView) findViewById(R.id.profile_image));
+//        } catch (Exception e) {
+//
+//        }
+//
+//        findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (thisUser != null) {
+//                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+//                } else {
+//                    PhotoViewerActivity.startActivity(context, proPic);
+//                }
+//            }
+//        });
     }
 
     public void setUpTheme() {
@@ -243,20 +210,14 @@ public class ProfilePager extends SlidingActivity {
     }
 
     private boolean isMyProfile = false;
-    private String name;
     private String screenName;
     private String proPic;
-    private long tweetId;
-    private boolean isRetweet;
 
     public void getFromIntent() {
         Intent from = getIntent();
 
-        name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
         proPic = from.getStringExtra("proPic");
-        tweetId = from.getLongExtra("tweetid", 0l);
-        isRetweet = from.getBooleanExtra("retweet", false);
 
         if (screenName != null && screenName.equalsIgnoreCase(settings.myScreenName)) {
             isMyProfile = true;
@@ -270,8 +231,6 @@ public class ProfilePager extends SlidingActivity {
 
         if (android.text.TextUtils.isEmpty(proPic)) {
             proPic = user.getOriginalProfileImageURL();
-            name = user.getName();
-
             loadProfilePicture();
         }
 
@@ -282,17 +241,17 @@ public class ProfilePager extends SlidingActivity {
         params.topMargin = Utils.toDP(32, context);
         headerCard.setLayoutParams(params);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent compose = new Intent(context, ComposeActivity.class);
-                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
-                        v.getMeasuredWidth(), v.getMeasuredHeight());
-                compose.putExtra("user", "@" + screenName);
-                compose.putExtra("already_animated", true);
-                startActivity(compose, opts.toBundle());
-            }
-        });
+//        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent compose = new Intent(context, ComposeActivity.class);
+//                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+//                        v.getMeasuredWidth(), v.getMeasuredHeight());
+//                compose.putExtra("user", "@" + screenName);
+//                compose.putExtra("already_animated", true);
+//                startActivity(compose, opts.toBundle());
+//            }
+//        });
 
         String des = user.getDescription();
         String loc = user.getLocation();
@@ -759,12 +718,6 @@ public class ProfilePager extends SlidingActivity {
         TimeoutThread getUser = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
                 try {
@@ -777,6 +730,8 @@ public class ProfilePager extends SlidingActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            hideProgressBar();
+
                             Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
 
                             if (spinner == null) {
@@ -839,6 +794,9 @@ public class ProfilePager extends SlidingActivity {
                         @Override
                         public void run() {
                             //actionBar.setTitle(thisUser.getName());
+
+                            hideProgressBar();
+
                             invalidateOptionsMenu();
                             setProfileCard(thisUser);
                             showStats(thisUser);

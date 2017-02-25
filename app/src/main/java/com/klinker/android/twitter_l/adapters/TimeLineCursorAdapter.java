@@ -664,23 +664,13 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", holder.proPicUrl);
-                viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                viewProfile.putExtra("long_click", false);
-
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
                             .putLong("current_position_" + settings.currentAccount, holder.tweetId)
                             .apply();
                 }
 
-                viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
-
-                context.startActivity(viewProfile);
+                ProfilePager.start(context, name, screenname, holder.proPicUrl);
             }
         });
 

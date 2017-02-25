@@ -17,14 +17,7 @@ public class RedirectToMyAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         overridePendingTransition(0, 0);
-
-        Intent profile = new Intent(this, ProfilePager.class);
-        profile.putExtra("screenname",
-                AppSettings.getInstance(this).myScreenName.replace("@", "").replaceAll(" ", ""));
-        profile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        overridePendingTransition(0, 0);
-        startActivity(profile);
+        ProfilePager.start(this, AppSettings.getInstance(this).myScreenName.replace("@", "").replaceAll(" ", ""));
 
         overridePendingTransition(0, 0);
         finish();

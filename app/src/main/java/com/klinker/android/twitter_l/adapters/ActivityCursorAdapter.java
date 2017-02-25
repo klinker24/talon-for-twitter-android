@@ -80,10 +80,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         String[] userArray = users.split(" ");
 
                         if (userArray.length == 1) {
-                            Intent viewProfile = new Intent(context, ProfilePager.class);
-                            viewProfile.putExtra("screenname", userArray[0].replace("@", "").replace(" ", ""));
-
-                            context.startActivity(viewProfile);
+                            ProfilePager.start(context, userArray[0].replace("@", "").replace(" ", ""));
                         } else {
                             displayUserDialog(userArray);
                         }
@@ -195,10 +192,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 holder.profilePic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("screenname", screenname);
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, screenname);
                     }
                 });
 
@@ -253,12 +247,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 .setItems(users, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String s = users[i];
-
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("screenname", s.replace("@", "").replace(" ", ""));
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, users[i].replace("@", "").replace(" ", ""));
                     }
                 })
                 .create()
