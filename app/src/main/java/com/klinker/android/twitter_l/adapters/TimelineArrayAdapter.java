@@ -457,17 +457,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.profilePic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewProfile = new Intent(context, ProfilePager.class);
-                    viewProfile.putExtra("name", name);
-                    viewProfile.putExtra("screenname", screenname);
-                    viewProfile.putExtra("proPic", profilePic);
-                    viewProfile.putExtra("tweetid", holder.tweetId);
-                    viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                    viewProfile.putExtra("long_click", false);
-
-                    viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
-
-                    context.startActivity(viewProfile);
+                    ProfilePager.start(context, name, screenname, profilePic);
                 }
             });
 
@@ -475,17 +465,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
                 @Override
                 public boolean onLongClick(View view) {
-                    Intent viewProfile = new Intent(context, ProfilePager.class);
-                    viewProfile.putExtra("name", name);
-                    viewProfile.putExtra("screenname", screenname);
-                    viewProfile.putExtra("proPic", profilePic);
-                    viewProfile.putExtra("tweetid", holder.tweetId);
-                    viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                    viewProfile.putExtra("long_click", true);
-
-                    viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
-
-                    context.startActivity(viewProfile);
+                    ProfilePager.start(context, name, screenname, profilePic);
                     return false;
                 }
             });

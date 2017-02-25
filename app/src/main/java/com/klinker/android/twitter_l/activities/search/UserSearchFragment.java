@@ -170,10 +170,7 @@ public class UserSearchFragment extends Fragment {
         doUserSearch(searchQuery);
 
         if (onlyProfile) {
-            Intent viewProfile = new Intent(context, ProfilePager.class);
-            viewProfile.putExtra("screenname", searchQuery.replace("@", "").replaceAll(" ", ""));
-
-            startActivity(viewProfile);
+            ProfilePager.start(context, searchQuery.replace("@", "").replaceAll(" ", ""));
             getActivity().finish();
         }
 

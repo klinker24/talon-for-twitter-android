@@ -347,17 +347,7 @@ public class TweetView {
             profilePicIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewProfile = new Intent(context, ProfilePager.class);
-                    viewProfile.putExtra("name", name);
-                    viewProfile.putExtra("screenname", screenName);
-                    viewProfile.putExtra("proPic", profilePicUrl);
-                    viewProfile.putExtra("tweetid", tweetId);
-                    viewProfile.putExtra("retweet", retweeterTv.getVisibility() == View.VISIBLE);
-                    viewProfile.putExtra("long_click", false);
-
-                    viewProfile = addDimensForExpansion(viewProfile, profilePicIv);
-
-                    context.startActivity(viewProfile);
+                    ProfilePager.start(context, name, screenName, profilePicUrl);
                 }
             });
         }

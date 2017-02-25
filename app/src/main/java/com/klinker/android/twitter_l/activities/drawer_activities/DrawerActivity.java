@@ -544,15 +544,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("name", sName);
-                        viewProfile.putExtra("screenname", sScreenName);
-                        viewProfile.putExtra("proPic", profilePicUrl);
-                        viewProfile.putExtra("tweetid", 0);
-                        viewProfile.putExtra("retweet", false);
-                        viewProfile.putExtra("long_click", false);
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, sName, sScreenName, profilePicUrl);
                     }
                 }, 400);
             }
@@ -571,15 +563,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("name", sName);
-                        viewProfile.putExtra("screenname", sScreenName);
-                        viewProfile.putExtra("proPic", profilePicUrl);
-                        viewProfile.putExtra("tweetid", 0);
-                        viewProfile.putExtra("retweet", false);
-                        viewProfile.putExtra("long_click", true);
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, sName, sScreenName, profilePicUrl);
                     }
                 }, 400);
 
@@ -1123,16 +1107,10 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
                         if (i == 0) {
                             // talon
-                            Intent profile = new Intent(context, ProfilePager.class);
-                            profile.putExtra("screenname", "TalonAndroid");
-                            profile.putExtra("proPic", "");
-                            startActivity(profile);
+                            ProfilePager.start(context, "Talon", "TalonAndroid", null);
                         } else if (i == 1) {
                             // luke (twitter)
-                            Intent profile = new Intent(context, ProfilePager.class);
-                            profile.putExtra("screenname", "lukeklinker");
-                            profile.putExtra("proPic", "");
-                            startActivity(profile);
+                            ProfilePager.start(context, "Luke Klinker", "lukeklinker", null);
                         } else {
                             // luke (google+)
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com/+LukeKlinker")));

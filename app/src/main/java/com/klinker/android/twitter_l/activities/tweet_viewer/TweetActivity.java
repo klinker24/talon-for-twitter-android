@@ -127,10 +127,6 @@ public class TweetActivity extends DragDismissActivity {
 
     public static void applyDragDismissBundle(Context context, Intent intent) {
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
-        int resource = a.getResourceId(0, 0);
-        a.recycle();
-
         DragDismissIntentBuilder.Theme theme = DragDismissIntentBuilder.Theme.LIGHT;
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.darkTheme) {
@@ -594,18 +590,7 @@ public class TweetActivity extends DragDismissActivity {
             @Override
             public void onClick(View view) {
                 if (!hidePopups()) {
-                    Intent viewProfile = new Intent(context, ProfilePager.class);
-                    viewProfile.putExtra("name", name);
-                    viewProfile.putExtra("screenname", screenName);
-                    viewProfile.putExtra("proPic", proPic);
-                    viewProfile.putExtra("tweetid", tweetId);
-                    viewProfile.putExtra("retweet", retweetertv.getVisibility() == View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setExitTransition(null);
-                    }
-
-                    context.startActivity(viewProfile);
+                    ProfilePager.start(context, name, screenName, proPic);
                 }
             }
         };
