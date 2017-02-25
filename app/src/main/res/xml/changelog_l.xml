@@ -3,6 +3,7 @@
     <version name="5.10.0">
         <text>Option to enable fingerprint authentication for composing a tweet (Open the compose menu and hit the three dot overflow)</text>
         <text>Peeking into a profile (by long clicking their picture) will show you whether or not they follow you</text>
+        <text>Option to only show the people you follow, when auto-completing a mention (Settings -> Other Options)</text>
         <text>Fixes for the user auto complete</text>
     </version>
 

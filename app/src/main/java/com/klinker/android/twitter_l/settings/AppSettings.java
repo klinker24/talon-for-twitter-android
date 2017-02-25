@@ -181,6 +181,7 @@ public class AppSettings {
     public boolean dualPanels;
     public boolean detailedQuotes;
     public boolean fingerprintLock;
+    public boolean followersOnlyAutoComplete;
 
     // notifications
     public boolean timelineNot;
@@ -348,6 +349,7 @@ public class AppSettings {
         detailedQuotes = sharedPrefs.getBoolean("detailed_quotes", false);
         browserSelection = sharedPrefs.getString("browser_selection", "article");
         fingerprintLock = sharedPrefs.getBoolean("fingerprint_lock", false);
+        followersOnlyAutoComplete = sharedPrefs.getBoolean("followers_only_auto_complete", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
