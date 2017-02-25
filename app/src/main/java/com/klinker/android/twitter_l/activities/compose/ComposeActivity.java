@@ -187,7 +187,7 @@ public class ComposeActivity extends Compose {
         display.getSize(size);
         int width = size.x;
 
-        UserAutoCompleteHelper.applyTo(this, reply);
+        final UserAutoCompleteHelper userAutoCompleteHelper = UserAutoCompleteHelper.applyTo(this, reply);
 
         hashtagAutoComplete = new ListPopupWindow(context);
         hashtagAutoComplete.setAnchorView(reply);
@@ -275,6 +275,7 @@ public class ComposeActivity extends Compose {
                 int start = reply.getSelectionStart();
                 reply.getText().insert(start, "@");
                 reply.setSelection(start + 1);
+
             }
         });
 
@@ -285,6 +286,11 @@ public class ComposeActivity extends Compose {
                 int start = reply.getSelectionStart();
                 reply.getText().insert(start, "#");
                 reply.setSelection(start + 1);
+
+                ListPopupWindow window = userAutoCompleteHelper.getAutoCompletePopup();
+                if (!window.isShowing()) {
+                    window.show();
+                }
             }
         });
 

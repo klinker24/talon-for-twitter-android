@@ -182,4 +182,6 @@
     <string name="authenticate">Authenticate</string>
     <string name="enable_fingerprint_lock">Enable Fingerprint Lock</string>
     <string name="disable_fingerprint_lock">Disable Fingerprint Lock</string>
+    <string name="followers_only_auto_complete">Auto-complete Followers</string>
+    <string name="followers_only_auto_complete_summary">Do not search all of Twitter when auto-completing a mention.</string>
 </resources>
