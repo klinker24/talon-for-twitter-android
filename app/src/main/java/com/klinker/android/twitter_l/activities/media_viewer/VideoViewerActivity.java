@@ -39,7 +39,7 @@ import com.klinker.android.twitter_l.utils.WebIntentBuilder;
 import java.io.File;
 import java.util.Calendar;
 
-import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class VideoViewerActivity extends DragDismissActivity {
@@ -87,7 +87,7 @@ public class VideoViewerActivity extends DragDismissActivity {
 
             Log.v("video_url", video);
 
-            new DragDismissBundleBuilder(context)
+            new DragDismissIntentBuilder(context)
                     .setShowToolbar(false)
                     .setPrimaryColorResource(android.R.color.black)
                     .setShouldScrollToolbar(false)
