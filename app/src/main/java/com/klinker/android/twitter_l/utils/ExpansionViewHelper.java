@@ -12,8 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -97,18 +97,18 @@ public class ExpansionViewHelper {
     TextView tweetCounts;
 
     // manage the favorite stuff
-    ImageView favoriteIcon;
 
     // manage the retweet stuff
-    ImageView retweetIcon;
 
     // buttons at the bottom
+    ImageButton composeButton;
+    ImageButton likeButton;
+    ImageButton retweetButton;
+    ImageButton quoteButton;
     ImageButton shareButton;
+    ImageButton overflowButton;
     TextView repliesText;
     View repliesButton;
-    View composeButton;
-    View overflowButton;
-    View quoteButton;
     public View interactionsButton;
 
     ListView replyList;
@@ -155,16 +155,25 @@ public class ExpansionViewHelper {
 
     private void setViews(boolean windowedPopups) {
         tweetCounts = (TextView) expansion.findViewById(R.id.tweet_counts);
-        favoriteIcon = (ImageView) expansion.findViewById(R.id.favorite);
-        retweetIcon = (ImageView) expansion.findViewById(R.id.retweet);
+        likeButton = (ImageButton) expansion.findViewById(R.id.favorite);
+        retweetButton = (ImageButton) expansion.findViewById(R.id.retweet);
 
         shareButton = (ImageButton) expansion.findViewById(R.id.web_button);
         repliesButton = expansion.findViewById(R.id.show_all_tweets_button);
         repliesText = (TextView) expansion.findViewById(R.id.replies_text);
-        composeButton = expansion.findViewById(R.id.compose_button);
-        overflowButton = expansion.findViewById(R.id.overflow_button);
-        quoteButton = expansion.findViewById(R.id.quote_button);
+        composeButton = (ImageButton) expansion.findViewById(R.id.compose_button);
+        overflowButton = (ImageButton) expansion.findViewById(R.id.overflow_button);
+        quoteButton = (ImageButton) expansion.findViewById(R.id.quote_button);
         interactionsButton = expansion.findViewById(R.id.tweet_counts);
+
+        if (!settings.darkTheme) {
+            shareButton.setColorFilter(Color.BLACK);
+            composeButton.setColorFilter(Color.BLACK);
+            overflowButton.setColorFilter(Color.BLACK);
+            likeButton.setColorFilter(Color.BLACK);
+            retweetButton.setColorFilter(Color.BLACK);
+            quoteButton.setColorFilter(Color.BLACK);
+        }
 
         tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
@@ -227,7 +236,7 @@ public class ExpansionViewHelper {
 
     private void setClicks(final boolean windowedPopups) {
 
-        favoriteIcon.setOnClickListener(new View.OnClickListener() {
+        likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isFavorited || !settings.crossAccActions) {
@@ -251,7 +260,7 @@ public class ExpansionViewHelper {
             }
         });
 
-        retweetIcon.setOnClickListener(new View.OnClickListener() {
+        retweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isRetweeted || !settings.crossAccActions) {
@@ -275,7 +284,7 @@ public class ExpansionViewHelper {
             }
         });
 
-        retweetIcon.setOnLongClickListener(new View.OnLongClickListener() {
+        retweetButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(context)
@@ -1139,7 +1148,7 @@ public class ExpansionViewHelper {
         tweetCounts.setText(Html.fromHtml(tweetCount));
 
         if (status.getUser().isProtected()) {
-            retweetIcon.setOnClickListener(new View.OnClickListener() {
+            retweetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, R.string.protected_account_retweet, Toast.LENGTH_SHORT).show();
@@ -1155,26 +1164,30 @@ public class ExpansionViewHelper {
         }
 
         if (status.isRetweetedByMe()) {
-            retweetIcon.setImageResource(R.drawable.ic_action_repeat_dark);
-            retweetIcon.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+            retweetButton.setImageResource(R.drawable.ic_action_repeat_dark);
+            retweetButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
         } else {
             if(!settings.darkTheme) {
-                favoriteIcon.setImageResource(R.drawable.ic_action_repeat_light);
+                retweetButton.setImageResource(R.drawable.ic_action_repeat_light);
+                retweetButton.setColorFilter(Color.BLACK);
+            } else {
+                retweetButton.clearColorFilter();
             }
 
-            retweetIcon.clearColorFilter();
         }
 
         if (status.isFavorited()) {
-            favoriteIcon.setImageResource(R.drawable.ic_heart_dark);
-            favoriteIcon.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+            likeButton.setImageResource(R.drawable.ic_heart_dark);
+            likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
             isFavorited = true;
         } else {
             if(!settings.darkTheme) {
-                favoriteIcon.setImageResource(R.drawable.ic_heart_light);
+                likeButton.setImageResource(R.drawable.ic_heart_light);
+                likeButton.setColorFilter(Color.BLACK);
+            } else {
+                likeButton.clearColorFilter();
             }
 
-            favoriteIcon.clearColorFilter();
             isFavorited = false;
         }
     }
@@ -1246,7 +1259,7 @@ public class ExpansionViewHelper {
 
         protected void onPostExecute(Boolean deleted) {
             if (deleted) {
-                retweetIcon.clearColorFilter();
+                retweetButton.clearColorFilter();
             }
 
             try {
@@ -1522,8 +1535,9 @@ public class ExpansionViewHelper {
             inReplyToTweets.addView(statusView);
         }
 
+        inReplyToArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = inReplyToArea.getMeasuredHeight();
+        final int targetHeight = inReplyToArea.getMeasuredHeight() + Utils.toDP(48, context);
 
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         inReplyToArea.getLayoutParams().height = 1;
