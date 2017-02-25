@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Point;
 import android.os.Handler;
 import android.text.Editable;
@@ -12,8 +13,10 @@ import android.widget.EditText;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
+import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompleteUserArrayAdapter;
 import com.klinker.android.twitter_l.adapters.UserListMembersArrayAdapter;
+import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.ArrayList;
@@ -32,7 +35,10 @@ public class UserAutoCompleteHelper {
     private Handler handler;
     private ListPopupWindow userAutoComplete;
     private AutoCompleteHelper autoCompleter;
+    private EditText textView;
     private Callback callback;
+
+    private AutoCompletePeopleAdapter adapter;
 
     private List<User> users = new ArrayList<>();
 
@@ -64,6 +70,7 @@ public class UserAutoCompleteHelper {
     }
 
     private ListPopupWindow on(final EditText textView) {
+        this.textView = textView;
         userAutoComplete.setAnchorView(textView);
 
         textView.addTextChangedListener(new TextWatcher() {
@@ -95,17 +102,21 @@ public class UserAutoCompleteHelper {
             }
         });
 
-        userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                userAutoComplete.dismiss();
-                autoCompleter.completeTweet(textView, users.get(i).getScreenName(), '@');
+        if (AppSettings.getInstance(context).followersOnlyAutoComplete) {
+            userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    userAutoComplete.dismiss();
 
-                if (callback != null) {
-                    callback.onUserSelected(users.get(i));
+
+                    autoCompleter.completeTweet(textView, users.get(i).getScreenName(), '@');
+
+                    if (callback != null) {
+                        callback.onUserSelected(users.get(i));
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return userAutoComplete;
     }
@@ -122,18 +133,38 @@ public class UserAutoCompleteHelper {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+                        AppSettings settings = AppSettings.getInstance(context);
+                        if (settings.followersOnlyAutoComplete) {
+                            if (adapter != null) {
+                                try {
+                                    adapter.getCursor().close();
+                                } catch (Exception e) {
 
-                        try {
-                            users = twitter.searchUsers("@" + screenName, 0);
-                        } catch (Exception e) { }
-
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                userAutoComplete.setAdapter(new AutoCompleteUserArrayAdapter(context, users));
+                                }
                             }
-                        });
+
+                            final Cursor cursor = FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, screenName);
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context, cursor, textView));
+                                }
+                            });
+                        } else {
+                            Twitter twitter = Utils.getTwitter(context, AppSettings.getInstance(context));
+
+                            try {
+                                users = twitter.searchUsers("@" + screenName, 0);
+                            } catch (Exception e) {
+                            }
+
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    userAutoComplete.setAdapter(new AutoCompleteUserArrayAdapter(context, users));
+                                }
+                            });
+                        }
                     }
                 }).start();
             }
