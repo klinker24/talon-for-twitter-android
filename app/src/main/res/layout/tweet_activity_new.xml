@@ -18,9 +18,39 @@
                 android:id="@+id/conversation_area"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingTop="12dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="8dp" />
+                android:paddingTop="12dp" >
+
+                <LinearLayout
+                    android:id="@+id/conversation_tweets"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="12dp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:background="?tweet_activity_background"
+                    android:layout_marginTop="2dp" >
+
+                    <View
+                        android:alpha=".30"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@drawable/top_shadow" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:alpha=".15"
+                        android:background="@drawable/bottom_shadow"
+                        android:layout_gravity="bottom" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:background="?windowBackground"

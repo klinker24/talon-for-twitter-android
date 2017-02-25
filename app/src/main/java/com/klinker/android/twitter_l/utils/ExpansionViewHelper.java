@@ -91,7 +91,8 @@ public class ExpansionViewHelper {
     View background;
 
     // area that is used for the previous tweets in the conversation
-    LinearLayout inReplyToArea;
+    View inReplyToArea;
+    LinearLayout inReplyToTweets;
 
     TextView tweetCounts;
 
@@ -474,7 +475,7 @@ public class ExpansionViewHelper {
     private void showEmbeddedCard(TweetView view) {
         embeddedTweetCard.addView(view.getView());
 
-        startAlphaAnimation(embeddedTweetCard, 0, AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
+        startAlphaAnimation(embeddedTweetCard, AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
     }
 
     private void showConvoCard(ArrayList<Status> tweets) {
@@ -500,7 +501,6 @@ public class ExpansionViewHelper {
 
         tweetDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
 
-        //convoTweetArea.addView(tweetDivider);
         for (int i = 0; i < numTweets; i++) {
             TweetView v = new TweetView(context, tweets.get(i));
             v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
@@ -525,7 +525,7 @@ public class ExpansionViewHelper {
 
         hideConvoProgress();
         if (numTweets != 0) {
-            startAlphaAnimation(convoCard, 0, 1.0f);
+            convoCard.setVisibility(View.VISIBLE);
         }
     }
 
@@ -647,18 +647,9 @@ public class ExpansionViewHelper {
 //        startAlphaAnimation(overflowButton, 300);
     }
 
-    private void startAlphaAnimation(final View v, long offset) {
-        startAlphaAnimation(v, offset, 0f, 1.0f);
-    }
-
-    private void startAlphaAnimation(final View v, long offset, float finish) {
-        startAlphaAnimation(v, offset, 0f, finish);
-    }
-
-    private void startAlphaAnimation(final View v, long offset, float start, float finish) {
-        ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, start, finish);
-        alpha.setDuration(300);
-        alpha.setStartDelay(offset);
+    private void startAlphaAnimation(final View v, float finish) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(v, View.ALPHA, 0, finish);
+        alpha.setDuration(0);
         alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
         alpha.addListener(new Animator.AnimatorListener() {
             @Override
@@ -677,6 +668,7 @@ public class ExpansionViewHelper {
         });
         alpha.start();
     }
+
 
     String tweetText = null;
     String composeText = null;
@@ -894,6 +886,7 @@ public class ExpansionViewHelper {
 
     public void setInReplyToArea(LinearLayout inReplyToArea) {
         this.inReplyToArea = inReplyToArea;
+        this.inReplyToTweets = (LinearLayout) inReplyToArea.findViewById(R.id.conversation_tweets);
 
         this.inReplyToArea.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -1117,7 +1110,7 @@ public class ExpansionViewHelper {
                                 loadedCallback.onLoad(status);
                             }
 
-                            String via = context.getResources().getString(R.string.via) + "<br><b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
+                            String via = context.getResources().getString(R.string.via) + " <b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
                             tweetSource.setText(Html.fromHtml(via));
                             updateTweetCounts(fStatus);
                         }
@@ -1526,7 +1519,7 @@ public class ExpansionViewHelper {
                 statusView.setPadding(0, Utils.toDP(6, context), 0,0);
             }
 
-            inReplyToArea.addView(statusView);
+            inReplyToTweets.addView(statusView);
         }
 
         inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1589,7 +1582,7 @@ public class ExpansionViewHelper {
                 inReplyToArea.setLayoutParams(params);
 
                 if (val == 0) {
-                    inReplyToArea.removeAllViews();
+                    inReplyToTweets.removeAllViews();
                 }
             }
         });
