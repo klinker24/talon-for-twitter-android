@@ -52,6 +52,7 @@ import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.data.ScheduledTweet;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.utils.UserAutoCompleteHelper;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.services.SendScheduledTweet;
@@ -164,72 +165,7 @@ public class NewScheduledTweet extends AppCompatActivity {
             mEditText.setSelection(mEditText.getText().length());
         }
 
-        final ListPopupWindow autocomplete = new ListPopupWindow(context);
-        autocomplete.setAnchorView(mEditText);
-        autocomplete.setHeight(Utils.toDP(100, context));
-        autocomplete.setWidth(Utils.toDP(275, context));
-        try {
-            autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                    FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, mEditText.getText().toString()), mEditText));
-        } catch (Exception e) {
-            // not really sure why
-        }
-        autocomplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
-
-        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                autocomplete.dismiss();
-            }
-        });
-
-
-        mEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String searchText = mEditText.getText().toString();
-
-                try {
-                    if (searchText.substring(searchText.length() - 1, searchText.length()).equals("@")) {
-                        autocomplete.show();
-
-                    } else if (searchText.substring(searchText.length() - 1, searchText.length()).equals(" ")) {
-                        autocomplete.dismiss();
-                    } else if (autocomplete.isShowing()) {
-                        String[] split = mEditText.getText().toString().split(" ");
-                        String adapterText;
-                        if (split.length > 1) {
-                            adapterText = split[split.length - 1];
-                        } else {
-                            adapterText = split[0];
-                        }
-                        adapterText = adapterText.replace("@", "");
-                        autocomplete.setAdapter(new AutoCompletePeopleAdapter(context,
-                                FollowersDataSource.getInstance(context).getCursor(settings.currentAccount, adapterText), mEditText));
-                    }
-                } catch (Exception e) {
-                    // there is no text
-                    try {
-                        autocomplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong i guess haha
-                    }
-                }
-
-                countHandler.removeCallbacks(getCount);
-                countHandler.postDelayed(getCount, 300);
-            }
-        });
+        UserAutoCompleteHelper.applyTo(this, mEditText);
 
         if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);

@@ -34,6 +34,12 @@
         android:entryValues="@array/quote_style_inserted" />
 
     <SwitchPreference
+        android:key="followers_only_auto_complete"
+        android:title="@string/followers_only_auto_complete"
+        android:summary="@string/followers_only_auto_complete_summary"
+        android:defaultValue="false" />
+
+    <SwitchPreference
         android:key="fav_rt_multiple_accounts"
         android:title="@string/fav_rt_multiple_accounts"
         android:summary="@string/fav_rt_multiple_accounts_summary"
