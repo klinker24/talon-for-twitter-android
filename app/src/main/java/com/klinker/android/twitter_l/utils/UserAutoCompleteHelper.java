@@ -63,7 +63,7 @@ public class UserAutoCompleteHelper {
         userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
     }
 
-    private void on(final EditText textView) {
+    private ListPopupWindow on(final EditText textView) {
         userAutoComplete.setAnchorView(textView);
 
         textView.addTextChangedListener(new TextWatcher() {
@@ -74,7 +74,7 @@ public class UserAutoCompleteHelper {
 
                 try {
                     int position = textView.getSelectionStart() - 1;
-                    if (tvText.charAt(position) == '@') {
+                    if (tvText.charAt(tvText.length() - 1) == '@') {
                         userAutoComplete.show();
                     } else if (!tvText.contains("@") || position < tvText.indexOf("@")) {
                         userAutoComplete.dismiss();
@@ -106,6 +106,12 @@ public class UserAutoCompleteHelper {
                 }
             }
         });
+
+        return userAutoComplete;
+    }
+
+    public ListPopupWindow getAutoCompletePopup() {
+        return userAutoComplete;
     }
 
     private void search(final String screenName) {
