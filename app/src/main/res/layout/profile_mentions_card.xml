@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mentions_card"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:maxWidth="300dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="@dimen/user_profile_card_padding"
-    android:layout_marginLeft="@dimen/user_profile_card_padding"
-    android:layout_marginBottom="16dp"
-    card_view:cardCornerRadius="3dp"
-    card_view:cardBackgroundColor="?drawerBackground"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:visibility="invisible">
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?tweet_activity_background"
+        android:layout_marginTop="2dp" >
 
-        <LinearLayout android:layout_width="match_parent"
+        <View
+            android:alpha=".30"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/top_shadow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layoutDirection="ltr"
-            android:paddingLeft="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp">
 
             <TextView
                 android:id="@+id/mentions_title_text"
@@ -33,7 +34,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/mentions"
                 android:textAllCaps="true"
-                android:textSize="18sp"/>
+                android:textSize="14sp"
+                android:textColor="?textColor"/>
 
             <Button
                 android:id="@+id/show_all_mentions_button"
@@ -42,21 +44,26 @@
                 android:text="@string/show_all"
                 android:textSize="12sp"
                 android:background="?android:selectableItemBackground"
-                android:fontFamily="sans-serif-light"
-                android:textStyle="bold"
                 android:textAllCaps="true"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"/>
+                android:paddingRight="8dp"
+                android:textColor="?textColor"/>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/mentions_content"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="4dp"
+            android:alpha=".15"
+            android:background="@drawable/bottom_shadow"
+            android:layout_gravity="bottom" />
 
-        </LinearLayout>
+    </FrameLayout>
 
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    <LinearLayout
+        android:id="@+id/mentions_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</LinearLayout>

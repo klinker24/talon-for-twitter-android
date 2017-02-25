@@ -1,75 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/background"
-    android:orientation="horizontal"
-    android:background="?windowBackground" >
+<!-- Holds all the content that can be scrolled -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-24dp"
+        android:background="?windowBackground" >
 
-    <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/nested_scroll_view"
-            android:overScrollMode="never"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/profile_stats_card" />
 
-        <!-- Holds all the content that can be scrolled -->
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+    <include layout="@layout/profile_tweets_card" />
 
-            <!-- this is the header portion, will hold the profile card -->
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:id="@+id/header_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+    <include layout="@layout/profile_mentions_card" />
 
-                <!--<include layout="@layout/profile_header_card" />-->
+    <include layout="@layout/profile_favorites_card" />
 
-            </RelativeLayout>
-
-            <include layout="@layout/profile_stats_card" />
-
-            <include layout="@layout/profile_tweets_card" />
-
-            <include layout="@layout/profile_mentions_card" />
-
-            <include layout="@layout/profile_favorites_card" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="@android:color/black"
-          android:alpha=".6"
-          android:visibility="gone"
-          android:id="@+id/dim" />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/spinner">
-
-        <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:indeterminateOnly="true" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"/>
-
-</FrameLayout>
+</LinearLayout>
