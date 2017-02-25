@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +10,12 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:id="@+id/status_bar"
+                android:background="?windowBackground" />
 
             <LinearLayout
                 android:background="?windowBackground"
@@ -28,27 +33,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginStart="12dp"/>
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp"
-                    android:background="?tweet_activity_background"
-                    android:layout_marginTop="2dp" >
-
-                    <View
-                        android:alpha=".30"
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:background="@drawable/top_shadow" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"
-                        android:alpha=".15"
-                        android:background="@drawable/bottom_shadow"
-                        android:layout_gravity="bottom" />
-
-                </FrameLayout>
-
+                <include layout="@layout/shadowed_divider_section" />
 
             </LinearLayout>
 

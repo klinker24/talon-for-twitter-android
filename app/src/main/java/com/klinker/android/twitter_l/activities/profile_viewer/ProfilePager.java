@@ -1,48 +1,63 @@
 package com.klinker.android.twitter_l.activities.profile_viewer;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.klinker.android.sliding.MultiShrinkScroller;
-import com.klinker.android.sliding.SlidingActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.TweetView;
-import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
-import com.klinker.android.twitter_l.views.popups.profile.*;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
-import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.klinker.android.twitter_l.views.TweetView;
+import com.klinker.android.twitter_l.views.popups.profile.PicturesPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileFavoritesPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileFollowersPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileFriendsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileMentionsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileTweetsPopup;
+import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,18 +65,27 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.klinker.android.twitter_l.utils.text.TextUtils;
-import com.yalantis.ucrop.UCrop;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import twitter4j.*;
+import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Relationship;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.User;
+import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
@@ -105,7 +129,6 @@ public class ProfilePager extends DragDismissActivity {
 
     private Context context;
     private AppSettings settings;
-    private android.support.v7.app.ActionBar actionBar;
     private SharedPreferences sharedPrefs;
 
     private boolean isBlocking;
@@ -119,7 +142,6 @@ public class ProfilePager extends DragDismissActivity {
 
     @Override
     protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
-
         Utils.setTaskDescription(this);
         Utils.setSharedContentTransition(this);
 
@@ -156,7 +178,6 @@ public class ProfilePager extends DragDismissActivity {
     public View profileCounts;
 
     public void setUpContent(View root) {
-        // first get all the views we need
         profilePic = (ImageView) root.findViewById(R.id.profile_pic);
 
         followerCount = (FontPrefTextView) root.findViewById(R.id.followers_number);
@@ -177,32 +198,25 @@ public class ProfilePager extends DragDismissActivity {
         loadProfilePicture();
     }
 
-    private boolean loaded = false;
-
     public void loadProfilePicture() {
+        try {
+            Glide.with(this).load(proPic)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(profilePic);
 
-        if (loaded || android.text.TextUtils.isEmpty(proPic)) {
-            return;
+            profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (thisUser != null) {
+                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                    } else {
+                        PhotoViewerActivity.startActivity(context, proPic);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-//        try {
-//            Glide.with(this).load(proPic)
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .into((CircleImageView) findViewById(R.id.profile_image));
-//        } catch (Exception e) {
-//
-//        }
-//
-//        findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (thisUser != null) {
-//                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
-//                } else {
-//                    PhotoViewerActivity.startActivity(context, proPic);
-//                }
-//            }
-//        });
     }
 
     public void setUpTheme() {
@@ -228,18 +242,10 @@ public class ProfilePager extends DragDismissActivity {
     public TextView favoriteText;
 
     public void setProfileCard(final User user) {
-
         if (android.text.TextUtils.isEmpty(proPic)) {
             proPic = user.getOriginalProfileImageURL();
             loadProfilePicture();
         }
-
-        setTitle(user.getName());
-
-        CardView headerCard = (CardView) findViewById(R.id.stats_card);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) headerCard.getLayoutParams();
-        params.topMargin = Utils.toDP(32, context);
-        headerCard.setLayoutParams(params);
 
 //        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
 //            @Override
@@ -345,7 +351,6 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         Button pictures = (Button) findViewById(R.id.pictures_button);
-        pictures.setTextColor(settings.themeColors.primaryColorLight);
 
         picsPopup = new PicturesPopup(context, thisUser);
         pictures.setOnClickListener(new View.OnClickListener() {
@@ -369,7 +374,6 @@ public class ProfilePager extends DragDismissActivity {
 
         TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
 
-        statsTitle.setTextColor(settings.themeColors.primaryColorLight);
         statsTitle.setText("@" + user.getScreenName());
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
@@ -436,19 +440,11 @@ public class ProfilePager extends DragDismissActivity {
                 return true;
             }
         });
-
-        showCard(findViewById(R.id.stats_card));
     }
 
     private PicturesPopup picsPopup;
     private ProfileFollowersPopup fol;
     private ProfileFriendsPopup fri;
-
-    private void showStats(final User user) {
-
-
-        //showCard(findViewById(R.id.stats_card));
-    }
 
     public List<Status> tweets = new ArrayList<Status>();
     public ProfileTweetsPopup tweetsPopup;
@@ -462,9 +458,6 @@ public class ProfilePager extends DragDismissActivity {
         if (tweetsTitle == null) {
             return;
         }
-
-        tweetsTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
 
         tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
 
@@ -540,9 +533,6 @@ public class ProfilePager extends DragDismissActivity {
             return;
         }
 
-        mentionsTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
-
         mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser);
 
         showAllMentions.setOnClickListener(new View.OnClickListener() {
@@ -605,9 +595,6 @@ public class ProfilePager extends DragDismissActivity {
             return;
         }
 
-        favoritesTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
-
         favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser);
 
         showAllfavorites.setOnClickListener(new View.OnClickListener() {
@@ -657,36 +644,7 @@ public class ProfilePager extends DragDismissActivity {
         }
     }
 
-    private View spinner;
     private void showCard(final View v) {
-        if (spinner == null) {
-            spinner = findViewById(R.id.spinner);
-        }
-        if (spinner.getVisibility() == View.VISIBLE) {
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    if (spinner.getVisibility() != View.GONE) {
-                        spinner.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-            anim.setDuration(250);
-            spinner.startAnimation(anim);
-        }
-
         Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
         anim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -731,16 +689,7 @@ public class ProfilePager extends DragDismissActivity {
                         @Override
                         public void run() {
                             hideProgressBar();
-
                             Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
-
-                            if (spinner == null) {
-                                spinner = findViewById(R.id.spinner);
-                            }
-                            if (spinner.getVisibility() == View.VISIBLE) {
-                                spinner.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                                spinner.setVisibility(View.GONE);
-                            }
                         }
                     });
                 }
@@ -793,20 +742,23 @@ public class ProfilePager extends DragDismissActivity {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //actionBar.setTitle(thisUser.getName());
+                            ActionBar actionBar = getSupportActionBar();
+                            if (actionBar != null) {
+                                actionBar.setTitle(thisUser.getName());
+                                actionBar.setSubtitle("@" + thisUser.getScreenName());
+                            }
 
                             hideProgressBar();
 
                             invalidateOptionsMenu();
                             setProfileCard(thisUser);
-                            showStats(thisUser);
 
                             try {
                                 Glide.with(context)
                                         .load(thisUser.getProfileBannerURL())
                                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .centerCrop()
-                                        .into((ImageView) findViewById(R.id.background_image));
+                                        .into((ImageView) findViewById(R.id.banner));
                             } catch (Exception e) {
 
                             }

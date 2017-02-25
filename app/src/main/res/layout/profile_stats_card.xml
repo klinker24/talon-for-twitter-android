@@ -1,312 +1,340 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                                    android:id="@+id/stats_card"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:maxWidth="300dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginRight="@dimen/user_profile_card_padding"
-                                    android:layout_marginLeft="@dimen/user_profile_card_padding"
-                                    android:layout_marginBottom="16dp"
-                                    card_view:cardCornerRadius="3dp"
-                                    card_view:cardBackgroundColor="?drawerBackground"
-                                    android:visibility="invisible">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  android:paddingBottom="16dp"
-                  android:layout_alignParentBottom="true">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:layoutDirection="ltr"
-                      android:paddingLeft="16dp"
-                      android:layout_marginBottom="12dp">
-
-            <TextView
-                    android:id="@+id/stats_title_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/profile"
-                    android:textSize="18sp"/>
+        <xyz.klinker.android.article.view.CutLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"/>
+
+        </xyz.klinker.android.article.view.CutLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="-112dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="156dp"
+                android:layout_height="156dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="?windowBackground" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/verified"
                 android:src="?acceptButton"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom|end"
                 android:layout_marginStart="6dp"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:visibility="gone"/>
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:civ_border_width="0dp"
+                app:civ_border_color="?windowBackground"
+                app:civ_fill_color="?windowBackground"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content" />
+        </FrameLayout>
 
-            <Button
-                    android:id="@+id/pictures_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/media"
-                    android:textSize="12sp"
-                    android:background="?android:selectableItemBackground"
-                    android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"/>
+    </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
-        </LinearLayout>
+        <TextView
+                android:id="@+id/stats_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/profile"
+                android:textSize="18sp"/>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <Button
+                android:id="@+id/pictures_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media"
+                android:textSize="12sp"
+                android:background="?android:selectableItemBackground"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:id="@+id/lower_card">
+
+        <!-- this is the buttons to follow and favorite the user -->
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/lower_card">
+            android:id="@+id/header_button_section"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp" >
 
-            <!-- this is the buttons to follow and favorite the user -->
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/header_button_section"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp" >
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_gravity="left|center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/follow_button"
+                android:padding="4dp">
 
-                <LinearLayout android:layout_width="0dp"
+                <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_gravity="left|center_vertical"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:id="@+id/follow_button"
-                    android:padding="4dp">
-
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="?textColor"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:singleLine="true"
-                        android:textAllCaps="true"
-                        android:id="@+id/follow_button_text"/>
-
-
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="?dateColor"
-                        android:fontFamily="sans-serif-light"
-                        android:textSize="11sp"
-                        android:singleLine="true"
-                        android:id="@+id/follow_status"/>
-
-                </LinearLayout>
-
-                <TextView android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:gravity="top|left"
-                    android:layout_gravity="top|left"
                     android:textColor="?textColor"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textAllCaps="true"
                     android:singleLine="true"
-                    android:padding="4dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:id="@+id/favorite_button"/>
+                    android:textAllCaps="true"
+                    android:id="@+id/follow_button_text"/>
+
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?dateColor"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="11sp"
+                    android:singleLine="true"
+                    android:id="@+id/follow_status"/>
 
             </LinearLayout>
 
-            <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:paddingTop="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="top|left"
+                android:layout_gravity="top|left"
                 android:textColor="?textColor"
                 android:textSize="14sp"
-                android:id="@+id/user_description"/>
-
-            <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?textColor"
-                android:fontFamily="sans-serif-light"
-                android:textSize="13sp"
-                android:drawableLeft="?location_button"
-                android:drawablePadding="8dp"
-                android:layout_marginTop="16dp"
-                android:id="@+id/user_location"
-                android:gravity="center"/>
-
-            <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?textColor"
-                android:fontFamily="sans-serif-light"
-                android:textSize="13sp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="?links"
-                android:id="@+id/user_webpage"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <!-- number of followers and following -->
-        <LinearLayout
-                android:id="@+id/profile_counts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp">
-
-            <LinearLayout
-                    android:id="@+id/view_followers"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_weight="1">
-
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/followers_number"
-                        android:textSize="14sp"
-                        android:textColor="?textColor"
-                        android:singleLine="true"/>
-
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:gravity="center_horizontal"
-                              android:layout_marginTop="8dp" >
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:id="@+id/follower_1"
-                                android:minHeight="36dp" android:minWidth="36dp"
-                                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:id="@+id/follower_2"
-                                android:layout_marginLeft="-6dp"
-                                android:minHeight="36dp" android:minWidth="36dp"
-                                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                    </LinearLayout>
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:id="@+id/follower_3"
-                            android:layout_marginTop="-6dp"
-                            android:minHeight="36dp" android:minWidth="36dp"
-                            android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <View android:layout_width="1dp" android:layout_height="match_parent"
-                    android:background="?drawerDividerColor"/>
-
-            <LinearLayout
-                    android:id="@+id/view_friends"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_weight="1">
-
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/following_number"
-                        android:textSize="14sp"
-                        android:textColor="?textColor"
-                        android:singleLine="true"/>
-
-                <LinearLayout android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:gravity="center_horizontal"
-                              android:layout_marginTop="8dp" >
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:id="@+id/friend_1"
-                                android:minHeight="36dp" android:minWidth="36dp"
-                                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:id="@+id/friend_2"
-                                android:layout_marginLeft="-6dp"
-                                android:minHeight="36dp" android:minWidth="36dp"
-                                android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                    </LinearLayout>
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:id="@+id/friend_3"
-                            android:layout_marginTop="-6dp"
-                            android:minHeight="36dp" android:minWidth="36dp"
-                            android:maxWidth="36dp" android:maxHeight="36dp"/>
-
-                </LinearLayout>
-            </LinearLayout>
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:singleLine="true"
+                android:padding="4dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/favorite_button"/>
 
         </LinearLayout>
 
         <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:id="@+id/created_at"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?textColor"
-                android:textSize="13sp"
-                android:paddingLeft="16dp"/>
+            android:paddingTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:textSize="14sp"
+            android:id="@+id/user_description"/>
 
         <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:id="@+id/number_of_lists"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?textColor"
-                android:paddingLeft="16dp"
-                android:textSize="13sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:fontFamily="sans-serif-light"
+            android:textSize="13sp"
+            android:drawableLeft="?location_button"
+            android:drawablePadding="8dp"
+            android:layout_marginTop="16dp"
+            android:id="@+id/user_location"
+            android:gravity="center"/>
+
+        <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:fontFamily="sans-serif-light"
+            android:textSize="13sp"
+            android:drawablePadding="8dp"
+            android:drawableLeft="?links"
+            android:id="@+id/user_webpage"
+            android:gravity="center"/>
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
+
+    <!-- number of followers and following -->
+    <LinearLayout
+            android:id="@+id/profile_counts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp">
+
+        <LinearLayout
+                android:id="@+id/view_followers"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="?android:selectableItemBackground"
+                android:layout_weight="1">
+
+            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/followers_number"
+                    android:textSize="14sp"
+                    android:textColor="?textColor"
+                    android:singleLine="true"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:gravity="center_horizontal"
+                          android:layout_marginTop="8dp" >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/follower_1"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/follower_2"
+                            android:layout_marginLeft="-6dp"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:id="@+id/follower_3"
+                        android:layout_marginTop="-6dp"
+                        android:minHeight="36dp" android:minWidth="36dp"
+                        android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View android:layout_width="1dp" android:layout_height="match_parent"
+                android:background="?drawerDividerColor"/>
+
+        <LinearLayout
+                android:id="@+id/view_friends"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="?android:selectableItemBackground"
+                android:layout_weight="1">
+
+            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/following_number"
+                    android:textSize="14sp"
+                    android:textColor="?textColor"
+                    android:singleLine="true"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+                          android:gravity="center_horizontal"
+                          android:layout_marginTop="8dp" >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/friend_1"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:id="@+id/friend_2"
+                            android:layout_marginLeft="-6dp"
+                            android:minHeight="36dp" android:minWidth="36dp"
+                            android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:id="@+id/friend_3"
+                        android:layout_marginTop="-6dp"
+                        android:minHeight="36dp" android:minWidth="36dp"
+                        android:maxWidth="36dp" android:maxHeight="36dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+            android:id="@+id/created_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:textSize="13sp"
+            android:paddingLeft="16dp"/>
+
+    <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+            android:id="@+id/number_of_lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?textColor"
+            android:paddingLeft="16dp"
+            android:textSize="13sp"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="16dp" />
+
+</LinearLayout>
