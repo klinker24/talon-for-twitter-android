@@ -25,7 +25,7 @@ import com.klinker.android.twitter_l.views.widgets.HackyViewPager;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class PhotoPagerActivity extends DragDismissActivity {
@@ -43,7 +43,7 @@ public class PhotoPagerActivity extends DragDismissActivity {
         viewImage.putExtra("hide_info", hideInfo);
 
 
-        new DragDismissBundleBuilder(context)
+        new DragDismissIntentBuilder(context)
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)

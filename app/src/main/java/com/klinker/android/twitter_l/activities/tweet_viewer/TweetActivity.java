@@ -65,7 +65,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.Status;
 import twitter4j.Twitter;
-import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class TweetActivity extends DragDismissActivity {
@@ -131,15 +131,15 @@ public class TweetActivity extends DragDismissActivity {
         int resource = a.getResourceId(0, 0);
         a.recycle();
 
-        DragDismissBundleBuilder.Theme theme = DragDismissBundleBuilder.Theme.LIGHT;
+        DragDismissIntentBuilder.Theme theme = DragDismissIntentBuilder.Theme.LIGHT;
         AppSettings settings = AppSettings.getInstance(context);
         if (settings.darkTheme) {
-            theme = DragDismissBundleBuilder.Theme.DARK;
+            theme = DragDismissIntentBuilder.Theme.DARK;
         } else if (settings.blackTheme) {
-            theme = DragDismissBundleBuilder.Theme.BLACK;
+            theme = DragDismissIntentBuilder.Theme.BLACK;
         }
 
-        new DragDismissBundleBuilder(context)
+        new DragDismissIntentBuilder(context)
                 .setShowToolbar(false)
                 .setTheme(theme)
                 .setPrimaryColorValue(settings.blackTheme ? Color.BLACK : Color.TRANSPARENT)

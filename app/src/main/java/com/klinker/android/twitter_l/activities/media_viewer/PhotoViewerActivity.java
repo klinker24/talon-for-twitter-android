@@ -55,7 +55,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
-import xyz.klinker.android.drag_dismiss.DragDismissBundleBuilder;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
@@ -68,7 +68,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
         viewImage.putExtra("url", link);
         viewImage.putExtra("tweet_id", tweetId);
 
-        new DragDismissBundleBuilder(context)
+        new DragDismissIntentBuilder(context)
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)
