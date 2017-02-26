@@ -215,6 +215,17 @@ public class ProfilePager extends DragDismissActivity {
                     }
                 }
             });
+
+            findViewById(R.id.banner).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (thisUser != null) {
+                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 1);
+                    } else {
+                        PhotoViewerActivity.startActivity(context, proPic);
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

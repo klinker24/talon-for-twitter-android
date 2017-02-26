@@ -433,38 +433,29 @@ public class ExpansionViewHelper {
         interactionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(context instanceof TweetActivity)) {
-                    background.performClick();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
+                if (interactionsPopup == null) {
+                    interactionsPopup = new TweetInteractionsPopup(context);
+                    if (context.getResources().getBoolean(R.bool.isTablet)) {
+                        if (landscape) {
+                            interactionsPopup.setWidthByPercent(.6f);
+                            interactionsPopup.setHeightByPercent(.8f);
+                        } else {
+                            interactionsPopup.setWidthByPercent(.85f);
+                            interactionsPopup.setHeightByPercent(.68f);
                         }
-                    }, 400);
-                } else {
-                    if (interactionsPopup == null) {
-                        interactionsPopup = new TweetInteractionsPopup(context);
-                        if (context.getResources().getBoolean(R.bool.isTablet)) {
-                            if (landscape) {
-                                interactionsPopup.setWidthByPercent(.6f);
-                                interactionsPopup.setHeightByPercent(.8f);
-                            } else {
-                                interactionsPopup.setWidthByPercent(.85f);
-                                interactionsPopup.setHeightByPercent(.68f);
-                            }
-                            interactionsPopup.setCenterInScreen();
-                        }
+                        interactionsPopup.setCenterInScreen();
                     }
-
-                    interactionsPopup.setExpansionPointForAnim(v);
-                    if (status != null) {
-                        interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
-                    } else {
-                        interactionsPopup.setInfo(screenName, id);
-                    }
-                    interactionsPopup.show();
                 }
+
+                interactionsPopup.setExpansionPointForAnim(v);
+
+                if (status != null) {
+                    interactionsPopup.setInfo(status.getUser().getScreenName(), status.getId());
+                } else {
+                    interactionsPopup.setInfo(screenName, id);
+                }
+
+                interactionsPopup.show();
             }
         });
 
