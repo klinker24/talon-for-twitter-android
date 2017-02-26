@@ -1538,7 +1538,7 @@ public class ExpansionViewHelper {
         inReplyToArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targetHeight = inReplyToArea.getMeasuredHeight() + (context.getResources().getBoolean(R.bool.isTablet) ?
-                Utils.toDP(12, context) : Utils.toDP(48, context));
+                Utils.toDP(12, context) : Utils.toDP(24, context));
 
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         inReplyToArea.getLayoutParams().height = 1;
