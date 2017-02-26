@@ -129,6 +129,8 @@ public class PhotoViewerActivity extends DragDismissActivity {
             e.printStackTrace();
         }
 
+        findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
+
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
