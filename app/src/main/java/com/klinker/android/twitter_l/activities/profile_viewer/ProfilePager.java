@@ -239,7 +239,6 @@ public class ProfilePager extends DragDismissActivity {
     }
 
     public TextView followText;
-    public TextView favoriteText;
 
     public void setProfileCard(final User user) {
         if (android.text.TextUtils.isEmpty(proPic)) {
@@ -288,7 +287,6 @@ public class ProfilePager extends DragDismissActivity {
 
         TextView followingStatus = (TextView) findViewById(R.id.follow_status);
         followText = (TextView) findViewById(R.id.follow_button_text);
-        favoriteText = (TextView) findViewById(R.id.favorite_button);
         LinearLayout followButton = (LinearLayout) findViewById(R.id.follow_button);
 
         if (isFollowing) {
@@ -332,19 +330,6 @@ public class ProfilePager extends DragDismissActivity {
             followingStatus.setText(getString(R.string.not_following_you));
         }
 
-        if (isFavorite) {
-            favoriteText.setText(getString(R.string.menu_unfavorite));
-        } else {
-            favoriteText.setText(getString(R.string.menu_favorite));
-        }
-
-        favoriteText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FavoriteUser().execute();
-            }
-        });
-
         if (user.getScreenName().equals(settings.myScreenName)) {
             // they are you
             findViewById(R.id.header_button_section).setVisibility(View.GONE);
@@ -371,10 +356,6 @@ public class ProfilePager extends DragDismissActivity {
         } else {
             followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
         }
-
-        TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
-
-        statsTitle.setText("@" + user.getScreenName());
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
         if (settings.darkTheme) {
@@ -1160,12 +1141,16 @@ public class ProfilePager extends DragDismissActivity {
                         favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
                         sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, favs).apply();
 
+                        isFavorite = false;
+
                         return false;
 
                     } else {
                         FavoriteUsersDataSource.getInstance(context).createUser(thisUser, currentAccount);
 
                         sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").apply();
+
+                        isFavorite = true;
 
                         return true;
                     }
@@ -1179,20 +1164,6 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         protected void onPostExecute(Boolean isFavorited) {
-            // true = followed
-            // false = unfollowed
-            if (isFavorited != null) {
-                if (isFavorited) {
-                    Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
-                    favoriteText.setText(getString(R.string.menu_unfavorite));
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.unfavorite_user), Toast.LENGTH_SHORT).show();
-                    favoriteText.setText(getString(R.string.menu_favorite));
-                }
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
-
             new GetActionBarInfo().execute();
         }
     }
@@ -1209,24 +1180,33 @@ public class ProfilePager extends DragDismissActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        //final int MENU_TWEET = 0;
-        final int MENU_BLOCK = 0;
-        final int MENU_UNBLOCK = 1;
-        final int MENU_ADD_LIST = 2;
-        final int MENU_DM = 3;
-        final int MENU_CHANGE_PICTURE = 4;
-        final int MENU_CHANGE_BANNER = 5;
-        final int MENU_CHANGE_BIO = 6;
-        final int MENU_MUTE = 7;
-        final int MENU_UNMUTE = 8;
-        final int MENU_MUTE_RT = 9;
-        final int MENU_UNMUTE_RT = 10;
-        final int MENU_MUFFLE = 11;
-        final int MENU_UNMUFFLE = 12;
-        final int MENU_SHARE_LINK = 13;
+        final int MENU_FAVORITE = 0;
+        final int MENU_BLOCK = 1;
+        final int MENU_UNBLOCK = 2;
+        final int MENU_ADD_LIST = 3;
+        final int MENU_DM = 4;
+        final int MENU_CHANGE_PICTURE = 5;
+        final int MENU_CHANGE_BANNER = 6;
+        final int MENU_CHANGE_BIO = 7;
+        final int MENU_MUTE = 8;
+        final int MENU_UNMUTE = 9;
+        final int MENU_MUTE_RT = 10;
+        final int MENU_UNMUTE_RT = 11;
+        final int MENU_MUFFLE = 12;
+        final int MENU_UNMUFFLE = 13;
+        final int MENU_SHARE_LINK = 14;
+
+        if (isFavorite) {
+            menu.getItem(MENU_FAVORITE).setIcon(getResources().getDrawable(R.drawable.ic_heart_light));
+            menu.getItem(MENU_FAVORITE).setTitle(getString(R.string.menu_unfavorite));
+            menu.getItem(MENU_FAVORITE).setVisible(true);
+        } else {
+            menu.getItem(MENU_FAVORITE).setIcon(getResources().getDrawable(R.drawable.ic_heart_outline));
+            menu.getItem(MENU_FAVORITE).setTitle(getString(R.string.menu_favorite));
+            menu.getItem(MENU_FAVORITE).setVisible(true);
+        }
 
         if (isMyProfile) {
-            //menu.getItem(MENU_TWEET).setVisible(false);
             menu.getItem(MENU_BLOCK).setVisible(false);
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
@@ -1331,6 +1311,10 @@ public class ProfilePager extends DragDismissActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+
+            case R.id.menu_favorite:
+                new FavoriteUser().execute();
                 return true;
 
             case R.id.menu_block:
