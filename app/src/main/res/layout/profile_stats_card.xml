@@ -62,19 +62,6 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <TextView
-                android:id="@+id/stats_title_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/profile"
-                android:textSize="18sp"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
         <Button
                 android:id="@+id/pictures_button"
                 android:layout_width="wrap_content"
@@ -132,20 +119,6 @@
                     android:id="@+id/follow_status"/>
 
             </LinearLayout>
-
-            <TextView android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:gravity="top|left"
-                android:layout_gravity="top|left"
-                android:textColor="?textColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:singleLine="true"
-                android:padding="4dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:id="@+id/favorite_button"/>
 
         </LinearLayout>
 

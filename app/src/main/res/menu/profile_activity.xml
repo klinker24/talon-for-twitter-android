@@ -17,80 +17,81 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:talon="http://schemas.android.com/apk/res-auto">
-    <!--<item android:id="@+id/menu_tweet"
-          android:orderInCategory="1"
-          android:title="@string/menu_tweet"
-          android:icon="@drawable/ic_send_dark"
-          android:showAsAction="always"  />-->
+    xmlns:talon="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
+
+    <item android:id="@+id/menu_favorite"
+        android:title="@string/favorite_user"
+        android:icon="@drawable/ic_heart_outline"
+        app:showAsAction="always" />
 
     <item android:id="@+id/menu_block"
-          android:orderInCategory="6"
+          android:orderInCategory="1"
           android:title="@string/menu_block"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unblock"
-          android:orderInCategory="7"
+          android:orderInCategory="2"
           android:title="@string/menu_unblock"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_add_to_list"
-          android:orderInCategory="8"
+          android:orderInCategory="3"
           android:title="@string/menu_add_to_list"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_dm"
-          android:orderInCategory="9"
+          android:orderInCategory="4"
           android:title="@string/menu_dm"
           talon:showAsAction="never"  />
 
     <item android:id="@+id/menu_change_picture"
-          android:orderInCategory="10"
+          android:orderInCategory="5"
           android:title="@string/menu_change_picture"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_change_banner"
-          android:orderInCategory="11"
+          android:orderInCategory="6"
           android:title="@string/menu_change_banner"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_change_bio"
-          android:orderInCategory="12"
+          android:orderInCategory="7"
           android:title="@string/menu_change_bio"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_mute"
-          android:orderInCategory="13"
+          android:orderInCategory="8"
           android:title="@string/mute"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmute"
-        android:orderInCategory="14"
+        android:orderInCategory="9"
         android:title="@string/unmute"
         talon:showAsAction="never" />
 
     <item android:id="@+id/menu_mute_rt"
-        android:orderInCategory="15"
+        android:orderInCategory="10"
         android:title="@string/mute_rt"
         talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmute_rt"
-        android:orderInCategory="16"
+        android:orderInCategory="11"
         android:title="@string/unmute_rt"
         talon:showAsAction="never" />
 
     <item android:id="@+id/menu_muffle_user"
-          android:orderInCategory="17"
+          android:orderInCategory="12"
           android:title="@string/muffle_user"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_unmuffle_user"
-          android:orderInCategory="18"
+          android:orderInCategory="13"
           android:title="@string/unmuffle_user"
           talon:showAsAction="never" />
 
     <item android:id="@+id/menu_share_link"
-        android:orderInCategory="19"
+        android:orderInCategory="14"
         android:title="@string/share_link"
         talon:showAsAction="never" />
 </menu>

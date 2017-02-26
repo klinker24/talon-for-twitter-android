@@ -36,6 +36,7 @@
             android:id="@+id/buttons_layout"
             android:background="@drawable/gradient_darker_reversed"
             android:layout_gravity="top"
+            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

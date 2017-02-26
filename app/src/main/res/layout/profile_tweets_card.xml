@@ -44,6 +44,7 @@
                 android:text="@string/show_all"
                 android:textSize="11sp"
                 android:background="?android:selectableItemBackground"
+                android:fontFamily="sans-serif-light"
                 android:textAllCaps="true"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
