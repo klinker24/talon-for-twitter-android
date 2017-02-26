@@ -4,8 +4,7 @@
     android:id="@+id/tweets_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:visibility="invisible">
+    android:orientation="vertical" >
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
