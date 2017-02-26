@@ -156,7 +156,6 @@ public class ProfilePager extends DragDismissActivity {
         getFromIntent();
         View root = inflater.inflate(R.layout.user_profile, parent, false);
 
-        showProgressBar();
         setUpContent(root);
         getUser();
 
@@ -657,7 +656,6 @@ public class ProfilePager extends DragDismissActivity {
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            hideProgressBar();
                             Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -716,8 +714,6 @@ public class ProfilePager extends DragDismissActivity {
                                 actionBar.setTitle(thisUser.getName());
                                 //actionBar.setSubtitle("@" + thisUser.getScreenName());
                             }
-
-                            hideProgressBar();
 
                             invalidateOptionsMenu();
                             setProfileCard(thisUser);
