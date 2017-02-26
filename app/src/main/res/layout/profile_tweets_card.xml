@@ -10,8 +10,7 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?tweet_activity_background"
-        android:layout_marginTop="2dp" >
+        android:background="?tweet_activity_background" >
 
         <View
             android:alpha=".30"
