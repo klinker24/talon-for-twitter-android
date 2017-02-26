@@ -72,7 +72,7 @@
     <color name="border_dark">#18FFFFFF</color>
     <color name="icon_dark">#CCebebeb</color>
     <color name="dark_ripple">#22FFFFFF</color>
-    <color name="tweet_activity_dark_background">#2d3b42</color>
+    <color name="tweet_activity_dark_background">#34444c</color>
 
     <!-- Black Theme -->
     <color name="action_bar_black">@android:color/black</color>
