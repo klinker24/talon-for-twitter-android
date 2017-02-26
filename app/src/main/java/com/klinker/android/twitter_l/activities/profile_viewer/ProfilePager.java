@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.activities.profile_viewer;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -41,6 +43,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -156,6 +159,12 @@ public class ProfilePager extends DragDismissActivity {
         getFromIntent();
         View root = inflater.inflate(R.layout.user_profile, parent, false);
 
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        findViewById(R.id.dragdismiss_content).setBackgroundResource(resource);
+
         setUpContent(root);
         getUser();
 
@@ -174,6 +183,7 @@ public class ProfilePager extends DragDismissActivity {
     public FontPrefTextView description;
     public FontPrefTextView location;
     public FontPrefTextView website;
+    public View profileButtons;
 
     public void setUpContent(View root) {
         profilePic = (ImageView) root.findViewById(R.id.profile_pic);
@@ -183,6 +193,8 @@ public class ProfilePager extends DragDismissActivity {
         description = (FontPrefTextView) root.findViewById(R.id.user_description);
         location = (FontPrefTextView) root.findViewById(R.id.user_location);
         website = (FontPrefTextView) root.findViewById(R.id.user_webpage);
+
+        profileButtons = root.findViewById(R.id.profile_buttons);
 
         loadProfilePicture();
     }
@@ -408,6 +420,8 @@ public class ProfilePager extends DragDismissActivity {
                 return true;
             }
         });
+
+        showCard(profileButtons);
     }
 
     private PicturesPopup picsPopup;
@@ -485,7 +499,7 @@ public class ProfilePager extends DragDismissActivity {
             // add a no tweets textbox
         }
 
-        showCard(findViewById(R.id.tweets_card));
+        showCard(findViewById(R.id.tweets_content));
     }
 
     public List<Status> mentions = new ArrayList<Status>();
@@ -613,29 +627,21 @@ public class ProfilePager extends DragDismissActivity {
     }
 
     private void showCard(final View v) {
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
-        anim.setAnimationListener(new Animation.AnimationListener() {
+        if (v.getVisibility() != View.VISIBLE) {
+            v.setVisibility(View.VISIBLE);
+        }
+
+        ValueAnimator alpha = ValueAnimator.ofFloat(0f, 1f);
+        alpha.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (v.getVisibility() != View.VISIBLE) {
-                    v.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float val = (Float) valueAnimator.getAnimatedValue();
+                v.setAlpha(val);
             }
         });
-
-        anim.setStartOffset(150);
-        anim.setDuration(450);
-        v.startAnimation(anim);
+        alpha.setDuration(200);
+        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        alpha.start();
     }
 
     public User thisUser;
@@ -733,11 +739,6 @@ public class ProfilePager extends DragDismissActivity {
 
                 // if they aren't protected, then get their tweets, favorites, etc.
                 try {
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
 
                     // tweets first
                     // this will error out if they are protected and we can't reach them
@@ -750,12 +751,6 @@ public class ProfilePager extends DragDismissActivity {
                         }
                     });
 
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
-
                     getMentions(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
@@ -763,12 +758,6 @@ public class ProfilePager extends DragDismissActivity {
                             showMentions();
                         }
                     });
-
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
 
                     favorites = twitter.getFavorites(thisUser.getId(), new Paging(1, 3));
                     ((Activity) context).runOnUiThread(new Runnable() {

@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -38,19 +38,17 @@
                 app:civ_border_width="2dp"
                 app:civ_border_color="?tweet_activity_background" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/verified"
-                android:src="?acceptButton"
+                android:src="@drawable/ic_profile_verified"
                 android:layout_gravity="bottom|end"
                 android:layout_marginStart="6dp"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:visibility="gone"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="4dp"
-                app:civ_border_width="0dp"
-                app:civ_border_color="?windowBackground"
-                app:civ_fill_color="?tweet_activity_background"/>
+                android:tint="?textColor"/>
 
         </FrameLayout>
 
@@ -148,6 +146,8 @@
                 android:layout_weight="1"/>
 
             <LinearLayout
+                android:id="@+id/profile_buttons"
+                android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -158,6 +158,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+                    android:padding="2dp"
                     android:layout_marginEnd="16dp"
                     android:scaleType="fitXY"
                     android:tint="?textColor"
@@ -168,16 +169,16 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_marginEnd="16dp"
                     android:scaleType="fitXY"
                     android:tint="?textColor"
-                    android:src="@drawable/list_dark"/>
+                    android:src="@drawable/ic_profile_list"/>
 
                 <ImageView
                     android:id="@+id/follow_button"
                     android:background="?selectableItemBackgroundBorderless"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+                    android:layout_marginStart="16dp"
                     android:scaleType="fitXY"
                     android:tint="?textColor"
                     android:src="@drawable/ic_follow" />
@@ -202,7 +203,7 @@
             <com.klinker.android.twitter_l.views.widgets.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_action_map_dark"
+                android:drawableStart="@drawable/ic_profile_places"
                 android:drawableTint="?textColor"
                 android:id="@+id/user_location"
                 android:drawablePadding="8dp"
@@ -216,7 +217,7 @@
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_links_dark"
+                android:drawableStart="@drawable/ic_profile_link"
                 android:drawableTint="?textColor"
                 android:drawablePadding="8dp"
                 android:id="@+id/user_webpage"
