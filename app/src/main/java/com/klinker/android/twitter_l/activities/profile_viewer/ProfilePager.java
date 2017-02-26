@@ -19,6 +19,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -168,32 +170,20 @@ public class ProfilePager extends DragDismissActivity {
     }
 
     public ImageView profilePic;
-    public FontPrefTextView followerCount;
-    public FontPrefTextView followingCount;
+    public TextView followerCount;
+    public TextView followingCount;
     public FontPrefTextView description;
     public FontPrefTextView location;
     public FontPrefTextView website;
-    public ImageView[] friends = new ImageView[3];
-    public ImageView[] followers = new ImageView[3];
-    public View profileCounts;
 
     public void setUpContent(View root) {
         profilePic = (ImageView) root.findViewById(R.id.profile_pic);
 
-        followerCount = (FontPrefTextView) root.findViewById(R.id.followers_number);
-        followingCount = (FontPrefTextView) root.findViewById(R.id.following_number);
+        followerCount = (TextView) root.findViewById(R.id.followers_number);
+        followingCount = (TextView) root.findViewById(R.id.following_number);
         description = (FontPrefTextView) root.findViewById(R.id.user_description);
         location = (FontPrefTextView) root.findViewById(R.id.user_location);
         website = (FontPrefTextView) root.findViewById(R.id.user_webpage);
-        profileCounts = root.findViewById(R.id.profile_counts);
-
-        friends[0] = (ImageView) root.findViewById(R.id.friend_1);
-        friends[1] = (ImageView) root.findViewById(R.id.friend_2);
-        friends[2] = (ImageView) root.findViewById(R.id.friend_3);
-
-        followers[0] = (ImageView) root.findViewById(R.id.follower_1);
-        followers[1] = (ImageView) root.findViewById(R.id.follower_2);
-        followers[2] = (ImageView) root.findViewById(R.id.follower_3);
 
         loadProfilePicture();
     }
@@ -238,7 +228,7 @@ public class ProfilePager extends DragDismissActivity {
         }
     }
 
-    public TextView followText;
+    public ImageView followButton;
 
     public void setProfileCard(final User user) {
         if (android.text.TextUtils.isEmpty(proPic)) {
@@ -268,11 +258,13 @@ public class ProfilePager extends DragDismissActivity {
             description.setVisibility(View.GONE);
         }
         if (loc != null && !loc.equals("")) {
+            location.setVisibility(View.VISIBLE);
             location.setText(loc);
         } else {
             location.setVisibility(View.GONE);
         }
         if (web != null && !web.equals("")) {
+            website.setVisibility(View.VISIBLE);
             website.setText(user.getURLEntity().getDisplayURL());
             TextUtils.linkifyText(context, website, null, true, user.getURLEntity().getExpandedURL(), false);
 
@@ -286,13 +278,12 @@ public class ProfilePager extends DragDismissActivity {
         TextUtils.linkifyText(context, description, null, true, "", false);
 
         TextView followingStatus = (TextView) findViewById(R.id.follow_status);
-        followText = (TextView) findViewById(R.id.follow_button_text);
-        LinearLayout followButton = (LinearLayout) findViewById(R.id.follow_button);
+        followButton = (ImageView) findViewById(R.id.follow_button);
 
         if (isFollowing) {
-            followText.setText(getString(R.string.menu_unfollow));
+            followButton.setImageResource(R.drawable.ic_unfollow);
         } else {
-            followText.setText(getString(R.string.menu_follow));
+            followButton.setImageResource(R.drawable.ic_follow);
         }
 
         if (isFollowing || !settings.crossAccActions) {
@@ -325,17 +316,17 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         if (followingYou) {
-            followingStatus.setText(getString(R.string.follows_you));
+            followingStatus.setText(Html.fromHtml("<b>" + getString(R.string.follows_you) + "<b>"));
         } else {
-            followingStatus.setText(getString(R.string.not_following_you));
+            followingStatus.setText(Html.fromHtml("<b>" + getString(R.string.not_following_you) + "<b>"));
         }
 
         if (user.getScreenName().equals(settings.myScreenName)) {
-            // they are you
-            findViewById(R.id.header_button_section).setVisibility(View.GONE);
+            findViewById(R.id.follow_button).setVisibility(View.GONE);
+            findViewById(R.id.follow_status).setVisibility(View.GONE);
         }
 
-        Button pictures = (Button) findViewById(R.id.pictures_button);
+        View pictures = findViewById(R.id.media_button);
 
         picsPopup = new PicturesPopup(context, thisUser);
         pictures.setOnClickListener(new View.OnClickListener() {
@@ -347,14 +338,15 @@ public class ProfilePager extends DragDismissActivity {
         });
 
         if (user.getFriendsCount() < 1000) {
-            followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
+            followingCount.setText("" + user.getFriendsCount());
         } else {
-            followingCount.setText(getString(R.string.following) + ": " + Utils.coolFormat(user.getFriendsCount(), 0));
+            followingCount.setText("" + Utils.coolFormat(user.getFriendsCount(), 0));
         }
+
         if (user.getFollowersCount() < 1000) {
-            followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+            followerCount.setText("" + user.getFollowersCount());
         } else {
-            followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
+            followerCount.setText("" + Utils.coolFormat(user.getFollowersCount(),0));
         }
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
@@ -364,24 +356,15 @@ public class ProfilePager extends DragDismissActivity {
             verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
         }
 
-        FontPrefTextView createdAt = (FontPrefTextView) findViewById(R.id.created_at);
-        FontPrefTextView listsCount = (FontPrefTextView) findViewById(R.id.number_of_lists);
-
         if (user.isVerified()) {
             verified.setVisibility(View.VISIBLE);
         }
 
-        SimpleDateFormat ft = new SimpleDateFormat("MMM dd, yyyy");
+        View openFollowers = findViewById(R.id.followers_button);
+        openFollowers.setVisibility(View.VISIBLE);
+        TextView followersText = (TextView) findViewById(R.id.followers_text);
+        followersText.setText(Html.fromHtml("<b>" + followersText.getText().toString() + "</b>"));
 
-        createdAt.setText(getString(R.string.joined_twitter) +" " + ft.format(user.getCreatedAt()));
-
-        if (user.getListedCount() == 0) {
-            listsCount.setVisibility(View.GONE);
-        } else {
-            listsCount.setText(getString(R.string.list_count).replace("%s", user.getListedCount() + ""));
-        }
-
-        View openFollowers = findViewById(R.id.view_followers);
         fol = new ProfileFollowersPopup(context, user);
 
         openFollowers.setOnClickListener(new View.OnClickListener() {
@@ -402,8 +385,13 @@ public class ProfilePager extends DragDismissActivity {
             }
         });
 
-        View openFriends = findViewById(R.id.view_friends);
+        View openFriends = findViewById(R.id.following_button);
+        openFriends.setVisibility(View.VISIBLE);
+        TextView followingText = (TextView) findViewById(R.id.following_text);
+        followingText.setText(Html.fromHtml("<b>" + followingText.getText().toString() + "</b>"));
+
         fri = new ProfileFriendsPopup(context, user);
+
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -726,7 +714,7 @@ public class ProfilePager extends DragDismissActivity {
                             ActionBar actionBar = getSupportActionBar();
                             if (actionBar != null) {
                                 actionBar.setTitle(thisUser.getName());
-                                actionBar.setSubtitle("@" + thisUser.getScreenName());
+                                //actionBar.setSubtitle("@" + thisUser.getScreenName());
                             }
 
                             hideProgressBar();
@@ -746,10 +734,6 @@ public class ProfilePager extends DragDismissActivity {
                         }
                     });
                 }
-
-                // start the other actions now that we are done finding the user
-                getFollowers(twitter);
-                getFriends(twitter);
 
                 // if they aren't protected, then get their tweets, favorites, etc.
                 try {
@@ -853,98 +837,6 @@ public class ProfilePager extends DragDismissActivity {
 
     private void getPictures(Twitter twitter) {
 
-    }
-
-    private void getFollowers(Twitter twitter) {
-
-        try {
-            Thread.sleep(NETWORK_ACTION_DELAY);
-        } catch (Exception e) {
-
-        }
-
-        try {
-            final List<User> followers = twitter.getFollowersList(thisUser.getId(), -1, 3);
-
-            ((Activity)context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setFollowers(followers);
-                }
-            });
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void setFollowers(List<User> followers) {
-        switch (followers.size()) {
-            case 0:
-                for(int i = 0; i < 3; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                for(int i = 0; i < 2; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-            case 2:
-                for(int i = 0; i < 1; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[1]);
-                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-            case 3:
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[0]);
-                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[1]);
-                glide(followers.get(2).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-        }
-    }
-
-    private void getFriends(Twitter twitter) {
-        try {
-            Thread.sleep(NETWORK_ACTION_DELAY);
-        } catch (Exception e) {
-
-        }
-
-        try {
-            final List<User> friends = twitter.getFriendsList(thisUser.getId(), -1, 3);
-
-            ((Activity)context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setFriends(friends);
-                }
-            });
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void setFriends(List<User> friends) {
-        switch (friends.size()) {
-            case 0:
-                for(int i = 0; i < 3; i++) // 0, 1, and 2 are gone
-                    this.friends[i].setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                for(int i = 0; i < 2; i++) // 0 and 1 are gone
-                    this.friends[i].setVisibility(View.INVISIBLE);
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-            case 2:
-                this.friends[0].setVisibility(View.INVISIBLE);
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[1]);
-                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-            case 3:
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[0]);
-                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[1]);
-                glide(friends.get(2).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-        }
     }
 
     class GetActionBarInfo extends AsyncTask<String, Void, Void> {
@@ -1063,10 +955,10 @@ public class ProfilePager extends DragDismissActivity {
             if (created != null) {
                 if (created) {
                     Toast.makeText(context, getResources().getString(R.string.followed_user), Toast.LENGTH_SHORT).show();
-                    followText.setText(getString(R.string.menu_unfollow));
+                    followButton.setImageResource(R.drawable.ic_unfollow);
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.unfollowed_user), Toast.LENGTH_SHORT).show();
-                    followText.setText(getString(R.string.menu_follow));
+                    followButton.setImageResource(R.drawable.ic_follow);
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
