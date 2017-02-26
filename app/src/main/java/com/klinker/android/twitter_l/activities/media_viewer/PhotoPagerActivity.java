@@ -86,6 +86,8 @@ public class PhotoPagerActivity extends DragDismissActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
+        findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
+
         url = getIntent().getStringExtra("url");
         int startPage = getIntent().getIntExtra("start_page", 0);
 

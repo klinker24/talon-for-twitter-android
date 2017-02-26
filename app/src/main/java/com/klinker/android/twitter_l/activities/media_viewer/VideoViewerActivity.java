@@ -123,6 +123,8 @@ public class VideoViewerActivity extends DragDismissActivity {
             return new View(this);
         }
 
+        findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
+
         AppSettings settings = new AppSettings(context);
         Utils.setUpTheme(this, settings);
 
