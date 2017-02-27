@@ -23,10 +23,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.transition.ChangeBounds;
 import android.util.Log;
@@ -58,7 +60,6 @@ import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.melnykov.fab.FloatingActionButton;
 
 
 public class MainActivity extends DrawerActivity {
@@ -182,9 +183,7 @@ public class MainActivity extends DrawerActivity {
             getWindow().setSharedElementExitTransition(new ChangeBounds());
         }
 
-        MainActivity.sendButton.setColorNormal(settings.themeColors.accentColor);
-        MainActivity.sendButton.setColorPressed(settings.themeColors.accentColor);
-        MainActivity.sendButton.setColorRippleResId(android.R.color.white);
+        MainActivity.sendButton.setBackgroundTintList(ColorStateList.valueOf(settings.themeColors.accentColor));
 
         MainActivity.sendHandler.postDelayed(showSend, 1000);
         MainActivity.sendButton.setOnClickListener(new View.OnClickListener() {

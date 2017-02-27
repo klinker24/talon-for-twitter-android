@@ -2,12 +2,14 @@ package com.klinker.android.twitter_l.activities.profile_viewer;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -18,10 +20,14 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.SearchRecentSuggestions;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +47,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
@@ -94,6 +102,7 @@ import twitter4j.User;
 import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
 public class ProfilePager extends DragDismissActivity {
 
@@ -259,18 +268,35 @@ public class ProfilePager extends DragDismissActivity {
             loadProfilePicture();
         }
 
-        // TODO
-//        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent compose = new Intent(context, ComposeActivity.class);
-//                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
-//                        v.getMeasuredWidth(), v.getMeasuredHeight());
-//                compose.putExtra("user", "@" + screenName);
-//                compose.putExtra("already_animated", true);
-//                startActivity(compose, opts.toBundle());
-//            }
-//        });
+        CoordinatorLayout frameLayout = (CoordinatorLayout)
+                findViewById(R.id.dragdismiss_background_view);
+
+        final Context ctx = new ContextThemeWrapper(this, R.style.AppTheme);
+        FloatingActionButton fab = new FloatingActionButton(ctx);
+
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
+                Utils.toDP(56, context), Utils.toDP(56, context));
+        params.gravity = Gravity.BOTTOM | Gravity.END;
+        params.bottomMargin = Utils.toDP(16, context);
+        params.rightMargin = Utils.toDP(16, context);
+        params.leftMargin = Utils.toDP(16, context);
+        fab.setLayoutParams(params);
+
+        fab.setImageResource(R.drawable.ic_fab_pencil);
+        fab.setBackgroundTintList(ColorStateList.valueOf(settings.themeColors.accentColor));
+
+        frameLayout.addView(fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent compose = new Intent(ProfilePager.this, ComposeActivity.class);
+                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                        v.getMeasuredWidth(), v.getMeasuredHeight());
+                compose.putExtra("user", "@" + screenName);
+                compose.putExtra("already_animated", true);
+                startActivity(compose, opts.toBundle());
+            }
+        });
 
         String des = user.getDescription();
         String loc = user.getLocation();
