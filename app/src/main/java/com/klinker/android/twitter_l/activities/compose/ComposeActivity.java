@@ -39,8 +39,6 @@ import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
-import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
-import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -49,7 +47,6 @@ import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.activities.GiphySearch;
 import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
-import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
@@ -672,8 +669,9 @@ public class ComposeActivity extends Compose {
                 Log.v("username_for_noti", "to place: " + to);
                 if (to.contains("/status/")) {
                     // quoting a tweet
+                    quotingAStatus = to;
                     attachmentUrl = to;
-                    reply.setText(to);
+                    reply.setText("");
                     reply.setSelection(0);
                 } else {
                     reply.setText(to);
@@ -755,7 +753,7 @@ public class ComposeActivity extends Compose {
     }
 
     public void sendStatus(String status, int length) {
-        new updateTwitterStatus(reply.getText().toString(), length).execute(status);
+        new UpdateTwitterStatus(reply.getText().toString(), length).execute(status);
     }
 
     @Override

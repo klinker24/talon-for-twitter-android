@@ -7,6 +7,7 @@
         <text>New: image viewer revamp (animations, improved drag to dismiss, tablet layout)</text>
         <text>New: view a user's lists on their profile</text>
         <text>Improvements to the article viewer (quotes, images, theme-ing, and content loading)</text>
+        <text>Improvements to UI for quoting tweets</text>
         <text>Improved image loading (speed, consistency, data usage)</text>
         <text>Improved tablet support</text>
     </version>
