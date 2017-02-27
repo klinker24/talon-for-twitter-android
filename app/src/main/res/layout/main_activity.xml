@@ -55,7 +55,7 @@
                     android:gravity="center_vertical"
                     style="@style/MyToolbar"/>
 
-            <com.melnykov.fab.FloatingActionButton
+            <android.support.design.widget.FloatingActionButton
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/send_button"
                 android:layout_width="72dp"
@@ -64,9 +64,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="60dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_fab_pencil"
-                fab:fab_colorNormal="#99CC00"
-                fab:fab_colorRipple="@android:color/white" />
+                android:src="@drawable/ic_fab_pencil"/>
 
             <!--<LinearLayout
                     android:id="@+id/send_layout"
