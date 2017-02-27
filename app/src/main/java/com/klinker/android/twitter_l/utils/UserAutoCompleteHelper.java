@@ -77,7 +77,7 @@ public class UserAutoCompleteHelper {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) { }
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String tvText = textView.getText().toString();
+                String tvText = textView.getText().toString().trim();
 
                 try {
                     int position = textView.getSelectionStart() - 1;
