@@ -60,6 +60,7 @@ import com.klinker.android.twitter_l.views.popups.profile.ProfileFollowersPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileFriendsPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileMentionsPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileTweetsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileUsersListsPopup;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.yalantis.ucrop.UCrop;
@@ -258,6 +259,7 @@ public class ProfilePager extends DragDismissActivity {
             loadProfilePicture();
         }
 
+        // TODO
 //        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -349,6 +351,16 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         View pictures = findViewById(R.id.media_button);
+        View lists = findViewById(R.id.lists_button);
+
+        usersListsPopup = new ProfileUsersListsPopup(context, thisUser);
+        lists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                usersListsPopup.setExpansionPointForAnim(view);
+                usersListsPopup.show();
+            }
+        });
 
         picsPopup = new PicturesPopup(context, thisUser);
         pictures.setOnClickListener(new View.OnClickListener() {
@@ -438,6 +450,7 @@ public class ProfilePager extends DragDismissActivity {
     private PicturesPopup picsPopup;
     private ProfileFollowersPopup fol;
     private ProfileFriendsPopup fri;
+    private ProfileUsersListsPopup usersListsPopup;
 
     public List<Status> tweets = new ArrayList<Status>();
     public ProfileTweetsPopup tweetsPopup;
@@ -1179,6 +1192,8 @@ public class ProfilePager extends DragDismissActivity {
             mentionsPopup.hide();
         } else if (favoritesPopup != null && favoritesPopup.isShowing()) {
             favoritesPopup.hide();
+        } else if (usersListsPopup != null && usersListsPopup.isShowing()) {
+            usersListsPopup.hide();
         } else if (picsPopup != null && picsPopup.isShowing()) {
             picsPopup.hide();
         } else if (fol != null && fol.isShowing()) {
