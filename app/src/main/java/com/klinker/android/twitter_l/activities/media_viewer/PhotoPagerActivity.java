@@ -47,6 +47,7 @@ public class PhotoPagerActivity extends DragDismissActivity {
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)
+                .setFullscreenOnTablets(true)
                 .build(viewImage);
 
         context.startActivity(viewImage);

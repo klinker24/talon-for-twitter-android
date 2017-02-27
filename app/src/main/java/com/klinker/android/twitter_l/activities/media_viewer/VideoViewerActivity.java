@@ -91,6 +91,7 @@ public class VideoViewerActivity extends DragDismissActivity {
                     .setShowToolbar(false)
                     .setPrimaryColorResource(android.R.color.black)
                     .setShouldScrollToolbar(false)
+                    .setFullscreenOnTablets(true)
                     .build(viewVideo);
 
             if (video != null) {

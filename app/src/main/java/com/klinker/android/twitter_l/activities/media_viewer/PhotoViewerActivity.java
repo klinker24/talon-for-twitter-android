@@ -72,6 +72,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 .setShowToolbar(true)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)
+                .setFullscreenOnTablets(true)
                 .build(viewImage);
 
         if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
