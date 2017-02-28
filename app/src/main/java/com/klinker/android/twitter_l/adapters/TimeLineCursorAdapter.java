@@ -585,15 +585,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             muffled = false;
         }
 
-        holder.quickActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
-                popup.setExpansionPointForAnim(holder.quickActions);
-                popup.setOnTopOfView(holder.quickActions);
-                popup.show();
-            }
-        });
+//        holder.quickActions.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
+//                popup.setExpansionPointForAnim(holder.quickActions);
+//                popup.setOnTopOfView(holder.quickActions);
+//                popup.show();
+//            }
+//        });
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
