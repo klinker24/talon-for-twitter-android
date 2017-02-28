@@ -1066,9 +1066,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     public void addExpansion(final ViewHolder holder, final long tweetId) {
         hasExpandedTweet = true;
 
-        final View expansion = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_counts, null, false);
-        final TextView tweetCounts = (TextView) expansion.findViewById(R.id.tweet_counts);
-        final TextView tweetSource = (TextView) expansion.findViewById(R.id.tweet_source);
+        final View buttons = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_buttons, null, false);
+        final View counts = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_counts, null, false);
+        buttons.setPadding(0, Utils.toDP(12, context), 0, Utils.toDP(12, context));
 
         new Thread(new Runnable() {
             @Override
@@ -1078,17 +1078,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     Status s = twitter.showStatus(tweetId);
                     final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
 
-                    tweetCounts.post(new Runnable() {
+                    counts.post(new Runnable() {
                         @Override
                         public void run() {
-                            String retweets = status.getRetweetCount() == 1 ? context.getString(R.string.retweet).toLowerCase() : context.getString(R.string.new_retweets);
-                            String likes = status.getFavoriteCount() == 1 ? context.getString(R.string.favorite).toLowerCase() : context.getString(R.string.new_favorites);
-                            String tweetCount = status.getFavoriteCount() + " <b>" + likes + "</b>  " +
-                                    (!status.getUser().isProtected() ? status.getRetweetCount() + " <b>" + retweets + "</b> " : "");
-                            tweetCounts.setText(Html.fromHtml(tweetCount));
-
-                            String via = context.getResources().getString(R.string.via) + " <b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
-                            tweetSource.setText(Html.fromHtml(via));
+                            TweetButtonUtils utils = new TweetButtonUtils(context);
+                            utils.setUpButtons(status, counts, buttons, false);
                         }
                     });
                 } catch (Exception e) {
@@ -1097,7 +1091,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }).start();
 
-        final int expansionSize = Utils.toDP(36, context);
+        final int expansionSize = Utils.toDP(64, context);
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, expansionSize);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1109,14 +1103,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
         heightAnimatorContent.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+            @Override public void onAnimationCancel(Animator animation) { }
+            @Override public void onAnimationRepeat(Animator animation) { }
+            @Override public void onAnimationStart(Animator animation) {
                 holder.expandArea.setVisibility(View.VISIBLE);
             }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
+            @Override public void onAnimationEnd(Animator animation) {
                 if (holder.expandArea.getChildCount() > 0) {
                     holder.expandArea.removeAllViews();
                 }
@@ -1125,18 +1117,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
-                holder.expandArea.addView(expansion);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                holder.expandArea.addView(counts);
+                holder.expandArea.addView(buttons);
             }
         });
+
         heightAnimatorContent.setDuration(ANIMATION_DURATION);
         heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorContent);

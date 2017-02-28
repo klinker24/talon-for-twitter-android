@@ -279,7 +279,6 @@ public class TweetActivity extends DragDismissActivity {
             displayPlayButton = true;
         }
 
-        setUpTheme(root);
         setUIElements(root);
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
@@ -345,30 +344,8 @@ public class TweetActivity extends DragDismissActivity {
         }
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            expansionHelper.interactionsButton.performClick();
-        }
-    };
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        registerReceiver(receiver, new IntentFilter("com.klinker.android.twitter_l.OPEN_INTERACTIONS"));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        unregisterReceiver(receiver);
-    }
     @Override
     public void finish() {
-        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-
         // this is used in the onStart() for the home fragment to tell whether or not it should refresh
         // tweetmarker. Since coming out of this will only call onResume(), it isn't needed.
         //sharedPrefs.edit().putBoolean("from_activity", true).apply();
@@ -381,48 +358,11 @@ public class TweetActivity extends DragDismissActivity {
     }
 
     public boolean hidePopups() {
-        if (picsPopup != null && picsPopup.isShowing()) {
-            picsPopup.hide();
-            return true;
-        } else if (expansionHelper != null && expansionHelper.hidePopups()) {
+        if (expansionHelper != null && expansionHelper.hidePopups()) {
             return true;
         }
 
         return false;
-    }
-
-    public View insetsBackground;
-
-    public void setUpTheme(View root) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        }
-
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(new ColorDrawable(Color.TRANSPARENT));
-        actionBar.setTitle("");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        actionBar.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));
-
-        final View content = root.findViewById(R.id.content);
-        content.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (view instanceof ImageButton) {
-                    return false;
-                }
-                if (picsPopup != null && picsPopup.isShowing()) {
-                    picsPopup.hide();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
     }
 
     public void getFromIntent() {
@@ -725,15 +665,13 @@ public class TweetActivity extends DragDismissActivity {
             replyStuff = extraNames;
         }
 
-        expansionHelper = new ExpansionViewHelper(context, tweetId, getResources().getBoolean(R.bool.isTablet));
+        expansionHelper = new ExpansionViewHelper(context, tweetId);
         expansionHelper.setSecondAcc(secondAcc);
         expansionHelper.setBackground(layout.findViewById(R.id.content));
         expansionHelper.setInReplyToArea((LinearLayout) layout.findViewById(R.id.conversation_area));
         expansionHelper.setWebLink(otherLinks);
-        expansionHelper.setReplyDetails("@" + screenName + ": " + text, replyStuff);
         expansionHelper.setUser(screenName);
         expansionHelper.setText(text);
-        expansionHelper.setVideoDownload(gifVideo);
         expansionHelper.setUpOverflow();
         expansionHelper.setLoadCallback(new ExpansionViewHelper.TweetLoaded() {
             @Override
@@ -744,7 +682,6 @@ public class TweetActivity extends DragDismissActivity {
 
         LinearLayout ex = (LinearLayout) layout.findViewById(R.id.expansion_area);
         ex.addView(expansionHelper.getExpansion());
-        expansionHelper.startFlowAnimation();
     }
 
     private void setTime(long time) {
@@ -762,72 +699,6 @@ public class TweetActivity extends DragDismissActivity {
     }
 
     private ExpansionViewHelper expansionHelper;
-    private Status status = null;
-    private MultiplePicsPopup picsPopup;
-
-    public Bitmap decodeSampledBitmapFromResourceMemOpt(
-            InputStream inputStream, int reqWidth, int reqHeight) {
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = inputStream.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = opt.outHeight;
-        final int width = opt.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
 
     private void glide(String url, ImageView target) {
         try {
