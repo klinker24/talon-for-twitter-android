@@ -1,15 +1,17 @@
 <changelog>
 
     <version name="6.0.0">
-        <text>Woah. Speed. Everything is faster. You will feel the difference.</text>
-        <text>New: tweet viewer UI revamp</text>
-        <text>New: profiles UI revamp</text>
-        <text>New: image viewer revamp (animations, improved drag to dismiss, tablet layout)</text>
-        <text>New: view a user's lists on their profile</text>
-        <text>Improvements to the article viewer (quotes, images, theme-ing, and content loading)</text>
-        <text>Improvements to UI for quoting tweets</text>
-        <text>Improved image loading (speed, consistency, data usage)</text>
-        <text>Improved tablet support</text>
+        <text>Woah - speed. Everything is faster. Talon 6.0 is Twitter like you have never used it before.</text>
+        <text>Sweet style. I iterated and improved on all the main pieces of the app, along with adding some awesome new features to each.</text>
+        <text>New: Tweet viewer UI revamp</text>
+        <text>New: Profiles UI revamp</text>
+        <text>New: View a user's lists on their profile</text>
+        <text>New: Image viewer revamp (animations, improved drag to dismiss)</text>
+        <text>New: View tweet counts with a long click on the timeline</text>
+        <text>Improve: Article viewer (quotes, images, theme-ing, and content loading)</text>
+        <text>Improve: UI for quoting tweets</text>
+        <text>Improve: Image loading (speed, consistency, data usage)</text>
+        <text>Improve: Tablet support</text>
     </version>
 
     <version name="5.10.0">
