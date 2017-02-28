@@ -603,6 +603,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     return;
                 }
 
+                if (holder.expandArea.getVisibility() != View.GONE) {
+                    removeExpansion(holder, true);
+                }
+
                 String link;
                 boolean displayPic = !holder.picUrl.equals("");
                 if (displayPic) {
