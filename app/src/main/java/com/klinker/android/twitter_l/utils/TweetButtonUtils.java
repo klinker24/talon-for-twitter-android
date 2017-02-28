@@ -161,7 +161,7 @@ public class TweetButtonUtils {
         quoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = status.getText();
+                String text = restoreLinks(status.getText());
 
                 switch (AppSettings.getInstance(context).quoteStyle) {
                     case AppSettings.QUOTE_STYLE_TWITTER:
@@ -451,7 +451,7 @@ public class TweetButtonUtils {
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
         int urlEntitiesSize = status.getURLEntities().length;
         int length = imageUrl != null && !imageUrl.isEmpty() ? urlEntitiesSize + 1 : urlEntitiesSize;
-        
+
         String[] otherLinks = new String[length];
         for (int i = 0; i < otherLinks.length; i++) {
             if (i < urlEntitiesSize - 1) {

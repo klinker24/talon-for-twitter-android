@@ -147,6 +147,10 @@ public class ExpansionViewHelper {
         replyList = (ListView) convoLayout.findViewById(R.id.listView);
         convoSpinner = (LinearLayout) convoLayout.findViewById(R.id.spinner);
 
+        if (settings.darkTheme) {
+            expansion.findViewById(R.id.compose_button).setAlpha(.75f);
+        }
+
         tweetSource.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
