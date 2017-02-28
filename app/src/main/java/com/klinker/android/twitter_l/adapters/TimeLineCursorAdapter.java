@@ -1070,6 +1070,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         final View counts = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_counts, null, false);
         buttons.setPadding(0, Utils.toDP(12, context), 0, Utils.toDP(12, context));
 
+        if (settings.darkTheme) {
+            buttons.findViewById(R.id.compose_button).setAlpha(.75f);
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
