@@ -83,8 +83,8 @@ public class TweetButtonUtils {
             quoteButton.setColorFilter(Color.BLACK);
         }
 
-        if (!showOverflow) {
-            overflowButton.setVisibility(View.GONE);
+        if (showOverflow) {
+            overflowButton.setVisibility(View.VISIBLE);
         }
 
         likeButton.setOnClickListener(new View.OnClickListener() {
