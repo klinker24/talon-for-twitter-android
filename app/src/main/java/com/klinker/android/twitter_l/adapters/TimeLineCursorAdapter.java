@@ -94,7 +94,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public int contentHeight = 0;
     public int headerMultiplier = 0;
-    public Expandable expander;
 
     protected Handler[] mHandlers;
     protected int currHandler;
@@ -143,8 +142,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String gifUrl = "";
 
         public boolean preventNextClick = false;
-
-        public ExpansionViewHelper expandHelper;
     }
 
     // This is need for the case that the activity is paused while the handler is counting down
@@ -267,7 +264,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
-        this.expander = expander;
 
         init();
     }
@@ -294,7 +290,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = false;
-        this.expander = expander;
         this.secondAcc = secondAcc;
 
         init();
@@ -309,7 +304,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
-        this.expander = expander;
 
         init();
     }
@@ -648,11 +642,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View view) {
                 if (holder.expandArea.getVisibility() == View.GONE) {
-                    if (!(VideoMatcherUtil.containsThirdPartyVideo(tweetTexts))) {
-                        addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                    } else {
-                        holder.background.performClick();
-                    }
+                    addExpansion(holder, id);
                 } else {
                     removeExpansion(holder, true);
                 }
@@ -1036,26 +1026,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void removeExpansion(final ViewHolder holder, boolean anim) {
-
-        if (holder.expandHelper != null) {
-            holder.expandHelper.stop();
-            holder.expandHelper.removeInReplyToViews();
-        }
-
-        final int sixteen = Utils.toDP(16, context);
-        final int eight = Utils.toDP(8, context);
-        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(holder.background.getPaddingTop(), 0);
-        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.condensedTweets()? eight : 0), 0, sixteen);
-            }
-        });
-        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
-        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(paddingTopAnimator);
-
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1079,13 +1049,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     hasExpandedTweet = false;
                 }
             }, ANIMATION_DURATION);
-
-            // if they are just scrolling away from it, there is no reason to put them back at
-            // their original position, so we don't call the expander method.
-            expander.expandViewClosed((int) holder.rootView.getY());
         } else {
             holder.expandArea.setVisibility(View.GONE);
-            expander.expandViewClosed(-1);
             hasExpandedTweet = false;
         }
 
@@ -1095,109 +1060,44 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         animator.start();
     }
 
-    public static final int ANIMATION_DURATION = 300;
+    public static final int ANIMATION_DURATION = 100;
     public static Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
 
-    public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
-
+    public void addExpansion(final ViewHolder holder, final long tweetId) {
         hasExpandedTweet = true;
 
-        String str = holder.tweet.getText().toString();
-        try {
-            if (!str.contains(webpage.substring(0, 18))) {
-                str = str + " " + webpage;
-            }
-        } catch (Exception e) {
+        final View expansion = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_counts, null, false);
+        final TextView tweetCounts = (TextView) expansion.findViewById(R.id.tweet_counts);
+        final TextView tweetSource = (TextView) expansion.findViewById(R.id.tweet_source);
 
-        }
-
-        final String text = str;
-        String extraNames = "";
-        String replyStuff = "";
-
-        String screenNameToUse;
-
-        if (secondAcc) {
-            screenNameToUse = settings.secondScreenName;
-        } else {
-            screenNameToUse = settings.myScreenName;
-        }
-
-        if (text.contains("@")) {
-            for (String s : users.split("  ")) {
-                if (!s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenname)) {
-                    extraNames += "@" + s + " ";
-                }
-            }
-        }
-
-        try {
-            if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
-                extraNames += "@" + holder.retweeterName + " ";
-            }
-        } catch (NullPointerException e) {
-
-        }
-
-        if (!screenname.equals(screenNameToUse)) {
-            replyStuff = "@" + screenname + " " + extraNames;
-        } else {
-            replyStuff = extraNames;
-        }
-
-        if (settings.autoInsertHashtags && hashtags != null) {
-            for (String s : hashtags) {
-                if (!s.equals("")) {
-                    replyStuff += "#" + s + " ";
-                }
-            }
-        }
-
-        int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
-
-        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId);
-        helper.setSecondAcc(secondAcc);
-        helper.setBackground(holder.background);
-        helper.setExpandArea(holder.expandArea);
-        helper.setInReplyToArea(holder.conversationArea);
-        helper.setWebLink(otherLinks);
-        helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
-        helper.setUser(screenname);
-        helper.setText(text);
-        helper.setUpOverflow();
-        helper.writeToHashtagDataSource(hashtags);
-        helper.showEmbedded(false);
-        holder.expandHelper = helper;
-
-        if (secondAcc) {
-            String t = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-            Toast.makeText(context, t, Toast.LENGTH_SHORT).show();
-        }
-
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
-
-        int topPadding = Utils.getStatusBarHeight(context);
-        if (settings.staticUi || duelPanel) {
-            // the app bar doesn't move, so we should use it for the top padding too
-            topPadding += Utils.getActionBarHeight(context);
-        }
-
-        final int sixteen = Utils.toDP(16, context);
-        final int eight = Utils.toDP(8, context);
-        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(0, topPadding);
-        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.condensedTweets() ? eight : 0), 0, sixteen);
+            public void run() {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
+
+                    tweetCounts.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            String retweets = status.getRetweetCount() == 1 ? context.getString(R.string.retweet).toLowerCase() : context.getString(R.string.new_retweets);
+                            String likes = status.getFavoriteCount() == 1 ? context.getString(R.string.favorite).toLowerCase() : context.getString(R.string.new_favorites);
+                            String tweetCount = status.getFavoriteCount() + " <b>" + likes + "</b>  " +
+                                    (!status.getUser().isProtected() ? status.getRetweetCount() + " <b>" + retweets + "</b> " : "");
+                            tweetCounts.setText(Html.fromHtml(tweetCount));
+
+                            String via = context.getResources().getString(R.string.via) + " <b>" + android.text.Html.fromHtml(status.getSource()).toString() + "</b>";
+                            tweetSource.setText(Html.fromHtml(via));
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
             }
-        });
-        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
-        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(paddingTopAnimator);
+        }).start();
 
-        final int expansionSize = contentHeight - holder.background.getHeight();
-
+        final int expansionSize = Utils.toDP(36, context);
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, expansionSize);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1225,11 +1125,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
-                View root = helper.getExpansion();
-
-                helper.startFlowAnimation();
-
-                holder.expandArea.addView(root);
+                holder.expandArea.addView(expansion);
 
             }
 
@@ -1304,20 +1200,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             }
         }).start();
-    }
-
-    private Intent addDimensForExpansion(Intent i, View view) {
-        i.putExtra(TweetActivity.USE_EXPANSION, true);
-
-        int location[] = new int[2];
-        view.getLocationOnScreen(location);
-
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
-
-        return i;
     }
 
     private class Video {

@@ -216,12 +216,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
             android:gravity="top"
             android:id="@+id/expansion"
-            android:visibility="gone">
-
-    </LinearLayout>
+            android:visibility="gone" />
 
 </LinearLayout>
