@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
+import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.adapters.AutoCompleteUserArrayAdapter;
 import com.klinker.android.twitter_l.adapters.UserListMembersArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class UserAutoCompleteHelper {
     private Activity context;
     private Handler handler;
     private ListPopupWindow userAutoComplete;
+    private ListPopupWindow hashtagAutoComplete;
     private AutoCompleteHelper autoCompleter;
     private EditText textView;
     private Callback callback;
@@ -67,21 +70,31 @@ public class UserAutoCompleteHelper {
         userAutoComplete.setHeight(Utils.toDP(200, context));
         userAutoComplete.setWidth((int)(width * .75));
         userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
+
+        hashtagAutoComplete = new ListPopupWindow(context);
+        hashtagAutoComplete.setHeight(Utils.toDP(200, context));
+        hashtagAutoComplete.setWidth((int)(width * .75));
+        hashtagAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
     }
 
     private ListPopupWindow on(final EditText textView) {
         this.textView = textView;
         userAutoComplete.setAnchorView(textView);
+        hashtagAutoComplete.setAnchorView(textView);
+
+        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                HashtagDataSource.getInstance(context).getCursor(""), textView));
 
         textView.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) { }
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String tvText = textView.getText().toString().trim();
+                int position = textView.getSelectionStart() - 1;
 
                 try {
-                    int position = textView.getSelectionStart() - 1;
                     if (tvText.charAt(tvText.length() - 1) == '@') {
+                        hashtagAutoComplete.dismiss();
                         userAutoComplete.show();
                     } else if (!tvText.contains("@") || position < tvText.indexOf("@")) {
                         userAutoComplete.dismiss();
@@ -99,16 +112,39 @@ public class UserAutoCompleteHelper {
                     e.printStackTrace();
                     userAutoComplete.dismiss();
                 }
+
+                try {
+                    if (tvText.charAt(tvText.length() - 1) == '#') {
+                        userAutoComplete.dismiss();
+                        hashtagAutoComplete.show();
+                    } else if (tvText.charAt(position) == ' ') {
+                        hashtagAutoComplete.dismiss();
+                    } else if (hashtagAutoComplete.isShowing()) {
+                        String adapterText = "";
+
+                        do {
+                            adapterText = tvText.charAt(position--) + adapterText;
+                        } while (tvText.charAt(position) != '#');
+
+                        adapterText = adapterText.replace("#", "");
+                        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                                HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
+                    }
+                } catch (Exception e) {
+                    try {
+                        hashtagAutoComplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong I guess haha
+                    }
+                }
             }
         });
 
-        if (AppSettings.getInstance(context).followersOnlyAutoComplete) {
+        if (!AppSettings.getInstance(context).followersOnlyAutoComplete) {
             userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     userAutoComplete.dismiss();
-
-
                     autoCompleter.completeTweet(textView, users.get(i).getScreenName(), '@');
 
                     if (callback != null) {
@@ -117,6 +153,13 @@ public class UserAutoCompleteHelper {
                 }
             });
         }
+
+        hashtagAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                hashtagAutoComplete.dismiss();
+            }
+        });
 
         return userAutoComplete;
     }
@@ -147,7 +190,8 @@ public class UserAutoCompleteHelper {
                             context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context, cursor, textView));
+                                    adapter = new AutoCompletePeopleAdapter(context, cursor, textView);
+                                    userAutoComplete.setAdapter(adapter);
                                 }
                             });
                         } else {
