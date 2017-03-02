@@ -189,64 +189,6 @@ public class ComposeActivity extends Compose {
 
         final UserAutoCompleteHelper userAutoCompleteHelper = UserAutoCompleteHelper.applyTo(this, reply);
 
-        hashtagAutoComplete = new ListPopupWindow(context);
-        hashtagAutoComplete.setAnchorView(reply);
-        hashtagAutoComplete.setHeight(toDP(200));
-        hashtagAutoComplete.setWidth((int)(width * .75));
-        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                HashtagDataSource.getInstance(context).getCursor(reply.getText().toString()), reply));
-        hashtagAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
-
-        hashtagAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                hashtagAutoComplete.dismiss();
-            }
-        });
-
-        // watcher for the @
-        reply.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                String searchText = reply.getText().toString();
-
-                try {
-                    int position = reply.getSelectionStart() - 1;
-                    if (searchText.charAt(position) == '#') {
-                        hashtagAutoComplete.show();
-                    } else if (searchText.charAt(position) == ' ') {
-                        hashtagAutoComplete.dismiss();
-                    } else if (hashtagAutoComplete.isShowing()) {
-                        String adapterText = "";
-                        do {
-                            adapterText = searchText.charAt(position--) + adapterText;
-                        } while (searchText.charAt(position) != '#');
-                        adapterText = adapterText.replace("#", "");
-                        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
-                                HashtagDataSource.getInstance(context).getCursor(adapterText), reply));
-                    }
-                } catch (Exception e) {
-                    try {
-                        hashtagAutoComplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong I guess haha
-                    }
-                }
-
-            }
-        });
-
         overflow = (ImageButton) findViewById(R.id.overflow_button);
         overflow.setOnClickListener(new View.OnClickListener() {
             @Override
