@@ -147,7 +147,8 @@ public class UserAutoCompleteHelper {
                             context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(context, cursor, textView));
+                                    adapter = new AutoCompletePeopleAdapter(context, cursor, textView);
+                                    userAutoComplete.setAdapter(adapter);
                                 }
                             });
                         } else {
