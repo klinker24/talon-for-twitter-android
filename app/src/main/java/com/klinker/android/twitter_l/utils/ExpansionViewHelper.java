@@ -980,10 +980,14 @@ public class ExpansionViewHelper {
                                         TweetView v = new TweetView(context, s);
                                         v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
                                         v.setSmallImage(true);
+                                        v.setUseSmallerMargins(true);
+
+                                        if (filtered.indexOf(s) == filtered.size() - 1) {
+                                            v.getView().findViewById(R.id.background).setPadding(0,0,0, Utils.toDP(16,context));
+                                        }
 
                                         tweetViews.addView(v.getView());
                                     }
-
                                 }
                             });
                         }
@@ -1010,13 +1014,10 @@ public class ExpansionViewHelper {
     // expand collapse animation: http://stackoverflow.com/questions/4946295/android-expand-collapse-animation
     public void showInReplyToViews(List<twitter4j.Status> replies) {
         for (int i = 0; i < replies.size(); i++) {
-            View statusView = new TweetView(context, replies.get(i)).setInReplyToSection(true).getView();
+            View statusView = new TweetView(context, replies.get(i)).setUseSmallerMargins(true).getView();
 
-            // add a little padding to the last one
             if (i == replies.size() - 1) {
-                statusView.setPadding(0,0,0,Utils.toDP(12, context));
-            } else if (i == 0) {
-                statusView.setPadding(0, Utils.toDP(6, context), 0,0);
+                statusView.findViewById(R.id.background).setPadding(0,0,0, Utils.toDP(16, context));
             }
 
             inReplyToTweets.addView(statusView);
@@ -1024,8 +1025,7 @@ public class ExpansionViewHelper {
 
         inReplyToArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = inReplyToArea.getMeasuredHeight() + (context.getResources().getBoolean(R.bool.isTablet) ?
-                Utils.toDP(12, context) : Utils.toDP(24, context));
+        final int targetHeight = inReplyToArea.getMeasuredHeight();
 
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         inReplyToArea.getLayoutParams().height = 1;

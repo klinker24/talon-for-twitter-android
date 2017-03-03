@@ -279,6 +279,7 @@ public class TweetActivity extends DragDismissActivity {
             displayPlayButton = true;
         }
 
+        root.findViewById(R.id.line).setBackgroundColor(settings.themeColors.accentColor);
         setUIElements(root);
 
         String page = webpages.size() > 0 ? webpages.get(0) : "";
