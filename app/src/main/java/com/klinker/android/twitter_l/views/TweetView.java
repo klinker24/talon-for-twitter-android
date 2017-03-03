@@ -111,8 +111,13 @@ public class TweetView {
 
     int embeddedTweets = 0;
 
-    boolean inReplyToSection = false;
     boolean displayProfilePicture = true;
+    boolean smallerMargins = false;
+
+    public TweetView setUseSmallerMargins(boolean smaller) {
+        this.smallerMargins = smaller;
+        return this;
+    }
 
     public void setDisplayProfilePicture(boolean displayProfilePicture) {
         this.displayProfilePicture = displayProfilePicture;
@@ -155,11 +160,6 @@ public class TweetView {
 
         setData(status);
         Log.v("embedded_tweets", embeddedTweets + "");
-    }
-
-    public TweetView setInReplyToSection(boolean inSection) {
-        this.inReplyToSection = inSection;
-        return this;
     }
 
     public void setCurrentUser(String s) {
@@ -215,6 +215,16 @@ public class TweetView {
     public View getView() {
         if (tweetView == null) {
             tweetView = createTweet();
+
+            if (smallerMargins) {
+                View header = tweetView.findViewById(R.id.tweet_header);
+                if (header == null) {
+                    tweetView.findViewById(R.id.background).setPadding(0,Utils.toDP(6, context),0, Utils.toDP(6, context));
+                } else {
+                    tweetView.findViewById(R.id.background).setPadding(0,0,0, Utils.toDP(6, context));
+                    header.setPadding(0,Utils.toDP(6, context), 0,0);
+                }
+            }
             setComponents(tweetView);
             bindData();
             setupImage();
@@ -233,16 +243,10 @@ public class TweetView {
     }
 
     protected View createTweet() {
-        if (inReplyToSection) {
-            View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet_in_reply_to_section, null, false);
-            //tweetView.findViewById(R.id.tweet_link).setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
-            return tweetView;
-        } else {
-            View tweetView = ((Activity) context).getLayoutInflater().inflate(
-                    !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
-                    null, false);
-            return tweetView;
-        }
+        View tweetView = ((Activity) context).getLayoutInflater().inflate(
+                !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
+                null, false);
+        return tweetView;
     }
 
     //private boolean images = true;

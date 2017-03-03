@@ -22,16 +22,30 @@
                 android:orientation="vertical"
                 android:id="@+id/conversation_area"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:paddingTop="12dp" >
+                android:layout_height="0dp" >
 
                 <LinearLayout
-                    android:id="@+id/conversation_tweets"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginStart="12dp"/>
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:id="@+id/line"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="18dp"
+                        android:alpha=".6"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/conversation_tweets"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <include layout="@layout/shadowed_divider_section" />
 
