@@ -66,7 +66,7 @@ public class TweetView {
     Context context;
     AppSettings settings;
 
-    Status status;
+    public Status status;
     String currentUser = null;
 
     public java.text.DateFormat dateFormatter;
@@ -211,14 +211,16 @@ public class TweetView {
         numRetweets = status.getRetweetCount();
     }
 
+    private View tweetView = null;
     public View getView() {
-        View tweet = createTweet();
-        setComponents(tweet);
-        bindData();
+        if (tweetView == null) {
+            tweetView = createTweet();
+            setComponents(tweetView);
+            bindData();
+            setupImage();
+        }
 
-        setupImage();
-
-        return tweet;
+        return tweetView;
     }
 
     protected void setupImage() {

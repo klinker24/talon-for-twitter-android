@@ -267,7 +267,7 @@ public class ExpansionViewHelper {
                 AppSettings.getInstance(context).darkTheme ? .75f : 1.0f);
     }
 
-    private void showConvoCard(ArrayList<Status> tweets) {
+    private void showConvoCard(List<Status> tweets) {
         int numTweets;
 
         if (tweets.size() >= CONVO_CARD_LIST_SIZE) {
@@ -289,6 +289,7 @@ public class ExpansionViewHelper {
         tweetDivider.setLayoutParams(params);
 
         tweetDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
+        List<TweetView> tweetViews = new ArrayList<>();
 
         for (int i = 0; i < numTweets; i++) {
             TweetView v = new TweetView(context, tweets.get(i));
@@ -309,12 +310,14 @@ public class ExpansionViewHelper {
                 convoTweetArea.addView(tweetDivider);
             }
 
+            tweetViews.add(v);
             convoTweetArea.addView(v.getView());
         }
 
         hideConvoProgress();
         if (numTweets != 0) {
             convoCard.setVisibility(View.VISIBLE);
+            startChainSearch(tweetViews);
         }
     }
 
@@ -785,14 +788,13 @@ public class ExpansionViewHelper {
     }
 
     public boolean isRunning = true;
-    public ArrayList<Status> replies;
+    public List<Status> replies;
     public TimelineArrayAdapter adapter;
     public Query query;
     private boolean cardShown = false;
     private boolean firstRun = true;
 
-    public void getDiscussion() {
-
+    private void getDiscussion() {
         Thread getReplies = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
@@ -935,6 +937,74 @@ public class ExpansionViewHelper {
         getReplies.setPriority(8);
         getReplies.start();
 
+    }
+
+    private void startChainSearch(final List<TweetView> replies) {
+        Thread chainSearch = new TimeoutThread(new Runnable() {
+            @Override
+            public void run() {
+                Twitter twitter = getTwitter();
+                try {
+                    for (final TweetView status : replies) {
+                        final Status firstLevelReply = status.status;
+
+                        String replyTweeter = firstLevelReply.getUser().getScreenName();
+                        String originalTweeter = screenName;
+                        String searchQuery = "((from:" + originalTweeter + " to:" + replyTweeter + ") OR " +
+                                "(from:" + replyTweeter + " to:" + originalTweeter + "))";
+                        Query twitterQuery = new Query(searchQuery);
+                        query.setCount(20);
+
+                        List<Status> result = twitter.search(twitterQuery).getTweets();
+                        final List<Status> filtered = new ArrayList<>();
+
+                        long replyIdForNextTweet = firstLevelReply.getId();
+                        for (int i = result.size() - 1; i >= 0; i--) {
+                            if (result.get(i).getInReplyToStatusId() == replyIdForNextTweet) {
+                                filtered.add(result.get(i));
+                                replyIdForNextTweet = result.get(i).getId();
+                            }
+                        }
+
+                        if (filtered.size() > 0) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    LinearLayout discussionArea = (LinearLayout) status.getView().findViewById(R.id.replies);
+                                    LinearLayout tweetViews = (LinearLayout) discussionArea.findViewById(R.id.inner_expansion);
+                                    View line = discussionArea.findViewById(R.id.line);
+                                    line.setBackgroundColor(settings.themeColors.accentColor);
+                                    discussionArea.setVisibility(View.VISIBLE);
+
+                                    for (Status s : filtered) {
+                                        TweetView v = new TweetView(context, s);
+                                        v.setCurrentUser(AppSettings.getInstance(context).myScreenName);
+                                        v.setSmallImage(true);
+
+                                        tweetViews.addView(v.getView());
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                } catch (TwitterException e) {
+                    if (e.getMessage().contains("limit exceeded")) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Cannot find conversation - rate limit reached.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (Exception | OutOfMemoryError e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        chainSearch.setPriority(8);
+        chainSearch.start();
     }
 
     // expand collapse animation: http://stackoverflow.com/questions/4946295/android-expand-collapse-animation
