@@ -59,8 +59,10 @@ import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.Status;
@@ -687,12 +689,24 @@ public class TweetActivity extends DragDismissActivity {
     private void setTime(long time) {
         String timeDisplay;
 
+
+        DateFormat dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
+        DateFormat timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
+        if (settings.militaryTime) {
+            dateFormatter = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault());
+            timeFormatter = new SimpleDateFormat("kk:mm");
+        }
+
+        Locale locale = context.getResources().getConfiguration().locale;
+        if (locale != null && !locale.getLanguage().equals("en")) {
+            dateFormatter = android.text.format.DateFormat.getDateFormat(context);
+        }
+
         if (!settings.militaryTime) {
-            timeDisplay = android.text.format.DateFormat.getTimeFormat(context).format(time) + "\n" +
-                    android.text.format.DateFormat.getDateFormat(context).format(time);
+            timeDisplay = timeFormatter.format(time) + "\n" + dateFormatter.format(time);
         } else {
-            timeDisplay = new SimpleDateFormat("kk:mm").format(time).replace("24:", "00:") + "\n" +
-                    android.text.format.DateFormat.getDateFormat(context).format(time);
+            timeDisplay = timeFormatter.format(time).replace("24:", "00:") + "\n" +
+                    dateFormatter.format(time);
         }
 
         timetv.setText(timeDisplay);
