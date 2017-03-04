@@ -1016,8 +1016,12 @@ public class ExpansionViewHelper {
         for (int i = 0; i < replies.size(); i++) {
             View statusView = new TweetView(context, replies.get(i)).setUseSmallerMargins(true).getView();
 
-            if (i == replies.size() - 1) {
-                statusView.findViewById(R.id.background).setPadding(0,0,0, Utils.toDP(16, context));
+            if (replies.size() == 1) {
+                statusView.findViewById(R.id.background).setPadding(0,Utils.toDP(12, context),0,Utils.toDP(16, context));
+            } else if (i == replies.size() - 1) {
+                statusView.findViewById(R.id.background).setPadding(0,0,0,Utils.toDP(16, context));
+            } else if (i == 0) {
+                statusView.findViewById(R.id.background).setPadding(0,Utils.toDP(12, context),0,0);
             }
 
             inReplyToTweets.addView(statusView);
