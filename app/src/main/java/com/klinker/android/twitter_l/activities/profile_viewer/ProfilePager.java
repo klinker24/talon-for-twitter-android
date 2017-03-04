@@ -19,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -156,7 +157,7 @@ public class ProfilePager extends DragDismissActivity {
     private boolean isFollowingSet = false;
 
     @Override
-    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
+    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         Utils.setTaskDescription(this);
         Utils.setSharedContentTransition(this);
 

@@ -183,7 +183,7 @@ public class TweetActivity extends DragDismissActivity {
     }
 
     @Override
-    public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
         Utils.setTaskDescription(this);
 

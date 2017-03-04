@@ -76,7 +76,7 @@ public class PhotoPagerActivity extends DragDismissActivity {
     }
 
     @Override
-    public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
 
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
