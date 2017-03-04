@@ -1,7 +1,12 @@
 <changelog>
 
+    <version name="5.10.2">
+        <text>Fixes for double mention notifications</text>
+        <text></text>
+    </version>
+
     <version name="5.10.1">
-	<text>Bug fixes for auto complete</text>
+	    <text>Bug fixes for auto complete</text>
     </version>
 	
     <version name="5.10.0">
