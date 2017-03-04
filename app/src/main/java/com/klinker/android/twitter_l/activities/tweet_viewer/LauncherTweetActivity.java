@@ -27,7 +27,6 @@ public class LauncherTweetActivity extends TweetActivity {
 
     @Override
     public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-
         fromLauncher = true;
 
         int acc = getIntent().getIntExtra("current_account", 0);
