@@ -177,6 +177,12 @@ public class TweetActivity extends DragDismissActivity {
     private boolean sharedTransition = false;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Utils.setSharedContentTransition(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
 
         Utils.setTaskDescription(this);
@@ -199,16 +205,9 @@ public class TweetActivity extends DragDismissActivity {
         Point size = new Point();
         display.getSize(size);
 
-        if (!sharedPrefs.getBoolean("knows_about_tweet_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_tweet_swipedown", true).apply();
-            Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
-        }
-
         if (getIntent().getBooleanExtra("share_trans", false)) {
             sharedTransition = false;
         }
-
-        Utils.setSharedContentTransition(this);
 
         getFromIntent();
 

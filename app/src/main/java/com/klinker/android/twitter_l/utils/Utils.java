@@ -296,11 +296,6 @@ public class Utils {
             activity.getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             activity.getWindow().setAllowEnterTransitionOverlap(true);
             activity.getWindow().setAllowReturnTransitionOverlap(true);
-
-            activity.getWindow().setSharedElementEnterTransition(trans);
-            activity.getWindow().setSharedElementExitTransition(trans);
-            activity.getWindow().setSharedElementReenterTransition(trans);
-            activity.getWindow().setSharedElementReturnTransition(trans);
         } catch (Exception e) {
 
         }
