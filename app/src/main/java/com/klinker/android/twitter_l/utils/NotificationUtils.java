@@ -374,8 +374,10 @@ public class NotificationUtils {
                 notificationManager.cancel(lastNotificationId);
 
                 if (grouped.size() > 0) {
-                    notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
-                    sharedPrefs.edit().putInt("last_notification_id", 1).apply();
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        notificationManager.notify(1, mBuilder.setGroupSummary(true).setGroup(FIRST_ACCOUNT_GROUP).build());
+                        sharedPrefs.edit().putInt("last_notification_id", 1).apply();
+                    }
                 } else {
                     if (unreadCounts[1] == 1 && unreadCounts[0] == 0 && unreadCounts[2] == 0) {
                         notificationManager.notify(notificationId, mBuilder.build());
