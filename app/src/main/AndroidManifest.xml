@@ -147,6 +147,10 @@
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:theme="@style/DragDismissTheme" />
 
+        <activity android:name=".activities.media_viewer.YouTubeViewerActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:theme="@style/Theme.PhotoViewerBlack" />
+
         <activity android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"
                   android:configChanges="orientation|screenSize"
