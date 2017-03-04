@@ -284,11 +284,8 @@ public class ExpansionViewHelper {
             repliesButton.requestLayout();
         }
 
-        View tweetDivider = new View(context);
+        View tweetDivider;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
-        tweetDivider.setLayoutParams(params);
-
-        tweetDivider.setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
         List<TweetView> tweetViews = new ArrayList<>();
 
         for (int i = 0; i < numTweets; i++) {
@@ -298,7 +295,6 @@ public class ExpansionViewHelper {
 
             if (i != 0) {
                 tweetDivider = new View(context);
-                params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
                 tweetDivider.setLayoutParams(params);
 
                 if (AppSettings.getInstance(context).darkTheme) {
@@ -1015,21 +1011,28 @@ public class ExpansionViewHelper {
     public void showInReplyToViews(List<twitter4j.Status> replies) {
         for (int i = 0; i < replies.size(); i++) {
             View statusView = new TweetView(context, replies.get(i)).setUseSmallerMargins(true).getView();
-
-            if (replies.size() == 1) {
-                statusView.findViewById(R.id.background).setPadding(0,Utils.toDP(12, context),0,Utils.toDP(16, context));
-            } else if (i == replies.size() - 1) {
-                statusView.findViewById(R.id.background).setPadding(0,0,0,Utils.toDP(16, context));
-            } else if (i == 0) {
-                statusView.findViewById(R.id.background).setPadding(0,Utils.toDP(12, context),0,0);
-            }
+            statusView.findViewById(R.id.background).setPadding(0,Utils.toDP(12, context),0,Utils.toDP(12, context));
 
             inReplyToTweets.addView(statusView);
+
+            if (i != replies.size() - 1) {
+                View tweetDivider = new View(context);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
+                tweetDivider.setLayoutParams(params);
+
+                if (AppSettings.getInstance(context).darkTheme) {
+                    tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.dark_text_drawer));
+                } else {
+                    tweetDivider.setBackgroundColor(context.getResources().getColor(R.color.light_text_drawer));
+                }
+
+                inReplyToTweets.addView(tweetDivider);
+            }
         }
 
         inReplyToArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         inReplyToArea.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = inReplyToArea.getMeasuredHeight();
+        final int targetHeight = inReplyToArea.getMeasuredHeight() + Utils.toDP(28, context);
 
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         inReplyToArea.getLayoutParams().height = 1;
