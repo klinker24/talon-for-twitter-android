@@ -108,6 +108,12 @@ public class PhotoViewerActivity extends DragDismissActivity {
     private boolean didTransition = false;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Utils.setSharedContentTransition(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected View onCreateContent(LayoutInflater inflater, ViewGroup parent) {
         context = this;
 
@@ -137,11 +143,6 @@ public class PhotoViewerActivity extends DragDismissActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         );
-
-        if (getIntent().getBooleanExtra("share_trans", false)) {
-            // todo: take this out? it doesn't actually do anything it seems...
-            Utils.setSharedContentTransition(this);
-        }
 
         url = getIntent().getStringExtra("url");
 
