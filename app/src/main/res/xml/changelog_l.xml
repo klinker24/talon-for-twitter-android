@@ -12,6 +12,7 @@
         <text>Improve: UI for quoting tweets</text>
         <text>Improve: Image loading (speed, consistency, data usage)</text>
         <text>Improve: Tablet support</text>
+        <text>Improve: Moments links will always open to the Twitter website</text>
     </version>
 
     <version name="5.10.2">
