@@ -87,50 +87,51 @@ public class UserAutoCompleteHelper {
 
         textView.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override public void afterTextChanged(Editable editable) { }
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String tvText = textView.getText().toString().trim();
-                int position = textView.getSelectionStart() - 1;
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override public void afterTextChanged(Editable editable) {
+                String searchText = textView.getText().toString();
 
                 try {
-                    if (tvText.charAt(tvText.length() - 1) == '@') {
-                        hashtagAutoComplete.dismiss();
+                    int position = textView.getSelectionStart() - 1;
+                    if (searchText.charAt(position) == '@') {
                         userAutoComplete.show();
-                    } else if (!tvText.contains("@") || position < tvText.indexOf("@")) {
+                    } else if (searchText.charAt(position) == ' ') {
                         userAutoComplete.dismiss();
                     } else if (userAutoComplete.isShowing()) {
-                        String searchText = "";
+                        String adapterText = "";
 
                         do {
-                            searchText = tvText.charAt(position--) + searchText;
-                        } while (tvText.charAt(position) != '@');
+                            adapterText = searchText.charAt(position--) + adapterText;
+                        } while (searchText.charAt(position) != '@');
 
-                        searchText = searchText.replace("@", "");
-                        search(searchText);
+                        adapterText = adapterText.replace("@", "");
+                        search(adapterText);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    userAutoComplete.dismiss();
-                }
 
-                try {
-                    if (tvText.charAt(tvText.length() - 1) == '#') {
-                        userAutoComplete.dismiss();
+                    position = textView.getSelectionStart() - 1;
+                    if (searchText.charAt(position) == '#') {
                         hashtagAutoComplete.show();
-                    } else if (tvText.charAt(position) == ' ') {
+                    } else if (searchText.charAt(position) == ' ') {
                         hashtagAutoComplete.dismiss();
                     } else if (hashtagAutoComplete.isShowing()) {
                         String adapterText = "";
 
                         do {
-                            adapterText = tvText.charAt(position--) + adapterText;
-                        } while (tvText.charAt(position) != '#');
+                            adapterText = searchText.charAt(position--) + adapterText;
+                        } while (searchText.charAt(position) != '#');
 
                         adapterText = adapterText.replace("#", "");
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
                     }
                 } catch (Exception e) {
+                    // there is no text
+                    try {
+                        userAutoComplete.dismiss();
+                    } catch (Exception x) {
+                        // something went really wrong I guess haha
+                    }
+
                     try {
                         hashtagAutoComplete.dismiss();
                     } catch (Exception x) {
