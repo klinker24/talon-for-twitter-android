@@ -92,6 +92,9 @@ import java.util.List;
 import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import fisk.chipcloud.ChipCloud;
+import fisk.chipcloud.ChipCloudConfig;
+import fisk.chipcloud.ChipListener;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -195,6 +198,9 @@ public class ProfilePager extends DragDismissActivity {
     public FontPrefTextView location;
     public FontPrefTextView website;
     public View profileButtons;
+    public LinearLayout chipLayout;
+
+    public ChipCloud chipCloud;
 
     public void setUpContent(View root) {
         profilePic = (ImageView) root.findViewById(R.id.profile_pic);
@@ -206,6 +212,25 @@ public class ProfilePager extends DragDismissActivity {
         website = (FontPrefTextView) root.findViewById(R.id.user_webpage);
 
         profileButtons = root.findViewById(R.id.profile_buttons);
+        chipLayout = (LinearLayout) root.findViewById(R.id.chip_layout);
+
+        ChipCloudConfig config = new ChipCloudConfig()
+                .selectMode(ChipCloud.SelectMode.multi)
+                .checkedChipColor(settings.themeColors.primaryColor)
+                .checkedTextColor(Color.WHITE)
+                .uncheckedChipColor(settings.darkTheme ? getResources().getColor(R.color.dark_background) :
+                        getResources().getColor(R.color.light_background))
+                .uncheckedTextColor(settings.darkTheme ? getResources().getColor(R.color.dark_text) :
+                        getResources().getColor(R.color.light_text))
+                .useInsetPadding(true);
+
+        chipCloud = new ChipCloud(this, chipLayout, config);
+        chipCloud.setListener(new ChipListener() {
+            @Override
+            public void chipCheckedChange(int index, boolean oldState, boolean newState) {
+
+            }
+        });
 
         loadProfilePicture();
     }
@@ -482,6 +507,11 @@ public class ProfilePager extends DragDismissActivity {
     public List<Status> tweets = new ArrayList<Status>();
     public ProfileTweetsPopup tweetsPopup;
     private void showTweets() {
+        chipCloud.addChip(getString(R.string.tweets));
+        chipCloud.addChip(getString(R.string.retweets));
+        chipCloud.addChip(getString(R.string.replies));
+        chipCloud.setSelectedIndexes(new int[] {0,1,2});
+
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
         final LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
@@ -513,9 +543,9 @@ public class ProfilePager extends DragDismissActivity {
         });
 
         if (thisUser.getStatusesCount() < 1000) {
-            showAllTweets.setText(getString(R.string.show_all) + " (" + thisUser.getStatusesCount() + ")");
+            showAllTweets.setText(getString(R.string.show_all_tweets) + " (" + thisUser.getStatusesCount() + ")");
         } else {
-            showAllTweets.setText(getString(R.string.show_all) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
+            showAllTweets.setText(getString(R.string.show_all_tweets) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
         }
 
         int size = 0;
@@ -556,6 +586,8 @@ public class ProfilePager extends DragDismissActivity {
     public List<Status> mentions = new ArrayList<Status>();
     public ProfileMentionsPopup mentionsPopup;
     private void showMentions() {
+        chipCloud.addChip(getString(R.string.mentions));
+
         TextView mentionsTitle = (TextView) findViewById(R.id.mentions_title_text);
         Button showAllMentions = (Button) findViewById(R.id.show_all_mentions_button);
         LinearLayout content = (LinearLayout) findViewById(R.id.mentions_content);
@@ -618,6 +650,8 @@ public class ProfilePager extends DragDismissActivity {
     public List<Status> favorites = new ArrayList<Status>();
     public ProfileFavoritesPopup favoritesPopup;
     private void showFavorites() {
+        chipCloud.addChip(getString(R.string.favorites));
+
         TextView favoritesTitle = (TextView) findViewById(R.id.favorites_title_text);
         Button showAllfavorites = (Button) findViewById(R.id.show_all_favorites_button);
         LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
