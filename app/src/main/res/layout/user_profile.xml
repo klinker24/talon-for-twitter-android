@@ -12,8 +12,4 @@
 
     <include layout="@layout/profile_tweets_card" />
 
-    <include layout="@layout/profile_mentions_card" />
-
-    <include layout="@layout/profile_favorites_card" />
-
 </LinearLayout>
