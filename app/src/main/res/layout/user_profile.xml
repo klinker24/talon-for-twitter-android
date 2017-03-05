@@ -34,9 +34,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16sp"
                 android:textColor="?colorPrimary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
                 android:textStyle="bold"
+                android:textAllCaps="true"
                 android:text="@string/show_all"/>
 
         </FrameLayout>
