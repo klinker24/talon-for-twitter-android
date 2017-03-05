@@ -76,7 +76,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            searchQuery = intent.getStringExtra("query");
+            searchQuery = intent.getStringExtra("mentionsQuery");
 
             if (searchQuery.contains(" TOP")) {
                 topTweets = true;
@@ -280,7 +280,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
             public void run() {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
-                    Log.v("talon_searching", "query in frag: " + mQuery);
+                    Log.v("talon_searching", "mentionsQuery in frag: " + mQuery);
                     query = new Query(mQuery);
                     query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
                     if (topTweets) {

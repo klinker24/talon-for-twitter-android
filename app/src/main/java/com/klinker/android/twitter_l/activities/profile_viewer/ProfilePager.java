@@ -25,7 +25,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -90,6 +89,7 @@ import twitter4j.Relationship;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
@@ -97,7 +97,8 @@ import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class ProfilePager extends DragDismissActivity {
 
-    private static final int NUM_TWEETS_ON_TIMELINE = 25;
+    private static final int NUM_TWEETS_ON_TIMELINE = 15;
+    private static final int LOAD_CAPACITY_PER_LIST = 20;
 
     public static void start(Context context, User user) {
         start(context, user.getName(), user.getScreenName(), user.getOriginalProfileImageURL());
@@ -154,6 +155,8 @@ public class ProfilePager extends DragDismissActivity {
     private ProfileUsersListsPopup usersListsPopup;
     public ProfileTweetsPopup tweetsPopup;
 
+    // start with tweets, retweets, replies as checked. Mentions and likes as not checked.
+    public boolean[] chipSelectedState = new boolean[] {true, true, true, false, false};
     public ChipCloud chipCloud;
 
     private String screenName;
@@ -170,8 +173,13 @@ public class ProfilePager extends DragDismissActivity {
     private boolean isFollowingSet = false;
 
     public List<Status> tweets = new ArrayList<>();
+    public Paging tweetsPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
+
     public List<Status> mentions = new ArrayList<>();
+    public Query mentionsQuery = null;
+
     public List<Status> favorites = new ArrayList<>();
+    public Paging favoritesPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
 
     @Override
     protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -230,10 +238,13 @@ public class ProfilePager extends DragDismissActivity {
         chipCloud = new ChipCloud(this, chipLayout, config);
         chipCloud.setListener(new ChipListener() {
             @Override
-            public void chipCheckedChange(int index, boolean oldState, boolean newState) {
-
+            public void chipCheckedChange(int index, boolean checked, boolean userClicked) {
+                if (userClicked) {
+                    chipSelectedState[index] = checked;
+                    addTweetsToLayout(filterTweets());
+                }
             }
-        });
+        }, true);
 
         loadProfilePicture();
     }
@@ -540,6 +551,10 @@ public class ProfilePager extends DragDismissActivity {
         int size = 0;
         if (statuses.size() >= NUM_TWEETS_ON_TIMELINE) {
             size = NUM_TWEETS_ON_TIMELINE;
+
+            if (statuses.size() > NUM_TWEETS_ON_TIMELINE) {
+                addShowAll = true;
+            }
         } else {
             size = statuses.size();
         }
@@ -567,8 +582,23 @@ public class ProfilePager extends DragDismissActivity {
                 t.setSmallImage(true);
                 timelineContent.addView(t.getView());
             }
+        }
+
+        View showAll = findViewById(R.id.show_all);
+        if (addShowAll) {
+            showAll.setVisibility(View.VISIBLE);
+            showAll.getLayoutParams().height = Utils.toDP(112, this);
+            showAll.requestLayout();
+            showAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         } else {
-            // add a no tweets textbox
+            showAll.setVisibility(View.INVISIBLE);
+            showAll.getLayoutParams().height = Utils.toDP(16, this);
+            showAll.requestLayout();
         }
 
         animateIn(timelineContent);
@@ -602,6 +632,7 @@ public class ProfilePager extends DragDismissActivity {
 
                 try {
                     thisUser = twitter.showUser(screenName);
+                    mentionsQuery = new Query("@" + screenName + " -RT");
                 } catch (Exception e) {
                     thisUser = null;
                 }
@@ -685,13 +716,8 @@ public class ProfilePager extends DragDismissActivity {
                     });
                 }
 
-                // if they aren't protected, then get their tweets, favorites, etc.
                 try {
-
-                    // tweets first
-                    // this will error out if they are protected and we can't reach them
-                    tweets = twitter.getUserTimeline(thisUser.getId(), new Paging(1, 20));
-
+                    fetchTweets(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -699,7 +725,7 @@ public class ProfilePager extends DragDismissActivity {
                         }
                     });
 
-                    getMentions(twitter);
+                    fetchMentions(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -707,13 +733,15 @@ public class ProfilePager extends DragDismissActivity {
                         }
                     });
 
-                    favorites = twitter.getFavorites(thisUser.getId(), new Paging(1, 3));
+                    fetchFavorites(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             chipCloud.addChip(getString(R.string.favorites));
                         }
                     });
+
+                    fetchTweets(twitter);
                 } catch (Exception e) {
                     if (thisUser != null && thisUser.isProtected()) {
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -739,32 +767,93 @@ public class ProfilePager extends DragDismissActivity {
         getUser.start();
     }
 
-    private void getMentions(Twitter twitter) {
-        try {
-            Query query = new Query("@" + screenName + " -RT");
-            query.sinceId(1);
-            QueryResult result = twitter.search(query);
+    private List<Status> filterTweets() {
+        final int tweetsIndex = 0;
+        final int retweetsIndex = 1;
+        final int repliesIndex = 2;
+        final int mentionsIndex = 3;
+        final int likesIndex = 4;
 
-            mentions.clear();
+        List<Status> filteredStatuses = new ArrayList<>();
 
-            for (twitter4j.Status status : result.getTweets()) {
-                mentions.add(status);
+        for (Status status : tweets) {
+            if (chipSelectedState[tweetsIndex] && !status.isRetweet() && !status.getText().startsWith("@")) {
+                filteredStatuses.add(status);
+            } else if (chipSelectedState[retweetsIndex] && status.isRetweet()) {
+                filteredStatuses.add(status);
+            } else if (chipSelectedState[repliesIndex] && status.getText().startsWith("@")) {
+                filteredStatuses.add(status);
+            }
+        }
+
+        if (chipSelectedState[mentionsIndex]) {
+            filteredStatuses.addAll(mentions);
+        }
+
+        if (chipSelectedState[likesIndex]) {
+            filteredStatuses.addAll(favorites);
+        }
+
+        Collections.sort(filteredStatuses, new Comparator<Status>() {
+            public int compare(Status result1, Status result2) {
+                return result2.getCreatedAt().compareTo(result1.getCreatedAt());
+            }
+        });
+
+        return filteredStatuses;
+    }
+
+    public void fetchTweets(Twitter twitter) throws TwitterException {
+        if (tweetsPaging != null) {
+            List<Status> statuses = twitter.getUserTimeline(thisUser.getId(), tweetsPaging);
+            if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
+                tweetsPaging.setPage(tweetsPaging.getPage() + 1);
+            } else {
+                tweetsPaging = null;
             }
 
-            while (result.hasNext() && mentions.size() < 3) {
-                query = result.nextQuery();
-                result = twitter.search(query);
-
-                for (twitter4j.Status status : result.getTweets()) {
-                    mentions.add(status);
-                }
-            }
-        } catch (Throwable t) {
-
+            tweets.addAll(statuses);
         }
     }
 
-    class GetActionBarInfo extends AsyncTask<String, Void, Void> {
+    public void fetchFavorites(Twitter twitter) throws TwitterException {
+        if (favoritesPaging != null) {
+            List<Status> statuses = twitter.getFavorites(thisUser.getId(), favoritesPaging);
+            if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
+                favoritesPaging.setPage(favoritesPaging.getPage() + 1);
+            } else {
+                favoritesPaging = null;
+            }
+
+            favorites.addAll(statuses);
+        }
+    }
+
+    public void fetchMentions(Twitter twitter) throws TwitterException {
+        if (mentionsQuery != null) {
+            QueryResult result = twitter.search(mentionsQuery);
+            List<Status> statuses = result.getTweets();
+
+            boolean hasMore = result.hasNext();
+            while (hasMore && statuses.size() < LOAD_CAPACITY_PER_LIST) {
+                mentionsQuery = result.nextQuery();
+                result = twitter.search(mentionsQuery);
+                statuses.addAll(result.getTweets());
+
+                if (!result.hasNext()) {
+                    hasMore = false;
+                }
+            }
+
+            if (!hasMore) {
+                mentionsQuery = null;
+            }
+
+            mentions.addAll(statuses);
+        }
+    }
+
+    private class GetActionBarInfo extends AsyncTask<String, Void, Void> {
         protected Void doInBackground(String... urls) {
             if (isMyProfile) {
                 if (thisUser != null) {
@@ -808,13 +897,13 @@ public class ProfilePager extends DragDismissActivity {
     private final int TYPE_ACC_TWO = 2;
     private final int TYPE_BOTH_ACC = 3;
 
-    class FollowUser extends AsyncTask<String, Void, Boolean> {
+    private class FollowUser extends AsyncTask<String, Void, Boolean> {
 
         private Exception e = null;
 
         private int followType;
 
-        public FollowUser(int followType) {
+        FollowUser(int followType) {
             this.followType = followType;
         }
 
@@ -898,7 +987,7 @@ public class ProfilePager extends DragDismissActivity {
         }
     }
 
-    class BlockUser extends AsyncTask<String, Void, Boolean> {
+    private class BlockUser extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
             try {
@@ -944,7 +1033,7 @@ public class ProfilePager extends DragDismissActivity {
         }
     }
 
-    class FavoriteUser extends AsyncTask<String, Void, Boolean> {
+    private class FavoriteUser extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
             try {

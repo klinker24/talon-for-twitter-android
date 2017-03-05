@@ -1117,9 +1117,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
                             long downloadId = intent.getLongExtra(
                                     DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                            DownloadManager.Query query = new DownloadManager.Query();
-                            query.setFilterById(enqueue);
-                            Cursor c = dm.query(query);
+                            DownloadManager.Query mentionsQuery = new DownloadManager.Query();
+                            mentionsQuery.setFilterById(enqueue);
+                            Cursor c = dm.mentionsQuery(mentionsQuery);
                             if (c.moveToFirst()) {
                                 int columnIndex = c
                                         .getColumnIndex(DownloadManager.COLUMN_STATUS);
