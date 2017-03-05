@@ -1,7 +1,6 @@
 package com.klinker.android.twitter_l.views.popups.profile;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.klinker.android.twitter_l.views.widgets.PopupLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
@@ -35,9 +33,8 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
     protected User user;
 
     public boolean canRefresh = false;
+    public List<Status> tweets = new ArrayList<>();
     public TimelineArrayAdapter adapter;
-
-    protected boolean hasLoaded = false;
 
     public ProfileTimelinePopupLayout(ProfilePager context, View main, User user) {
         super(context);
@@ -61,10 +58,7 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
             setCenterInScreen();
         }
 
-        this.user = user;
-
         content.addView(main);
-
         setUpList();
     }
 
@@ -74,7 +68,6 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
     }
 
     public void setUpList() {
-
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) spinner.getLayoutParams();
         params.width = width;
         spinner.setLayoutParams(params);
@@ -97,72 +90,16 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
     }
 
     public void findTweets() {
-        list.setVisibility(View.GONE);
-        spinner.setVisibility(View.VISIBLE);
+        canRefresh = true;
 
-        TimeoutThread data = new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter = Utils.getTwitter(getContext(), AppSettings.getInstance(getContext()));
+        tweets = profilePager.filterTweets();
+        adapter = new TimelineArrayAdapter(getContext(), tweets);
+        adapter.setCanUseQuickActions(false);
 
-//                    final List<Status> result = getData(twitter);
-//
-//                    if (result == null) {
-//                        ((Activity)getContext()).runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                spinner.setVisibility(View.GONE);
-//                                canRefresh = false;
-//                            }
-//                        });
-//                    }
-//
-//                    tweets.clear();
-//
-//                    for (twitter4j.Status status : result) {
-//                        tweets.add(status);
-//                    }
-//
-//                    ((Activity)getContext()).runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            adapter = new TimelineArrayAdapter(getContext(), tweets);
-//                            adapter.setCanUseQuickActions(false);
-//
-//                            list.setAdapter(adapter);
-//                            list.setVisibility(View.VISIBLE);
-//
-//                            spinner.setVisibility(View.GONE);
-//
-//                            if (!(ProfileListPopupLayout.this instanceof ProfileMentionsPopup)) {
-//                                if (result.size() > 17) {
-//                                    canRefresh = true;
-//                                } else {
-//                                    canRefresh = false;
-//                                }
-//                            } else {
-//                                canRefresh = true;
-//                            }
-//
-//                        }
-//                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ((Activity)getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            spinner.setVisibility(View.GONE);
-                            canRefresh = false;
-                        }
-                    });
+        list.setAdapter(adapter);
+        list.setVisibility(View.VISIBLE);
 
-                }
-            }
-        });
-
-        data.setPriority(8);
-        data.start();
+        spinner.setVisibility(View.GONE);
     }
 
     public void getMore() {
@@ -173,44 +110,26 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
             public void run() {
                 try {
                     Twitter twitter = Utils.getTwitter(getContext(), AppSettings.getInstance(getContext()));
+                    boolean gotMoreTweets = profilePager.fetchTweets(twitter);
+                    boolean gotMoreMentions = profilePager.fetchMentions(twitter);
+                    boolean gotMoreLikes = profilePager.fetchFavorites(twitter);
 
-//                    final boolean more = incrementQuery();
-//
-//                    if (!more) {
-//                        canRefresh = false;
-//                        return;
-//                    }
-//
-//                    final List<Status> result = getData(twitter);
-//
-//                    for (twitter4j.Status status : result) {
-//                        tweets.add(status);
-//                    }
-//
-//                    ((Activity)getContext()).runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            adapter.notifyDataSetChanged();
-//
-//                            if (!(ProfileListPopupLayout.this instanceof ProfileMentionsPopup)) {
-//                                if (result.size() > 17) {
-//                                    canRefresh = true;
-//                                } else {
-//                                    canRefresh = false;
-//                                }
-//                            } else {
-//                                canRefresh = true;
-//                            }
-//                        }
-//                    });
+                    canRefresh = gotMoreLikes || gotMoreMentions || gotMoreTweets;
+
+                    if (canRefresh) {
+                        tweets.clear();
+                        tweets.addAll(profilePager.filterTweets());
+
+                        ((Activity) getContext()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    ((Activity)getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            canRefresh = false;
-                        }
-                    });
+                    canRefresh = false;
                 }
 
             }
@@ -224,10 +143,7 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!hasLoaded) {
-                    hasLoaded = true;
-                    findTweets();
-                }
+                findTweets();
             }
         }, 2 * LONG_ANIMATION_TIME + SHORT_ANIMATION_TIME );
 
