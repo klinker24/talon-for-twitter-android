@@ -60,6 +60,7 @@ import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.popups.profile.PicturesPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileFollowersPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileFriendsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileTimelinePopupLayout;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileTweetsPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileUsersListsPopup;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
@@ -154,6 +155,7 @@ public class ProfilePager extends DragDismissActivity {
     private ProfileFriendsPopup fri;
     private ProfileUsersListsPopup usersListsPopup;
     public ProfileTweetsPopup tweetsPopup;
+    public ProfileTimelinePopupLayout timelinePopup;
 
     // start with tweets, retweets, replies as checked. Mentions and likes as not checked.
     public boolean[] chipSelectedState = new boolean[] {true, true, true, false, false};
@@ -512,12 +514,12 @@ public class ProfilePager extends DragDismissActivity {
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
 
-        final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
         if (tweetsTitle == null) {
             return;
         }
 
+        final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
 
         showAllTweets.setOnClickListener(new View.OnClickListener() {
@@ -542,6 +544,18 @@ public class ProfilePager extends DragDismissActivity {
         } else {
             showAllTweets.setText(getString(R.string.show_all_tweets) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
         }
+
+        final View timelineLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+        timelinePopup = new ProfileTimelinePopupLayout(this, timelineLayout, thisUser);
+
+        View showAll = findViewById(R.id.show_all);
+        showAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timelinePopup.setExpansionPointForAnim(view);
+                timelinePopup.show();
+            }
+        });
 
         addTweetsToLayout(tweets);
     }
@@ -585,21 +599,16 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         View showAll = findViewById(R.id.show_all);
+
         if (addShowAll) {
             showAll.setVisibility(View.VISIBLE);
             showAll.getLayoutParams().height = Utils.toDP(112, this);
-            showAll.requestLayout();
-            showAll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         } else {
             showAll.setVisibility(View.INVISIBLE);
             showAll.getLayoutParams().height = Utils.toDP(16, this);
-            showAll.requestLayout();
         }
+
+        showAll.requestLayout();
 
         animateIn(timelineContent);
     }
@@ -767,7 +776,7 @@ public class ProfilePager extends DragDismissActivity {
         getUser.start();
     }
 
-    private List<Status> filterTweets() {
+    public List<Status> filterTweets() {
         final int tweetsIndex = 0;
         final int retweetsIndex = 1;
         final int repliesIndex = 2;
@@ -803,7 +812,7 @@ public class ProfilePager extends DragDismissActivity {
         return filteredStatuses;
     }
 
-    public void fetchTweets(Twitter twitter) throws TwitterException {
+    public boolean fetchTweets(Twitter twitter) throws TwitterException {
         if (tweetsPaging != null) {
             List<Status> statuses = twitter.getUserTimeline(thisUser.getId(), tweetsPaging);
             if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
@@ -813,10 +822,13 @@ public class ProfilePager extends DragDismissActivity {
             }
 
             tweets.addAll(statuses);
+            return true;
         }
+
+        return false;
     }
 
-    public void fetchFavorites(Twitter twitter) throws TwitterException {
+    public boolean fetchFavorites(Twitter twitter) throws TwitterException {
         if (favoritesPaging != null) {
             List<Status> statuses = twitter.getFavorites(thisUser.getId(), favoritesPaging);
             if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
@@ -826,10 +838,13 @@ public class ProfilePager extends DragDismissActivity {
             }
 
             favorites.addAll(statuses);
+            return true;
         }
+
+        return false;
     }
 
-    public void fetchMentions(Twitter twitter) throws TwitterException {
+    public boolean fetchMentions(Twitter twitter) throws TwitterException {
         if (mentionsQuery != null) {
             QueryResult result = twitter.search(mentionsQuery);
             List<Status> statuses = result.getTweets();
@@ -850,7 +865,10 @@ public class ProfilePager extends DragDismissActivity {
             }
 
             mentions.addAll(statuses);
+            return true;
         }
+
+        return false;
     }
 
     private class GetActionBarInfo extends AsyncTask<String, Void, Void> {
@@ -1201,6 +1219,8 @@ public class ProfilePager extends DragDismissActivity {
             fol.hide();
         } else if (fri != null && fri.isShowing()) {
             fri.hide();
+        } else if (timelinePopup != null && timelinePopup.isShowing()) {
+            timelinePopup.hide();
         } else {
             super.onBackPressed();
         }
