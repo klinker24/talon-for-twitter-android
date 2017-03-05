@@ -39,7 +39,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
         Cursor c = context.getContentResolver().query(
                 Uri.parse("content://" + AUTHORITY + "/suggestions"),
                 SearchRecentSuggestions.QUERIES_PROJECTION_1LINE,
-                "query LIKE '%" + query + "%'",
+                "mentionsQuery LIKE '%" + query + "%'",
                 null,
                 "date DESC LIMIT 250"
         );
@@ -48,7 +48,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
 
         if (c.moveToFirst()) {
             do {
-                items.add(new SearchItem(c.getString(c.getColumnIndex("query"))));
+                items.add(new SearchItem(c.getString(c.getColumnIndex("mentionsQuery"))));
             } while (c.moveToNext());
         }
 
@@ -74,7 +74,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
 
         if (c.moveToFirst()) {
             do {
-                items.add(new SearchItem(c.getString(c.getColumnIndex("query"))));
+                items.add(new SearchItem(c.getString(c.getColumnIndex("mentionsQuery"))));
             } while (c.moveToNext());
         }
 

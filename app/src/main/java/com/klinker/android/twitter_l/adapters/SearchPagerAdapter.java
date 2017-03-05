@@ -44,7 +44,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
         this.query = query;
         this.onlyProfile = onlyProfile;
 
-        Log.v("talon_searching", "query: " + query);
+        Log.v("talon_searching", "mentionsQuery: " + query);
     }
 
     @Override
