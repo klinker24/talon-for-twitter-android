@@ -185,4 +185,6 @@
     <string name="followers_only_auto_complete">Auto-complete Followers</string>
     <string name="followers_only_auto_complete_summary">Do not search all of Twitter when auto-completing a mention.</string>
     <string name="quoting">Quoting</string>
+    <string name="profile_timeline">Timeline</string>
+    <string name="show_all_tweets">Show All Tweets</string>
 </resources>
