@@ -157,7 +157,7 @@ public class ProfilePager extends DragDismissActivity {
     public ProfileTweetsPopup tweetsPopup;
     public ProfileTimelinePopupLayout timelinePopup;
 
-    // start with tweets, retweets, replies as checked. Mentions and likes as not checked.
+    // start with tweets, replies, retweets as checked. Likes and mentions as not checked.
     public boolean[] chipSelectedState = new boolean[] {true, true, true, false, false};
     public ChipCloud chipCloud;
 
@@ -177,11 +177,11 @@ public class ProfilePager extends DragDismissActivity {
     public List<Status> tweets = new ArrayList<>();
     public Paging tweetsPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
 
-    public List<Status> mentions = new ArrayList<>();
-    public Query mentionsQuery = null;
-
     public List<Status> favorites = new ArrayList<>();
     public Paging favoritesPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
+    
+    public List<Status> mentions = new ArrayList<>();
+    public Query mentionsQuery = null;
 
     @Override
     protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -506,8 +506,8 @@ public class ProfilePager extends DragDismissActivity {
 
     private void prepareTweetsLayout() {
         chipCloud.addChip(getString(R.string.tweets));
-        chipCloud.addChip(getString(R.string.retweets));
         chipCloud.addChip(getString(R.string.replies));
+        chipCloud.addChip(getString(R.string.retweets));
         chipCloud.setSelectedIndexes(new int[] {0,1,2});
 
         timelineContent = (LinearLayout) findViewById(R.id.tweets_content);
@@ -734,19 +734,19 @@ public class ProfilePager extends DragDismissActivity {
                         }
                     });
 
-                    fetchMentions(twitter);
-                    ((Activity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            chipCloud.addChip(getString(R.string.mentions));
-                        }
-                    });
-
                     fetchFavorites(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             chipCloud.addChip(getString(R.string.favorites));
+                        }
+                    });
+                    
+                    fetchMentions(twitter);
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            chipCloud.addChip(getString(R.string.mentions));
                         }
                     });
 
@@ -778,10 +778,10 @@ public class ProfilePager extends DragDismissActivity {
 
     public List<Status> filterTweets() {
         final int tweetsIndex = 0;
-        final int retweetsIndex = 1;
-        final int repliesIndex = 2;
-        final int mentionsIndex = 3;
-        final int likesIndex = 4;
+        final int repliesIndex = 1;
+        final int retweetsIndex = 2;
+        final int likesIndex = 3;
+        final int mentionsIndex = 4;
 
         List<Status> filteredStatuses = new ArrayList<>();
 
@@ -794,13 +794,13 @@ public class ProfilePager extends DragDismissActivity {
                 filteredStatuses.add(status);
             }
         }
+        
+        if (chipSelectedState[likesIndex]) {
+            filteredStatuses.addAll(favorites);
+        }
 
         if (chipSelectedState[mentionsIndex]) {
             filteredStatuses.addAll(mentions);
-        }
-
-        if (chipSelectedState[likesIndex]) {
-            filteredStatuses.addAll(favorites);
         }
 
         Collections.sort(filteredStatuses, new Comparator<Status>() {
