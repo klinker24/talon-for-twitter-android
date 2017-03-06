@@ -33,6 +33,8 @@ import com.klinker.android.twitter_l.activities.drawer_activities.lists.ChoosenL
 import com.klinker.android.twitter_l.activities.drawer_activities.lists.ViewUsers;
 import com.klinker.android.twitter_l.utils.Utils;
 
+import java.util.List;
+
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.UserList;
@@ -41,7 +43,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
 
     private Context context;
 
-    private ResponseList<UserList> lists;
+    private List<UserList> lists;
 
     private LayoutInflater inflater;
     private AppSettings settings;
@@ -50,7 +52,7 @@ public class ListsArrayAdapter extends ArrayAdapter<UserList> {
         public TextView text;
     }
 
-    public ListsArrayAdapter(Context context, ResponseList<UserList> lists) {
+    public ListsArrayAdapter(Context context, List<UserList> lists) {
         super(context, R.layout.tweet);
 
         this.context = context;

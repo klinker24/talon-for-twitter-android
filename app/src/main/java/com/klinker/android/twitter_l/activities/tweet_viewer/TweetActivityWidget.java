@@ -25,7 +25,10 @@ public class TweetActivityWidget extends TweetActivity {
     BroadcastReceiver attach = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            startActivity(new Intent(context, TweetActivity.class).putExtras(getIntent()));
+            Intent activity = new Intent(context, TweetActivity.class).putExtras(getIntent());
+            TweetActivity.applyDragDismissBundle(context, activity);
+
+            startActivity(activity);
             finish();
         }
     };

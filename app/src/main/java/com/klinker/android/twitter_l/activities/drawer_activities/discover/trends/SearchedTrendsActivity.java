@@ -459,7 +459,7 @@ public class SearchedTrendsActivity extends PeekViewActivity {
                 try {
                     Twitter twitter = Utils.getTwitter(context, settings);
 
-                    Log.v("talon_search", "search query: " + mQuery);
+                    Log.v("talon_search", "search mentionsQuery: " + mQuery);
                     query = new Query();
                     query.setCount(TWEETS_PER_REFRESH);
 

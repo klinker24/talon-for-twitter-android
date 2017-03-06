@@ -93,7 +93,7 @@ public class TouchableSpan extends ClickableSpan {
         if (Patterns.WEB_URL.matcher(mValue).find()) {
             String url = "http://" + full.replace("http://", "").replace("https://", "").replace("\"", "");
 
-            if (url.contains("/i/web/status/")) {
+            if (url.contains("/i/web/status/") || (url.contains("twitter.com") &&url.contains("/moments/"))) {
                 Intent browser = new Intent(mContext, BrowserActivity.class);
                 browser.putExtra("url", url);
                 mContext.startActivity(browser);
@@ -121,19 +121,7 @@ public class TouchableSpan extends ClickableSpan {
             search.putExtra(SearchManager.QUERY, full);
             mContext.startActivity(search);
         } else if (Regex.MENTION_PATTERN.matcher(mValue).find()) {
-            Intent user;
-            if (!fromLauncher) {
-                user = new Intent(mContext, ProfilePager.class);
-            } else {
-                user = new Intent("android.intent.action.MAIN");
-                user.setComponent(new ComponentName("com.klinker.android.twitter",
-                        "com.klinker.android.twitter.ui.profile_viewer.LauncherProfilePager"));
-                user.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                user.putExtra("current_account", settings.currentAccount);
-            }
-            user.putExtra("screenname", full.replace("@", "").replaceAll(" ", ""));
-            user.putExtra("proPic", "");
-            mContext.startActivity(user);
+            ProfilePager.start(mContext, full.replace("@", "").replaceAll(" ", ""));
         } else if (Regex.CASHTAG_PATTERN.matcher(mValue).find()) {
             // found a cashtag, so open the search
             Intent search;

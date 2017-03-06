@@ -160,11 +160,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int item, long l) {
                     String touched = fItems[item];
-
-                    Intent user = new Intent(context, ProfilePager.class);
-                    user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
-                    user.putExtra("proPic", "");
-                    context.startActivity(user);
+                    ProfilePager.start(context, touched.replace("@", "").replace(" ", ""));
                 }
             });
 
@@ -184,10 +180,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
 
-            Intent user = new Intent(context, ProfilePager.class);
-            user.putExtra("screenname", username);
-            user.putExtra("proPic", "");
-            context.startActivity(user);
+            ProfilePager.start(context, username);
         } else if (mTitle.contains(context.getResources().getString(R.string.tweeted))) {
             try {
                 drawer.closeDrawer(Gravity.END);
@@ -197,11 +190,7 @@ public class InteractionClickListener implements AdapterView.OnItemClickListener
 
             // a new follower, open up the followers profile
             String username = mTitle.substring(mTitle.indexOf("@") + 1, mTitle.indexOf(" "));
-
-            Intent user = new Intent(context, ProfilePager.class);
-            user.putExtra("screenname", username);
-            user.putExtra("proPic", "");
-            context.startActivity(user);
+            ProfilePager.start(context, username);
         }
 
         // mark it read in the sql database

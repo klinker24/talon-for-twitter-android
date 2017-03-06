@@ -97,13 +97,7 @@ public class PeopleCursorAdapter extends CursorAdapter {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenName);
-                viewProfile.putExtra("proPic", url);
-                viewProfile.putExtra("retweet", false);
-
-                context.startActivity(viewProfile);
+                ProfilePager.start(context, name, screenName, url);
             }
         });
     }

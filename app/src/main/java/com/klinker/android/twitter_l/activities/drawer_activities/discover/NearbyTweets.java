@@ -189,7 +189,7 @@ public class NearbyTweets extends Fragment implements
                     double longitude = -1;
 
                     if (manualLoc) {
-                        // need to query yahoos api for the location...
+                        // need to mentionsQuery yahoos api for the location...
                         double[] loc = getLocationFromYahoo(sharedPrefs.getInt("woeid", 2379574));
                         latitude = loc[0];
                         longitude = loc[1];

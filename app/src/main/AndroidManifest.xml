@@ -137,15 +137,19 @@
 
         <activity android:name=".activities.media_viewer.PhotoPagerActivity"
                   android:configChanges="orientation|screenSize"
-                  android:theme="@style/Theme.TalonLight.ImageViewer" />
+                  android:theme="@style/DragDismissTheme" />
 
         <activity android:name=".activities.media_viewer.PhotoViewerActivity"
                     android:configChanges="orientation|screenSize"
-                    android:theme="@style/Theme.TalonLight.ImageViewer" />
+                    android:theme="@style/DragDismissTheme" />
 
         <activity android:name=".activities.media_viewer.VideoViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:theme="@style/Theme.TalonLight.VideoViewer" />
+            android:theme="@style/DragDismissTheme" />
+
+        <activity android:name=".activities.media_viewer.YouTubeViewerActivity"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:theme="@style/Theme.PhotoViewerBlack" />
 
         <activity android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoritesActivity"
                   android:label="@string/favorite_tweets"
@@ -590,7 +594,7 @@
                   android:label="@string/app_name"
                   android:configChanges="orientation"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.Sliding.Light">
+            android:theme="@style/DragDismissTheme">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.activities.tweet_viewer.LauncherTweetActivity"
@@ -600,7 +604,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.Sliding.Light">
+            android:theme="@style/DragDismissTheme">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.activities.tweet_viewer.NotiTweetActivity"
@@ -609,7 +613,7 @@
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.Sliding.Light">
+            android:theme="@style/DragDismissTheme">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.activities.drawer_activities.discover.people.PeopleSearch"
@@ -624,24 +628,14 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.Sliding.Light">
+            android:theme="@style/DragDismissTheme">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager"
                   android:label="@string/app_name"
                   android:configChanges="orientation|screenSize"
                   android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-                  android:theme="@style/Theme.Sliding.Light">
-        </activity>
-
-        <activity android:name="com.klinker.android.twitter_l.activities.profile_viewer.LauncherProfilePager"
-            android:label="@string/app_name"
-            android:configChanges="orientation"
-            android:launchMode="singleInstance"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/Theme.Sliding.Light">
+                  android:theme="@style/DragDismissTheme">
         </activity>
 
         <activity android:name="com.klinker.android.twitter_l.settings.SettingsActivity"

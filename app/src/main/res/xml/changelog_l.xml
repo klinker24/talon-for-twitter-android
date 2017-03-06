@@ -1,5 +1,23 @@
 <changelog>
 
+    <version name="6.0.0">
+        <text>Woah - speed. Everything is faster. Talon 6.0 is Twitter like you have never used it before.</text>
+        <text>Sweet style. I iterated and improved on all the main pieces of the app, along with adding some awesome new features to each.</text>
+        <text>New: Tweet viewer UI revamp</text>
+        <text>New: Profiles UI revamp</text>
+        <text>New: View threads as well as replies to any tweet</text>
+        <text>New: Advanced filtering options on a users profile, to see all their interactions and tweets</text>
+        <text>New: View a user's lists on their profile</text>
+        <text>New: Image viewer revamp (animations, improved drag to dismiss)</text>
+        <text>New: View tweet counts and actions with a long click on the timeline</text>
+	<text>New: Option to only show people you are following when auto-completing a mention (Other Options)</text>
+        <text>Improve: Article viewer (quotes, images, theme-ing, and content loading)</text>
+        <text>Improve: UI for quoting tweets</text>
+        <text>Improve: Image loading (speed, consistency, data usage)</text>
+        <text>Improve: Tablet support</text>
+        <text>Improve: Moments links will always open to the Twitter website</text>
+    </version>
+
     <version name="5.10.2">
         <text>Fixes for double mention notifications</text>
         <text>More auto complete fixes</text>
@@ -8,7 +26,7 @@
     <version name="5.10.1">
 	    <text>Bug fixes for auto complete</text>
     </version>
-	
+
     <version name="5.10.0">
         <text>Option to enable fingerprint authentication for composing a tweet (Open the compose menu and hit the three dot overflow)</text>
         <text>Peeking into a profile (by long clicking their picture) will show you whether or not they follow you</text>

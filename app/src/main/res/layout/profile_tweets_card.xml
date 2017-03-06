@@ -1,63 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                                    android:id="@+id/tweets_card"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:maxWidth="300dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginRight="@dimen/user_profile_card_padding"
-                                    android:layout_marginLeft="@dimen/user_profile_card_padding"
-                                    android:layout_marginBottom="16dp"
-                                    card_view:cardCornerRadius="3dp"
-                                    card_view:cardBackgroundColor="?drawerBackground"
-                                    android:visibility="invisible">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tweets_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  android:layout_alignParentBottom="true">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?tweet_activity_background" >
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="horizontal"
-                      android:layoutDirection="ltr"
-                      android:paddingLeft="16dp">
+        <View
+            android:alpha=".30"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/top_shadow" />
 
-            <TextView
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="8dp">
+
+                <TextView
                     android:id="@+id/tweets_title_text"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="@string/tweets"
+                    android:text="@string/profile_timeline"
                     android:textAllCaps="true"
-                    android:textSize="18sp"/>
+                    android:textSize="14sp"
+                    android:textColor="?textColor"/>
 
-            <Button
+                <Button
                     android:id="@+id/show_all_tweets_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/show_all"
-                    android:textSize="12sp"
+                    android:text="@string/show_all_tweets"
+                    android:textSize="11sp"
                     android:background="?android:selectableItemBackground"
                     android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
                     android:textAllCaps="true"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"/>
+                    android:paddingRight="8dp"
+                    android:textColor="?textColor"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-                android:id="@+id/tweets_content"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:id="@+id/chip_layout"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="10dp"
+                        android:animateLayoutChanges="true" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:alpha=".15"
+            android:background="@drawable/bottom_shadow"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
+
+    <LinearLayout
+            android:id="@+id/tweets_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+</LinearLayout>

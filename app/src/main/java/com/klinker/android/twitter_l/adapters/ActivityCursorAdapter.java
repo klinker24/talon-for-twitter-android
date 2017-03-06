@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spannable;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +13,6 @@ import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ActivitySQLiteHelper;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
@@ -84,10 +80,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         String[] userArray = users.split(" ");
 
                         if (userArray.length == 1) {
-                            Intent viewProfile = new Intent(context, ProfilePager.class);
-                            viewProfile.putExtra("screenname", userArray[0].replace("@", "").replace(" ", ""));
-
-                            context.startActivity(viewProfile);
+                            ProfilePager.start(context, userArray[0].replace("@", "").replace(" ", ""));
                         } else {
                             displayUserDialog(userArray);
                         }
@@ -143,6 +136,8 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("animated_gif", holder.gifUrl);
 
+                        TweetActivity.applyDragDismissBundle(context, viewTweet);
+
                         context.startActivity(viewTweet);
                     }
                 });
@@ -188,6 +183,8 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                         viewTweet.putExtra("hashtags", hashtags);
                         viewTweet.putExtra("animated_gif", holder.gifUrl);
 
+                        TweetActivity.applyDragDismissBundle(context, viewTweet);
+
                         context.startActivity(viewTweet);
                     }
                 });
@@ -195,10 +192,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 holder.profilePic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("screenname", screenname);
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, screenname);
                     }
                 });
 
@@ -253,12 +247,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 .setItems(users, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String s = users[i];
-
-                        Intent viewProfile = new Intent(context, ProfilePager.class);
-                        viewProfile.putExtra("screenname", s.replace("@", "").replace(" ", ""));
-
-                        context.startActivity(viewProfile);
+                        ProfilePager.start(context, users[i].replace("@", "").replace(" ", ""));
                     }
                 })
                 .create()

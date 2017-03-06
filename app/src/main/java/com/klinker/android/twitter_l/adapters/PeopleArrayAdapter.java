@@ -145,14 +145,7 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", user.getName());
-                viewProfile.putExtra("screenname", user.getScreenName());
-                viewProfile.putExtra("proPic", user.getOriginalProfileImageURL());
-                //viewProfile.putExtra("tweetid", surfaceView.tweetId);
-                viewProfile.putExtra("retweet", false);
-
-                context.startActivity(viewProfile);
+                ProfilePager.start(context, user);
             }
         });
 
