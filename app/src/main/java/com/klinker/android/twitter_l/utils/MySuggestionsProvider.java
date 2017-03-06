@@ -74,7 +74,7 @@ public class MySuggestionsProvider extends SearchRecentSuggestionsProvider {
 
         if (c.moveToFirst()) {
             do {
-                items.add(new SearchItem(c.getString(c.getColumnIndex("mentionsQuery"))));
+                items.add(new SearchItem(c.getString(c.getColumnIndex("query"))));
             } while (c.moveToNext());
         }
 
