@@ -566,7 +566,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
         if (sharedPrefs.getBoolean("show_swipe_dialog", true)) {
             new AlertDialog.Builder(this)
                     .setTitle("Tip:")
-                    .setMessage("You can close the photo viewer by swiping up or down on the picture!")
+                    .setMessage("You can close the photo viewer by dragging up or down on the picture!")
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
