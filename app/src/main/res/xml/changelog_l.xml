@@ -9,7 +9,8 @@
         <text>New: Advanced filtering options on a users profile, to see all their interactions and tweets</text>
         <text>New: View a user's lists on their profile</text>
         <text>New: Image viewer revamp (animations, improved drag to dismiss)</text>
-        <text>New: View tweet counts with a long click on the timeline</text>
+        <text>New: View tweet counts and actions with a long click on the timeline</text>
+	<text>New: Option to only show people you are following when auto-completing a mention (Other Options)</text>
         <text>Improve: Article viewer (quotes, images, theme-ing, and content loading)</text>
         <text>Improve: UI for quoting tweets</text>
         <text>Improve: Image loading (speed, consistency, data usage)</text>
