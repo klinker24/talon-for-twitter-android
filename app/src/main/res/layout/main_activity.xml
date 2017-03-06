@@ -27,7 +27,7 @@
                   android:background="?windowBackground"
                   android:orientation="vertical">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -60,13 +60,14 @@
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginBottom="60dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/ic_fab_pencil"
                 fab:fabSize="normal"/>
           
-        </FrameLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
