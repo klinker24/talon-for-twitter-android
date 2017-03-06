@@ -27,10 +27,10 @@
                   android:background="?windowBackground"
                   android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-                android:layout_weight="1">
+            android:layout_weight="1">
 
             <android.support.v4.view.ViewPager
                              xmlns:tools="http://schemas.android.com/tools"
@@ -58,48 +58,15 @@
             <android.support.design.widget.FloatingActionButton
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/send_button"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
                 android:layout_marginBottom="60dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_fab_pencil"/>
-
-            <!--<LinearLayout
-                    android:id="@+id/send_layout"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    android:background="@drawable/fab_color"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="65dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:focusableInTouchMode="true"
-                    android:focusable="true"
-                    android:elevation="2dp" >
-
-                <ImageView
-                        android:id="@+id/send_button"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:padding="16dp"
-                        android:minHeight="56dp" android:minWidth="56dp"
-                        android:scaleType="fitCenter" android:adjustViewBounds="true"
-                        android:maxWidth="56dp" android:maxHeight="56dp"
-                        android:src="@drawable/ic_action_new_dark"
-                        android:contentDescription="New Tweet"
-                        android:background="@drawable/pressed_toast"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"/>
-
-            </LinearLayout>-->
-
-
-        </RelativeLayout>
+                android:src="@drawable/ic_fab_pencil"
+                fab:fabSize="normal"/>
+          
+        </FrameLayout>
 
     </LinearLayout>
 
