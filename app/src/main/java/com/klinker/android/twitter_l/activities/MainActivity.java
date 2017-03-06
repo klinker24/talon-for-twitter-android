@@ -258,7 +258,7 @@ public class MainActivity extends DrawerActivity {
 
         final PermissionModelUtils permissionUtils = new PermissionModelUtils(this);
 
-        if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", false)) {
+        if (getIntent().getBooleanExtra("tutorial", false) && !sharedPrefs.getBoolean("done_tutorial", true)) {
             getIntent().putExtra("tutorial", false);
             sharedPrefs.edit().putBoolean("done_tutorial", true).apply();
             registerReceiver(new BroadcastReceiver() {
