@@ -716,13 +716,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(users, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
-                            String touched = users[item];
-
-                            Intent user = new Intent(context, ProfilePager.class);
-                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
-                            user.putExtra("proPic", "");
-                            context.startActivity(user);
-
+                            ProfilePager.start(context, users[item].replace("@", "").replace(" ", ""));
                             dialog.dismiss();
                         }
                     });
@@ -746,13 +740,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(users, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
-                            String touched = users[item];
-
-                            Intent user = new Intent(context, ProfilePager.class);
-                            user.putExtra("screenname", touched.replace("@", "").replace(" ", ""));
-                            user.putExtra("proPic", "");
-                            context.startActivity(user);
-
+                            ProfilePager.start(context, users[item].replace("@", "").replace(" ", ""));
                             dialog.dismiss();
                         }
                     });
@@ -1129,9 +1117,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
                             long downloadId = intent.getLongExtra(
                                     DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                            DownloadManager.Query query = new DownloadManager.Query();
-                            query.setFilterById(enqueue);
-                            Cursor c = dm.query(query);
+                            DownloadManager.Query mentionsQuery = new DownloadManager.Query();
+                            mentionsQuery.setFilterById(enqueue);
+                            Cursor c = dm.mentionsQuery(mentionsQuery);
                             if (c.moveToFirst()) {
                                 int columnIndex = c
                                         .getColumnIndex(DownloadManager.COLUMN_STATUS);
@@ -1882,17 +1870,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 if (i == 0) {
-                                    // talon
-                                    Intent profile = new Intent(getActivity(), ProfilePager.class);
-                                    profile.putExtra("screenname", "TalonAndroid");
-                                    profile.putExtra("proPic", "");
-                                    startActivity(profile);
+                                    ProfilePager.start(context, "Talon", "TalonAndroid", null);
                                 } else if (i == 1) {
-                                    // luke (twitter)
-                                    Intent profile = new Intent(getActivity(), ProfilePager.class);
-                                    profile.putExtra("screenname", "lukeklinker");
-                                    profile.putExtra("proPic", "");
-                                    startActivity(profile);
+                                    ProfilePager.start(context, "Luke Klinker", "lukeklinker", null);
                                 } else {
                                     // luke (google+)
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://google.com/+LukeKlinker")));

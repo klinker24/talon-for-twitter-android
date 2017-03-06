@@ -92,7 +92,8 @@ public class PhotoFragment extends Fragment {
             }
         });
 
-        Glide.with(getActivity()).load(url).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(getActivity()).load(url).dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
@@ -223,9 +224,8 @@ public class PhotoFragment extends Fragment {
             public void run() {
                 try {
                     final Bitmap bitmap = Glide.with(getActivity())
-                            .load(url)
-                            .asBitmap()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .load(url).asBitmap()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                             .get();
 

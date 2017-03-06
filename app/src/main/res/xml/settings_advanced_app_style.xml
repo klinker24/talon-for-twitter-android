@@ -25,12 +25,6 @@
             android:summary="@string/dual_panels_summary"
             android:defaultValue="@bool/dual_panels" />
 
-        <SwitchPreference
-            android:key="reverse_click_actions"
-            android:title="@string/reverse_click_actions"
-            android:summary="@string/reverse_click_actions_default"
-            android:defaultValue="false" />
-
         <ListPreference
             android:key="nav_bar_option"
             android:title="@string/nav_bar_option"

@@ -1,47 +1,71 @@
 package com.klinker.android.twitter_l.activities.profile_viewer;
 
-import android.app.*;
+import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.*;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
-import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.klinker.android.sliding.MultiShrinkScroller;
-import com.klinker.android.sliding.SlidingActivity;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.TweetView;
-import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
-import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
+import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
+import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
-import com.klinker.android.twitter_l.views.popups.profile.*;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
-import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.klinker.android.twitter_l.views.TweetView;
+import com.klinker.android.twitter_l.views.popups.profile.PicturesPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileFollowersPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileFriendsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileTimelinePopupLayout;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileTweetsPopup;
+import com.klinker.android.twitter_l.views.popups.profile.ProfileUsersListsPopup;
+import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,28 +73,98 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import com.klinker.android.twitter_l.utils.text.TextUtils;
-import com.yalantis.ucrop.UCrop;
+import fisk.chipcloud.ChipCloud;
+import fisk.chipcloud.ChipCloudConfig;
+import fisk.chipcloud.ChipListener;
+import twitter4j.Paging;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Relationship;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
+import twitter4j.UserList;
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import twitter4j.*;
+public class ProfilePager extends DragDismissActivity {
 
-public class ProfilePager extends SlidingActivity {
+    private static final int NUM_TWEETS_ON_TIMELINE = 15;
+    private static final int LOAD_CAPACITY_PER_LIST = 20;
 
-    private static final long NETWORK_ACTION_DELAY = 200;
+    public static void start(Context context, User user) {
+        start(context, user.getName(), user.getScreenName(), user.getOriginalProfileImageURL());
+    }
+
+    public static void start(Context context, String screenname) {
+        start(context, null, screenname, null);
+    }
+
+    public static void start(Context context, String name, String screenName, String profilePic) {
+        Intent intent = new Intent(context, ProfilePager.class);
+
+        DragDismissIntentBuilder.Theme theme = DragDismissIntentBuilder.Theme.LIGHT;
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.darkTheme) {
+            theme = DragDismissIntentBuilder.Theme.DARK;
+        } else if (settings.blackTheme) {
+            theme = DragDismissIntentBuilder.Theme.BLACK;
+        }
+
+        new DragDismissIntentBuilder(context)
+                .setShowToolbar(true)
+                .setShouldScrollToolbar(true)
+                .setTheme(theme)
+                .setToolbarTitle(name)
+                .setPrimaryColorValue(AppSettings.getInstance(context).themeColors.primaryColor)
+                .build(intent);
+
+        intent.putExtra("name", name);
+        intent.putExtra("screenname", screenName);
+        intent.putExtra("proPic", profilePic);
+
+        context.startActivity(intent);
+    }
 
     private Context context;
     private AppSettings settings;
-    private android.support.v7.app.ActionBar actionBar;
     private SharedPreferences sharedPrefs;
 
+    public ImageView followButton;
+    public ImageView profilePic;
+    public TextView followerCount;
+    public TextView followingCount;
+    public FontPrefTextView description;
+    public FontPrefTextView location;
+    public FontPrefTextView website;
+    public View profileButtons;
+    public LinearLayout chipLayout;
+    public LinearLayout timelineContent;
+
+    private PicturesPopup picsPopup;
+    private ProfileFollowersPopup fol;
+    private ProfileFriendsPopup fri;
+    private ProfileUsersListsPopup usersListsPopup;
+    public ProfileTweetsPopup tweetsPopup;
+    public ProfileTimelinePopupLayout timelinePopup;
+
+    // start with tweets, replies, retweets as checked. Likes and mentions as not checked.
+    public boolean[] chipSelectedState = new boolean[] {true, true, true, false, false};
+    public ChipCloud chipCloud;
+
+    private String screenName;
+    private String proPic;
+
+    private boolean isMyProfile = false;
     private boolean isBlocking;
     private boolean isFollowing;
     private boolean followingYou;
@@ -80,73 +174,39 @@ public class ProfilePager extends SlidingActivity {
     private boolean isMuffled;
     private boolean isFollowingSet = false;
 
-    @Override
-    public void init(Bundle savedInstanceState) {
+    public List<Status> tweets = new ArrayList<>();
+    public Paging tweetsPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
 
+    public List<Status> favorites = new ArrayList<>();
+    public Paging favoritesPaging = new Paging(1, LOAD_CAPACITY_PER_LIST);
+    
+    public List<Status> mentions = new ArrayList<>();
+    public Query mentionsQuery = null;
+
+    @Override
+    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         Utils.setTaskDescription(this);
+        Utils.setSharedContentTransition(this);
 
         context = this;
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
         settings = AppSettings.getInstance(this);
 
-        setPrimaryColors(
-                settings.themeColors.primaryColor,
-                settings.themeColors.primaryColorDark
-        );
-
-
-        if (!sharedPrefs.getBoolean("knows_about_profile_swipedown", false)) {
-            sharedPrefs.edit().putBoolean("knows_about_profile_swipedown", true).apply();
-            Snackbar.make(findViewById(android.R.id.content), R.string.tell_about_swipe_down, Snackbar.LENGTH_LONG).show();
-        }
-
-        Utils.setSharedContentTransition(this);
-
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if(menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception ex) {
-            // Ignore
-        }
-
-        setUpTheme();
+        Utils.setUpProfileTheme(context, settings);
         getFromIntent();
-        setContent(R.layout.user_profile);
-        setHeaderContent(R.layout.sliding_profile_header);
-        setUpContent();
+        View root = inflater.inflate(R.layout.user_profile, parent, false);
+
+        TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
+        int resource = a.getResourceId(0, 0);
+        a.recycle();
+
+        findViewById(R.id.dragdismiss_content).setBackgroundResource(resource);
+
+        setUpContent(root);
         getUser();
-        enableFullscreen();
 
-        /*WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int screenHeight = size.y;
-        int screenWidth = size.x;
-
-        Intent intent = getIntent();
-
-        if (getIntent().getBooleanExtra(TweetActivity.USE_EXPANSION, false)) {
-            enableFullscreen();
-        }
-        
-        expandFromPoints(
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, 0),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, screenHeight),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, screenWidth),
-                intent.getIntExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, 0)
-        );*/
-    }
-
-    @Override
-    protected void configureScroller(MultiShrinkScroller scroller) {
-        super.configureScroller(scroller);
-        scroller.setIntermediateHeaderHeightRatio(.75f);
+        return root;
     }
 
     @Override
@@ -155,136 +215,112 @@ public class ProfilePager extends SlidingActivity {
         recreate();
     }
 
-    public ImageView profilePic;
-    public FontPrefTextView followerCount;
-    public FontPrefTextView followingCount;
-    public FontPrefTextView description;
-    public FontPrefTextView location;
-    public FontPrefTextView website;
-    public ImageView[] friends = new ImageView[3];
-    public ImageView[] followers = new ImageView[3];
-    public View profileCounts;
+    public void setUpContent(View root) {
+        profilePic = (ImageView) root.findViewById(R.id.profile_pic);
 
-    public void setTransitionNames() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            profilePic.setTransitionName("pro_pic");
-        }
-    }
+        followerCount = (TextView) root.findViewById(R.id.followers_number);
+        followingCount = (TextView) root.findViewById(R.id.following_number);
+        description = (FontPrefTextView) root.findViewById(R.id.user_description);
+        location = (FontPrefTextView) root.findViewById(R.id.user_location);
+        website = (FontPrefTextView) root.findViewById(R.id.user_webpage);
 
-    public void setUpContent() {
-        // first get all the views we need
-        profilePic = (ImageView) findViewById(R.id.profile_pic);
+        profileButtons = root.findViewById(R.id.profile_buttons);
+        chipLayout = (LinearLayout) root.findViewById(R.id.chip_layout);
 
-        followerCount = (FontPrefTextView) findViewById(R.id.followers_number);
-        followingCount = (FontPrefTextView) findViewById(R.id.following_number);
-        description = (FontPrefTextView) findViewById(R.id.user_description);
-        location = (FontPrefTextView) findViewById(R.id.user_location);
-        website = (FontPrefTextView) findViewById(R.id.user_webpage);
-        profileCounts = findViewById(R.id.profile_counts);
+        ChipCloudConfig config = new ChipCloudConfig()
+                .selectMode(ChipCloud.SelectMode.multi)
+                .checkedChipColor(settings.themeColors.primaryColor)
+                .checkedTextColor(Color.WHITE)
+                .uncheckedChipColor(settings.darkTheme ? getResources().getColor(R.color.dark_background) :
+                        getResources().getColor(R.color.light_background))
+                .uncheckedTextColor(settings.darkTheme ? getResources().getColor(R.color.dark_text) :
+                        getResources().getColor(R.color.light_text))
+                .useInsetPadding(true);
 
-        friends[0] = (ImageView) findViewById(R.id.friend_1);
-        friends[1] = (ImageView) findViewById(R.id.friend_2);
-        friends[2] = (ImageView) findViewById(R.id.friend_3);
-
-        followers[0] = (ImageView) findViewById(R.id.follower_1);
-        followers[1] = (ImageView) findViewById(R.id.follower_2);
-        followers[2] = (ImageView) findViewById(R.id.follower_3);
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            setTransitionNames();
-        }
-
-        new Handler().postDelayed(new Runnable() {
+        chipCloud = new ChipCloud(this, chipLayout, config);
+        chipCloud.setListener(new ChipListener() {
             @Override
-            public void run() {
-                loadProfilePicture();
-            }
-        }, 300);
-
-        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-    }
-
-    private boolean loaded = false;
-
-    public void loadProfilePicture() {
-
-        if (loaded || android.text.TextUtils.isEmpty(proPic)) {
-            return;
-        }
-
-        try {
-            Glide.with(this)
-                    .load(proPic)
-                    .into((CircleImageView) findViewById(R.id.profile_image));
-        } catch (Exception e) {
-
-        }
-
-        findViewById(R.id.photo_touch_intercept_overlay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (thisUser != null) {
-                    PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
-                } else {
-                    PhotoViewerActivity.startActivity(context, proPic);
+            public void chipCheckedChange(int index, boolean checked, boolean userClicked) {
+                if (userClicked) {
+                    chipSelectedState[index] = checked;
+                    addTweetsToLayout(filterTweets());
                 }
             }
-        });
+        }, true);
+
+        loadProfilePicture();
     }
 
-    public void setUpTheme() {
-        Utils.setUpProfileTheme(context, settings);
-    }
+    public void loadProfilePicture() {
+        try {
+            Glide.with(this).load(proPic)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(profilePic);
 
-    private boolean isMyProfile = false;
-    private String name;
-    private String screenName;
-    private String proPic;
-    private long tweetId;
-    private boolean isRetweet;
+            profilePic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (thisUser != null) {
+                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                    } else {
+                        PhotoViewerActivity.startActivity(context, proPic);
+                    }
+                }
+            });
+
+            findViewById(R.id.banner).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (thisUser != null) {
+                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 1);
+                    } else {
+                        PhotoViewerActivity.startActivity(context, proPic);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void getFromIntent() {
         Intent from = getIntent();
 
-        name = from.getStringExtra("name");
         screenName = from.getStringExtra("screenname");
         proPic = from.getStringExtra("proPic");
-        tweetId = from.getLongExtra("tweetid", 0l);
-        isRetweet = from.getBooleanExtra("retweet", false);
 
         if (screenName != null && screenName.equalsIgnoreCase(settings.myScreenName)) {
             isMyProfile = true;
         }
     }
 
-    public TextView followText;
-    public TextView favoriteText;
-
-    public void setProfileCard(final User user) {
-
+    public void showProfileContent(final User user) {
         if (android.text.TextUtils.isEmpty(proPic)) {
             proPic = user.getOriginalProfileImageURL();
-            name = user.getName();
-
             loadProfilePicture();
         }
 
-        setTitle(user.getName());
+        CoordinatorLayout frameLayout = (CoordinatorLayout)
+                findViewById(R.id.dragdismiss_background_view);
 
-        CardView headerCard = (CardView) findViewById(R.id.stats_card);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) headerCard.getLayoutParams();
-        params.topMargin = Utils.toDP(32, context);
-        headerCard.setLayoutParams(params);
+        FloatingActionButton fab = new FloatingActionButton(this);
 
-        setFab(settings.themeColors.accentColor, R.drawable.ic_fab_pencil, new View.OnClickListener() {
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(
+                Utils.toDP(56, context), Utils.toDP(56, context));
+        params.gravity = Gravity.BOTTOM | Gravity.END;
+        params.bottomMargin = Utils.toDP(16, context);
+        params.rightMargin = Utils.toDP(16, context);
+        params.leftMargin = Utils.toDP(16, context);
+        fab.setLayoutParams(params);
+
+        fab.setImageResource(R.drawable.ic_fab_pencil);
+        fab.setBackgroundTintList(ColorStateList.valueOf(settings.themeColors.accentColor));
+
+        frameLayout.addView(fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent compose = new Intent(context, ComposeActivity.class);
+                Intent compose = new Intent(ProfilePager.this, ComposeActivity.class);
                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
                         v.getMeasuredWidth(), v.getMeasuredHeight());
                 compose.putExtra("user", "@" + screenName);
@@ -303,11 +339,13 @@ public class ProfilePager extends SlidingActivity {
             description.setVisibility(View.GONE);
         }
         if (loc != null && !loc.equals("")) {
+            location.setVisibility(View.VISIBLE);
             location.setText(loc);
         } else {
             location.setVisibility(View.GONE);
         }
         if (web != null && !web.equals("")) {
+            website.setVisibility(View.VISIBLE);
             website.setText(user.getURLEntity().getDisplayURL());
             TextUtils.linkifyText(context, website, null, true, user.getURLEntity().getExpandedURL(), false);
 
@@ -321,14 +359,12 @@ public class ProfilePager extends SlidingActivity {
         TextUtils.linkifyText(context, description, null, true, "", false);
 
         TextView followingStatus = (TextView) findViewById(R.id.follow_status);
-        followText = (TextView) findViewById(R.id.follow_button_text);
-        favoriteText = (TextView) findViewById(R.id.favorite_button);
-        LinearLayout followButton = (LinearLayout) findViewById(R.id.follow_button);
+        followButton = (ImageView) findViewById(R.id.follow_button);
 
         if (isFollowing) {
-            followText.setText(getString(R.string.menu_unfollow));
+            followButton.setImageResource(R.drawable.ic_unfollow);
         } else {
-            followText.setText(getString(R.string.menu_follow));
+            followButton.setImageResource(R.drawable.ic_follow);
         }
 
         if (isFollowing || !settings.crossAccActions) {
@@ -361,31 +397,27 @@ public class ProfilePager extends SlidingActivity {
         }
 
         if (followingYou) {
-            followingStatus.setText(getString(R.string.follows_you));
+            followingStatus.setText(Html.fromHtml("<b>" + getString(R.string.follows_you) + "<b>"));
         } else {
-            followingStatus.setText(getString(R.string.not_following_you));
+            followingStatus.setText(Html.fromHtml("<b>" + getString(R.string.not_following_you) + "<b>"));
         }
-
-        if (isFavorite) {
-            favoriteText.setText(getString(R.string.menu_unfavorite));
-        } else {
-            favoriteText.setText(getString(R.string.menu_favorite));
-        }
-
-        favoriteText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FavoriteUser().execute();
-            }
-        });
 
         if (user.getScreenName().equals(settings.myScreenName)) {
-            // they are you
-            findViewById(R.id.header_button_section).setVisibility(View.GONE);
+            findViewById(R.id.follow_button).setVisibility(View.GONE);
+            findViewById(R.id.follow_status).setVisibility(View.GONE);
         }
 
-        Button pictures = (Button) findViewById(R.id.pictures_button);
-        pictures.setTextColor(settings.themeColors.primaryColorLight);
+        View pictures = findViewById(R.id.media_button);
+        View lists = findViewById(R.id.lists_button);
+
+        usersListsPopup = new ProfileUsersListsPopup(context, thisUser);
+        lists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                usersListsPopup.setExpansionPointForAnim(view);
+                usersListsPopup.show();
+            }
+        });
 
         picsPopup = new PicturesPopup(context, thisUser);
         pictures.setOnClickListener(new View.OnClickListener() {
@@ -397,20 +429,16 @@ public class ProfilePager extends SlidingActivity {
         });
 
         if (user.getFriendsCount() < 1000) {
-            followingCount.setText(getString(R.string.following) + ": " + user.getFriendsCount());
+            followingCount.setText("" + user.getFriendsCount());
         } else {
-            followingCount.setText(getString(R.string.following) + ": " + Utils.coolFormat(user.getFriendsCount(), 0));
+            followingCount.setText("" + Utils.coolFormat(user.getFriendsCount(), 0));
         }
+
         if (user.getFollowersCount() < 1000) {
-            followerCount.setText(getString(R.string.followers) + ": " + user.getFollowersCount());
+            followerCount.setText("" + user.getFollowersCount());
         } else {
-            followerCount.setText(getString(R.string.followers) + ": " + Utils.coolFormat(user.getFollowersCount(),0));
+            followerCount.setText("" + Utils.coolFormat(user.getFollowersCount(),0));
         }
-
-        TextView statsTitle = (TextView) findViewById(R.id.stats_title_text);
-
-        statsTitle.setTextColor(settings.themeColors.primaryColorLight);
-        statsTitle.setText("@" + user.getScreenName());
 
         ImageView verified = (ImageView) findViewById(R.id.verified);
         if (settings.darkTheme) {
@@ -419,24 +447,15 @@ public class ProfilePager extends SlidingActivity {
             verified.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
         }
 
-        FontPrefTextView createdAt = (FontPrefTextView) findViewById(R.id.created_at);
-        FontPrefTextView listsCount = (FontPrefTextView) findViewById(R.id.number_of_lists);
-
         if (user.isVerified()) {
             verified.setVisibility(View.VISIBLE);
         }
 
-        SimpleDateFormat ft = new SimpleDateFormat("MMM dd, yyyy");
+        View openFollowers = findViewById(R.id.followers_button);
+        openFollowers.setVisibility(View.VISIBLE);
+        TextView followersText = (TextView) findViewById(R.id.followers_text);
+        followersText.setText(Html.fromHtml("<b>" + followersText.getText().toString() + "</b>"));
 
-        createdAt.setText(getString(R.string.joined_twitter) +" " + ft.format(user.getCreatedAt()));
-
-        if (user.getListedCount() == 0) {
-            listsCount.setVisibility(View.GONE);
-        } else {
-            listsCount.setText(getString(R.string.list_count).replace("%s", user.getListedCount() + ""));
-        }
-
-        View openFollowers = findViewById(R.id.view_followers);
         fol = new ProfileFollowersPopup(context, user);
 
         openFollowers.setOnClickListener(new View.OnClickListener() {
@@ -457,8 +476,13 @@ public class ProfilePager extends SlidingActivity {
             }
         });
 
-        View openFriends = findViewById(R.id.view_friends);
+        View openFriends = findViewById(R.id.following_button);
+        openFriends.setVisibility(View.VISIBLE);
+        TextView followingText = (TextView) findViewById(R.id.following_text);
+        followingText.setText(Html.fromHtml("<b>" + followingText.getText().toString() + "</b>"));
+
         fri = new ProfileFriendsPopup(context, user);
+
         openFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -477,42 +501,31 @@ public class ProfilePager extends SlidingActivity {
             }
         });
 
-        showCard(findViewById(R.id.stats_card));
+        animateIn(profileButtons);
     }
 
-    private PicturesPopup picsPopup;
-    private ProfileFollowersPopup fol;
-    private ProfileFriendsPopup fri;
+    private void prepareTweetsLayout() {
+        chipCloud.addChip(getString(R.string.tweets));
+        chipCloud.addChip(getString(R.string.replies));
+        chipCloud.addChip(getString(R.string.retweets));
+        chipCloud.setSelectedIndexes(new int[] {0,1,2});
 
-    private void showStats(final User user) {
-
-
-        //showCard(findViewById(R.id.stats_card));
-    }
-
-    public List<Status> tweets = new ArrayList<Status>();
-    public ProfileTweetsPopup tweetsPopup;
-    private void showTweets() {
+        timelineContent = (LinearLayout) findViewById(R.id.tweets_content);
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
         Button showAllTweets = (Button) findViewById(R.id.show_all_tweets_button);
-        final LinearLayout content = (LinearLayout) findViewById(R.id.tweets_content);
 
-        final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
 
         if (tweetsTitle == null) {
             return;
         }
 
-        tweetsTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllTweets.setTextColor(settings.themeColors.primaryColorLight);
-
+        final View tweetsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         tweetsPopup = new ProfileTweetsPopup(context, tweetsLayout, thisUser);
 
         showAllTweets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tweetsPopup.setExpansionPointForAnim(view);
-
                 tweetsPopup.show();
             }
         });
@@ -527,78 +540,40 @@ public class ProfilePager extends SlidingActivity {
         });
 
         if (thisUser.getStatusesCount() < 1000) {
-            showAllTweets.setText(getString(R.string.show_all) + " (" + thisUser.getStatusesCount() + ")");
+            showAllTweets.setText(getString(R.string.show_all_tweets) + " (" + thisUser.getStatusesCount() + ")");
         } else {
-            showAllTweets.setText(getString(R.string.show_all) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
+            showAllTweets.setText(getString(R.string.show_all_tweets) + " (" + Utils.coolFormat(thisUser.getStatusesCount(), 0) + ")");
         }
 
-        int size = 0;
-        if (tweets.size() >= 3) {
-            size = 3;
-        } else {
-            size = tweets.size();
-        }
+        final View timelineLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
+        timelinePopup = new ProfileTimelinePopupLayout(this, timelineLayout, thisUser);
 
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                if (i != 0) {
-                    View tweetDivider = new View(context);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
-                    tweetDivider.setLayoutParams(params);
-
-                    if (settings.darkTheme) {
-                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.dark_text_drawer));
-                    } else {
-                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
-                    }
-
-                    content.addView(tweetDivider);
-                }
-
-                TweetView t = new TweetView(context, tweets.get(i));
-                t.setCurrentUser(thisUser.getScreenName());
-                t.setSmallImage(true);
-                content.addView(t.getView());
-            }
-        } else {
-            // add a no tweets textbox
-        }
-
-        showCard(findViewById(R.id.tweets_card));
-    }
-
-    public List<Status> mentions = new ArrayList<Status>();
-    public ProfileMentionsPopup mentionsPopup;
-    private void showMentions() {
-        TextView mentionsTitle = (TextView) findViewById(R.id.mentions_title_text);
-        Button showAllMentions = (Button) findViewById(R.id.show_all_mentions_button);
-        LinearLayout content = (LinearLayout) findViewById(R.id.mentions_content);
-
-        final View mentionsLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
-
-        if (mentionsTitle == null) {
-            return;
-        }
-
-        mentionsTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllMentions.setTextColor(settings.themeColors.primaryColorLight);
-
-        mentionsPopup = new ProfileMentionsPopup(context, mentionsLayout, thisUser);
-
-        showAllMentions.setOnClickListener(new View.OnClickListener() {
+        View showAll = findViewById(R.id.show_all);
+        showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mentionsPopup.setExpansionPointForAnim(view);
-                mentionsPopup.show();
+                timelinePopup.setExpansionPointForAnim(view);
+                timelinePopup.show();
             }
         });
 
+        addTweetsToLayout(tweets);
+    }
+
+    private void addTweetsToLayout(List<Status> statuses) {
+        boolean addShowAll = false;
         int size = 0;
-        if (mentions.size() >= 3) {
-            size = 3;
+        if (statuses.size() >= NUM_TWEETS_ON_TIMELINE) {
+            size = NUM_TWEETS_ON_TIMELINE;
+
+            if (statuses.size() > NUM_TWEETS_ON_TIMELINE) {
+                addShowAll = true;
+            }
         } else {
-            size = mentions.size();
+            size = statuses.size();
         }
+
+        timelineContent.removeAllViews();
 
         if (size > 0) {
             for (int i = 0; i < size; i++) {
@@ -613,143 +588,47 @@ public class ProfilePager extends SlidingActivity {
                         tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
                     }
 
-                    content.addView(tweetDivider);
+                    timelineContent.addView(tweetDivider);
                 }
 
-                TweetView t = new TweetView(context, mentions.get(i));
+                TweetView t = new TweetView(context, statuses.get(i));
                 t.setCurrentUser(thisUser.getScreenName());
                 t.setSmallImage(true);
-                content.addView(t.getView());
+                timelineContent.addView(t.getView());
             }
-        } else {
-            // add a no mentions textbox
         }
 
-        if (mentions.size() > 0) {
-            showCard(findViewById(R.id.mentions_card));
+        View showAll = findViewById(R.id.show_all);
+
+        if (addShowAll) {
+            showAll.setVisibility(View.VISIBLE);
+            showAll.getLayoutParams().height = Utils.toDP(112, this);
         } else {
-            findViewById(R.id.mentions_card).setVisibility(View.GONE);
+            showAll.setVisibility(View.INVISIBLE);
+            showAll.getLayoutParams().height = Utils.toDP(16, this);
         }
+
+        showAll.requestLayout();
+
+        animateIn(timelineContent);
     }
 
-    public List<Status> favorites = new ArrayList<Status>();
-    public ProfileFavoritesPopup favoritesPopup;
-    private void showFavorites() {
-        TextView favoritesTitle = (TextView) findViewById(R.id.favorites_title_text);
-        Button showAllfavorites = (Button) findViewById(R.id.show_all_favorites_button);
-        LinearLayout content = (LinearLayout) findViewById(R.id.favorites_content);
-
-        final View favoritesLayout = getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
-
-        if (favoritesTitle == null) {
-            return;
+    private void animateIn(final View v) {
+        if (v.getVisibility() != View.VISIBLE) {
+            v.setVisibility(View.VISIBLE);
         }
 
-        favoritesTitle.setTextColor(settings.themeColors.primaryColorLight);
-        showAllfavorites.setTextColor(settings.themeColors.primaryColorLight);
-
-        favoritesPopup = new ProfileFavoritesPopup(context, favoritesLayout, thisUser);
-
-        showAllfavorites.setOnClickListener(new View.OnClickListener() {
+        ValueAnimator alpha = ValueAnimator.ofFloat(0f, 1f);
+        alpha.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onClick(View view) {
-                favoritesPopup.setExpansionPointForAnim(view);
-                favoritesPopup.show();
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float val = (Float) valueAnimator.getAnimatedValue();
+                v.setAlpha(val);
             }
         });
-
-        int size = 0;
-        if (favorites.size() >= 3) {
-            size = 3;
-        } else {
-            size = favorites.size();
-        }
-
-        if (size > 0) {
-            for (int i = 0; i < size; i++) {
-                if (i != 0) {
-                    View tweetDivider = new View(context);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
-                    tweetDivider.setLayoutParams(params);
-
-                    if (settings.darkTheme) {
-                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.dark_text_drawer));
-                    } else {
-                        tweetDivider.setBackgroundColor(getResources().getColor(R.color.light_text_drawer));
-                    }
-
-                    content.addView(tweetDivider);
-                }
-
-                TweetView t = new TweetView(context, favorites.get(i));
-                t.setCurrentUser(thisUser.getScreenName());
-                t.setSmallImage(true);
-                content.addView(t.getView());
-            }
-        } else {
-            // add a no favorites textbox
-        }
-
-        if (favorites.size() > 0) {
-            showCard(findViewById(R.id.favorites_card));
-        } else {
-            findViewById(R.id.favorites_card).setVisibility(View.GONE);
-        }
-    }
-
-    private View spinner;
-    private void showCard(final View v) {
-        if (spinner == null) {
-            spinner = findViewById(R.id.spinner);
-        }
-        if (spinner.getVisibility() == View.VISIBLE) {
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-            anim.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    if (spinner.getVisibility() != View.GONE) {
-                        spinner.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-
-            anim.setDuration(250);
-            spinner.startAnimation(anim);
-        }
-
-        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                if (v.getVisibility() != View.VISIBLE) {
-                    v.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        anim.setStartOffset(150);
-        anim.setDuration(450);
-        v.startAnimation(anim);
+        alpha.setDuration(200);
+        alpha.setInterpolator(TimeLineCursorAdapter.ANIMATION_INTERPOLATOR);
+        alpha.start();
     }
 
     public User thisUser;
@@ -758,16 +637,11 @@ public class ProfilePager extends SlidingActivity {
         TimeoutThread getUser = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(NETWORK_ACTION_DELAY);
-                } catch (Exception e) {
-
-                }
-
                 Twitter twitter =  Utils.getTwitter(context, settings);
 
                 try {
                     thisUser = twitter.showUser(screenName);
+                    mentionsQuery = new Query("@" + screenName + " -RT");
                 } catch (Exception e) {
                     thisUser = null;
                 }
@@ -777,14 +651,6 @@ public class ProfilePager extends SlidingActivity {
                         @Override
                         public void run() {
                             Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
-
-                            if (spinner == null) {
-                                spinner = findViewById(R.id.spinner);
-                            }
-                            if (spinner.getVisibility() == View.VISIBLE) {
-                                spinner.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                                spinner.setVisibility(View.GONE);
-                            }
                         }
                     });
                 }
@@ -837,16 +703,21 @@ public class ProfilePager extends SlidingActivity {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //actionBar.setTitle(thisUser.getName());
+                            ActionBar actionBar = getSupportActionBar();
+                            if (actionBar != null) {
+                                actionBar.setTitle(thisUser.getName());
+                                //actionBar.setSubtitle("@" + thisUser.getScreenName());
+                            }
+
                             invalidateOptionsMenu();
-                            setProfileCard(thisUser);
-                            showStats(thisUser);
+                            showProfileContent(thisUser);
 
                             try {
                                 Glide.with(context)
                                         .load(thisUser.getProfileBannerURL())
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .centerCrop()
-                                        .into((ImageView) findViewById(R.id.background_image));
+                                        .into((ImageView) findViewById(R.id.banner));
                             } catch (Exception e) {
 
                             }
@@ -854,57 +725,32 @@ public class ProfilePager extends SlidingActivity {
                     });
                 }
 
-                // start the other actions now that we are done finding the user
-                getFollowers(twitter);
-                getFriends(twitter);
-
-                // if they aren't protected, then get their tweets, favorites, etc.
                 try {
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
-
-                    // tweets first
-                    // this will error out if they are protected and we can't reach them
-                    tweets = twitter.getUserTimeline(thisUser.getId(), new Paging(1, 20));
-
+                    fetchTweets(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showTweets();
+                            prepareTweetsLayout();
                         }
                     });
 
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
-
-                    getMentions(twitter);
+                    fetchFavorites(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showMentions();
+                            chipCloud.addChip(getString(R.string.favorites));
                         }
                     });
-
-                    try {
-                        Thread.sleep(NETWORK_ACTION_DELAY);
-                    } catch (Exception e) {
-
-                    }
-
-                    favorites = twitter.getFavorites(thisUser.getId(), new Paging(1, 3));
+                    
+                    fetchMentions(twitter);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showFavorites();
+                            chipCloud.addChip(getString(R.string.mentions));
                         }
                     });
-                    getPictures(twitter);
+
+                    fetchTweets(twitter);
                 } catch (Exception e) {
                     if (thisUser != null && thisUser.isProtected()) {
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -930,131 +776,102 @@ public class ProfilePager extends SlidingActivity {
         getUser.start();
     }
 
-    private void getMentions(Twitter twitter) {
-        try {
-            Query query = new Query("@" + screenName + " -RT");
-            query.sinceId(1);
-            QueryResult result = twitter.search(query);
+    public List<Status> filterTweets() {
+        final int tweetsIndex = 0;
+        final int repliesIndex = 1;
+        final int retweetsIndex = 2;
+        final int likesIndex = 3;
+        final int mentionsIndex = 4;
 
-            mentions.clear();
+        List<Status> filteredStatuses = new ArrayList<>();
 
-            for (twitter4j.Status status : result.getTweets()) {
-                mentions.add(status);
+        for (Status status : tweets) {
+            if (chipSelectedState[tweetsIndex] && !status.isRetweet() && !status.getText().startsWith("@")) {
+                filteredStatuses.add(status);
+            } else if (chipSelectedState[retweetsIndex] && status.isRetweet()) {
+                filteredStatuses.add(status);
+            } else if (chipSelectedState[repliesIndex] && status.getText().startsWith("@")) {
+                filteredStatuses.add(status);
+            }
+        }
+        
+        if (chipSelectedState[likesIndex]) {
+            filteredStatuses.addAll(favorites);
+        }
+
+        if (chipSelectedState[mentionsIndex]) {
+            filteredStatuses.addAll(mentions);
+        }
+
+        Collections.sort(filteredStatuses, new Comparator<Status>() {
+            public int compare(Status result1, Status result2) {
+                return result2.getCreatedAt().compareTo(result1.getCreatedAt());
+            }
+        });
+
+        return filteredStatuses;
+    }
+
+    public boolean fetchTweets(Twitter twitter) throws TwitterException {
+        if (tweetsPaging != null) {
+            List<Status> statuses = twitter.getUserTimeline(thisUser.getId(), tweetsPaging);
+            if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
+                tweetsPaging.setPage(tweetsPaging.getPage() + 1);
+            } else {
+                tweetsPaging = null;
             }
 
-            while (result.hasNext() && mentions.size() < 3) {
-                query = result.nextQuery();
-                result = twitter.search(query);
+            tweets.addAll(statuses);
+            return true;
+        }
 
-                for (twitter4j.Status status : result.getTweets()) {
-                    mentions.add(status);
+        return false;
+    }
+
+    public boolean fetchFavorites(Twitter twitter) throws TwitterException {
+        if (favoritesPaging != null) {
+            List<Status> statuses = twitter.getFavorites(thisUser.getId(), favoritesPaging);
+            if (statuses.size() == LOAD_CAPACITY_PER_LIST) {
+                favoritesPaging.setPage(favoritesPaging.getPage() + 1);
+            } else {
+                favoritesPaging = null;
+            }
+
+            favorites.addAll(statuses);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean fetchMentions(Twitter twitter) throws TwitterException {
+        if (mentionsQuery != null) {
+            QueryResult result = twitter.search(mentionsQuery);
+            List<Status> statuses = result.getTweets();
+
+            boolean hasMore = result.hasNext();
+            while (hasMore && statuses.size() < LOAD_CAPACITY_PER_LIST) {
+                mentionsQuery = result.nextQuery();
+                result = twitter.search(mentionsQuery);
+                statuses.addAll(result.getTweets());
+
+                if (!result.hasNext()) {
+                    hasMore = false;
                 }
             }
 
-        } catch (Throwable t) {
+            if (!hasMore) {
+                mentionsQuery = null;
+            }
 
+            mentions.addAll(statuses);
+            return true;
         }
 
-
+        return false;
     }
 
-    private void getPictures(Twitter twitter) {
-
-    }
-
-    private void getFollowers(Twitter twitter) {
-
-        try {
-            Thread.sleep(NETWORK_ACTION_DELAY);
-        } catch (Exception e) {
-
-        }
-
-        try {
-            final List<User> followers = twitter.getFollowersList(thisUser.getId(), -1, 3);
-
-            ((Activity)context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setFollowers(followers);
-                }
-            });
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void setFollowers(List<User> followers) {
-        switch (followers.size()) {
-            case 0:
-                for(int i = 0; i < 3; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                for(int i = 0; i < 2; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-            case 2:
-                for(int i = 0; i < 1; i++)
-                    this.followers[i].setVisibility(View.INVISIBLE);
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[1]);
-                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-            case 3:
-                glide(followers.get(0).getBiggerProfileImageURL(), this.followers[0]);
-                glide(followers.get(1).getBiggerProfileImageURL(), this.followers[1]);
-                glide(followers.get(2).getBiggerProfileImageURL(), this.followers[2]);
-                break;
-        }
-    }
-
-    private void getFriends(Twitter twitter) {
-        try {
-            Thread.sleep(NETWORK_ACTION_DELAY);
-        } catch (Exception e) {
-
-        }
-
-        try {
-            final List<User> friends = twitter.getFriendsList(thisUser.getId(), -1, 3);
-
-            ((Activity)context).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    setFriends(friends);
-                }
-            });
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void setFriends(List<User> friends) {
-        switch (friends.size()) {
-            case 0:
-                for(int i = 0; i < 3; i++) // 0, 1, and 2 are gone
-                    this.friends[i].setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                for(int i = 0; i < 2; i++) // 0 and 1 are gone
-                    this.friends[i].setVisibility(View.INVISIBLE);
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-            case 2:
-                this.friends[0].setVisibility(View.INVISIBLE);
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[1]);
-                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-            case 3:
-                glide(friends.get(0).getBiggerProfileImageURL(), this.friends[0]);
-                glide(friends.get(1).getBiggerProfileImageURL(), this.friends[1]);
-                glide(friends.get(2).getBiggerProfileImageURL(), this.friends[2]);
-                break;
-        }
-    }
-
-    class GetActionBarInfo extends AsyncTask<String, Void, Void> {
+    private class GetActionBarInfo extends AsyncTask<String, Void, Void> {
         protected Void doInBackground(String... urls) {
             if (isMyProfile) {
                 if (thisUser != null) {
@@ -1098,13 +915,13 @@ public class ProfilePager extends SlidingActivity {
     private final int TYPE_ACC_TWO = 2;
     private final int TYPE_BOTH_ACC = 3;
 
-    class FollowUser extends AsyncTask<String, Void, Boolean> {
+    private class FollowUser extends AsyncTask<String, Void, Boolean> {
 
         private Exception e = null;
 
         private int followType;
 
-        public FollowUser(int followType) {
+        FollowUser(int followType) {
             this.followType = followType;
         }
 
@@ -1170,10 +987,10 @@ public class ProfilePager extends SlidingActivity {
             if (created != null) {
                 if (created) {
                     Toast.makeText(context, getResources().getString(R.string.followed_user), Toast.LENGTH_SHORT).show();
-                    followText.setText(getString(R.string.menu_unfollow));
+                    followButton.setImageResource(R.drawable.ic_unfollow);
                 } else {
                     Toast.makeText(context, getResources().getString(R.string.unfollowed_user), Toast.LENGTH_SHORT).show();
-                    followText.setText(getString(R.string.menu_follow));
+                    followButton.setImageResource(R.drawable.ic_follow);
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1188,7 +1005,7 @@ public class ProfilePager extends SlidingActivity {
         }
     }
 
-    class BlockUser extends AsyncTask<String, Void, Boolean> {
+    private class BlockUser extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
             try {
@@ -1234,7 +1051,7 @@ public class ProfilePager extends SlidingActivity {
         }
     }
 
-    class FavoriteUser extends AsyncTask<String, Void, Boolean> {
+    private class FavoriteUser extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
             try {
@@ -1248,12 +1065,16 @@ public class ProfilePager extends SlidingActivity {
                         favs = favs.replaceAll(thisUser.getScreenName() + " ", "");
                         sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, favs).apply();
 
+                        isFavorite = false;
+
                         return false;
 
                     } else {
                         FavoriteUsersDataSource.getInstance(context).createUser(thisUser, currentAccount);
 
                         sharedPrefs.edit().putString("favorite_user_names_" + currentAccount, sharedPrefs.getString("favorite_user_names_" + currentAccount, "") + thisUser.getScreenName() + " ").apply();
+
+                        isFavorite = true;
 
                         return true;
                     }
@@ -1267,20 +1088,6 @@ public class ProfilePager extends SlidingActivity {
         }
 
         protected void onPostExecute(Boolean isFavorited) {
-            // true = followed
-            // false = unfollowed
-            if (isFavorited != null) {
-                if (isFavorited) {
-                    Toast.makeText(context, getResources().getString(R.string.favorite_user), Toast.LENGTH_SHORT).show();
-                    favoriteText.setText(getString(R.string.menu_unfavorite));
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.unfavorite_user), Toast.LENGTH_SHORT).show();
-                    favoriteText.setText(getString(R.string.menu_favorite));
-                }
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
-
             new GetActionBarInfo().execute();
         }
     }
@@ -1297,24 +1104,33 @@ public class ProfilePager extends SlidingActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        //final int MENU_TWEET = 0;
-        final int MENU_BLOCK = 0;
-        final int MENU_UNBLOCK = 1;
-        final int MENU_ADD_LIST = 2;
-        final int MENU_DM = 3;
-        final int MENU_CHANGE_PICTURE = 4;
-        final int MENU_CHANGE_BANNER = 5;
-        final int MENU_CHANGE_BIO = 6;
-        final int MENU_MUTE = 7;
-        final int MENU_UNMUTE = 8;
-        final int MENU_MUTE_RT = 9;
-        final int MENU_UNMUTE_RT = 10;
-        final int MENU_MUFFLE = 11;
-        final int MENU_UNMUFFLE = 12;
-        final int MENU_SHARE_LINK = 13;
+        final int MENU_FAVORITE = 0;
+        final int MENU_BLOCK = 1;
+        final int MENU_UNBLOCK = 2;
+        final int MENU_ADD_LIST = 3;
+        final int MENU_DM = 4;
+        final int MENU_CHANGE_PICTURE = 5;
+        final int MENU_CHANGE_BANNER = 6;
+        final int MENU_CHANGE_BIO = 7;
+        final int MENU_MUTE = 8;
+        final int MENU_UNMUTE = 9;
+        final int MENU_MUTE_RT = 10;
+        final int MENU_UNMUTE_RT = 11;
+        final int MENU_MUFFLE = 12;
+        final int MENU_UNMUFFLE = 13;
+        final int MENU_SHARE_LINK = 14;
+
+        if (isFavorite) {
+            menu.getItem(MENU_FAVORITE).setIcon(getResources().getDrawable(R.drawable.ic_heart_light));
+            menu.getItem(MENU_FAVORITE).setTitle(getString(R.string.menu_unfavorite));
+            menu.getItem(MENU_FAVORITE).setVisible(true);
+        } else {
+            menu.getItem(MENU_FAVORITE).setIcon(getResources().getDrawable(R.drawable.ic_heart_outline));
+            menu.getItem(MENU_FAVORITE).setTitle(getString(R.string.menu_favorite));
+            menu.getItem(MENU_FAVORITE).setVisible(true);
+        }
 
         if (isMyProfile) {
-            //menu.getItem(MENU_TWEET).setVisible(false);
             menu.getItem(MENU_BLOCK).setVisible(false);
             menu.getItem(MENU_UNBLOCK).setVisible(false);
             menu.getItem(MENU_ADD_LIST).setVisible(false);
@@ -1395,16 +1211,16 @@ public class ProfilePager extends SlidingActivity {
     public void onBackPressed() {
         if (tweetsPopup != null && tweetsPopup.isShowing()) {
             tweetsPopup.hide();
-        } else if (mentionsPopup != null && mentionsPopup.isShowing()) {
-            mentionsPopup.hide();
-        } else if (favoritesPopup != null && favoritesPopup.isShowing()) {
-            favoritesPopup.hide();
+        } else if (usersListsPopup != null && usersListsPopup.isShowing()) {
+            usersListsPopup.hide();
         } else if (picsPopup != null && picsPopup.isShowing()) {
             picsPopup.hide();
         } else if (fol != null && fol.isShowing()) {
             fol.hide();
         } else if (fri != null && fri.isShowing()) {
             fri.hide();
+        } else if (timelinePopup != null && timelinePopup.isShowing()) {
+            timelinePopup.hide();
         } else {
             super.onBackPressed();
         }
@@ -1421,6 +1237,10 @@ public class ProfilePager extends SlidingActivity {
                 onBackPressed();
                 return true;
 
+            case R.id.menu_favorite:
+                new FavoriteUser().execute();
+                return true;
+
             case R.id.menu_block:
                 new BlockUser().execute();
                 sharedPrefs.edit().putBoolean("just_muted", true).apply();
@@ -1433,12 +1253,6 @@ public class ProfilePager extends SlidingActivity {
             case R.id.menu_add_to_list:
                 new GetLists().execute();
                 return true;
-
-            /*case R.id.menu_tweet:
-                Intent compose = new Intent(context, ComposeActivity.class);
-                compose.putExtra("user", "@" + screenName);
-                startActivity(compose);
-                return true;*/
 
             case R.id.menu_dm:
                 Intent dm = new Intent(context, ComposeDMActivity.class);
@@ -1704,70 +1518,6 @@ public class ProfilePager extends SlidingActivity {
         }
     }
 
-    public Bitmap decodeSampledBitmapFromResourceMemOpt(
-            InputStream inputStream, int reqWidth, int reqHeight) {
-
-        byte[] byteArr = new byte[0];
-        byte[] buffer = new byte[1024];
-        int len;
-        int count = 0;
-
-        try {
-            while ((len = inputStream.read(buffer)) > -1) {
-                if (len != 0) {
-                    if (count + len > byteArr.length) {
-                        byte[] newbuf = new byte[(count + len) * 2];
-                        System.arraycopy(byteArr, 0, newbuf, 0, count);
-                        byteArr = newbuf;
-                    }
-
-                    System.arraycopy(buffer, 0, byteArr, count, len);
-                    count += len;
-                }
-            }
-
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-            options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                    reqHeight);
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-            return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = opt.outHeight;
-        final int width = opt.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
     private Bitmap getBitmapToSend(Uri uri) throws FileNotFoundException, IOException {
         InputStream input = getContentResolver().openInputStream(uri);
 
@@ -1903,10 +1653,6 @@ public class ProfilePager extends SlidingActivity {
         ProgressDialog pDialog;
         private InputStream stream = null;
         private Uri image;
-
-        public UpdateProPic(InputStream stream) {
-            this.stream = stream;
-        }
 
         public UpdateProPic(Uri image) {
             this.image = image;
@@ -2079,55 +1825,6 @@ public class ProfilePager extends SlidingActivity {
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private void expandUrl(final String web) {
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                // resolve the link
-                HttpURLConnection connection;
-                try {
-                    URL address = new URL(web);
-                    connection = (HttpURLConnection) address.openConnection(Proxy.NO_PROXY);
-                    connection.setConnectTimeout(1000);
-                    connection.setInstanceFollowRedirects(false);
-                    connection.setReadTimeout(1000);
-                    connection.connect();
-                    final String expandedURL = connection.getHeaderField("Location");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (expandedURL != null) {
-                                website.setText(expandedURL);
-                            } else {
-                                website.setText(web);
-                            }
-                            TextUtils.linkifyText(context, website, null, true, "", false);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            website.setText(web);
-                            TextUtils.linkifyText(context, website, null, true, "", false);
-                        }
-                    });
-                }
-
-            }
-        }).start();
-    }
-
-    private void glide(String url, ImageView target) {
-        try {
-            Glide.with(this).load(url).into(target);
-        } catch (Exception e) {
-            // activity destroyed
         }
     }
 }

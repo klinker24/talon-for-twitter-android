@@ -39,6 +39,7 @@
     <attr name="drawer_options_background" format="color" />
     <attr name="tweet_background" format="color" />
     <attr name="border_color" format="color"/>
+    <attr name="tweet_activity_background" format="color"/>
 
     <!-- Drawables -->
     <attr name="rippleBackground" format="reference"/>
@@ -95,6 +96,7 @@
     <attr name="widget_customization" format="reference" />
     <attr name="background_sync" format="reference" />
     <attr name="notification_settings" format="reference"/>
+    <attr name="reply_button" format="reference" />
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>

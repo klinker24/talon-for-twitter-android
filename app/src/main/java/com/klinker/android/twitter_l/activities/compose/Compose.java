@@ -36,7 +36,6 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.media.ExifInterface;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -44,14 +43,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.FileProvider;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
@@ -71,7 +69,6 @@ import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialcamera.util.ImageUtil;
 import com.bumptech.glide.Glide;
 import com.github.ajalt.reprint.core.Reprint;
 import com.google.android.gms.common.ConnectionResult;
@@ -82,8 +79,6 @@ import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.FingerprintDialog;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.utils.video.SamplerClip;
-import com.klinker.android.twitter_l.utils.video.VideoResampler;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -96,7 +91,6 @@ import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -167,6 +161,7 @@ public abstract class Compose extends Activity implements
     public String to = null;
     public long notiId = 0;
     public String replyText = "";
+    public String quotingAStatus = null;
 
     public int currentAccount;
 
@@ -186,7 +181,7 @@ public abstract class Compose extends Activity implements
                 }
             }
 
-            if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
+            if (!Patterns.WEB_URL.matcher(text).find() && quotingAStatus == null) { // no links, normal tweet
                 try {
                     charRemaining.setText(140 - text.length() + "");
                 } catch (Exception e) {
@@ -199,6 +194,10 @@ public abstract class Compose extends Activity implements
                     String url = m.group();
                     count -= url.length(); // take out the length of the url
                     count += 23; // add 23 for the shortened url
+                }
+
+                if (quotingAStatus != null) {
+                    count += 24;
                 }
 
                 charRemaining.setText(140 - count + "");
@@ -318,15 +317,15 @@ public abstract class Compose extends Activity implements
 
         if (notiId != 0) {
             FontPrefTextView replyTo = (FontPrefTextView) findViewById(R.id.reply_to);
-            if (reply.getText().toString().contains("/status/")) {
-                //reply.setText("");
-                replyTo.setText(replyText + "\n\n" + getString(R.string.quote_disclaimer));
+            if (quotingAStatus != null) {
+                replyTo.setText(Html.fromHtml("<b>" + getString(R.string.quoting) + "</b><br/><br/>" + replyText));
             } else {
                 replyTo.setText(replyText);
             }
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
-            replyTo.setVisibility(View.VISIBLE);
 
+            View replyToCard = findViewById(R.id.reply_to_card);
+            replyToCard.setVisibility(View.VISIBLE);
             replyTo.setTextSize(settings.textSize);
         }
 
@@ -336,7 +335,7 @@ public abstract class Compose extends Activity implements
                 String text = reply.getText().toString();
 
                 try {
-                    if (!android.text.TextUtils.isEmpty(text) && !(text.startsWith(" RT @") || text.contains("/status/"))) {
+                    if (!android.text.TextUtils.isEmpty(text) && !(text.startsWith(" RT @") || quotingAStatus != null)) {
                         text = text.replaceAll("  ", " ");
                         reply.setText(text);
                         reply.setSelection(text.length());
@@ -348,8 +347,6 @@ public abstract class Compose extends Activity implements
                         if (text.trim().isEmpty()) {
                             reply.setText("");
                         }
-                    } else if (text.contains("/status/")) {
-                        reply.setText(" " + text);
                     }
                 } catch (Exception e) {
 
@@ -1047,7 +1044,7 @@ public abstract class Compose extends Activity implements
     }
 
     private boolean shouldReplaceTo(String tweetText) {
-        return tweetText != null && to != null && !to.contains("/status/") &&
+        return tweetText != null && to != null && quotingAStatus == null &&
                 notiId != 0 && !sharingSomething &&
                 tweetText.contains(to) &&  tweetText.startsWith("@") &&
                 !tweetText.contains("@" + AppSettings.getInstance(this).myScreenName) &&
@@ -1130,7 +1127,7 @@ public abstract class Compose extends Activity implements
 
     }
 
-    class updateTwitterStatus extends AsyncTask<String, String, Boolean> {
+    class UpdateTwitterStatus extends AsyncTask<String, String, Boolean> {
 
         String text;
         String status;
@@ -1138,7 +1135,11 @@ public abstract class Compose extends Activity implements
         private int remaining;
         private InputStream stream;
 
-        public updateTwitterStatus(String text, int length) {
+        public UpdateTwitterStatus(String text, int length) {
+            if (quotingAStatus != null) {
+                text += " " + quotingAStatus;
+            }
+
             this.text = text;
             this.remaining = length;
             this.secondTry = false;
@@ -1150,7 +1151,11 @@ public abstract class Compose extends Activity implements
             }, 50);
         }
 
-        public updateTwitterStatus(String text, int length, boolean secondTry) {
+        public UpdateTwitterStatus(String text, int length, boolean secondTry) {
+            if (quotingAStatus != null) {
+                text += " " + quotingAStatus;
+            }
+
             this.text = text;
             this.remaining = length;
             this.secondTry = secondTry;
@@ -1164,6 +1169,11 @@ public abstract class Compose extends Activity implements
 
         protected Boolean doInBackground(String... args) {
             status = args[0];
+
+            if (quotingAStatus != null) {
+                status += " " + quotingAStatus;
+            }
+
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
                 Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
@@ -1497,7 +1507,7 @@ public abstract class Compose extends Activity implements
                     makeFailedNotification(text);
                 }
             } else {
-                new updateTwitterStatus(text, remaining, true).execute(status);
+                new UpdateTwitterStatus(text, remaining, true).execute(status);
             }
         }
     }

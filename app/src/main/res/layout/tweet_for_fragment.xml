@@ -18,70 +18,68 @@
     android:id="@+id/background"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"  >
+    android:layout_height="wrap_content">
 
     <!-- Tweet's Content -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" >
 
-        <!-- Tweet's Content -->
-        <LinearLayout
-            android:orientation="vertical"
+        <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+            android:id="@+id/tweet"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:fontFamily="sans-serif-strong"
+            android:textSize="18sp"
+            android:paddingTop="12dp"
+            android:textIsSelectable="true"
+            android:textColor="?textColor"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
-            <com.klinker.android.twitter_l.views.widgets.MaterialTextView
-                android:id="@+id/tweet"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:fontFamily="sans-serif-strong"
-                android:textSize="18sp"
-                android:paddingTop="12dp"
-                android:textIsSelectable="true"
-                android:textColor="?textColor" />
+        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+            android:id="@+id/retweeter"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:gravity="end"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?textColor"
+            android:visibility="gone"
+            android:alpha=".6"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
 
-            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
-                android:id="@+id/retweeter"
-                android:layout_height="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
-                android:layout_marginTop="3dp"
-                android:gravity="end"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="?textColor"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_rect"
+                android:transitionName="image"
+                android:id="@+id/image"/>
+
+            <ImageView
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:id="@+id/play_button"
                 android:visibility="gone"
-                android:alpha=".6"/>
+                android:layout_gravity="bottom|start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@android:color/transparent"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/rounded_rect"
-                    android:transitionName="image"
-                    android:id="@+id/image"/>
-
-                <ImageView
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:id="@+id/play_button"
-                    android:visibility="gone"
-                    android:layout_gravity="bottom|start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="@android:color/transparent"/>
-
-            </FrameLayout>
-
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

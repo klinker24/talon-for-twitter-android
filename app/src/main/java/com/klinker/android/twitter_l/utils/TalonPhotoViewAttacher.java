@@ -22,17 +22,7 @@ public class TalonPhotoViewAttacher extends PhotoViewAttacher {
     }
 
     @Override
-    public void setScale(float scale) {
-        super.setScale(scale);
-    }
-
-    @Override
-    public void onFling(float startX, float startY, float velocityX, float velocityY) {
-        if ((velocityY > 3000 || velocityY < -3000) &&
-                (velocityX < 7000 && velocityX > -7000)) {
-            ((Activity) getImageView().getContext()).onBackPressed();
-        } else {
-            super.onFling(startX, startY, velocityX, velocityY);
-        }
+    public void onGlobalLayout() {
+        try { super.onGlobalLayout(); } catch (Exception e) { }
     }
 }

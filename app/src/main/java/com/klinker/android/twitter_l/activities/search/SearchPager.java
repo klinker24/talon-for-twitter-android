@@ -257,7 +257,7 @@ public class SearchPager extends PeekViewActivity {
                 searchQuery = id + "";
                 onlyStatus = true;
             } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D") && !uriString.contains("/intent/tweet")) {
-                Log.v("talon_search", "user search from query");
+                Log.v("talon_search", "user search from mentionsQuery");
 
                 // going to try searching for users i guess
                 if (!uriString.contains(".com/")) {
@@ -273,7 +273,7 @@ public class SearchPager extends PeekViewActivity {
                 searchQuery = name;
                 onlyProfile = true;
             } else if (uriString.contains("q=")) {
-                Log.v("talon_search", "searching for query");
+                Log.v("talon_search", "searching for mentionsQuery");
 
                 try {
                     String search = uri.getQueryParameter("q");
@@ -482,7 +482,7 @@ public class SearchPager extends PeekViewActivity {
                 }
 
                 Intent broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
-                broadcast.putExtra("query", searchQuery);
+                broadcast.putExtra("mentionsQuery", searchQuery);
                 context.sendBroadcast(broadcast);
 
                 return super.onOptionsItemSelected(item);
@@ -499,7 +499,7 @@ public class SearchPager extends PeekViewActivity {
                 }
 
                 broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
-                broadcast.putExtra("query", searchQuery);
+                broadcast.putExtra("mentionsQuery", searchQuery);
                 context.sendBroadcast(broadcast);
 
                 return super.onOptionsItemSelected(item);
@@ -514,7 +514,7 @@ public class SearchPager extends PeekViewActivity {
                 }
 
                 broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
-                broadcast.putExtra("query", searchQuery);
+                broadcast.putExtra("mentionsQuery", searchQuery);
                 context.sendBroadcast(broadcast);
 
                 return super.onOptionsItemSelected(item);

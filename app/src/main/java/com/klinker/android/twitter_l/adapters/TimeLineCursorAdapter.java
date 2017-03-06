@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityManagerCompat;
-import android.support.v4.os.BuildCompat;
 import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Log;
@@ -25,7 +24,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.*;
 import android.widget.*;
 
@@ -68,8 +66,6 @@ import java.util.Map;
 import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import lombok.Getter;
-import lombok.Setter;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
@@ -98,7 +94,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public int contentHeight = 0;
     public int headerMultiplier = 0;
-    public Expandable expander;
 
     protected Handler[] mHandlers;
     protected int currHandler;
@@ -147,8 +142,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public String gifUrl = "";
 
         public boolean preventNextClick = false;
-
-        public ExpansionViewHelper expandHelper;
     }
 
     // This is need for the case that the activity is paused while the handler is counting down
@@ -271,7 +264,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
-        this.expander = expander;
 
         init();
     }
@@ -298,7 +290,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = false;
-        this.expander = expander;
         this.secondAcc = secondAcc;
 
         init();
@@ -313,7 +304,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.isDM = isDM;
-        this.expander = expander;
 
         init();
     }
@@ -595,167 +585,86 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             muffled = false;
         }
 
-        holder.quickActions.setOnClickListener(new View.OnClickListener() {
+//        holder.quickActions.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
+//                popup.setExpansionPointForAnim(holder.quickActions);
+//                popup.setOnTopOfView(holder.quickActions);
+//                popup.show();
+//            }
+//        });
+
+        holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
-                popup.setExpansionPointForAnim(holder.quickActions);
-                popup.setOnTopOfView(holder.quickActions);
-                popup.show();
+                if (holder.preventNextClick) {
+                    holder.preventNextClick = false;
+                    return;
+                }
+
+                if (holder.expandArea.getVisibility() != View.GONE) {
+                    removeExpansion(holder, true);
+                }
+
+                String link;
+                boolean displayPic = !holder.picUrl.equals("");
+                if (displayPic) {
+                    link = holder.picUrl;
+                } else {
+                    link = otherUrl.split("  ")[0];
+                }
+
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenname);
+                viewTweet.putExtra("time", longTime);
+                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("retweeter", fRetweeter);
+                viewTweet.putExtra("webpage", link);
+                viewTweet.putExtra("other_links", otherUrl);
+                viewTweet.putExtra("picture", displayPic);
+                viewTweet.putExtra("tweetid", holder.tweetId);
+                viewTweet.putExtra("proPic", profilePic);
+                viewTweet.putExtra("users", users);
+                viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", holder.gifUrl);
+
+                if (secondAcc) {
+                    String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                    viewTweet.putExtra("second_account", true);
+                }
+
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
+
+                context.startActivity(viewTweet);
             }
         });
 
-
-        if(settings.reverseClickActions || expander == null || MainActivity.isPopup || muffled) {
-            holder.background.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (holder.preventNextClick) {
-                        holder.preventNextClick = false;
-                        return;
-                    }
-
-                    String link;
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", longTime);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.gifUrl);
-
-                    if (secondAcc) {
-                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                        viewTweet.putExtra("second_account", true);
-                    }
-
-                    viewTweet.putExtra("shared_trans", true);
-                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
-
-                    context.startActivity(viewTweet);
+        holder.background.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (holder.expandArea.getVisibility() == View.GONE) {
+                    addExpansion(holder, id);
+                } else {
+                    removeExpansion(holder, true);
                 }
-            });
 
-            if (expander != null && !MainActivity.isPopup) {
-                holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!(VideoMatcherUtil.containsThirdPartyVideo(tweetTexts))) {
-                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                            } else {
-                                holder.background.performClick();
-                            }
-                        } else {
-                            removeExpansion(holder, true);
-                        }
-
-                        return true;
-                    }
-                });
+                return true;
             }
-
-        } else  {
-            holder.background.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    String link;
-
-                    boolean displayPic = !holder.picUrl.equals("");
-                    if (displayPic) {
-                        link = holder.picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", longTime);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", fRetweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", holder.tweetId);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", holder.gifUrl);
-
-                    if (secondAcc) {
-                        String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-                        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-                        viewTweet.putExtra("second_account", true);
-                    }
-
-                    viewTweet.putExtra("shared_trans", true);
-                    viewTweet = addDimensForExpansion(viewTweet, holder.rootView);
-
-                    context.startActivity(viewTweet);
-
-                    return true;
-                }
-            });
-
-            if (expander != null) {
-                holder.background.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (holder.preventNextClick) {
-                            holder.preventNextClick = false;
-                            return;
-                        }
-
-                        if (holder.expandArea.getVisibility() == View.GONE) {
-                            if (!VideoMatcherUtil.containsThirdPartyVideo(tweetTexts)) {
-                                addExpansion(holder, position, screenname, users, otherUrl.split("  "), holder.picUrl, id, hashtags.split("  "));
-                            } else {
-                                holder.background.performLongClick();
-                            }
-                        } else {
-                            removeExpansion(holder, true);
-                        }
-                    }
-                });
-            }
-        }
+        });
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent viewProfile = new Intent(context, ProfilePager.class);
-                viewProfile.putExtra("name", name);
-                viewProfile.putExtra("screenname", screenname);
-                viewProfile.putExtra("proPic", holder.proPicUrl);
-                viewProfile.putExtra("tweetid", holder.tweetId);
-                viewProfile.putExtra("retweet", holder.retweeter.getVisibility() == View.VISIBLE);
-                viewProfile.putExtra("long_click", false);
-
                 if (isHomeTimeline) {
                     sharedPrefs.edit()
                             .putLong("current_position_" + settings.currentAccount, holder.tweetId)
                             .apply();
                 }
 
-                viewProfile = addDimensForExpansion(viewProfile, holder.profilePic);
-
-                context.startActivity(viewProfile);
+                ProfilePager.start(context, name, screenname, holder.proPicUrl);
             }
         });
 
@@ -903,25 +812,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (picture) {
             if (!settings.condensedTweets()) {
-                if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
-                } else {
-                    Glide.with(context).load(holder.picUrl).centerCrop().placeholder(null).into(holder.image);
-                }
+                Glide.with(context).load(holder.picUrl).centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             } else {
-                if (settings.preCacheImages){
-                    Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
-                } else {
-                    Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);
-                }
+                Glide.with(context).load(holder.picUrl).fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(null).into(holder.image);
             }
         }
 
-        if (settings.preCacheImages) {
-            Glide.with(context).load(holder.proPicUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.profilePic);
-        } else {
-            Glide.with(context).load(holder.proPicUrl).placeholder(null).into(holder.profilePic);
-        }
+        Glide.with(context).load(holder.proPicUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .placeholder(null).into(holder.profilePic);
 
         if (mHandlers != null) {
             final boolean picturePeekF = picturePeek;
@@ -952,7 +855,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                                         @Override
                                         public void onInflated(View rootView) {
-                                            Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                            Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                                    .into((ImageView) rootView.findViewById(R.id.image));
                                         }
                                     }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                                 }
@@ -1020,7 +925,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(holder.picUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into((ImageView) rootView.findViewById(R.id.image));
                             }
                         }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                     }
@@ -1123,26 +1030,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     }
 
     public void removeExpansion(final ViewHolder holder, boolean anim) {
-
-        if (holder.expandHelper != null) {
-            holder.expandHelper.stop();
-            holder.expandHelper.removeInReplyToViews();
-        }
-
-        final int sixteen = Utils.toDP(16, context);
-        final int eight = Utils.toDP(8, context);
-        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(holder.background.getPaddingTop(), 0);
-        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.condensedTweets()? eight : 0), 0, sixteen);
-            }
-        });
-        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
-        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(paddingTopAnimator);
-
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(holder.expandArea.getHeight(), 0);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1166,13 +1053,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     hasExpandedTweet = false;
                 }
             }, ANIMATION_DURATION);
-
-            // if they are just scrolling away from it, there is no reason to put them back at
-            // their original position, so we don't call the expander method.
-            expander.expandViewClosed((int) holder.rootView.getY());
         } else {
             holder.expandArea.setVisibility(View.GONE);
-            expander.expandViewClosed(-1);
             hasExpandedTweet = false;
         }
 
@@ -1182,109 +1064,42 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         animator.start();
     }
 
-    public static final int ANIMATION_DURATION = 300;
+    public static final int ANIMATION_DURATION = 100;
     public static Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
 
-    public void addExpansion(final ViewHolder holder, int position, final String screenname, String users, final String[] otherLinks, final String webpage, final long tweetId, String[] hashtags) {
-
+    public void addExpansion(final ViewHolder holder, final long tweetId) {
         hasExpandedTweet = true;
 
-        String str = holder.tweet.getText().toString();
-        try {
-            if (!str.contains(webpage.substring(0, 18))) {
-                str = str + " " + webpage;
-            }
-        } catch (Exception e) {
+        final View buttons = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_buttons, null, false);
+        final View counts = LayoutInflater.from(holder.background.getContext()).inflate(R.layout.tweet_expansion_counts, null, false);
+        buttons.setPadding(0, Utils.toDP(12, context), 0, Utils.toDP(12, context));
 
+        if (settings.darkTheme) {
+            buttons.findViewById(R.id.compose_button).setAlpha(.75f);
         }
 
-        final String text = str;
-        String extraNames = "";
-        String replyStuff = "";
-
-        String screenNameToUse;
-
-        if (secondAcc) {
-            screenNameToUse = settings.secondScreenName;
-        } else {
-            screenNameToUse = settings.myScreenName;
-        }
-
-        if (text.contains("@")) {
-            for (String s : users.split("  ")) {
-                if (!s.equals(screenNameToUse) && !extraNames.contains(s) && !s.equals(screenname)) {
-                    extraNames += "@" + s + " ";
-                }
-            }
-        }
-
-        try {
-            if (holder.retweeter.getVisibility() == View.VISIBLE && !extraNames.contains(holder.retweeterName)) {
-                extraNames += "@" + holder.retweeterName + " ";
-            }
-        } catch (NullPointerException e) {
-
-        }
-
-        if (!screenname.equals(screenNameToUse)) {
-            replyStuff = "@" + screenname + " " + extraNames;
-        } else {
-            replyStuff = extraNames;
-        }
-
-        if (settings.autoInsertHashtags && hashtags != null) {
-            for (String s : hashtags) {
-                if (!s.equals("")) {
-                    replyStuff += "#" + s + " ";
-                }
-            }
-        }
-
-        int headerPadding = (int)context.getResources().getDimension(R.dimen.header_holder_padding);
-
-        final ExpansionViewHelper helper = new ExpansionViewHelper(context, tweetId);
-        helper.setSecondAcc(secondAcc);
-        helper.setBackground(holder.background);
-        helper.setExpandArea(holder.expandArea);
-        helper.setInReplyToArea(holder.conversationArea);
-        helper.setWebLink(otherLinks);
-        helper.setReplyDetails("@" + screenname + ": " + text, replyStuff);
-        helper.setUser(screenname);
-        helper.setText(text);
-        helper.setUpOverflow();
-        helper.writeToHashtagDataSource(hashtags);
-        helper.showEmbedded(false);
-        holder.expandHelper = helper;
-
-        if (secondAcc) {
-            String t = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);
-            Toast.makeText(context, t, Toast.LENGTH_SHORT).show();
-        }
-
-        expander.expandViewOpen((int) holder.rootView.getY() + headerPadding * headerMultiplier, position, holder.background, helper);
-
-        int topPadding = Utils.getStatusBarHeight(context);
-        if (settings.staticUi || duelPanel) {
-            // the app bar doesn't move, so we should use it for the top padding too
-            topPadding += Utils.getActionBarHeight(context);
-        }
-
-        final int sixteen = Utils.toDP(16, context);
-        final int eight = Utils.toDP(8, context);
-        ValueAnimator paddingTopAnimator = ValueAnimator.ofInt(0, topPadding);
-        paddingTopAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int val = (Integer) valueAnimator.getAnimatedValue();
-                holder.background.setPadding(0, val + (settings.condensedTweets() ? eight : 0), 0, sixteen);
+            public void run() {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
+
+                    counts.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            TweetButtonUtils utils = new TweetButtonUtils(context);
+                            utils.setUpButtons(status, counts, buttons, false);
+                        }
+                    });
+                } catch (Exception e) {
+
+                }
             }
-        });
-        paddingTopAnimator.setDuration(ANIMATION_DURATION / 2);
-        paddingTopAnimator.setInterpolator(ANIMATION_INTERPOLATOR);
-        startAnimation(paddingTopAnimator);
+        }).start();
 
-        final int expansionSize = contentHeight - holder.background.getHeight();
-
+        final int expansionSize = Utils.toDP(64, context);
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, expansionSize);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1296,14 +1111,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         });
         heightAnimatorContent.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+            @Override public void onAnimationCancel(Animator animation) { }
+            @Override public void onAnimationRepeat(Animator animation) { }
+            @Override public void onAnimationStart(Animator animation) {
                 holder.expandArea.setVisibility(View.VISIBLE);
             }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
+            @Override public void onAnimationEnd(Animator animation) {
                 if (holder.expandArea.getChildCount() > 0) {
                     holder.expandArea.removeAllViews();
                 }
@@ -1312,22 +1125,11 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.expandArea.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
                 holder.expandArea.invalidate();
 
-                View root = helper.getExpansion();
-
-                helper.startFlowAnimation();
-
-                holder.expandArea.addView(root);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                holder.expandArea.addView(counts);
+                holder.expandArea.addView(buttons);
             }
         });
+
         heightAnimatorContent.setDuration(ANIMATION_DURATION);
         heightAnimatorContent.setInterpolator(ANIMATION_INTERPOLATOR);
         startAnimation(heightAnimatorContent);
@@ -1391,20 +1193,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
             }
         }).start();
-    }
-
-    private Intent addDimensForExpansion(Intent i, View view) {
-        i.putExtra(TweetActivity.USE_EXPANSION, true);
-
-        int location[] = new int[2];
-        view.getLocationOnScreen(location);
-
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
-
-        return i;
     }
 
     private class Video {

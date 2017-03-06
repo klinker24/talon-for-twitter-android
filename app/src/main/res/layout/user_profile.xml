@@ -1,75 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/background"
-    android:orientation="horizontal"
-    android:background="?windowBackground" >
+<!-- Holds all the content that can be scrolled -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-24dp"
+        android:background="?windowBackground" >
 
-    <android.support.v4.widget.NestedScrollView
+    <include layout="@layout/profile_stats_card" />
+
+    <include layout="@layout/profile_tweets_card" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?tweet_activity_background" >
+
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/show_all"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/nested_scroll_view"
-            android:overScrollMode="never"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="112dp"
+            android:background="?selectableItemBackground" >
 
-        <!-- Holds all the content that can be scrolled -->
-        <LinearLayout
-                android:orientation="vertical"
+            <View
+                android:alpha=".30"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="4dp"
+                android:background="@drawable/top_shadow" />
 
-            <!-- this is the header portion, will hold the profile card -->
-            <RelativeLayout
-                    android:orientation="vertical"
-                    android:id="@+id/header_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <!--<include layout="@layout/profile_header_card" />-->
-
-            </RelativeLayout>
-
-            <include layout="@layout/profile_stats_card" />
-
-            <include layout="@layout/profile_tweets_card" />
-
-            <include layout="@layout/profile_mentions_card" />
-
-            <include layout="@layout/profile_favorites_card" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
-    <View android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:background="@android:color/black"
-          android:alpha=".6"
-          android:visibility="gone"
-          android:id="@+id/dim" />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/spinner">
-
-        <ProgressBar
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:indeterminateOnly="true" />
+                android:layout_gravity="center"
+                android:textColor="?colorPrimary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:text="@string/show_all"/>
 
-    </LinearLayout>
+        </FrameLayout>
 
-    <ImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"/>
+    </FrameLayout>
 
-</FrameLayout>
+</LinearLayout>

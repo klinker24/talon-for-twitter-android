@@ -1,17 +1,13 @@
 package com.klinker.android.twitter_l.views;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.CardView;
-import android.text.Html;
-import android.text.Spannable;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -21,6 +17,7 @@ import android.widget.TextView;
 
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -39,7 +36,6 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.EasyVideoCallbackWrapper;
-import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
@@ -70,7 +66,7 @@ public class TweetView {
     Context context;
     AppSettings settings;
 
-    Status status;
+    public Status status;
     String currentUser = null;
 
     public java.text.DateFormat dateFormatter;
@@ -115,8 +111,13 @@ public class TweetView {
 
     int embeddedTweets = 0;
 
-    boolean inReplyToSection = false;
     boolean displayProfilePicture = true;
+    boolean smallerMargins = false;
+
+    public TweetView setUseSmallerMargins(boolean smaller) {
+        this.smallerMargins = smaller;
+        return this;
+    }
 
     public void setDisplayProfilePicture(boolean displayProfilePicture) {
         this.displayProfilePicture = displayProfilePicture;
@@ -159,11 +160,6 @@ public class TweetView {
 
         setData(status);
         Log.v("embedded_tweets", embeddedTweets + "");
-    }
-
-    public TweetView setInReplyToSection(boolean inSection) {
-        this.inReplyToSection = inSection;
-        return this;
     }
 
     public void setCurrentUser(String s) {
@@ -215,14 +211,26 @@ public class TweetView {
         numRetweets = status.getRetweetCount();
     }
 
+    private View tweetView = null;
     public View getView() {
-        View tweet = createTweet();
-        setComponents(tweet);
-        bindData();
+        if (tweetView == null) {
+            tweetView = createTweet();
 
-        setupImage();
+            if (smallerMargins) {
+                View header = tweetView.findViewById(R.id.tweet_header);
+                if (header == null) {
+                    tweetView.findViewById(R.id.background).setPadding(0,Utils.toDP(6, context),0, Utils.toDP(6, context));
+                } else {
+                    tweetView.findViewById(R.id.background).setPadding(0,0,0, Utils.toDP(6, context));
+                    header.setPadding(0,Utils.toDP(6, context), 0,0);
+                }
+            }
+            setComponents(tweetView);
+            bindData();
+            setupImage();
+        }
 
-        return tweet;
+        return tweetView;
     }
 
     protected void setupImage() {
@@ -235,16 +243,10 @@ public class TweetView {
     }
 
     protected View createTweet() {
-        if (inReplyToSection) {
-            View tweetView = ((Activity) context).getLayoutInflater().inflate(R.layout.tweet_in_reply_to_section, null, false);
-            //tweetView.findViewById(R.id.tweet_link).setBackgroundColor(AppSettings.getInstance(context).themeColors.primaryColor);
-            return tweetView;
-        } else {
-            View tweetView = ((Activity) context).getLayoutInflater().inflate(
-                    !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
-                    null, false);
-            return tweetView;
-        }
+        View tweetView = ((Activity) context).getLayoutInflater().inflate(
+                !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
+                null, false);
+        return tweetView;
     }
 
     //private boolean images = true;
@@ -342,31 +344,8 @@ public class TweetView {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
 
-                viewTweet.putExtra("shared_trans", true);
-
-                viewTweet = addDimensForExpansion(viewTweet, backgroundLayout);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (profilePicIv != null) {
-                        profilePicIv.setTransitionName("pro_pic");
-                    }
-                    screenTV.setTransitionName("screen_name");
-                    nameTv.setTransitionName("name");
-                    tweetTv.setTransitionName("tweet");
-                    /*ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(((Activity) context),
-
-                                    new Pair<View, String>(profilePicIv, "pro_pic"),
-                                    new Pair<View, String>(screenTV, "screen_name"),
-                                    new Pair<View, String>(nameTv, "name"),
-                                    new Pair<View, String>(tweetTv, "tweet")
-                            );*/
-
-                    context.startActivity(viewTweet/*, options.toBundle()*/);
-                } else {
-                    context.startActivity(viewTweet);
-                }
-
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
+                context.startActivity(viewTweet);
             }
         });
 
@@ -374,17 +353,7 @@ public class TweetView {
             profilePicIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewProfile = new Intent(context, ProfilePager.class);
-                    viewProfile.putExtra("name", name);
-                    viewProfile.putExtra("screenname", screenName);
-                    viewProfile.putExtra("proPic", profilePicUrl);
-                    viewProfile.putExtra("tweetid", tweetId);
-                    viewProfile.putExtra("retweet", retweeterTv.getVisibility() == View.VISIBLE);
-                    viewProfile.putExtra("long_click", false);
-
-                    viewProfile = addDimensForExpansion(viewProfile, profilePicIv);
-
-                    context.startActivity(viewProfile);
+                    ProfilePager.start(context, name, screenName, profilePicUrl);
                 }
             });
         }
@@ -523,7 +492,9 @@ public class TweetView {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(imageUrl.split(" ")[0]).into((ImageView) rootView.findViewById(R.id.image));
+                                Glide.with(context).load(imageUrl.split(" ")[0])
+                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                        .into((ImageView) rootView.findViewById(R.id.image));
                             }
                         }).with(options).applyTo((PeekViewActivity) context, imageIv);
                     }
@@ -662,7 +633,9 @@ public class TweetView {
     private void glide(String url, ImageView target) {
         if (target != null) {
             try {
-                Glide.with(context).load(url).into(target);
+                Glide.with(context).load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(target);
             } catch (Exception e) {
                 // load after activity is destroyed
             }

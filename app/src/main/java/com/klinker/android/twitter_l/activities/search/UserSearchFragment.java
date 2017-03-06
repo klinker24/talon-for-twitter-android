@@ -71,7 +71,7 @@ public class UserSearchFragment extends Fragment {
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            searchQuery = intent.getStringExtra("query");
+            searchQuery = intent.getStringExtra("mentionsQuery");
             searchQuery = searchQuery.replace(" -RT", "");
 
             doUserSearch(searchQuery);
@@ -170,10 +170,7 @@ public class UserSearchFragment extends Fragment {
         doUserSearch(searchQuery);
 
         if (onlyProfile) {
-            Intent viewProfile = new Intent(context, ProfilePager.class);
-            viewProfile.putExtra("screenname", searchQuery.replace("@", "").replaceAll(" ", ""));
-
-            startActivity(viewProfile);
+            ProfilePager.start(context, searchQuery.replace("@", "").replaceAll(" ", ""));
             getActivity().finish();
         }
 

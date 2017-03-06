@@ -97,7 +97,8 @@ public class WebIntentBuilder {
             articleIntent = new ArticleIntent.Builder(context, APIKeys.ARTICLE_API_KEY)
                     .setToolbarColor(settings.themeColors.primaryColor)
                     .setAccentColor(settings.themeColors.accentColor)
-                    .setTheme(settings.darkTheme ? ArticleIntent.THEME_DARK : ArticleIntent.THEME_LIGHT)
+                    .setTheme(settings.blackTheme ? ArticleIntent.THEME_BLACK : settings.darkTheme ?
+                            ArticleIntent.THEME_DARK : ArticleIntent.THEME_LIGHT)
                     .setTextSize(settings.textSize)
                     .build();
         } else if (settings.browserSelection.equals("custom_tab")) {

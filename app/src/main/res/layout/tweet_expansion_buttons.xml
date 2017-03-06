@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tweet_buttons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginStart="6dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/compose_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="?reply_button"
+            android:contentDescription="Reply"
+            android:minHeight="28dp" android:minWidth="28dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="?heart_button"
+            android:contentDescription="Like"
+            android:minHeight="28dp" android:minWidth="28dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/retweet_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="?retweetButton"
+            android:contentDescription="Retweet"
+            android:minHeight="28dp" android:minWidth="28dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/quote_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="?quote_button"
+            android:contentDescription="Quote"
+            android:minHeight="32dp" android:minWidth="32dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="32dp" android:maxHeight="32dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/share_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="?shareButton"
+            android:contentDescription="Share"
+            android:minHeight="32dp" android:minWidth="32dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="32dp" android:maxHeight="32dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center_vertical|end"
+        android:layout_gravity="center_vertical"
+        android:animateLayoutChanges="true">
+
+        <ImageButton
+            android:id="@+id/overflow_button"
+            android:visibility="gone"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="?circle_overflow"
+            android:rotation="90"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Overflow Menu"
+            android:minHeight="32dp" android:minWidth="32dp"
+            android:scaleType="fitXY" android:adjustViewBounds="true"
+            android:maxWidth="32dp" android:maxHeight="32dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+</LinearLayout>
