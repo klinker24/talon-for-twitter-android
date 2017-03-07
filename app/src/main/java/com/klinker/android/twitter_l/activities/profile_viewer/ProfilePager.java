@@ -236,7 +236,7 @@ public class ProfilePager extends DragDismissActivity {
                 .uncheckedTextColor(settings.darkTheme ? getResources().getColor(R.color.dark_text) :
                         getResources().getColor(R.color.light_text))
                 .useInsetPadding(true);
-        
+
         if (settings.blackTheme && settings.themeColors.primaryColor == Color.BLACK) {
             config.checkedChipColor(settings.themeColors.accentColor);
         }
