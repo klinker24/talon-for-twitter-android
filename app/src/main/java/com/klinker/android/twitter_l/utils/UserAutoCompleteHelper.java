@@ -92,13 +92,17 @@ public class UserAutoCompleteHelper {
                 String searchText = textView.getText().toString();
                 int position = textView.getSelectionStart() - 1;
 
-                if (position < 0 || position > searchText.length() - 1)
+                if (position < 0 || position > searchText.length() - 1) {
+                    return;
+                }
 
-                //try {
+                try {
                     if (searchText.charAt(position) == '@') {
                         userAutoComplete.show();
+                        hashtagAutoComplete.dismiss();
                     } else if (searchText.charAt(position) == ' ') {
                         userAutoComplete.dismiss();
+                        hashtagAutoComplete.dismiss();
                     } else if (userAutoComplete.isShowing()) {
                         String adapterText = "";
 
@@ -112,8 +116,10 @@ public class UserAutoCompleteHelper {
 
                     if (searchText.charAt(position) == '#') {
                         hashtagAutoComplete.show();
+                        userAutoComplete.dismiss();
                     } else if (searchText.charAt(position) == ' ') {
                         hashtagAutoComplete.dismiss();
+                        userAutoComplete.dismiss();
                     } else if (hashtagAutoComplete.isShowing()) {
                         String adapterText = "";
 
@@ -125,7 +131,8 @@ public class UserAutoCompleteHelper {
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
                     }
-//                } catch (Exception e) {
+                } catch (Exception e) {
+                    throw new RuntimeException("text: " + searchText + ", position index: " + position);
 //                    // there is no text
 //                    try {
 //                        userAutoComplete.dismiss();
@@ -138,7 +145,7 @@ public class UserAutoCompleteHelper {
 //                    } catch (Exception x) {
 //                        // something went really wrong I guess haha
 //                    }
-//                }
+                }
             }
         });
 
