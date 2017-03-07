@@ -108,7 +108,7 @@ public class UserAutoCompleteHelper {
 
                         do {
                             adapterText = searchText.charAt(position--) + adapterText;
-                        } while (searchText.charAt(position) != '@');
+                        } while (position >= 0 && searchText.charAt(position) != '@');
 
                         adapterText = adapterText.replace("@", "");
                         search(adapterText);
@@ -125,7 +125,7 @@ public class UserAutoCompleteHelper {
 
                         do {
                             adapterText = searchText.charAt(position--) + adapterText;
-                        } while (searchText.charAt(position) != '#');
+                        } while (position >= 0 && searchText.charAt(position) != '#');
 
                         adapterText = adapterText.replace("#", "");
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
