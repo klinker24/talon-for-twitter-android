@@ -2,6 +2,9 @@
 
     <version name="6.0.0-BETA 2">
         <text>Re-enable quick actions on the timeline</text>
+        <text>Changes for auto-complete mentions</text>
+        <text>Improve black-on-black theme for the profile viewer</text>
+        <text>Fix some force closes</text>
     </version>
 	
     <version name="6.0.0">
