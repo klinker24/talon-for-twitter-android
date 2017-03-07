@@ -90,9 +90,11 @@ public class UserAutoCompleteHelper {
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) {
                 String searchText = textView.getText().toString();
+                int position = textView.getSelectionStart() - 1;
 
-                try {
-                    int position = textView.getSelectionStart() - 1;
+                if (position < 0 || position > searchText.length() - 1)
+
+                //try {
                     if (searchText.charAt(position) == '@') {
                         userAutoComplete.show();
                     } else if (searchText.charAt(position) == ' ') {
@@ -108,7 +110,6 @@ public class UserAutoCompleteHelper {
                         search(adapterText);
                     }
 
-                    position = textView.getSelectionStart() - 1;
                     if (searchText.charAt(position) == '#') {
                         hashtagAutoComplete.show();
                     } else if (searchText.charAt(position) == ' ') {
@@ -124,20 +125,20 @@ public class UserAutoCompleteHelper {
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
                     }
-                } catch (Exception e) {
-                    // there is no text
-                    try {
-                        userAutoComplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong I guess haha
-                    }
-
-                    try {
-                        hashtagAutoComplete.dismiss();
-                    } catch (Exception x) {
-                        // something went really wrong I guess haha
-                    }
-                }
+//                } catch (Exception e) {
+//                    // there is no text
+//                    try {
+//                        userAutoComplete.dismiss();
+//                    } catch (Exception x) {
+//                        // something went really wrong I guess haha
+//                    }
+//
+//                    try {
+//                        hashtagAutoComplete.dismiss();
+//                    } catch (Exception x) {
+//                        // something went really wrong I guess haha
+//                    }
+//                }
             }
         });
 
