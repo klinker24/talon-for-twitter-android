@@ -101,16 +101,6 @@ public class UserChooser extends AppCompatActivity {
                 userAutoComplete.show();
             }
         });
-
-
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            View status = findViewById(R.id.activity_status_bar);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
-            params.height = Utils.getStatusBarHeight(this);
-            status.setLayoutParams(params);
-
-            status.setVisibility(View.VISIBLE);
-        }
     }
 
     private void search(final String screenName) {
