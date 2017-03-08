@@ -27,6 +27,7 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
 public class PhotoPagerActivity extends DragDismissActivity {
 
@@ -88,6 +89,8 @@ public class PhotoPagerActivity extends DragDismissActivity {
         }
 
         findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
+        ElasticDragDismissFrameLayout dragDismissFrameLayout = (ElasticDragDismissFrameLayout) findViewById(R.id.dragdismiss_drag_dismiss_layout);
+        dragDismissFrameLayout.setEnabled(false);
 
         url = getIntent().getStringExtra("url");
         int startPage = getIntent().getIntExtra("start_page", 0);
