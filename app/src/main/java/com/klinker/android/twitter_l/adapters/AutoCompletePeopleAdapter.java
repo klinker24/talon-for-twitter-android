@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListPopupWindow;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersSQLiteHelper;
@@ -28,9 +29,11 @@ import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
 public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
 
     private AutoCompleteHelper helper;
+    private ListPopupWindow listPopupWindow;
 
-    public AutoCompletePeopleAdapter(Context context, Cursor cursor, EditText text) {
+    public AutoCompletePeopleAdapter(ListPopupWindow listPopupWindow, Context context, Cursor cursor, EditText text) {
         super(context, cursor, text);
+        this.listPopupWindow = listPopupWindow;
         helper = new AutoCompleteHelper();
     }
 
@@ -57,6 +60,9 @@ public class AutoCompletePeopleAdapter extends SearchedPeopleCursorAdapter {
             @Override
             public void onClick(View view) {
                 helper.completeTweet(text, screenName, '@');
+                if (listPopupWindow != null && listPopupWindow.isShowing()) {
+                    listPopupWindow.dismiss();
+                }
             }
         });
     }
