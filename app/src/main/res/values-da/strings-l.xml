@@ -186,7 +186,4 @@
     <string name="quoting">Citere</string>
     <string name="profile_timeline">Tidslinje</string>
     <string name="show_all_tweets">Vis alle Tweets</string>
-    <string name="quote_style">Citat stil</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

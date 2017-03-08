@@ -184,7 +184,4 @@
     <string name="quoting">Цитирование</string>
     <string name="profile_timeline">Лента</string>
     <string name="show_all_tweets">Показать все твиты</string>
-    <string name="quote_style">Стиль цитаты</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

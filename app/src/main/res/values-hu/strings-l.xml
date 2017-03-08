@@ -186,7 +186,4 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="quoting">Idézés</string>
     <string name="profile_timeline">Idővonal</string>
     <string name="show_all_tweets">Mutassa az összes Tweetet</string>
-    <string name="quote_style">Idézés stílus</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
