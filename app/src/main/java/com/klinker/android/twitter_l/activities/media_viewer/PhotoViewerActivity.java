@@ -69,10 +69,11 @@ public class PhotoViewerActivity extends DragDismissActivity {
         viewImage.putExtra("tweet_id", tweetId);
 
         new DragDismissIntentBuilder(context)
-                .setShowToolbar(true)
+                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)
                 .setFullscreenOnTablets(true)
+                .setShowToolbar(true)
                 .build(viewImage);
 
         if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -43,10 +43,11 @@ public class PhotoPagerActivity extends DragDismissActivity {
         viewImage.putExtra("hide_info", hideInfo);
 
         new DragDismissIntentBuilder(context)
-                .setShowToolbar(true)
+                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.LARGE)
                 .setPrimaryColorResource(android.R.color.black)
                 .setShouldScrollToolbar(false)
                 .setFullscreenOnTablets(true)
+                .setShowToolbar(true)
                 .build(viewImage);
 
         context.startActivity(viewImage);
