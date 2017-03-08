@@ -157,7 +157,13 @@ public class UserAutoCompleteHelper {
             userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    userAutoComplete.dismiss();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            userAutoComplete.dismiss();
+                        }
+                    }, 500);
+                    
                     autoCompleter.completeTweet(textView, users.get(i).getScreenName(), '@');
 
                     if (callback != null) {
@@ -170,7 +176,12 @@ public class UserAutoCompleteHelper {
         hashtagAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                hashtagAutoComplete.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hashtagAutoComplete.dismiss();
+                    }
+                }, 500);
             }
         });
 
