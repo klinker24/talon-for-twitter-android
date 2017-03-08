@@ -29,7 +29,7 @@ import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
-public class PhotoPagerActivity extends DragDismissActivity {
+public class PhotoPagerActivity extends AppCompatActivity {
 
     public static void startActivity(Context context, long tweetId, String links, int startPage) {
         startActivity(context, tweetId, links, startPage, false);
@@ -78,19 +78,14 @@ public class PhotoPagerActivity extends DragDismissActivity {
     }
 
     @Override
-    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         try {
             getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         } catch (Exception e) { }
 
-        if (Build.VERSION.SDK_INT > 18) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
-
-        findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
-        ElasticDragDismissFrameLayout dragDismissFrameLayout = (ElasticDragDismissFrameLayout) findViewById(R.id.dragdismiss_drag_dismiss_layout);
-        dragDismissFrameLayout.setEnabled(false);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         url = getIntent().getStringExtra("url");
         int startPage = getIntent().getIntExtra("start_page", 0);
@@ -99,7 +94,7 @@ public class PhotoPagerActivity extends DragDismissActivity {
 
         if (TextUtils.isEmpty(url)) {
             finish();
-            return new View(this);
+            return;
         }
 
         for (int i = 0; i < urlList.length; i++) {
@@ -113,7 +108,9 @@ public class PhotoPagerActivity extends DragDismissActivity {
         }
 
         Utils.setUpTweetTheme(this, AppSettings.getInstance(this));
-        final View root = inflater.inflate(R.layout.photo_pager_activity, parent, false);
+        setContentView(R.layout.photo_pager_activity);
+
+        View root = findViewById(R.id.bottom_sheet);
 
         gradient = root.findViewById(R.id.buttons_layout);
         download = (ImageButton) root.findViewById(R.id.save_button);
@@ -196,8 +193,6 @@ public class PhotoPagerActivity extends DragDismissActivity {
             ab.setTitle("");
             ab.setIcon(transparent);
         }
-
-        return root;
     }
 
     android.support.v7.app.ActionBar ab;
