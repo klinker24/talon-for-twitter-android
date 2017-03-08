@@ -1,6 +1,11 @@
 <changelog>
+	
+    <version name="6.0.0 BETA 3">
+        <text>Fix some force closes</text>
+        <text>Changes to the drag-to-dismiss</text>
+    </version>
 
-    <version name="6.0.0-BETA 2">
+    <version name="6.0.0 BETA 2">
         <text>Re-enable quick actions on the timeline</text>
         <text>Changes for auto-complete mentions</text>
         <text>Improve black-on-black theme for the profile viewer</text>
@@ -18,7 +23,7 @@
         <text>New: View a user's lists on their profile</text>
         <text>New: Image viewer revamp (animations, improved drag to dismiss)</text>
         <text>New: View tweet counts and actions with a long click on the timeline</text>
-	    <text>New: Option to only show people you are following when auto-completing a mention (Other Options)</text>
+        <text>New: Option to only show people you are following when auto-completing a mention (Other Options)</text>
         <text>Improve: Article viewer (quotes, images, theme-ing, and content loading)</text>
         <text>Improve: UI for quoting tweets</text>
         <text>Improve: Image loading (speed, consistency, data usage)</text>
