@@ -80,7 +80,7 @@ public class PhotoFragment extends Fragment {
         root.findViewById(R.id.info_button).setVisibility(View.GONE);
         root.findViewById(R.id.buttons_layout).setVisibility(View.INVISIBLE);
 
-        final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(picture);
+        final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(getActivity(), picture);
         mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {

@@ -7,10 +7,15 @@ import android.widget.ImageView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import android.os.Build;
 
+import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
+
 public class TalonPhotoViewAttacher extends PhotoViewAttacher {
 
-    public TalonPhotoViewAttacher(ImageView imageView) {
+    private Activity activity;
+
+    public TalonPhotoViewAttacher(Activity activity, ImageView imageView) {
         super(imageView);
+        this.activity = activity;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class TalonPhotoViewAttacher extends PhotoViewAttacher {
     
     @Override
     public void onFling(float startX, float startY, float velocityX, float velocityY) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && 
+        if ((Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT || (activity != null && activity instanceof PhotoPagerActivity)) &&
                 (velocityY > 3000 || velocityY < -3000) &&
                 (velocityX < 7000 && velocityX > -7000)) {
             ((Activity) getImageView().getContext()).onBackPressed();

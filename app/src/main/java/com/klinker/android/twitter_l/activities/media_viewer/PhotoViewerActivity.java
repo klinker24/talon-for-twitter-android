@@ -250,7 +250,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
 
-                mAttacher = new TalonPhotoViewAttacher(picture);
+                mAttacher = new TalonPhotoViewAttacher(PhotoViewerActivity.this, picture);
                 mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
                     @Override
                     public void onViewTap(View view, float x, float y) {
