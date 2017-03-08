@@ -26,8 +26,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -38,8 +36,6 @@ import com.bumptech.glide.Glide;
 import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.AutoCompleteHashtagAdapter;
-import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.UserAutoCompleteHelper;
@@ -215,6 +211,10 @@ public class ComposeActivity extends Compose {
                 reply.getText().insert(start, "@");
                 reply.setSelection(start + 1);
 
+                ListPopupWindow window = userAutoCompleteHelper.getUserAutoComplete();
+                if (!window.isShowing()) {
+                    window.show();
+                }
             }
         });
 
@@ -226,7 +226,7 @@ public class ComposeActivity extends Compose {
                 reply.getText().insert(start, "#");
                 reply.setSelection(start + 1);
 
-                ListPopupWindow window = userAutoCompleteHelper.getAutoCompletePopup();
+                ListPopupWindow window = userAutoCompleteHelper.getHashtagAutoComplete();
                 if (!window.isShowing()) {
                     window.show();
                 }
