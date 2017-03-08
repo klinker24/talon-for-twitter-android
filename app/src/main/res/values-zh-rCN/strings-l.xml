@@ -93,7 +93,7 @@
     <string name="become_supporter">成为 2016 年支持者</string>
     <string name="are_supporter">您已成为 2016 年支持者！</string>
     <string name="are_supporter_summary">谢谢！非常感激您的支持，如有什么我能帮上忙的，大可直说！</string>
-    <string name="tweetmarker_disclaimer">自动 TweetMarker 将会在每次应用启动时刷新时间线。</string>
+    <string name="tweetmarker_disclaimer">自动 TweetMarker 将会在每次应用启动时刷新时间线</string>
     <string name="discover_people">人物</string>
     <string name="no_media_preview">此视频服务不提供预览</string>
     <string name="autoplay_title">时间线自动播放</string>
@@ -149,4 +149,18 @@
     <string name="auto_dismiss_summary">自动清除已打开的 Talon 通知。默认为开启</string>
     <string name="media">用户的媒体</string>
     <string name="ignored_on_compact">当选择紧凑推文布局时无效</string>
+    <string name="line_spacing">行距</string>
+    <string name="huge">极大</string>
+    <string name="big">大</string>
+    <string name="regular">普通</string>
+    <string name="small">小</string>
+    <string name="tiny">极小</string>
+    <string name="shortcut_my_account">我的账户</string>
+    <string name="authenticate">验证</string>
+    <string name="enable_fingerprint_lock">启用指纹锁</string>
+    <string name="disable_fingerprint_lock">禁用指纹锁</string>
+    <string name="profile_timeline">时间线</string>
+    <string name="quote_style">引用方式</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

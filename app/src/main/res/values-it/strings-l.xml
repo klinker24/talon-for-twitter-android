@@ -57,7 +57,7 @@
     <string name="nav_bar_gone">Non usando una Barra di Navigazione</string>
     <string name="tip_title">Suggerimento:</string>
     <string name="profile_pictures_helper_message">Per aprire il tweet che accompagna l\'immagine, semplicemente premi a lungo l\'immagine su questa griglia.\nPremendo normalmente si aprirà il visualizzatore di immagini.</string>
-    <string name="quote_disclaimer">Il collegamento allo stato twitter sarà mostrato come un tweet incorporato sui moderni client Twitter. Il collegamento si comporta come una citazione.</string>
+    <string name="quote_disclaimer">Il tweet qui sopra sarà incorporato nel tuo tweet AUTOMATICAMENTE!</string>
     <string name="sync_options">Opzioni di sincronizzazione</string>
     <string name="manual_syncs">Sincronizzazione manuale</string>
     <string name="timeline_notifications_summary">Deve essere attivato un intervallo di aggiornamento in background affinchè queste notifiche si verifichino.</string>
@@ -90,8 +90,8 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="no_pictures">Nessuna immagine</string>
     <string name="quick_actions">Azioni rapide</string>
     <string name="liked_status">Mi piace effettuato</string>
-    <string name="become_supporter">Diventa un SUPPORTER 2016</string>
-    <string name="are_supporter">Sei un SUPPORTER 2016!</string>
+    <string name="become_supporter">Diventa un SUPPORTER 2017</string>
+    <string name="are_supporter">Sei un SUPPORTER 2017!</string>
     <string name="are_supporter_summary">Grazie! Il tuo supporto è immensamente apprezzato. Se c\'è qualcosa che posso fare, non esitare a chiedere.</string>
     <string name="tweetmarker_disclaimer">TweetMarker automatico aggiornerà la timeline ad ogni avvio.</string>
     <string name="discover_people">Persone</string>
@@ -116,7 +116,7 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="background">Background</string>
     <string name="advanced">Avanzate</string>
     <string name="data_saving_settings">Opzioni risparmio dati</string>
-    <string name="supporter_2016">Supporter 2016</string>
+    <string name="supporter_2016">Supporter 2017</string>
     <string name="app_style">Stile app</string>
     <string name="in_app_browser">Browser integrato</string>
     <string name="location">Posizione</string>
@@ -149,4 +149,28 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="auto_dismiss_summary">Rimuovi automaticamente le notifiche di Talon quando è aperto. Attivato di default.</string>
     <string name="media">Media utente</string>
     <string name="ignored_on_compact">Questa opzione non funziona con il layout compatto.</string>
+    <string name="huge">Enorme</string>
+    <string name="big">Grande</string>
+    <string name="regular">Normale</string>
+    <string name="small">Piccolo</string>
+    <string name="tiny">Minuscolo</string>
+    <string name="protected_account_quote">Non puoi citare un account protetto!</string>
+    <string name="protected_account_retweet">Non puoi ritwittare un account protetto!</string>
+    <string name="copied_link">Link copiato!</string>
+    <string name="original_probably_deleted">Il tweet originale probabilmente è stato cancellato.</string>
+    <string name="shortcut_compose_short">Scrivi un Tweet</string>
+    <string name="shortcut_compose_dm">Scrivi un MD</string>
+    <string name="take_video">Cattura video</string>
+    <string name="open_to_browser">Apri sul web</string>
+    <string name="browser_selection">Browser</string>
+    <string name="compact_layout_no_pictures">Tweet compatti (senza immagini)</string>
+    <string name="user_tweets">Tweet dell\'utente selezionati</string>
+    <string name="user_tweets_size">Dimensioni pagina utente</string>
+    <string name="authenticate">Autenticazione</string>
+    <string name="enable_fingerprint_lock">Attiva il blocco tramite impronta</string>
+    <string name="disable_fingerprint_lock">Disattiva il blocco tramite impronta</string>
+    <string name="followers_only_auto_complete">Completamento automatico follower</string>
+    <string name="quote_style">Stile citazione</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
