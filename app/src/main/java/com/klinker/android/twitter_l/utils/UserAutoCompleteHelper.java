@@ -177,7 +177,11 @@ public class UserAutoCompleteHelper {
         return userAutoComplete;
     }
 
-    public ListPopupWindow getAutoCompletePopup() {
+    public ListPopupWindow getHashtagAutoComplete() {
+        return hashtagAutoComplete;
+    }
+
+    public ListPopupWindow getUserAutoComplete() {
         return userAutoComplete;
     }
 
