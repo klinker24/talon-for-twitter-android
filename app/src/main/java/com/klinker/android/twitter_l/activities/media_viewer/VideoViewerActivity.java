@@ -98,10 +98,11 @@ public class VideoViewerActivity extends DragDismissActivity {
             viewVideo.putExtra("tweet_id", tweetId);
 
             new DragDismissIntentBuilder(context)
-                    .setShowToolbar(false)
+                    .setDragElasticity(DragDismissIntentBuilder.DragElasticity.LARGE)
                     .setPrimaryColorResource(android.R.color.black)
                     .setShouldScrollToolbar(false)
                     .setFullscreenOnTablets(true)
+                    .setShowToolbar(false)
                     .build(viewVideo);
 
             context.startActivity(viewVideo);

@@ -138,9 +138,10 @@ public class TweetActivity extends DragDismissActivity {
         }
 
         new DragDismissIntentBuilder(context)
+                .setPrimaryColorValue(settings.blackTheme ? Color.BLACK : Color.TRANSPARENT)
+                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
                 .setShowToolbar(false)
                 .setTheme(theme)
-                .setPrimaryColorValue(settings.blackTheme ? Color.BLACK : Color.TRANSPARENT)
                 .build(intent);
     }
 

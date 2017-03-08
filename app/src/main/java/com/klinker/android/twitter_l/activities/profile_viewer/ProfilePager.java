@@ -121,11 +121,12 @@ public class ProfilePager extends DragDismissActivity {
         }
 
         new DragDismissIntentBuilder(context)
-                .setShowToolbar(true)
-                .setShouldScrollToolbar(true)
-                .setTheme(theme)
-                .setToolbarTitle(name)
                 .setPrimaryColorValue(AppSettings.getInstance(context).themeColors.primaryColor)
+                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
+                .setShouldScrollToolbar(true)
+                .setToolbarTitle(name)
+                .setShowToolbar(true)
+                .setTheme(theme)
                 .build(intent);
 
         intent.putExtra("name", name);
