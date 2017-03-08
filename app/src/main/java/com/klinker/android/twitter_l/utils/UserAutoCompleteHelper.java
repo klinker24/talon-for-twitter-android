@@ -82,7 +82,7 @@ public class UserAutoCompleteHelper {
         userAutoComplete.setAnchorView(textView);
         hashtagAutoComplete.setAnchorView(textView);
 
-        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
                 HashtagDataSource.getInstance(context).getCursor(""), textView));
 
         textView.addTextChangedListener(new TextWatcher() {
@@ -132,7 +132,7 @@ public class UserAutoCompleteHelper {
                         } while (localPosition >= 0 && searchText.charAt(localPosition) != '#');
 
                         adapterText = adapterText.replace("#", "");
-                        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
+                        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
                                 HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
                     }
                 } catch (Exception e) {
@@ -157,13 +157,7 @@ public class UserAutoCompleteHelper {
             userAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            userAutoComplete.dismiss();
-                        }
-                    }, 500);
-                    
+                    userAutoComplete.dismiss();
                     autoCompleter.completeTweet(textView, users.get(i).getScreenName(), '@');
 
                     if (callback != null) {
@@ -176,12 +170,7 @@ public class UserAutoCompleteHelper {
         hashtagAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hashtagAutoComplete.dismiss();
-                    }
-                }, 500);
+                hashtagAutoComplete.dismiss();
             }
         });
 
@@ -218,7 +207,7 @@ public class UserAutoCompleteHelper {
                             context.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    adapter = new AutoCompletePeopleAdapter(context, cursor, textView);
+                                    adapter = new AutoCompletePeopleAdapter(userAutoComplete, context, cursor, textView);
                                     userAutoComplete.setAdapter(adapter);
                                 }
                             });

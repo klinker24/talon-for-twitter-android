@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagSQLiteHelper;
@@ -32,10 +33,12 @@ public class AutoCompleteHashtagAdapter extends CursorAdapter {
 
     private Cursor cursor;
     private AutoCompleteHelper helper;
+    private ListPopupWindow listPopupWindow;
 
-    public AutoCompleteHashtagAdapter(Context context, Cursor cursor, EditText text) {
+    public AutoCompleteHashtagAdapter(ListPopupWindow listPopup, Context context, Cursor cursor, EditText text) {
         super(context, cursor);
 
+        this.listPopupWindow = listPopup;
         this.cursor = cursor;
         this.context = context;
         this.text = text;
@@ -117,6 +120,9 @@ public class AutoCompleteHashtagAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 helper.completeTweet(text, tag, '#');
+                if (listPopupWindow != null && listPopupWindow.isShowing()) {
+                    listPopupWindow.dismiss();
+                }
             }
         });
     }
