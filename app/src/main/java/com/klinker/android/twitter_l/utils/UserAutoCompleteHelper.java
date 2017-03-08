@@ -106,9 +106,11 @@ public class UserAutoCompleteHelper {
                     } else if (userAutoComplete.isShowing()) {
                         String adapterText = "";
 
+                        int localPosition = position;
+                        
                         do {
-                            adapterText = searchText.charAt(position--) + adapterText;
-                        } while (position >= 0 && searchText.charAt(position) != '@');
+                            adapterText = searchText.charAt(localPosition--) + adapterText;
+                        } while (localPosition >= 0 && searchText.charAt(localPosition) != '@');
 
                         adapterText = adapterText.replace("@", "");
                         search(adapterText);
@@ -123,9 +125,11 @@ public class UserAutoCompleteHelper {
                     } else if (hashtagAutoComplete.isShowing()) {
                         String adapterText = "";
 
+                        int localPosition = position;
+                        
                         do {
-                            adapterText = searchText.charAt(position--) + adapterText;
-                        } while (position >= 0 && searchText.charAt(position) != '#');
+                            adapterText = searchText.charAt(localPosition--) + adapterText;
+                        } while (localPosition >= 0 && searchText.charAt(localPosition) != '#');
 
                         adapterText = adapterText.replace("#", "");
                         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(context,
