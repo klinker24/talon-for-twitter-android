@@ -170,7 +170,4 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="enable_fingerprint_lock">Attiva il blocco tramite impronta</string>
     <string name="disable_fingerprint_lock">Disattiva il blocco tramite impronta</string>
     <string name="followers_only_auto_complete">Completamento automatico follower</string>
-    <string name="quote_style">Stile citazione</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

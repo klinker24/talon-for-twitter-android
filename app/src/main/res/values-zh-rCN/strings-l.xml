@@ -160,7 +160,4 @@
     <string name="enable_fingerprint_lock">启用指纹锁</string>
     <string name="disable_fingerprint_lock">禁用指纹锁</string>
     <string name="profile_timeline">时间线</string>
-    <string name="quote_style">引用方式</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
