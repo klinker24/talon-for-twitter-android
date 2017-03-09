@@ -187,4 +187,6 @@
     <string name="quoting">Quoting</string>
     <string name="profile_timeline">Timeline</string>
     <string name="show_all_tweets">Show All Tweets</string>
+    <string name="are_you_sure_unfollow">Are you sure you want to unfollow this user?</string>
+    <string name="are_you_sure_follow">Are you sure you want to follow this user?</string>
 </resources>

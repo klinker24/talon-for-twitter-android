@@ -184,7 +184,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
             ((View)info.getParent()).setVisibility(View.GONE);
         }
 
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab = getSupportActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);
@@ -194,6 +194,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
             ab.setIcon(transparent);
             ab.setHomeAsUpIndicator(R.drawable.dragdismiss_ic_close);
         }
+
+        setCurrentPageTitle(0);
     }
 
     android.support.v7.app.ActionBar ab;

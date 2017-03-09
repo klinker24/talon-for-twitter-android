@@ -376,7 +376,14 @@ public class ProfilePager extends DragDismissActivity {
             followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new FollowUser(TYPE_ACC_ONE).execute();
+                    new AlertDialog.Builder(context)
+                            .setMessage(isFollowing ? R.string.are_you_sure_unfollow : R.string.are_you_sure_follow)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new FollowUser(TYPE_ACC_ONE).execute();
+                                }
+                            }).show();
                 }
             });
         } else if (settings.crossAccActions) {
