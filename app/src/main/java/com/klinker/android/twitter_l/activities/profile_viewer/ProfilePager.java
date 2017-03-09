@@ -516,11 +516,48 @@ public class ProfilePager extends DragDismissActivity {
         animateIn(profileButtons);
     }
 
+    private void setLongClickChipListener(final int index) {
+        chipLayout.getChildAt(index).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                for (int i = 0; i < chipLayout.getChildCount(); i++) {
+                    if (i == index) {
+                        chipCloud.setChecked(i);
+                        chipSelectedState[i] = true;
+                    } else {
+                        chipCloud.deselectIndex(i);
+                        chipSelectedState[i] = false;
+                    }
+
+                    chipLayout.getChildAt(i).setEnabled(false);
+                }
+
+                chipLayout.setEnabled(false);
+                chipLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < chipLayout.getChildCount(); i++) {
+                            chipLayout.getChildAt(i).setEnabled(true);
+                        }
+                    }
+                }, 2000);
+
+                addTweetsToLayout(filterTweets());
+                return false;
+            }
+        });
+    }
+
     private void prepareTweetsLayout() {
         chipCloud.addChip(getString(R.string.tweets));
         chipCloud.addChip(getString(R.string.replies));
         chipCloud.addChip(getString(R.string.retweets));
         chipCloud.setSelectedIndexes(new int[] {0,1,2});
+
+        for (int i = 0; i < 3; i++) {
+            setLongClickChipListener(i);
+        }
+
 
         timelineContent = (LinearLayout) findViewById(R.id.tweets_content);
         TextView tweetsTitle = (TextView) findViewById(R.id.tweets_title_text);
@@ -751,6 +788,7 @@ public class ProfilePager extends DragDismissActivity {
                         @Override
                         public void run() {
                             chipCloud.addChip(getString(R.string.favorites));
+                            setLongClickChipListener(3);
                         }
                     });
                     
@@ -759,6 +797,7 @@ public class ProfilePager extends DragDismissActivity {
                         @Override
                         public void run() {
                             chipCloud.addChip(getString(R.string.mentions));
+                            setLongClickChipListener(4);
                         }
                     });
 
