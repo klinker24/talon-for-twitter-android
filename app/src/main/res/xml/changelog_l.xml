@@ -1,4 +1,10 @@
 <changelog>
+
+    <version name="6.0.0 BETA 4">
+        <text>Long clicking a chip on the profiles will select only that chip</text>
+        <text>Small changes to the multiple image viewer</text>
+        <text>More reported bugs fixed</text>
+    </version>
 	
     <version name="6.0.0 BETA 3">
         <text>Fix some force closes</text>
