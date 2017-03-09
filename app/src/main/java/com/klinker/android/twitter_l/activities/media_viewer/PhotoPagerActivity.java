@@ -192,6 +192,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
             ab.setDisplayShowHomeEnabled(true);
             ab.setTitle("");
             ab.setIcon(transparent);
+            ab.setHomeAsUpIndicator(R.drawable.dragdismiss_ic_close);
         }
     }
 
