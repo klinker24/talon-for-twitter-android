@@ -70,7 +70,8 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical">
@@ -92,7 +93,7 @@
                             android:id="@+id/followers_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="?textColor" />
+                            android:textColor="?textColor"/>
 
                         <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                             android:id="@+id/followers_text"
@@ -140,11 +141,6 @@
                     android:textColor="?textColor" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
 
             <LinearLayout
                 android:id="@+id/profile_buttons"
