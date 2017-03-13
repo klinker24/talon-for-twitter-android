@@ -1,24 +1,5 @@
 <changelog>
 
-    <version name="6.0.0 BETA 4">
-        <text>Long clicking a chip on the profiles will select only that chip</text>
-        <text>Small changes to the multiple image viewer</text>
-        <text>More reported bugs fixed</text>
-    </version>
-	
-    <version name="6.0.0 BETA 3">
-        <text>Fix some force closes</text>
-        <text>Changes to the drag-to-dismiss</text>
-    </version>
-
-    <version name="6.0.0 BETA 2">
-        <text>Re-enable quick actions on the timeline</text>
-        <text>Changes for auto-complete mentions</text>
-        <text>Improve black-on-black theme for the profile viewer</text>
-        <text>UI tweaks</text>
-        <text>Fix some force closes</text>
-    </version>
-	
     <version name="6.0.0">
         <text>Woah - speed. Everything is faster. Talon 6.0 is Twitter like you have never used it before.</text>
         <text>Sweet style. I iterated and improved on all the main pieces of the app, along with adding some awesome new features to each.</text>
@@ -33,6 +14,8 @@
         <text>Improve: Article viewer (quotes, images, theme-ing, and content loading)</text>
         <text>Improve: UI for quoting tweets</text>
         <text>Improve: Image loading (speed, consistency, data usage)</text>
+        <text>Improve: Long clicking a chip on a user profile will de-select all the others</text>
+        <text>Improve: Auto-complete for mentions</text>
         <text>Improve: Tablet support</text>
         <text>Improve: Moments links will always open to the Twitter website</text>
     </version>
