@@ -56,7 +56,7 @@
     <!-- Main Activity -->
     <string name="links">Link</string>
     <string name="pictures">Immagini</string>
-    <string name="timeline">Timeline</string>
+    <string name="timeline">Home</string>
     <string name="mentions">Menzioni</string>
     <string name="direct_messages">Messaggi diretti</string>
     <string name="retweets">Retweet</string>
@@ -525,7 +525,7 @@ Predefinito (quando è disabilitato):\n
     <string name="no_content">Nulla da visualizzare!</string>
     <string name="discover">Scopri</string>
     <string name="suggested_users">Utenti suggeriti</string>
-    <string name="nearby_tweets">Tweet vicino a te</string>
+    <string name="nearby_tweets">Vicino a te</string>
     <string name="local_trend_options">Opzioni tendenze locali</string>
     <string name="manually_config_location">Configura manualmente la posizione</string>
     <string name="country_region">Paese/Regione</string>
