@@ -62,6 +62,7 @@
     <string name="retweets">Retweets</string>
     <string name="favorite_tweets">Favoriete tweets</string>
     <string name="favorite_users">Favoriete Gebruikers</string>
+    <string name="favorite_users_tweets">Tweets Favoriete Gebruikers</string>
     <string name="trends">Trending</string>
     <string name="local_trends">Lokale trends</string>
     <string name="world_trends">Wereld Trends</string>
@@ -114,6 +115,7 @@
     <string name="followed">Volgt je</string>
     <string name="new_retweets">retweets</string>
     <string name="new_favorites">favorieten</string>
+    <string name="new_quotes">citaten</string>
     <string name="new_tweets_upper">Nieuwe tweets</string>
     <!-- Login Screen -->
     <string name="setup_talon">Stel Talon in</string>
@@ -124,7 +126,11 @@
     <string name="back_to_timeline">Breng me naar mijn timeline!</string>
     <string name="initial_sync">Sync nu!</string>
     <string name="first_info">Voordat we beginnen, laten we u inloggen.</string>
-    <string name="second_info">Geweldig!\n\nNu gaan we wat eerste gegevens ophalen.\n\nDit kan enige tijd duren, afhankelijk van je internetverbinding.</string>
+    <string name="second_info">Geweldig!
+
+Nu gaan we wat eerste gegevens ophalen.
+
+Dit kan enige tijd duren, afhankelijk van je internetverbinding.</string>
     <string name="third_info">Hopelijk waardeer je Talon!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Tijdlijn aan het synchroniseren...</string>
     <string name="syncing_mentions">Vermeldingen aan het synchroniseren...</string>
@@ -168,6 +174,7 @@
     <string name="tweet_to_long">Tweet te lang!</string>
     <string name="ok">Oké</string>
     <string name="no">Nee</string>
+    <string name="yes">Ja</string>
     <string name="changelog">Wat is er nieuw</string>
     <string name="created_by">Gemaakt door</string>
     <string name="no_location">Kon locatie niet vinden</string>
@@ -284,7 +291,6 @@ Het toepassen van deze instelling beïnvloedt de prestaties van het scrollen.</s
     <string name="timestamp">24-Uur tijdstempel</string>
     <string name="enable_emojis">Gebruik Emojis</string>
     <string name="to_market">Naar Play Store</string>
-    <string name="get_android">Krijg Android Emojis</string>
     <string name="get_ios">Krijg iOS Emojis</string>
     <string name="emoji_dialog_summary">"Om emojis te gebruiken in deze app, moet u het \"Sliding Emoji Keyboard\" of het \"Sliding Emoji Keyboard - iOS\" pakket geïnstalleerd hebben uit de play store.\n\n
 U kan wisselen tussen de twee typen emojis door de ene te deïnstalleren en de ander te installeren. Als allebei de pakketten geïnstalleerd zijn, zal Talon standaard de Android emojis gebruiken.\n\n
@@ -494,6 +500,7 @@ Standaard (wanneer uitgeschakeld):\n
     <string name="use_shortening_service">Gebruik verkortingsservice</string>
     <string name="use_shortening_service_summary">U zult in staat zijn om TwitLonger of Pwiccer (een service die je lange tweet converteert naar een afbeelding voor posten) te selecteren.</string>
     <string name="view_retweeters">Retweeters</string>
+    <string name="view_favoriters">Vind-ik-leuk\'s</string>
     <string name="no_tweets">Geen Tweets</string>
     <string name="only_7_days">Slechts 7 dagen beschikbaar</string>
     <string name="saved_searches">Opgeslagen Zoekopdrachten</string>
@@ -621,7 +628,8 @@ In plaats daarvan, zal Talon de afbeeldingen uploaden met behulp van TwitPic.</s
     <string name="pick_date">Kies Datum</string>
     <string name="both_accounts">Beide Accounts</string>
     <string name="attach_gif">Geanimeerde GIF</string>
-    <string name="roboto_l">Android \'\'L\'\' Roboto</string>
+    <string name="attach_video">Video</string>
+    <string name="roboto_l">Android \''L\'' Roboto</string>
     <string name="second_account">2e Account</string>
     <string name="second_account_login_info">Het kan zijn dat het volgende scherm je niet meteen laat inloggen met je nieuwe account, omdat Twitter bepaalde delen van je inloggegevens in hun systemen opslaat. Als de inlogpagina wordt overgeslagen en je direct naar de autorisatie pagina gaat, druk dan gewoon op de \'Sign Out\' knop in de rechterbovenhoek van de website zodat je kunt inloggen met je tweede account.</string>
     <string name="fetch_tweetmarker">Fetch TweetMarker</string>
@@ -647,6 +655,19 @@ Hopelijk geniet je van mijn werk!</string>
     <string name="error_gif">Error bij vinden GIF</string>
     <string name="saved_search">Opgeslagen Zoekopdracht</string>
     <string name="activity">Activiteit</string>
+    <string name="retweet">Retweet</string>
+    <string name="new_follower_lower">nieuwe volger</string>
+    <string name="new_followers_lower">nieuwe volgers</string>
+    <string name="item">items</string>
+    <string name="items">items</string>
+    <string name="and">en</string>
+    <string name="no_favorites">Geen vind-ik-leuk\'s</string>
+    <string name="quote_style">Citeer stijl</string>
+    <string name="quote_style_twitter">Twitter stijl (Link naar de tweet)</string>
+    <string name="show_pull_notification_summary">Als je deze melding uitschakelt kan Android het achtergrond-proces dat de stream bijhoudt sluiten. Dan werkt het niet meer.</string>
+    <string name="custom_tab_title">Chrome Aangepaste Tabs</string>
+    <string name="custom_tab_message">Je systeem staat niet toe dat Talon Chrome Aangepaste Tabs start. Om dit te kunnen gebruiken moet je Chrome als je default browser instellen. Zo niet, dan zal Talon z\'n eigen in-app browser blijven gebruiken.\n\nSelecteer \'Ja\' om Chrome als default browser in te stellen.</string>
+    <string name="learn_more">Meer informatie</string>
     <!-- Long click methods -->
     <string name="open_profile">Open profiel</string>
     <string name="copy_handle">Kopieer gebruikersnaam</string>
@@ -668,4 +689,5 @@ Hopelijk geniet je van mijn werk!</string>
     <string name="open_to_web">Open naar webpagina</string>
     <string name="open_to_web_summary">Wanneer een tweet een web url bevat, zal direct die url geopend worden i.p.v. de tweet zelf.</string>
     <string name="open_webpage">Open link</string>
+    <string name="get_android">Krijg Android Emojis</string>
 </resources>

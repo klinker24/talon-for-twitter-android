@@ -118,7 +118,7 @@
     <string name="data_saving_settings">Data indstillinger</string>
     <string name="supporter_2016">2017 Supporter</string>
     <string name="app_style">App stil</string>
-    <string name="in_app_browser">In-App Browser</string>
+    <string name="in_app_browser">Intern Browser</string>
     <string name="location">Lokation</string>
     <string name="color_options">Farve indstillinger</string>
     <string name="advanced_options">Avancerede indstillinger</string>
@@ -141,8 +141,8 @@
     <string name="widget_disclaimer">Du skal fjerne og tilføje widgeten igen på din skærm, før ændringerne vises</string>
     <string name="widget_material_light">Material Design Lys</string>
     <string name="widget_material_dark">Material Design Mørk</string>
-    <string name="in_app_browser_summary">Deaktivering af in-app browser vil åbne standard browseren ved tap på links</string>
-    <string name="chrome_custom_tabs_summary">Alternativ til Talon´s egen in-app browser. Bruger services tildelt af Google Chrome</string>
+    <string name="in_app_browser_summary">Deaktivering af den interne browser vil ved tap på links, åbne standard browseren</string>
+    <string name="chrome_custom_tabs_summary">Alternativ til Talon´s egen interne browser. Bruger services tildelt af Google Chrome</string>
     <string name="reverse_click_actions_default">Standard (Ingen omvendte handlinger):\n- Tap = Vis In-Line\n- Tap &amp; hold = Vis Tweet</string>
     <string name="show_images_on_widget">Vis billeder på widget</string>
     <string name="auto_dismiss">Afvis automatisk notifikationer</string>
@@ -186,4 +186,7 @@
     <string name="quoting">Citere</string>
     <string name="profile_timeline">Tidslinje</string>
     <string name="show_all_tweets">Vis alle Tweets</string>
+    <string name="quote_style">Citat stil</string>
+    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

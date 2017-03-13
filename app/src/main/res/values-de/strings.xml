@@ -668,6 +668,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="show_pull_notification">Zeige angeheftete Benachrichtigung</string>
     <string name="show_pull_notification_summary">Wenn Du diese Benachrichtigung deaktivierst, kann das Android-System den Stream zu jeder Zeit beenden. Mit extremer Vorsicht einsetzen.</string>
+    <string name="custom_tab_message">Chrome Custom Tabs können aktuell nicht automatisch von Talon gestartet werden. Um dieses Feature zu nutzen muss Chrome als Default Browser eingestellt werden. Ansonsten nutzt Talon weiterhin den originalen In-App Browser.\n\nWählen Sie \"Ja\" um Chrome als Default Browser zu setzen oder \"Nein\" falls Sie das nicht wollen.</string>
     <string name="learn_more">Lerne mehr</string>
     <!-- Long click methods -->
     <string name="open_profile">Profil öffnen</string>
