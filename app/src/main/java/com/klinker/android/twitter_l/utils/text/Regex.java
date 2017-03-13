@@ -117,6 +117,7 @@ public class Regex {
     private static final String HASHTAG_ALPHA_NUMERIC_CHARS = "0-9\\uff10-\\uff19_" + HASHTAG_ALPHA_CHARS;
     private static final String HASHTAG_ALPHA = "[" + HASHTAG_ALPHA_CHARS +"]";
     private static final String HASHTAG_ALPHA_NUMERIC = "[" + HASHTAG_ALPHA_NUMERIC_CHARS +"]";
+    private static final String HASHTAG_SPACES = "[" + UNICODE_SPACES + "]";
 
     /* URL related hash regex collection */
     private static final String URL_VALID_PRECEEDING_CHARS = "(?:[^A-Z0-9@＠$#＃\u202A-\u202E]|^)";
@@ -249,6 +250,6 @@ public class Regex {
     public static final Pattern VALID_URL = Pattern.compile(VALID_URL_PATTERN_STRING, Pattern.CASE_INSENSITIVE);
     public static final Pattern CASHTAG_PATTERN = Pattern.compile("(" + DOLLAR_SIGN_CHAR + ")(" + CASHTAG + ")" +"(?=$|\\s|\\p{Punct})", Pattern.CASE_INSENSITIVE);
     public static final Pattern MENTION_PATTERN = Pattern.compile("(" + AT_SIGNS + "+)([a-z0-9_]{1,20})(/[a-z][a-z0-9_\\-]{0,24})?", Pattern.CASE_INSENSITIVE);
-    public static final Pattern HASHTAG_PATTERN = Pattern.compile("(#|\uFF03)(" + HASHTAG_ALPHA_NUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHA_NUMERIC + "*)", Pattern.CASE_INSENSITIVE);
+    public static final Pattern HASHTAG_PATTERN = Pattern.compile("(?:^|" + HASHTAG_SPACES + ")" + "(#|\uFF03)(" + HASHTAG_ALPHA_NUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHA_NUMERIC + "*)", Pattern.CASE_INSENSITIVE);
 
 }
