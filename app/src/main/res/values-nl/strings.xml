@@ -629,7 +629,7 @@ In plaats daarvan, zal Talon de afbeeldingen uploaden met behulp van TwitPic.</s
     <string name="both_accounts">Beide Accounts</string>
     <string name="attach_gif">Geanimeerde GIF</string>
     <string name="attach_video">Video</string>
-    <string name="roboto_l">Android \''L\'' Roboto</string>
+    <string name="roboto_l">Android L Roboto</string>
     <string name="second_account">2e Account</string>
     <string name="second_account_login_info">Het kan zijn dat het volgende scherm je niet meteen laat inloggen met je nieuwe account, omdat Twitter bepaalde delen van je inloggegevens in hun systemen opslaat. Als de inlogpagina wordt overgeslagen en je direct naar de autorisatie pagina gaat, druk dan gewoon op de \'Sign Out\' knop in de rechterbovenhoek van de website zodat je kunt inloggen met je tweede account.</string>
     <string name="fetch_tweetmarker">Fetch TweetMarker</string>
