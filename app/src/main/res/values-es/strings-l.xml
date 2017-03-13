@@ -172,7 +172,4 @@ Siéntase libre de cancelar cualquiera de los permisos. Si deseas activarlos lue
     <string name="quoting">Citando</string>
     <string name="profile_timeline">Cronología</string>
     <string name="show_all_tweets">Mostrar todos los Tweets</string>
-    <string name="quote_style">Estilo de cita</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

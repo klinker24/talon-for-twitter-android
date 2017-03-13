@@ -186,7 +186,4 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="quoting">Citando</string>
     <string name="profile_timeline">Timeline</string>
     <string name="show_all_tweets">Mostra tutti i tweet</string>
-    <string name="quote_style">Stile citazione</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

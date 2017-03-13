@@ -135,7 +135,4 @@ Prima als je nu beide permissies weigert. Je kunt ze ook later d.m.v. de systeem
     <string name="followers_only_auto_complete_summary">Niet alle Twittergebruikers doorzoeken bij het automatisch aanvullen van een mention</string>
     <string name="profile_timeline">Tijdlijn</string>
     <string name="show_all_tweets">Toon alle tweets</string>
-    <string name="quote_style">Quote Stijl</string>
-    <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
