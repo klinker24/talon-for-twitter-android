@@ -71,7 +71,7 @@ public class UserSearchFragment extends Fragment {
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            searchQuery = intent.getStringExtra("mentionsQuery");
+            searchQuery = intent.getStringExtra("query");
             searchQuery = searchQuery.replace(" -RT", "");
 
             doUserSearch(searchQuery);

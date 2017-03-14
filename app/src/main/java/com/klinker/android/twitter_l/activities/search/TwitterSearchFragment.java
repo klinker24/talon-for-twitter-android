@@ -76,7 +76,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
     private BroadcastReceiver newSearch = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            searchQuery = intent.getStringExtra("mentionsQuery");
+            searchQuery = intent.getStringExtra("query");
 
             if (searchQuery.contains(" TOP")) {
                 topTweets = true;
