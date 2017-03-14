@@ -81,12 +81,13 @@ public class SearchUtils {
         if (activity instanceof SearchPager) {
             Intent search = new Intent();
             search.setAction(Intent.ACTION_SEARCH);
-            search.putExtra(SearchManager.QUERY, query);
+            search.putExtra(SearchManager.QUERY, query + " -RT");
             ((SearchPager) activity).handleIntent(search);
             ((SearchPager) activity).actionBar.setTitle(query.replace("-RT", ""));
+            setText(query.replace("-RT", ""));
 
             Intent broadcast = new Intent("com.klinker.android.twitter.NEW_SEARCH");
-            broadcast.putExtra("mentionsQuery", query);
+            broadcast.putExtra("query", query + " -RT");
             activity.sendBroadcast(broadcast);
         } else if (activity instanceof SearchedTrendsActivity) {
             Intent search = new Intent();

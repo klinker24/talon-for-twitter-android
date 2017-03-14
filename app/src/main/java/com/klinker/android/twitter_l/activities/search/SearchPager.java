@@ -219,7 +219,7 @@ public class SearchPager extends PeekViewActivity {
                 suggestions.saveRecentQuery(searchQuery.replaceAll(" -RT", ""), null);
             }
 
-            searchQuery += " -RT";
+            searchQuery = searchQuery.replace(" -RT", "") + " -RT";
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             String uriString = uri.toString();
