@@ -2,6 +2,7 @@
 
     <version name="6.0.1">
         <text>Fix some mute issues</text>
+        <text>Fix some reported force closes</text>
     </version>
 
     <version name="6.0.0">

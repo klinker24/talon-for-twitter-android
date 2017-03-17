@@ -325,7 +325,11 @@ public abstract class Compose extends Activity implements
             TextUtils.linkifyText(context, replyTo, null, true, "", true);
 
             View replyToCard = findViewById(R.id.reply_to_card);
-            replyToCard.setVisibility(View.VISIBLE);
+
+            if (replyToCard != null) {
+                replyToCard.setVisibility(View.VISIBLE);
+            }
+
             replyTo.setTextSize(settings.textSize);
         }
 
