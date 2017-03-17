@@ -252,12 +252,12 @@ public class TouchableSpan extends ClickableSpan {
                     case 1: // mute hashtag
                         SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(mContext);
 
-
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.muted) + " " + full, Toast.LENGTH_SHORT).show();
-                        String item = full.replace("#", "") + " ";
+                        String item = full.replaceAll(" ", "").replace("#", "") + " ";
 
                         String current = sharedPreferences.getString("muted_hashtags", "");
-                        sharedPreferences.edit().putString("muted_hashtags", current + item).apply();
+                        String newString = (current + item).replaceAll("  ", " ");
+                        sharedPreferences.edit().putString("muted_hashtags", newString).apply();
                         sharedPreferences.edit().putBoolean("refresh_me", true).apply();
 
                         if (mContext instanceof DrawerActivity) {

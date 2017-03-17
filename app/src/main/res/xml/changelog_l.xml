@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.0.1">
+        <text>Fix some mute issues</text>
+    </version>
+
     <version name="6.0.0">
         <text>Woah - speed. Everything is faster. Talon 6.0 is Twitter like you have never used it before.</text>
         <text>Sweet style. I iterated and improved on all the main pieces of the app, along with adding some awesome new features to each.</text>

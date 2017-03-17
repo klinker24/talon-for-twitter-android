@@ -80,6 +80,13 @@ public class UpdateUtils {
 
         if (!justInstalled) {
             // version specific things
+            if (sharedPrefs.getBoolean("need_mute_fix", true)) {
+                String current = sharedPrefs.getString("muted_hashtags", "");
+                String newString = current.replaceAll("  ", " ");
+                sharedPrefs.edit().putString("muted_hashtags", newString)
+                        .putBoolean("need_mute_fix", false)
+                        .commit();
+            }
         }
 
         sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
