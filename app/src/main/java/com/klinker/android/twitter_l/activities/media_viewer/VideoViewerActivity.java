@@ -44,6 +44,8 @@ import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 
 public class VideoViewerActivity extends DragDismissActivity {
 
+    public static boolean IS_RUNNING = false;
+
     @Override
     public void finish() {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
@@ -130,7 +132,7 @@ public class VideoViewerActivity extends DragDismissActivity {
 
         if (url == null) {
             finish();
-            return new View(this);
+            return new View(context);
         }
 
         findViewById(R.id.dragdismiss_status_bar).setVisibility(View.GONE);
@@ -146,9 +148,20 @@ public class VideoViewerActivity extends DragDismissActivity {
 
         // add a surfaceView fragment
         videoFragment = VideoFragment.getInstance(url);
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment, videoFragment)
-                .commit();
+
+        if (!IS_RUNNING) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment, videoFragment)
+                    .commit();
+            IS_RUNNING = true;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                IS_RUNNING = false;
+            }
+        }, 3000);
 
         bottomSheet = (BottomSheetLayout) root.findViewById(R.id.bottomsheet);
 
