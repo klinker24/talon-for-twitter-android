@@ -35,6 +35,7 @@ public class UserAutoCompleteHelper {
 
     private Activity context;
     private Handler handler;
+    private Handler visibilityHandler;
     private ListPopupWindow userAutoComplete;
     private ListPopupWindow hashtagAutoComplete;
     private AutoCompleteHelper autoCompleter;
@@ -58,6 +59,7 @@ public class UserAutoCompleteHelper {
 
     private UserAutoCompleteHelper(Activity activity) {
         this.handler = new Handler();
+        this.visibilityHandler = new Handler();
         this.context = activity;
         this.autoCompleter = new AutoCompleteHelper();
 
@@ -89,67 +91,15 @@ public class UserAutoCompleteHelper {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) {
-                String searchText = textView.getText().toString();
-                int position = textView.getSelectionStart() - 1;
+                final String searchText = textView.getText().toString().trim();
+                final int position = textView.getSelectionStart() - 1;
 
-                if (position < 0 || position > searchText.length() - 1) {
-                    return;
-                }
-
-                try {
-                    if (searchText.charAt(position) == '@') {
-                        userAutoComplete.show();
-                        hashtagAutoComplete.dismiss();
-                    } else if (searchText.charAt(position) == ' ') {
-                        userAutoComplete.dismiss();
-                        hashtagAutoComplete.dismiss();
-                    } else if (userAutoComplete.isShowing()) {
-                        String adapterText = "";
-
-                        int localPosition = position;
-                        
-                        do {
-                            adapterText = searchText.charAt(localPosition--) + adapterText;
-                        } while (localPosition >= 0 && searchText.charAt(localPosition) != '@');
-
-                        adapterText = adapterText.replace("@", "");
-                        search(adapterText);
+                visibilityHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        handleText(searchText, position);
                     }
-
-                    if (searchText.charAt(position) == '#') {
-                        hashtagAutoComplete.show();
-                        userAutoComplete.dismiss();
-                    } else if (searchText.charAt(position) == ' ') {
-                        hashtagAutoComplete.dismiss();
-                        userAutoComplete.dismiss();
-                    } else if (hashtagAutoComplete.isShowing()) {
-                        String adapterText = "";
-
-                        int localPosition = position;
-                        
-                        do {
-                            adapterText = searchText.charAt(localPosition--) + adapterText;
-                        } while (localPosition >= 0 && searchText.charAt(localPosition) != '#');
-
-                        adapterText = adapterText.replace("#", "");
-                        hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
-                                HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException("text: " + searchText + ", position index: " + position);
-//                    // there is no text
-//                    try {
-//                        userAutoComplete.dismiss();
-//                    } catch (Exception x) {
-//                        // something went really wrong I guess haha
-//                    }
-//
-//                    try {
-//                        hashtagAutoComplete.dismiss();
-//                    } catch (Exception x) {
-//                        // something went really wrong I guess haha
-//                    }
-                }
+                }, 150);
             }
         });
 
@@ -175,6 +125,67 @@ public class UserAutoCompleteHelper {
         });
 
         return userAutoComplete;
+    }
+
+    private void handleText(String searchText, int position) {
+        if (position < 0 || position > searchText.length() - 1) {
+            return;
+        }
+
+        try {
+            if (searchText.charAt(position) == '@') {
+                userAutoComplete.show();
+                hashtagAutoComplete.dismiss();
+            } else if (searchText.charAt(position) == ' ') {
+                userAutoComplete.dismiss();
+                hashtagAutoComplete.dismiss();
+            } else if (userAutoComplete.isShowing()) {
+                String adapterText = "";
+
+                int localPosition = position;
+
+                do {
+                    adapterText = searchText.charAt(localPosition--) + adapterText;
+                } while (localPosition >= 0 && searchText.charAt(localPosition) != '@');
+
+                adapterText = adapterText.replace("@", "");
+                search(adapterText);
+            }
+
+            if (searchText.charAt(position) == '#') {
+                hashtagAutoComplete.show();
+                userAutoComplete.dismiss();
+            } else if (searchText.charAt(position) == ' ') {
+                hashtagAutoComplete.dismiss();
+                userAutoComplete.dismiss();
+            } else if (hashtagAutoComplete.isShowing()) {
+                String adapterText = "";
+
+                int localPosition = position;
+
+                do {
+                    adapterText = searchText.charAt(localPosition--) + adapterText;
+                } while (localPosition >= 0 && searchText.charAt(localPosition) != '#');
+
+                adapterText = adapterText.replace("#", "");
+                hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
+                        HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("text: " + searchText + ", position index: " + position);
+//                    // there is no text
+//                    try {
+//                        userAutoComplete.dismiss();
+//                    } catch (Exception x) {
+//                        // something went really wrong I guess haha
+//                    }
+//
+//                    try {
+//                        hashtagAutoComplete.dismiss();
+//                    } catch (Exception x) {
+//                        // something went really wrong I guess haha
+//                    }
+        }
     }
 
     public ListPopupWindow getHashtagAutoComplete() {
