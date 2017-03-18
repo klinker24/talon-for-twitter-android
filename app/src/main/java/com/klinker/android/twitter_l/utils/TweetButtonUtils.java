@@ -25,6 +25,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.ArrayList;
 
+import twitter4j.HashtagEntity;
 import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
@@ -442,6 +443,12 @@ public class TweetButtonUtils {
             replyStuff = "@" + screenName + " " + extraNames;
         } else {
             replyStuff = extraNames;
+        }
+
+        if (settings.autoInsertHashtags && text.contains("#")) {
+            for (HashtagEntity entity : status.getHashtagEntities()) {
+                replyStuff += "#" + entity.getText() + " ";
+            }
         }
 
         return replyStuff;

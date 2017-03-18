@@ -53,8 +53,6 @@ import com.klinker.android.twitter_l.views.popups.WebPopupLayout;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
-import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
-import com.klinker.android.twitter_l.activities.compose.ComposeSecAccActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
