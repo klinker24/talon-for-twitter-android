@@ -2,6 +2,8 @@
 
     <version name="6.0.2">
         <text>Fix echo in videos</text>
+        <text>Lists as swipable pages can now hold up to 1200 tweets</text>
+        <text>Fix the auto-insert hashtags option</text>
     </version>
 
     <version name="6.0.1">
