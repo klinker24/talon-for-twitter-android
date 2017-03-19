@@ -146,9 +146,9 @@ public class VideoViewerActivity extends DragDismissActivity {
         info = (ImageButton) root.findViewById(R.id.info_button);
         share = (ImageButton) root.findViewById(R.id.share_button);
 
-        // add a surfaceView fragment
         videoFragment = VideoFragment.getInstance(url);
 
+        // add a surfaceView fragment
         if (!IS_RUNNING) {
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment, videoFragment)
@@ -205,7 +205,8 @@ public class VideoViewerActivity extends DragDismissActivity {
     }
 
     private void downloadVideo() {
-        if (videoFragment != null && videoFragment.getLoadedVideoLink() != null && videoFragment.getLoadedVideoLink().contains(".m3u8")) {
+        final String videoLink = videoFragment.getArguments().getString("url");
+        if (videoFragment != null && videoLink != null && videoLink.contains(".m3u8")) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/+LukeKlinker/posts/4ZTM55gKVPi"));
             startActivity(browserIntent);
             return;
@@ -229,8 +230,8 @@ public class VideoViewerActivity extends DragDismissActivity {
                     mNotificationManager.notify(6, mBuilder.build());
 
                     Intent intent = new Intent();
-                    if (videoFragment != null) {
-                        Uri uri = IOUtils.saveVideo(videoFragment.getLoadedVideoLink());
+                    if (videoLink != null) {
+                        Uri uri = IOUtils.saveVideo(videoLink);
 
                         String root = Environment.getExternalStorageDirectory().toString();
                         File myDir = new File(root + "/Talon");
