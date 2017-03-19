@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.0.3">
+        <text>Some force close fixes</text>
+    </version>
+    
     <version name="6.0.2">
         <text>Fix echo in videos</text>
         <text>Lists as swipable pages can now hold up to 1200 tweets</text>
