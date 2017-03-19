@@ -177,7 +177,7 @@ public class PhotoFragment extends Fragment {
                                     .setContentText(getResources().getString(R.string.saved_picture) + "!");
 
                     mNotificationManager.notify(6, mBuilder.build());
-                } catch (final Exception e) {
+                } catch (final Throwable e) {
                     e.printStackTrace();
 
                     if (activity != null) {
