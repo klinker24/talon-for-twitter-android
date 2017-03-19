@@ -58,7 +58,7 @@ public class PermissionModelUtils {
             ((Activity)context).requestPermissions(NECESSARY_PERMISSIONS, 1);
     }
 
-    public void showStorageIssue(Exception e) {
+    public void showStorageIssue(Throwable e) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             new AlertDialog.Builder(context)
                     .setTitle("Storage Permission")
