@@ -177,7 +177,9 @@ public abstract class Compose extends Activity implements
                 String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
 
                 if (!replaceable.equals(" ")) {
-                    text = text.replaceAll(replaceable, "");
+                    try {
+                        text = text.replaceAll(replaceable, "");
+                    } catch (Exception e) { }
                 }
             }
 

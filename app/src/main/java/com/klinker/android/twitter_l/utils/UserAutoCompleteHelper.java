@@ -128,7 +128,7 @@ public class UserAutoCompleteHelper {
     }
 
     private void handleText(String searchText, int position) {
-        if (position < 0 || position > searchText.length() - 1) {
+        if (position < 0 || position > searchText.length() - 1 || position > searchText.length() - 1) {
             return;
         }
 
@@ -172,7 +172,7 @@ public class UserAutoCompleteHelper {
                         HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
             }
         } catch (Exception e) {
-            throw new RuntimeException("text: " + searchText + ", position index: " + position);
+            throw new RuntimeException("text: " + searchText + ", position index: " + position, e);
 //                    // there is no text
 //                    try {
 //                        userAutoComplete.dismiss();

@@ -205,7 +205,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     }
 
     private void downloadVideo() {
-        if (videoFragment != null && videoFragment.getLoadedVideoLink().contains(".m3u8")) {
+        if (videoFragment != null && videoFragment.getLoadedVideoLink() != null && videoFragment.getLoadedVideoLink().contains(".m3u8")) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/+LukeKlinker/posts/4ZTM55gKVPi"));
             startActivity(browserIntent);
             return;
