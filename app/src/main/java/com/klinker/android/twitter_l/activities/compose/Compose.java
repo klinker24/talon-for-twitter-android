@@ -78,7 +78,6 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.FingerprintDialog;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -1429,7 +1428,7 @@ public abstract class Compose extends Activity implements
                         if (status != null) {
                             final String[] text = status.split(" ");
 
-                            new TimeoutThread(new Runnable() {
+                            new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     ArrayList<String> tags = new ArrayList<String>();
