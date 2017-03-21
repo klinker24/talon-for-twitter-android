@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,8 @@ public class NavBarOverlayLayout extends LinearLayout {
         setAlpha(1f);
 
         // set the correct width and height for ActionButton
-        ViewGroup.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+        params.gravity = Gravity.BOTTOM;
         this.setLayoutParams(params);
 
         if (parent == null) {
@@ -88,9 +90,6 @@ public class NavBarOverlayLayout extends LinearLayout {
         } catch (Exception e) {
 
         }
-
-        setTranslationY(distanceFromTop);
-        setTranslationX(distanceFromLeft);
     }
 
     public void hide() {
