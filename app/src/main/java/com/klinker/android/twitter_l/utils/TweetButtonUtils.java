@@ -224,8 +224,7 @@ public class TweetButtonUtils {
             @Override
             public void onClick(View view) {
                 String screenName = status.getUser().getScreenName();
-                String text = restoreLinks(status.getText());
-                text = text + "\n\n" + "https://twitter.com/" + screenName + "/status/" + status.getId();
+                String text = "https://twitter.com/" + screenName + "/status/" + status.getId() + "\n\n" + restoreLinks(status.getText());
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenName);
