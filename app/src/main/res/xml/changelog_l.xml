@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.0.4">
+        <text>UI consistency improvements</text>
+    </version>
+
     <version name="6.0.3">
         <text>Some force close fixes</text>
         <text>Share tweets with the link first</text>
