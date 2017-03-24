@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
@@ -95,8 +96,9 @@ import twitter4j.User;
 import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+import xyz.klinker.android.drag_dismiss.delegate.DragDismissDelegate;
 
-public class ProfilePager extends DragDismissActivity {
+public class ProfilePager extends PeekViewActivity implements DragDismissDelegate.Callback {
 
     private static final int NUM_TWEETS_ON_TIMELINE = 15;
     private static final int LOAD_CAPACITY_PER_LIST = 20;
@@ -185,7 +187,15 @@ public class ProfilePager extends DragDismissActivity {
     public Query mentionsQuery = null;
 
     @Override
-    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        DragDismissDelegate delegate = new DragDismissDelegate(this, this);
+        delegate.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         Utils.setTaskDescription(this);
         Utils.setSharedContentTransition(this);
 

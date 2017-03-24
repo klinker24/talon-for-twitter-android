@@ -35,6 +35,7 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
@@ -69,8 +70,9 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
+import xyz.klinker.android.drag_dismiss.delegate.DragDismissDelegate;
 
-public class TweetActivity extends DragDismissActivity {
+public class TweetActivity extends PeekViewActivity implements DragDismissDelegate.Callback {
 
     public static Intent getIntent(Context context, Cursor cursor) {
         return getIntent(context, cursor, false);
@@ -183,6 +185,9 @@ public class TweetActivity extends DragDismissActivity {
     public void onCreate(Bundle savedInstanceState) {
         Utils.setSharedContentTransition(this);
         super.onCreate(savedInstanceState);
+
+        DragDismissDelegate delegate = new DragDismissDelegate(this, this);
+        delegate.onCreate(savedInstanceState);
     }
 
     @Override
@@ -419,80 +424,6 @@ public class TweetActivity extends DragDismissActivity {
         }
     }
 
-    class DeleteTweet extends AsyncTask<String, Void, Boolean> {
-
-        protected void onPreExecute() {
-            finish();
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            Twitter twitter = getTwitter();
-
-            try {
-
-                HomeDataSource.getInstance(context).deleteTweet(tweetId);
-                MentionsDataSource.getInstance(context).deleteTweet(tweetId);
-
-                try {
-                    twitter.destroyStatus(tweetId);
-                } catch (Exception x) {
-
-                }
-
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-
-        protected void onPostExecute(Boolean deleted) {
-            if (deleted) {
-                Toast.makeText(context, getResources().getString(R.string.deleted_tweet), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, getResources().getString(R.string.error_deleting), Toast.LENGTH_SHORT).show();
-            }
-
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
-        }
-    }
-
-    class MarkSpam extends AsyncTask<String, Void, Boolean> {
-
-        protected void onPreExecute() {
-            finish();
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            Twitter twitter = getTwitter();
-
-            try {
-                HomeDataSource.getInstance(context).deleteTweet(tweetId);
-                MentionsDataSource.getInstance(context).deleteTweet(tweetId);
-
-                try {
-                    twitter.reportSpam(screenName.replace(" ", "").replace("@", ""));
-                } catch (Throwable t) {
-                    // for somme reason this causes a big "naitive crash" on some devices
-                    // with a ton of random letters on play store reports... :/ hmm
-                }
-
-                try {
-                    twitter.destroyStatus(tweetId);
-                } catch (Exception x) {
-
-                }
-
-                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("refresh_me", true).apply();
-
-                return true;
-            } catch (Throwable e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-    }
-
     private void setTransitionNames() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             profilePic.setTransitionName("pro_pic");
@@ -660,13 +591,6 @@ public class TweetActivity extends DragDismissActivity {
         // last bool is whether it should open in the external browser or not
         TextUtils.linkifyText(context, retweetertv, null, true, linkString, false);
         TextUtils.linkifyText(context, tweettv, null, true, linkString, false);
-
-        String replyStuff = "";
-        if (!screenName.equals(screenNameToUse)) {
-            replyStuff = "@" + screenName + " " + extraNames;
-        } else {
-            replyStuff = extraNames;
-        }
 
         expansionHelper = new ExpansionViewHelper(context, tweetId);
         expansionHelper.setSecondAcc(secondAcc);
