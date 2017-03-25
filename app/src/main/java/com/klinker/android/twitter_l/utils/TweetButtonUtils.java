@@ -224,7 +224,7 @@ public class TweetButtonUtils {
             @Override
             public void onClick(View view) {
                 String screenName = status.getUser().getScreenName();
-                String text = "https://twitter.com/" + screenName + "/status/" + status.getId() + "\n\n" + restoreLinks(status.getText());
+                String text = "https://twitter.com/" + screenName + "/status/" + status.getId() + "\n\n@" + screenName + ": " + restoreLinks(status.getText());
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenName);
@@ -460,7 +460,7 @@ public class TweetButtonUtils {
 
         String[] otherLinks = new String[length];
         for (int i = 0; i < otherLinks.length; i++) {
-            if (i < urlEntitiesSize - 1) {
+            if (i < urlEntitiesSize) {
                 otherLinks[i] = status.getURLEntities()[i].getExpandedURL();
             } else {
                 otherLinks[i] = imageUrl;
@@ -540,11 +540,13 @@ public class TweetButtonUtils {
             }
         }
 
+        int replacementIndex = 0;
         if (webLink != null && !webLink.equals("")) {
-            for (int i = split.length - 1; i >= 0; i--) {
+            for (int i = 0; i < split.length; i++) {
                 String s = split[i];
-                if (Patterns.WEB_URL.matcher(s).find()) {
-                    String replace = otherLinks[otherLinks.length - 1];
+                if (Patterns.WEB_URL.matcher(s).find() && replacementIndex < otherLinks.length) {
+                    String replace = otherLinks[replacementIndex];
+                    replacementIndex += 1;
                     if (replace.replace(" ", "").equals("")) {
                         replace = webLink;
                     }

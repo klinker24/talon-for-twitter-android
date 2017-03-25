@@ -2,6 +2,7 @@
 
     <version name="6.0.4">
         <text>UI consistency improvements</text>
+        <text>Fixes for links being eaten when shared with an image</text>
     </version>
 
     <version name="6.0.3">
