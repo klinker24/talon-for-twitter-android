@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <TextView
                     android:id="@+id/contactName"
                     android:layout_width="wrap_content"
                     android:singleLine="true"
@@ -73,7 +73,7 @@
                     android:textColor="@color/dark_text"
                     android:paddingRight="12dp" />
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <TextView
                     android:id="@+id/time"
                     android:layout_width="fill_parent"
                     android:singleLine="true"
@@ -86,7 +86,7 @@
 
             </LinearLayout>
 
-            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+            <TextView
                 android:id="@+id/contactText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                 android:fontFamily="sans-serif-light"
                 android:paddingBottom="12dp"/>
 
-            <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+            <TextView
                 android:id="@+id/retweeter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
