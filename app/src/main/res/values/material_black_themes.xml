@@ -788,6 +788,6 @@
     <style name="Theme.TalonBlack.Settings.DarkBackgroundColor" parent="Theme.TalonBlack.Base">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/pressed_white</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 </resources>
