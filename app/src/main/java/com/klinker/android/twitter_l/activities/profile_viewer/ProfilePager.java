@@ -250,6 +250,8 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
 
         if (settings.blackTheme && settings.themeColors.primaryColor == Color.BLACK) {
             config.checkedChipColor(settings.themeColors.accentColor);
+        } else if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
+            config.checkedChipColor(settings.themeColors.accentColor);
         }
 
         chipCloud = new ChipCloud(this, chipLayout, config);
