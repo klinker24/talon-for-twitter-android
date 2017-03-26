@@ -189,4 +189,5 @@
     <string name="show_all_tweets">Show All Tweets</string>
     <string name="are_you_sure_unfollow">Are you sure you want to unfollow this user?</string>
     <string name="are_you_sure_follow">Are you sure you want to follow this user?</string>
+    <string name="larger_images">Use Larger Images</string>
 </resources>

@@ -7,7 +7,7 @@
     <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
 
     <PreferenceCategory
-        android:title="@string/color_options">
+        android:title="@string/theme_options">
 
         <ListPreference
             android:key="widget_theme"
@@ -15,6 +15,24 @@
             android:defaultValue="4"
             android:entries="@array/widget_themes"
             android:entryValues="@array/widget_themes_inserted" />
+
+        <ListPreference
+            android:key="widget_text_size"
+            android:title="@string/timeline_text_size"
+            android:defaultValue="14"
+            android:entries="@array/text_size"
+            android:entryValues="@array/text_size" />
+
+        <SwitchPreference
+            android:key="widget_images"
+            android:title="@string/show_images_on_widget"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:key="widget_larger_images"
+            android:dependency="widget_images"
+            android:title="@string/larger_images"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
@@ -33,18 +51,6 @@
             android:defaultValue="0"
             android:entries="@array/widget_timelines"
             android:entryValues="@array/widget_timelines_inserted" />
-
-        <SwitchPreference
-            android:key="widget_images"
-            android:title="@string/show_images_on_widget"
-            android:defaultValue="true" />
-
-        <ListPreference
-            android:key="widget_text_size"
-            android:title="@string/timeline_text_size"
-            android:defaultValue="14"
-            android:entries="@array/text_size"
-            android:entryValues="@array/text_size" />
 
     </PreferenceCategory>
 
