@@ -1,6 +1,8 @@
 <changelog>
 
-    <version name="6.0.4">
+    <version name="6.1.0">
+        <text>New "Material Design Color" option that matches the dark theme background!</text>
+        <text>Re-enable "peeking" on profiles and tweets</text>
         <text>UI consistency improvements</text>
         <text>Fixes for links being eaten when shared with an image</text>
     </version>
