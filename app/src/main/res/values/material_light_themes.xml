@@ -902,43 +902,43 @@
     <style name="Theme.TalonLight.DarkBackgroundColor" parent="Theme.TalonLight.Base">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Main.DarkBackgroundColor" parent="Theme.TalonLight.Main">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Tweet.DarkBackgroundColor" parent="Theme.TalonLight.Tweet">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Profile.DarkBackgroundColor" parent="Theme.TalonLight.Profile">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Popup.DarkBackgroundColor" parent="Theme.TalonLight.Popup">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Notif.DarkBackgroundColor" parent="Theme.TalonLight.Popup.Notif">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
     <style name="Theme.TalonLight.Settings.DarkBackgroundColor" parent="Theme.TalonLight.Settings">
         <item name="colorPrimary">@color/darkTheme_primary_color</item>
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
-        <item name="colorAccent">@color/black_primary_color</item>
+        <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
 </resources>
