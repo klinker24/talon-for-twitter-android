@@ -60,6 +60,7 @@
 
     <!-- Dark Theme -->
     <color name="dark_background">#263238</color>
+    <color name="darker_background">#1f292e</color>
     <color name="dark_background_old_blueish">#202B30</color>
     <color name="dark_text">#f4f4f4</color>
     <color name="dark_text_drawer">#20f4f4f4</color>

@@ -374,7 +374,7 @@ public abstract class Compose extends Activity implements
         }
 
         // change the background color for the cursor
-        if (settings.darkTheme && settings.theme == AppSettings.THEME_BLACK) {
+        if (settings.darkTheme && (settings.theme == AppSettings.THEME_BLACK || settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR)) {
             try {
                 // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
                 Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
