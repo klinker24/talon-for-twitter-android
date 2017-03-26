@@ -183,6 +183,7 @@ public class AppSettings {
     public boolean detailedQuotes;
     public boolean fingerprintLock;
     public boolean followersOnlyAutoComplete;
+    public boolean largerWidgetImages;
 
     // notifications
     public boolean timelineNot;
@@ -351,6 +352,7 @@ public class AppSettings {
         browserSelection = sharedPrefs.getString("browser_selection", "article");
         fingerprintLock = sharedPrefs.getBoolean("fingerprint_lock", false);
         followersOnlyAutoComplete = sharedPrefs.getBoolean("followers_only_auto_complete", false);
+        largerWidgetImages = sharedPrefs.getBoolean("widget_larger_images", false);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();

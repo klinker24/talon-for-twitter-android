@@ -112,22 +112,28 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         int res = 0;
         switch (Integer.parseInt(AppSettings.getSharedPreferences(mContext).getString("widget_theme", "4"))) {
             case 0:
-                res = R.layout.widget_conversation_light;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_light_large_image :
+                        R.layout.widget_conversation_light;
                 break;
             case 1:
-                res = R.layout.widget_conversation_dark;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_dark_large_image :
+                        R.layout.widget_conversation_dark;
                 break;
             case 2:
-                res = R.layout.widget_conversation_light;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_light_large_image :
+                        R.layout.widget_conversation_light;
                 break;
             case 3:
-                res = R.layout.widget_conversation_dark;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_dark_large_image :
+                        R.layout.widget_conversation_dark;
                 break;
             case 4:
-                res = R.layout.widget_conversation_light;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_light_large_image :
+                        R.layout.widget_conversation_light;
                 break;
             case 5:
-                res = R.layout.widget_conversation_dark;
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_dark_large_image :
+                        R.layout.widget_conversation_dark;
                 break;
         }
 
