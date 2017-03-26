@@ -2,7 +2,8 @@
 
     <version name="6.1.0">
         <text>New "Material Design Color" option that matches the dark theme background!</text>
-        <text>Re-enable "peeking" on profiles and tweets</text>
+        <text>Enable "peeking" on the new profiles and tweets</text>
+        <text>New option to use larger images on the widget</text>
         <text>UI consistency improvements</text>
         <text>Fixes for links being eaten when shared with an image</text>
     </version>
