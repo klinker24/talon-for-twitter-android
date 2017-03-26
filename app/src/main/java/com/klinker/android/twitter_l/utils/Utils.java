@@ -371,6 +371,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -435,6 +438,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -497,6 +503,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Black);
+                        break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_DarkBackgroundColor);
                         break;
                 }
             }
@@ -566,6 +575,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Main_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_Main_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -630,6 +642,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Main_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_Main_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -692,6 +707,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Main_Black);
+                        break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_Main_DarkBackgroundColor);
                         break;
                 }
             }
@@ -761,6 +779,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Tweet_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_Tweet_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -825,6 +846,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Tweet_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_Tweet_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -887,6 +911,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Tweet_Black);
+                        break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_Tweet_DarkBackgroundColor);
                         break;
                 }
             }
@@ -956,6 +983,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Profile_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_Profile_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1020,6 +1050,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Profile_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_Profile_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1082,6 +1115,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Profile_Black);
+                        break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_Profile_DarkBackgroundColor);
                         break;
                 }
             }
@@ -1151,6 +1187,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Popup_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_Popup_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1215,6 +1254,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Popup_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_Popup_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1277,6 +1319,9 @@ public class Utils {
                         break;
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Popup_Black);
+                        break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_Popup_DarkBackgroundColor);
                         break;
                 }
             }
@@ -1346,6 +1391,9 @@ public class Utils {
                 case AppSettings.THEME_BLACK:
                     context.setTheme(R.style.Theme_TalonLight_Settings_Black);
                     break;
+                case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                    context.setTheme(R.style.Theme_TalonLight_Settings_DarkBackgroundColor);
+                    break;
             }
         } else {
             if (!settings.blackTheme) {
@@ -1410,6 +1458,9 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Settings_Black);
                         break;
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonDark_Settings_DarkBackgroundColor);
+                        break;
                 }
             } else {
                 switch (settings.theme) {
@@ -1473,200 +1524,8 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonBlack_Settings_Black);
                         break;
-                }
-            }
-        }
-    }
-
-    public static void setUpNotifTheme(Context context, AppSettings settings) {
-        if (!settings.darkTheme) {
-            switch (settings.theme) {
-                case AppSettings.THEME_AMBER:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Amber);
-                    break;
-                case AppSettings.THEME_BLUE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Blue);
-                    break;
-                case AppSettings.THEME_BLUE_GREY:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_BlueGrey);
-                    break;
-                case AppSettings.THEME_BROWN:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Brown);
-                    break;
-                case AppSettings.THEME_CYAN:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Cyan);
-                    break;
-                case AppSettings.THEME_DEEP_ORANGE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_DeepOrange);
-                    break;
-                case AppSettings.THEME_DEEP_PURPLE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_DeepPurple);
-                    break;
-                case AppSettings.THEME_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Green);
-                    break;
-                case AppSettings.THEME_GREY:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Grey);
-                    break;
-                case AppSettings.THEME_INDIGO:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Indigo);
-                    break;
-                case AppSettings.THEME_LIGHT_BLUE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_LightBlue);
-                    break;
-                case AppSettings.THEME_LIGHT_GREEN:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_LightGreen);
-                    break;
-                case AppSettings.THEME_LIME:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Lime);
-                    break;
-                case AppSettings.THEME_PINK:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Pink);
-                    break;
-                case AppSettings.THEME_PURPLE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Purple);
-                    break;
-                case AppSettings.THEME_ORANGE:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Orange);
-                    break;
-                case AppSettings.THEME_TEAL:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Teal);
-                    break;
-                case AppSettings.THEME_RED:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Red);
-                    break;
-                case AppSettings.THEME_YELLOW:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Yellow);
-                    break;
-                case AppSettings.THEME_BLACK:
-                    context.setTheme(R.style.Theme_TalonLight_Notif_Black);
-                    break;
-            }
-        } else {
-            if (!settings.blackTheme) {
-                switch (settings.theme) {
-                    case AppSettings.THEME_AMBER:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Amber);
-                        break;
-                    case AppSettings.THEME_BLUE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Blue);
-                        break;
-                    case AppSettings.THEME_BLUE_GREY:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_BlueGrey);
-                        break;
-                    case AppSettings.THEME_BROWN:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Brown);
-                        break;
-                    case AppSettings.THEME_CYAN:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Cyan);
-                        break;
-                    case AppSettings.THEME_DEEP_ORANGE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_DeepOrange);
-                        break;
-                    case AppSettings.THEME_DEEP_PURPLE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_DeepPurple);
-                        break;
-                    case AppSettings.THEME_GREEN:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Green);
-                        break;
-                    case AppSettings.THEME_GREY:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Grey);
-                        break;
-                    case AppSettings.THEME_INDIGO:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Indigo);
-                        break;
-                    case AppSettings.THEME_LIGHT_BLUE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_LightBlue);
-                        break;
-                    case AppSettings.THEME_LIGHT_GREEN:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_LightGreen);
-                        break;
-                    case AppSettings.THEME_LIME:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Lime);
-                        break;
-                    case AppSettings.THEME_PINK:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Pink);
-                        break;
-                    case AppSettings.THEME_PURPLE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Purple);
-                        break;
-                    case AppSettings.THEME_ORANGE:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Orange);
-                        break;
-                    case AppSettings.THEME_TEAL:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Teal);
-                        break;
-                    case AppSettings.THEME_RED:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Red);
-                        break;
-                    case AppSettings.THEME_YELLOW:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Yellow);
-                        break;
-                    case AppSettings.THEME_BLACK:
-                        context.setTheme(R.style.Theme_TalonDark_Notif_Black);
-                        break;
-                }
-            } else {
-                switch (settings.theme) {
-                    case AppSettings.THEME_AMBER:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Amber);
-                        break;
-                    case AppSettings.THEME_BLUE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Blue);
-                        break;
-                    case AppSettings.THEME_BLUE_GREY:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_BlueGrey);
-                        break;
-                    case AppSettings.THEME_BROWN:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Brown);
-                        break;
-                    case AppSettings.THEME_CYAN:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Cyan);
-                        break;
-                    case AppSettings.THEME_DEEP_ORANGE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_DeepOrange);
-                        break;
-                    case AppSettings.THEME_DEEP_PURPLE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_DeepPurple);
-                        break;
-                    case AppSettings.THEME_GREEN:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Green);
-                        break;
-                    case AppSettings.THEME_GREY:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Grey);
-                        break;
-                    case AppSettings.THEME_INDIGO:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Indigo);
-                        break;
-                    case AppSettings.THEME_LIGHT_BLUE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_LightBlue);
-                        break;
-                    case AppSettings.THEME_LIGHT_GREEN:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_LightGreen);
-                        break;
-                    case AppSettings.THEME_LIME:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Lime);
-                        break;
-                    case AppSettings.THEME_PINK:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Pink);
-                        break;
-                    case AppSettings.THEME_PURPLE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Purple);
-                        break;
-                    case AppSettings.THEME_ORANGE:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Orange);
-                        break;
-                    case AppSettings.THEME_TEAL:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Teal);
-                        break;
-                    case AppSettings.THEME_RED:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Red);
-                        break;
-                    case AppSettings.THEME_YELLOW:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Yellow);
-                        break;
-                    case AppSettings.THEME_BLACK:
-                        context.setTheme(R.style.Theme_TalonBlack_Notif_Black);
+                    case AppSettings.THEME_DARK_BACKGROUND_COLOR:
+                        context.setTheme(R.style.Theme_TalonBlack_Settings_DarkBackgroundColor);
                         break;
                 }
             }
@@ -1692,6 +1551,7 @@ public class Utils {
             case AppSettings.THEME_GREEN:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_green.jpg?token=e55ba5aea66b9e0b76411bc3925297b23b69ca67";
             case AppSettings.THEME_BLACK:
+            case AppSettings.THEME_DARK_BACKGROUND_COLOR:
             case AppSettings.THEME_GREY:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_grey.jpg?token=00367e48d0865900f58afc672054157ad6adbd67";
             case AppSettings.THEME_INDIGO:
