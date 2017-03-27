@@ -133,25 +133,6 @@ public class UserAutoCompleteHelper {
         }
 
         try {
-            if (searchText.charAt(position) == '@') {
-                userAutoComplete.show();
-                hashtagAutoComplete.dismiss();
-            } else if (searchText.charAt(position) == ' ') {
-                userAutoComplete.dismiss();
-                hashtagAutoComplete.dismiss();
-            } else if (userAutoComplete.isShowing()) {
-                String adapterText = "";
-
-                int localPosition = position;
-
-                do {
-                    adapterText = searchText.charAt(localPosition--) + adapterText;
-                } while (localPosition >= 0 && searchText.charAt(localPosition) != '@');
-
-                adapterText = adapterText.replace("@", "");
-                search(adapterText);
-            }
-
             if (searchText.charAt(position) == '#') {
                 hashtagAutoComplete.show();
                 userAutoComplete.dismiss();
@@ -170,6 +151,25 @@ public class UserAutoCompleteHelper {
                 adapterText = adapterText.replace("#", "");
                 hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
                         HashtagDataSource.getInstance(context).getCursor(adapterText), textView));
+            }
+
+            if (searchText.charAt(position) == '@') {
+                userAutoComplete.show();
+                hashtagAutoComplete.dismiss();
+            } else if (searchText.charAt(position) == ' ') {
+                userAutoComplete.dismiss();
+                hashtagAutoComplete.dismiss();
+            } else if (userAutoComplete.isShowing()) {
+                String adapterText = "";
+
+                int localPosition = position;
+
+                do {
+                    adapterText = searchText.charAt(localPosition--) + adapterText;
+                } while (localPosition >= 0 && searchText.charAt(localPosition) != '@');
+
+                adapterText = adapterText.replace("@", "");
+                search(adapterText);
             }
         } catch (Exception e) {
             throw new RuntimeException("text: " + searchText + ", position index: " + position, e);
