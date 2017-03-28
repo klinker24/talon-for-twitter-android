@@ -618,6 +618,11 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
             }
         });
 
+        if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
+            ((TextView) showAll.findViewById(R.id.show_all_text))
+                    .setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+        }
+
         addTweetsToLayout(tweets);
     }
 
