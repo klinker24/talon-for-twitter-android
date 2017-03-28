@@ -139,7 +139,11 @@ public class ExpansionViewHelper {
 
         tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
-        repliesText.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
+        if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
+            repliesText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+        } else {
+            repliesText.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
+        }
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);
         replyList = (ListView) convoLayout.findViewById(R.id.listView);
