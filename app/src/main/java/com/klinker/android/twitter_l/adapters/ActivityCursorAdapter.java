@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ActivitySQLiteHelper;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
@@ -202,7 +203,13 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
         holder.name.setText(title);
         holder.tweet.setText(tweetText);
 
-        Glide.with(context).load(holder.proPicUrl).into(holder.profilePic);
+        if (settings.showProfilePictures) {
+            Glide.with(context).load(holder.proPicUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(null).into(holder.profilePic);
+        } else if (holder.profilePic.getVisibility() != View.GONE) {
+            holder.profilePic.setVisibility(View.GONE);
+        }
 
         holder.tweet.setSoundEffectsEnabled(false);
         holder.tweet.setOnClickListener(new View.OnClickListener() {

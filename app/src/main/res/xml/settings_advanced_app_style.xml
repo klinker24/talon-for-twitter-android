@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <SwitchPreference
+        android:key="show_profile_pictures"
+        android:title="@string/show_profile_pictures"
+        android:defaultValue="true" />
+
     <ListPreference
         android:key="line_spacing"
         android:title="@string/line_spacing"

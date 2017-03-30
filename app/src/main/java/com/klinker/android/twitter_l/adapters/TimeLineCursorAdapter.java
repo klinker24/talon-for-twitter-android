@@ -822,9 +822,19 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
-        Glide.with(context).load(holder.proPicUrl)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(null).into(holder.profilePic);
+        if (settings.showProfilePictures) {
+            Glide.with(context).load(holder.proPicUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(null).into(holder.profilePic);
+        } else if (holder.profilePic.getVisibility() != View.GONE) {
+            holder.profilePic.setVisibility(View.GONE);
+            holder.name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.profilePic.performClick();
+                }
+            });
+        }
 
         if (mHandlers != null) {
             final boolean picturePeekF = picturePeek;
