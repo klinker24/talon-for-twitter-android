@@ -36,6 +36,7 @@ import android.view.View;
 
 import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.search.SearchPager;
 import com.klinker.android.twitter_l.data.Link;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
@@ -97,6 +98,11 @@ public class TouchableSpan extends ClickableSpan {
                 Intent browser = new Intent(mContext, BrowserActivity.class);
                 browser.putExtra("url", url);
                 mContext.startActivity(browser);
+//            } else if (url.contains("pic.twitter.com")) {
+//                Intent search = new Intent(mContext, SearchPager.class);
+//                search.setAction(Intent.ACTION_VIEW);
+//                search.setData(Uri.parse(url));
+//                mContext.startActivity(search);
             } else if (url.contains("vine.co/v/")) {
                 VideoViewerActivity.startActivity(mContext, 0l, url, "");
             } else {
