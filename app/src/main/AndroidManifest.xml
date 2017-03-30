@@ -73,6 +73,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+      
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
 
         <meta-data
             android:name="com.klinker.android.twitter_l.utils.glide.TwitterGlideModule"
