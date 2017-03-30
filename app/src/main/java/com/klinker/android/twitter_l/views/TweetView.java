@@ -287,7 +287,7 @@ public class TweetView {
 
     protected void setupProfilePicture() {
         if (profilePicIv != null) {
-            if (!displayProfilePicture) {
+            if (!displayProfilePicture || !settings.showProfilePictures) {
                 profilePicIv.setVisibility(View.GONE);
             } else if (profilePicIv.getVisibility() != View.VISIBLE) {
                 profilePicIv.setVisibility(View.VISIBLE);

@@ -657,10 +657,19 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             }
         }
 
-        holder.profilePic.setImageDrawable(null);
-        Glide.with(context).load(profilePic).placeholder(null)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(holder.profilePic);
+        if (settings.showProfilePictures) {
+            Glide.with(context).load(profilePic)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(null).into(holder.profilePic);
+        } else if (holder.profilePic.getVisibility() != View.GONE) {
+            holder.profilePic.setVisibility(View.GONE);
+            holder.name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.profilePic.performClick();
+                }
+            });
+        }
 
         holder.image.setImageDrawable(null);
         if (picture) {
