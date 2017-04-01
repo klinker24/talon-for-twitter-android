@@ -91,7 +91,7 @@ public class UserAutoCompleteHelper {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) {
-                final String searchText = textView.getText().toString().trim();
+                final String searchText = textView.getText().toString();
                 final int position = textView.getSelectionStart() - 1;
 
                 visibilityHandler.postDelayed(new Runnable() {
