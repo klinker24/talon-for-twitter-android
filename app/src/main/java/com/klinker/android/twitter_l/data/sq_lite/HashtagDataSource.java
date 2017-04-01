@@ -130,7 +130,6 @@ public class HashtagDataSource {
     }
 
     public synchronized Cursor getCursor(String tag) {
-
         Cursor cursor;
         try {
             cursor = database.query(HashtagSQLiteHelper.TABLE_HASHTAGS,
