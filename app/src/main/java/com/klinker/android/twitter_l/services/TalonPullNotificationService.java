@@ -562,7 +562,7 @@ public class TalonPullNotificationService extends Service {
 
                     sharedPreferences.edit().putBoolean("refresh_me", true).apply();
 
-                    boolean favUser = FavoriteUsersDataSource.getInstance(mContext).isFavUser(status.getUser().getScreenName());
+                    boolean favUser = !status.isRetweet() && FavoriteUsersDataSource.getInstance(mContext).isFavUser(status.getUser().getScreenName());
                     if (favUser && settings.favoriteUserNotifications && settings.notifications) {
                         NotificationUtils.favUsersNotification(sharedPreferences.getInt("current_account", 1), mContext, -1);
                     }

@@ -1129,7 +1129,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
     public void setUpTheme() {
 
-        if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
+        if (settings.uiExtras && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE ||
+                getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
             translucent = true;
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -1142,7 +1143,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 }
             } catch (Exception e) {
             }
-        } else if (Build.VERSION.SDK_INT > 18 && settings.uiExtras && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
+        } else if (settings.uiExtras && (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                !getResources().getBoolean(R.bool.isTablet)) && !MainActivity.isPopup) {
             translucent = true;
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
