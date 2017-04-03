@@ -2,10 +2,12 @@ package com.klinker.android.twitter_l.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class NavBarOverlayLayout extends LinearLayout {
@@ -25,8 +28,6 @@ public class NavBarOverlayLayout extends LinearLayout {
     private View dim;
 
     // set up default values
-    private int distanceFromTop;
-    private int distanceFromLeft;
     protected int width;
     protected int height;
     private int screenWidth;
@@ -49,10 +50,20 @@ public class NavBarOverlayLayout extends LinearLayout {
 
         setOrientation(VERTICAL);
 
-        distanceFromTop = screenHeight;
-        distanceFromLeft = 0;
         width = screenWidth;
-        height = Utils.hasNavBar(context) ? Utils.getNavBarHeight(context) : 0;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+            boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
+            if (isLandscape && !isTablet) {
+                height = 0;
+            } else {
+                height = Utils.hasNavBar(context) ? Utils.getNavBarHeight(context) : 0;
+            }
+        } else {
+            height = Utils.hasNavBar(context) ? Utils.getNavBarHeight(context) : 0;
+        }
     }
 
     /**
