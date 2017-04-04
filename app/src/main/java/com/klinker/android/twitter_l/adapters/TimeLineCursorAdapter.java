@@ -564,7 +564,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         final String tweetWithReplyHandles = tweetTexts;
 
-        if (inAConversation) {
+        if (inAConversation && settings.compressReplies) {
             final String replies = ReplyUtils.getReplyingToHandles(tweetTexts);
             tweetTexts = tweetTexts.replace(replies, "");
 

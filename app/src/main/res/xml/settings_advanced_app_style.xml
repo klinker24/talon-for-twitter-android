@@ -2,6 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:key="new_twitter_replies"
+        android:title="@string/compress_reply_handles"
+        android:summary="@string/compress_reply_handles_summary"
+        android:defaultValue="true" />
+
+    <SwitchPreference
         android:key="show_profile_pictures"
         android:title="@string/show_profile_pictures"
         android:defaultValue="true" />

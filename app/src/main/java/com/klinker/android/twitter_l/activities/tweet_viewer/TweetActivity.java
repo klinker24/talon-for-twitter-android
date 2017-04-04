@@ -486,7 +486,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
 
-        if (isAConversation) {
+        if (isAConversation && settings.compressReplies) {
             final String replies = ReplyUtils.getReplyingToHandles(tweet);
             tweet = tweet.replace(replies, "");
 
