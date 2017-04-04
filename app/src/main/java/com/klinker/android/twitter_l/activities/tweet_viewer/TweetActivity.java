@@ -437,6 +437,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
     public CircleImageView profilePic;
     public ImageView image;
     public FontPrefTextView retweetertv;
+    public FontPrefTextView repliesTv;
     public FontPrefTextView timetv;
     public FontPrefTextView nametv;
     public FontPrefTextView screennametv;
@@ -450,6 +451,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         screennametv = (FontPrefTextView) layout.findViewById(R.id.screen_name);
         tweettv = (FontPrefTextView) layout.findViewById(R.id.tweet);
         retweetertv = (FontPrefTextView) layout.findViewById(R.id.retweeter);
+        repliesTv = (FontPrefTextView) layout.findViewById(R.id.reply_to);
         profilePic = (CircleImageView) layout.findViewById(R.id.profile_pic);
         image = (ImageView) layout.findViewById(R.id.image);
         timetv = (FontPrefTextView) layout.findViewById(R.id.time);
@@ -459,6 +461,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         nametv.setTextSize(settings.textSize + 4);
         timetv.setTextSize(settings.textSize - 3);
         retweetertv.setTextSize(settings.textSize - 3);
+        repliesTv.setTextSize(settings.textSize - 2);
 
         View.OnClickListener viewPro = new View.OnClickListener() {
             @Override

@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -18,6 +20,8 @@ import android.widget.*;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.link_builder.Link;
+import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -66,6 +70,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
     public LayoutInflater inflater;
     public AppSettings settings;
 
+    private String othersText;
+    private String replyToText;
+
     public int layout;
     public Resources res;
 
@@ -93,6 +100,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public TextView tweet;
         public TextView time;
         public TextView retweeter;
+        public TextView replies;
         public LinearLayout expandArea;
         public ImageView image;
         public LinearLayout background;
@@ -211,6 +219,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
     public void setUpLayout() {
 
+        othersText = context.getString(R.string.others);
+        replyToText = context.getString(R.string.reply_to);
+
         statuses = removeMutes(statuses);
 
         normalPictures = (int) context.getResources().getDimension(R.dimen.header_condensed_height);
@@ -261,6 +272,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+        holder.replies = (TextView) v.findViewById(R.id.reply_to);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
@@ -282,6 +294,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.screenTV.setTextSize(settings.textSize - 2);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
+        holder.retweeter.setTextSize(settings.textSize - 2);
 
         // some things we just don't need to configure every time
         holder.tweet.setSoundEffectsEnabled(false);
@@ -377,7 +390,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         final String screenname = user.getScreenName();
 
         String[] html = TweetLinkUtils.getLinksInStatus(thisStatus);
-        final String tweetText = html[0];
+        String tweetTexts = html[0];
         final String picUrl = html[1];
         holder.picUrl = picUrl;
         final String otherUrl = html[2];
@@ -397,6 +410,56 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 holder.isAConversation.setVisibility(View.GONE);
             }
         }
+
+        final String tweetWithReplyHandles = tweetTexts;
+
+        if (inAConversation) {
+            final String replies = ReplyUtils.getReplyingToHandles(tweetTexts);
+            tweetTexts = tweetTexts.replace(replies, "");
+
+            if (ReplyUtils.showMultipleReplyNames(replies)) {
+                holder.replies.setText(replyToText + " " + replies);
+                TextUtils.linkifyText(context, holder.replies, holder.background, true, "", false);
+            } else {
+                final String firstPerson = replies.split(" ")[0];
+                holder.replies.setText(replyToText + " " + firstPerson + " & " + othersText);
+
+                Link others = new Link(othersText)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                final String[] repliesSplit = replies.split(" ");
+                                new AlertDialog.Builder(context).setItems(replies.split(" "), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProfilePager.start(context, repliesSplit[which]);
+                                    }
+                                }).show();
+                            }
+                        });
+                Link first = new Link(firstPerson)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                ProfilePager.start(context, firstPerson);
+                            }
+                        });
+
+                LinkBuilder.on(holder.replies).addLink(others).addLink(first).build();
+            }
+
+            if (holder.replies.getVisibility() != View.VISIBLE) {
+                holder.replies.setVisibility(View.VISIBLE);
+            }
+        } else if (holder.replies.getVisibility() != View.GONE) {
+            holder.replies.setVisibility(View.GONE);
+        }
+
+        final String tweetText = tweetTexts;
 
         if (canUseQuickActions) {
             holder.quickActions.setOnClickListener(new View.OnClickListener() {
@@ -434,7 +497,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenname);
                 viewTweet.putExtra("time", time);
-                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("tweet", tweetWithReplyHandles);
                 viewTweet.putExtra("retweeter", fRetweeter);
                 viewTweet.putExtra("webpage", link);
                 viewTweet.putExtra("other_links", otherUrl);

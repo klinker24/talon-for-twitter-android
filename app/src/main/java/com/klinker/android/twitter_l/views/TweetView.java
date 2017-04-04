@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.views;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -18,12 +20,15 @@ import android.widget.TextView;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.link_builder.Link;
+import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
@@ -77,6 +82,7 @@ public class TweetView {
     String name;
     String screenName;
     String profilePicUrl;
+    String tweetWithReplyHandles;
     String tweet;
     String time;
     long longTime;
@@ -101,6 +107,7 @@ public class TweetView {
     TextView tweetTv;
     ImageView imageIv;
     TextView retweeterTv;
+    TextView replies;
     LinearLayout backgroundLayout;
     ImageView playButton;
     TextView screenTV;
@@ -263,6 +270,7 @@ public class TweetView {
         timeTv = (TextView) v.findViewById(R.id.time);
         tweetTv = (TextView) v.findViewById(R.id.tweet);
         retweeterTv = (TextView) v.findViewById(R.id.retweeter);
+        replies = (TextView) v.findViewById(R.id.reply_to);
         backgroundLayout = (LinearLayout) v.findViewById(R.id.background);
         playButton = (ImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
@@ -302,6 +310,7 @@ public class TweetView {
         screenTV.setTextSize(settings.textSize - 2);
         timeTv.setTextSize(settings.textSize - 3);
         retweeterTv.setTextSize(settings.textSize - 3);
+        replies.setTextSize(settings.textSize - 2);
     }
 
     protected void bindData() {
@@ -333,7 +342,7 @@ public class TweetView {
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenName);
                 viewTweet.putExtra("time", longTime);
-                viewTweet.putExtra("tweet", tweet);
+                viewTweet.putExtra("tweet", tweetWithReplyHandles);
                 viewTweet.putExtra("retweeter", retweeter);
                 viewTweet.putExtra("webpage", link);
                 viewTweet.putExtra("other_links", otherUrl);
@@ -369,6 +378,57 @@ public class TweetView {
         screenTV.setText("@" + screenName);
         nameTv.setText(name);
         timeTv.setText(time);
+
+        tweetWithReplyHandles = tweet;
+
+        if (isConvo) {
+            final String replyUsers = ReplyUtils.getReplyingToHandles(tweet);
+            tweet = tweet.replace(replyUsers, "");
+
+            final String replyToText = context.getString(R.string.reply_to);
+            final String othersText = context.getString(R.string.others);
+
+            if (ReplyUtils.showMultipleReplyNames(replyUsers)) {
+                replies.setText(replyToText + " " + replyUsers);
+                TextUtils.linkifyText(context, replies, backgroundLayout, true, "", false);
+            } else {
+                final String firstPerson = replyUsers.split(" ")[0];
+                replies.setText(replyToText + " " + firstPerson + " & " + othersText);
+
+                Link others = new Link(othersText)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                final String[] repliesSplit = replyUsers.split(" ");
+                                new AlertDialog.Builder(context).setItems(replyUsers.split(" "), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProfilePager.start(context, repliesSplit[which]);
+                                    }
+                                }).show();
+                            }
+                        });
+                Link first = new Link(firstPerson)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                ProfilePager.start(context, firstPerson);
+                            }
+                        });
+
+                LinkBuilder.on(replies).addLink(others).addLink(first).build();
+            }
+
+            if (replies.getVisibility() != View.VISIBLE) {
+                replies.setVisibility(View.VISIBLE);
+            }
+        } else if (replies.getVisibility() != View.GONE) {
+            replies.setVisibility(View.GONE);
+        }
 
         boolean replace = false;
         boolean embeddedTweetFound = embeddedTweets < MAX_EMBEDDED_TWEETS ? isEmbeddedTweet(tweet) : false;
@@ -610,20 +670,6 @@ public class TweetView {
                 }
             }
         }).start();
-    }
-
-    private Intent addDimensForExpansion(Intent i, View view) {
-        i.putExtra(TweetActivity.USE_EXPANSION, true);
-
-        int location[] = new int[2];
-        view.getLocationOnScreen(location);
-
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
-
-        return i;
     }
 
     protected boolean shouldShowImage() {
