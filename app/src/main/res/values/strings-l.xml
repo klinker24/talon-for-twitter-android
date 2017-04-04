@@ -193,4 +193,6 @@
     <string name="show_profile_pictures">Show Profile Pictures</string>
     <string name="reply_to">Reply to</string>
     <string name="others">others</string>
+    <string name="compress_reply_handles">Compress Reply Handles</string>
+    <string name="compress_reply_handles_summary">This improves handling of long reply chains on Twitter.</string>
 </resources>

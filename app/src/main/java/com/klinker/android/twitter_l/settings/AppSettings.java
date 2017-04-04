@@ -185,6 +185,7 @@ public class AppSettings {
     public boolean followersOnlyAutoComplete;
     public boolean largerWidgetImages;
     public boolean showProfilePictures;
+    public boolean compressReplies;
 
     // notifications
     public boolean timelineNot;
@@ -355,6 +356,7 @@ public class AppSettings {
         followersOnlyAutoComplete = sharedPrefs.getBoolean("followers_only_auto_complete", false);
         largerWidgetImages = sharedPrefs.getBoolean("widget_larger_images", false);
         showProfilePictures = sharedPrefs.getBoolean("show_profile_pictures", true);
+        compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
