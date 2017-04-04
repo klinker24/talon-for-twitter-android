@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -30,6 +32,8 @@ import android.widget.*;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.link_builder.Link;
+import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.peekview.builder.Peek;
 import com.klinker.android.peekview.builder.PeekViewOptions;
@@ -82,6 +86,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
     protected SharedPreferences sharedPrefs;
     public boolean secondAcc = false;
 
+    private String othersText;
+    private String replyToText;
+
     public int layout;
     public Resources res;
 
@@ -121,6 +128,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public TextView tweet;
         public TextView time;
         public TextView retweeter;
+        public TextView replies;
         public LinearLayout expandArea;
         public ImageView image;
         public LinearLayout background;
@@ -172,6 +180,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         videoHandler = new Handler();
 
+        othersText = context.getString(R.string.others);
+        replyToText = context.getString(R.string.reply_to);
         settings = AppSettings.getInstance(context);
         embeddedTweetMinHeight = settings.condensedTweets() ? Utils.toDP(70, context) : Utils.toDP(140, context);
 
@@ -336,6 +346,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweet = (TextView) v.findViewById(R.id.tweet);
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
+        holder.replies = (TextView) v.findViewById(R.id.reply_to);
         holder.background = (LinearLayout) v.findViewById(R.id.background);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
@@ -353,6 +364,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.muffledName.setTextSize(settings.textSize);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
+        holder.replies.setTextSize(settings.textSize - 1);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
@@ -469,13 +481,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         videoHandler.removeCallbacksAndMessages(null);
     }
 
-    public void releaseVideo() {
-        for (Video v : videos) {
-            v.releaseVideo();
-        }
-        videos.clear();
-    }
-
     protected int TWEET_COL;
     protected int PRO_PIC_COL;
     protected int TEXT_COL;
@@ -528,7 +533,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.tweetId = id;
         final String profilePic = cursor.getString(PRO_PIC_COL);
         holder.proPicUrl = profilePic;
-        final String tweetTexts = cursor.getString(TEXT_COL);
+        String tweetTexts = cursor.getString(TEXT_COL);
         final String name = cursor.getString(NAME_COL);
         final String screenname = cursor.getString(SCREEN_NAME_COL);
         final String picUrl = cursor.getString(PIC_COL);
@@ -557,7 +562,52 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
-        final int position = cursor.getPosition();
+        if (inAConversation) {
+            final String replies = ReplyUtils.getReplyingToHandles(tweetTexts);
+            tweetTexts = tweetTexts.replace(replies, "");
+
+            if (ReplyUtils.showMultipleReplyNames(replies)) {
+                holder.replies.setText(replyToText + " " + replies);
+                TextUtils.linkifyText(context, holder.replies, holder.background, true, "", false);
+            } else {
+                final String firstPerson = replies.split(" ")[0];
+                holder.replies.setText(replyToText + " " + firstPerson + " & " + othersText);
+                TextUtils.linkifyText(context, holder.replies, holder.background, true, "", false);
+
+                Link others = new Link(othersText)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                final String[] repliesSplit = replies.split(" ");
+                                new AlertDialog.Builder(context).setItems(replies.split(" "), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProfilePager.start(context, repliesSplit[which]);
+                                    }
+                                }).show();
+                            }
+                        });
+                Link first = new Link(firstPerson)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                ProfilePager.start(context, firstPerson);
+                            }
+                        });
+
+                LinkBuilder.on(holder.replies).addLink(others).addLink(first).build();
+            }
+
+            if (holder.replies.getVisibility() != View.VISIBLE) {
+                holder.replies.setVisibility(View.VISIBLE);
+            }
+        } else if (holder.replies.getVisibility() != View.GONE) {
+            holder.replies.setVisibility(View.GONE);
+        }
 
         String retweeter;
         try {
@@ -588,7 +638,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetTexts, secondAcc);
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetText, secondAcc);
                 popup.setExpansionPointForAnim(holder.quickActions);
                 popup.setOnTopOfView(holder.quickActions);
                 popup.show();

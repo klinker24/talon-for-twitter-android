@@ -148,11 +148,20 @@
                         android:layoutDirection="locale" />
 
                     <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                        android:id="@+id/reply_to"
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:paddingTop="3dp"
+                        android:gravity="start"
+                        android:textColor="?dateColor"
+                        android:visibility="gone" />
+
+                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
                         android:id="@+id/retweeter"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
                         android:paddingTop="3dp"
-                        android:gravity="left"
+                        android:gravity="start"
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 

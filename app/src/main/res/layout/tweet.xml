@@ -145,11 +145,22 @@
             android:layout_marginLeft="16dp" />
 
         <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+            android:id="@+id/reply_to"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:paddingTop="3dp"
+            android:gravity="end"
+            android:textColor="?dateColor"
+            android:visibility="gone"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp" />
+
+        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:paddingTop="3dp"
-            android:gravity="right"
+            android:gravity="end"
             android:textColor="?dateColor"
             android:visibility="gone"
             android:layout_marginRight="16dp"

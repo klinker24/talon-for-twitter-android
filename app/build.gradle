@@ -124,6 +124,7 @@ dependencies {
     compile "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
 
+    compile 'com.klinkerapps:link_builder:1.5.2'
     compile 'com.klinkerapps:peekview:1.2.2'
     compile 'com.klinkerapps:simple_videoview:1.2.4'
     compile 'com.klinkerapps:launcher-apis:1.1.0'
