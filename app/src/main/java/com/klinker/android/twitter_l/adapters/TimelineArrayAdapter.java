@@ -507,6 +507,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", holder.animatedGif);
+                viewTweet.putExtra("conversation", inAConversation);
 
                 TweetActivity.applyDragDismissBundle(context, viewTweet);
 

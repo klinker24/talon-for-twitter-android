@@ -1,7 +1,9 @@
 package com.klinker.android.twitter_l.activities.tweet_viewer;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -35,6 +37,8 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.klinker.android.link_builder.Link;
+import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
@@ -47,6 +51,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -176,6 +181,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
     public boolean isMyRetweet = true;
     public boolean secondAcc = false;
     public String gifVideo;
+    public boolean isAConversation = false;
 
     protected boolean fromLauncher = false;
 
@@ -387,6 +393,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         proPic = from.getStringExtra("proPic");
         secondAcc = from.getBooleanExtra("second_account", false);
         gifVideo = from.getStringExtra("animated_gif");
+        isAConversation = from.getBooleanExtra("conversation", false);
 
         try {
             users = from.getStringExtra("users").split("  ");
@@ -478,6 +485,51 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         layout.findViewById(R.id.person_info).setOnClickListener(viewPro);
         nametv.setOnClickListener(viewPro);
         screennametv.setOnClickListener(viewPro);
+
+        if (isAConversation) {
+            final String replies = ReplyUtils.getReplyingToHandles(tweet);
+            tweet = tweet.replace(replies, "");
+
+            final String replyToText = context.getString(R.string.reply_to);
+            final String othersText = context.getString(R.string.others);
+
+            if (ReplyUtils.showMultipleReplyNames(replies)) {
+                repliesTv.setText(replyToText + " " + replies);
+                TextUtils.linkifyText(context, repliesTv, findViewById(R.id.tweet_background), true, "", false);
+            } else {
+                final String firstPerson = replies.split(" ")[0];
+                repliesTv.setText(replyToText + " " + firstPerson + " & " + othersText);
+
+                Link others = new Link(othersText)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                final String[] repliesSplit = replies.split(" ");
+                                new AlertDialog.Builder(context).setItems(replies.split(" "), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ProfilePager.start(context, repliesSplit[which]);
+                                    }
+                                }).show();
+                            }
+                        });
+                Link first = new Link(firstPerson)
+                        .setUnderlined(false)
+                        .setTextColor(settings.themeColors.accentColor)
+                        .setOnClickListener(new Link.OnClickListener() {
+                            @Override
+                            public void onClick(String clickedText) {
+                                ProfilePager.start(context, firstPerson);
+                            }
+                        });
+
+                LinkBuilder.on(repliesTv).addLink(others).addLink(first).build();
+            }
+
+            repliesTv.setVisibility(View.VISIBLE);
+        }
 
         if (picture || displayPlayButton) { // if there is a picture already loaded (or we have a vine/twimg surfaceView)
 
