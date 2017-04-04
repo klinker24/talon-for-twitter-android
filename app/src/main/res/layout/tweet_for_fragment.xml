@@ -41,6 +41,20 @@
             android:layout_marginRight="8dp" />
 
         <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+            android:id="@+id/reply_to"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="3dp"
+            android:gravity="end"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?textColor"
+            android:visibility="gone"
+            android:alpha=".6"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+
+        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

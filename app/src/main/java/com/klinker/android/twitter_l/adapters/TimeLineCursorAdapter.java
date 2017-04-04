@@ -364,7 +364,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.muffledName.setTextSize(settings.textSize);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);
-        holder.replies.setTextSize(settings.textSize - 1);
+        holder.replies.setTextSize(settings.textSize - 2);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
@@ -562,6 +562,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             }
         }
 
+        final String tweetWithReplyHandles = tweetTexts;
+
         if (inAConversation) {
             final String replies = ReplyUtils.getReplyingToHandles(tweetTexts);
             tweetTexts = tweetTexts.replace(replies, "");
@@ -572,7 +574,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             } else {
                 final String firstPerson = replies.split(" ")[0];
                 holder.replies.setText(replyToText + " " + firstPerson + " & " + othersText);
-                TextUtils.linkifyText(context, holder.replies, holder.background, true, "", false);
 
                 Link others = new Link(othersText)
                         .setUnderlined(false)
@@ -669,7 +670,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewTweet.putExtra("name", name);
                 viewTweet.putExtra("screenname", screenname);
                 viewTweet.putExtra("time", longTime);
-                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("tweet", tweetWithReplyHandles);
                 viewTweet.putExtra("retweeter", fRetweeter);
                 viewTweet.putExtra("webpage", link);
                 viewTweet.putExtra("other_links", otherUrl);
