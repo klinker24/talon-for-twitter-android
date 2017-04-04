@@ -47,10 +47,8 @@
             android:layout_marginTop="3dp"
             android:gravity="end"
             android:textSize="14sp"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?textColor"
+            android:textColor="?dateColor"
             android:visibility="gone"
-            android:alpha=".6"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"/>
 
@@ -61,10 +59,8 @@
             android:layout_marginTop="3dp"
             android:gravity="end"
             android:textSize="14sp"
-            android:fontFamily="sans-serif-light"
-            android:textColor="?textColor"
+            android:textColor="?dateColor"
             android:visibility="gone"
-            android:alpha=".6"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"/>
 

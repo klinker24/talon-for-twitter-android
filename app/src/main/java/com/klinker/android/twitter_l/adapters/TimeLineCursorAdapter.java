@@ -545,7 +545,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         holder.gifUrl = cursor.getString(GIF_COL);
 
-        boolean inAConversation;
+        final boolean inAConversation;
         if (hasConvo) {
             inAConversation = cursor.getInt(CONVO_COL) == 1;
         } else {
@@ -680,6 +680,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", holder.gifUrl);
+                viewTweet.putExtra("conversation", inAConversation);
 
                 if (secondAcc) {
                     String text = context.getString(R.string.using_second_account).replace("%s", "@" + settings.secondScreenName);

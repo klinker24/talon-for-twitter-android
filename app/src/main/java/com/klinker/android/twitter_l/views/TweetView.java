@@ -352,6 +352,8 @@ public class TweetView {
                 viewTweet.putExtra("users", users);
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
+                viewTweet.putExtra("conversation", isConvo);
+
 
                 TweetActivity.applyDragDismissBundle(context, viewTweet);
                 context.startActivity(viewTweet);
