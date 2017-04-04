@@ -191,4 +191,6 @@
     <string name="are_you_sure_follow">Are you sure you want to follow this user?</string>
     <string name="larger_images">Use Larger Images</string>
     <string name="show_profile_pictures">Show Profile Pictures</string>
+    <string name="reply_to">Reply to</string>
+    <string name="others">others</string>
 </resources>
