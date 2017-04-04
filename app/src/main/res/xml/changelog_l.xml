@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.2.0">
+        <text>Option to use Twitter's new reply style! It is on by default. If you want to turn it off and see all the Twitter handles in a reply, like Twitter has always done, it is under "Advanced App Style" settings.</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.1.0">
         <text>New "Material Design Color" option that matches the dark theme background!</text>
         <text>New option in advanced "App Style" settings to disable showing profile pictures</text>
