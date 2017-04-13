@@ -68,15 +68,15 @@ public class UserAutoCompleteHelper {
         display.getSize(size);
         int width = size.x;
 
-        userAutoComplete = new ListPopupWindow(context);
-        userAutoComplete.setHeight(Utils.toDP(200, context));
-        userAutoComplete.setWidth((int)(width * .75));
-        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_BELOW);
-
         hashtagAutoComplete = new ListPopupWindow(context);
         hashtagAutoComplete.setHeight(Utils.toDP(200, context));
         hashtagAutoComplete.setWidth((int)(width * .75));
         hashtagAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
+
+        userAutoComplete = new ListPopupWindow(context);
+        userAutoComplete.setHeight(Utils.toDP(200, context));
+        userAutoComplete.setWidth((int)(width * .75));
+        userAutoComplete.setPromptPosition(ListPopupWindow.POSITION_PROMPT_ABOVE);
     }
 
     private ListPopupWindow on(final EditText textView) {
@@ -89,17 +89,17 @@ public class UserAutoCompleteHelper {
 
         textView.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-            @Override public void afterTextChanged(Editable editable) {
-                final String searchText = textView.getText().toString();
-                final int position = textView.getSelectionStart() - 1;
-
+            @Override public void afterTextChanged(Editable editable) { }
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 visibilityHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        final String searchText = textView.getText().toString();
+                        final int position = textView.getSelectionStart() - 1;
+
                         handleText(searchText, position);
                     }
-                }, 150);
+                }, 100);
             }
         });
 
@@ -128,7 +128,7 @@ public class UserAutoCompleteHelper {
     }
 
     private void handleText(String searchText, int position) {
-        if (position < 0 || position > searchText.length() - 1 || position > searchText.length() - 1) {
+        if (position < 0 || position > searchText.length() - 1) {
             return;
         }
 
@@ -173,18 +173,6 @@ public class UserAutoCompleteHelper {
             }
         } catch (Exception e) {
             throw new RuntimeException("text: " + searchText + ", position index: " + position, e);
-//                    // there is no text
-//                    try {
-//                        userAutoComplete.dismiss();
-//                    } catch (Exception x) {
-//                        // something went really wrong I guess haha
-//                    }
-//
-//                    try {
-//                        hashtagAutoComplete.dismiss();
-//                    } catch (Exception x) {
-//                        // something went really wrong I guess haha
-//                    }
         }
     }
 
