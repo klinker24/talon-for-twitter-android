@@ -443,8 +443,7 @@ public abstract class Compose extends Activity implements
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             doneClick();
                                         }
-                                    })
-                                    .setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
+                                    }).setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             try {
@@ -457,13 +456,16 @@ public abstract class Compose extends Activity implements
                                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
                                             }
                                         }
-                                    })
-                                    /*.setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                        }
-                                    })*/
-                                    .create()
+                                    }).setNegativeButton(R.string.split_tweet, new DialogInterface.OnClickListener() {
+                                          @Override
+                                          public void onClick(DialogInterface dialogInterface, int i) {
+                                              multiTweet = true;
+                                              boolean close = doneClick();
+                                              if (close) {
+                                                  onBackPressed();
+                                              }
+                                          }
+                                    }).create()
                                     .show();
                         } else {
                             boolean close = doneClick();
@@ -876,6 +878,7 @@ public abstract class Compose extends Activity implements
     public static final int PWICCER = 420;
 
     public boolean pwiccer = false;
+    private boolean multiTweet = false;
 
     public String attachmentType = "";
 
@@ -1171,7 +1174,108 @@ public abstract class Compose extends Activity implements
                 }
             }, 50);
         }
+        
+        /**
+         * Helper method for posting the status update using TwitLonger
+         *
+         * @param twitter the account to tweet from
+         * @return bool true if successful else false
+         */
+        private boolean tweetUsingTwitLonger(Twitter twitter) {
+            boolean isDone = false;
+            TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
 
+            if (notiId != 0) {
+                helper.setInReplyToStatusId(notiId);
+            }
+            if (addLocation) {
+                //waitForLocation();
+                if (waitForLocation()) {
+                    Location location = mLastLocation;
+                    GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                    helper.setLocation(geolocation);
+                }
+            }
+            if (helper.createPost() != 0) {
+                isDone = true;
+            }
+            return isDone;
+        }
+
+        private Pair<String, List<String>> getMultipeTweets(String message) {
+            List<String> multiTweets = new Vector<String>();
+            String mentions = "";
+            String[] tokens = message.split(" ");
+            String tempString = "";
+            /* Only check for 132 as we are adding (xx/xx) at the end of long tweets */
+            for (int i = 0; i < tokens.length; i++) {
+                if(notiId != 0) {
+                    /* This is a reply tweet Take any mentions out of the tweets */
+                    if(tokens[i].contains("@")) {
+                        mentions += tokens[i] + " ";
+                        continue;
+                    }
+                }
+                if (tempString.length() + tokens[i].length() + 1 <= 132) {
+                    tempString += tokens[i] + " ";
+                } else {
+                    /* We have our split tweet */
+                    multiTweets.add(tempString);
+                    tempString = tokens[i] + " ";
+                }
+            }
+            /* Last tweet will fall out of loop */
+            multiTweets.add(tempString);
+            return Pair.create(mentions, multiTweets);
+        }
+
+        /**
+         * Helper function to tweet the updates without attaching images.
+         * @param twitter The account used to tweet
+         */
+        private void tweetWithoutImages(Twitter twitter) throws Exception {
+            tweetWithoutImages(twitter, false, 0);
+        }
+
+        /**
+         * Helper function to tweet updates without attaching images. Set the tweet to
+         * scheduled as a workaround for the rate-limit from twitter. Provide a time if the
+         * tweet is scheduled.
+         *
+         * @param twitter The account used to tweet
+         * @param scheduled True if tweet needs to be scheduled
+         */
+        private void tweetWithoutImages(Twitter twitter, boolean scheduled, long time) throws Exception {
+            if(scheduled) {
+                ScheduledTweet tweet = new ScheduledTweet(getApplicationContext(), context, status, time, 0);
+                tweet.createScheduledTweet();
+            } else {
+                boolean autoPopulateMetadata = false;
+                if (replyText != null && !replyText.contains("/status/")) {
+                    String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
+                    status = status.replaceAll(replaceable, "");
+                    autoPopulateMetadata = true;
+                }
+
+                StatusUpdate media = new StatusUpdate(status);
+                media.setAutoPopulateReplyMetadata(autoPopulateMetadata);
+
+                if (notiId != 0) {
+                    media.setInReplyToStatusId(notiId);
+                }
+
+                // Update status
+                if (addLocation) {
+                    if (waitForLocation()) {
+                        Location location = mLastLocation;
+                        GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
+                        media.setLocation(geolocation);
+                    }
+                }
+                twitter.updateStatus(media);
+            }
+        }
+                
         protected Boolean doInBackground(String... args) {
             status = args[0];
 
@@ -1183,104 +1287,78 @@ public abstract class Compose extends Activity implements
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
                 Twitter twitter2 = Utils.getSecondTwitter(getApplicationContext());
 
-                if (remaining < 0 && !pwiccer) {
+                if (remaining < 0 && !pwiccer && !multiTweet) {
                     // twitlonger goes here
-
                     boolean isDone = false;
 
                     if (useAccOne) {
-                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter, context);
-
-                        if (notiId != 0) {
-                            helper.setInReplyToStatusId(notiId);
-                        }
-
-                        if (addLocation) {
-                            if (waitForLocation()) {
-                                Location location = mLastLocation;
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                helper.setLocation(geolocation);
-                            }
-                        }
-
-                        if (helper.createPost() != 0) {
-                            isDone = true;
-                        }
+                        isDone = tweetUsingTwitLonger(twitter);
                     }
 
                     if (useAccTwo) {
-                        TwitLongerHelper helper = new TwitLongerHelper(text, twitter2, context);
-
-                        if (notiId != 0) {
-                            helper.setInReplyToStatusId(notiId);
-                        }
-
-                        if (addLocation) {
-                            waitForLocation();
-
-                            if (waitForLocation()) {
-                                Location location = mLastLocation;
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                helper.setLocation(geolocation);
-                            }
-                        }
-
-                        if (helper.createPost() != 0) {
-                            isDone = true;
-                        }
+                        isDone = tweetUsingTwitLonger(twitter2);
                     }
 
                     return isDone;
-                } else {
-                    boolean autoPopulateMetadata = false;
-                    if (shouldReplaceTo(text)) {
-                        String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
-                        if (!replaceable.equals(" ")) {
-                            status = status.replaceAll(replaceable, "");
-                            autoPopulateMetadata = true;
-                        }
-                    }
-
-                    StatusUpdate media = new StatusUpdate(status);
-                    StatusUpdate media2 = new StatusUpdate(status);
-
-                    if (autoPopulateMetadata) {
-                        media.setAutoPopulateReplyMetadata(autoPopulateMetadata);
-                        media2.setAutoPopulateReplyMetadata(autoPopulateMetadata);
-                    }
-
-                    /*if (attachmentUrl != null) {
-                        media.attachmentUrl(attachmentUrl);
-                        media2.attachmentUrl(attachmentUrl);
-                    }*/
-
-                    if (notiId != 0) {
-                        media.setInReplyToStatusId(notiId);
-                        media2.setInReplyToStatusId(notiId);
-                    }
-
+                  } else if (multiTweet && remaining < 0) {
+                      Pair<String, List<String>> multiTweets = getMultipeTweets(status);
+                      int noOfTweets = multiTweets.second.size();
+                      int tweetNo = 1;
+                      for (int i = 0; i < noOfTweets; i++) {
+                          status = multiTweets.first.length()!=0?multiTweets.first:"";
+                          status += multiTweets.second.get(i) + "(" + tweetNo + "/" + noOfTweets + ")";
+                          replyText = status.replace("/status/", "");
+                          tweetNo++;
+                          if (useAccOne) {
+                              tweetWithoutImages(twitter);
+                          }
+                          if (useAccTwo) {
+                              tweetWithoutImages(twitter2);
+                          }
+                      }
+                      
+                      multiTweet = false;
+                      return true;
+                  } else {
                     if (imagesAttached == 0) {
-                        // Update status
-                        if(addLocation) {
-                            if (waitForLocation()) {
-                                Location location = mLastLocation;
-                                GeoLocation geolocation = new GeoLocation(location.getLatitude(), location.getLongitude());
-                                media.setLocation(geolocation);
-                                media2.setLocation(geolocation);
-                            }
-                        }
-
                         if (useAccOne) {
-                            twitter.updateStatus(media);
+                            tweetWithoutImages(twitter);
                         }
                         if (useAccTwo) {
-                            twitter2.updateStatus(media2);
+                            tweetWithoutImages(twitter2);
                         }
 
                         return true;
 
                     } else {
                         // status with picture(s)
+                        boolean autoPopulateMetadata = false;
+                        if (shouldReplaceTo(text)) {
+                            String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
+                            if (!replaceable.equals(" ")) {
+                                status = status.replaceAll(replaceable, "");
+                                autoPopulateMetadata = true;
+                            }
+                        }
+    
+                        StatusUpdate media = new StatusUpdate(status);
+                        StatusUpdate media2 = new StatusUpdate(status);
+    
+                        if (autoPopulateMetadata) {
+                            media.setAutoPopulateReplyMetadata(autoPopulateMetadata);
+                            media2.setAutoPopulateReplyMetadata(autoPopulateMetadata);
+                        }
+    
+                        /*if (attachmentUrl != null) {
+                            media.attachmentUrl(attachmentUrl);
+                            media2.attachmentUrl(attachmentUrl);
+                        }*/
+    
+                        if (notiId != 0) {
+                            media.setInReplyToStatusId(notiId);
+                            media2.setInReplyToStatusId(notiId);
+                        }
+                        
                         File[] files = new File[imagesAttached];
                         File outputDir = context.getCacheDir();
 
