@@ -673,16 +673,9 @@ public class ComposeActivity extends Compose {
         // Check for blank text
         if (Integer.parseInt(charRemaining.getText().toString()) >= 0 || settings.twitlonger) {
             // update status
-            if (Integer.parseInt(charRemaining.getText().toString()) < 0) {
-                onBackPressed();
-                doneClicked = true;
-                sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
-                return true;
-            } else {
-                doneClicked = true;
-                sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
-                return true;
-            }
+            doneClicked = true;
+            sendStatus(status, Integer.parseInt(charRemaining.getText().toString()));
+            return true;
         } else {
             if (editText.getText().length() + (attachedUri.equals("") ? 0 : 22) <= 140) {
                 // EditText is empty
