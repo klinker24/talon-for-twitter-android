@@ -48,6 +48,7 @@ import android.provider.MediaStore;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.util.Pair;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -75,6 +76,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.ScheduledTweet;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.FingerprintDialog;
@@ -99,6 +101,8 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1183,7 +1187,7 @@ public abstract class Compose extends Activity implements
          */
         private boolean tweetUsingTwitLonger(Twitter twitter) {
             boolean isDone = false;
-            TwitLongerHelper helper = new TwitLongerHelper(text, twitter);
+            TwitLongerHelper helper = new TwitLongerHelper(text, twitter, Compose.this);
 
             if (notiId != 0) {
                 helper.setInReplyToStatusId(notiId);
@@ -1203,7 +1207,7 @@ public abstract class Compose extends Activity implements
         }
 
         private Pair<String, List<String>> getMultipeTweets(String message) {
-            List<String> multiTweets = new Vector<String>();
+            List<String> multiTweets = new Vector<>();
             String mentions = "";
             String[] tokens = message.split(" ");
             String tempString = "";
@@ -1247,8 +1251,9 @@ public abstract class Compose extends Activity implements
          */
         private void tweetWithoutImages(Twitter twitter, boolean scheduled, long time) throws Exception {
             if(scheduled) {
-                ScheduledTweet tweet = new ScheduledTweet(getApplicationContext(), context, status, time, 0);
-                tweet.createScheduledTweet();
+                // some guy wanted this for the future I guess. The one the did the multi tweet PR
+//                ScheduledTweet tweet = new ScheduledTweet(getApplicationContext(), context, status, time, 0);
+//                tweet.createScheduledTweet();
             } else {
                 boolean autoPopulateMetadata = false;
                 if (replyText != null && !replyText.contains("/status/")) {
@@ -1272,7 +1277,11 @@ public abstract class Compose extends Activity implements
                         media.setLocation(geolocation);
                     }
                 }
-                twitter.updateStatus(media);
+                    
+                twitter4j.Status status = twitter.updateStatus(media);
+                if (status != null) {
+                    notiId = status.getId();
+                }
             }
         }
                 
