@@ -32,6 +32,7 @@ import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.D
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ListFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
+import com.klinker.android.twitter_l.utils.ServiceUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,20 +40,13 @@ import java.util.Date;
 public class BootReceiver extends BroadcastReceiver {
 
     private Context context;
-    private SharedPreferences sharedPrefs;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         AppSettings settings = AppSettings.getInstance(context);
 
-        DataCheckService.scheduleRefresh(context);
-        TimelineRefreshService.scheduleRefresh(context);
-        TrimDataService.scheduleRefresh(context, 1);
-        MentionsRefreshService.scheduleRefresh(context);
-        DirectMessageRefreshService.scheduleRefresh(context);
-        ListRefreshService.scheduleRefresh(context);
-        ActivityRefreshService.scheduleRefresh(context);
+        ServiceUtils.rescheduleAllServices(context);
 
         if (settings.pushNotifications) {
             context.startService(new Intent(context, CatchupPull.class));
