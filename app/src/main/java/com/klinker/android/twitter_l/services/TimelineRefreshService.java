@@ -30,6 +30,7 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -190,7 +191,7 @@ public class TimelineRefreshService extends LimitedRunService {
                 sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
             }
 
-            sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+            WidgetProvider.updateWidget(this);
             getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
             TimelineRefreshService.isRunning = false;

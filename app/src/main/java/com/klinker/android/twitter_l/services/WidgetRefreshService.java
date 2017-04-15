@@ -29,6 +29,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -145,7 +146,7 @@ public class WidgetRefreshService  extends KillerIntentService {
             startService(new Intent(this, PreCacheService.class));
         }
 
-        context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        WidgetProvider.updateWidget(this);
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
         sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
