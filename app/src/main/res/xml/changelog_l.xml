@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.3.0">
+        <text>New option for tweets that are too long to post: "Tweetstorms"! This will split tweets using a counter (1/x), and post them directly to Twitter.</text>
+    </version>
+
     <version name="6.2.0">
         <text>Option to use Twitter's new reply style! It is on by default. If you want to turn it off and see all the Twitter handles in a reply, like Twitter has always done, it is under "Advanced App Style" settings.</text>
         <text>Bug fixes</text>
