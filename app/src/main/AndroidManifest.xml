@@ -693,7 +693,14 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.ListRefreshService"/>
+        <service
+            android:exported="false"
+            android:name=".services.ListRefreshService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
         <service android:name=".services.SecondMentionsRefreshService"/>
         <service android:name=".services.DirectMessageRefreshService"/>
         <service android:name=".services.ActivityRefreshService"/>

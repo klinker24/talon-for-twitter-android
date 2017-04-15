@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -66,16 +67,18 @@ public class TimelineRefreshService extends SimpleJobService {
         int refreshInterval = (int) settings.timelineRefresh / 1000; // convert to seconds
 
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(DataCheckService.class)
-                .setTag(JOB_TAG)
-                .setRecurring(true)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
-                .setReplaceCurrent(true)
-                .build();
 
         if (settings.timelineRefresh != 0) {
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(TimelineRefreshService.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(true)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
+                    .setReplaceCurrent(true)
+                    .build();
+
             dispatcher.mustSchedule(myJob);
         } else {
             dispatcher.cancel(JOB_TAG);
@@ -91,15 +94,8 @@ public class TimelineRefreshService extends SimpleJobService {
 
         if (MainActivity.canSwitch) {
             TimelineRefreshService.isRunning = true;
-            int numberNew = 0;
 
             AppSettings settings = AppSettings.getInstance(context);
-
-            // if they have mobile data on and don't want to sync over mobile data
-            if (!onStartRefresh && Utils.getConnectionStatus(context) && !settings.syncMobile) {
-                TimelineRefreshService.isRunning = false;
-                return 0;
-            }
 
             Twitter twitter = Utils.getTwitter(context, settings);
 
@@ -107,13 +103,13 @@ public class TimelineRefreshService extends SimpleJobService {
 
             int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-            List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+            List<twitter4j.Status> statuses = new ArrayList<>();
 
             boolean foundStatus = false;
 
             Paging paging = new Paging(1, 200);
 
-            long[] lastId = null;
+            long[] lastId;
             long id;
             try {
                 lastId = dataSource.getLastIds(currentAccount);
@@ -122,7 +118,7 @@ public class TimelineRefreshService extends SimpleJobService {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException i) {
-
+                    e.printStackTrace();
                 }
 
                 TimelineRefreshService.isRunning = false;
@@ -192,7 +188,7 @@ public class TimelineRefreshService extends SimpleJobService {
             try{
                 inserted = HomeDataSource.getInstance(context).insertTweets(statuses, currentAccount, lastId);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
             if (inserted > 0 && statuses.size() > 0) {

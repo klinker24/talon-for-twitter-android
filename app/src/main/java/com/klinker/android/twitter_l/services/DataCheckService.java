@@ -39,6 +39,7 @@ public class DataCheckService extends SimpleJobService {
 
     public static final long KB_IN_BYTES = 1024;
     public static final long MB_IN_BYTES = KB_IN_BYTES * 1024;
+    public static final String JOB_TAG = "data-check-service";
 
     @Override
     public int onRunJob(JobParameters jobParameters) {
@@ -69,7 +70,7 @@ public class DataCheckService extends SimpleJobService {
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
         Job myJob = dispatcher.newJobBuilder()
                 .setService(DataCheckService.class)
-                .setTag("data-check-service")
+                .setTag(JOB_TAG)
                 .setRecurring(true)
                 .setLifetime(Lifetime.FOREVER)
                 .setTrigger(Trigger.executionWindow(RESTART_INTERVAL, 2 * RESTART_INTERVAL))

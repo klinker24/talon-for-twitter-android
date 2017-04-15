@@ -1,82 +1,77 @@
 package com.klinker.android.twitter_l.services;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ActivityFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ListFragment;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ListRefreshService extends LimitedRunService {
+public class ListRefreshService extends SimpleJobService {
+
+    public static final String JOB_TAG = "list-timeline-refresh";
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
 
-    public ListRefreshService() {
-        super("ListRefreshService");
-    }
-
     public static void cancelRefresh(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
-
-        am.cancel(pendingIntent);
-    }
-
-    private static PendingIntent getRefreshPendingIntent(Context context) {
-        return PendingIntent.getService(
-                context,
-                ListFragment.LIST_REFRESH_ID,
-                new Intent(context, ListRefreshService.class),
-                0);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        dispatcher.cancel(JOB_TAG);
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+        int refreshInterval = (int) settings.listRefresh / 1000; // convert to seconds
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
 
         if (settings.listRefresh != 0) {
-            long now = new Date().getTime();
-            long alarm = now + settings.listRefresh;
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(DataCheckService.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(true)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
+                    .setReplaceCurrent(true)
+                    .build();
 
-            am.cancel(pendingIntent);
-            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+            dispatcher.mustSchedule(myJob);
         } else {
-            am.cancel(pendingIntent);
+            dispatcher.cancel(JOB_TAG);
         }
     }
 
     @Override
-    public void handleIntentIfTime(Intent intent) {
-        scheduleRefresh(this);
-
+    public int onRunJob(JobParameters job) {
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
-            return;
+            return 0;
         }
-        sharedPrefs = AppSettings.getSharedPreferences(this);
 
+        sharedPrefs = AppSettings.getSharedPreferences(this);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
-        List<Long> listIds = new ArrayList();
+        List<Long> listIds = new ArrayList<>();
 
         for (int i = 0; i < TimelinePagerAdapter.MAX_EXTRA_PAGES; i++) {
             String listIdentifier = "account_" + currentAccount + "_list_" + (i + 1) + "_long";
@@ -85,7 +80,7 @@ public class ListRefreshService extends LimitedRunService {
             int type = sharedPrefs.getInt(pageIdentifier, AppSettings.PAGE_TYPE_NONE);
 
             if (type == AppSettings.PAGE_TYPE_LIST) {
-                listIds.add(sharedPrefs.getLong(listIdentifier, 0l));
+                listIds.add(sharedPrefs.getLong(listIdentifier, 0L));
             }
         }
 
@@ -98,18 +93,11 @@ public class ListRefreshService extends LimitedRunService {
                 Context context = getApplicationContext();
                 AppSettings settings = AppSettings.getInstance(context);
 
-                // if they have mobile data on and don't want to sync over mobile data
-                if (intent.getBooleanExtra("on_start_refresh", false)) {
-
-                } else if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
-                    return;
-                }
-
                 Twitter twitter = Utils.getTwitter(context, settings);
 
                 long[] lastId = ListDataSource.getInstance(context).getLastIds(listId);
 
-                final List<twitter4j.Status> statuses = new ArrayList<twitter4j.Status>();
+                final List<twitter4j.Status> statuses = new ArrayList<>();
 
                 boolean foundStatus = false;
 
@@ -139,26 +127,13 @@ public class ListRefreshService extends LimitedRunService {
                 ListDataSource dataSource = ListDataSource.getInstance(context);
                 dataSource.insertTweets(statuses, listId);
 
-                if (!intent.getBooleanExtra("on_start_refresh", false)) {
-                    sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).apply();
-                }
-
+                sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).apply();
                 sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));
             }
 
             ListRefreshService.isRunning = false;
         }
-    }
 
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }

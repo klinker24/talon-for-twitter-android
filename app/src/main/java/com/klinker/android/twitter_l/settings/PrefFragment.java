@@ -56,6 +56,7 @@ import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.LocalTrendsUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
@@ -1366,6 +1367,10 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         AppSettings.invalidate();
 
+        if (key.equals("sync_mobile_data")) {
+            ServiceUtils.rescheduleAllServices(context);
+        }
+
         //Log.v("alarm_date", "key: " + key);
 
         if (key.equals("timeline_sync_interval")) {
@@ -1716,7 +1721,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
     }
 
-    class TrimDatabase extends AsyncTask<String, Void, Boolean> {
+    private class TrimDatabase extends AsyncTask<String, Void, Boolean> {
 
         ProgressDialog pDialog;
 
