@@ -19,7 +19,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -51,8 +50,6 @@ public class SendScheduledTweet extends SimpleJobService {
 
     public static final String JOB_TAG = "send-scheduled-tweet";
 
-    SharedPreferences sharedPrefs;
-
     public static void scheduleNextRun(Context context) {
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
         ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
@@ -62,6 +59,7 @@ public class SendScheduledTweet extends SimpleJobService {
         } else {
             ScheduledTweet s = tweets.get(0);
             int tweetInSeconds = (int) (s.time - new Date().getTime()) / 1000;
+
             Job myJob = dispatcher.newJobBuilder()
                     .setService(SendScheduledTweet.class)
                     .setTag(JOB_TAG)
@@ -96,6 +94,7 @@ public class SendScheduledTweet extends SimpleJobService {
             }
         }
 
+        scheduleNextRun(this);
         return 0;
     }
 

@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.utils.PushSyncSender;
+import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -168,13 +169,7 @@ public class MaterialLogin extends MaterialLVLActivity {
     private void startTimeline() {
         Context context = this;
 
-        DataCheckService.scheduleRefresh(context);
-        TimelineRefreshService.scheduleRefresh(context);
-        TrimDataService.scheduleRefresh(context);
-        MentionsRefreshService.scheduleRefresh(context);
-        DirectMessageRefreshService.scheduleRefresh(context);
-        ListRefreshService.scheduleRefresh(context);
-        ActivityRefreshService.scheduleRefresh(context);
+        ServiceUtils.rescheduleAllServices(context);
 
         finish();
 

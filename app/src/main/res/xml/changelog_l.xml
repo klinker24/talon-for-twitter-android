@@ -2,6 +2,9 @@
 
     <version name="6.3.0">
         <text>New option for tweets that are too long to post: "Tweetstorms"! This will split tweets using a counter (1/x), and post them directly to Twitter.</text>
+        <text>Preparations for Android O!</text>
+        <text>Tons of improvements around the background service scheduling, data usage, and battery usage</text>
+        <text>Fix queued tweets never being sent</text>
     </version>
 
     <version name="6.2.0">

@@ -16,7 +16,6 @@ package com.klinker.android.twitter_l.services;
  */
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.firebase.jobdispatcher.Constraint;
@@ -37,9 +36,6 @@ public class TrimDataService extends SimpleJobService {
 
     public static final String JOB_TAG = "trim-data";
 
-    SharedPreferences sharedPrefs;
-    public static boolean isRunning = false;
-
     public static void scheduleRefresh(Context context) {
         int secondsUntilThreeAm = secondsUntilThreeAm(new Date().getTime());
 
@@ -49,7 +45,7 @@ public class TrimDataService extends SimpleJobService {
                 .setTag(JOB_TAG)
                 .setRecurring(true)
                 .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(secondsUntilThreeAm, 15 * secondsUntilThreeAm))
+                .setTrigger(Trigger.executionWindow(secondsUntilThreeAm, (15 * 60) + secondsUntilThreeAm))
                 .setConstraints(Constraint.DEVICE_CHARGING)
                 .setReplaceCurrent(true)
                 .build();

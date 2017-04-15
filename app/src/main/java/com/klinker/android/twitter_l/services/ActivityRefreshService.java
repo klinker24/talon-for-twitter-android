@@ -17,7 +17,7 @@ import com.klinker.android.twitter_l.utils.ActivityUtils;
 
 public class ActivityRefreshService extends SimpleJobService {
 
-    public static final String JOB_TAG = "direct-message-refresh";
+    public static final String JOB_TAG = "activity-refresh";
 
     SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
@@ -52,8 +52,6 @@ public class ActivityRefreshService extends SimpleJobService {
 
     @Override
     public int onRunJob(JobParameters parameters) {
-        scheduleRefresh(this);
-
         AppSettings settings = AppSettings.getInstance(this);
         ActivityUtils utils = new ActivityUtils(this, false);
 
