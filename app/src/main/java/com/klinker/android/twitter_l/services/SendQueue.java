@@ -39,7 +39,6 @@ import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
 
-
 public class SendQueue extends Service {
 
     @Override
