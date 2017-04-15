@@ -16,64 +16,89 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.MainActivity;
-import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class TimelineRefreshService extends LimitedRunService {
+public class TimelineRefreshService extends SimpleJobService {
 
-    SharedPreferences sharedPrefs;
+    public static final String JOB_TAG = "home-timeline-refresh";
     public static boolean isRunning = false;
 
-    public TimelineRefreshService() {
-        super("TimelineRefreshService");
+    @Override
+    public int onRunJob(JobParameters params) {
+        return refresh(this, false);
     }
 
-    @Override
-    public void handleIntentIfTime(Intent intent) {
-        scheduleRefresh(this);
+    public static void cancelRefresh(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        dispatcher.cancel(JOB_TAG);
+    }
 
-        if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
-            return;
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        int refreshInterval = (int) settings.timelineRefresh / 1000; // convert to seconds
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(DataCheckService.class)
+                .setTag(JOB_TAG)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                .setReplaceCurrent(true)
+                .build();
+
+        if (settings.timelineRefresh != 0) {
+            dispatcher.mustSchedule(myJob);
+        } else {
+            dispatcher.cancel(JOB_TAG);
         }
+    }
+
+    public static int refresh(Context context, boolean onStartRefresh) {
+
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
+        if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
+            return 0;
+        }
+
         if (MainActivity.canSwitch) {
             TimelineRefreshService.isRunning = true;
-            sharedPrefs = AppSettings.getSharedPreferences(this);
-
-
-            Context context = getApplicationContext();
             int numberNew = 0;
 
             AppSettings settings = AppSettings.getInstance(context);
 
             // if they have mobile data on and don't want to sync over mobile data
-            if (intent.getBooleanExtra("on_start_refresh", false)) {
-
-            } else if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
+            if (!onStartRefresh && Utils.getConnectionStatus(context) && !settings.syncMobile) {
                 TimelineRefreshService.isRunning = false;
-                return;
+                return 0;
             }
 
             Twitter twitter = Utils.getTwitter(context, settings);
@@ -99,8 +124,9 @@ public class TimelineRefreshService extends LimitedRunService {
                 } catch (InterruptedException i) {
 
                 }
+
                 TimelineRefreshService.isRunning = false;
-                return;
+                return 0;
             }
 
             if (id == 0) {
@@ -110,7 +136,7 @@ public class TimelineRefreshService extends LimitedRunService {
             try {
                 paging.setSinceId(id);
             } catch (Exception e) {
-                paging.setSinceId(1l);
+                paging.setSinceId(1L);
             }
 
             for (int i = 0; i < settings.maxTweetsRefresh; i++) {
@@ -140,7 +166,7 @@ public class TimelineRefreshService extends LimitedRunService {
             Log.v("talon_pull", "got statuses, new = " + statuses.size());
 
             // hash set to check for duplicates I guess
-            HashSet hs = new HashSet();
+            Set<Status> hs = new HashSet<>();
             hs.addAll(statuses);
             statuses.clear();
             statuses.addAll(hs);
@@ -150,13 +176,13 @@ public class TimelineRefreshService extends LimitedRunService {
             lastId = dataSource.getLastIds(currentAccount);
 
             Long currentTime = Calendar.getInstance().getTimeInMillis();
-            if (currentTime - sharedPrefs.getLong("last_timeline_insert", 0l) < 10000) {
+            if (currentTime - sharedPrefs.getLong("last_timeline_insert", 0L) < 10000) {
                 Log.v("talon_refresh", "don't insert the tweets on refresh");
-                sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", 0));
 
                 TimelineRefreshService.isRunning = false;
                 context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
-                return;
+                return 0;
             } else {
                 sharedPrefs.edit().putLong("last_timeline_insert", currentTime).apply();
             }
@@ -173,82 +199,30 @@ public class TimelineRefreshService extends LimitedRunService {
                 sharedPrefs.edit().putLong("account_" + currentAccount + "_lastid", statuses.get(0).getId()).apply();
             }
 
-            if (!intent.getBooleanExtra("on_start_refresh", false)) {
+            if (!onStartRefresh) {
                 sharedPrefs.edit().putBoolean("refresh_me", true).apply();
 
-                if (settings.notifications && (settings.timelineNot || settings.favoriteUserNotifications) && inserted > 0 && !intent.getBooleanExtra("from_launcher", false)) {
+                if (settings.notifications && (settings.timelineNot || settings.favoriteUserNotifications) && inserted > 0) {
                     NotificationUtils.refreshNotification(context);
                 }
 
                 if (settings.preCacheImages) {
-                    startService(new Intent(this, PreCacheService.class));
+                    context.startService(new Intent(context, PreCacheService.class));
                 }
 
-                sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
 
             } else {
                 Log.v("talon_refresh", "sending broadcast to fragment");
-                sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
             }
 
-            WidgetProvider.updateWidget(this);
-            getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+            WidgetProvider.updateWidget(context);
+            context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
             TimelineRefreshService.isRunning = false;
         }
-    }
 
-    // override since this is handled within this service
-    @Override
-    protected boolean dontRunMoreThanEveryMins(Intent intent) {
-        if (intent.getBooleanExtra("on_start_refresh", false)) {
-            return true;
-        } else {
-            return super.dontRunMoreThanEveryMins(intent);
-        }
-    }
-
-    public static void cancelRefresh(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
-
-        am.cancel(pendingIntent);
-    }
-
-    private static PendingIntent getRefreshPendingIntent(Context context) {
-        return PendingIntent.getService(
-                context,
-                HomeFragment.HOME_REFRESH_ID,
-                new Intent(context, TimelineRefreshService.class),
-                0);
-    }
-
-    public static void scheduleRefresh(Context context) {
-        AppSettings settings = AppSettings.getInstance(context);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        long now = new Date().getTime();
-        long alarm = now + settings.timelineRefresh;
-
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
-
-        if (settings.timelineRefresh != 0) {
-            am.cancel(pendingIntent);
-            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
-        } else {
-            am.cancel(pendingIntent);
-        }
-    }
-
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }

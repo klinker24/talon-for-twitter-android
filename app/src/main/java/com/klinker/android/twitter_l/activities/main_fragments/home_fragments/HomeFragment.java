@@ -1061,9 +1061,6 @@ public class HomeFragment extends MainFragment {
         refreshLayout.setRefreshing(true);
         refreshTweetmarker = true;
 
-        Intent refresh = new Intent(context, TimelineRefreshService.class);
-        refresh.putExtra("on_start_refresh", true);
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TIMELINE_REFRESHED");
         context.registerReceiver(new BroadcastReceiver() {
@@ -1082,7 +1079,7 @@ public class HomeFragment extends MainFragment {
             }
         }, filter);
 
-        context.startService(refresh);
+        TimelineRefreshService.refresh(context, true);
     }
 
     public boolean trueLive = false;
