@@ -701,14 +701,28 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.SecondMentionsRefreshService"/>
-        <service android:name=".services.DirectMessageRefreshService"/>
+        <service
+            android:exported="true"
+            android:name=".services.MentionsRefreshService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:exported="false"
+            android:name=".services.DirectMessageRefreshService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
         <service android:name=".services.ActivityRefreshService"/>
-        <service android:name=".services.SecondActivityRefreshService"/>
         <service android:name=".services.SendScheduledTweet"/>
         <service android:name=".services.TrimDataService"/>
-        <service android:name=".services.MentionsRefreshService" android:exported="true"/>
 
+        <service android:name=".services.SecondActivityRefreshService"/>
+        <service android:name=".services.SecondMentionsRefreshService"/>
         <service android:name=".services.FavoriteTweetService"/>
         <service android:name=".services.RetweetService"/>
         <service android:name=".services.ReplyFromWearService"/>

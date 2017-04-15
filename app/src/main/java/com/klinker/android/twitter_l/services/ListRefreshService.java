@@ -46,7 +46,7 @@ public class ListRefreshService extends SimpleJobService {
 
         if (settings.listRefresh != 0) {
             Job myJob = dispatcher.newJobBuilder()
-                    .setService(DataCheckService.class)
+                    .setService(ListRefreshService.class)
                     .setTag(JOB_TAG)
                     .setRecurring(true)
                     .setLifetime(Lifetime.FOREVER)
