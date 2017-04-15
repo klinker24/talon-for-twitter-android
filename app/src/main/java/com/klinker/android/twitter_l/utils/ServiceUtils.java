@@ -7,6 +7,7 @@ import com.klinker.android.twitter_l.services.DataCheckService;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.ListRefreshService;
 import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.SendQueueService;
 import com.klinker.android.twitter_l.services.SendScheduledTweet;
 import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.TrimDataService;
@@ -22,5 +23,6 @@ public class ServiceUtils {
         ListRefreshService.scheduleRefresh(context);
         ActivityRefreshService.scheduleRefresh(context);
         SendScheduledTweet.scheduleNextRun(context);
+        SendQueueService.scheduleRefresh(context);
     }
 }

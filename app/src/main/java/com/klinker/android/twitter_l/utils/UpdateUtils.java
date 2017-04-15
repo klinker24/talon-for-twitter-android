@@ -168,13 +168,7 @@ public class UpdateUtils {
 
     public static void runEveryUpdate(final Context context, final SharedPreferences sharedPrefs) {
 
-        DataCheckService.scheduleRefresh(context);
-        TimelineRefreshService.scheduleRefresh(context);
-        TrimDataService.scheduleRefresh(context);
-        MentionsRefreshService.scheduleRefresh(context);
-        DirectMessageRefreshService.scheduleRefresh(context);
-        ListRefreshService.scheduleRefresh(context);
-        ActivityRefreshService.scheduleRefresh(context);
+        ServiceUtils.rescheduleAllServices(context);
 
         int storedAppVersion = sharedPrefs.getInt("app_version", 0);
         int currentAppVersion = getAppVersion(context);

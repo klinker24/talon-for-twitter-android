@@ -20,12 +20,21 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Patterns;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -35,59 +44,58 @@ import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
 
-public class SendQueue extends Service {
+public class SendQueueService extends SimpleJobService {
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public static final String JOB_TAG = "send-queue-service";
+
+    SharedPreferences sharedPrefs;
+    public static boolean isRunning = false;
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(TrimDataService.class)
+                .setTag(JOB_TAG)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(60 * 30, 60 * 60)) // 30 - 60 mins
+                .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
+                .setReplaceCurrent(true)
+                .build();
+
+        dispatcher.mustSchedule(myJob);
     }
 
     @Override
-    public int onStartCommand(Intent intent, int i, int x) {
-
+    public int onRunJob(JobParameters parameters) {
         Log.v("talon_queued", "starting to send queued tweets");
 
         final Context context = this;
         final AppSettings settings = AppSettings.getInstance(this);
 
-        try {
-            if (intent == null) {
-                return START_NOT_STICKY;
-            }
-        } catch (Exception e) {
-            // null pointer... what the hell...
-        }
-
         final String[] queued = QueuedDataSource.getInstance(context)
                 .getQueuedTweets(AppSettings.getInstance(context).currentAccount);
 
+        for (String s : queued) {
+            sendingNotification();
+            boolean sent = sendTweet(settings, context, s);
 
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-
-                for (String s : queued) {
-
-                    sendingNotification();
-                    boolean sent = sendTweet(settings, context, s);
-
-                    if (sent) {
-                        finishedTweetingNotification();
-                        QueuedDataSource.getInstance(context).deleteQueuedTweet(s);
-                    } else {
-                        makeFailedNotification(s, settings);
-                    }
-                }
-
-                stopSelf();
+            if (sent) {
+                finishedTweetingNotification();
+                QueuedDataSource.getInstance(context).deleteQueuedTweet(s);
+            } else {
+                makeFailedNotification(s, settings);
             }
-        }).start();
+        }
 
-        return START_STICKY;
+        return 0;
     }
 
     public boolean sendTweet(AppSettings settings, Context context, String message) {
@@ -187,7 +195,7 @@ public class SendQueue extends Service {
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(5, mBuilder.build());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
