@@ -750,10 +750,6 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="com.klinker.android.talon.UPDATE_WIDGET" />
-            </intent-filter>
-
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_timeline" />
         </receiver>
@@ -763,10 +759,6 @@
             android:label="@string/unread_bar_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="com.klinker.android.talon.UPDATE_WIDGET" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"

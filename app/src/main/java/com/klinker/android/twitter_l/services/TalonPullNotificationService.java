@@ -44,6 +44,7 @@ import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToPopup;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 
 import java.util.ArrayList;
@@ -558,7 +559,7 @@ public class TalonPullNotificationService extends Service {
                     sharedPreferences.edit().putInt("pull_unread", pullUnread).apply();
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.NEW_TWEET"));
                     mContext.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_NOTIF"));
-                    mContext.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+                    WidgetProvider.updateWidget(mContext);
 
                     sharedPreferences.edit().putBoolean("refresh_me", true).apply();
 

@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -197,7 +198,7 @@ public class CatchupPull extends KillerIntentService {
         sharedPrefs.edit().putInt("pull_unread", unreadNow).apply();
         context.startService(new Intent(context, TalonPullNotificationService.class));
 
-        context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        WidgetProvider.updateWidget(this);
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         Log.v("talon_pull", "finished with the catchup service");

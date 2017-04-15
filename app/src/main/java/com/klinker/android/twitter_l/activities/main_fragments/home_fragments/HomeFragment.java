@@ -45,6 +45,7 @@ import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TweetMarkerHelper;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -925,7 +926,7 @@ public class HomeFragment extends MainFragment {
             }).start();
         }
 
-        context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+        WidgetProvider.updateWidget(getActivity());
         //context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
         super.onStop();

@@ -41,6 +41,8 @@ import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 
 public class WidgetProvider extends AppWidgetProvider {
 
+    public static final String UPDATE_WIDGET = "com.klinker.android.talon.UPDATE_WIDGET";
+
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Intent updateWidget = new Intent(context, CardWidgetService2.class);
         context.startService(updateWidget);
@@ -51,7 +53,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("com.klinker.android.talon.UPDATE_WIDGET")) {
+        if (intent.getAction().equals(UPDATE_WIDGET)) {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
@@ -206,5 +208,30 @@ public class WidgetProvider extends AppWidgetProvider {
             }
         }
 
+    }
+
+    public static void updateWidget(Context context) {
+        int[] ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(new ComponentName(context, WidgetProvider.class));
+
+        Intent intent = new Intent(context, WidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+
+        context.sendBroadcast(intent);
+        context.sendBroadcast(new Intent(UPDATE_WIDGET)); // send to dashclock
+
+        updateUnreadWidget(context);
+    }
+
+    private static void updateUnreadWidget(Context context) {
+        int[] ids = AppWidgetManager.getInstance(context)
+                .getAppWidgetIds(new ComponentName(context, UnreadWidgetProvider.class));
+
+        Intent intent = new Intent(context, UnreadWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+
+        context.sendBroadcast(intent);
     }
 }

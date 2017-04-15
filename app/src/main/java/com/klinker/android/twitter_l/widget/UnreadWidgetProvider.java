@@ -52,7 +52,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("com.klinker.android.talon.UPDATE_WIDGET")) {
+        if (intent.getAction().equals(WidgetProvider.UPDATE_WIDGET)) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
             context.startService(updateWidget);
         } else {

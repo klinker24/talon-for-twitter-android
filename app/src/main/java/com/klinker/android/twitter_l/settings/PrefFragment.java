@@ -73,6 +73,7 @@ import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
+import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.io.File;
 import java.util.*;
@@ -1495,7 +1496,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 worldPrefs.edit().putBoolean("follower_notifications", false).apply();
             }
         } else if (key.equals("widget_theme") || key.equals("text_size")) {
-            context.sendBroadcast(new Intent("com.klinker.android.talon.UPDATE_WIDGET"));
+            WidgetProvider.updateWidget(context);
         } else if (key.equals("locale")) {
             App.updateResources(context);
             getActivity().recreate();
