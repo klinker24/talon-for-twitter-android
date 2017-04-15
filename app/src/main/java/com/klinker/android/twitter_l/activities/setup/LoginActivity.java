@@ -278,7 +278,7 @@ public class LoginActivity extends LVLActivity {
 
                     DataCheckService.scheduleRefresh(context);
                     TimelineRefreshService.scheduleRefresh(context);
-                    TrimDataService.scheduleRefresh(context, 12 * 60); // tomorrow
+                    TrimDataService.scheduleRefresh(context); // tomorrow
                     MentionsRefreshService.scheduleRefresh(context);
                     DirectMessageRefreshService.scheduleRefresh(context);
                     ListRefreshService.scheduleRefresh(context);

@@ -717,9 +717,29 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.ActivityRefreshService"/>
-        <service android:name=".services.SendScheduledTweet"/>
-        <service android:name=".services.TrimDataService"/>
+        <service
+            android:exported="false"
+            android:name=".services.ActivityRefreshService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:exported="false"
+            android:name=".services.SendScheduledTweet">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:exported="false"
+            android:name=".services.TrimDataService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
 
         <service android:name=".services.SecondActivityRefreshService"/>
         <service android:name=".services.SecondMentionsRefreshService"/>

@@ -25,55 +25,78 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Patterns;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
-import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
-import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.data.ScheduledTweet;
+import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
 
-public class SendScheduledTweet extends KillerIntentService {
+public class SendScheduledTweet extends SimpleJobService {
+
+    public static final String JOB_TAG = "send-scheduled-tweet";
 
     SharedPreferences sharedPrefs;
 
-    public SendScheduledTweet() {
-        super("SendScheduledTweetService");
+    public static void scheduleNextRun(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
+
+        if (tweets.size() == 0) {
+            dispatcher.cancel(JOB_TAG);
+        } else {
+            ScheduledTweet s = tweets.get(0);
+            int tweetInSeconds = (int) (s.time - new Date().getTime()) / 1000;
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(SendScheduledTweet.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(false)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow(tweetInSeconds, tweetInSeconds + 60)) // within 1 min
+                    .setReplaceCurrent(true)
+                    .build();
+
+            dispatcher.mustSchedule(myJob);
+        }
     }
 
     @Override
-    public void handleIntent(Intent intent) {
+    public int onRunJob(JobParameters parameters) {
         Log.v("talon_scheduled_tweet", "started service");
 
-        final String text = intent.getStringExtra(ViewScheduledTweets.EXTRA_TEXT);
-        final int account = intent.getIntExtra("account", 1);
-        final int alarmId = intent.getIntExtra("alarm_id", 0);
+        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(this).getScheduledTweets();
+        if (tweets.size() != 0) {
+            ScheduledTweet s = tweets.get(0);
+            final Context context = this;
+            final AppSettings settings = AppSettings.getInstance(context);
 
-        final Context context = this;
-        final AppSettings settings = AppSettings.getInstance(context);
+            sendingNotification();
+            boolean sent = sendTweet(settings, context, s.text, settings.currentAccount);
 
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-
-                sendingNotification();
-                boolean sent = sendTweet(settings, context, text, account);
-
-                if (sent) {
-                    finishedTweetingNotification();
-                    QueuedDataSource.getInstance(context).deleteScheduledTweet(alarmId);
-                } else {
-                    makeFailedNotification(text, settings);
-                }
-
+            if (sent) {
+                finishedTweetingNotification();
+                QueuedDataSource.getInstance(context).deleteScheduledTweet(s.alarmId);
+            } else {
+                makeFailedNotification(s.text, settings);
             }
-        }).start();
+        }
+
+        return 0;
     }
 
     public boolean sendTweet(AppSettings settings, Context context, String message, int account) {
@@ -177,7 +200,7 @@ public class SendScheduledTweet extends KillerIntentService {
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(5, mBuilder.build());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

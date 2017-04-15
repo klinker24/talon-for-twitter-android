@@ -170,7 +170,7 @@ public class MaterialLogin extends MaterialLVLActivity {
 
         DataCheckService.scheduleRefresh(context);
         TimelineRefreshService.scheduleRefresh(context);
-        TrimDataService.scheduleRefresh(context, 12 * 60);
+        TrimDataService.scheduleRefresh(context);
         MentionsRefreshService.scheduleRefresh(context);
         DirectMessageRefreshService.scheduleRefresh(context);
         ListRefreshService.scheduleRefresh(context);
