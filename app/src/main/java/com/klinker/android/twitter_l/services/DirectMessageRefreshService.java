@@ -15,71 +15,68 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ActivityFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
 
-public class DirectMessageRefreshService extends LimitedRunService {
+public class DirectMessageRefreshService extends SimpleJobService {
 
-    private SharedPreferences sharedPrefs;
+    public static final String JOB_TAG = "direct-message-refresh";
 
-    public DirectMessageRefreshService() {
-        super("DirectMessageRefreshService");
-    }
+    SharedPreferences sharedPrefs;
+    public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
-
-        am.cancel(pendingIntent);
-    }
-
-    private static PendingIntent getRefreshPendingIntent(Context context) {
-        return PendingIntent.getService(
-                context,
-                DMFragment.DM_REFRESH_ID,
-                new Intent(context, DirectMessageRefreshService.class),
-                0);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        dispatcher.cancel(JOB_TAG);
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+        int refreshInterval = (int) settings.dmRefresh / 1000; // convert to seconds
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
 
         if (settings.dmRefresh != 0) {
-            long now = new Date().getTime();
-            long alarm = now + settings.dmRefresh;
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(DirectMessageRefreshService.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(true)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
+                    .setReplaceCurrent(true)
+                    .build();
 
-            am.cancel(pendingIntent);
-            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+            dispatcher.mustSchedule(myJob);
         } else {
-            am.cancel(pendingIntent);
+            dispatcher.cancel(JOB_TAG);
         }
     }
 
     @Override
-    public void handleIntentIfTime(Intent intent) {
+    public int onRunJob(JobParameters parameters) {
         scheduleRefresh(this);
 
         sharedPrefs = AppSettings.getSharedPreferences(this);
@@ -87,13 +84,7 @@ public class DirectMessageRefreshService extends LimitedRunService {
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
 
-        // if they have mobile data on and don't want to sync over mobile data
-        if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
-            return;
-        }
-
-        boolean update = false;
-        int numberNew = 0;
+        int numberNew;
 
         try {
             Twitter twitter = Utils.getTwitter(context, settings);
@@ -160,17 +151,7 @@ public class DirectMessageRefreshService extends LimitedRunService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
-    }
 
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }
