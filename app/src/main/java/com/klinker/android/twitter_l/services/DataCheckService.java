@@ -35,11 +35,26 @@ import java.util.Date;
 
 public class DataCheckService extends SimpleJobService {
 
+    public static final String JOB_TAG = "data-check-service";
+
     public  static final int RESTART_INTERVAL = 15 * 60; // 15 mins
 
     public static final long KB_IN_BYTES = 1024;
     public static final long MB_IN_BYTES = KB_IN_BYTES * 1024;
-    public static final String JOB_TAG = "data-check-service";
+
+    public static void scheduleRefresh(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(DataCheckService.class)
+                .setTag(JOB_TAG)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(RESTART_INTERVAL, 2 * RESTART_INTERVAL))
+                .setReplaceCurrent(true)
+                .build();
+
+        dispatcher.mustSchedule(myJob);
+    }
 
     @Override
     public int onRunJob(JobParameters jobParameters) {
@@ -64,19 +79,5 @@ public class DataCheckService extends SimpleJobService {
         }
 
         return 0;
-    }
-
-    public static void scheduleRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(DataCheckService.class)
-                .setTag(JOB_TAG)
-                .setRecurring(true)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(RESTART_INTERVAL, 2 * RESTART_INTERVAL))
-                .setReplaceCurrent(true)
-                .build();
-
-        dispatcher.mustSchedule(myJob);
     }
 }

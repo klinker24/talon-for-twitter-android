@@ -1367,19 +1367,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         AppSettings.invalidate();
 
-        if (key.equals("sync_mobile_data")) {
-            ServiceUtils.rescheduleAllServices(context);
-        }
+        ServiceUtils.rescheduleAllServices(context);
 
-        //Log.v("alarm_date", "key: " + key);
-
-        if (key.equals("timeline_sync_interval")) {
-            TimelineRefreshService.scheduleRefresh(context);
-        } else if (key.equals("mentions_sync_interval")) {
-            MentionsRefreshService.scheduleRefresh(context);
-        } else if (key.equals("dm_sync_interval")) {
-            DirectMessageRefreshService.scheduleRefresh(context);
-        } else if (key.equals("layout")) {
+        if (key.equals("layout")) {
             new TrimCache(null).execute();
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         } else if (key.equals("alert_types")) {

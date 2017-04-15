@@ -17,11 +17,8 @@ package com.klinker.android.twitter_l.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -36,15 +33,13 @@ import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.SimpleJobService;
 import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
-import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 
-import java.util.Date;
 import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
@@ -53,15 +48,12 @@ public class SendQueueService extends SimpleJobService {
 
     public static final String JOB_TAG = "send-queue-service";
 
-    SharedPreferences sharedPrefs;
-    public static boolean isRunning = false;
-
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
 
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
         Job myJob = dispatcher.newJobBuilder()
-                .setService(TrimDataService.class)
+                .setService(SendQueueService.class)
                 .setTag(JOB_TAG)
                 .setRecurring(true)
                 .setLifetime(Lifetime.FOREVER)

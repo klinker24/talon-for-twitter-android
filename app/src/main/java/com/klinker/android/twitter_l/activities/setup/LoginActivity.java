@@ -55,6 +55,7 @@ import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.D
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.activities.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
+import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 
@@ -275,14 +276,7 @@ public class LoginActivity extends LVLActivity {
                 } else {
 
                     // set up refreshes
-
-                    DataCheckService.scheduleRefresh(context);
-                    TimelineRefreshService.scheduleRefresh(context);
-                    TrimDataService.scheduleRefresh(context); // tomorrow
-                    MentionsRefreshService.scheduleRefresh(context);
-                    DirectMessageRefreshService.scheduleRefresh(context);
-                    ListRefreshService.scheduleRefresh(context);
-                    ActivityRefreshService.scheduleRefresh(context);
+                    ServiceUtils.rescheduleAllServices(context);
 
                     finish();
 

@@ -77,8 +77,6 @@ public class DirectMessageRefreshService extends SimpleJobService {
 
     @Override
     public int onRunJob(JobParameters parameters) {
-        scheduleRefresh(this);
-
         sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
