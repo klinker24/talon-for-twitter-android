@@ -741,6 +741,14 @@
             </intent-filter>
         </service>
 
+        <service
+            android:exported="false"
+            android:name=".services.SendQueueService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
         <service android:name=".services.SecondActivityRefreshService"/>
         <service android:name=".services.SecondMentionsRefreshService"/>
         <service android:name=".services.FavoriteTweetService"/>
@@ -749,7 +757,6 @@
         <service android:name=".services.ReplySecondAccountFromWearService"/>
         <service android:name=".services.TalonPullNotificationService"/>
         <service android:name=".services.SendTweet"/>
-        <service android:name=".services.SendQueue"/>
         <service android:name=".services.CatchupPull"/>
         <service android:name=".services.StopPull"/>
         <service android:name=".services.MarkReadService"/>
@@ -783,12 +790,6 @@
 
         <receiver android:name="com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverTwo"
                   android:exported="true"/>
-
-        <!--<receiver android:name="com.klinker.android.twitter_l.receivers.QueueTweets" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>-->
 
         <provider android:name="com.klinker.android.twitter_l.utils.MySuggestionsProvider"
             android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider" />
