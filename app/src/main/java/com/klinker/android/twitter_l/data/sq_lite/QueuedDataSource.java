@@ -306,13 +306,15 @@ public class QueuedDataSource {
             cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
                     allColumns,
                     QueuedSQLiteHelper.COLUMN_TYPE + " = ?",
-                    new String[] {"" + QueuedSQLiteHelper.TYPE_SCHEDULED}, null, null, null);
+                    new String[] {"" + QueuedSQLiteHelper.TYPE_SCHEDULED}, null, null,
+                    QueuedSQLiteHelper.COLUMN_TIME + " DESC");
         } catch (Exception e) {
             open();
             cursor = database.query(QueuedSQLiteHelper.TABLE_QUEUED,
                     allColumns,
                     QueuedSQLiteHelper.COLUMN_TYPE + " = ?",
-                    new String[] {"" + QueuedSQLiteHelper.TYPE_SCHEDULED}, null, null, null);
+                    new String[] {"" + QueuedSQLiteHelper.TYPE_SCHEDULED}, null, null,
+                    QueuedSQLiteHelper.COLUMN_TIME + " DESC");
         }
 
         return cursor;

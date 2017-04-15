@@ -15,73 +15,72 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.utils.IOUtils;
 
-import android.content.pm.PackageInfo;
-import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-
-import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
-import com.klinker.android.twitter_l.utils.IOUtils;
-import com.klinker.android.twitter_l.utils.redirects.RedirectToPlayStore;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.Date;
 
-public class TrimDataService extends KillerIntentService {
+public class TrimDataService extends SimpleJobService {
+
+    public static final String JOB_TAG = "trim-data";
 
     SharedPreferences sharedPrefs;
+    public static boolean isRunning = false;
 
-    public static final int TRIM_ID = 161;
+    public static void scheduleRefresh(Context context) {
+        int secondsUntilThreeAm = secondsUntilThreeAm(new Date().getTime());
 
-    public TrimDataService() {
-        super("TrimDataService");
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(TrimDataService.class)
+                .setTag(JOB_TAG)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(secondsUntilThreeAm, 15 * secondsUntilThreeAm))
+                .setConstraints(Constraint.DEVICE_CHARGING)
+                .setReplaceCurrent(true)
+                .build();
+
+        dispatcher.mustSchedule(myJob);
+    }
+
+    protected static int secondsUntilThreeAm(long currentTime) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(currentTime));
+
+        // force the calendar to 3 in the morning, on the next day.
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 3);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        long threeAm = calendar.getTimeInMillis();
+
+        return (int) (threeAm - currentTime) / 1000;
     }
 
     @Override
-    public void handleIntent(Intent intent) {
+    public int onRunJob(JobParameters parameters) {
         Log.v("trimming_database", "trimming database from service");
         IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
         IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account
 
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
-        scheduleRefresh(this, 60 * 24); // every 24 hours
-    }
-
-    public static void scheduleRefresh(Context context, long mins) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        long now = new Date().getTime();
-        long alarm = now + (1000 * 60 * mins);
-
-        Log.v("alarm_date", "auto trim " + new Date(alarm).toString());
-
-        PendingIntent pendingIntent = PendingIntent.getService(context, TrimDataService.TRIM_ID, new Intent(context, TrimDataService.class), 0);
-
-        am.cancel(pendingIntent);
-        am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+        return 0;
     }
 }

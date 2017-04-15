@@ -1,69 +1,61 @@
 package com.klinker.android.twitter_l.services;
 
-import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.ActivityFragment;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
-import com.klinker.android.twitter_l.utils.Utils;
 
-import java.util.Date;
+public class ActivityRefreshService extends SimpleJobService {
 
-public class ActivityRefreshService extends LimitedRunService {
+    public static final String JOB_TAG = "direct-message-refresh";
 
     SharedPreferences sharedPrefs;
-
-    public ActivityRefreshService() {
-        super("ActivityRefreshService");
-    }
+    public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
-
-        am.cancel(pendingIntent);
-    }
-
-    private static PendingIntent getRefreshPendingIntent(Context context) {
-        return PendingIntent.getService(
-                context,
-                ActivityFragment.ACTIVITY_REFRESH_ID,
-                new Intent(context, ActivityRefreshService.class),
-                0);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        dispatcher.cancel(JOB_TAG);
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = getRefreshPendingIntent(context);
+        int refreshInterval = (int) settings.activityRefresh / 1000; // convert to seconds
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
 
         if (settings.activityRefresh != 0) {
-            long now = new Date().getTime();
-            long alarm = now + settings.activityRefresh;
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(ActivityRefreshService.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(true)
+                    .setLifetime(Lifetime.FOREVER)
+                    .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
+                    .setReplaceCurrent(true)
+                    .build();
 
-            am.cancel(pendingIntent);
-            am.set(AlarmManager.RTC_WAKEUP, alarm, pendingIntent);
+            dispatcher.mustSchedule(myJob);
         } else {
-            am.cancel(pendingIntent);
+            dispatcher.cancel(JOB_TAG);
         }
     }
 
     @Override
-    public void handleIntentIfTime(Intent intent) {
+    public int onRunJob(JobParameters parameters) {
         scheduleRefresh(this);
 
         AppSettings settings = AppSettings.getInstance(this);
         ActivityUtils utils = new ActivityUtils(this, false);
-
-        if (Utils.getConnectionStatus(this) && !settings.syncMobile) {
-            return;
-        }
 
         boolean newActivity = utils.refreshActivity();
 
@@ -75,17 +67,7 @@ public class ActivityRefreshService extends LimitedRunService {
             Intent second = new Intent(this, SecondActivityRefreshService.class);
             startService(second);
         }
-    }
 
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }

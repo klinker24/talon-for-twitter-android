@@ -51,39 +51,5 @@ public class BootReceiver extends BroadcastReceiver {
         if (settings.pushNotifications) {
             context.startService(new Intent(context, CatchupPull.class));
         }
-
-        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
-
-        for (ScheduledTweet s : tweets) {
-            Intent serviceIntent = new Intent(context.getApplicationContext(), SendScheduledTweet.class);
-
-            Log.v("talon_scheduled_tweets", "in boot text: " + s.text);
-
-            serviceIntent.putExtra(ViewScheduledTweets.EXTRA_TEXT, s.text);
-            serviceIntent.putExtra("account", s.account);
-            serviceIntent.putExtra("alarm_id", s.alarmId);
-
-            PendingIntent pi = getDistinctPendingIntent(serviceIntent, s.alarmId);
-
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            am.set(AlarmManager.RTC_WAKEUP,
-                    s.time,
-                    pi);
-        }
-
     }
-
-    protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
-                        context,
-                        requestId,
-                        intent,
-                        0);
-
-        return pi;
-    }
-
-
 }
