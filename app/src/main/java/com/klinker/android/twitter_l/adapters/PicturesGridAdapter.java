@@ -154,7 +154,7 @@ public class PicturesGridAdapter extends BaseAdapter {
                     viewTweet.putExtra("hashtags", hashtags);
                     viewTweet.putExtra("animated_gif", "");
 
-                    viewTweet = addDimensForExpansion(viewTweet, holder.iv);
+                    TweetActivity.applyDragDismissBundle(context, viewTweet);
 
                     context.startActivity(viewTweet);
 
