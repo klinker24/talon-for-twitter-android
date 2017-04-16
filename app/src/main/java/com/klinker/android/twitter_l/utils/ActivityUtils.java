@@ -14,6 +14,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
+import com.klinker.android.twitter_l.services.MentionsRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToActivity;
@@ -40,6 +41,7 @@ public class ActivityUtils {
     private long lastQuoteRefresh;
     private long originalTime; // if the tweets came before this time, then we don't want to show them in activity because it would just get blown up.
 
+    private boolean separateMentionRefresh = false;
     private List<String> notificationItems = new ArrayList<String>();
     private String notificationTitle = "";
 
@@ -147,6 +149,10 @@ public class ActivityUtils {
 
     public void postNotification(int id) {
 
+        if (separateMentionRefresh) {
+            MentionsRefreshService.startNow(context);
+        }
+
         if (notificationItems.size() == 0) {
             return;
         }
@@ -252,7 +258,12 @@ public class ActivityUtils {
     public void insertMentions(List<Status> mentions) {
         try {
             List<String> notis = ActivityDataSource.getInstance(context).insertMentions(mentions, currentAccount);
-            notificationItems.addAll(notis);
+
+            if (settings.mentionsRefresh == 0) {
+                notificationItems.addAll(notis);
+            } else {
+                separateMentionRefresh = true;
+            }
         } catch (Throwable t) {
 
         }
