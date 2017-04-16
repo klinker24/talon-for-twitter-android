@@ -64,7 +64,7 @@ public class DirectMessageRefreshService extends SimpleJobService {
                     .setTag(JOB_TAG)
                     .setRecurring(true)
                     .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, 2 * refreshInterval))
+                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) +  refreshInterval))
                     .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
                     .setReplaceCurrent(true)
                     .build();
