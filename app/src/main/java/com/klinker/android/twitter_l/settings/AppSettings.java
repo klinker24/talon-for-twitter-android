@@ -132,6 +132,7 @@ public class AppSettings {
     public boolean reverseClickActions;
     public boolean advanceWindowed;
     public boolean notifications;
+    public boolean interceptTwitterNotifications;
     public boolean led;
     public boolean vibrate;
     public boolean sound;
@@ -303,7 +304,6 @@ public class AppSettings {
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_actions", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
-        notifications = sharedPrefs.getBoolean("notifications", true);
         led = sharedPrefs.getBoolean("led", true);
         sound = sharedPrefs.getBoolean("sound", true);
         vibrate = sharedPrefs.getBoolean("vibrate", true);
@@ -357,6 +357,19 @@ public class AppSettings {
         largerWidgetImages = sharedPrefs.getBoolean("widget_larger_images", false);
         showProfilePictures = sharedPrefs.getBoolean("show_profile_pictures", true);
         compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);
+
+        String notificationsOption = sharedPrefs.getString("notification_options", "legacy");
+        if (notificationsOption.equals("never")) {
+            notifications = false;
+            interceptTwitterNotifications = false;
+        } else {
+            notifications = true;
+            if (notificationsOption.equals("push")) {
+                interceptTwitterNotifications = true;
+            } else {
+                interceptTwitterNotifications = false;
+            }
+        }
 
         if (sharedPrefs.getString("pre_cache", "1").equals("2")) {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", true).apply();
