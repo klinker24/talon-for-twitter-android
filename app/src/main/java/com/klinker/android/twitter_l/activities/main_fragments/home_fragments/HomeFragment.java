@@ -497,7 +497,7 @@ public class HomeFragment extends MainFragment {
             statuses.remove(statuses.size() - 1);
         }
 
-        HashSet hs = new HashSet();
+        HashSet<Status> hs = new HashSet<>();
         hs.addAll(statuses);
         statuses.clear();
         statuses.addAll(hs);
