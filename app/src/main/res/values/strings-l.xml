@@ -195,4 +195,11 @@
     <string name="others">others</string>
     <string name="compress_reply_handles">Compress Reply Handles</string>
     <string name="compress_reply_handles_summary">This improves handling of long reply chains on Twitter.</string>
+    <string name="interaction_notifications">Interaction Notifications</string>
+    <string name="interaction_notifications_summary">These require a background refresh for the activity page, the Twitter Push Interceptor to be enabled, or Talon Pull to be enabled.</string>
+    <string name="swipable_page_notifications">Swipable Page Notifications</string>
+    <string name="swipable_page_notifications_summary">These will be displayed whenever the swipable page is updated in the background.</string>
+    <string name="never_show_notifications">Never show notifications</string>
+    <string name="after_background_refresh_talon_pull">\nAfter a background refresh or Talon Pull (streaming) event\n</string>
+    <string name="intercept_twitter_push_notifications">\nIntercept push notifications from the Twitter app\n</string>
 </resources>
