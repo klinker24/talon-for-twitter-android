@@ -225,7 +225,6 @@
 
     <string-array name="timeline_notifications">
         <item>@string/timeline</item>
-        <item>@string/mentions</item>
         <item>@string/direct_messages</item>
         <item>@string/activity</item>
     </string-array>
@@ -234,12 +233,12 @@
         <item>@string/favorited_tweet</item>
         <item>@string/retweets</item>
         <item>@string/new_followers</item>
+        <item>@string/mentions</item>
     </string-array>
 
     <string-array name="timeline_notifications_default">
         <item>2</item>
         <item>3</item>
-        <item>4</item>
     </string-array>
 
     <string-array name="interaction_notifications_inserted">
@@ -525,6 +524,18 @@
         <item>custom_tab</item>
         <item>internal</item>
         <item>external</item>
+    </string-array>
+
+    <string-array name="notification_options">
+        <item>@string/never_show_notifications</item>
+        <item>@string/after_background_refresh_talon_pull</item>
+        <item>@string/intercept_twitter_push_notifications</item>
+    </string-array>
+
+    <string-array name="notification_options_inserted">
+        <item>never</item>
+        <item>legacy</item>
+        <item>push</item>
     </string-array>
 
 </resources>

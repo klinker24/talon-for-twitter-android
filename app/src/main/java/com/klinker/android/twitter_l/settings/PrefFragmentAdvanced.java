@@ -163,15 +163,6 @@ public class PrefFragmentAdvanced extends PrefFragment {
     public void setUpNotificationSettings() {
         final Context context = getActivity();
 
-        Preference interactionsSet = findPreference("interactions_set");
-        interactionsSet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                return true;
-            }
-        });
-
         RingtonePreference ringtone = (RingtonePreference) findPreference("ringtone");
         ringtone.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
