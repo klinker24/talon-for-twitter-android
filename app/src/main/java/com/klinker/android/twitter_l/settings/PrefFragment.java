@@ -1341,7 +1341,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         SharedPreferences worldPrefs = AppSettings.getSharedPreferences(getActivity());
 
-
         // get the values and write them to our world prefs
         try {
             String s = sharedPrefs.getString(key, "");
@@ -1363,7 +1362,13 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         AppSettings.invalidate();
         ServiceUtils.rescheduleAllServices(context);
 
-        if (key.equals("layout")) {
+        if (key.equals("notification_options")) {
+            if (sharedPrefs.getString("notification_options", "legacy").equals("push")) {
+                // if we don't have the notification listener active, then alert the user to how this works
+                // and get it activated
+                Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+            }
+        } else if (key.equals("layout")) {
             new TrimCache(null).execute();
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         } else if (key.equals("alert_types")) {
