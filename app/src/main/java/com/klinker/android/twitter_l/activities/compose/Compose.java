@@ -445,7 +445,10 @@ public abstract class Compose extends Activity implements
                                     .setPositiveButton(R.string.twitlonger, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            doneClick();
+                                            boolean close = doneClick();
+                                            if (close) {
+                                                onBackPressed();
+                                            }
                                         }
                                     }).setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
                                         @Override
@@ -1192,6 +1195,7 @@ public abstract class Compose extends Activity implements
             if (notiId != 0) {
                 helper.setInReplyToStatusId(notiId);
             }
+
             if (addLocation) {
                 //waitForLocation();
                 if (waitForLocation()) {
@@ -1200,9 +1204,11 @@ public abstract class Compose extends Activity implements
                     helper.setLocation(geolocation);
                 }
             }
+
             if (helper.createPost() != 0) {
                 isDone = true;
             }
+
             return isDone;
         }
 
