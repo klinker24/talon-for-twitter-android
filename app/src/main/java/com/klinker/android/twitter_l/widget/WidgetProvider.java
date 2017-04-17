@@ -53,7 +53,8 @@ public class WidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(UPDATE_WIDGET)) {
+        if (intent.getAction().equals(UPDATE_WIDGET) ||
+                intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
             context.startService(updateWidget);
         } else if (intent.getAction().equals("OPEN_APP")) {
