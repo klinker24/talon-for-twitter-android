@@ -393,6 +393,14 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
 
+        <activity android:name="com.klinker.android.twitter_l.utils.redirects.RefreshNotificationsRedirect"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:theme="@style/Theme.TalonLight.Launcher"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+
         <activity android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToPopup"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
