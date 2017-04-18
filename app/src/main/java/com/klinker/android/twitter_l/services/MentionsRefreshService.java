@@ -51,6 +51,17 @@ public class MentionsRefreshService extends SimpleJobService {
         dispatcher.cancel(JOB_TAG);
     }
 
+    public static void startNow(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(MentionsRefreshService.class)
+                .setTag("mention-refresh-now")
+                .setTrigger(Trigger.executionWindow(0,0))
+                .build();
+
+        dispatcher.mustSchedule(myJob);
+    }
+
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.mentionsRefresh / 1000; // convert to seconds
