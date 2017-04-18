@@ -318,7 +318,7 @@ public class TweetView {
             quickActions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    QuickActionsPopup popup = new QuickActionsPopup(context, tweetId, screenName, tweet);
+                    QuickActionsPopup popup = new QuickActionsPopup(context, tweetId, screenName, tweetWithReplyHandles);
                     popup.setExpansionPointForAnim(quickActions);
                     popup.setOnTopOfView(quickActions);
                     popup.show();

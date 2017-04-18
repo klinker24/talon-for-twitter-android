@@ -639,7 +639,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetText, secondAcc);
+                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetWithReplyHandles, secondAcc);
                 popup.setExpansionPointForAnim(holder.quickActions);
                 popup.setOnTopOfView(holder.quickActions);
                 popup.show();
