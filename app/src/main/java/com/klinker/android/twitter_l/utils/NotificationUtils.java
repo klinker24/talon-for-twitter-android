@@ -1195,8 +1195,11 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
-                .setCategory(Notification.CATEGORY_SOCIAL)
                 .setGroup(group);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCategory(Notification.CATEGORY_SOCIAL);
+        }
 
         String tweetId = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID));
         String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
