@@ -335,7 +335,7 @@ public class NotificationUtils {
                             Intent tweet = TweetActivity.getIntent(context, latest, false);
                             Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
                             contentIntent.putExtras(tweet);
-                            contentIntent.putExtra("forced_tweet_id", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
+                            contentIntent.putExtra("", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                             contentIntent.putExtra("notification_id", notificationId);
                             contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
@@ -1054,7 +1054,7 @@ public class NotificationUtils {
                 Intent tweet = TweetActivity.getIntent(context, latest, true);
                 Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
                 contentIntent.putExtras(tweet);
-                contentIntent.putExtra("forced_tweet_id", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
+                contentIntent.putExtra("", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                 contentIntent.putExtra("notification_id", notificationId);
                 contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
@@ -1231,7 +1231,7 @@ public class NotificationUtils {
 
         Intent tweet = TweetActivity.getIntent(context, cursor, isSecondAccount);
         contentIntent.putExtras(tweet);
-        contentIntent.putExtra("forced_tweet_id", cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
+        contentIntent.putExtra("forced_tweet_id", Long.parseLong(tweetId));
         contentIntent.putExtra("notification_id", notificationId);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
