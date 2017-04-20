@@ -1322,7 +1322,6 @@ public abstract class Compose extends Activity implements
                       for (int i = 0; i < noOfTweets; i++) {
                           status = multiTweets.first.length()!=0?multiTweets.first:"";
                           status += multiTweets.second.get(i) + "(" + tweetNo + "/" + noOfTweets + ")";
-                          replyText = status.replace("/status/", "");
                           tweetNo++;
                           if (useAccOne) {
                               tweetWithoutImages(twitter);
