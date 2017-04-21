@@ -8,7 +8,6 @@ android {
     defaultConfig {
         minSdkVersion parseSdkVersion(project.MIN_SDK)
         targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-        versionCode Integer.parseInt(project.VERSION_CODE)
     }
 
     sourceSets {
