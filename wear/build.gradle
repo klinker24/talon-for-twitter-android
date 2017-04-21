@@ -10,30 +10,15 @@ if (keystoreProperties.exists()) {
 
 android {
 
-    try {
-        compileSdkVersion Integer.parseInt(project.COMPILE_SDK)
-    } catch (Exception e) {
-        compileSdkVersion project.COMPILE_SDK
-    }
-
+    compileSdkVersion parseSdkVersion(project.COMPILE_SDK)
     buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
-
-        try {
-            targetSdkVersion Integer.parseInt(project.TARGET_SDK)
-        } catch (Exception e) {
-            targetSdkVersion project.TARGET_SDK
-        }
-
-        minSdkVersion Integer.parseInt(project.MIN_SDK)
+        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
+        minSdkVersion parseSdkVersion(project.MIN_SDK)
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
-
-        jackOptions {
-            enabled Boolean.parseBoolean(project.USE_JACK)
-        }
     }
 
     File keystore = new File(props['keystorefile'])

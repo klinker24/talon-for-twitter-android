@@ -36,3 +36,11 @@ allprojects {
         flatDir { dirs 'lib' }
     }
 }
+
+ext.parseSdkVersion = { sdk ->
+    try {
+        return Integer.parseInt(sdk)
+    } catch (NumberFormatException e) {
+        return sdk
+    }
+}
