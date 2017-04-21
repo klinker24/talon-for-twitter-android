@@ -25,7 +25,6 @@ android {
     defaultConfig {
         minSdkVersion parseSdkVersion(project.MIN_SDK)
         targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-        versionName project.VERSION_NAME
     }
 
     buildTypes {
