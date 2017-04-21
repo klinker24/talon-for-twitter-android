@@ -1079,7 +1079,12 @@ public class HomeFragment extends MainFragment {
             }
         }, filter);
 
-        TimelineRefreshService.refresh(context, true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimelineRefreshService.refresh(context, true);
+            }
+        }).start();
     }
 
     public boolean trueLive = false;

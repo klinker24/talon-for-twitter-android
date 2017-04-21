@@ -115,6 +115,7 @@ public class TimelineRefreshService extends SimpleJobService {
                 lastId = dataSource.getLastIds(currentAccount);
                 id = lastId[1];
             } catch (Exception e) {
+                e.printStackTrace();
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException i) {
@@ -153,9 +154,11 @@ public class TimelineRefreshService extends SimpleJobService {
                     }
                 } catch (Exception e) {
                     // the page doesn't exist
+                    e.printStackTrace();
                     foundStatus = true;
                 } catch (OutOfMemoryError o) {
                     // don't know why...
+                    o.printStackTrace();
                 }
             }
 
