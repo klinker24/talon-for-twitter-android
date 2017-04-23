@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.3.1">
+        <text>Some fixes for sharing through Talon</text>
+    </version>
+    
     <version name="6.3.0">
         <text>New option for tweets that are too long to post: "Tweetstorms"! This will split tweets using a counter (1/x), and post them directly to Twitter.</text>
         <text>Preparations for Android O!</text>
