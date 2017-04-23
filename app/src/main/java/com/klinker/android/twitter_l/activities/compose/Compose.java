@@ -1315,7 +1315,7 @@ public abstract class Compose extends Activity implements
                     }
 
                     return isDone;
-                  } else if (multiTweet && remaining < 0) {
+                } else if (multiTweet && remaining < 0) {
                       Pair<String, List<String>> multiTweets = getMultipeTweets(status);
                       int noOfTweets = multiTweets.second.size();
                       int tweetNo = 1;
