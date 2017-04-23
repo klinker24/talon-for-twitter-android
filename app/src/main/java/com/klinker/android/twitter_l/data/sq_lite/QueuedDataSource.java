@@ -193,6 +193,18 @@ public class QueuedDataSource {
         }
     }
 
+    public synchronized void deleteAllQueuedTweets() {
+
+        try {
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_QUEUED_TWEET, null);
+        } catch (Exception e) {
+            open();
+            database.delete(QueuedSQLiteHelper.TABLE_QUEUED,
+                    QueuedSQLiteHelper.COLUMN_TYPE + " = " + QueuedSQLiteHelper.TYPE_QUEUED_TWEET, null);
+        }
+    }
+
     public synchronized Cursor getDraftsCursor() {
 
         Cursor cursor;

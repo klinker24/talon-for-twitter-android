@@ -29,6 +29,7 @@ import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.services.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.DataCheckService;
 import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
@@ -86,6 +87,11 @@ public class UpdateUtils {
                 sharedPrefs.edit().putString("muted_hashtags", newString)
                         .putBoolean("need_mute_fix", false)
                         .commit();
+            }
+
+            if (sharedPrefs.getBoolean("need_queue_deleted", true)) {
+                sharedPrefs.edit().putBoolean("need_queue_deleted", false).commit();
+                QueuedDataSource.getInstance(context).deleteAllQueuedTweets();
             }
         }
 
