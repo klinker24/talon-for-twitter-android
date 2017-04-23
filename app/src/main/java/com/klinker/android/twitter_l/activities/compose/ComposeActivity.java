@@ -642,6 +642,13 @@ public class ComposeActivity extends Compose {
             } else if (type.startsWith("image/")) {
                 handleSendImage(intent); // Handle single image being sent
             }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    replyText = "";
+                }
+            }, 1000);
         }
     }
 
