@@ -1262,10 +1262,12 @@ public abstract class Compose extends Activity implements
 //                tweet.createScheduledTweet();
             } else {
                 boolean autoPopulateMetadata = false;
-                if (replyText != null && !replyText.contains("/status/")) {
-                    String replaceable = replyText.replaceAll("#[a-zA-Z]+ ", "");
-                    status = status.replaceAll(replaceable, "");
-                    autoPopulateMetadata = true;
+                if (shouldReplaceTo(text)) {
+                    String replaceable = to.replaceAll("#[a-zA-Z]+ ", "");
+                    if (!replaceable.equals(" ")) {
+                        status = status.replaceAll(replaceable, "");
+                        autoPopulateMetadata = true;
+                    }
                 }
 
                 StatusUpdate media = new StatusUpdate(status);
