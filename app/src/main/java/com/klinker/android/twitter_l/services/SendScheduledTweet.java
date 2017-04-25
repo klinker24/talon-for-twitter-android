@@ -60,6 +60,10 @@ public class SendScheduledTweet extends SimpleJobService {
             ScheduledTweet s = tweets.get(0);
             int tweetInSeconds = (int) (s.time - new Date().getTime()) / 1000;
 
+            if (tweetInSeconds <= 0) {
+                return;
+            }
+
             Job myJob = dispatcher.newJobBuilder()
                     .setService(SendScheduledTweet.class)
                     .setTag(JOB_TAG)

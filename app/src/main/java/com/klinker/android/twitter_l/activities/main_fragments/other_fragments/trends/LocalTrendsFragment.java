@@ -60,7 +60,11 @@ public class LocalTrendsFragment extends TrendsFragment implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
