@@ -228,15 +228,13 @@ public class SearchPager extends PeekViewActivity {
 
                 Log.v("talon_search", str);
 
-                if (!str.contains("/status/")) {
+                if (!str.contains("/status/") && str.contains("?")) {
                     String name = str.substring(str.indexOf(".com/"));
                     name = name.replace(".com/", "");
                     name = name.substring(0, name.indexOf("?"));
 
                     searchQuery = name;
                     onlyProfile = true;
-                } else {
-
                 }
 
             } else if (uriString.contains("status/")) {
