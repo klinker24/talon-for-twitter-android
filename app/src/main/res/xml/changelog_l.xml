@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.3.2">
+        <text>Crash fixes</text>
+    </version>
+
     <version name="6.3.1">
         <text>Some fixes for sharing through Talon</text>
     </version>

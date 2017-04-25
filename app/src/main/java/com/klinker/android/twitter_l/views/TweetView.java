@@ -383,8 +383,8 @@ public class TweetView {
 
         tweetWithReplyHandles = tweet;
 
-        if (isConvo && settings.compressReplies) {
-            final String replyUsers = ReplyUtils.getReplyingToHandles(tweet);
+        final String replyUsers = ReplyUtils.getReplyingToHandles(tweet);
+        if (isConvo && settings.compressReplies && replyUsers != null && !replyUsers.isEmpty()) {
             tweet = tweet.replace(replyUsers, "");
 
             final String replyToText = context.getString(R.string.reply_to);
