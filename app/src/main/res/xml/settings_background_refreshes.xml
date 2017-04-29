@@ -19,7 +19,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="auto_refresh_category"
         android:title="@string/auto_refresh_category" >
 
@@ -66,11 +66,9 @@
             android:entries="@array/sync_interval"
             android:entryValues="@array/sync_interval_inserted" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="other_options"
         android:title="@string/sync_options" >
 
@@ -88,17 +86,15 @@
             android:summary="@string/tweetmarker_always_refreshes"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced" >
 
         <Preference
             android:key="advanced"
             android:title="@string/advanced_options"/>
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

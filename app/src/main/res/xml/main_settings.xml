@@ -29,9 +29,7 @@
         android:title="@string/whats_new"
         android:icon="?rateIt" />
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/look_and_feel" >
 
         <com.klinker.android.twitter_l.views.preference.IconPreference
@@ -49,11 +47,9 @@
             android:title="@string/main_pages_and_drawer"
             android:icon="?settings_pages" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/background">
 
         <com.klinker.android.twitter_l.views.preference.IconPreference
@@ -71,11 +67,9 @@
             android:title="@string/data_saving_settings"
             android:icon="?data_saver" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced">
 
         <com.klinker.android.twitter_l.views.preference.IconPreference
@@ -98,17 +92,15 @@
             android:title="@string/other_options"
             android:icon="?advancedSettings" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/supporter_2016">
 
         <com.klinker.android.twitter_l.views.preference.BecomeSupporterPreference
             android:key="become_supporter"
             android:icon="?supporter" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

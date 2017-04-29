@@ -19,7 +19,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/manage_mutes_options">
 
         <Preference
@@ -49,11 +49,9 @@
             android:key="manage_regex_mute"
             android:title="@string/view_muted_expressions" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/manage_muffles" >
 
         <Preference
@@ -64,11 +62,9 @@
                 android:title="@string/muffled_users"
                 android:summary="@string/click_to_remove_muffle"/>
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced">
 
         <SwitchPreference
@@ -82,6 +78,6 @@
             android:title="@string/show_muted_mentions"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

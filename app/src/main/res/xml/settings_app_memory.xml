@@ -19,7 +19,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="memory_management"
         android:title="@string/memory_management" >
 
@@ -63,11 +63,9 @@
             android:entries="@array/lists_size"
             android:entryValues="@array/lists_size" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/clear_memory">
 
         <Preference
@@ -83,11 +81,9 @@
             android:key="clear_searches"
             android:title="@string/clear_searches" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="backup_category"
         android:title="@string/backup_category" >
 
@@ -100,6 +96,6 @@
             android:title="@string/restore_settings"
             android:summary="@string/restore_settings_summary" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

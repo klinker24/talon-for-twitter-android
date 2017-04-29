@@ -11,9 +11,7 @@
         android:entries="@array/locale"
         android:entryValues="@array/locale_inserted" />
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/discover_section_options" >
 
         <SwitchPreference
@@ -34,7 +32,7 @@
             android:title="@string/city"
             android:dependency="manually_config_location" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 
 </PreferenceScreen>

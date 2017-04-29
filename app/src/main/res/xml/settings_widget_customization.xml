@@ -4,9 +4,7 @@
     <Preference
         android:summary="@string/widget_disclaimer"/>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/theme_options">
 
         <ListPreference
@@ -34,11 +32,9 @@
             android:title="@string/larger_images"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/functionality_options">
 
         <Preference
@@ -52,6 +48,6 @@
             android:entries="@array/widget_timelines"
             android:entryValues="@array/widget_timelines_inserted" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

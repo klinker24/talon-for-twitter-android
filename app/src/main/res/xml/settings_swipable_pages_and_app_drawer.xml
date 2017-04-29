@@ -3,18 +3,16 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/swipable_pages">
 
         <Preference
             android:key="pages"
             android:title="@string/configure_pages" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/app_drawer">
 
         <Preference
@@ -22,6 +20,6 @@
             android:title="@string/drawer_elements"
             android:summary="@string/drawer_elements_summary" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>
