@@ -1320,17 +1320,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         // Set up a listener whenever a key changes
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
-
-        if (!mListStyled) {
-            View rootView = getView();
-            if (rootView != null) {
-                ListView list = (ListView) rootView.findViewById(android.R.id.list);
-                list.setPadding(0, 0, 0, 0);
-                list.setDivider(null);
-                //any other styling call
-                mListStyled = true;
-            }
-        }
     }
 
     @Override

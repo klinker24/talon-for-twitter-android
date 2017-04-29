@@ -13,9 +13,7 @@
         android:summary="@string/auto_dismiss_summary"
         android:defaultValue="true" />
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/notification_types" >
 
         <MultiSelectListPreference
@@ -32,7 +30,7 @@
             android:summary="@string/pebble_notifications_summary"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 
 </PreferenceScreen>

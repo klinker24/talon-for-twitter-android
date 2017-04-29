@@ -66,23 +66,6 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             "whats_new",
     };
 
-    public boolean mListStyled;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!mListStyled) {
-            View rootView = getView();
-            if (rootView != null) {
-                ListView list = (ListView) rootView.findViewById(android.R.id.list);
-                list.setPadding(0, 0, 0, 0);
-                list.setDivider(null);
-                //any other styling call
-                mListStyled = true;
-            }
-        }
-    }
-
     public void setClicks() {
 
         for (int i = 0; i < titles.length; i++) {

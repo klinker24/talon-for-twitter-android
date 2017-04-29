@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/push_notification_options" >
 
         <Preference
@@ -30,11 +30,9 @@
             android:summary="@string/when_talon_pull_on"
             android:defaultValue="true" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="other_options"
         android:title="@string/sync_options" >
 
@@ -53,11 +51,9 @@
             android:entries="@array/max_number"
             android:entryValues="@array/max_number_inserted" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="manual_options"
         android:title="@string/sync_options" >
 
@@ -71,7 +67,7 @@
             android:title="@string/fill_gaps"
             android:summary="@string/fill_gaps_summary" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 
 </PreferenceScreen>

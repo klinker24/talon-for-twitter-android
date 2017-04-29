@@ -6,10 +6,6 @@ import android.util.AttributeSet;
 
 import com.klinker.android.twitter_l.R;
 
-/**
- * Created by luke on 6/10/16.
- */
-
 public class PreferenceDivider extends Preference {
 
     public PreferenceDivider(Context context, AttributeSet attrs, int defStyleAttr) {

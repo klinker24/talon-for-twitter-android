@@ -19,7 +19,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/dev_name" >
 
         <Preference
@@ -46,9 +46,9 @@
             android:key="emoji_keyboard_unlock"
             android:title="@string/emoji_keyboard_unlock" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/dev_name_open_source" >
 
         <Preference
@@ -75,6 +75,6 @@
             android:key="slideover_messaging"
             android:title="@string/slideover_messaging" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>

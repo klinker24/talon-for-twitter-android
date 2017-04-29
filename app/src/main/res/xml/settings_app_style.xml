@@ -33,9 +33,7 @@
         android:summary="@string/detailed_quotes_summary"
         android:defaultValue="false" />
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/color_options" >
 
         <ListPreference
@@ -58,11 +56,9 @@
             android:title="@string/night_mode"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/font_options" >
 
         <ListPreference
@@ -89,17 +85,15 @@
             android:title="@string/absolute_date"
             android:defaultValue="false" />
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-    <com.klinker.android.twitter_l.views.preference.PreferenceDivider />
-
-    <PreferenceCategory
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced" >
 
         <Preference
             android:key="advanced"
             android:title="@string/advanced_options"/>
 
-    </PreferenceCategory>
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>
