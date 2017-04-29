@@ -59,6 +59,9 @@ import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 
 import twitter4j.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -486,7 +489,13 @@ public class ExpansionViewHelper {
                             copyText();
                             break;
                         case TRANSLATE:
-                            String url = settings.translateUrl + tweet;
+                            String url;
+
+                            try {
+                                url = settings.translateUrl + URLEncoder.encode(tweet, "utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                url = settings.translateUrl + tweet;
+                            }
 
                             final LinearLayout webLayout = (LinearLayout) ((Activity)context).getLayoutInflater().inflate(R.layout.web_popup_layout, null, false);
                             final WebView web = (WebView) webLayout.findViewById(R.id.webview);
