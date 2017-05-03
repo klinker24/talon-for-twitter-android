@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.3.3">
+        <text>Fixes for Galaxy S8</text>
+    </version>
+
     <version name="6.3.2">
         <text>Settings UI improvements</text>
         <text>Crash and bug fixes</text>
