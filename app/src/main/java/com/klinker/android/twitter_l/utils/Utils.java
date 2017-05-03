@@ -205,7 +205,7 @@ public class Utils {
                     display.getSize(size);
                     display.getRealSize(realSize);
 
-                    if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
+                    if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !(Build.MODEL.toLowerCase().contains("nexus") || Build.MODEL.toLowerCase().contains("s8"))) {
                         return false;
                     }
 
