@@ -36,6 +36,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.provider.SearchRecentSuggestions;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -1364,9 +1365,19 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         if (key.equals("notification_options")) {
             if (sharedPrefs.getString("notification_options", "legacy").equals("push")) {
-                // if we don't have the notification listener active, then alert the user to how this works
-                // and get it activated
-                Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.intercept_twitter_push_description)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                                } else {
+                                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                                }
+                            }
+                        }).show();
             }
         } else if (key.equals("layout")) {
             new TrimCache(null).execute();
