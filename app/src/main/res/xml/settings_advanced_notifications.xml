@@ -16,14 +16,6 @@
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/notification_types" >
 
-        <MultiSelectListPreference
-            android:key="interactions_set"
-            android:title="@string/talon_pull_notifications"
-            android:summary="@string/talon_pull_turned_on"
-            android:defaultValue="@array/interaction_notifications_inserted"
-            android:entries="@array/interactions_notifications"
-            android:entryValues="@array/interaction_notifications_inserted" />
-
         <SwitchPreference
             android:key="pebble_notification"
             android:title="@string/pebble_notifications"
