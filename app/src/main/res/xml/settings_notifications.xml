@@ -22,25 +22,17 @@
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/notifications">
 
-        <SwitchPreference
-            android:key="notifications"
+        <ListPreference
+            android:key="notification_options"
             android:title="@string/notifications"
-            android:defaultValue="true" />
+            android:entries="@array/notification_options"
+            android:entryValues="@array/notification_options_inserted"
+            android:defaultValue="legacy" />
 
         <SwitchPreference
             android:key="quiet_hours"
             android:title="@string/quiet_hours"
-            android:defaultValue="false"
-            android:dependency="notifications" />
-
-        <MultiSelectListPreference
-            android:key="alert_types"
-            android:title="@string/alert_types"
-            android:summary="@string/alert_methods_summary"
-            android:defaultValue="@array/alert_types_inserted"
-            android:entries="@array/alert_types"
-            android:entryValues="@array/alert_types_inserted"
-            android:dependency="notifications" />
+            android:defaultValue="false" />
 
     </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
@@ -48,26 +40,39 @@
         android:title="@string/notification_types" >
 
         <MultiSelectListPreference
+            android:key="interactions_set"
+            android:title="@string/interaction_notifications"
+            android:summary="@string/interaction_notifications_summary"
+            android:defaultValue="@array/interaction_notifications_inserted"
+            android:entries="@array/interactions_notifications"
+            android:entryValues="@array/interaction_notifications_inserted" />
+
+        <MultiSelectListPreference
             android:key="timeline_set"
-            android:title="@string/timeline_notifications"
-            android:summary="@string/timeline_notifications_text"
+            android:title="@string/swipable_page_notifications"
+            android:summary="@string/swipable_page_notifications_summary"
             android:defaultValue="@array/timeline_notifications_default"
             android:entries="@array/timeline_notifications"
-            android:entryValues="@array/interaction_notifications_inserted"
-            android:dependency="notifications" />
+            android:entryValues="@array/interaction_notifications_inserted" />
 
         <SwitchPreference
             android:key="favorite_users_notifications"
             android:title="@string/fav_users_notifications"
             android:summary="@string/favorite_user_notifications_summary"
-            android:defaultValue="true"
-            android:dependency="notifications"
-            />
+            android:defaultValue="true" />
 
     </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced" >
+
+        <MultiSelectListPreference
+            android:key="alert_types"
+            android:title="@string/alert_types"
+            android:summary="@string/alert_methods_summary"
+            android:defaultValue="@array/alert_types_inserted"
+            android:entries="@array/alert_types"
+            android:entryValues="@array/alert_types_inserted" />
 
         <Preference
             android:key="advanced"

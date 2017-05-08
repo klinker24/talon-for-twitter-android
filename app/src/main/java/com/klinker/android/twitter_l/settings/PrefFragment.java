@@ -36,6 +36,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.provider.SearchRecentSuggestions;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -1235,6 +1236,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
+        Preference interactionsSet = findPreference("interactions_set");
+        interactionsSet.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
+                return true;
+            }
+        });
+
         Preference alertTypes = findPreference("alert_types");
         alertTypes.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -1255,10 +1265,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         Preference users = findPreference("favorite_users_notifications");
         users.setOnPreferenceChangeListener(click);
 
-        /*Preference pebble = findPreference("pebble_notification");
-        pebble.setOnPreferenceChangeListener(click);*/
-
-        Preference notification = findPreference("notifications");
+        Preference notification = findPreference("notification_options");
         notification.setOnPreferenceChangeListener(click);
     }
 
@@ -1335,7 +1342,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         SharedPreferences worldPrefs = AppSettings.getSharedPreferences(getActivity());
 
-
         // get the values and write them to our world prefs
         try {
             String s = sharedPrefs.getString(key, "");
@@ -1355,10 +1361,25 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         }
 
         AppSettings.invalidate();
-
         ServiceUtils.rescheduleAllServices(context);
 
-        if (key.equals("layout")) {
+        if (key.equals("notification_options")) {
+            if (sharedPrefs.getString("notification_options", "legacy").equals("push")) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.intercept_twitter_push_description)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                                } else {
+                                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                                }
+                            }
+                        }).show();
+            }
+        } else if (key.equals("layout")) {
             new TrimCache(null).execute();
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
         } else if (key.equals("alert_types")) {
@@ -1426,14 +1447,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
 
             if (set.contains("2")) {
-                sharedPrefs.edit().putBoolean("mentions_notifications", true).apply();
-                worldPrefs.edit().putBoolean("mentions_notifications", true).apply();
-            } else {
-                sharedPrefs.edit().putBoolean("mentions_notifications", false).apply();
-                worldPrefs.edit().putBoolean("mentions_notifications", false).apply();
-            }
-
-            if (set.contains("3")) {
                 sharedPrefs.edit().putBoolean("direct_message_notifications", true).apply();
                 worldPrefs.edit().putBoolean("direct_message_notifications", true).apply();
             } else {
@@ -1441,7 +1454,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 worldPrefs.edit().putBoolean("direct_message_notifications", false).apply();
             }
 
-            if (set.contains("4")) {
+            if (set.contains("3")) {
                 sharedPrefs.edit().putBoolean("activity_notifications", true).apply();
                 worldPrefs.edit().putBoolean("activity_notifications", true).apply();
             } else {
@@ -1478,6 +1491,14 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             } else {
                 sharedPrefs.edit().putBoolean("follower_notifications", false).apply();
                 worldPrefs.edit().putBoolean("follower_notifications", false).apply();
+            }
+
+            if (set.contains("4")) {
+                sharedPrefs.edit().putBoolean("mentions_notifications", true).apply();
+                worldPrefs.edit().putBoolean("mentions_notifications", true).apply();
+            } else {
+                sharedPrefs.edit().putBoolean("mentions_notifications", false).apply();
+                worldPrefs.edit().putBoolean("mentions_notifications", false).apply();
             }
         } else if (key.equals("widget_theme") || key.equals("text_size")) {
             WidgetProvider.updateWidget(context);
