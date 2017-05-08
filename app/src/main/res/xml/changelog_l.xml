@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.4.0">
+        <text>New option for notifications: receive push notifications from the Twitter app, if it's installed!</text>
+        <text>Improvements around the ease-of-use of the notification settings section</text>
+    </version>
+
     <version name="6.3.3">
         <text>Fixes for Galaxy S8</text>
     </version>
