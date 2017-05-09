@@ -670,10 +670,10 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         String timeDisplay;
 
 
-        DateFormat dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
+        DateFormat dateFormatter = new SimpleDateFormat("EEE, MMM d yyyy", Locale.getDefault());
         DateFormat timeFormatter = android.text.format.DateFormat.getTimeFormat(context);
         if (settings.militaryTime) {
-            dateFormatter = new SimpleDateFormat("EEE, dd MMM", Locale.getDefault());
+            dateFormatter = new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault());
             timeFormatter = new SimpleDateFormat("kk:mm");
         }
 
