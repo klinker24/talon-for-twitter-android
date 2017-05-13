@@ -337,6 +337,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+        //videoFragment.stopPlayback();
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         } else if (url != null && !url.contains("youtu")) {
