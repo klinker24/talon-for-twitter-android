@@ -259,11 +259,14 @@ public class ActivityUtils {
         try {
             List<String> notis = ActivityDataSource.getInstance(context).insertMentions(mentions, currentAccount);
 
-            if (settings.mentionsRefresh == 0) {
-                notificationItems.addAll(notis);
-            } else {
+            if (notis.size() > 0) {
                 separateMentionRefresh = true;
             }
+//            if (settings.mentionsRefresh != 0) {
+//                notificationItems.addAll(notis);
+//            } else {
+//                separateMentionRefresh = true;
+//            }
         } catch (Throwable t) {
 
         }

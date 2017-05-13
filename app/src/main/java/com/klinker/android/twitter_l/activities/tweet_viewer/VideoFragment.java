@@ -101,6 +101,13 @@ public class VideoFragment extends Fragment implements EasyVideoCallback {
         return layout;
     }
 
+    public void stopPlayback() {
+        try {
+            videoView.stop();
+        } catch (Exception e) {
+
+        }
+    }
 
     private void getGif() {
         new TimeoutThread(new Runnable() {
