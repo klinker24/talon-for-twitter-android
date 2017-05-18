@@ -75,6 +75,17 @@ public class DirectMessageRefreshService extends SimpleJobService {
         }
     }
 
+    public static void startNow(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(DirectMessageRefreshService.class)
+                .setTag("dm-refresh-now")
+                .setTrigger(Trigger.executionWindow(0,0))
+                .build();
+
+        dispatcher.mustSchedule(myJob);
+    }
+
     @Override
     public int onRunJob(JobParameters parameters) {
         sharedPrefs = AppSettings.getSharedPreferences(this);

@@ -29,6 +29,8 @@ public class NotificationListener extends NotificationListenerService {
                     if (newActivity) {
                         utils.postNotification();
                     }
+
+                    DirectMessageRefreshService.startNow(NotificationListener.this);
                 }
             }).start();
 
