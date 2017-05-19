@@ -93,6 +93,7 @@ public class ComposeActivity extends Compose {
                     }
 
                     attachButton.setEnabled(true);
+                    attachButtonEnabled = true;
                 }
             });
         }
