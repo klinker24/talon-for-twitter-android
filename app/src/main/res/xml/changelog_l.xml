@@ -3,6 +3,7 @@
     <version name="6.4.0">
         <text>New option for notifications: receive push notifications from the Twitter app, if it's installed!</text>
         <text>Improvements around the ease-of-use of the notification settings section</text>
+        <text>Improvements around tweeting images</text>
     </version>
 
     <version name="6.3.3">

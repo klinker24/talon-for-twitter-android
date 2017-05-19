@@ -101,6 +101,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
@@ -154,7 +155,7 @@ public abstract class Compose extends Activity implements
     protected String attachmentUrl = null; // quoted tweet
 
     // attach up to four images
-    public String[] attachedUri = new String[] {"","","",""};
+    public String[] attachedUri = new String[]{"", "", "", ""};
     public int imagesAttached = 0;
 
     public PhotoViewAttacher mAttacher;
@@ -165,6 +166,8 @@ public abstract class Compose extends Activity implements
     public long notiId = 0;
     public String replyText = "";
     public String quotingAStatus = null;
+
+    protected boolean attachButtonEnabled = true;
 
     public int currentAccount;
 
@@ -182,7 +185,8 @@ public abstract class Compose extends Activity implements
                 if (!replaceable.equals(" ")) {
                     try {
                         text = text.replaceAll(replaceable, "");
-                    } catch (Exception e) { }
+                    } catch (Exception e) {
+                    }
                 }
             }
 
@@ -212,6 +216,7 @@ public abstract class Compose extends Activity implements
         }
 
         private int originalTextColor = -1;
+
         private void changeTextColor() {
             if (originalTextColor == -1) {
                 originalTextColor = charRemaining.getCurrentTextColor();
@@ -271,7 +276,7 @@ public abstract class Compose extends Activity implements
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if(menuKeyField != null) {
+            if (menuKeyField != null) {
                 menuKeyField.setAccessible(true);
                 menuKeyField.setBoolean(config, false);
             }
@@ -302,7 +307,7 @@ public abstract class Compose extends Activity implements
                 if (event.getAction() == KeyEvent.ACTION_DOWN &&
                         keyCode == KeyEvent.KEYCODE_ENTER &&
                         event.isCtrlPressed()) {
-                    
+
                     findViewById(R.id.send_button).performClick();
                     return true;
                 } else {
@@ -451,28 +456,28 @@ public abstract class Compose extends Activity implements
                                             }
                                         }
                                     }).setNeutralButton(R.string.pwiccer, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            try {
-                                                Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
-                                                pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
-                                                startActivityForResult(pwiccer, 420);
-                                            } catch (Throwable e) {
-                                                // open the play store here
-                                                // they don't have pwiccer installed
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
-                                            }
-                                        }
-                                    }).setNegativeButton(R.string.split_tweet, new DialogInterface.OnClickListener() {
-                                          @Override
-                                          public void onClick(DialogInterface dialogInterface, int i) {
-                                              multiTweet = true;
-                                              boolean close = doneClick();
-                                              if (close) {
-                                                  onBackPressed();
-                                              }
-                                          }
-                                    }).create()
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    try {
+                                        Intent pwiccer = new Intent("com.t3hh4xx0r.pwiccer.requestImagePost");
+                                        pwiccer.putExtra("POST_CONTENT", reply.getText().toString());
+                                        startActivityForResult(pwiccer, 420);
+                                    } catch (Throwable e) {
+                                        // open the play store here
+                                        // they don't have pwiccer installed
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.t3hh4xx0r.pwiccer&hl=en")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.split_tweet, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    multiTweet = true;
+                                    boolean close = doneClick();
+                                    if (close) {
+                                        onBackPressed();
+                                    }
+                                }
+                            }).create()
                                     .show();
                         } else {
                             boolean close = doneClick();
@@ -518,7 +523,7 @@ public abstract class Compose extends Activity implements
             @Override
             public void onClick(View v) {
                 Log.v("talon_input", "clicked the view");
-                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
                         .showSoftInput(reply, InputMethodManager.SHOW_FORCED);
             }
         });
@@ -632,7 +637,7 @@ public abstract class Compose extends Activity implements
 
     public int getOrientation(Context context, Uri photoUri) {
         Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },
+                new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
                 null, null, null);
 
         try {
@@ -655,7 +660,7 @@ public abstract class Compose extends Activity implements
             return bitmap;
         }*/
 
-        try{
+        try {
             Matrix matrix = new Matrix();
             switch (orientation) {
                 case ExifInterface.ORIENTATION_NORMAL:
@@ -811,7 +816,7 @@ public abstract class Compose extends Activity implements
                     if (settings.vibrate) {
                         Log.v("talon_vibrate", "vibrate on compose");
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        long[] pattern = { 0, 50, 500 };
+                        long[] pattern = {0, 50, 500};
                         v.vibrate(pattern, -1);
                     }
 
@@ -893,9 +898,9 @@ public abstract class Compose extends Activity implements
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
         Log.v("talon_image_attach", "got the result, code: " + requestCode);
-        switch(requestCode) {
+        switch (requestCode) {
             case UCrop.REQUEST_CROP:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = UCrop.getOutput(imageReturnedIntent);
 
@@ -921,13 +926,13 @@ public abstract class Compose extends Activity implements
                 countHandler.post(getCount);
                 break;
             case SELECT_PHOTO:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     startUcrop(imageReturnedIntent.getData());
                 }
 
                 break;
             case CAPTURE_IMAGE:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
                     startUcrop(selectedImage);
                 }
@@ -971,7 +976,7 @@ public abstract class Compose extends Activity implements
                 break;
             case FIND_GIF:
             case SELECT_GIF:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
 
@@ -987,6 +992,7 @@ public abstract class Compose extends Activity implements
                         attachmentType = "animated_gif";
 
                         attachButton.setEnabled(false);
+                        attachButtonEnabled = false;
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -1010,10 +1016,11 @@ public abstract class Compose extends Activity implements
 
                     attachmentType = "video/mp4";
                     attachButton.setEnabled(false);
+                    attachButtonEnabled = false;
                 }
                 break;
             case SELECT_VIDEO:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     try {
                         Uri selectedImage = imageReturnedIntent.getData();
 
@@ -1031,6 +1038,7 @@ public abstract class Compose extends Activity implements
 
                         attachmentType = "video/mp4";
                         attachButton.setEnabled(false);
+                        attachButtonEnabled = false;
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -1061,7 +1069,7 @@ public abstract class Compose extends Activity implements
     private boolean shouldReplaceTo(String tweetText) {
         return tweetText != null && to != null && quotingAStatus == null &&
                 notiId != 0 && !sharingSomething &&
-                tweetText.contains(to) &&  tweetText.startsWith("@") &&
+                tweetText.contains(to) && tweetText.startsWith("@") &&
                 !tweetText.contains("@" + AppSettings.getInstance(this).myScreenName) &&
                 !replyText.contains("@" + AppSettings.getInstance(this).myScreenName + ": ") &&
                 !tweetText.contains(" RT @");
@@ -1181,7 +1189,7 @@ public abstract class Compose extends Activity implements
                 }
             }, 50);
         }
-        
+
         /**
          * Helper method for posting the status update using TwitLonger
          *
@@ -1219,9 +1227,9 @@ public abstract class Compose extends Activity implements
             String tempString = "";
             /* Only check for 132 as we are adding (xx/xx) at the end of long tweets */
             for (int i = 0; i < tokens.length; i++) {
-                if(notiId != 0) {
+                if (notiId != 0) {
                     /* This is a reply tweet Take any mentions out of the tweets */
-                    if(tokens[i].contains("@")) {
+                    if (tokens[i].contains("@")) {
                         mentions += tokens[i] + " ";
                         continue;
                     }
@@ -1241,6 +1249,7 @@ public abstract class Compose extends Activity implements
 
         /**
          * Helper function to tweet the updates without attaching images.
+         *
          * @param twitter The account used to tweet
          */
         private void tweetWithoutImages(Twitter twitter) throws Exception {
@@ -1252,11 +1261,11 @@ public abstract class Compose extends Activity implements
          * scheduled as a workaround for the rate-limit from twitter. Provide a time if the
          * tweet is scheduled.
          *
-         * @param twitter The account used to tweet
+         * @param twitter   The account used to tweet
          * @param scheduled True if tweet needs to be scheduled
          */
         private void tweetWithoutImages(Twitter twitter, boolean scheduled, long time) throws Exception {
-            if(scheduled) {
+            if (scheduled) {
                 // some guy wanted this for the future I guess. The one the did the multi tweet PR
 //                ScheduledTweet tweet = new ScheduledTweet(getApplicationContext(), context, status, time, 0);
 //                tweet.createScheduledTweet();
@@ -1285,14 +1294,37 @@ public abstract class Compose extends Activity implements
                         media.setLocation(geolocation);
                     }
                 }
-                    
+
                 twitter4j.Status status = twitter.updateStatus(media);
                 if (status != null) {
                     notiId = status.getId();
                 }
             }
         }
-                
+
+        private UploadedMedia uploadImage(Twitter twitter, String uri) throws FileNotFoundException, TwitterException {
+            try {
+                return twitter.uploadMedia("talon_" + new Date().getTime(),
+                        getContentResolver().openInputStream(Uri.parse(uri)));
+            } catch (Exception e) {
+                long bytes;
+                try {
+                    File file = new File(URI.create(uri));
+                    bytes = file.length();
+
+                    if (bytes == 0 || bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
+                        file = ImageUtils.scaleToSend(Compose.this, Uri.parse(uri));
+                    }
+
+                    return twitter.uploadMedia(file);
+                } catch (Exception x) {
+
+                }
+            }
+
+            return null;
+        }
+
         protected Boolean doInBackground(String... args) {
             status = args[0];
 
@@ -1318,24 +1350,24 @@ public abstract class Compose extends Activity implements
 
                     return isDone;
                 } else if (multiTweet && remaining < 0) {
-                      Pair<String, List<String>> multiTweets = getMultipeTweets(status);
-                      int noOfTweets = multiTweets.second.size();
-                      int tweetNo = 1;
-                      for (int i = 0; i < noOfTweets; i++) {
-                          status = multiTweets.first.length()!=0?multiTweets.first:"";
-                          status += multiTweets.second.get(i) + "(" + tweetNo + "/" + noOfTweets + ")";
-                          tweetNo++;
-                          if (useAccOne) {
-                              tweetWithoutImages(twitter);
-                          }
-                          if (useAccTwo) {
-                              tweetWithoutImages(twitter2);
-                          }
-                      }
-                      
-                      multiTweet = false;
-                      return true;
-                  } else {
+                    Pair<String, List<String>> multiTweets = getMultipeTweets(status);
+                    int noOfTweets = multiTweets.second.size();
+                    int tweetNo = 1;
+                    for (int i = 0; i < noOfTweets; i++) {
+                        status = multiTweets.first.length() != 0 ? multiTweets.first : "";
+                        status += multiTweets.second.get(i) + "(" + tweetNo + "/" + noOfTweets + ")";
+                        tweetNo++;
+                        if (useAccOne) {
+                            tweetWithoutImages(twitter);
+                        }
+                        if (useAccTwo) {
+                            tweetWithoutImages(twitter2);
+                        }
+                    }
+
+                    multiTweet = false;
+                    return true;
+                } else {
                     if (imagesAttached == 0) {
                         if (useAccOne) {
                             tweetWithoutImages(twitter);
@@ -1356,10 +1388,10 @@ public abstract class Compose extends Activity implements
                                 autoPopulateMetadata = true;
                             }
                         }
-    
+
                         StatusUpdate media = new StatusUpdate(status);
                         StatusUpdate media2 = new StatusUpdate(status);
-    
+
                         if (autoPopulateMetadata) {
                             media.setAutoPopulateReplyMetadata(autoPopulateMetadata);
                             media2.setAutoPopulateReplyMetadata(autoPopulateMetadata);
@@ -1369,51 +1401,52 @@ public abstract class Compose extends Activity implements
                             media.attachmentUrl(attachmentUrl);
                             media2.attachmentUrl(attachmentUrl);
                         }*/
-    
+
                         if (notiId != 0) {
                             media.setInReplyToStatusId(notiId);
                             media2.setInReplyToStatusId(notiId);
                         }
-                        
+
                         File[] files = new File[imagesAttached];
                         File outputDir = context.getCacheDir();
 
-                        if (attachButton.isEnabled()) {
-                            for (int i = 0; i < imagesAttached; i++) {
-                                double bytes = 0;
-                                try {
-                                    files[i] = new File(URI.create(attachedUri[i]));
-                                    bytes = files[i].length();
-                                } catch (Exception e) {
-
-                                }
-
-
-                                if (bytes == 0 || bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
-                                    files[i] = ImageUtils.scaleToSend(Compose.this, Uri.parse(attachedUri[i]));
-                                }
-                            }
-                        }
+//                        if (attachButton.isEnabled()) {
+//                            for (int i = 0; i < imagesAttached; i++) {
+//                                double bytes = 0;
+//                                try {
+//                                    files[i] = new File(URI.create(attachedUri[i]));
+//                                    bytes = files[i].length();
+//                                } catch (Exception e) {
+//
+//                                }
+//
+//                                if (bytes == 0 || bytes > GiphyHelper.TWITTER_SIZE_LIMIT) {
+//                                    files[i] = ImageUtils.scaleToSend(Compose.this, Uri.parse(attachedUri[i]));
+//                                }
+//                            }
+//                        }
 
 
                         // use twitter4j's because it is easier
-                        if (attachButton.isEnabled()) {
+                        if (attachButtonEnabled) {
                             if (imagesAttached == 1) {
                                 //media.setMedia(files[0]);
                                 if (useAccOne) {
-                                    long mediaId = 0;
-                                    UploadedMedia upload = twitter.uploadMedia(files[0]);
-                                    mediaId = upload.getMediaId();
+                                    UploadedMedia upload = uploadImage(twitter, attachedUri[0]);
 
-                                    media.setMediaIds(new long[]{mediaId});
+                                    if (upload != null) {
+                                        long mediaId = upload.getMediaId();
+                                        media.setMediaIds(mediaId);
+                                    }
                                 }
 
                                 if (useAccTwo) {
-                                    long mediaId = 0;
-                                    UploadedMedia upload = twitter2.uploadMedia(files[0]);
-                                    mediaId = upload.getMediaId();
+                                    UploadedMedia upload = uploadImage(twitter2, attachedUri[0]);
 
-                                    media2.setMediaIds(new long[]{mediaId});
+                                    if (upload != null) {
+                                        long mediaId = upload.getMediaId();
+                                        media2.setMediaIds(mediaId);
+                                    }
                                 }
                             } else {
                                 // has multiple images and should be done through twitters service
@@ -1421,8 +1454,10 @@ public abstract class Compose extends Activity implements
                                 if (useAccOne) {
                                     long[] mediaIds = new long[files.length];
                                     for (int i = 0; i < files.length; i++) {
-                                        UploadedMedia upload = twitter.uploadMedia(files[i]);
-                                        mediaIds[i] = upload.getMediaId();
+                                        UploadedMedia upload = uploadImage(twitter, attachedUri[i]);
+                                        if (upload != null) {
+                                            mediaIds[i] = upload.getMediaId();
+                                        }
                                     }
 
                                     media.setMediaIds(mediaIds);
@@ -1431,8 +1466,10 @@ public abstract class Compose extends Activity implements
                                 if (useAccTwo) {
                                     long[] mediaIds = new long[files.length];
                                     for (int i = 0; i < files.length; i++) {
-                                        UploadedMedia upload = twitter2.uploadMedia(files[i]);
-                                        mediaIds[i] = upload.getMediaId();
+                                        UploadedMedia upload = uploadImage(twitter2, attachedUri[i]);
+                                        if (upload != null) {
+                                            mediaIds[i] = upload.getMediaId();
+                                        }
                                     }
 
                                     media2.setMediaIds(mediaIds);
@@ -1462,14 +1499,14 @@ public abstract class Compose extends Activity implements
                                     UploadedMedia upload = twitter.uploadMedia(files[0]);
                                     long mediaId = upload.getMediaId();
 
-                                    media.setMediaIds(new long[]{mediaId});
+                                    media.setMediaIds(mediaId);
                                 }
 
                                 if (useAccTwo) {
                                     UploadedMedia upload = twitter2.uploadMedia(files[0]);
                                     long mediaId = upload.getMediaId();
 
-                                    media2.setMediaIds(new long[]{mediaId});
+                                    media2.setMediaIds(mediaId);
                                 }
                             } else {
                                 files[0] = File.createTempFile("compose", "video", outputDir);
@@ -1490,14 +1527,14 @@ public abstract class Compose extends Activity implements
                                     UploadedMedia upload = twitter.uploadVideo(files[0]);
                                     long mediaId = upload.getMediaId();
 
-                                    media.setMediaIds(new long[]{mediaId});
+                                    media.setMediaIds(mediaId);
                                 }
 
                                 if (useAccTwo) {
                                     UploadedMedia upload = twitter2.uploadVideo(files[0]);
                                     long mediaId = upload.getMediaId();
 
-                                    media2.setMediaIds(new long[]{mediaId});
+                                    media2.setMediaIds(mediaId);
                                 }
                             }
                         }
@@ -1676,7 +1713,9 @@ public abstract class Compose extends Activity implements
     }
 
     public abstract boolean doneClick();
+
     public abstract void setUpLayout();
+
     public abstract void setUpReplyText();
 
     public int toDP(int px) {
@@ -1722,8 +1761,12 @@ public abstract class Compose extends Activity implements
 
         final FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
         MediaTranscoder.Listener listener = new MediaTranscoder.Listener() {
-            @Override public void onTranscodeCanceled() { }
-            @Override public void onTranscodeFailed(Exception exception) {
+            @Override
+            public void onTranscodeCanceled() {
+            }
+
+            @Override
+            public void onTranscodeFailed(Exception exception) {
                 try {
                     progressDialog.cancel();
                 } catch (Exception e) {
@@ -1732,8 +1775,13 @@ public abstract class Compose extends Activity implements
 
                 attachedUri[0] = data.getData().toString();
             }
-            @Override public void onTranscodeProgress(double progress) { }
-            @Override public void onTranscodeCompleted() {
+
+            @Override
+            public void onTranscodeProgress(double progress) {
+            }
+
+            @Override
+            public void onTranscodeCompleted() {
                 if (file.length() > 15 * 1024 * 1024 && !encoding.equals(AndroidStandardFormatStrategy.Encoding.SD_HIGH)) {
                     startVideoEncoding(data, AndroidStandardFormatStrategy.Encoding.SD_HIGH);
                 } else {
@@ -1768,6 +1816,7 @@ public abstract class Compose extends Activity implements
                 attachmentType = "animated_gif";
 
                 attachButton.setEnabled(false);
+                attachButtonEnabled = false;
             } catch (Exception e) {
 
             }
@@ -1791,6 +1840,7 @@ public abstract class Compose extends Activity implements
 
             attachmentType = "video/mp4";
             attachButton.setEnabled(false);
+            attachButtonEnabled = false;
         }
 
         return true;
