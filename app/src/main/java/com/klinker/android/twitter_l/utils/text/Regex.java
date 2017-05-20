@@ -24,7 +24,7 @@ public class Regex {
     // region TLDs
     private static final String URL_VALID_GTLD =
             "(?:(?:" +
-                    "academy|accountants|active|actor|aero|agency|airforce|archi|army|arpa|asia|associates|attorney|audio|autos|" +
+                    "academy|accountants|active|actor|aero|agency|airforce|archi|army|arpa|art|asia|associates|attorney|audio|autos|" +
                     "axa|bar|bargains|bayern|beer|berlin|best|bid|bike|bio|biz|black|blackfriday|blue|bmw|boutique|brussels|build|" +
                     "builders|buzz|bzh|cab|camera|camp|cancerresearch|capetown|capital|cards|care|career|careers|cash|cat|catering|" +
                     "center|ceo|cheap|christmas|church|citic|claims|cleaning|click|clinic|clothing|club|codes|coffee|college|cologne|com|" +
