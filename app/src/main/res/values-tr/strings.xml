@@ -420,7 +420,7 @@ Standart (devre dışı bırakıldığında):\n
     <string name="dismiss_all">Tümünü Kapat</string>
     <string name="handle_and_name">Kullanıcı adı ve isim göster</string>
     <string name="notification_types">Bildirim Türleri</string>
-    <string name="with_talon_pull">\''Talon Pull\'' aracığılıyla eriş</string>
+    <string name="with_talon_pull">\"Talon Pull\" aracığılıyla eriş</string>
     <string name="favorited_tweet">Favoriler üzerinden Tweetler</string>
     <string name="new_followers">Yeni Takipçiler</string>
     <string name="discussion">Tartışma</string>
