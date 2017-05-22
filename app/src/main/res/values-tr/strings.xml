@@ -15,24 +15,31 @@
   limitations under the License.
   -->
 <resources>
-    <string name="app_name">Talon</string>
+    <string name="app_name">pençe</string>
     <string name="app_name_full">Twitter için Talon</string>
-    <string name="extension_description">"Güncellendiğinde okunmamış tweet, bahsedenler ve direkt mesaj sayısını gösterir. "</string>
+    <string name="extension_description">Okunmamış tweet sayısını görüntüler, bildirimleri alır, direkt mesajlarınıza doğrudan ulaşır.</string>
     <!-- Action Bar -->
-    <string name="menu_refresh">Ana Sayfayı Yenile</string>
-    <string name="menu_compose">Yeni Tweet</string>
-    <string name="menu_logout">Oturumu kapat</string>
+    <string name="menu_refresh">Zaman Çizelgesi Yenile</string>
+    <string name="menu_compose">"
+Yeni Tweet"</string>
+    <string name="menu_logout">"
+Çıkış Yap"</string>
     <string name="menu_settings">Ayarlar</string>
-    <string name="menu_follow">Takip Et</string>
+    <string name="menu_follow">Kullanıcıyı takip et</string>
     <string name="menu_unfollow">Takibi Bırak</string>
-    <string name="menu_tweet">Tweet Gönder</string>
-    <string name="menu_dm">Direkt Mesaj Gönder</string>
+    <string name="menu_tweet">"
+Tweet Gönder"</string>
+    <string name="menu_dm">"
+Direkt Mesaj Gönder"</string>
     <string name="menu_block">Kullanıcıyı Engelle</string>
-    <string name="menu_unblock">Engellemeyi Kaldır</string>
-    <string name="menu_add_to_list">Listeye Ekle</string>
-    <string name="menu_change_picture">Profil Resmini Değiştir</string>
-    <string name="menu_change_bio">Profil Bilgilerini Değiştir</string>
-    <string name="menu_change_banner">Profil Arka Plan Resmini Değiştir</string>
+    <string name="menu_unblock">"
+Engellemeyi Kaldırma"</string>
+    <string name="menu_add_to_list">"
+Listeye Ekle"</string>
+    <string name="menu_change_picture">Profil resmini değiştir</string>
+    <string name="menu_change_bio">Profil Bilgisini Değiştir</string>
+    <string name="menu_change_banner">"
+Profil Arka Plan Resmini Değiştirildi"</string>
     <string name="menu_direct_message">Yeni Direkt Mesaj</string>
     <string name="menu_save_image">Resmi Kaydet</string>
     <string name="menu_favorite">Kişiyi Favorilere Ekle</string>
@@ -123,7 +130,15 @@
     <string name="back_to_timeline">Benim ana sayfama gidelim!</string>
     <string name="initial_sync">Şimdi Senkronize Et!</string>
     <string name="first_info">Başlamadan önce, giriş yapın.</string>
-    <string name="second_info">Harika! \n\nŞimdi bazı başlangıç ​​verilerini almak için bağlanıyoruz. \n\nBu internet bağlantısına bağlı olarak biraz zaman alabilir.\n\n\n\n</string>
+    <string name="second_info">"Harika! 
+
+Şimdi bazı başlangıç ​​verilerini almak için bağlanıyoruz. 
+
+Bu internet bağlantısına bağlı olarak biraz zaman alabilir.
+
+
+
+"</string>
     <string name="third_info">Talon\'u beğeneceğinizi umuyoruz!\n\n-- Luke Klinker</string>
     <string name="syncing_timeline">Ana Sayfa senkronize ediliyor ...</string>
     <string name="syncing_mentions">Bildirimler senkronize ediliyor...</string>
@@ -283,7 +298,6 @@ Bu ayarın etkinleştirilmesi kaydırma performansını etkileyecektir.</string>
     <string name="timestamp">24-Saat Damgası</string>
     <string name="enable_emojis">Emojileri etkinleştir</string>
     <string name="to_market">Play Store\'a Git</string>
-    <string name="get_android">Android Emoji (Gülen Suratlar) Satın Al.</string>
     <string name="get_ios">İOS Emoji (Gülen Suratlar) Satın Al.</string>
     <string name="emoji_dialog_summary">Bu uygulama emojileri etkinleştirmek için, \"Siliding Emoji Klavye\" veya \"Sliding Emoji Klavye - İOS\" play store den yüklenmiş olması gerekir.\n\n
 Emojilerden birini kaldırıp diğerini yükleyerek iki farklı tür arasında geçiş yapabilirsiniz. Her iki paket de yüklüyse,Talon için varsayılan olarak Android emojiler paketidir.\n\n
@@ -406,7 +420,7 @@ Standart (devre dışı bırakıldığında):\n
     <string name="dismiss_all">Tümünü Kapat</string>
     <string name="handle_and_name">Kullanıcı adı ve isim göster</string>
     <string name="notification_types">Bildirim Türleri</string>
-    <string name="with_talon_pull">\'\'Talon Pull\'\' aracığılıyla eriş</string>
+    <string name="with_talon_pull">\''Talon Pull\'' aracığılıyla eriş</string>
     <string name="favorited_tweet">Favoriler üzerinden Tweetler</string>
     <string name="new_followers">Yeni Takipçiler</string>
     <string name="discussion">Tartışma</string>
@@ -645,7 +659,9 @@ Keyfini çıkarın</string>
     <string name="search_cashtag">Cashtag Ara</string>
     <string name="copy_cashtag">Cashtag Kopyala</string>
     <string name="copied">Kopyalanmış Metin</string>
-    <string name="open_to_web">Web Sayfasında Aç</string>
-    <string name="open_to_web_summary">"Tweet bir URL içeriyorsa, tweet yerine direk URL açılır. "</string>
+    <string name="open_to_web">Web sayfasına aç</string>
+    <string name="open_to_web_summary">"
+Tweet bir web bağlantısı içeriyorsa, o bağlantı yerine tweet'in kendisi doğrudan açılacaktır"</string>
     <string name="open_webpage">Linki Aç</string>
+    <string name="get_android">Android Emoji (Gülen Suratlar) Satın Al.</string>
 </resources>
