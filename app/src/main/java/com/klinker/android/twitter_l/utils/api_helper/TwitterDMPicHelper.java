@@ -94,14 +94,17 @@ public class TwitterDMPicHelper {
             HttpProtocolParams.setContentCharset(params, "UTF-8");
             HttpProtocolParams.setUserAgent(params, "HttpCore/1.1");
             HttpProtocolParams.setUseExpectContinue(params, false);
-            HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpRequestInterceptor[] {
-                    // Required protocol interceptors
-                    new RequestContent(),
-                    new RequestTargetHost(),
-                    // Recommended protocol interceptors
-                    new RequestConnControl(),
-                    new RequestUserAgent(),
-                    new RequestExpectContinue()});
+
+            // Todo: this needs replaced
+//            HttpProcessor httpproc = new BasicHttpProcessor(new HttpRequestInterceptor[]{
+//                    // Required protocol interceptors
+//                    new RequestContent(),
+//                    new RequestTargetHost(),
+//                    // Recommended protocol interceptors
+//                    new RequestConnControl(),
+//                    new RequestUserAgent(),
+//                    new RequestExpectContinue()}) {
+//            };
 
             HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
             HttpContext context = new BasicHttpContext(null);
@@ -121,10 +124,10 @@ public class TwitterDMPicHelper {
             BasicHttpEntityEnclosingRequest request2 = new BasicHttpEntityEnclosingRequest("GET", twitter_endpoint_path);
             request2.setParams(params);
             request2.addHeader("Authorization", authorization_header_string);
-            httpexecutor.preProcess(request2, httpproc, context);
+//            httpexecutor.preProcess(request2, httpproc, context);
             HttpResponse response2 = httpexecutor.execute(request2, conn, context);
             response2.setParams(params);
-            httpexecutor.postProcess(response2, httpproc, context);
+//            httpexecutor.postProcess(response2, httpproc, context);
 
             StatusLine statusLine = response2.getStatusLine();
             int statusCode = statusLine.getStatusCode();
