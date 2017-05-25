@@ -30,27 +30,13 @@ import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
-import com.klinker.android.twitter_l.services.ActivityRefreshService;
-import com.klinker.android.twitter_l.services.DataCheckService;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.ListRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
-import com.klinker.android.twitter_l.services.TrimDataService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.LVLActivity;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import twitter4j.User;
 
 
 public class UpdateUtils {
@@ -281,37 +267,6 @@ public class UpdateUtils {
 
         public void showError() {
             final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-
-            new TimeoutThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        AppSettings settings = new AppSettings(context);
-                        final String URL = "https://omega-jet-799.appspot.com/_ah/api/license/v1/addUnlicensedUser/";
-
-                        if (!TextUtils.isEmpty(settings.myScreenName)) {
-                            HttpClient client = new DefaultHttpClient();
-                            HttpPost post = new HttpPost(
-                                    URL + java.net.URLEncoder.encode(settings.myScreenName, "UTF-8")
-                            );
-
-                            client.execute(post);
-                        }
-
-                        if (!TextUtils.isEmpty(settings.secondScreenName)) {
-                            HttpClient client = new DefaultHttpClient();
-                            HttpPost post = new HttpPost(
-                                    URL +java.net.URLEncoder.encode(settings.secondScreenName, "UTF-8")
-                            );
-
-                            client.execute(post);
-                        }
-
-                    } catch (Exception e) {
-
-                    }
-                }
-            }).start();
 
             new AlertDialog.Builder(context)
                     .setTitle("License Check Failed")
