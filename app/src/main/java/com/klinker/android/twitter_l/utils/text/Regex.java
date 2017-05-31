@@ -35,7 +35,7 @@ public class Regex {
                     "foo|foundation|frogans|fund|furniture|futbol|gal|gallery|gift|gives|glass|global|globo|gmo|gop|google|gov|graphics|" +
                     "gratis|green|gripe|guide|guitars|guru|hamburg|haus|hiphop|hiv|hockey|holdings|holiday|homes|horse|host|house|" +
                     "immobilien|industries|info|ink|institute|insure|int|international|investments|ist|jetzt|jobs|joburg|juegos|kaufen|" +
-                    "kim|kitchen|kiwi|koeln|kred|land|lawyer|lease|legal|lgbt|life|lighting|limited|limo|link|loans|london|lotto|luxe|" +
+                    "kim|kitchen|kiwi|koeln|kred|land|lawyer|lease|legal|lgbt|life|lighting|limited|limo|link|live|loans|london|lotto|luxe|" +
                     "luxury|maison|management|mango|market|marketing|media|meet|menu|miami|mil|mini|mobi|moda|moe|monash|mortgage|" +
                     "moscow|motorcycles|museum|nagoya|name|navy|net|network|neustar|news|nhk|ninja|nyc|okinawa|onl|online|org|organic|ovh|paris|" +
                     "partners|parts|photo|photography|photos|physio|pics|pictures|pink|place|plumbing|plus|post|press|pro|productions|" +
