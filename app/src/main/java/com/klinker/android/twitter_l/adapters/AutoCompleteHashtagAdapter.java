@@ -120,7 +120,7 @@ public class AutoCompleteHashtagAdapter extends CursorAdapter {
             @Override
             public void onClick(View view) {
                 helper.completeTweet(text, tag, '#');
-                text.replace("# #", "#");
+                text.setText(text.getText().toString().replace("# #", "#"));
                 if (listPopupWindow != null && listPopupWindow.isShowing()) {
                     listPopupWindow.dismiss();
                 }
