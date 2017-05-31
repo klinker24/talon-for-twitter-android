@@ -595,6 +595,11 @@ public abstract class MainFragment extends Fragment implements Expandable {
             return;
         }
 
+        if (description.toLowerCase().equals("0 tweets")) {
+            hideToastBar(0);
+            return;
+        }
+
         toastDescription.setText(description);
         toastButton.setText(buttonText);
         toastButton.setOnClickListener(listener);
