@@ -1629,6 +1629,10 @@ public class Utils {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
     }
 
+    public static boolean isAndroidO() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 || Build.VERSION.CODENAME.equals("O");
+    }
+
     public static void setTaskDescription(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_launcher);
