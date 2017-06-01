@@ -87,6 +87,10 @@ public class UserAutoCompleteHelper {
         hashtagAutoComplete.setAdapter(new AutoCompleteHashtagAdapter(hashtagAutoComplete, context,
                 HashtagDataSource.getInstance(context).getCursor(""), textView));
 
+        userAutoComplete.setAdapter(new AutoCompletePeopleAdapter(userAutoComplete, context,
+                FollowersDataSource.getInstance(context).getCursor(AppSettings.getInstance(context).currentAccount,
+                        textView.getText().toString()), textView));
+
         textView.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override public void afterTextChanged(Editable editable) { }
