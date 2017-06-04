@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.github.paolorotolo.appintro.AppIntro2;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.services.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.DataCheckService;
@@ -37,7 +38,7 @@ import java.util.Date;
 import twitter4j.Twitter;
 
 
-public class MaterialLogin extends MaterialLVLActivity {
+public class MaterialLogin extends AppIntro2 {
 
     // CHANGE THIS TO UPDATE THE KEY VERSION
     public static final int KEY_VERSION = 2;
@@ -51,8 +52,6 @@ public class MaterialLogin extends MaterialLVLActivity {
 
     @Override
     public void init(Bundle bundle) {
-        super.init(bundle);
-
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
@@ -187,7 +186,7 @@ public class MaterialLogin extends MaterialLVLActivity {
                 Twitter twitter = Utils.getTwitter(MaterialLogin.this, null);
 
                 try { twitter.createFriendship("TalonAndroid"); } catch (Exception e) { }
-                //try { twitter.createFriendship("lukeklinker"); } catch (Exception e) { }
+                try { twitter.createFriendship("lukeklinker"); } catch (Exception e) { }
                 try { twitter.createFriendship("KlinkerApps"); } catch (Exception e) { }
             }
         }).start();

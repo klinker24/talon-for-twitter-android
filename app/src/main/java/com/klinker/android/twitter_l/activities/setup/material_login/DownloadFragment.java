@@ -70,8 +70,6 @@ public class DownloadFragment extends Fragment {
                 Twitter twitter = Utils.getTwitter(activity, settings);
                 User user = twitter.verifyCredentials();
 
-                activity.countUser(user.getScreenName());
-
                 if (sharedPrefs.getInt("current_account", 1) == 1) {
                     sharedPrefs.edit().putString("twitter_users_name_1", user.getName()).apply();
                     sharedPrefs.edit().putString("twitter_screen_name_1", user.getScreenName()).apply();
