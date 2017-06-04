@@ -65,7 +65,6 @@ public class SearchView extends FrameLayout implements Filter.FilterListener, Vi
     private View mShadow;
     private Activity mActivity = null;
     private Fragment mFragment = null;
-    private android.support.v4.app.Fragment mSupportFragment = null;
     private SearchAdapter mSearchAdapter;
     private CharSequence mOldQueryText;
     private ArrowDrawable mSearchArrow;
@@ -343,11 +342,6 @@ public class SearchView extends FrameLayout implements Filter.FilterListener, Vi
         setVoice(voice);
     }
 
-    public void setVoice(boolean voice, android.support.v4.app.Fragment context) {
-        mSupportFragment = context;
-        setVoice(voice);
-    }
-
     public void setVoiceText(String voice_text) {
         VOICE_SEARCH_TEXT = voice_text;
     }
@@ -513,8 +507,6 @@ public class SearchView extends FrameLayout implements Filter.FilterListener, Vi
             mActivity.startActivityForResult(intent, SPEECH_REQUEST_CODE);
         } else if (mFragment != null) {
             mFragment.startActivityForResult(intent, SPEECH_REQUEST_CODE);
-        } else if (mSupportFragment != null) {
-            mSupportFragment.startActivityForResult(intent, SPEECH_REQUEST_CODE);
         } else {
             if (mContext instanceof Activity) {
                 ((Activity) mContext).startActivityForResult(intent, SPEECH_REQUEST_CODE);
