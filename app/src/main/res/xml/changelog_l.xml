@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.4.3">
+        <text>Improvements and fixes for custom ringtone support</text>
+    </version>
+
     <version name="6.4.2">
         <text>Improvements for user auto complete</text>
         <text>Some workarounds for Android O BETA issues</text>
