@@ -30,13 +30,14 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class LoginFragment extends Fragment {
 
+    private static final String CALLBACK_URL = "oauth:///talonforandroid";
+
     private Twitter twitter;
 
     private MaterialLogin activity;
     private WebView web;
 
     private RequestToken requestToken;
-    private String requestUrl;
     private String callbackUrl;
     private String oauthVerifier;
 
@@ -80,7 +81,7 @@ public class LoginFragment extends Fragment {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-                if (requestUrl != null && url != null && url.startsWith(requestUrl)) {
+                if (url != null && url.startsWith(CALLBACK_URL)) {
                     handleRequest(url);
                     webView.loadUrl("");
                 } else if (url.equals("https://twitter.com/")) {
@@ -108,10 +109,9 @@ public class LoginFragment extends Fragment {
 
     }
 
-    class RetrieveFeedTask extends AsyncTask<String, Void, RequestToken> {
+    private class RetrieveFeedTask extends AsyncTask<String, Void, RequestToken> {
 
         ProgressDialog pDialog;
-        boolean licenseTimeout = false;
         boolean errorGettingToken = false;
 
         @Override
@@ -131,55 +131,28 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected RequestToken doInBackground(String... urls) {
-
-            int counter = 0;
-            while ((activity == null || !activity.isCheckComplete) && counter < 10) {
-                try { Thread.sleep(2000); } catch (InterruptedException e) { }
-                counter++;
-            }
-
-            if (counter == 10 &&  activity != null && !activity.isCheckComplete) {
-                // timeout on the license check
-                return loginToTwitter(requestUrl);
-            }
-
-            requestUrl = activity.getUserUrl();
-
-            if (!activity.licenced || requestUrl == null) {
-                return null;
-            }
-
-            return loginToTwitter(requestUrl);
+            return loginToTwitter(CALLBACK_URL);
         }
 
         protected void onPostExecute(RequestToken token) {
-
             requestToken = token;
 
             try { pDialog.dismiss(); } catch (Exception e) { }
 
             if (token == null) {
-                if (licenseTimeout) {
-                    activity.licenseTimeout();
-                } else {
-                    if (errorGettingToken) {
-                        activity.restartLogin();
-                    } else {
-                        activity.notLicenced();
-                    }
+                if (errorGettingToken) {
+                    activity.restartLogin();
                 }
-            } else if (activity.licenced) {
+            } else {
                 callbackUrl = token.getAuthenticationURL();
                 web.loadUrl(callbackUrl);
                 web.requestFocus(View.FOCUS_UP | View.FOCUS_RIGHT);
-            } else {
-                activity.restartLogin();
             }
         }
 
-        private RequestToken loginToTwitter(String requestUrl) {
+        private RequestToken loginToTwitter(String callbackUrl) {
             try {
-                return twitter.getOAuthRequestToken(requestUrl);
+                return twitter.getOAuthRequestToken(callbackUrl);
             } catch (TwitterException ex) {
                 ex.printStackTrace();
                 errorGettingToken = true;
@@ -188,7 +161,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    class RetreiveoAuth extends AsyncTask<String, Void, AccessToken> {
+    private class RetreiveoAuth extends AsyncTask<String, Void, AccessToken> {
 
         ProgressDialog pDialog;
 

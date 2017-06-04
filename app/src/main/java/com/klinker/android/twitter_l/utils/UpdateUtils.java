@@ -20,25 +20,29 @@ import android.content.*;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
-import com.google.android.vending.licensing.Policy;
-import com.google.android.vending.licensing.StrictPolicy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.setup.LVLActivity;
 
+<<<<<<< HEAD
+=======
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+>>>>>>> master
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 public class UpdateUtils {
 
     private static final long SEC = 1000;
@@ -167,13 +171,6 @@ public class UpdateUtils {
 
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
             sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
-
-            new TimeoutThread(new Runnable() {
-                @Override
-                public void run() {
-                    checkLicense(context);
-                }
-            }).start();
         }
     }
 
@@ -219,6 +216,7 @@ public class UpdateUtils {
                 .create().show();
     }
 
+<<<<<<< HEAD
     public static void checkLicense(final Context context) {
         LicenseChecker mChecker = new LicenseChecker(
                 context, new StrictPolicy(),
@@ -288,6 +286,8 @@ public class UpdateUtils {
         }
     }
 
+=======
+>>>>>>> master
     protected static int getAppVersion(Context c) {
         try {
             PackageInfo packageInfo = c.getPackageManager()

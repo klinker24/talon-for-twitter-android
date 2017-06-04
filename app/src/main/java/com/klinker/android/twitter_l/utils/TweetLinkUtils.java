@@ -227,7 +227,7 @@ public class TweetLinkUtils {
 
                 imageUrl = status.getMediaEntities()[0].getMediaURL();
 
-                for (MediaEntity m : status.getExtendedMediaEntities()) {
+                for (MediaEntity m : status.getMediaEntities()) {
                     if (m.getType().equals("photo")) {
                         if (!imageUrl.contains(m.getMediaURL())) {
                             imageUrl += " " + m.getMediaURL();
@@ -543,18 +543,18 @@ public class TweetLinkUtils {
 
     public static String getGIFUrl(Status s, String otherUrls) {
 
-        for (ExtendedMediaEntity e : s.getExtendedMediaEntities()) {
+        for (MediaEntity e : s.getMediaEntities()) {
             if (e.getType().contains("gif")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
-                    ExtendedMediaEntity.Variant variants[] = e.getVideoVariants();
+                    MediaEntity.Variant variants[] = e.getVideoVariants();
 
                     if (variants.length == 0) {
                         return url;
                     }
 
                     for (int i = variants.length - 1; i >= 0; i--) {
-                        ExtendedMediaEntity.Variant v = variants[i];
+                        MediaEntity.Variant v = variants[i];
                         if (v.getUrl().contains(".mp4") || v.getUrl().contains(".m3u8")) {
                             url = v.getUrl();
                         }
@@ -566,14 +566,14 @@ public class TweetLinkUtils {
             } else if (e.getType().equals("surfaceView") || e.getType().equals("video")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
-                    ExtendedMediaEntity.Variant variants[] = e.getVideoVariants();
+                    MediaEntity.Variant variants[] = e.getVideoVariants();
 
                     if (variants.length == 0) {
                         return url;
                     }
 
                     for (int i = variants.length - 1; i >= 0; i--) {
-                        ExtendedMediaEntity.Variant v = variants[i];
+                        MediaEntity.Variant v = variants[i];
                         if (v.getUrl().contains(".mp4")) {
                             url = v.getUrl();
                         }
@@ -581,7 +581,7 @@ public class TweetLinkUtils {
 
                     if (url.isEmpty()) {
                         for (int i = variants.length - 1; i >= 0; i--) {
-                            ExtendedMediaEntity.Variant v = variants[i];
+                            MediaEntity.Variant v = variants[i];
                             if (v.getUrl().contains(".m3u8")) {
                                 url = v.getUrl();
                             }

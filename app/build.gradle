@@ -102,6 +102,7 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:cardview-v7:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:design:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
@@ -112,7 +113,7 @@ dependencies {
     compile 'com.klinkerapps:simple_videoview:1.2.4'
     compile 'com.klinkerapps:launcher-apis:1.1.0'
     compile 'com.klinkerapps:android-transcoder:1.0.1'
-    compile 'com.klinkerapps:article_viewer:0.21.1'
+    compile 'com.klinkerapps:article_viewer:0.22.4'
     compile 'com.klinkerapps:drag-dismiss-activity:1.4.0'
 
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
@@ -125,7 +126,7 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.1.0'
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.flipboard:bottomsheet-core:1.5.0'
@@ -148,6 +149,5 @@ dependencies {
     compile(name: 'sectioned-recyclerview', ext: 'aar')
 
     compile project(':searchview')
-    compile project(':lvl')
     compile project(':shared_assets')
 }
