@@ -264,10 +264,10 @@ public class NotificationUtils {
                     mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
                 }
 
-                if (settings.sound) {
-                    try {
-                        mBuilder.setSound(Uri.parse(settings.ringtone));
-                    } catch (Exception e) {
+                try {
+                    mBuilder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
+                    if (settings.sound) {
                         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     }
                 }
@@ -760,10 +760,10 @@ public class NotificationUtils {
                 mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
             }
 
-            if (settings.sound) {
-                try {
-                    mBuilder.setSound(Uri.parse(settings.ringtone));
-                } catch (Exception e) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                if (settings.sound) {
                     mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                 }
             }
@@ -907,10 +907,10 @@ public class NotificationUtils {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
-        if (settings.sound) {
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
+        try {
+            mBuilder.setSound(Uri.parse(settings.ringtone));
+        } catch (Exception e) {
+            if (settings.sound) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1114,10 +1114,10 @@ public class NotificationUtils {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
-        if (settings.sound) {
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
+        try {
+            mBuilder.setSound(Uri.parse(settings.ringtone));
+        } catch (Exception e) {
+            if (settings.sound) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1304,10 +1304,10 @@ public class NotificationUtils {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS);
             }
 
-            if (settings.sound) {
-                try {
-                    builder.setSound(Uri.parse(settings.ringtone));
-                } catch (Exception e) {
+            try {
+                builder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
+                if (settings.sound) {
                     builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                 }
             }
@@ -1452,10 +1452,11 @@ public class NotificationUtils {
         } else if (settings.led) {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
-        if (settings.sound) {
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
+
+        try {
+            mBuilder.setSound(Uri.parse(settings.ringtone));
+        } catch (Exception e) {
+            if (settings.sound) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1583,11 +1584,10 @@ public class NotificationUtils {
             mBuilder.setColor(settings.themeColors.primaryColor);
         }
 
-        if (settings.sound) {
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            mBuilder.setSound(Uri.parse(settings.ringtone));
+        } catch (Exception e) {
+            if (settings.sound) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
