@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.utils.AnalyticsHelper;
 import com.klinker.android.twitter_l.utils.PushSyncSender;
 import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -52,6 +53,8 @@ public class MaterialLogin extends AppIntro2 {
 
     @Override
     public void init(Bundle bundle) {
+        AnalyticsHelper.startLogin(this);
+        
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
@@ -113,6 +116,8 @@ public class MaterialLogin extends AppIntro2 {
     public void onDonePressed() {
         followUsers();
         startTimeline();
+
+        AnalyticsHelper.finishLogin(this);
     }
 
     private ImageFragment welcomeFragment;
