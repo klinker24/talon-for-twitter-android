@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.getkeepsafe.dexcount'
 
 File keystoreProperties = rootProject.file("keystore.properties")
 def props = new Properties()
