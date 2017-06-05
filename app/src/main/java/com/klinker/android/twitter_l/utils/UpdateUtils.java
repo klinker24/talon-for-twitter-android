@@ -20,29 +20,17 @@ import android.content.*;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
-<<<<<<< HEAD
-=======
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
->>>>>>> master
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 public class UpdateUtils {
 
     private static final long SEC = 1000;
@@ -216,78 +204,6 @@ public class UpdateUtils {
                 .create().show();
     }
 
-<<<<<<< HEAD
-    public static void checkLicense(final Context context) {
-        LicenseChecker mChecker = new LicenseChecker(
-                context, new StrictPolicy(),
-                LVLActivity.BASE64_PUBLIC_KEY  // Your public licensing key.
-        );
-
-        LicenseCheckerCallback mLicenseCheckerCallback =
-                new MyLicenseCheckerCallback(context, mChecker);
-
-        mChecker.checkAccess(mLicenseCheckerCallback);
-    }
-
-    protected static class MyLicenseCheckerCallback implements LicenseCheckerCallback {
-
-        private boolean checkedOnce = false;
-        private Context context;
-        private LicenseChecker checker;
-
-        public MyLicenseCheckerCallback(Context c, LicenseChecker checker) {
-            this.context = c;
-            this.checker = checker;
-        }
-
-        public void allow(int reason) {
-            // just won't do anything
-        }
-
-        public void dontAllow(int reason) {
-            if (reason == Policy.RETRY) {
-                if (!checkedOnce) {
-                    checkedOnce = true;
-                    checker.checkAccess(this);
-                }
-            } else if(reason == Policy.NOT_LICENSED) {
-                showError();
-            }
-        }
-
-        @Override
-        public void applicationError(int errorCode) {
-            if (!checkedOnce) {
-                checkedOnce = true;
-                checker.checkAccess(this);
-            }
-        }
-
-        public void showError() {
-            final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-
-            new AlertDialog.Builder(context)
-                    .setTitle("License Check Failed")
-                    .setMessage("Please go to the Play Store to purchase this app. It is not free.")
-                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            SharedPreferences.Editor e = sharedPrefs.edit();
-                            e.putBoolean("is_logged_in_1", false);
-                            e.putBoolean("is_logged_in_2", false);
-                            e.apply();
-
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                        }
-                    })
-                    .create()
-                    .show();
-        }
-    }
-
-=======
->>>>>>> master
     protected static int getAppVersion(Context c) {
         try {
             PackageInfo packageInfo = c.getPackageManager()
