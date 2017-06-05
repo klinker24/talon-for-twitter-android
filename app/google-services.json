@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "282854021656",
+    "firebase_url": "https://talon-twitter.firebaseio.com",
+    "project_id": "talon-twitter",
+    "storage_bucket": "talon-twitter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282854021656:android:2b73f52f9713a286",
+        "android_client_info": {
+          "package_name": "com.klinker.android.twitter_l"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282854021656-u0g7h8405uettqp516sfs83d2hpeun1r.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "282854021656.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjE1Lpx4TLeApRrAUZS2j02L63swInvr4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
