@@ -44,5 +44,6 @@ dependencies {
     compile "com.google.android.gms:play-services-location:${project.GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.android.gms:play-services-wearable:${project.GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-crash:${FIREBASE_VERSION}"
+    compile "com.google.firebase:firebase-perf:${FIREBASE_VERSION}"
     compile "com.android.support:support-v13:${project.ANDROID_SUPPORT_VERSION}"
 }

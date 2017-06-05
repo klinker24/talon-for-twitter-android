@@ -54,7 +54,7 @@ public class MaterialLogin extends AppIntro2 {
     @Override
     public void init(Bundle bundle) {
         AnalyticsHelper.startLogin(this);
-        
+
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
         int currAccount = sharedPrefs.getInt("current_account", 1);
