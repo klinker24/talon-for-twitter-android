@@ -41,7 +41,7 @@ import twitter4j.Twitter;
 public class MaterialLogin extends AppIntro2 {
 
     // CHANGE THIS TO UPDATE THE KEY VERSION
-    public static final int KEY_VERSION = 2;
+    public static final int KEY_VERSION = 4;
 
     public interface Callback {
         void onDone();
