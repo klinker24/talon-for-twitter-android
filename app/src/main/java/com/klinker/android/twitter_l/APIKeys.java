@@ -44,6 +44,10 @@ public class APIKeys {
                 consumerKey = TWITTER_CONSUMER_KEY_3;
                 consumerSecret = TWITTER_CONSUMER_SECRET_3;
                 break;
+            case 4:
+                consumerKey = TWITTER_CONSUMER_KEY_4;
+                consumerSecret = TWITTER_CONSUMER_SECRET_4;
+                break;
         }
     }
 
@@ -76,6 +80,10 @@ public class APIKeys {
     // Talon - Plus
     public static String TWITTER_CONSUMER_KEY_3 = "juagpEH8qifyZPl789gZ0FjMm";
     public static String TWITTER_CONSUMER_SECRET_3 = "JNd4xRJm2QyUEPMKiL46Idm13kITNNrY0BZh2iUAQqbVEVl0UJ";
+
+    // Talon Android (June 5th w/ 77,056 downloads)
+    public static String TWITTER_CONSUMER_KEY_4 = "RXtk0w9pEDTg0ThHXsw7SHo34";
+    public static String TWITTER_CONSUMER_SECRET_4 = "jOi5auTdlNXfLFOlR1Sd2bTGUoa37NXTCWLUDij1OoJA516vkH";
 
     /**
      * For the In-App Youtube Player
