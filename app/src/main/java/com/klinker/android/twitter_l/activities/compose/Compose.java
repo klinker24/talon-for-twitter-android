@@ -76,6 +76,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.GiphySearch;
 import com.klinker.android.twitter_l.data.ScheduledTweet;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
@@ -378,10 +379,6 @@ public abstract class Compose extends Activity implements
             reply.setTextSize(settings.textSize);
         }
 
-        if (this instanceof ComposeDMActivity) {
-            attachButton.setVisibility(View.GONE);
-        }
-
         // change the background color for the cursor
         if (settings.darkTheme && (settings.theme == AppSettings.THEME_BLACK || settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR)) {
             try {
@@ -510,6 +507,16 @@ public abstract class Compose extends Activity implements
         attachImage[2] = (ImageView) findViewById(R.id.picture3);
         attachImage[3] = (ImageView) findViewById(R.id.picture4);
 
+        cancelButton[0] = (ImageButton) findViewById(R.id.cancel1);
+        cancelButton[1] = (ImageButton) findViewById(R.id.cancel2);
+        cancelButton[2] = (ImageButton) findViewById(R.id.cancel3);
+        cancelButton[3] = (ImageButton) findViewById(R.id.cancel4);
+
+        holders[0] = (FrameLayout) findViewById(R.id.holder1);
+        holders[1] = (FrameLayout) findViewById(R.id.holder2);
+        holders[2] = (FrameLayout) findViewById(R.id.holder3);
+        holders[3] = (FrameLayout) findViewById(R.id.holder4);
+
         attachButton = (ImageButton) findViewById(R.id.attach);
         gifButton = (ImageButton) findViewById(R.id.gif);
         emojiButton = (ImageButton) findViewById(R.id.emoji);
@@ -518,6 +525,44 @@ public abstract class Compose extends Activity implements
         charRemaining = (TextView) findViewById(R.id.char_remaining);
 
         reply.setCommitContentListener(this);
+
+        gifButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findGif();
+            }
+        });
+
+        for (int i = 0; i < cancelButton.length; i++) {
+            final int pos = i;
+            cancelButton[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imagesAttached--;
+
+                    List<String> uris = new ArrayList<String>();
+                    for (String uri : attachedUri) {
+                        uris.add(uri);
+
+                    }
+                    uris.remove(pos);
+
+                    for (int i = 0; i < attachImage.length; i++) {
+                        attachImage[i].setImageDrawable(null);
+                        attachedUri[i] = null;
+                        holders[i].setVisibility(View.GONE);
+                    }
+                    for (int i = 0; i < imagesAttached; i++) {
+                        attachImage[i].setImageURI(Uri.parse(uris.get(i)));
+                        attachedUri[i] = uris.get(i);
+                        holders[i].setVisibility(View.VISIBLE);
+                    }
+
+                    attachButton.setEnabled(true);
+                    attachButtonEnabled = true;
+                }
+            });
+        }
 
         findViewById(R.id.prompt_pos).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -557,6 +602,11 @@ public abstract class Compose extends Activity implements
                 countHandler.postDelayed(getCount, 300);
             }
         });
+    }
+
+    public void findGif() {
+        Intent gif = new Intent(context, GiphySearch.class);
+        startActivityForResult(gif, FIND_GIF);
     }
 
     void handleSendText(Intent intent) {
@@ -915,6 +965,11 @@ public abstract class Compose extends Activity implements
                         } catch (Throwable e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                         }
+
+                        if (this instanceof ComposeDMActivity) {
+                            attachButton.setEnabled(false);
+                            attachButtonEnabled = false;
+                        }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -1098,18 +1153,25 @@ public abstract class Compose extends Activity implements
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
+                String sendTo = contactEntry.getText().toString().replace("@", "").replace(" ", "");
+                User user = twitter.showUser(sendTo);
+                MessageData data = new MessageData(user.getId(), status);
+
                 if (!attachedUri.equals("")) {
                     try {
-                        for (int i = 0; i < imagesAttached; i++) {
-                            File f = ImageUtils.scaleToSend(context, Uri.parse(attachedUri[i]));
+                        File f;
 
-                            // we wont attach any text to this image at least, since it is a direct message
-                            TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
-                            String url = helper.uploadForUrl();
-
-                            status += " " + url;
+                        if (attachmentType == null) {
+                            // image file
+                            f = ImageUtils.scaleToSend(context, Uri.parse(attachedUri[0]));
+                        } else {
+                            f = new File(URI.create(attachedUri[0]));
                         }
+
+                        UploadedMedia media = twitter.uploadMedia(f);
+                        data.setMediaId(media.getMediaId());
                     } catch (Exception e) {
+                        e.printStackTrace();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -1120,11 +1182,8 @@ public abstract class Compose extends Activity implements
 
                 }
 
-                String sendTo = contactEntry.getText().toString().replace("@", "").replace(" ", "");
-
-                twitter.sendDirectMessage(sendTo, status);
-
-                return true;
+                DirectMessageEvent event = twitter.createMessage(data);
+                return event != null;
 
             } catch (TwitterException e) {
                 e.printStackTrace();
