@@ -1030,7 +1030,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
         settings.putExtra("position", 10)
                 .putExtra("title",
                         getResources().getString(R.string.get_help_settings));
-        finish();
         settings.putExtra("open_help", true);
         startActivity(settings);
     }
