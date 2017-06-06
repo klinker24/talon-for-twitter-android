@@ -1,5 +1,11 @@
 <changelog>
 
+    <version name="6.5.0">
+        <text>Attach media to direct messages</text>
+        <text>Bug fixes</text>
+        <text>Performance optimizations</text>
+    </version>
+
     <version name="6.4.3">
         <text>Improvements and fixes for custom ringtone support</text>
     </version>
