@@ -87,7 +87,17 @@ public class PrefFragmentAdvanced extends PrefFragment {
             }
         });
 
+        final Preference interactionsDrawer = findPreference("interaction_drawer");
         final Preference noti = findPreference("show_pull_notification");
+
+        if (AppSettings.getInstance(getActivity()).pushNotifications) {
+            interactionsDrawer.setEnabled(true);
+            noti.setEnabled(true);
+        } else {
+            interactionsDrawer.setEnabled(false);
+            noti.setEnabled(false);
+        }
+
         noti.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -116,6 +126,14 @@ public class PrefFragmentAdvanced extends PrefFragment {
                     e.putString("mentions_sync_interval", "0");
                     e.putString("dm_sync_interval", "0");
                     e.apply();
+                }
+
+                if (o.equals("0")) {
+                    interactionsDrawer.setEnabled(false);
+                    noti.setEnabled(false);
+                } else {
+                    interactionsDrawer.setEnabled(true);
+                    noti.setEnabled(true);
                 }
 
                 return true;
