@@ -141,7 +141,6 @@ dependencies {
 
     compile 'org.apache.httpcomponents:httpmime:4.3.5'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
-    compile 'org.jsoup:jsoup:1.7.3'
 
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
     compile files('lib/twitter4j-fork.jar')
