@@ -172,11 +172,6 @@ public class ActivityFragment extends MainFragment {
         context.registerReceiver(refreshActivity, filter);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
     public void getCursorAdapter(boolean showSpinner) {
         if (showSpinner) {
             try {
