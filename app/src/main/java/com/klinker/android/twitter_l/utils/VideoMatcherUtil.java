@@ -19,6 +19,10 @@ public class VideoMatcherUtil {
         if (link == null)
             return false;
 
+        if (link.contains("dm_gif")) {
+            return true;
+        }
+
         // Ex: http://pbs.twimg.com/tweet_video/CcAargSUAAADXgD.mp4
         return (link.contains("/photo/1") && link.contains("twitter.com/")) || // before gifs were in api
                 (link.contains("video.twimg.com/tweet_video") || link.contains("pbs.twimg.com/tweet_video")); // after gifs in api
