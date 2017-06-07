@@ -27,9 +27,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,17 +47,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.compose.Compose;
+import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.adapters.DMCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -64,14 +72,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import twitter4j.DirectMessageEvent;
+import twitter4j.MessageData;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.UploadedMedia;
+import twitter4j.User;
 
 
-public class DirectMessageConversation extends PeekViewActivity{
+public class DirectMessageConversation extends PeekViewActivity {
 
     public AppSettings settings;
     private Context context;
@@ -83,6 +96,7 @@ public class DirectMessageConversation extends PeekViewActivity{
     private FontPrefEditText composeBar;
     private ImageButton sendButton;
     private FontPrefTextView charRemaining;
+    private ImageButton attachButton;
 
     private String listName;
 
@@ -162,6 +176,7 @@ public class DirectMessageConversation extends PeekViewActivity{
         sendButton = (ImageButton) findViewById(R.id.send_button);
         composeBar = (FontPrefEditText) findViewById(R.id.tweet_content);
         charRemaining = (FontPrefTextView) findViewById(R.id.char_remaining);
+        attachButton = (ImageButton) findViewById(R.id.attach_button);
 
         charRemaining.setVisibility(View.GONE);
 
@@ -190,6 +205,13 @@ public class DirectMessageConversation extends PeekViewActivity{
             public void afterTextChanged(Editable editable) {
                 countHandler.removeCallbacks(getCount);
                 countHandler.postDelayed(getCount, 300);
+            }
+        });
+
+        attachButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attachImage();
             }
         });
 
@@ -292,38 +314,39 @@ public class DirectMessageConversation extends PeekViewActivity{
             try {
                 Twitter twitter = Utils.getTwitter(getApplicationContext(), settings);
 
+                String sendTo = listName;
+                User user = twitter.showUser(sendTo);
+                MessageData data = new MessageData(user.getId(), status);
+
                 if (!attachedUri.equals("")) {
                     try {
-                        File outputDir = context.getCacheDir();
-                        File f = File.createTempFile("compose", "picture", outputDir);
+                        File f;
 
-                        Bitmap bitmap = getBitmapToSend(Uri.parse(attachedUri));
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                        byte[] bitmapdata = bos.toByteArray();
+                        if (attachmentType == null) {
+                            // image file
+                            f = ImageUtils.scaleToSend(context, Uri.parse(attachedUri));
+                        } else {
+                            f = new File(URI.create(attachedUri));
+                        }
 
-                        FileOutputStream fos = new FileOutputStream(f);
-                        fos.write(bitmapdata);
-                        fos.flush();
-                        fos.close();
-
-                        // we wont attach any text to this image at least, since it is a direct message
-                        TwitPicHelper helper = new TwitPicHelper(twitter, " ", f, context);
-                        String url = helper.uploadForUrl();
-
-                        status += " " + url;
+                        UploadedMedia media = twitter.uploadMedia(f);
+                        data.setMediaId(media.getMediaId());
                     } catch (Exception e) {
-                        Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
 
                 }
 
-                String sendTo = listName;
-
-                twitter4j.DirectMessage message = twitter.sendDirectMessage(sendTo, status);
+                DirectMessageEvent message = twitter.createMessage(data);
 
                 if (!settings.pushNotifications) {
-                    DMDataSource.getInstance(context).createDirectMessage(message, settings.currentAccount);
+                    DMDataSource.getInstance(context).createSentDirectMessage(message, user, settings, settings.currentAccount);
                 }
 
                 sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).apply();
@@ -393,40 +416,6 @@ public class DirectMessageConversation extends PeekViewActivity{
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.menu_attach_picture:
-                // if they haven't seen the disclaimer, show it to them
-                if (!sharedPrefs.getBoolean("knows_twitpic_dm_warning", false)) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(context.getResources().getString(R.string.twitpic_disclaimer))
-                            .setMessage(getResources().getString(R.string.twitpic_disclaimer_summary))
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNeutralButton(R.string.dont_show_again, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    sharedPrefs.edit().putBoolean("knows_twitpic_dm_warning", true).apply();
-                                    attachImage();
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .create()
-                            .show();
-                } else {
-                    // they know and don't want to see the disclaimer again
-                    attachImage();
-                }
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -434,71 +423,103 @@ public class DirectMessageConversation extends PeekViewActivity{
 
     public ImageView attachImage;
     public String attachedUri = "";
+    public String attachmentType = "";
 
     public static final int SELECT_PHOTO = 100;
     public static final int CAPTURE_IMAGE = 101;
-    public static final int PWICCER = 420;
+    public static final int SELECT_GIF = 102;
+    public static final int FIND_GIF = 104;
 
-    public boolean pwiccer = false;
-
+    @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        switch(requestCode) {
-            case SELECT_PHOTO:
-                if(resultCode == RESULT_OK){
+        Log.v("talon_image_attach", "got the result, code: " + requestCode);
+        switch (requestCode) {
+            case UCrop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
                     try {
-                        Uri selectedImage = imageReturnedIntent.getData();
+                        Uri selectedImage = UCrop.getOutput(imageReturnedIntent);
 
                         String filePath = IOUtils.getPath(selectedImage, context);
-
-                        Log.v("talon_compose_pic", "path to image on sd card: " + filePath);
+                        Log.v("talon_compose_pic", "path to gif on sd card: " + filePath);
 
                         try {
-                            attachImage.setImageBitmap(getBitmapToSend(selectedImage));
+                            attachImage.setImageBitmap(getThumbnail(selectedImage));
                             attachImage.setVisibility(View.VISIBLE);
                             attachedUri = selectedImage.toString();
-                            new Handler().post(getCount);
-                        } catch (FileNotFoundException e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        } catch (IOException e) {
+                        } catch (Throwable e) {
                             Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
                         }
                     } catch (Throwable e) {
                         e.printStackTrace();
                         Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
+                } else if (resultCode == UCrop.RESULT_ERROR) {
+                    final Throwable cropError = UCrop.getError(imageReturnedIntent);
+                    cropError.printStackTrace();
                 }
+                countHandler.post(getCount);
+                break;
+            case SELECT_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    startUcrop(imageReturnedIntent.getData());
+                }
+
                 break;
             case CAPTURE_IMAGE:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+                    startUcrop(selectedImage);
+                }
+
+                break;
+            case FIND_GIF:
+            case SELECT_GIF:
+                if (resultCode == RESULT_OK) {
                     try {
-                        Uri selectedImage = Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/Talon/", "photoToTweet.jpg"));
+                        Uri selectedImage = imageReturnedIntent.getData();
 
-                        try {
-                            attachImage.setImageBitmap(getBitmapToSend(selectedImage));
-                            attachImage.setVisibility(View.VISIBLE);
-                            attachedUri = selectedImage.toString();
-                            new Handler().post(getCount);
-                        } catch (FileNotFoundException e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        } catch (IOException e) {
-                            Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT);
-                        }
+                        String filePath = IOUtils.getPath(selectedImage, context);
 
+                        Log.v("talon_compose_pic", "path to gif on sd card: " + filePath);
+
+                        attachImage.setImageBitmap(getThumbnail(selectedImage));
+                        attachImage.setVisibility(View.VISIBLE);
+                        attachedUri = selectedImage.toString();
+                        attachmentType = "animated_gif";
                     } catch (Throwable e) {
                         e.printStackTrace();
-                        Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
                 }
+                countHandler.post(getCount);
                 break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+    }
+
+    private void startUcrop(Uri sourceUri) {
+        try {
+            UCrop.Options options = new UCrop.Options();
+            options.setToolbarColor(settings.themeColors.primaryColor);
+            options.setStatusBarColor(settings.themeColors.primaryColorDark);
+            options.setActiveWidgetColor(settings.themeColors.accentColor);
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            options.setCompressionQuality(100);
+
+            File destination = File.createTempFile("ucrop", "jpg", getCacheDir());
+            UCrop.of(sourceUri, Uri.fromFile(destination))
+                    .withOptions(options)
+                    .start(this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void attachImage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setItems(R.array.attach_options, new DialogInterface.OnClickListener() {
+        builder.setItems(R.array.attach_dm_options, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 if(item == 0) { // take picture
                     Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -513,26 +534,114 @@ public class DirectMessageConversation extends PeekViewActivity{
                         }
                     }
 
-                    captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(captureIntent, CAPTURE_IMAGE);
-                } else { // attach picture
-                    if (attachedUri == null || attachedUri.equals("")) {
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                        photoPickerIntent.setType("image/*");
-                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-                    } else {
-                        attachedUri = "";
-                        attachImage.setImageDrawable(null);
-                        attachImage.setVisibility(View.GONE);
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                        photoPickerIntent.setType("image/*");
-                        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+                    captureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                    try {
+                        Uri photoURI = FileProvider.getUriForFile(context,
+                                BuildConfig.APPLICATION_ID + ".provider", f);
+
+                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(captureIntent, CAPTURE_IMAGE);
+                    } catch (Exception e) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            Toast.makeText(DirectMessageConversation.this, "Have you given Talon the storage permission?", Toast.LENGTH_LONG).show();
+                        }
                     }
+
+                } else if (item == 1) { // attach picture
+                    try {
+                        Intent intent = new Intent();
+                        intent.setType("image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO);
+                    } catch (Exception e) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(Intent.createChooser(photoPickerIntent,
+                                "Select Picture"), SELECT_PHOTO);
+                    }
+                } else if (item == 2) {
+                    Toast.makeText(DirectMessageConversation.this, "GIFs must be less than 5 MB", Toast.LENGTH_SHORT).show();
+
+                    try {
+                        Intent gifIntent = new Intent();
+                        gifIntent.setType("image/gif");
+                        gifIntent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(gifIntent, SELECT_GIF);
+                    } catch (Exception e) {
+                        Intent gifIntent = new Intent();
+                        gifIntent.setType("image/gif");
+                        gifIntent.setAction(Intent.ACTION_PICK);
+                        startActivityForResult(gifIntent, SELECT_GIF);
+                    }
+                } else if (item == 3) {
+                    Intent gif = new Intent(context, GiphySearch.class);
+                    startActivityForResult(gif, FIND_GIF);
                 }
             }
         });
 
         builder.create().show();
+    }
+
+
+    private Bitmap getThumbnail(Uri uri) throws IOException {
+        InputStream input = getContentResolver().openInputStream(uri);
+        int reqWidth = 150;
+        int reqHeight = 150;
+
+        byte[] byteArr = new byte[0];
+        byte[] buffer = new byte[1024];
+        int len;
+        int count = 0;
+
+        try {
+            while ((len = input.read(buffer)) > -1) {
+                if (len != 0) {
+                    if (count + len > byteArr.length) {
+                        byte[] newbuf = new byte[(count + len) * 2];
+                        System.arraycopy(byteArr, 0, newbuf, 0, count);
+                        byteArr = newbuf;
+                    }
+
+                    System.arraycopy(buffer, 0, byteArr, count, len);
+                    count += len;
+                }
+            }
+
+            final BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            options.inSampleSize = Compose.calculateInSampleSize(options, reqWidth,
+                    reqHeight);
+            options.inPurgeable = true;
+            options.inInputShareable = true;
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            Bitmap b = BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+            if (!Compose.isAndroidN()) {
+                ExifInterface exif = new ExifInterface(IOUtils.getPath(uri, context));
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+                input.close();
+
+                b = ImageUtils.cropSquare(b);
+                return Compose.rotateBitmap(b, orientation);
+            } else {
+                input.close();
+                b = ImageUtils.cropSquare(b);
+                return b;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 
     private Bitmap getBitmapToSend(Uri uri) throws IOException {
