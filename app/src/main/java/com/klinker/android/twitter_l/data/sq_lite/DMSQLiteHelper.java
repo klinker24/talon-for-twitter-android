@@ -39,7 +39,7 @@ public class DMSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_USERS = "users";
     public static final String COLUMN_EXTRA_ONE = "extra_one"; // recepient's profile picture
     public static final String COLUMN_EXTRA_TWO = "extra_two"; // recepient's name
-    public static final String COLUMN_EXTRA_THREE = "extra_three";
+    public static final String COLUMN_EXTRA_THREE = "extra_three"; // animated gif
 
     private static final String DATABASE_NAME = "direct_messages.db";
     private static final int DATABASE_VERSION = 1;

@@ -62,7 +62,8 @@ public class DMDataSource {
     public String[] allColumns = {DMSQLiteHelper.COLUMN_ID, DMSQLiteHelper.COLUMN_TWEET_ID, DMSQLiteHelper.COLUMN_ACCOUNT, DMSQLiteHelper.COLUMN_TYPE,
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
             DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER,
-            DMSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, DMSQLiteHelper.COLUMN_EXTRA_ONE, DMSQLiteHelper.COLUMN_EXTRA_TWO };
+            DMSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, DMSQLiteHelper.COLUMN_EXTRA_ONE,
+            DMSQLiteHelper.COLUMN_EXTRA_TWO, DMSQLiteHelper.COLUMN_EXTRA_THREE };
 
     public DMDataSource(Context context) {
         dbHelper = new DMSQLiteHelper(context);
@@ -98,8 +99,15 @@ public class DMDataSource {
         ContentValues values = new ContentValues();
         long time = status.getCreatedAt().getTime();
 
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
+        String text = html[0];
+        String media = html[1];
+        String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
+
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
-        values.put(DMSQLiteHelper.COLUMN_TEXT, TweetLinkUtils.getLinksInStatus(status)[0]);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, text);
         values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
         values.put(DMSQLiteHelper.COLUMN_NAME, status.getSender().getName());
         values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getOriginalProfileImageURL());
@@ -108,7 +116,8 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
-        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, TweetLinkUtils.getLinksInStatus(status)[1]);
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url));
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -117,9 +126,54 @@ public class DMDataSource {
         }
 
         URLEntity[] urls = status.getURLEntities();
-        for (URLEntity url : urls) {
-            Log.v("inserting_dm", "url here: " + url.getExpandedURL());
-            values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
+        for (URLEntity u : urls) {
+            Log.v("inserting_dm", "url here: " + u.getExpandedURL());
+            values.put(DMSQLiteHelper.COLUMN_URL, u.getExpandedURL());
+        }
+
+        try {
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        } catch (Exception e) {
+            open();
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        }
+
+    }
+
+    public synchronized void createSentDirectMessage(DirectMessageEvent status, User recipient, AppSettings settings, int account) {
+        ContentValues values = new ContentValues();
+        long time = status.getCreatedTimestamp().getTime();
+
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
+        String text = html[0];
+        String media = html[1];
+        String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
+
+        values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, text);
+        values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
+        values.put(DMSQLiteHelper.COLUMN_NAME, settings.myName);
+        values.put(DMSQLiteHelper.COLUMN_PRO_PIC, settings.myProfilePicUrl);
+        values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, settings.myScreenName);
+        values.put(DMSQLiteHelper.COLUMN_TIME, time);
+        values.put(DMSQLiteHelper.COLUMN_RETWEETER, recipient.getScreenName());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, recipient.getOriginalProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, recipient.getName());
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url));
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(DMSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        URLEntity[] urls = status.getUrlEntities();
+        for (URLEntity u : urls) {
+            Log.v("inserting_dm", "url here: " + u.getExpandedURL());
+            values.put(DMSQLiteHelper.COLUMN_URL, u.getExpandedURL());
         }
 
         try {
