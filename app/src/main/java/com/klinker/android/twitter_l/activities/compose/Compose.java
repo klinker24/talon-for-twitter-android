@@ -685,30 +685,9 @@ public abstract class Compose extends Activity implements
         }
     }
 
-    public int getOrientation(Context context, Uri photoUri) {
-        Cursor cursor = context.getContentResolver().query(photoUri,
-                new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
-                null, null, null);
-
-        try {
-            if (cursor.moveToFirst()) {
-                return cursor.getInt(0);
-            } else {
-                return -1;
-            }
-        } finally {
-            cursor.close();
-        }
-    }
-
     public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
 
         Log.v("talon_composing_image", "rotation: " + orientation);
-
-        /*if (Build.MANUFACTURER.toLowerCase().contains("samsung") && Build.MODEL.toLowerCase().contains("s6")) {
-            Log.v("talon_composing_image", "S6 varient");
-            return bitmap;
-        }*/
 
         try {
             Matrix matrix = new Matrix();
@@ -1749,7 +1728,7 @@ public abstract class Compose extends Activity implements
         }
     }
 
-    public int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options opt, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = opt.outHeight;
         final int width = opt.outWidth;
@@ -1785,7 +1764,7 @@ public abstract class Compose extends Activity implements
         }
     }
 
-    public boolean isAndroidN() {
+    public static boolean isAndroidN() {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
     }
 
