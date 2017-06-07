@@ -2,6 +2,7 @@
 
     <version name="6.5.0">
         <text>Attach media to direct messages</text>
+        <text>Play GIFs and videos within a direct message</text>
         <text>Bug fixes</text>
         <text>Performance optimizations</text>
     </version>
