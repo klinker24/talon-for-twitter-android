@@ -388,9 +388,13 @@ public class TweetLinkUtils {
         return text;
     }
 
-    public static String getGIFUrl(Status s, String otherUrls) {
+    public static String getGIFUrl(Status status, String otherUrls) {
+        return getGIFUrl(status.getMediaEntities(), otherUrls);
+    }
 
-        for (MediaEntity e : s.getMediaEntities()) {
+    public static String getGIFUrl(MediaEntity[] entities, String otherUrls) {
+
+        for (MediaEntity e : entities) {
             if (e.getType().contains("gif")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";

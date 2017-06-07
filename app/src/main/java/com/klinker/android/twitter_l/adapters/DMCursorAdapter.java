@@ -14,6 +14,9 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.data.sq_lite.DMSQLiteHelper;
+import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
@@ -24,6 +27,8 @@ import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
+import com.klinker.android.twitter_l.views.badges.GifBadge;
+import com.klinker.android.twitter_l.views.badges.VideoBadge;
 
 import java.util.Date;
 
@@ -35,6 +40,12 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
     public DMCursorAdapter(Context context, Cursor cursor, boolean isDM) {
         super(context, cursor, isDM);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        GIF_COL = cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_THREE);
     }
 
     @Override
@@ -60,7 +71,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
         final String users = cursor.getString(USER_COL);
         final String hashtags = cursor.getString(HASHTAG_COL);
 
-        holder.gifUrl = cursor.getString(GIF_COL);
+        holder.gifUrl = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_THREE));
 
         boolean inAConversation;
         if (hasConvo) {
@@ -162,28 +173,48 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                 holder.imageHolder.setVisibility(View.VISIBLE);
             }
 
-
             if (holder.playButton.getVisibility() == View.VISIBLE) {
                 holder.playButton.setVisibility(View.GONE);
             }
 
-            holder.imageHolder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if (holder.picUrl.contains("youtube") || (holder.gifUrl != null && !android.text.TextUtils.isEmpty(holder.gifUrl))) {
+                // video tag on the picture
 
-                    if (isHomeTimeline) {
-                        sharedPrefs.edit()
-                                .putLong("current_position_" + settings.currentAccount, holder.tweetId)
-                                .apply();
-                    }
-
-                    if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                        PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-                    } else {
-                        PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                    }
+                if (holder.playButton.getVisibility() == View.GONE) {
+                    holder.playButton.setVisibility(View.VISIBLE);
                 }
-            });
+
+                if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
+                    holder.playButton.setImageDrawable(new GifBadge(context));
+                } else {
+                    holder.playButton.setImageDrawable(new VideoBadge(context));
+                }
+
+                holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
+                    }
+                });
+            } else {
+                holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (isHomeTimeline) {
+                            sharedPrefs.edit()
+                                    .putLong("current_position_" + settings.currentAccount, holder.tweetId)
+                                    .apply();
+                        }
+
+                        if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
+                            PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
+                        } else {
+                            PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
+                        }
+                    }
+                });
+            }
 
             picture = true;
         } else {
