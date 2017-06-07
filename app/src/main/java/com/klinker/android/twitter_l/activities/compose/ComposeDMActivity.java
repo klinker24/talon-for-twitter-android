@@ -262,6 +262,8 @@ public class ComposeDMActivity extends Compose {
                         gifIntent.setAction(Intent.ACTION_PICK);
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
+                } else if (item == 3) {
+                    findGif();
                 }
             }
         });
