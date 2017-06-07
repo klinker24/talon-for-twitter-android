@@ -70,6 +70,14 @@
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/attach_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="?attachButton" />
+
             <com.klinker.android.twitter_l.views.widgets.FontPrefEditText
                 android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
@@ -98,7 +106,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="Send Message"
-                    android:background="?android:selectableItemBackground"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:src="?sendButton"
                     android:gravity="center"
                     android:textColor="?textColor" />

@@ -22,11 +22,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
 import twitter4j.DirectMessage;
+import twitter4j.DirectMessageEvent;
 import twitter4j.MediaEntity;
 import twitter4j.URLEntity;
+import twitter4j.User;
 
 public class DMDataSource {
 
@@ -114,6 +117,43 @@ public class DMDataSource {
         }
 
         URLEntity[] urls = status.getURLEntities();
+        for (URLEntity url : urls) {
+            Log.v("inserting_dm", "url here: " + url.getExpandedURL());
+            values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
+        }
+
+        try {
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        } catch (Exception e) {
+            open();
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        }
+
+    }
+
+    public synchronized void createSentDirectMessage(DirectMessageEvent status, User recipient, AppSettings settings, int account) {
+        ContentValues values = new ContentValues();
+        long time = status.getCreatedTimestamp().getTime();
+
+        values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, TweetLinkUtils.getLinksInStatus(status)[0]);
+        values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
+        values.put(DMSQLiteHelper.COLUMN_NAME, settings.myName);
+        values.put(DMSQLiteHelper.COLUMN_PRO_PIC, settings.myProfilePicUrl);
+        values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, settings.myScreenName);
+        values.put(DMSQLiteHelper.COLUMN_TIME, time);
+        values.put(DMSQLiteHelper.COLUMN_RETWEETER, recipient.getScreenName());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, recipient.getOriginalProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, recipient.getName());
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, TweetLinkUtils.getLinksInStatus(status)[1]);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(DMSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        URLEntity[] urls = status.getUrlEntities();
         for (URLEntity url : urls) {
             Log.v("inserting_dm", "url here: " + url.getExpandedURL());
             values.put(DMSQLiteHelper.COLUMN_URL, url.getExpandedURL());
