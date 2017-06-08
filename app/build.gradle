@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
-        parseSdkVersion(project.TARGET_SDK)
+        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
         minSdkVersion parseSdkVersion(project.MIN_SDK)
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
