@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <shortcut
-        android:icon="@drawable/shortcut_compose"
+        android:icon="@mipmap/ic_shortcut_compose"
         android:enabled="true"
         android:shortcutId="manifest-shortcut-compose_tweet"
         android:shortcutShortLabel="@string/shortcut_compose_short"
@@ -17,7 +17,7 @@
     </shortcut>
 
     <shortcut
-        android:icon="@drawable/shortcut_compose"
+        android:icon="@mipmap/ic_shortcut_compose"
         android:enabled="true"
         android:shortcutId="manifest-shortcut-compose_dm"
         android:shortcutShortLabel="@string/shortcut_compose_dm"
@@ -31,7 +31,7 @@
     </shortcut>
 
     <shortcut
-        android:icon="@drawable/ic_shortcut_my_account"
+        android:icon="@mipmap/ic_shortcut_profile"
         android:enabled="true"
         android:shortcutId="manifest-shortcut-my-twitter"
         android:shortcutShortLabel="@string/shortcut_my_account"
