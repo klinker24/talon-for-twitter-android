@@ -50,9 +50,12 @@ public class MaterialLogin extends AppIntro2 {
 
     private ViewPager pager;
     private ImageView nextButton;
+    private ImageView skipButton;
 
     @Override
-    public void init(Bundle bundle) {
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
         AnalyticsHelper.startLogin(this);
 
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
@@ -63,6 +66,9 @@ public class MaterialLogin extends AppIntro2 {
         addSlides();
 
         setVibrate(true);
+        setImmersive(true);
+        showStatusBar(false);
+        showSkipButton(false);
         setVibrateIntensity(30);
         setOffScreenPageLimit(4);
 
