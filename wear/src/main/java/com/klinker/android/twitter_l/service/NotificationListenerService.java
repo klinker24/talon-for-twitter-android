@@ -17,10 +17,9 @@
 package com.klinker.android.twitter_l.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.MessageEvent;
@@ -53,7 +52,7 @@ public class NotificationListenerService extends WearableListenerService {
                     .build();
             notification.defaults = Notification.DEFAULT_ALL;
 
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManagerCompat manager = NotificationManagerCompat.from(this);
             manager.notify(NOTIFICATION_ID, notification);
         }
     }

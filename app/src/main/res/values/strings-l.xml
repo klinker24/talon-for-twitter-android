@@ -206,4 +206,11 @@
         You should set up notifications through that app, as you normally would.
         Anything that you would get a notification for in Twitter, will display as a Talon notification instead.
         To use this feature, you must enable Talon, on the next screen. This allows the app to listen for notifications from the Twitter app.</string>
+    <string name="widget_refresh_channel">Widget Refresh Notifications</string>
+    <string name="media_downloads_channel">Media Download Notifications</string>
+    <string name="tweeting_notifications_channel">Tweeting Notifications</string>
+    <string name="tweet_failure_channel">Tweet Failed Notifications</string>
+    <string name="background_refresh_channel">Background Refresh Notifications</string>
+    <string name="interactions_channel">Interaction Notifications</string>
+    <string name="scheduled_messages_channel">Sending Schedule Tweet Notifications</string>
 </resources>
