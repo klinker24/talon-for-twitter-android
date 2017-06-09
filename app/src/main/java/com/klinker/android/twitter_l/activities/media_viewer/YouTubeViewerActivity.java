@@ -16,11 +16,8 @@ import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
@@ -31,6 +28,7 @@ import com.klinker.android.twitter_l.activities.tweet_viewer.TweetYouTubeFragmen
 import com.klinker.android.twitter_l.activities.tweet_viewer.VideoFragment;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -145,7 +143,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
             public void run() {
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(context.getResources().getString(R.string.app_name))
@@ -179,7 +177,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
                     mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.saved_video) + "...")
@@ -202,7 +200,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
                     });
 
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.error) + "...")
                                     .setContentTitle(context.getResources().getString(R.string.app_name))

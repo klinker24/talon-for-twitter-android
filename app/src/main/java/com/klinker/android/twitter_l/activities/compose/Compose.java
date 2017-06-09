@@ -48,6 +48,7 @@ import android.provider.MediaStore;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.util.Pair;
 import android.text.Editable;
 import android.text.Html;
@@ -81,6 +82,7 @@ import com.klinker.android.twitter_l.data.ScheduledTweet;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.FingerprintDialog;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.views.widgets.EmojiKeyboard;
@@ -763,20 +765,19 @@ public abstract class Compose extends Activity implements
         }
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.tweet_failed))
                         .setContentText(e.getMessage());
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(context);
         mNotificationManager.cancelAll();
         mNotificationManager.notify(221, mBuilder.build());
     }
 
     public void makeFailedNotification(String text) {
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.tweet_failed))
                         .setContentText(notiId != 0 ? getResources().getString(R.string.original_probably_deleted) : getResources().getString(R.string.tap_to_retry));
@@ -803,7 +804,7 @@ public abstract class Compose extends Activity implements
 
     public void makeTweetingNotification() {
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NotificationChannelUtil.TWEETING_NOTIFICATION_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setOngoing(true)
                         .setProgress(100, 0, true);
@@ -836,7 +837,7 @@ public abstract class Compose extends Activity implements
             public void run() {
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.TWEETING_NOTIFICATION_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setContentTitle(getResources().getString(R.string.tweet_success))
                                     .setOngoing(false)

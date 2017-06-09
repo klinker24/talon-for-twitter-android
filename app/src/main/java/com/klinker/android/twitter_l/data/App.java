@@ -27,7 +27,6 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.DynamicShortcutUtils;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 import java.util.Locale;
 

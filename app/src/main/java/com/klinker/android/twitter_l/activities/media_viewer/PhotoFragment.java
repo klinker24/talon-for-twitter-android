@@ -28,11 +28,10 @@ import com.bumptech.glide.request.target.Target;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
-
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,6 +42,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PhotoFragment extends Fragment {
 
@@ -117,7 +118,7 @@ public class PhotoFragment extends Fragment {
 
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(activity)
+                            new NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
@@ -169,7 +170,7 @@ public class PhotoFragment extends Fragment {
                     PendingIntent pending = PendingIntent.getActivity(activity, 91, intent, 0);
 
                     mBuilder =
-                            new NotificationCompat.Builder(activity)
+                            new NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
@@ -195,7 +196,7 @@ public class PhotoFragment extends Fragment {
 
                     try {
                         NotificationCompat.Builder mBuilder =
-                                new NotificationCompat.Builder(activity)
+                                new NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                         .setSmallIcon(R.drawable.ic_stat_icon)
                                         .setTicker(getResources().getString(R.string.error) + "...")
                                         .setContentTitle(getResources().getString(R.string.app_name))

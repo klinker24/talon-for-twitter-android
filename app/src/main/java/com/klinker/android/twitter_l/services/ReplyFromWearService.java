@@ -15,6 +15,7 @@ import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.compose.Compose;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
@@ -118,7 +119,7 @@ public class ReplyFromWearService extends KillerIntentService {
     public void makeFailedNotification(String text, AppSettings settings) {
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
+                    new NotificationCompat.Builder(this, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_failed))
                             .setContentText(getResources().getString(R.string.tap_to_retry));
