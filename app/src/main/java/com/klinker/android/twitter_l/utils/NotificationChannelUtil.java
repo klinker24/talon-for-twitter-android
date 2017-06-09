@@ -2,7 +2,6 @@ package com.klinker.android.twitter_l.utils;
 
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
-import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
@@ -13,13 +12,13 @@ import com.klinker.android.twitter_l.R;
 @TargetApi(Build.VERSION_CODES.O)
 public class NotificationChannelUtil {
 
-    private static final String INTERACTIONS_CHANNEL = "general-channel";
-    private static final String BACKGROUND_REFRESH_CHANNEL = "general-channel";
-    private static final String TWEETING_NOTIFICATION_CHANNEL = "tweeting-channel";
-    private static final String FAILED_TWEETS_CHANNEL = "failed-tweets-channel";
-    private static final String SENDING_SCHEDULED_MESSAGE_CHANNEL = "sending-scheduled-message-channel";
-    private static final String MEDIA_DOWNLOAD_CHANNEL = "media-download-channel";
-    private static final String WIDGET_REFRESH_CHANNEL = "widget-refresh-channel";
+    public static final String INTERACTIONS_CHANNEL = "general-channel";
+    public static final String BACKGROUND_REFRESH_CHANNEL = "general-channel";
+    public static final String TWEETING_NOTIFICATION_CHANNEL = "tweeting-channel";
+    public static final String FAILED_TWEETS_CHANNEL = "failed-tweets-channel";
+    public static final String SENDING_SCHEDULED_MESSAGE_CHANNEL = "sending-scheduled-message-channel";
+    public static final String MEDIA_DOWNLOAD_CHANNEL = "media-download-channel";
+    public static final String WIDGET_REFRESH_CHANNEL = "widget-refresh-channel";
 
     public static void createNotificationChannels(Context context) {
         if (!Utils.isAndroidO()) {

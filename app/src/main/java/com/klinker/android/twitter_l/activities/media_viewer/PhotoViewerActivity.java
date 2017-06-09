@@ -6,18 +6,32 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.*;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,12 +46,17 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.DetailedTweetView;
-import com.klinker.android.twitter_l.views.widgets.FullScreenImageView;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
+import com.klinker.android.twitter_l.utils.PermissionModelUtils;
+import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
+import com.klinker.android.twitter_l.views.DetailedTweetView;
+import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.FullScreenImageView;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -48,11 +67,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
-
-import com.klinker.android.twitter_l.utils.PermissionModelUtils;
-import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher;
-import com.klinker.android.twitter_l.utils.Utils;
-import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
@@ -315,7 +329,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
 
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
@@ -375,7 +389,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
                     mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
@@ -397,7 +411,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                     });
 
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.error) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))

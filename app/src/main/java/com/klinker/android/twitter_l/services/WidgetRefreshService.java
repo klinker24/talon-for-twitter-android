@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.widget.WidgetProvider;
 
@@ -61,7 +62,7 @@ public class WidgetRefreshService  extends KillerIntentService {
 
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NotificationChannelUtil.WIDGET_REFRESH_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setTicker(getResources().getString(R.string.refreshing) + "...")
                         .setContentTitle(getResources().getString(R.string.app_name))

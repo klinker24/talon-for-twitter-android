@@ -37,6 +37,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
 import com.klinker.android.twitter_l.utils.IOUtils;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -310,7 +311,7 @@ public class SendTweet extends Service {
     public void sendingNotification() {
         // first we will make a notification to let the user know we are tweeting
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(this, NotificationChannelUtil.TWEETING_NOTIFICATION_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setContentTitle(getResources().getString(R.string.sending_tweet))
                                 //.setTicker(getResources().getString(R.string.sending_tweet))
@@ -330,15 +331,12 @@ public class SendTweet extends Service {
         mBuilder.setContentIntent(resultPendingIntent);
 
         startForeground(6, mBuilder.build());
-        //NotificationManager mNotificationManager =
-                //(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //mNotificationManager.notify(6, mBuilder.build());
     }
 
     public void makeFailedNotification(String text, AppSettings settings) {
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
+                    new NotificationCompat.Builder(this, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_failed))
                             .setContentText(getResources().getString(R.string.tap_to_retry));
@@ -376,7 +374,7 @@ public class SendTweet extends Service {
 
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(MainActivity.sContext)
+                    new NotificationCompat.Builder(this, NotificationChannelUtil.TWEETING_NOTIFICATION_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_icon)
                             .setContentTitle(getResources().getString(R.string.tweet_success))
                             .setOngoing(false)

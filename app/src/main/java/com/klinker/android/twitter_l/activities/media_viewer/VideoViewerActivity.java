@@ -1,43 +1,42 @@
 package com.klinker.android.twitter_l.activities.media_viewer;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.DetailedTweetView;
-import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.activities.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.activities.tweet_viewer.VideoFragment;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
-
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
+import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.WebIntentBuilder;
+import com.klinker.android.twitter_l.views.DetailedTweetView;
 
 import java.io.File;
-import java.util.Calendar;
 
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
@@ -217,7 +216,7 @@ public class VideoViewerActivity extends DragDismissActivity {
             public void run() {
                 try {
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.downloading) + "...")
                                     .setContentTitle(context.getResources().getString(R.string.app_name))
@@ -251,7 +250,7 @@ public class VideoViewerActivity extends DragDismissActivity {
                     PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
 
                     mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.saved_video) + "...")
@@ -274,7 +273,7 @@ public class VideoViewerActivity extends DragDismissActivity {
                     });
 
                     NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(context)
+                            new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(context.getResources().getString(R.string.error) + "...")
                                     .setContentTitle(context.getResources().getString(R.string.app_name))

@@ -35,7 +35,6 @@ public class NotificationListenerService extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.v(TAG, "received message");
         if (messageEvent.getPath().equals(KeyProperties.PATH_NOTIFICATION)) {
             final DataMap map = DataMap.fromByteArray(messageEvent.getData());
 
