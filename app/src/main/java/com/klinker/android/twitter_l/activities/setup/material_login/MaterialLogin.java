@@ -132,7 +132,7 @@ public class MaterialLogin extends AppIntro2 {
     private ImageFragment finishedFragment;
 
     private void addSlides() {
-        welcomeFragment = ImageFragment.newInstance(getString(R.string.first_welcome), getString(R.string.first_info), "https://raw.githubusercontent.com/klinker24/Talon-for-Twitter/master/Other/Icon/talon.png", Color.parseColor("#5C6BC0"));
+        welcomeFragment = ImageFragment.newInstance(getString(R.string.first_welcome), getString(R.string.first_info), "https://raw.githubusercontent.com/klinker24/Talon-for-Twitter/master/Other/Icon/talon-adaptive.png", Color.parseColor("#5C6BC0"));
         loginFragment = LoginFragment.getInstance();
         downloadFragment = DownloadFragment.getInstance();
         finishedFragment = ImageFragment.newInstance(getString(R.string.third_welcome), getString(R.string.follow_me_description), "https://g.twimg.com/Twitter_logo_white.png", Color.parseColor("#4CAF50"));
