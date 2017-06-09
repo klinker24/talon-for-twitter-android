@@ -26,6 +26,7 @@ import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.DynamicShortcutUtils;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 
 import java.util.Locale;
@@ -38,15 +39,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                EmojiUtils.init(App.this);
-            }
-        }).start();
-        updateResources(this);
         Reprint.initialize(this);
-        refreshDynamicShortcuts();
+
+        updateResources(this);
+        runBackgroundSetup();
     }
 
     public static void updateResources(Context app) {
@@ -78,16 +74,25 @@ public class App extends Application {
         return (App) context.getApplicationContext();
     }
 
-    public void refreshDynamicShortcuts() {
+    public void runBackgroundSetup() {
         if (!"robolectric".equals(Build.FINGERPRINT) && BuildCompat.isAtLeastNMR1()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        NotificationChannelUtil.createNotificationChannels(App.this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    EmojiUtils.init(App.this);
+
+                    try {
                         new DynamicShortcutUtils(App.this).buildProfileShortcut();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                 }
             }).start();
         }
