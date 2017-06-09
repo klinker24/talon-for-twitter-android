@@ -171,16 +171,29 @@ public class NotificationUtils {
 
             Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
 
-            mBuilder = new NotificationCompat.Builder(context)
+            String channelId;
+
+            if (unreadCounts[1] != 0) {
+                channelId = NotificationChannelUtil.MENTIONS_CHANNEL;
+            } else if (unreadCounts[2] != 0) {
+                channelId = NotificationChannelUtil.DIRECT_MESSAGES_CHANNEL;
+            } else {
+                channelId = NotificationChannelUtil.BACKGROUND_REFRESH_CHANNEL;
+            }
+
+            mBuilder = new NotificationCompat.Builder(context, channelId)
                     .setContentTitle(title[0])
                     .setContentText(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setSmallIcon(R.drawable.ic_stat_icon)
                     .setContentIntent(resultPendingIntent)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
-                    .setCategory(Notification.CATEGORY_SOCIAL)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
                     .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mBuilder.setCategory(Notification.CATEGORY_SOCIAL);
+            }
 
             if (settings.headsUp) {
                 mBuilder//.setFullScreenIntent(resultPendingIntent, true)
@@ -659,7 +672,7 @@ public class NotificationUtils {
                 if (favs.isFavUser(screenname) || favs.isFavUser(retweeter)) {
                     tweets.add(
                             getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
-                                tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N. since that has its own summary notification
+                                tweets.size() == 0 && !Utils.isAndroidN(), NotificationChannelUtil.FAVORITE_USERS_CHANNEL) // we only want the alerts to go off for the first one and only if it isn't android N. since that has its own summary notification
                     );
                 }
             } while (cursor.moveToNext());
@@ -670,7 +683,7 @@ public class NotificationUtils {
                 if (favs.isFavUser(screenname) || favs.isFavUser(retweeter)) {
                     tweets.add(
                             getNotificationFromCursor(context, cursor, FAVORITE_USERS_GROUP, 1, true,
-                                    tweets.size() == 0 && !Utils.isAndroidN()) // we only want the alerts to go off for the first one and only if it isn't android N.
+                                    tweets.size() == 0 && !Utils.isAndroidN(), NotificationChannelUtil.FAVORITE_USERS_CHANNEL) // we only want the alerts to go off for the first one and only if it isn't android N.
                     );
                 }
             } while (cursor.moveToNext());
@@ -737,7 +750,7 @@ public class NotificationUtils {
             Intent resultIntent = new Intent(context, RedirectToFavoriteUsers.class);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0);
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.FAVORITE_USERS_CHANNEL)
                     .setContentTitle(context.getResources().getString(R.string.favorite_users))
                     .setContentText(shortText)
                     .setSmallIcon(smallIcon)
@@ -874,7 +887,7 @@ public class NotificationUtils {
 
         Intent deleteIntent = new Intent(context, NotificationDeleteReceiverTwo.class);
 
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.DIRECT_MESSAGES_CHANNEL)
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
@@ -1027,7 +1040,7 @@ public class NotificationUtils {
 
         Intent deleteIntent = new Intent(context, NotificationDeleteReceiverTwo.class);
 
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.MENTIONS_CHANNEL)
                 .setContentTitle(title)
                 .setContentText(TweetLinkUtils.removeColorHtml(message, settings))
                 .setSmallIcon(smallIcon)
@@ -1173,7 +1186,7 @@ public class NotificationUtils {
                 String longText = "<b>@" + handle + "</b>: " + text;
 
                 style.addLine(Html.fromHtml(settings.addonTheme ? longText.replaceAll("FF8800", settings.accentColor) : longText));
-                group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber, false));
+                group.add(getNotificationFromCursor(context, cursor, groupString, accountNumber, false, NotificationChannelUtil.MENTIONS_CHANNEL));
             }
 
             cursor.moveToPrevious();
@@ -1185,13 +1198,13 @@ public class NotificationUtils {
         return style;
     }
 
-    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser) {
-        return getNotificationFromCursor(context, cursor, group, accountNumberForTweets, favoriteUser, false);
+    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser, String channelId) {
+        return getNotificationFromCursor(context, cursor, group, accountNumberForTweets, favoriteUser, false, channelId);
     }
 
-    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser, boolean useAlerts) {
+    private static NotificationIdentifier getNotificationFromCursor(Context context, Cursor cursor, String group, int accountNumberForTweets, boolean favoriteUser, boolean useAlerts, String channelId) {
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
@@ -1425,7 +1438,7 @@ public class NotificationUtils {
 
         Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.INTERACTIONS_CHANNEL)
                 .setContentTitle(title)
                 .setContentText(Html.fromHtml(settings.addonTheme ? smallText.replaceAll("FF8800", settings.accentColor) : smallText))
                 .setSmallIcon(icon)
@@ -1552,7 +1565,7 @@ public class NotificationUtils {
 
         Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
 
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.INTERACTIONS_CHANNEL)
                 .setContentTitle(shortText)
                 .setContentText(longText)
                 .setSmallIcon(R.drawable.ic_stat_icon)
