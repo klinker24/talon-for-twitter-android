@@ -1,1 +1,11 @@
-This version of Talon let's you attach images and other media to your direct messages! It will also handle displaying any GIFs that you receive through a DM, along with some bug fixes and performance optimizations. Enjoy the update!
+This update adds full support for the latest Android O features, as well as some new goodies for those not on O!<br><br>
+For Android O:<br>
+- Adaptive icon<br>
+- Notification channels<br><br>
+
+For everyone:<br>
+- Attach media in DMs<br>
+- New dynamic launcher shortcuts<br>
+- Compose tweet from quick settings tile<br>
+- Play GIFs and videos in DMs<br>
++ The usual bug fixes and performance improvements!
