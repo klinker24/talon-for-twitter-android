@@ -119,6 +119,7 @@ public class AppSettings {
     public String myScreenName;
     public String secondScreenName;
     public String myName;
+    public String secondName;
     public String myBackgroundUrl;
     public String myProfilePicUrl;
     public String secondProfilePicUrl;
@@ -264,6 +265,7 @@ public class AppSettings {
             myScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
             secondScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
             myName = sharedPrefs.getString("twitter_users_name_1", "");
+            secondName = sharedPrefs.getString("twitter_users_name_2", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_1", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");
             secondProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
@@ -277,6 +279,7 @@ public class AppSettings {
             myScreenName = sharedPrefs.getString("twitter_screen_name_2", "");
             secondScreenName = sharedPrefs.getString("twitter_screen_name_1", "");
             myName = sharedPrefs.getString("twitter_users_name_2", "");
+            secondName = sharedPrefs.getString("twitter_users_name_1", "");
             myBackgroundUrl = sharedPrefs.getString("twitter_background_url_2", "");
             myProfilePicUrl = sharedPrefs.getString("profile_pic_url_2", "");
             secondProfilePicUrl = sharedPrefs.getString("profile_pic_url_1", "");

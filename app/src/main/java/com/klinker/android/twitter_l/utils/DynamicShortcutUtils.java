@@ -6,18 +6,16 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Icon;
-import android.net.Uri;
 import android.os.Build;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMyAccount;
+import com.klinker.android.twitter_l.utils.redirects.RedirectToSecondAccount;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class DynamicShortcutUtils {
@@ -38,18 +36,29 @@ public class DynamicShortcutUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1 && manager != null) {
             final AppSettings settings = AppSettings.getInstance(context);
 
-            Intent messenger = new Intent(context, RedirectToMyAccount.class);
-            messenger.setAction(Intent.ACTION_VIEW);
+            List<ShortcutInfo> shortcuts = new ArrayList<>();
 
-            ShortcutInfo info = new ShortcutInfo.Builder(context, settings.myScreenName)
-                    .setIntent(messenger)
+            Intent firstAccount = new Intent(context, RedirectToMyAccount.class);
+            firstAccount.setAction(Intent.ACTION_VIEW);
+            shortcuts.add(new ShortcutInfo.Builder(context, settings.myScreenName)
+                    .setIntent(firstAccount)
                     .setRank(0)
                     .setShortLabel(settings.myName)
                     .setIcon(getIcon(context, settings.myProfilePicUrl))
-                    .build();
+                    .build());
 
+            if (settings.numberOfAccounts == 2) {
+                Intent secondAccount = new Intent(context, RedirectToSecondAccount.class);
+                secondAccount.setAction(Intent.ACTION_VIEW);
+                shortcuts.add(new ShortcutInfo.Builder(context, settings.secondScreenName)
+                        .setIntent(secondAccount)
+                        .setRank(0)
+                        .setShortLabel(settings.secondName)
+                        .setIcon(getIcon(context, settings.secondProfilePicUrl))
+                        .build());
+            }
 
-            manager.setDynamicShortcuts(Arrays.asList(info));
+            manager.setDynamicShortcuts(shortcuts);
         }
     }
 
