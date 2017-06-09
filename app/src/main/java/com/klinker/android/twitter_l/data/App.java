@@ -18,15 +18,16 @@ package com.klinker.android.twitter_l.data;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Environment;
+import android.os.Build;
+import android.support.v4.os.BuildCompat;
 import android.util.DisplayMetrics;
 
 import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.DynamicShortcutUtils;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 
-import java.io.File;
 import java.util.Locale;
 
 public class App extends Application {
@@ -45,6 +46,7 @@ public class App extends Application {
         }).start();
         updateResources(this);
         Reprint.initialize(this);
+        refreshDynamicShortcuts();
     }
 
     public static void updateResources(Context app) {
@@ -74,5 +76,20 @@ public class App extends Application {
 
     public static App getInstance(Context context) {
         return (App) context.getApplicationContext();
+    }
+
+    public void refreshDynamicShortcuts() {
+        if (!"robolectric".equals(Build.FINGERPRINT) && BuildCompat.isAtLeastNMR1()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new DynamicShortcutUtils(App.this).buildProfileShortcut();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 }

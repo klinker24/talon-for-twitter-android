@@ -30,20 +30,4 @@
 
     </shortcut>
 
-    <shortcut
-        android:icon="@mipmap/ic_shortcut_profile"
-        android:enabled="true"
-        android:shortcutId="manifest-shortcut-my-twitter"
-        android:shortcutShortLabel="@string/shortcut_my_account"
-        android:shortcutLongLabel="@string/shortcut_my_account">
-
-        <intent
-            android:targetPackage="com.klinker.android.twitter_l"
-            android:action="android.intent.action.VIEW"
-            android:targetClass="com.klinker.android.twitter_l.utils.redirects.RedirectToMyAccount" />
-
-        <categories android:name="android.shortcut.conversation" />
-
-    </shortcut>
-
 </shortcuts>
