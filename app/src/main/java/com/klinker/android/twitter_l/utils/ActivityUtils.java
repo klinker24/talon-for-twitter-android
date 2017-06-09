@@ -213,7 +213,8 @@ public class ActivityUtils {
     }
 
     private void activityGroupNotification(PendingIntent contentIntent, Spanned text) {
-        NotificationCompat.Builder individualBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder individualBuilder = new NotificationCompat.Builder(context,
+                    NotificationChannelUtil.INTERACTIONS_CHANNEL)
                 .setContentTitle(context.getString(R.string.new_activity))
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))

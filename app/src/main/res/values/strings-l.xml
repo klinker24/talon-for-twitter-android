@@ -213,4 +213,7 @@
     <string name="background_refresh_channel">Background Refresh Notifications</string>
     <string name="interactions_channel">Interaction Notifications</string>
     <string name="scheduled_messages_channel">Sending Schedule Tweet Notifications</string>
+    <string name="favorite_user_channel">Favorite User Notifications</string>
+    <string name="mentions_channel">Mention Notifications</string>
+    <string name="direct_messages_channel">Direct Message Notifications</string>
 </resources>
