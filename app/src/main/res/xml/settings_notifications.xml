@@ -64,7 +64,13 @@
     </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
+        android:key="advanced-notifications"
         android:title="@string/advanced" >
+
+        <Preference
+            android:key="notification_channels"
+            android:title="@string/notification_channels"
+            android:summary="@string/notification_channels_summary" />
 
         <MultiSelectListPreference
             android:key="alert_types"

@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
@@ -1186,7 +1187,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(getActivity());
 
-
         final Preference quietHours = findPreference("quiet_hours");
         if(sharedPrefs.getBoolean("quiet_hours", false)) {
             quietHours.setSummary(getTime(sharedPrefs.getInt("quiet_start_hour", 22), sharedPrefs.getInt("quiet_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
@@ -1224,6 +1224,16 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 }
 
                 return true;
+            }
+        });
+
+        findPreference("notification_channels").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                intent.putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName());
+                startActivity(intent);
+                return false;
             }
         });
 
@@ -1267,6 +1277,12 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         Preference notification = findPreference("notification_options");
         notification.setOnPreferenceChangeListener(click);
+
+        if (Utils.isAndroidO()) {
+            ((PreferenceCategory) findPreference("advanced-notifications")).removePreference(findPreference("alert_types"));
+        } else {
+            ((PreferenceCategory) findPreference("advanced-notifications")).removePreference(findPreference("notification_channels"));
+        }
     }
 
     public void setUpBackgroundRefreshes() {
