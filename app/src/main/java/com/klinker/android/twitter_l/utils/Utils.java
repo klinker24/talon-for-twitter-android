@@ -1626,11 +1626,11 @@ public class Utils {
     }
 
     public static boolean isAndroidN() {
-        return Build.VERSION.SDK_INT > Build.VERSION_CODES.M || Build.VERSION.CODENAME.equals("N");
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N || Build.VERSION.CODENAME.equals("N");
     }
 
     public static boolean isAndroidO() {
-        return Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1 || Build.VERSION.CODENAME.equals("O");
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O || Build.VERSION.CODENAME.equals("O");
     }
 
     public static void setTaskDescription(Activity activity) {
