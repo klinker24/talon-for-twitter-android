@@ -216,4 +216,7 @@
     <string name="favorite_user_channel">Favorite User Notifications</string>
     <string name="mentions_channel">Mention Notifications</string>
     <string name="direct_messages_channel">Direct Message Notifications</string>
+    <string name="notification_channels">Notification Channels</string>
+    <string name="notification_channels_summary">Channels control the types of alerts you get for
+        notifications and allow you to customize your notifications.</string>
 </resources>

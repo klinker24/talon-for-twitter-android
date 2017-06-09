@@ -21,6 +21,7 @@ import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.utils.Utils;
 
 public class PrefFragmentAdvanced extends PrefFragment {
 
@@ -197,5 +198,9 @@ public class PrefFragmentAdvanced extends PrefFragment {
                 return false;
             }
         });
+
+        if (Utils.isAndroidO()) {
+            getPreferenceScreen().removePreference(ringtone);
+        }
     }
 }
