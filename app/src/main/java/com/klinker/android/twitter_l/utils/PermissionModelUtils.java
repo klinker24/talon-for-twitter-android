@@ -31,11 +31,8 @@ public class PermissionModelUtils {
     }
 
     public boolean needPermissionCheck() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return false;
-        } else {
-            return sharedPrefs.getBoolean(PERMISSION_CHECK_PREF, true);
-        }
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                sharedPrefs.getBoolean(PERMISSION_CHECK_PREF, true);
     }
 
     public void showPermissionExplanationThenAuthorization() {
@@ -81,6 +78,18 @@ public class PermissionModelUtils {
                         }
                     })
                     .create().show();
+        }
+    }
+
+    public void requestCameraPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ((Activity) context).requestPermissions(new String[]{Manifest.permission.CAMERA}, 1);
+        }
+    }
+
+    public void requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ((Activity) context).requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
 }
