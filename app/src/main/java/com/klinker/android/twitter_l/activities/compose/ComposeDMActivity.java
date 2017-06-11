@@ -15,9 +15,11 @@ package com.klinker.android.twitter_l.activities.compose;
  * limitations under the License.
  */
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -25,6 +27,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,6 +45,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.AutoCompletePeopleAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UserAutoCompleteHelper;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 
@@ -231,8 +235,18 @@ public class ComposeDMActivity extends Compose {
                         captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                         startActivityForResult(captureIntent, CAPTURE_IMAGE);
                     } catch (Exception e) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            Toast.makeText(ComposeDMActivity.this, "Have you given Talon the storage permission?", Toast.LENGTH_LONG).show();
+                        int permission = ContextCompat.checkSelfPermission(ComposeDMActivity.this,
+                                Manifest.permission.CAMERA);
+                        if (permission == PackageManager.PERMISSION_DENIED) {
+                            PermissionModelUtils utils = new PermissionModelUtils(context);
+                            utils.requestCameraPermission();
+                        }
+
+                        permission = ContextCompat.checkSelfPermission(ComposeDMActivity.this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                        if (permission == PackageManager.PERMISSION_DENIED) {
+                            PermissionModelUtils utils = new PermissionModelUtils(context);
+                            utils.requestStoragePermission();
                         }
                     }
 
