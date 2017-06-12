@@ -68,6 +68,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Random;
 
+import okhttp3.internal.Util;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
@@ -90,7 +91,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 .setShowToolbar(true)
                 .build(viewImage);
 
-        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !Utils.isAndroidO()) {
             viewImage.putExtra("shared_trans", true);
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(((Activity)context), imageView, "image");
