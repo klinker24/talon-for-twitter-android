@@ -15,32 +15,18 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.Target;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.ImageUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
-
 
 public class PreCacheService extends LimitedRunService {
 

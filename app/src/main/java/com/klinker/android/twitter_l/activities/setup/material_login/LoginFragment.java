@@ -55,6 +55,10 @@ public class LoginFragment extends Fragment {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
+        buildTwitter();
+    }
+
+    private void buildTwitter() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
         APIKeys keys = new APIKeys(activity);
         builder.setOAuthConsumerKey(keys.consumerKey);
@@ -152,6 +156,10 @@ public class LoginFragment extends Fragment {
 
         private RequestToken loginToTwitter(String callbackUrl) {
             try {
+                if (twitter == null) {
+                    buildTwitter();
+                }
+
                 return twitter.getOAuthRequestToken(callbackUrl);
             } catch (TwitterException ex) {
                 ex.printStackTrace();

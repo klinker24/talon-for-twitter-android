@@ -55,7 +55,11 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
         if (intent.getAction().equals(WidgetProvider.UPDATE_WIDGET) ||
                 intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
-            context.startService(updateWidget);
+            try {
+                context.startService(updateWidget);
+            } catch (Exception e) {
+
+            }
         } else {
             super.onReceive(context, intent);
         }

@@ -56,7 +56,10 @@ public class WidgetProvider extends AppWidgetProvider {
         if (intent.getAction().equals(UPDATE_WIDGET) ||
                 intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Intent updateWidget = new Intent(context, CardWidgetService2.class);
-            context.startService(updateWidget);
+
+            try {
+                context.startService(updateWidget);
+            } catch (Exception e) { }
         } else if (intent.getAction().equals("OPEN_APP")) {
             Intent viewTweet = new Intent(context, TweetActivity.class);
 

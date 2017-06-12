@@ -78,7 +78,11 @@ public class PicturesGridAdapter extends BaseAdapter {
 
         holder.url = url;
 
-        Glide.with(context).load(url).into(holder.iv);
+        try {
+            Glide.with(context).load(url).into(holder.iv);
+        } catch (Exception e) {
+
+        }
 
         final long id = status != null ? status.getId() : 0;
 
@@ -92,9 +96,9 @@ public class PicturesGridAdapter extends BaseAdapter {
 
 
         if (status != null) {
-            final String profilePic = status != null ? status.getUser().getBiggerProfileImageURL() : "";
-            final String name = status != null ? status.getUser().getName() : "";
-            final String screenname = status != null ? status.getUser().getScreenName() : "";
+            final String profilePic =status.getUser().getBiggerProfileImageURL();
+            final String name = status.getUser().getName();
+            final String screenname = status.getUser().getScreenName();
 
             String[] html = TweetLinkUtils.getLinksInStatus(status);
             final String tweetText = html[0];
