@@ -130,7 +130,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
     }
 
     @Override
-    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         context = this;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
