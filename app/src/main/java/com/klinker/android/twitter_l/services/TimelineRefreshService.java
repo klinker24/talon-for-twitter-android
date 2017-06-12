@@ -206,7 +206,7 @@ public class TimelineRefreshService extends SimpleJobService {
                 }
 
                 if (settings.preCacheImages) {
-                    context.startService(new Intent(context, PreCacheService.class));
+                    PreCacheService.scheduleRefresh(context);
                 }
 
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));
