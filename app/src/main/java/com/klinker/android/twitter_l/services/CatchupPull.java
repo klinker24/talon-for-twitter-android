@@ -152,13 +152,7 @@ public class CatchupPull extends KillerIntentService {
             }
 
             if (settings.preCacheImages) {
-                // delay it 15 seconds so that we can finish checking mentions first
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startService(new Intent(context, PreCacheService.class));
-                    }
-                }, 15000);
+                PreCacheService.scheduleRefresh(context);
             }
 
             sharedPrefs.edit().putBoolean("refresh_me", true).apply();

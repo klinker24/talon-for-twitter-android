@@ -144,7 +144,7 @@ public class WidgetRefreshService  extends KillerIntentService {
         }
 
         if (settings.preCacheImages) {
-            startService(new Intent(this, PreCacheService.class));
+            PreCacheService.scheduleRefresh(context);
         }
 
         WidgetProvider.updateWidget(this);

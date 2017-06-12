@@ -15,12 +15,21 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -28,18 +37,47 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Calendar;
 
-public class PreCacheService extends LimitedRunService {
+public class PreCacheService extends SimpleJobService {
+
+    public static final String JOB_TAG = "pre-cache-service";
+    public static boolean isRunning = false;
+
+    @Override
+    public int onRunJob(JobParameters params) {
+        cache();
+        return 0;
+    }
+
+    public static void cancelCache(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        dispatcher.cancel(JOB_TAG);
+    }
+
+    public static void scheduleRefresh(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+
+        if (settings.preCacheImages) {
+            Job myJob = dispatcher.newJobBuilder()
+                    .setService(TimelineRefreshService.class)
+                    .setTag(JOB_TAG)
+                    .setRecurring(false)
+                    .setTrigger(Trigger.executionWindow(0,0))
+                    .setReplaceCurrent(true)
+                    .build();
+
+            dispatcher.mustSchedule(myJob);
+        } else {
+            dispatcher.cancel(JOB_TAG);
+        }
+    }
 
     private static final boolean DEBUG = false;
 
     SharedPreferences sharedPrefs;
 
-    public PreCacheService() {
-        super("PreCacheService");
-    }
-
-    @Override
-    public void handleIntentIfTime(Intent intent) {
+    public void cache() {
 
         if (DEBUG) {
             Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());
@@ -80,18 +118,6 @@ public class PreCacheService extends LimitedRunService {
                 Log.v("talon_pre_cache", "done with service. time: " + Calendar.getInstance().getTime().toString());
             }
         }
-    }
-
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
     }
 
 }
