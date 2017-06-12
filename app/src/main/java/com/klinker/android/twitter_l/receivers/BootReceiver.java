@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.L
 import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter_l.utils.ServiceUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +49,7 @@ public class BootReceiver extends BroadcastReceiver {
 
         ServiceUtils.rescheduleAllServices(context);
 
-        if (settings.pushNotifications) {
+        if (settings.pushNotifications && !Utils.isAndroidO()) {
             context.startService(new Intent(context, CatchupPull.class));
         }
     }

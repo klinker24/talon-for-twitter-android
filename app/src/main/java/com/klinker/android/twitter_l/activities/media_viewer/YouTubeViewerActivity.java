@@ -60,7 +60,11 @@ public class YouTubeViewerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        try {
+            super.onCreate(savedInstanceState);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         context = this;
 

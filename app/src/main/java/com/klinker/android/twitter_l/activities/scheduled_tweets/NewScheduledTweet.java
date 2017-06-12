@@ -374,6 +374,10 @@ public class NewScheduledTweet extends AppCompatActivity {
             setHour = hours;
             setMinute = minutes;
 
+            if (setDate == null) {
+                setDate = new Date();
+            }
+
             setDate.setHours(setHour);
             setDate.setMinutes(setMinute);
 

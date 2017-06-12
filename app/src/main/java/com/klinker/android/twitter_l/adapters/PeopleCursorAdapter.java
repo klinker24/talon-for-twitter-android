@@ -105,6 +105,10 @@ public class PeopleCursorAdapter extends CursorAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        if (cursor.isClosed()) {
+            return convertView;
+        }
+
         if (!cursor.moveToPosition(cursor.getCount() - 1 - position)) {
             throw new IllegalStateException("couldn't move cursor to position " + position);
         }

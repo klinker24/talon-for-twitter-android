@@ -532,15 +532,19 @@ public class ComposeActivity extends Compose {
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
                 } else if (item == 3) {
-                    new MaterialCamera(ComposeActivity.this)
-                            .saveDir(getFilesDir().getPath())
-                            .qualityProfile(MaterialCamera.QUALITY_480P)
-                            .allowRetry(false)
-                            .autoSubmit(true)
-                            .primaryColor(AppSettings.getInstance(ComposeActivity.this).themeColors.primaryColor)
-                            .showPortraitWarning(false)
-                            .maxAllowedFileSize(14 * 1024 * 1024)
-                            .start(CAPTURE_VIDEO);
+                    try {
+                        new MaterialCamera(ComposeActivity.this)
+                                .saveDir(getFilesDir().getPath())
+                                .qualityProfile(MaterialCamera.QUALITY_480P)
+                                .allowRetry(false)
+                                .autoSubmit(true)
+                                .primaryColor(AppSettings.getInstance(ComposeActivity.this).themeColors.primaryColor)
+                                .showPortraitWarning(false)
+                                .maxAllowedFileSize(14 * 1024 * 1024)
+                                .start(CAPTURE_VIDEO);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else if (item == 4) {
                     try {
                         Intent gifIntent = new Intent();
