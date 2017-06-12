@@ -1433,9 +1433,9 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
         final FontPrefEditText location = (FontPrefEditText) dialog.findViewById(R.id.location);
         final FontPrefEditText description = (FontPrefEditText) dialog.findViewById(R.id.description);
 
-        name.setText(thisUser.getName());
 
         try {
+            name.setText(thisUser.getName());
             url.setText(thisUser.getURLEntity().getDisplayURL());
         } catch (Exception e) {
 

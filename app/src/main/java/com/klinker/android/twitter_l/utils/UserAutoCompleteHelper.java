@@ -176,7 +176,8 @@ public class UserAutoCompleteHelper {
                 search(adapterText);
             }
         } catch (Exception e) {
-            throw new RuntimeException("text: " + searchText + ", position index: " + position, e);
+            //throw new RuntimeException("text: " + searchText + ", position index: " + position, e);
+            e.printStackTrace();
         }
     }
 
