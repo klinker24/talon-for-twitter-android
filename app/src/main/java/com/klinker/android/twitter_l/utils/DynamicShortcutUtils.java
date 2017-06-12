@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -72,7 +73,6 @@ public class DynamicShortcutUtils {
             } else {
                 Bitmap color = Bitmap.createBitmap(Utils.toDP(48, context), Utils.toDP(48, context), Bitmap.Config.ARGB_8888);
                 color.eraseColor(AppSettings.getInstance(context).themeColors.primaryColor);
-                color = ImageUtils.getCircleBitmap(color);
 
                 return createIcon(color);
             }
@@ -81,10 +81,12 @@ public class DynamicShortcutUtils {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private Icon createIcon(Bitmap bitmap) {
         if (Utils.isAndroidO()) {
             return Icon.createWithAdaptiveBitmap(bitmap);
         } else {
+            bitmap = ImageUtils.getCircleBitmap(bitmap);
             return Icon.createWithBitmap(bitmap);
         }
     }
