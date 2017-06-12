@@ -124,7 +124,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     private VideoFragment videoFragment;
 
     @Override
-    protected View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateContent(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         context = this;
 
         url = getIntent().getStringExtra("url");
