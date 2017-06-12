@@ -287,6 +287,10 @@ public class FavoriteTweetsFragment extends MainFragment {
             infoBar = false;
         }
 
+        if (!settings.useSnackbar && !overrideSnackbarSetting) {
+            return;
+        }
+
         mLength = length;
 
         toastDescription.setText(description);
@@ -324,11 +328,11 @@ public class FavoriteTweetsFragment extends MainFragment {
     }
 
     public void hideToastBar(long length) {
-        mLength = length;
-
-        if (!isToastShowing) {
+        if (!isToastShowing || (!settings.useSnackbar && !overrideSnackbarSetting)) {
             return;
         }
+
+        mLength = length;
 
         isToastShowing = false;
 
