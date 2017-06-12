@@ -183,7 +183,4 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="quoting">Zitieren</string>
     <string name="profile_timeline">Timeline</string>
     <string name="show_all_tweets">Zeige alle Tweets</string>
-    <string name="quote_style">Zitat-Aussehen</string>
-    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
