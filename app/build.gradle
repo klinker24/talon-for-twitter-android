@@ -122,7 +122,6 @@ dependencies {
 
     compile 'com.firebase:firebase-jobdispatcher:0.6.0'
 
-    compile 'com.afollestad:material-camera:0.4.4'
     compile 'com.afollestad:easyvideoplayer:0.3.0'
     compile 'com.github.apl-devs:appintro:v4.2.0'
     compile 'de.timroes.android:EnhancedListView:0.3.2@aar'
@@ -136,12 +135,14 @@ dependencies {
     compile 'com.github.ajalt.reprint:core:2.9.2@aar'
     compile 'com.github.ajalt.reprint:reprint_spass:2.9.2@aar'
     compile 'com.github.fiskurgit:ChipCloud:3.0.3'
+    compile 'com.afollestad.material-dialogs:core:0.9.4.5'
 
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
     compile files('lib/twitter4j-fork.jar')
     compile files('lib/twitter4j-stream-fork.jar')
     compile(name: 'datetimepicker', ext: 'aar')
     compile(name: 'sectioned-recyclerview', ext: 'aar')
+    compile(name: 'material-camera', ext: 'aar')
 
     compile project(':searchview')
     compile project(':shared_assets')

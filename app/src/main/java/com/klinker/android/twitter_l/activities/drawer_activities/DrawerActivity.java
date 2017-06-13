@@ -1762,14 +1762,18 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
     @Override
     public void onBackPressed() {
-        if (searchUtils.isShowing()) {
-            searchUtils.hideSearch(true);
-        } else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
-            mDrawerLayout.closeDrawer(GravityCompat.END);
-        } else {
-            super.onBackPressed();
+        try {
+            if (searchUtils.isShowing()) {
+                searchUtils.hideSearch(true);
+            } else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+                mDrawerLayout.closeDrawer(GravityCompat.END);
+            } else {
+                super.onBackPressed();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -725,16 +725,16 @@ public class HomeFragment extends MainFragment {
                                     public void run() {
                                         try {
                                             Looper.prepare();
+                                            isToastShowing = false;
+                                            overrideSnackbarSetting = true;
+                                            showToastBar(getString(R.string.rate_limit_reached),
+                                                    getString(R.string.info),
+                                                    400,
+                                                    true,
+                                                    infoClickListener);
                                         } catch (Exception e) {
                                             // just in case
                                         }
-                                        isToastShowing = false;
-                                        overrideSnackbarSetting = true;
-                                        showToastBar(getString(R.string.rate_limit_reached),
-                                                getString(R.string.info),
-                                                400,
-                                                true,
-                                                infoClickListener);
                                     }
                                 }, 500);
 

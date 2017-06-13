@@ -88,16 +88,20 @@ public class ActivityFragment extends MainFragment {
             @Override
             protected Cursor doInBackground(Void... params) {
 
-                ActivityUtils utils = new ActivityUtils(getActivity());
+                try {
+                    ActivityUtils utils = new ActivityUtils(getActivity());
 
-                update = utils.refreshActivity();
+                    update = utils.refreshActivity();
 
-                ActivityRefreshService.scheduleRefresh(context);
+                    ActivityRefreshService.scheduleRefresh(context);
 
-                if (settings.syncSecondMentions) {
-                    context.startService(new Intent(context, SecondActivityRefreshService.class));
+                    if (settings.syncSecondMentions) {
+                        context.startService(new Intent(context, SecondActivityRefreshService.class));
+                    }
+                } catch (Exception e) {
+
                 }
-
+                
                 return ActivityDataSource.getInstance(context).getCursor(currentAccount);
             }
 

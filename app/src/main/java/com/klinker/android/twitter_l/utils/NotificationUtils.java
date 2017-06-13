@@ -665,6 +665,10 @@ public class NotificationUtils {
 
         FavoriteUsersDataSource favs = FavoriteUsersDataSource.getInstance(context);
 
+        if (cursor == null) {
+            return;
+        }
+
         if(newOnTimeline != -1 && cursor.move(cursor.getCount() - newOnTimeline)) {
             do {
                 String screenname = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_SCREEN_NAME));
