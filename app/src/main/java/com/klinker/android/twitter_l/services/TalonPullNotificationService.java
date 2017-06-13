@@ -63,6 +63,15 @@ import twitter4j.UserStreamListener;
 
 public class TalonPullNotificationService extends Service {
 
+    public static void start(Context context) {
+        Intent pull = new Intent(context, TalonPullNotificationService.class);
+        if (Utils.isAndroidO()) {
+            context.startForegroundService(pull);
+        } else {
+            context.startService(pull);
+        }
+    }
+
     public static final int FOREGROUND_SERVICE_ID = 11;
 
     @Override
@@ -102,8 +111,8 @@ public class TalonPullNotificationService extends Service {
 
         sharedPreferences = AppSettings.getSharedPreferences(this);
 
-
-        showNotification = sharedPreferences.getBoolean("show_pull_notification", true);
+        showNotification = sharedPreferences.getBoolean("show_pull_notification", true) ||
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
         pullUnread = sharedPreferences.getInt("pull_unread", 0);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);

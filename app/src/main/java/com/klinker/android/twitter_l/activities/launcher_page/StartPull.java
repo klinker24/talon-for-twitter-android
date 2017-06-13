@@ -45,7 +45,7 @@ public class StartPull extends IntentService {
         AppSettings.invalidate();
 
         if (AppSettings.getInstance(this).pushNotifications && !TalonPullNotificationService.isRunning) {
-            startService(new Intent(this, TalonPullNotificationService.class));
+            TalonPullNotificationService.start(this);
         }
     }
 }

@@ -505,7 +505,7 @@ public class MainActivity extends DrawerActivity {
 
         if(DrawerActivity.settings.pushNotifications) {
             if (!TalonPullNotificationService.isRunning) {
-                context.startService(new Intent(context, TalonPullNotificationService.class));
+                TalonPullNotificationService.start(this);
             }
         } else {
             context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));

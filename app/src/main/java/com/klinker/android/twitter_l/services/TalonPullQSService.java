@@ -85,7 +85,7 @@ public class TalonPullQSService extends TileService {
 
             AppSettings.invalidate();
 
-            startService(new Intent(this, TalonPullNotificationService.class));
+            TalonPullNotificationService.start(this);
         }
     }
 
