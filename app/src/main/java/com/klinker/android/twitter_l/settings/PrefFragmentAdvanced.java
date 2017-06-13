@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
@@ -97,6 +98,10 @@ public class PrefFragmentAdvanced extends PrefFragment {
         } else {
             interactionsDrawer.setEnabled(false);
             noti.setEnabled(false);
+        }
+
+        if (Utils.isAndroidO()) {
+            ((PreferenceCategory) findPreference("talon-pull")).removePreference(noti);
         }
 
         noti.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

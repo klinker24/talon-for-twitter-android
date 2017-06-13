@@ -39,6 +39,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
+import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -49,6 +50,7 @@ import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
 
+import okhttp3.internal.Util;
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
 import twitter4j.StallWarning;
@@ -112,7 +114,7 @@ public class TalonPullNotificationService extends Service {
         sharedPreferences = AppSettings.getSharedPreferences(this);
 
         showNotification = sharedPreferences.getBoolean("show_pull_notification", true) ||
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+                Utils.isAndroidO();
         pullUnread = sharedPreferences.getInt("pull_unread", 0);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -162,6 +164,10 @@ public class TalonPullNotificationService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBuilder.setVisibility(Notification.VISIBILITY_SECRET);
+        }
+
+        if (Utils.isAndroidO()) {
+            mBuilder.setChannelId(NotificationChannelUtil.TALON_PULL_CHANNEL);
         }
 
         if (getApplicationContext().getResources().getBoolean(R.bool.expNotifications)) {
