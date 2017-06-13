@@ -1066,7 +1066,7 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
 
             if(settings.liveStreaming) {
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                context.startService(new Intent(context, TalonPullNotificationService.class));
+                TalonPullNotificationService.start(context);
             }
 
             new GetActionBarInfo().execute();

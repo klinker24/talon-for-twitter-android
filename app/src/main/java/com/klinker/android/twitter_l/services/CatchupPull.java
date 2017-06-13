@@ -93,7 +93,7 @@ public class CatchupPull extends KillerIntentService {
                 lastId = dataSource.getLastIds(currentAccount);
                 id = lastId[0];
             } catch (Exception e) {
-                context.startService(new Intent(context, TalonPullNotificationService.class));
+                TalonPullNotificationService.start(this);
                 CatchupPull.isRunning = false;
                 return;
             }
@@ -190,7 +190,7 @@ public class CatchupPull extends KillerIntentService {
         }
 
         sharedPrefs.edit().putInt("pull_unread", unreadNow).apply();
-        context.startService(new Intent(context, TalonPullNotificationService.class));
+        TalonPullNotificationService.start(this);
 
         WidgetProvider.updateWidget(this);
         getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
