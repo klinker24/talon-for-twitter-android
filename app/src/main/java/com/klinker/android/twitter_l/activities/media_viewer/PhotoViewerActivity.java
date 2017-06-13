@@ -96,7 +96,11 @@ public class PhotoViewerActivity extends DragDismissActivity {
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(((Activity)context), imageView, "image");
 
-            context.startActivity(viewImage, options.toBundle());
+            try {
+                context.startActivity(viewImage, options.toBundle());
+            } catch (Exception e) {
+                context.startActivity(viewImage);
+            }
         } else {
             context.startActivity(viewImage);
         }

@@ -741,6 +741,10 @@ public class ExpansionViewHelper {
                         status = status.getRetweetedStatus();
                     }
 
+                    if (status == null) {
+                        return;
+                    }
+
                     twitter4j.Status replyStatus = twitter.showStatus(status.getInReplyToStatusId());
 
                     try {
