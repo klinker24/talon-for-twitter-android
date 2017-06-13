@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
+        android:key="talon-pull"
         android:title="@string/push_notification_options" >
 
         <Preference

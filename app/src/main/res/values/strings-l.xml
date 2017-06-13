@@ -214,6 +214,7 @@
     <string name="interactions_channel">Interaction Notifications</string>
     <string name="scheduled_messages_channel">Sending Schedule Tweet Notifications</string>
     <string name="favorite_user_channel">Favorite User Notifications</string>
+    <string name="talon_pull_channel">Talon Pull Notifications</string>
     <string name="mentions_channel">Mention Notifications</string>
     <string name="direct_messages_channel">Direct Message Notifications</string>
     <string name="notification_channels">Notification Channels</string>
