@@ -254,6 +254,13 @@ public class SearchPager extends PeekViewActivity {
                 }
                 searchQuery = id + "";
                 onlyStatus = true;
+            } else if (uriString.contains("/hashtag/")) {
+                searchQuery = uriString.replace("https://twitter.com/hashtag/", "");
+                if (searchQuery.contains("?")) {
+                    searchQuery = searchQuery.substring(0, searchQuery.indexOf("?"));
+                }
+
+                searchQuery = "#" + searchQuery + " -RT";
             } else if (!uriString.contains("q=") && !uriString.contains("screen_name%3D") && !uriString.contains("/intent/tweet")) {
                 Log.v("talon_search", "user search from query");
 
