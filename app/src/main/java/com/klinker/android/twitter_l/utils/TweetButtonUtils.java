@@ -321,12 +321,24 @@ public class TweetButtonUtils {
                     }
 
                     if (status.isFavorited() && twitter != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, R.string.removing_favorite, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         twitter.destroyFavorite(id);
                         try {
                             FavoriteTweetsDataSource.getInstance(context).deleteTweet(id);
                             context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_FAVORITES"));
                         } catch (Exception e) { }
                     } else if (twitter != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, R.string.favoriting_status, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         try {
                             twitter.createFavorite(id);
                         } catch (TwitterException e) {
@@ -384,10 +396,17 @@ public class TweetButtonUtils {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(context, R.string.removing_retweet, Toast.LENGTH_SHORT).show();
                                 new RemoveRetweet().execute();
                             }
                         });
                     } else if (twitter != null) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, R.string.retweeting_status, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         try {
                             twitter.retweetStatus(idToRetweet);
                         } catch (TwitterException e) {
