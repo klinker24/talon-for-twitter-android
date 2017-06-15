@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.StaleDataException;
+import android.database.sqlite.SQLiteDiskIOException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -1416,12 +1417,9 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
             } catch (Exception x) {
 
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | StaleDataException | SQLiteDiskIOException e) {
             e.printStackTrace();
             // the cursoradapter is null
-        } catch (StaleDataException e) {
-            e.printStackTrace();
-            // do nothing here i guess
         }
     }
 
