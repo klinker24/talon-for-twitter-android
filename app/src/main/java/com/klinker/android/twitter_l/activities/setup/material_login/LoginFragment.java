@@ -161,7 +161,7 @@ public class LoginFragment extends Fragment {
                 }
 
                 return twitter.getOAuthRequestToken(callbackUrl);
-            } catch (TwitterException ex) {
+            } catch (TwitterException | IllegalArgumentException ex) {
                 ex.printStackTrace();
                 errorGettingToken = true;
                 return null;
