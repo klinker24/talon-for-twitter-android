@@ -15,22 +15,19 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-
 import android.util.Log;
+
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class MarkReadSecondAccService extends KillerIntentService {
-
-    SharedPreferences sharedPrefs;
 
     public MarkReadSecondAccService() {
         super("MarkReadSecAccService");
@@ -38,20 +35,23 @@ public class MarkReadSecondAccService extends KillerIntentService {
 
     @Override
     public void handleIntent(Intent intent) {
+        markRead(this);
+    }
+
+    public static void markRead(Context context) {
 
         Log.v("talon_mark_read", "running the mark read service for account 2");
 
         NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(1);
 
         // clear custom light flow broadcast
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
-        this.sendBroadcast(lightFlow);
+        context.sendBroadcast(lightFlow);
 
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-        final Context context = getApplicationContext();
         int currentAccount = AppSettings.getInstance(context).currentAccount;
 
         if (currentAccount == 1) {

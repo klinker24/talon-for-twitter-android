@@ -3,7 +3,7 @@ package com.klinker.android.twitter_l.utils.redirects;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
 
 public class RefreshNotificationsRedirect extends AppCompatActivity {
 

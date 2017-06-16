@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.background_refresh;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
+import com.klinker.android.twitter_l.services.CatchupPull;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 

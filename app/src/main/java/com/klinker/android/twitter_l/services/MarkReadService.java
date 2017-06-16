@@ -15,17 +15,16 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class MarkReadService extends KillerIntentService {
@@ -39,19 +38,22 @@ public class MarkReadService extends KillerIntentService {
     @Override
     public void handleIntent(Intent intent) {
 
+    }
+
+    public static void markRead(Context context) {
+
         Log.v("talon_mark_read", "running the mark read service for account 1");
 
         NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(1);
 
         // clear custom light flow broadcast
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
-        this.sendBroadcast(lightFlow);
+        context.sendBroadcast(lightFlow);
 
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-        final Context context = getApplicationContext();
         final int currentAccount = sharedPrefs.getInt("current_account", 1);
 
         // we can just mark everything as read because it isnt taxing at all and won't do anything in the mentions if there isn't one
@@ -64,7 +66,7 @@ public class MarkReadService extends KillerIntentService {
 
         sharedPrefs.edit().putInt("dm_unread_" + currentAccount, 0).apply();
 
-        startService(new Intent(this, ReadInteractionsService.class));
+        ReadInteractionsService.markRead(context);
     }
 
 }

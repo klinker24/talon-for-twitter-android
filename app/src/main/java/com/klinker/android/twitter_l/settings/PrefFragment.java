@@ -16,10 +16,8 @@ package com.klinker.android.twitter_l.settings;
  */
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,15 +60,10 @@ import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.LocalTrendsUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
 import com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;

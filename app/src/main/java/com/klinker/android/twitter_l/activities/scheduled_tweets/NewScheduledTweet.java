@@ -165,7 +165,11 @@ public class NewScheduledTweet extends AppCompatActivity {
             mEditText.setSelection(mEditText.getText().length());
         }
 
-        UserAutoCompleteHelper.applyTo(this, mEditText);
+        try {
+            UserAutoCompleteHelper.applyTo(this, mEditText);
+        } catch (Exception e) {
+
+        }
 
         if (!sharedPrefs.getBoolean("keyboard_type", true)) {
             mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);

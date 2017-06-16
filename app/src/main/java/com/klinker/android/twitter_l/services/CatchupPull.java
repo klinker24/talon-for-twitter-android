@@ -18,12 +18,14 @@ package com.klinker.android.twitter_l.services;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
+import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.WidgetRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.NotificationUtils;

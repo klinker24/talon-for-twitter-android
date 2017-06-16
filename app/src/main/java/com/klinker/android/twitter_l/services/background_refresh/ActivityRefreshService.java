@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.background_refresh;
 
 import android.content.Context;
 import android.content.Intent;

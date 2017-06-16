@@ -14,7 +14,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToActivity;

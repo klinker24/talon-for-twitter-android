@@ -1,8 +1,6 @@
 package com.klinker.android.twitter_l.settings;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,14 +12,11 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.services.ActivityRefreshService;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.ListRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
-import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
+import com.klinker.android.twitter_l.services.background_refresh.ActivityRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.ListRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class PrefFragmentAdvanced extends PrefFragment {

@@ -800,7 +800,7 @@
         </service>
 
         <service
-            android:name=".services.TimelineRefreshService"
+            android:name=".services.background_refresh.TimelineRefreshService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
@@ -816,7 +816,7 @@
         </service>
 
         <service
-            android:name=".services.ListRefreshService"
+            android:name=".services.background_refresh.ListRefreshService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
@@ -824,7 +824,7 @@
         </service>
 
         <service
-            android:name=".services.MentionsRefreshService"
+            android:name=".services.background_refresh.MentionsRefreshService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
@@ -832,7 +832,7 @@
         </service>
 
         <service
-            android:name=".services.DirectMessageRefreshService"
+            android:name=".services.background_refresh.DirectMessageRefreshService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
@@ -840,7 +840,7 @@
         </service>
 
         <service
-            android:name=".services.ActivityRefreshService"
+            android:name=".services.background_refresh.ActivityRefreshService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
@@ -871,8 +871,8 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.SecondActivityRefreshService" />
-        <service android:name=".services.SecondMentionsRefreshService" />
+        <service android:name=".services.background_refresh.SecondActivityRefreshService" />
+        <service android:name=".services.background_refresh.SecondMentionsRefreshService" />
         <service android:name=".services.FavoriteTweetService" />
         <service android:name=".services.RetweetService" />
         <service android:name=".services.ReplyFromWearService" />
@@ -884,7 +884,7 @@
         <service android:name=".services.MarkReadService" />
         <service android:name=".services.MarkReadSecondAccService" />
         <service android:name=".services.ReadInteractionsService" />
-        <service android:name=".services.WidgetRefreshService" />
+        <service android:name=".services.background_refresh.WidgetRefreshService" />
         <service android:name=".services.TweetWearableService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />

@@ -1,8 +1,6 @@
 package com.klinker.android.twitter_l.activities.setup.material_login;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,31 +8,18 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.services.ActivityRefreshService;
-import com.klinker.android.twitter_l.services.DataCheckService;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.ListRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
-import com.klinker.android.twitter_l.services.TrimDataService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.DMFragment;
-import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.MentionsFragment;
 import com.klinker.android.twitter_l.utils.AnalyticsHelper;
-import com.klinker.android.twitter_l.utils.PushSyncSender;
 import com.klinker.android.twitter_l.utils.ServiceUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
-
-import java.util.Date;
 
 import twitter4j.Twitter;
 

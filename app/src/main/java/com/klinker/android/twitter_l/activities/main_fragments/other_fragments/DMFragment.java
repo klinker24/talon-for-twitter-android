@@ -15,8 +15,6 @@ package com.klinker.android.twitter_l.activities.main_fragments.other_fragments;
  * limitations under the License.
  */
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,14 +28,13 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.DirectMessageListArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.DMSQLiteHelper;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import twitter4j.DirectMessage;

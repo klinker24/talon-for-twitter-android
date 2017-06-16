@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.background_refresh;
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -15,12 +15,12 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
+import com.klinker.android.twitter_l.services.abstract_services.LimitedRunService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;

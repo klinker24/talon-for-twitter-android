@@ -15,12 +15,11 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class StopPull extends KillerIntentService {

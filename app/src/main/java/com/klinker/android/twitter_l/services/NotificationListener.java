@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import com.klinker.android.twitter_l.services.background_refresh.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
 
