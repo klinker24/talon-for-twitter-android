@@ -27,6 +27,10 @@ public class AppSettings {
     }
 
     public static SharedPreferences getSharedPreferences(Context context) {
+        if (context == null) {
+            return null;
+        }
+
         return context.getSharedPreferences("com.klinker.android.twitter_world_preferences",
                 Context.MODE_PRIVATE);
     }
