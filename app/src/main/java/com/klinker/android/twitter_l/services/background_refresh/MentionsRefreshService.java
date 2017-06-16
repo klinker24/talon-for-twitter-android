@@ -118,8 +118,7 @@ public class MentionsRefreshService extends SimpleJobService {
             }
 
             if (settings.syncSecondMentions) {
-                Intent second = new Intent(context, SecondMentionsRefreshService.class);
-                startService(second);
+                SecondMentionsRefreshService.startNow(context);
             }
 
         } catch (TwitterException e) {

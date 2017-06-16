@@ -871,8 +871,30 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.background_refresh.SecondActivityRefreshService" />
-        <service android:name=".services.background_refresh.SecondMentionsRefreshService" />
+        <service
+            android:name=".services.background_refresh.SecondDMRefreshService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.background_refresh.SecondActivityRefreshService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.background_refresh.SecondMentionsRefreshService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
         <service android:name=".services.FavoriteTweetService" />
         <service android:name=".services.RetweetService" />
         <service android:name=".services.ReplyFromWearService" />

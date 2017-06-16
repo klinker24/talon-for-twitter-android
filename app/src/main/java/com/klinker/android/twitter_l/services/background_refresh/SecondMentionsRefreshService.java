@@ -20,6 +20,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.abstract_services.LimitedRunService;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -33,24 +39,29 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SecondMentionsRefreshService extends LimitedRunService {
+public class SecondMentionsRefreshService extends SimpleJobService {
 
-    SharedPreferences sharedPrefs;
+    public static void startNow(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SecondMentionsRefreshService.class)
+                .setTag("second-mention-refresh-now")
+                .setTrigger(Trigger.executionWindow(0,0))
+                .build();
 
-    public SecondMentionsRefreshService() {
-        super("SecondMentionsRefreshService");
+        dispatcher.mustSchedule(myJob);
     }
 
     @Override
-    public void handleIntentIfTime(Intent intent) {
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+    public int onRunJob(JobParameters parameters) {
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
 
         // if they have mobile data on and don't want to sync over mobile data
-        if (!intent.getBooleanExtra("from_push_sync", false) && Utils.getConnectionStatus(context) && !settings.syncMobile) {
-            return;
+        if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
+            return 0;
         }
 
         boolean update = false;
@@ -83,7 +94,7 @@ public class SecondMentionsRefreshService extends LimitedRunService {
             if (numberNew > 0) {
                 sharedPrefs.edit().putBoolean("refresh_me_mentions", true).apply();
 
-                if (!intent.getBooleanExtra("no_notify", false) && settings.notifications && settings.mentionsNot) {
+                if (settings.notifications && settings.mentionsNot) {
                     NotificationUtils.notifySecondMentions(context, currentAccount);
                 }
 
@@ -94,17 +105,7 @@ public class SecondMentionsRefreshService extends LimitedRunService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
-    }
 
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }

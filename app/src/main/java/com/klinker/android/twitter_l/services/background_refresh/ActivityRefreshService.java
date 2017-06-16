@@ -19,7 +19,6 @@ public class ActivityRefreshService extends SimpleJobService {
 
     public static final String JOB_TAG = "activity-refresh";
 
-    SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
@@ -62,8 +61,7 @@ public class ActivityRefreshService extends SimpleJobService {
         }
 
         if (settings.syncSecondMentions) {
-            Intent second = new Intent(this, SecondActivityRefreshService.class);
-            startService(second);
+            SecondActivityRefreshService.startNow(this);
         }
 
         return 0;

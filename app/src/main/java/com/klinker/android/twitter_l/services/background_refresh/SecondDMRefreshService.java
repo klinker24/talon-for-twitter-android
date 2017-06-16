@@ -19,6 +19,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.SimpleJobService;
+import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.services.abstract_services.LimitedRunService;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -28,24 +35,29 @@ import twitter4j.*;
 
 import java.util.List;
 
-public class SecondDMRefreshService extends LimitedRunService {
+public class SecondDMRefreshService extends SimpleJobService {
 
-    SharedPreferences sharedPrefs;
+    public static void startNow(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SecondDMRefreshService.class)
+                .setTag("second-dm-refresh-now")
+                .setTrigger(Trigger.executionWindow(0,0))
+                .build();
 
-    public SecondDMRefreshService() {
-        super("DirectMessageRefreshService");
+        dispatcher.mustSchedule(myJob);
     }
 
     @Override
-    public void handleIntentIfTime(Intent intent) {
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+    public int onRunJob(JobParameters parameters) {
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
 
         // if they have mobile data on and don't want to sync over mobile data
         if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
-            return;
+            return 0;
         }
 
         boolean update = false;
@@ -116,18 +128,7 @@ public class SecondDMRefreshService extends LimitedRunService {
             // Error in updating status
             Log.d("Twitter Update Error", e.getMessage());
         }
-    }
 
-
-    private static long LAST_RUN = 0;
-
-    @Override
-    protected long getLastRun() {
-        return LAST_RUN;
-    }
-
-    @Override
-    protected void setJustRun(long currentTime) {
-        LAST_RUN = currentTime;
+        return 0;
     }
 }
