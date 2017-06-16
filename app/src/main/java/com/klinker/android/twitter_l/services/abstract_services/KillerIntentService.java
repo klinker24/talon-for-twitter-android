@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.abstract_services;
 
 import android.app.IntentService;
 import android.content.Intent;

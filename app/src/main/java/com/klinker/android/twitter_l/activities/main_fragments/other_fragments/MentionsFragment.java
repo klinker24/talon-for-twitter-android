@@ -15,8 +15,6 @@ package com.klinker.android.twitter_l.activities.main_fragments.other_fragments;
  * limitations under the License.
  */
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,14 +28,13 @@ import android.view.View;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
-import com.klinker.android.twitter_l.services.SecondMentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.SecondMentionsRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
-import java.util.Date;
 import java.util.List;
 
 import twitter4j.Paging;

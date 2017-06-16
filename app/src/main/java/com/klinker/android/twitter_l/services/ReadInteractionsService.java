@@ -15,11 +15,11 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 public class ReadInteractionsService extends KillerIntentService {
@@ -32,20 +32,22 @@ public class ReadInteractionsService extends KillerIntentService {
 
     @Override
     public void handleIntent(Intent intent) {
+        markRead(this);
+    }
 
-        sharedPrefs = AppSettings.getSharedPreferences(this);
-
+    public static void markRead(Context context) {
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         // clear custom light flow broadcast
         Intent lightFlow = new Intent("com.klinker.android.twitter.CLEARED_NOTIFICATION");
-        this.sendBroadcast(lightFlow);
+        context.sendBroadcast(lightFlow);
 
-        sharedPrefs.edit().putBoolean("new_notification", false).commit();
-        sharedPrefs.edit().putInt("new_retweets", 0).commit();
-        sharedPrefs.edit().putInt("new_favorites", 0).commit();
-        sharedPrefs.edit().putInt("new_followers", 0).commit();
-        sharedPrefs.edit().putInt("new_quotes", 0).commit();
-        sharedPrefs.edit().putString("old_interaction_text", "").commit();
+        sharedPrefs.edit().putBoolean("new_notification", false)
+                .putInt("new_retweets", 0)
+                .putInt("new_favorites", 0)
+                .putInt("new_followers", 0)
+                .putInt("new_quotes", 0)
+                .putString("old_interaction_text", "")
+                .apply();
     }
-
 }

@@ -67,7 +67,7 @@ public class TalonPullNotificationService extends Service {
 
     public static void start(Context context) {
         Intent pull = new Intent(context, TalonPullNotificationService.class);
-        if (Utils.isAndroidO()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(pull);
         } else {
             context.startService(pull);
@@ -166,7 +166,7 @@ public class TalonPullNotificationService extends Service {
             mBuilder.setVisibility(Notification.VISIBILITY_SECRET);
         }
 
-        if (Utils.isAndroidO()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mBuilder.setChannelId(NotificationChannelUtil.TALON_PULL_CHANNEL);
         }
 

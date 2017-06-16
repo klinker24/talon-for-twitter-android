@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.background_refresh;
 /*
  * Copyright 2014 Luke Klinker
  *
@@ -26,6 +26,9 @@ import android.util.Log;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.services.CatchupPull;
+import com.klinker.android.twitter_l.services.PreCacheService;
+import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
@@ -33,7 +36,6 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 

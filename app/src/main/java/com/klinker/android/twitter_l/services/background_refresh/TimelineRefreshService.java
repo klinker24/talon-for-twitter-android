@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.background_refresh;
 
 /*
  * Copyright 2014 Luke Klinker
@@ -32,6 +32,8 @@ import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
+import com.klinker.android.twitter_l.services.CatchupPull;
+import com.klinker.android.twitter_l.services.PreCacheService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;

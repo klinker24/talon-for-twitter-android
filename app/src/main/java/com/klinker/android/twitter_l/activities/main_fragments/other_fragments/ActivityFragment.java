@@ -1,7 +1,5 @@
 package com.klinker.android.twitter_l.activities.main_fragments.other_fragments;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,16 +17,14 @@ import android.widget.LinearLayout;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ActivityCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ActivityDataSource;
-import com.klinker.android.twitter_l.services.ActivityRefreshService;
-import com.klinker.android.twitter_l.services.SecondActivityRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.ActivityRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.SecondActivityRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.Twitter;
-
-import java.util.Date;
 
 public class ActivityFragment extends MainFragment {
 

@@ -1437,12 +1437,11 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
         try {
             name.setText(thisUser.getName());
             url.setText(thisUser.getURLEntity().getDisplayURL());
+            location.setText(thisUser.getLocation());
+            description.setText(thisUser.getDescription());
         } catch (Exception e) {
 
         }
-
-        location.setText(thisUser.getLocation());
-        description.setText(thisUser.getDescription());
 
         Button cancel = (Button) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {

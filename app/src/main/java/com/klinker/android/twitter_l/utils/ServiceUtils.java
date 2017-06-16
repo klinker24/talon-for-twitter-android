@@ -2,14 +2,14 @@ package com.klinker.android.twitter_l.utils;
 
 import android.content.Context;
 
-import com.klinker.android.twitter_l.services.ActivityRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.DataCheckService;
-import com.klinker.android.twitter_l.services.DirectMessageRefreshService;
-import com.klinker.android.twitter_l.services.ListRefreshService;
-import com.klinker.android.twitter_l.services.MentionsRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.DirectMessageRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.ListRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.SendQueueService;
 import com.klinker.android.twitter_l.services.SendScheduledTweet;
-import com.klinker.android.twitter_l.services.TimelineRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.TrimDataService;
 
 public class ServiceUtils {

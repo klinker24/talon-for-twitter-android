@@ -1,9 +1,6 @@
-package com.klinker.android.twitter_l.services;
+package com.klinker.android.twitter_l.services.abstract_services;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-
-import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.Date;
 

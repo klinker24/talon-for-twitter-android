@@ -25,6 +25,6 @@ public class NotificationDeleteReceiverTwo extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.startService(new Intent(context, MarkReadSecondAccService.class));
+        MarkReadSecondAccService.markRead(context);
     }
 }

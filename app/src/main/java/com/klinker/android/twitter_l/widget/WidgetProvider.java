@@ -32,7 +32,7 @@ import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.services.WidgetRefreshService;
+import com.klinker.android.twitter_l.services.background_refresh.WidgetRefreshService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
