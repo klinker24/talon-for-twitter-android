@@ -171,7 +171,7 @@ public class MentionsFragment extends MainFragment {
 
     public void syncSecondMentions() {
         // refresh the second account
-        context.startService(new Intent(context, SecondMentionsRefreshService.class));
+        SecondMentionsRefreshService.startNow(context);
     }
 
     public TimeLineCursorAdapter setAdapter(Cursor c) {

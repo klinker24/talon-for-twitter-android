@@ -90,9 +90,8 @@ public class ActivityFragment extends MainFragment {
                     update = utils.refreshActivity();
 
                     ActivityRefreshService.scheduleRefresh(context);
-
                     if (settings.syncSecondMentions) {
-                        context.startService(new Intent(context, SecondActivityRefreshService.class));
+                        SecondActivityRefreshService.startNow(context);
                     }
                 } catch (Exception e) {
 

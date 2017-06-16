@@ -151,7 +151,7 @@ public class DirectMessageRefreshService extends SimpleJobService {
             }
 
             if (settings.syncSecondMentions) {
-                startService(new Intent(context, SecondDMRefreshService.class));
+                SecondDMRefreshService.startNow(this);
             }
 
             sendBroadcast(new Intent("com.klinker.android.twitter.NEW_DIRECT_MESSAGE"));
