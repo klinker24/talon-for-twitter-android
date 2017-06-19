@@ -740,19 +740,21 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         }
 
         holder.image.setImageDrawable(null);
-        if (picture) {
-            if (!settings.condensedTweets()) {
-                Glide.with(context).load(holder.picUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(null).into(holder.image);
-            } else {
-                Glide.with(context).load(holder.picUrl).fitCenter()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(null).into(holder.image);
+        try {
+            if (picture) {
+                if (!settings.condensedTweets()) {
+                    Glide.with(context).load(holder.picUrl)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(null).into(holder.image);
+                } else {
+                    Glide.with(context).load(holder.picUrl).fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(null).into(holder.image);
+                }
             }
+        } catch (Exception e) {
+
         }
-
-
 
         TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
         TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);

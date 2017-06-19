@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.5.2">
+        <text>Update translations</text>
+    </version>
+
     <version name="6.5.1">
         <text>Improvements to icon sizing</text>
         <text>Crash fixes</text>

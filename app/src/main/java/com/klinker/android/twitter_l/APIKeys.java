@@ -26,6 +26,8 @@ public class APIKeys {
     public String consumerSecret;
 
     public APIKeys(Context c, int currentAccount) {
+        super();
+        
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(c);
         if (currentAccount == -1) {
             currentAccount = sharedPrefs.getInt("current_account", 1);

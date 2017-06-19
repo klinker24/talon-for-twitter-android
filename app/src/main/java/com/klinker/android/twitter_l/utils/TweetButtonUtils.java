@@ -59,6 +59,10 @@ public class TweetButtonUtils {
     }
 
     public void setUpButtons(Status s, View countsRoot, View buttonsRoot, boolean showOverflow) {
+        if (s == null) {
+            throw new RuntimeException("status should not be null.");
+        }
+
         if (s.isRetweet()) {
             s = s.getRetweetedStatus();
         }

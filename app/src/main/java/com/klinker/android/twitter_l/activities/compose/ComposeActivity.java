@@ -171,8 +171,12 @@ public class ComposeActivity extends Compose {
                 reply.setSelection(start + 1);
 
                 ListPopupWindow window = userAutoCompleteHelper.getUserAutoComplete();
-                if (!window.isShowing()) {
-                    window.show();
+                try {
+                    if (!window.isShowing()) {
+                        window.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -186,8 +190,12 @@ public class ComposeActivity extends Compose {
                 reply.setSelection(start + 1);
 
                 ListPopupWindow window = userAutoCompleteHelper.getHashtagAutoComplete();
-                if (!window.isShowing()) {
-                    window.show();
+                try {
+                    if (!window.isShowing()) {
+                        window.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

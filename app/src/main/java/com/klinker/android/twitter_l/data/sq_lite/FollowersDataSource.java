@@ -137,6 +137,7 @@ public class FollowersDataSource {
     }
 
     public synchronized Cursor getCursor(int account, String name) {
+        name = name.replace("'", "\'");
 
         Cursor cursor;
         try {
