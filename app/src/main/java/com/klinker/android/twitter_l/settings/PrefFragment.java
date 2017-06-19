@@ -1272,7 +1272,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         notification.setOnPreferenceChangeListener(click);
 
         if (Utils.isAndroidO()) {
-            ((PreferenceCategory) findPreference("advanced-notifications")).removePreference(findPreference("alert_types"));
+            //((PreferenceCategory) findPreference("advanced-notifications")).removePreference(findPreference("alert_types"));
         } else {
             ((PreferenceCategory) findPreference("advanced-notifications")).removePreference(findPreference("notification_channels"));
         }

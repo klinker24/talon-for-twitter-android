@@ -277,10 +277,10 @@ public class NotificationUtils {
                     mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
                 }
 
-                try {
-                    mBuilder.setSound(Uri.parse(settings.ringtone));
-                } catch (Exception e) {
-                    if (settings.sound) {
+                if (settings.sound) {
+                    try {
+                        mBuilder.setSound(Uri.parse(settings.ringtone));
+                    } catch (Exception e) {
                         mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                     }
                 }
@@ -781,10 +781,10 @@ public class NotificationUtils {
                 mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
             }
 
-            try {
-                mBuilder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
-                if (settings.sound) {
+            if (settings.sound) {
+                try {
+                    mBuilder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
                     mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                 }
             }
@@ -928,10 +928,10 @@ public class NotificationUtils {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
-        try {
-            mBuilder.setSound(Uri.parse(settings.ringtone));
-        } catch (Exception e) {
-            if (settings.sound) {
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1135,10 +1135,10 @@ public class NotificationUtils {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
-        try {
-            mBuilder.setSound(Uri.parse(settings.ringtone));
-        } catch (Exception e) {
-            if (settings.sound) {
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1325,10 +1325,10 @@ public class NotificationUtils {
                 builder.setDefaults(Notification.DEFAULT_LIGHTS);
             }
 
-            try {
-                builder.setSound(Uri.parse(settings.ringtone));
-            } catch (Exception e) {
-                if (settings.sound) {
+            if (settings.sound) {
+                try {
+                    builder.setSound(Uri.parse(settings.ringtone));
+                } catch (Exception e) {
                     builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
                 }
             }
@@ -1474,10 +1474,10 @@ public class NotificationUtils {
             mBuilder.setDefaults(Notification.DEFAULT_LIGHTS);
         }
 
-        try {
-            mBuilder.setSound(Uri.parse(settings.ringtone));
-        } catch (Exception e) {
-            if (settings.sound) {
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
@@ -1605,10 +1605,10 @@ public class NotificationUtils {
             mBuilder.setColor(settings.themeColors.primaryColor);
         }
 
-        try {
-            mBuilder.setSound(Uri.parse(settings.ringtone));
-        } catch (Exception e) {
-            if (settings.sound) {
+        if (settings.sound) {
+            try {
+                mBuilder.setSound(Uri.parse(settings.ringtone));
+            } catch (Exception e) {
                 mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             }
         }
