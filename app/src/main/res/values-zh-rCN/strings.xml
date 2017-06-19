@@ -717,4 +717,5 @@ Talon 程序内已内置了丰富的帮助说明。在焦急等待我的回复�
     <string name="three_mb_limit">5MB 大小限制</string>
     <string name="three_mb_message">Twitter 仅允许用户发布不大于 5MB 的 GIF 图片。 Talon 将会从 Giphy 上抓取符合该项规定的最高画质 GIF 图片。\n\n您看到的所有显示结果都将有符合这一限制的版本存在，而那些降低图片质量以满足发布规定的图片将不被显示。</string>
     <string name="quoted_you">引用了你</string>
+    <string name="privacy_policy">隐私策略</string>
 </resources>

@@ -186,4 +186,36 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="quoting">Citando</string>
     <string name="profile_timeline">Timeline</string>
     <string name="show_all_tweets">Mostra tutti i tweet</string>
+    <string name="are_you_sure_unfollow">Sei sicuro di non voler più seguire questo utente?</string>
+    <string name="are_you_sure_follow">Sei sicuro di voler seguire questo utente?</string>
+    <string name="larger_images">Usa immagini più grandi</string>
+    <string name="show_profile_pictures">Mostra immagini del profilo</string>
+    <string name="reply_to">Rispondi a</string>
+    <string name="others">altri</string>
+    <string name="compress_reply_handles">Comprimi gestione risposte</string>
+    <string name="compress_reply_handles_summary">Questo migliora la gestione di lunghe catene di risposte su Twitter.</string>
+    <string name="interaction_notifications">Notifiche interazioni</string>
+    <string name="interaction_notifications_summary">Questi richiedono un aggiornamento in background per la pagina attività, l\'intercettore di Twitter Push o Talon Pull per essere abilitati.</string>
+    <string name="swipable_page_notifications">Notifiche pagine scorrevoli</string>
+    <string name="swipable_page_notifications_summary">Saranno visualizzati ogni volta che la pagina scorrevole viene aggiornata in background.</string>
+    <string name="never_show_notifications">Non mostrare mai le notifiche</string>
+    <string name="after_background_refresh_talon_pull">\nDopo un aggiornamento in background o un evento Talon Pull (streaming)\n</string>
+    <string name="intercept_twitter_push_notifications">\nIntercetta le notifiche push dall\'app di Twitter\n</string>
+    <string name="intercept_twitter_push_description">Devi avere l\'app di Twitter installata e connessa per utilizzare questa funzione.\n\n
+        Devi impostare le notifiche attraverso quell\'app, come faresti di solito.
+        Per qualsiasi cosa tu decida di ricevere una notifica, essa sarà visualizzata come una notifica di Talon.
+        Per utilizzare questa funzione, devi abilitare Talon nella prossima schermata. Questo permette all\'app di ricevere le notifiche dall\'app di Twitter.</string>
+    <string name="widget_refresh_channel">Notifiche aggiornamento widget</string>
+    <string name="media_downloads_channel">Notifiche download media</string>
+    <string name="tweeting_notifications_channel">Notifiche su chi sta twittando</string>
+    <string name="tweet_failure_channel">Notifiche Tweet falliti</string>
+    <string name="background_refresh_channel">Notifiche aggiornamento in background</string>
+    <string name="interactions_channel">Notifiche interazioni</string>
+    <string name="scheduled_messages_channel">Notifiche invio Tweet pianificati</string>
+    <string name="favorite_user_channel">Notifiche utenti preferiti</string>
+    <string name="talon_pull_channel">Notifiche Talon Pull</string>
+    <string name="mentions_channel">Notifiche menzioni</string>
+    <string name="direct_messages_channel">Notifiche messaggi diretti</string>
+    <string name="notification_channels">Canali notifiche</string>
+    <string name="notification_channels_summary">I canali controllano i tipi di avvisi che ricevi e ti permettono di personalizzare le notifiche.</string>
 </resources>

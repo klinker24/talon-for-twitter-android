@@ -481,6 +481,7 @@ Standard (når deaktivert):
     <string name="post_with_twitlonger">Tweet er større enn 140 tegn.\n\nVil du legge ut med TwitLenger?</string>
     <string name="remove_retweet">Fjern Retweet</string>
     <string name="edit">Endre</string>
+    <string name="split_tweet">Delt Tweet</string>
     <string name="use_twitpic">Bruk TwitBilde</string>
     <string name="twitpic_summary">Bruk TwitBilde til å legge til bilder på tweets i stedet for Twitters bildeopplasningservice.</string>
     <string name="verified">Verifisert</string>
@@ -741,4 +742,5 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="three_mb_limit">5MB Størrelsesgrense</string>
     <string name="three_mb_message">Twitter tillater bare at GIFs som blir lagt ut er mindre enn 5MB. Talon vil ta GIF-versjonen av høyeste kvalitet fra Giphy som passer innenfor disse begrensningene.\n\nResultatene du ser har alle en versjon som passer innenfor denne grensen, jeg har ikke vist GIF-er der kvaliteten er nedsamplet for å passe innenfor 5MB grensen.</string>
     <string name="quoted_you">siterte deg</string>
+    <string name="privacy_policy">Personvernregler</string>
 </resources>
