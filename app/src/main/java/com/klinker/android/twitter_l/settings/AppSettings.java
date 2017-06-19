@@ -10,6 +10,7 @@ import android.util.Log;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -318,7 +319,7 @@ public class AppSettings {
         refreshOnStart = sharedPrefs.getBoolean("refresh_on_start", false);
         autoTrim = sharedPrefs.getBoolean("auto_trim", true);
         uiExtras = sharedPrefs.getBoolean("ui_extras", true);
-        wakeScreen = sharedPrefs.getBoolean("wake", true);
+        wakeScreen = sharedPrefs.getBoolean("wake", true) && !Utils.isAndroidO();
         militaryTime = sharedPrefs.getBoolean("military_time", false);
         syncMobile = sharedPrefs.getBoolean("sync_mobile_data", true);
         extraPages = sharedPrefs.getBoolean("extra_pages", true);
