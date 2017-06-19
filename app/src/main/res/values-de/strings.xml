@@ -464,6 +464,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="post_with_twitlonger">Tweet ist länger als 140 Zeichen.\n\nSoll dieser mithilfe von TwitLonger veröffentlicht werden?</string>
     <string name="remove_retweet">Retweet entfernen</string>
     <string name="edit">Bearbeiten</string>
+    <string name="split_tweet">Tweet teilen</string>
     <string name="use_twitpic">TwitPic verwenden</string>
     <string name="twitpic_summary">TwitPic anstelle von Twitters eigenem Upload-Dienst zum Anhängen von Bildern verwenden.</string>
     <string name="verified">Bestätigt</string>
@@ -630,7 +631,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="pick_date">Datum auswählen</string>
     <string name="both_accounts">Beide Benutzerkonten</string>
     <string name="attach_gif">Animierte GIF-Datei</string>
-    <string name="attach_video">Video</string>
+    <string name="attach_video">Video wählen</string>
     <string name="roboto_l">Android Lollipop Roboto</string>
     <string name="second_account">Zweitkonto</string>
     <string name="second_account_login_info">Da Twitter einige deiner Login-Informationen in seinem System behält, können Sie sich vielleicht nicht sofort mit Ihren neuen Benutzerkonto anmelden. Wenn die Login-Seite übersprungen wird und Sie direkt auf der Au­to­ri­sie­rungsseite beginnen, klicken Sie einfach auf die \"Abmelden\"-Schaltfläche in der rechten oberen Ecke der Website, um der App die Anmeldung in Ihrem Zweitkonto zu ermöglichen.</string>
@@ -668,7 +669,8 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
     <string name="show_pull_notification">Zeige angeheftete Benachrichtigung</string>
     <string name="show_pull_notification_summary">Wenn Du diese Benachrichtigung deaktivierst, kann das Android-System den Stream zu jeder Zeit beenden. Mit extremer Vorsicht einsetzen.</string>
-    <string name="custom_tab_message">Chrome Custom Tabs können aktuell nicht automatisch von Talon gestartet werden. Um dieses Feature zu nutzen muss Chrome als Default Browser eingestellt werden. Ansonsten nutzt Talon weiterhin den originalen In-App Browser.\n\nWählen Sie \"Ja\" um Chrome als Default Browser zu setzen oder \"Nein\" falls Sie das nicht wollen.</string>
+    <string name="custom_tab_title">Chrome Custom Tabs</string>
+    <string name="custom_tab_message">Dein System erlaubt Talon nicht, Chrome Custom Tabs automatisch zu starten. Um dieses Feature zu nutzen muss Chrome als dein Default Browser eingestellt werden. Ansonsten nutzt Talon weiterhin seinen originalen In-App Browser.\n\nWähle \"Ja\" um Chrome als Default Browser zu setzen oder \"Nein\" falls Du das nicht möchtest.</string>
     <string name="learn_more">Lerne mehr</string>
     <!-- Long click methods -->
     <string name="open_profile">Profil öffnen</string>
@@ -696,5 +698,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="add_to_tweet_gif">Zum Tweet hinzufügen</string>
     <string name="find_a_gif">Suche ein GIF</string>
     <string name="three_mb_limit">Maximal 5MB</string>
+    <string name="three_mb_message">Twitter erlaubt das Posten von GIFs nur wenn sie kleiner als 5MB groß sind. Talon wählt das GIF mit der besten Qualität, welches noch in das Größenlimit passt.\n\nVon sämtlichen Ergebnissen die Du siehst existiert eine Version die in das Limit passt. GIFs die heruntergerechnet werden müssen um in das 5MB Limit zu passen werden nicht angezeigt.</string>
     <string name="quoted_you">hat dich zitiert</string>
+    <string name="privacy_policy">Datenschutzrichtlinie</string>
 </resources>

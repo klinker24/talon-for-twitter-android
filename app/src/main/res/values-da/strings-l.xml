@@ -8,8 +8,8 @@
     <string name="stats">Statistik</string>
     <string name="list_count">I %s lister</string>
     <string name="joined_twitter">Tilmeldt Twitter:</string>
-    <string name="top_down">Top udgave</string>
-    <string name="top_down_summary">Din position på tidslinjen bliver ikke gemt. Den vil starte i toppen</string>
+    <string name="top_down">Start med nyeste tweet</string>
+    <string name="top_down_summary">Din seneste position på tidslinjen bliver ikke gemt. Du vil starte i toppen af feedet ved start</string>
     <string name="timeline_text_size">Tekst størrelse</string>
     <string name="manage_mutes">Indstillinger for mute</string>
     <string name="location_settings">Indstillinger for lokation</string>
@@ -91,8 +91,8 @@
     <string name="quick_actions">Vælg handling</string>
     <string name="liked_status">Liked</string>
     <string name="become_supporter">Bliv 2017 supporter</string>
-    <string name="are_supporter">Du er 2017 supporter!</string>
-    <string name="are_supporter_summary">Tak! Din support er højt værdsat. Er der noget du ønsker anderledes, er du velkommen til at spørge</string>
+    <string name="are_supporter">Du er 2017 supporter</string>
+    <string name="are_supporter_summary">Tak! Din støtte er højt værdsat. Er der noget du ønsker anderledes, er du velkommen til at spørge</string>
     <string name="tweetmarker_disclaimer">Automatisk Tweetmarker opdaterer altid tidslinjen ved opstart</string>
     <string name="discover_people">Personer</string>
     <string name="no_media_preview">Intet eksempel tilgængeligt for valgte video service</string>
@@ -186,4 +186,37 @@
     <string name="quoting">Citere</string>
     <string name="profile_timeline">Tidslinje</string>
     <string name="show_all_tweets">Vis alle Tweets</string>
+    <string name="are_you_sure_unfollow">Er du sikker på du vil stoppe med at følge profilen?</string>
+    <string name="are_you_sure_follow">Vil du følge profilen?</string>
+    <string name="larger_images">Brug større billeder</string>
+    <string name="show_profile_pictures">Vis profilbilleder</string>
+    <string name="reply_to">Svar til</string>
+    <string name="others">andre</string>
+    <string name="compress_reply_handles">Komprimer svarene</string>
+    <string name="compress_reply_handles_summary">Dette forbedrer håndteringen af lange svartråde på Twitter</string>
+    <string name="interaction_notifications">Notifikationer for interaktioner</string>
+    <string name="interaction_notifications_summary">Dette kræver en baggrundssynkronisering for siden [Aktiviteter], Twitter´s push service, eller Talon Pull for at blive aktiveret</string>
+    <string name="swipable_page_notifications">Notifikationer for swipable side</string>
+    <string name="swipable_page_notifications_summary">Vil blive vist hver gang den swipable side er blevet synkroniseret i baggrunden</string>
+    <string name="never_show_notifications">Vis aldrig notifikationer</string>
+    <string name="after_background_refresh_talon_pull">\nEfter en baggrundssynkronisering eller Talon Pull (streaming) begivenhed\n</string>
+    <string name="intercept_twitter_push_notifications">\nOpfang push notifikationer fra Twitter app\n</string>
+    <string name="intercept_twitter_push_description">Du skal have den normale Twitter app installeret, og være logget ind for at bruge funktionen.\n\n
+        Sæt notifikationerne op i appen som du normalt ville gøre.
+        Alt som ville give en notifikation i Twitter´s app, vil du nu istedet for få vist som en Talon notifikation.
+        For at bruge funktionen, skal du vælge Talon på den næste skærm. Dette tillader appen at modtage notifikationer fra Twitter´s app.</string>
+    <string name="widget_refresh_channel">Notifikationer for synkronisering af widget</string>
+    <string name="media_downloads_channel">Notifikationer for download af media</string>
+    <string name="tweeting_notifications_channel">Notifikationer for tweet</string>
+    <string name="tweet_failure_channel">Notifikationer for fejl ved afsendelse af tweet</string>
+    <string name="background_refresh_channel">Notifikationer for synkronisering i baggrunden</string>
+    <string name="interactions_channel">Notifikationer for interaktioner</string>
+    <string name="scheduled_messages_channel">Notifikationer for planlagte tweets</string>
+    <string name="favorite_user_channel">Notifikationer for favoritter</string>
+    <string name="talon_pull_channel">Notifikationer for Talon Pull</string>
+    <string name="mentions_channel">Notifikationer for meninger</string>
+    <string name="direct_messages_channel">Notifikationer for direkte beskeder</string>
+    <string name="notification_channels">Notifikationskanaler</string>
+    <string name="notification_channels_summary">Kanaler bestemmer typen af meddelelser du får for
+        notifikationer og giver dig mulighed for at redigere i dem</string>
 </resources>

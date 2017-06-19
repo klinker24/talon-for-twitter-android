@@ -89,7 +89,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="smaller_pictures">Kleinere Bilder</string>
     <string name="no_pictures">Keine Bilder</string>
     <string name="quick_actions">Schnellaktionen</string>
-    <string name="liked_status">Fav erfolgreich</string>
+    <string name="liked_status">Faven erfolgreich</string>
     <string name="become_supporter">Werde ein 2017er-Unterstützer!</string>
     <string name="are_supporter">Du bist ein 2017er-Unterstützer!</string>
     <string name="are_supporter_summary">Vielen Dank! Deine Unterstützung wird enorm wertgeschätzt! Wenn es irgendetwas gibt was ich für Dich tun kann, zögere nicht zu fragen!</string>
@@ -183,4 +183,14 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="quoting">Zitieren</string>
     <string name="profile_timeline">Timeline</string>
     <string name="show_all_tweets">Zeige alle Tweets</string>
+    <string name="are_you_sure_unfollow">Bist Du Dir sicher, dass Du diesem Nutzer entfolgen möchtest?</string>
+    <string name="are_you_sure_follow">Bist Du Dir sicher, dass Du diesem Nutzer folgen möchtest?</string>
+    <string name="larger_images">Nutze größere Bilder</string>
+    <string name="show_profile_pictures">Zeige Profilbilder</string>
+    <string name="reply_to">Antwort an</string>
+    <string name="others">andere</string>
+    <string name="compress_reply_handles_summary">Dies verbessert die Behandlung von langen Antwortketten auf Twitter.</string>
+    <string name="interaction_notifications">Interaktionen-Benachrichtigungen</string>
+    <string name="never_show_notifications">Zeige niemals Benachrichtigungen</string>
+    <string name="intercept_twitter_push_notifications">Fange Push-Benachrichtigungen von der offiziellen Twitter-App ab</string>
 </resources>
