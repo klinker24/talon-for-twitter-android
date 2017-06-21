@@ -77,21 +77,23 @@ public class MaterialLogin extends AppIntro2 {
                     });
 
                     nextButton.setVisibility(View.INVISIBLE);
-
+                    AnalyticsHelper.loginToTwitter(MaterialLogin.this);
+                    
                     loginFragment.start(new Callback() {
                         @Override
                         public void onDone() {
                             nextButton.performClick();
+                            AnalyticsHelper.finishLoginToTwitter(MaterialLogin.this);
                         }
                     });
                 } else if (position == 2) {
-
                     nextButton.setVisibility(View.INVISIBLE);
 
                     downloadFragment.start(new Callback() {
                         @Override
                         public void onDone() {
                             nextButton.performClick();
+                            AnalyticsHelper.downloadTweets(MaterialLogin.this);
                         }
                     });
                 }
