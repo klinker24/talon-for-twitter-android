@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.5.3">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.5.2">
         <text>Fix issue with ringtone playing, when it is disabled</text>
         <text>Update translations</text>

@@ -78,7 +78,7 @@ public class MaterialLogin extends AppIntro2 {
 
                     nextButton.setVisibility(View.INVISIBLE);
                     AnalyticsHelper.loginToTwitter(MaterialLogin.this);
-                    
+
                     loginFragment.start(new Callback() {
                         @Override
                         public void onDone() {
