@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +51,7 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
+import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -387,11 +390,10 @@ public class PhotoViewerActivity extends DragDismissActivity {
 
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri, "image/*");
+                    intent.setDataAndType(uri, "image/jpg");
 
-                    bitmap.recycle();
-
-                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+                    int randomId = NotificationUtils.generateRandomId();
+                    PendingIntent pending = PendingIntent.getActivity(context, randomId, intent, 0);
 
                     mBuilder =
                             new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
@@ -399,9 +401,19 @@ public class PhotoViewerActivity extends DragDismissActivity {
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
+                                    .setAutoCancel(true)
+                                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap))
                                     .setContentText(getResources().getString(R.string.saved_picture) + "!");
 
-                    mNotificationManager.notify(6, mBuilder.build());
+                    mNotificationManager.cancel(6);
+                    mNotificationManager.notify(randomId, mBuilder.build());
+
+                    MediaScannerConnection.scanFile(context, new String[]{root + "/Talon/" + fname + ".jpg"},
+                            new String[]{"image/jpg"}, null);
+
+                    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+                    mediaScanIntent.setData(uri);
+                    sendBroadcast(mediaScanIntent);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     ((Activity) context).runOnUiThread(new Runnable() {
