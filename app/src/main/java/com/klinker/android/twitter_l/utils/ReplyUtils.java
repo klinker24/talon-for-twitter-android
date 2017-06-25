@@ -16,7 +16,7 @@ public class ReplyUtils {
         String handles = "";
         String[] split = text.split(" ");
         for (int i = 0; i < split.length; i++) {
-            if (split[i].contains("@")) {
+            if (split[i].contains("@") && !split[i].contains(".@")) {
                 handles += split[i] + " ";
             } else {
                 break;
