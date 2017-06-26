@@ -34,15 +34,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.MainActivity;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends WhiteToolbarActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         AppSettings.invalidate();
@@ -120,6 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

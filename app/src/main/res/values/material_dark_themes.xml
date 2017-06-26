@@ -792,4 +792,47 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <!-- Talon Dark Background Color -->
+    <style name="Theme.TalonDark.White" parent="Theme.TalonDark.Base">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Main.White" parent="Theme.TalonDark.Main">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Tweet.White" parent="Theme.TalonDark.Tweet">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Profile.White" parent="Theme.TalonDark.Profile">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Popup.White" parent="Theme.TalonDark.Popup">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Notif.White" parent="Theme.TalonDark.Popup.Notif">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonDark.Settings.White" parent="Theme.TalonDark.Base">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
 </resources>

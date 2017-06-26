@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -25,7 +26,7 @@ import twitter4j.ResponseList;
 import twitter4j.SavedSearch;
 import twitter4j.Twitter;
 
-public class SearchChooser extends AppCompatActivity {
+public class SearchChooser extends WhiteToolbarActivity {
 
     private Context context;
     private AppSettings settings;

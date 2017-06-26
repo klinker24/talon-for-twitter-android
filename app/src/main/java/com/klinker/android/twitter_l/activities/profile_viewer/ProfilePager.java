@@ -95,7 +95,6 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
-import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 import xyz.klinker.android.drag_dismiss.delegate.DragDismissDelegate;
 
 public class ProfilePager extends PeekViewActivity implements DragDismissDelegate.Callback {
@@ -251,6 +250,8 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
         if (settings.blackTheme && settings.themeColors.primaryColor == Color.BLACK) {
             config.checkedChipColor(settings.themeColors.accentColor);
         } else if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
+            config.checkedChipColor(settings.themeColors.accentColor);
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
             config.checkedChipColor(settings.themeColors.accentColor);
         }
 
@@ -619,6 +620,9 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
         });
 
         if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
+            ((TextView) showAll.findViewById(R.id.show_all_text))
+                    .setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
             ((TextView) showAll.findViewById(R.id.show_all_text))
                     .setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
         }

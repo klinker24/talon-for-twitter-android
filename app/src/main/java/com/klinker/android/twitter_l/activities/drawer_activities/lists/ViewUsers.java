@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 
 import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.UserListMembersArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -42,7 +43,7 @@ import twitter4j.PagableResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-public class ViewUsers extends AppCompatActivity {
+public class ViewUsers extends WhiteToolbarActivity {
 
     public AppSettings settings;
     private Context context;

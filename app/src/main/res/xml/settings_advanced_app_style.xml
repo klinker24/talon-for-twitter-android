@@ -24,11 +24,6 @@
         android:title="@string/tweet_look_options" >
 
         <SwitchPreference
-            android:key="transparent_system_bars"
-            android:title="@string/transparent_system_bars"
-            android:defaultValue="false" />
-
-        <SwitchPreference
             android:key="dual_panel"
             android:title="@string/dual_panels"
             android:summary="@string/dual_panels_summary"

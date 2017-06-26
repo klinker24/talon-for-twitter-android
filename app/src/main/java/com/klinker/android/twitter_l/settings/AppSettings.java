@@ -63,6 +63,7 @@ public class AppSettings {
     public static final int THEME_BLUE_GREY = 18;
     public static final int THEME_BLACK = 19;
     public static final int THEME_DARK_BACKGROUND_COLOR = 20;
+    public static final int THEME_WHITE_COLOR = 21;
 
     public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
     public static final int DEFAULT_MAIN_THEME = 1; // 0 = light, 1 = dark, 2 = black
@@ -350,7 +351,7 @@ public class AppSettings {
         crossAccActions = sharedPrefs.getBoolean("fav_rt_multiple_accounts", true);
         activityNot = sharedPrefs.getBoolean("activity_notifications", true);
         useInteractionDrawer = sharedPrefs.getBoolean("interaction_drawer", true);
-        transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", false);
+        transpartSystemBars = sharedPrefs.getBoolean("transparent_system_bars", true);
         staticUi = sharedPrefs.getBoolean("static_ui", false);
         higherQualityImages = sharedPrefs.getBoolean("high_quality_images", true);
         useMentionsOnWidget = sharedPrefs.getString("widget_timeline", "0").equals("1");
@@ -633,7 +634,6 @@ public class AppSettings {
 
     public ThemeColor themeColors;
     private void setColors(Context context) {
-
         String[] themePrefixes = context.getResources().getStringArray(R.array.theme_colors);
         String prefix = themePrefixes[theme];
 
@@ -649,6 +649,11 @@ public class AppSettings {
         } else {
             return false;
         }
+    }
+
+    public static boolean isWhiteToolbar(Context context) {
+        AppSettings settings = AppSettings.getInstance(context);
+        return settings.theme == AppSettings.THEME_WHITE_COLOR;
     }
 
     public boolean condensedTweets() {

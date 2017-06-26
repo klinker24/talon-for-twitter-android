@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
@@ -45,7 +46,7 @@ import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ChoosenListActivity extends AppCompatActivity {
+public class ChoosenListActivity extends WhiteToolbarActivity {
 
     public AppSettings settings;
     private Context context;

@@ -34,12 +34,13 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 
-public class ConfigurePagerActivity extends AppCompatActivity {
+public class ConfigurePagerActivity extends WhiteToolbarActivity {
 
     private ConfigurationPagerAdapter chooserAdapter;
     private Context context;

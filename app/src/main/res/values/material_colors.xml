@@ -143,4 +143,10 @@
     <color name="darkTheme_accent_color">#ff9800</color>
     <color name="darkTheme_accent_color_light">#ffcc80</color>
 
+    <color name="white_primary_color">#FAFAFA</color>
+    <color name="white_primary_color_dark">#e1e1e1</color>
+    <color name="white_primary_color_light">#FFFFFF</color>
+    <color name="white_accent_color">#ff9800</color>
+    <color name="white_accent_color_light">#ffcc80</color>
+
 </resources>

@@ -790,4 +790,42 @@
         <item name="colorPrimaryDark">@color/darkTheme_primary_color_dark</item>
         <item name="colorAccent">@color/white</item>
     </style>
+
+    <!-- White -->
+    <style name="Theme.TalonBlack.White" parent="Theme.TalonBlack.Base">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Main.White" parent="Theme.TalonBlack.Main">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Tweet.White" parent="Theme.TalonBlack.Tweet">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Profile.White" parent="Theme.TalonBlack.Profile">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Popup.White" parent="Theme.TalonBlack.Popup">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
+    <style name="Theme.TalonBlack.Notif.White" parent="Theme.TalonBlack.Popup.Notif">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/white_primary_color</item>
+    </style>
+
 </resources>
