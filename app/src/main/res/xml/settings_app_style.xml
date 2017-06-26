@@ -33,6 +33,11 @@
         android:summary="@string/detailed_quotes_summary"
         android:defaultValue="false" />
 
+    <SwitchPreference
+        android:key="transparent_system_bars"
+        android:title="@string/transparent_system_bars"
+        android:defaultValue="true" />
+
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/color_options" >
 

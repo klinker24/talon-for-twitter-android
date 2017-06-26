@@ -22,11 +22,14 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,6 +50,7 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
@@ -73,7 +77,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 import java.lang.reflect.Field;
 
-public abstract class DrawerActivity extends PeekViewActivity implements SystemBarVisibility {
+public abstract class DrawerActivity extends WhiteToolbarActivity implements SystemBarVisibility {
 
     public static AppSettings settings;
     public Activity context;
@@ -186,7 +190,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
-            Log.v("talon_toolbar", "toolbar not null");
             try {
                 setSupportActionBar(toolbar);
                 DrawerActivity.hasToolbar = true;
@@ -195,7 +198,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 e.printStackTrace();
             }
 
-            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+            int color = AppSettings.isWhiteToolbar(this) ? lightStatusBarIcoColor : Color.WHITE;
+            toolbar.setTitleTextColor(color);
             toolbar.setNavigationIcon(resource);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -312,6 +316,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
             ) {
 
                 public void onDrawerClosed(View view) {
+                    activateLightStatusBar(true);
 
                     actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
@@ -356,6 +361,8 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                     //actionBar.setTitle(getResources().getString(R.string.app_name));
                     //actionBar.setIcon(R.mipmap.ic_launcher);
 
+                    activateLightStatusBar(false);
+
                     searchUtils.hideSearch(false);
 
                     Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
@@ -387,7 +394,9 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                     //super.onDrawerSlide(drawerView, slideOffset);
 
                     if (tranparentSystemBar == -1) {
-                        tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+                        tranparentSystemBar = shouldUseLightToolbar ?
+                                getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
+                                getResources().getColor(R.color.transparent_system_bar);
                     }
 
                     /*if (hasDrawer) {
@@ -1164,7 +1173,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
     NavBarOverlayLayout navOverlay;
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         try {
@@ -1185,7 +1194,9 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
                 if (!settings.transpartSystemBars) {
                     tranparentSystemBar = AppSettings.getInstance(this).themeColors.primaryColorDark;
                 } else {
-                    tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+                    tranparentSystemBar = shouldUseLightToolbar ?
+                            getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
+                            getResources().getColor(R.color.transparent_system_bar);
                 }
                 statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
             } else {
@@ -1198,7 +1209,9 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
             }
         } else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-                tranparentSystemBar = getResources().getColor(R.color.transparent_system_bar);
+                tranparentSystemBar = shouldUseLightToolbar ?
+                        getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
+                        getResources().getColor(R.color.transparent_system_bar);
                 statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;
             } else {
                 tranparentSystemBar = getResources().getColor(android.R.color.transparent);
@@ -1386,7 +1399,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
         final int DISMISS = 0;
         final int SEARCH = 1;
         final int COMPOSE = 2;
@@ -1468,7 +1480,7 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
         menu.getItem(DM).setVisible(false);
         menu.getItem(DISMISS).setVisible(false);
 
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public MenuItem noti;
@@ -1572,20 +1584,6 @@ public abstract class DrawerActivity extends PeekViewActivity implements SystemB
 
     public int toDP(int px) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, px, getResources().getDisplayMetrics());
-    }
-
-    public void showStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.VISIBLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(settings.themeColors.primaryColorDark);
-        }
-    }
-
-    public void hideStatusBar() {
-        DrawerActivity.statusBar.setVisibility(View.GONE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getResources().getColor(R.color.transparent_system_bar));
-        }
     }
 
     public void cancelTeslaUnread() {

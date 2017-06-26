@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,17 +11,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
-import android.text.Html;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -40,14 +32,11 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.BrowserActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
-import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.views.TweetView;
-import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.views.popups.ConversationPopupLayout;
-import com.klinker.android.twitter_l.views.popups.MobilizedWebPopupLayout;
 import com.klinker.android.twitter_l.views.popups.TweetInteractionsPopup;
 import com.klinker.android.twitter_l.views.popups.WebPopupLayout;
 import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
@@ -55,12 +44,10 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
-import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 
 import twitter4j.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,9 +130,11 @@ public class ExpansionViewHelper {
         tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
         if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
-            repliesText.setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
+            repliesText.setTextColor(settings.themeColors.accentColor);
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
+            repliesText.setTextColor(settings.themeColors.accentColor);
         } else {
-            repliesText.setTextColor(AppSettings.getInstance(context).themeColors.primaryColorLight);
+            repliesText.setTextColor(settings.themeColors.primaryColorLight);
         }
 
         convoLayout = ((Activity)context).getLayoutInflater().inflate(R.layout.convo_popup_layout, null, false);

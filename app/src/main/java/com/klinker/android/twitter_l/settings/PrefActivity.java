@@ -12,9 +12,10 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class PrefActivity extends AppCompatActivity {
+public class PrefActivity extends WhiteToolbarActivity {
 
     @Override
     public void finish() {
@@ -32,7 +33,7 @@ public class PrefActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {

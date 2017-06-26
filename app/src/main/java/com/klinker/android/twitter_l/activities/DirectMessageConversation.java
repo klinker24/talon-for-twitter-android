@@ -84,7 +84,7 @@ import twitter4j.UploadedMedia;
 import twitter4j.User;
 
 
-public class DirectMessageConversation extends PeekViewActivity {
+public class DirectMessageConversation extends WhiteToolbarActivity {
 
     public AppSettings settings;
     private Context context;

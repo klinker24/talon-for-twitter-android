@@ -941,4 +941,47 @@
         <item name="colorAccent">@color/darkTheme_primary_color</item>
     </style>
 
+    <!-- White -->
+    <style name="Theme.TalonLight.White" parent="Theme.TalonLight.Base">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Main.White" parent="Theme.TalonLight.Main">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Tweet.White" parent="Theme.TalonLight.Tweet">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Profile.White" parent="Theme.TalonLight.Profile">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Popup.White" parent="Theme.TalonLight.Popup">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Notif.White" parent="Theme.TalonLight.Popup.Notif">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
+    <style name="Theme.TalonLight.Settings.White" parent="Theme.TalonLight.Settings">
+        <item name="colorPrimary">@color/white_primary_color</item>
+        <item name="colorPrimaryDark">@color/white_primary_color_dark</item>
+        <item name="colorAccent">@color/dark_background</item>
+    </style>
+
 </resources>

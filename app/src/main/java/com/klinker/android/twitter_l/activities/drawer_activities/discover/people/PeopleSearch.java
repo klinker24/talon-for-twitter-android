@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.material_login.MaterialLogin;
@@ -43,7 +44,7 @@ import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-public class PeopleSearch extends Activity {
+public class PeopleSearch extends WhiteToolbarActivity {
 
     public AppSettings settings;
     private Context context;

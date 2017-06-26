@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -39,7 +40,7 @@ import twitter4j.Twitter;
 import twitter4j.UserList;
 
 
-public class ListChooser extends AppCompatActivity {
+public class ListChooser extends WhiteToolbarActivity {
 
     private Context context;
     private SharedPreferences sharedPrefs;

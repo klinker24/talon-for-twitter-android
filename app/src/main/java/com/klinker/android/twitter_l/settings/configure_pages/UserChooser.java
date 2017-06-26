@@ -18,6 +18,7 @@ import android.widget.ListPopupWindow;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.AutoCompleteUserArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.AutoCompleteHelper;
@@ -31,7 +32,7 @@ import twitter4j.Twitter;
 import twitter4j.User;
 import twitter4j.UserList;
 
-public class UserChooser extends AppCompatActivity {
+public class UserChooser extends WhiteToolbarActivity {
 
     private AppSettings settings;
     private android.support.v7.app.ActionBar actionBar;

@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
@@ -57,7 +58,7 @@ import java.util.Map;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SearchPager extends PeekViewActivity {
+public class SearchPager extends WhiteToolbarActivity {
 
     private SearchPagerAdapter mSectionsPagerAdapter;
     public AppSettings settings;
@@ -182,8 +183,10 @@ public class SearchPager extends PeekViewActivity {
         TabLayout strip = (TabLayout) findViewById(R.id.pager_tab_strip);
         strip.setBackgroundColor(settings.themeColors.primaryColor);
         strip.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
-        strip.setTabTextColors(Color.WHITE, Color.WHITE);
         strip.setupWithViewPager(mViewPager);
+
+        int color = shouldUseLightToolbar ? lightStatusBarIcoColor : Color.WHITE;
+        strip.setTabTextColors(color, color);
 
         int height = Utils.getActionBarHeight(this);
         //strip.setTranslationY(height);
