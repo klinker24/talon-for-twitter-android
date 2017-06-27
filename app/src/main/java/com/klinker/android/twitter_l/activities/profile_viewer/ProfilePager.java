@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
@@ -253,7 +252,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
             config.checkedChipColor(settings.themeColors.accentColor);
         } else if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
             config.checkedChipColor(settings.themeColors.accentColor);
-        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE) {
             config.checkedChipColor(settings.themeColors.accentColor);
         }
 
@@ -624,7 +623,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
         if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
             ((TextView) showAll.findViewById(R.id.show_all_text))
                     .setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
-        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE) {
             ((TextView) showAll.findViewById(R.id.show_all_text))
                     .setTextColor(AppSettings.getInstance(context).themeColors.accentColor);
         }

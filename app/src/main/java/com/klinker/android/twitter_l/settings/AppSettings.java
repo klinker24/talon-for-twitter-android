@@ -63,7 +63,7 @@ public class AppSettings {
     public static final int THEME_BLUE_GREY = 18;
     public static final int THEME_BLACK = 19;
     public static final int THEME_DARK_BACKGROUND_COLOR = 20;
-    public static final int THEME_WHITE_COLOR = 21;
+    public static final int THEME_WHITE = 21;
 
     public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
     public static final int DEFAULT_MAIN_THEME = 1; // 0 = light, 1 = dark, 2 = black
@@ -653,7 +653,7 @@ public class AppSettings {
 
     public static boolean isWhiteToolbar(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        return settings.theme == AppSettings.THEME_WHITE_COLOR || settings.theme == THEME_YELLOW;
+        return settings.theme == AppSettings.THEME_WHITE || settings.theme == THEME_YELLOW;
     }
 
     public boolean condensedTweets() {
