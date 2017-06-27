@@ -124,4 +124,12 @@
         android:id="@+id/kitkat_status_bar"
         android:visibility="gone" />
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:elevation="5dp"
+        android:gravity="center_vertical"
+        style="@style/MyToolbar"/>
+
 </FrameLayout>

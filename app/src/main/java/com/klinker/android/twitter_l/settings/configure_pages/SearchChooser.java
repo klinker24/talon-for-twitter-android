@@ -55,6 +55,7 @@ public class SearchChooser extends WhiteToolbarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.saved_searches));
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
         setSupportActionBar(toolbar);
 
         listView = (ListView) findViewById(R.id.listView);
