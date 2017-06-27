@@ -26,12 +26,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.widget.LinearLayout;
 
 import android.widget.Toast;
+
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
@@ -54,16 +55,20 @@ public class SettingsActivity extends WhiteToolbarActivity {
 
         AppSettings settings = AppSettings.getInstance(this);
 
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
-        ab.setIcon(null);
-        ab.setBackgroundDrawable(new ColorDrawable(settings.themeColors.primaryColor));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        setSupportActionBar(toolbar);
 
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings_content, new MainPrefFrag())
                 .commit();
+
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+        ab.setIcon(null);
+        ab.setBackgroundDrawable(new ColorDrawable(AppSettings.getInstance(this).themeColors.primaryColor));
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && settings.darkTheme) {
 
@@ -100,7 +105,7 @@ public class SettingsActivity extends WhiteToolbarActivity {
 
         AppSettings settings = AppSettings.getInstance(this);
 
-        Utils.setUpSettingsTheme(this, settings);
+        Utils.setUpMainTheme(this, settings);
 
         TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
         int resource = a.getResourceId(0, 0);

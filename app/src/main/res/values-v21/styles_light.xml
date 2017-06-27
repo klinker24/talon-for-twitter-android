@@ -196,11 +196,11 @@
         <item name="android:windowTranslucentStatus">false</item>
     </style>
 
-    <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.TalonLight.Popup" >
+    <style name="Theme.TalonLight.Popup.Notif" parent="@style/Theme.AppCompat.Light.NoActionBar" >
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight.Base">
+    <style name="Theme.TalonLight.Settings" parent="@style/Theme.TalonLight.Main">
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#aa000000</item>
 

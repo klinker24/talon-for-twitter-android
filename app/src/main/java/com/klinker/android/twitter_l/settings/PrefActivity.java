@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,13 +14,14 @@ import android.widget.LinearLayout;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
+import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class PrefActivity extends WhiteToolbarActivity {
 
     @Override
     public void finish() {
-        super.finish();
+         super.finish();
     }
 
     @Override
@@ -43,6 +45,11 @@ public class PrefActivity extends WhiteToolbarActivity {
         setUpTheme();
 
         setContentView(R.layout.settings_base);
+
+        AppSettings settings = AppSettings.getInstance(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        setSupportActionBar(toolbar);
 
         final PrefFragment fragment = getFragment();
 
@@ -83,7 +90,7 @@ public class PrefActivity extends WhiteToolbarActivity {
 
         AppSettings settings = AppSettings.getInstance(this);
 
-        Utils.setUpSettingsTheme(this, settings);
+        Utils.setUpMainTheme(this, settings);
 
         TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.windowBackground});
         int resource = a.getResourceId(0, 0);
