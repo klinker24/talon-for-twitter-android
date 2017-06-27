@@ -61,11 +61,9 @@ public class WhiteToolbarActivity extends PeekViewActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (AppSettings.isWhiteToolbar(this)) {
-            for (int i = 0; i < menu.size(); i++) {
-                if (menu.getItem(i).getIcon() != null) {
-                    menu.getItem(i).getIcon().setColorFilter(lightStatusBarIconColor, PorterDuff.Mode.MULTIPLY);
-                }
+        for (int i = 0; i < menu.size(); i++) {
+            if (menu.getItem(i).getIcon() != null) {
+                menu.getItem(i).getIcon().setColorFilter(lightStatusBarIconColor, PorterDuff.Mode.MULTIPLY);
             }
         }
 
