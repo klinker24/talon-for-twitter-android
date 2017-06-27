@@ -20,6 +20,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 @SuppressLint("Registered")
 public class WhiteToolbarActivity extends PeekViewActivity {
 
+    protected boolean neverUseLightStatusBar = false;
     protected boolean shouldUseLightToolbar;
     protected int lightStatusBarIcoColor;
 
@@ -40,6 +41,10 @@ public class WhiteToolbarActivity extends PeekViewActivity {
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar == null) {
+            toolbar = (Toolbar) findViewById(R.id.dragdismiss_toolbar);
+        }
+
         if (toolbar != null) {
             toolbar.setTitleTextColor(lightStatusBarIcoColor);
 
@@ -73,7 +78,7 @@ public class WhiteToolbarActivity extends PeekViewActivity {
      * @param lightStatusBar if true, make sure the status bar is light
      */
     public void activateLightStatusBar(boolean lightStatusBar) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || !AppSettings.isWhiteToolbar(this)) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || !AppSettings.isWhiteToolbar(this) || neverUseLightStatusBar) {
             return;
         }
 
