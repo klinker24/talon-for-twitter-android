@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -40,6 +41,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -145,6 +147,12 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         countHandler = new Handler();
 
         context = this;
@@ -163,12 +171,13 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
             // Ignore
         }
 
-        Utils.setUpTheme(this, settings);
-
-        actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.lists));
+        Utils.setUpMainTheme(this, settings);
 
         setContentView(R.layout.dm_conversation);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        setSupportActionBar(toolbar);
 
         attachImage = (ImageView) findViewById(R.id.attached_image);
 
@@ -182,6 +191,7 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
 
         listName = getIntent().getStringExtra("screenname");
 
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getIntent().getStringExtra("name"));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);

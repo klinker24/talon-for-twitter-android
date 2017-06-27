@@ -59,6 +59,7 @@ public class UserChooser extends WhiteToolbarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.user_tweets));
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
         setSupportActionBar(toolbar);
 
         user = (EditText) findViewById(R.id.user);
