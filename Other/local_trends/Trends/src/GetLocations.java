@@ -157,6 +157,7 @@ public class GetLocations {
                 return result1.compareTo(result2);
             }
         });
+        
 		return countries;
 	}
 	
