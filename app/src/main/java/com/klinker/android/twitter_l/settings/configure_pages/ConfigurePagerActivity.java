@@ -21,6 +21,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -75,10 +76,15 @@ public class ConfigurePagerActivity extends WhiteToolbarActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setBackgroundColor(settings.themeColors.primaryColor);
-        tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
-        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+        tabLayout.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(mViewPager);
+
+        if (AppSettings.isWhiteToolbar(this)) {
+            tabLayout.setTabTextColors(ColorStateList.valueOf(lightStatusBarIconColor));
+        } else {
+            tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
+        }
 
         mViewPager.setOffscreenPageLimit(6);
 
@@ -123,7 +129,23 @@ public class ConfigurePagerActivity extends WhiteToolbarActivity {
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_done_discard, null);
+
         TextView doneButton = (TextView) customActionBarView.findViewById(R.id.done);
+        if (AppSettings.isWhiteToolbar(this)) {
+            doneButton.setTextColor(ColorStateList.valueOf(lightStatusBarIconColor));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                doneButton.setCompoundDrawableTintList(ColorStateList.valueOf(lightStatusBarIconColor));
+            }
+        }
+
+        TextView discardButton = (TextView) customActionBarView.findViewById(R.id.discard);
+        if (AppSettings.isWhiteToolbar(this)) {
+            discardButton.setTextColor(ColorStateList.valueOf(lightStatusBarIconColor));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                discardButton.setCompoundDrawableTintList(ColorStateList.valueOf(lightStatusBarIconColor));
+            }
+        }
+
         doneButton.setText(getResources().getString(R.string.done_label));
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener() {
