@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.views.popups;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -39,7 +40,12 @@ public class TweetInteractionsPopup extends PopupLayout {
 
         tabs.setBackgroundColor(settings.themeColors.primaryColor);
         tabs.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
-        tabs.setTabTextColors(Color.WHITE, Color.WHITE);
+
+        if (settings.theme == AppSettings.THEME_WHITE_COLOR) {
+            tabs.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.light_status_bar_color)));
+        } else {
+            tabs.setTabTextColors(ColorStateList.valueOf(Color.WHITE));
+        }
 
         return root;
     }
