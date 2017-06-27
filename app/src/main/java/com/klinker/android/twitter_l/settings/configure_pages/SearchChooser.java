@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,7 +32,6 @@ public class SearchChooser extends WhiteToolbarActivity {
 
     private Context context;
     private AppSettings settings;
-    private android.support.v7.app.ActionBar actionBar;
 
     private ListView listView;
     private SearchChooserArrayAdapter adapter;
@@ -40,14 +41,21 @@ public class SearchChooser extends WhiteToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         context = this;
         settings = AppSettings.getInstance(this);
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpMainTheme(context, settings);
         setContentView(R.layout.list_chooser);
 
-        actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.saved_searches));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.saved_searches));
+        setSupportActionBar(toolbar);
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

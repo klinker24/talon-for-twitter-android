@@ -7,10 +7,12 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,7 +37,6 @@ import twitter4j.UserList;
 public class UserChooser extends WhiteToolbarActivity {
 
     private AppSettings settings;
-    private android.support.v7.app.ActionBar actionBar;
 
     private List<User> users = new ArrayList<>();
     private EditText user;
@@ -45,13 +46,20 @@ public class UserChooser extends WhiteToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         settings = AppSettings.getInstance(this);
 
-        Utils.setUpTheme(this, settings);
+        Utils.setUpMainTheme(this, settings);
         setContentView(R.layout.user_chooser);
 
-        actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.user_tweets));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.user_tweets));
+        setSupportActionBar(toolbar);
 
         user = (EditText) findViewById(R.id.user);
 

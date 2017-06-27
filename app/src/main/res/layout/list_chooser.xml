@@ -27,6 +27,13 @@
         android:background="@android:color/black"
         android:visibility="gone"/>
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:gravity="center_vertical"
+        style="@style/MyToolbar"/>
+
     <LinearLayout android:id="@+id/list_progress"
         android:orientation="vertical"
         android:layout_height="0dp"
