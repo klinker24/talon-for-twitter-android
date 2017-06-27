@@ -131,7 +131,7 @@ public class ExpansionViewHelper {
 
         if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
             repliesText.setTextColor(settings.themeColors.accentColor);
-        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE_COLOR) {
+        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE) {
             repliesText.setTextColor(settings.themeColors.accentColor);
         } else {
             repliesText.setTextColor(settings.themeColors.primaryColorLight);

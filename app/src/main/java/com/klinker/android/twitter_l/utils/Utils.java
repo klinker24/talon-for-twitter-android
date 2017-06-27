@@ -371,7 +371,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_White);
                     break;
             }
@@ -441,7 +441,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonDark_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_White);
                         break;
                 }
@@ -510,7 +510,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_White);
                         break;
                 }
@@ -584,7 +584,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_Main_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_Main_White);
                     break;
             }
@@ -654,7 +654,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonDark_Main_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_Main_White);
                         break;
                 }
@@ -723,7 +723,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_Main_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_Main_White);
                         break;
                 }
@@ -797,7 +797,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_Tweet_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_Tweet_White);
                     break;
             }
@@ -867,7 +867,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonDark_Tweet_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_Tweet_White);
                         break;
                 }
@@ -936,7 +936,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_Tweet_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_Tweet_White);
                         break;
                 }
@@ -1010,7 +1010,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_Profile_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_Profile_White);
                     break;
             }
@@ -1080,7 +1080,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonDark_Profile_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_Profile_White);
                         break;
                 }
@@ -1149,7 +1149,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_Profile_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_Profile_White);
                         break;
                 }
@@ -1223,7 +1223,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_Popup_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_Popup_White);
                     break;
             }
@@ -1290,7 +1290,7 @@ public class Utils {
                     case AppSettings.THEME_BLACK:
                         context.setTheme(R.style.Theme_TalonDark_Popup_Black);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_Popup_White);
                         break;
                 }
@@ -1359,7 +1359,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_Popup_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_Popup_White);
                         break;
                 }
@@ -1433,7 +1433,7 @@ public class Utils {
                 case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                     context.setTheme(R.style.Theme_TalonLight_Settings_DarkBackgroundColor);
                     break;
-                case AppSettings.THEME_WHITE_COLOR:
+                case AppSettings.THEME_WHITE:
                     context.setTheme(R.style.Theme_TalonLight_Settings_White);
                     break;
             }
@@ -1503,7 +1503,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonDark_Settings_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonDark_Settings_White);
                         break;
                 }
@@ -1572,7 +1572,7 @@ public class Utils {
                     case AppSettings.THEME_DARK_BACKGROUND_COLOR:
                         context.setTheme(R.style.Theme_TalonBlack_Settings_DarkBackgroundColor);
                         break;
-                    case AppSettings.THEME_WHITE_COLOR:
+                    case AppSettings.THEME_WHITE:
                         context.setTheme(R.style.Theme_TalonBlack_White);
                         break;
                 }
@@ -1601,7 +1601,7 @@ public class Utils {
             case AppSettings.THEME_BLACK:
             case AppSettings.THEME_DARK_BACKGROUND_COLOR:
             case AppSettings.THEME_GREY:
-            case AppSettings.THEME_WHITE_COLOR:
+            case AppSettings.THEME_WHITE:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_grey.jpg?token=00367e48d0865900f58afc672054157ad6adbd67";
             case AppSettings.THEME_INDIGO:
                 return "https://bytebucket.org/jklinker/source/raw/b7485202f320afe19e26077e5b7d3626e63c6c5b/promo/user%20banner/banner_indigo.jpg?token=f04944bd1ff8dc3a6ef5abe91f943b72f65339d5";

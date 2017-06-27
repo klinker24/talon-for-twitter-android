@@ -41,7 +41,7 @@ public class TweetInteractionsPopup extends PopupLayout {
         tabs.setBackgroundColor(settings.themeColors.primaryColor);
         tabs.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
 
-        if (settings.theme == AppSettings.THEME_WHITE_COLOR) {
+        if (AppSettings.isWhiteToolbar(getContext())) {
             tabs.setTabTextColors(ColorStateList.valueOf(getResources().getColor(R.color.light_status_bar_color)));
         } else {
             tabs.setTabTextColors(ColorStateList.valueOf(Color.WHITE));
