@@ -21,14 +21,12 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 public class WhiteToolbarActivity extends PeekViewActivity {
 
     protected boolean neverUseLightStatusBar = false;
-    protected boolean shouldUseLightToolbar;
-    protected int lightStatusBarIcoColor;
+    protected int lightStatusBarIconColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.shouldUseLightToolbar = AppSettings.isWhiteToolbar(this);
-        this.lightStatusBarIcoColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ?
+        this.lightStatusBarIconColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ?
                 getResources().getColor(R.color.light_status_bar_color) : Color.BLACK;
     }
 
@@ -36,28 +34,29 @@ public class WhiteToolbarActivity extends PeekViewActivity {
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        if (!shouldUseLightToolbar) {
-            return;
-        }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar == null) {
             toolbar = (Toolbar) findViewById(R.id.dragdismiss_toolbar);
         }
 
+        if (AppSettings.isWhiteToolbar(this)) {
+            activateLightStatusBar(true);
+        } else {
+            lightStatusBarIconColor = Color.WHITE;
+        }
+
         if (toolbar != null) {
-            toolbar.setTitleTextColor(lightStatusBarIcoColor);
+            toolbar.setTitleTextColor(lightStatusBarIconColor);
 
             if (toolbar.getOverflowIcon() != null) {
-                toolbar.getOverflowIcon().setColorFilter(lightStatusBarIcoColor, PorterDuff.Mode.MULTIPLY);
+                toolbar.getOverflowIcon().setColorFilter(lightStatusBarIconColor, PorterDuff.Mode.MULTIPLY);
             }
 
             if (toolbar.getNavigationIcon() != null) {
-                toolbar.getNavigationIcon().setColorFilter(lightStatusBarIcoColor, PorterDuff.Mode.MULTIPLY);
+                toolbar.getNavigationIcon().setColorFilter(lightStatusBarIconColor, PorterDuff.Mode.MULTIPLY);
             }
         }
 
-        activateLightStatusBar(true);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class WhiteToolbarActivity extends PeekViewActivity {
         if (AppSettings.isWhiteToolbar(this)) {
             for (int i = 0; i < menu.size(); i++) {
                 if (menu.getItem(i).getIcon() != null) {
-                    menu.getItem(i).getIcon().setColorFilter(lightStatusBarIcoColor, PorterDuff.Mode.MULTIPLY);
+                    menu.getItem(i).getIcon().setColorFilter(lightStatusBarIconColor, PorterDuff.Mode.MULTIPLY);
                 }
             }
         }

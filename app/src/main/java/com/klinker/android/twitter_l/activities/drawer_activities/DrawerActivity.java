@@ -22,14 +22,12 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.*;
 import android.content.*;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,7 +46,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.*;
 
 import com.bumptech.glide.Glide;
-import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
@@ -198,7 +195,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
                 e.printStackTrace();
             }
 
-            int color = AppSettings.isWhiteToolbar(this) ? lightStatusBarIcoColor : Color.WHITE;
+            int color = AppSettings.isWhiteToolbar(this) ? lightStatusBarIconColor : Color.WHITE;
             toolbar.setTitleTextColor(color);
             toolbar.setNavigationIcon(resource);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -394,7 +391,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
                     //super.onDrawerSlide(drawerView, slideOffset);
 
                     if (tranparentSystemBar == -1) {
-                        tranparentSystemBar = shouldUseLightToolbar ?
+                        tranparentSystemBar = AppSettings.isWhiteToolbar(DrawerActivity.this) ?
                                 getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
                                 getResources().getColor(R.color.transparent_system_bar);
                     }
@@ -1194,7 +1191,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
                 if (!settings.transpartSystemBars) {
                     tranparentSystemBar = AppSettings.getInstance(this).themeColors.primaryColorDark;
                 } else {
-                    tranparentSystemBar = shouldUseLightToolbar ?
+                    tranparentSystemBar = AppSettings.isWhiteToolbar(this) ?
                             getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
                             getResources().getColor(R.color.transparent_system_bar);
                 }
@@ -1209,7 +1206,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             }
         } else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.KITKAT) {
-                tranparentSystemBar = shouldUseLightToolbar ?
+                tranparentSystemBar = AppSettings.isWhiteToolbar(this) ?
                         getResources().getColor(R.color.light_status_bar_transparent_system_bar) :
                         getResources().getColor(R.color.transparent_system_bar);
                 statusColor = AppSettings.getInstance(this).themeColors.primaryColorDark;

@@ -653,7 +653,7 @@ public class AppSettings {
 
     public static boolean isWhiteToolbar(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
-        return settings.theme == AppSettings.THEME_WHITE_COLOR;
+        return settings.theme == AppSettings.THEME_WHITE_COLOR || settings.theme == THEME_YELLOW;
     }
 
     public boolean condensedTweets() {
