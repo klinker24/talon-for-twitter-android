@@ -21,7 +21,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.klinker.android.peekview.util.DensityUtils;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
@@ -50,7 +53,7 @@ public class PeopleSearch extends WhiteToolbarActivity {
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private ActionBar actionBar;
+    private android.support.v7.app.ActionBar actionBar;
 
     private ListView listView;
 
@@ -68,6 +71,12 @@ public class PeopleSearch extends WhiteToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        try {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
 
         slug = getIntent().getStringExtra("slug");
@@ -79,11 +88,16 @@ public class PeopleSearch extends WhiteToolbarActivity {
 
         setUpWindow();
 
-        Utils.setUpPopupTheme(this, settings);
-
-        actionBar = getActionBar();
+        Utils.setUpMainTheme(this, settings);
 
         setContentView(R.layout.ptr_list_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        toolbar.setVisibility(View.VISIBLE);
+        setSupportActionBar(toolbar);
+
+        actionBar = getSupportActionBar();
 
         if (!settings.isTwitterLoggedIn) {
             Intent login = new Intent(context, MaterialLogin.class);
@@ -95,8 +109,11 @@ public class PeopleSearch extends WhiteToolbarActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        getPeople();
+        View viewHeader = getLayoutInflater().inflate(R.layout.ab_header, null);
+        listView.addHeaderView(viewHeader, null, false);
+        listView.setHeaderDividersEnabled(false);
 
+        getPeople();
     }
 
     public void setUpWindow() {
