@@ -3,27 +3,32 @@ package com.klinker.android.twitter_l.views.widgets;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.klinker.android.peekview.util.DensityUtils;
+
 public class ColorPreviewButton extends View {
 
     private static final String TAG = "ColorPreviewButton";
     private static final int DEFAULT_INNER_COLOR = 0xffff9800;
     private static final int DEFAULT_OUTER_COLOR = 0xff3f51b5;
-    private static final int DEFAULT_INNER_SIZE = 30;
+    private static final int DEFAULT_INNER_SIZE = 29;
     private static final int DEFAULT_OUTER_SIZE = 36;
     private static final int DEFAULT_SIZE = 72;
 
     private float innerSize;
+    private float blackRingSize;
     private float currentOuterSize;
     private float maxOuterSize;
     private float size;
 
     private Paint innerPaint;
+    private Paint blackRingPaint;
     private Paint outerPaint;
 
     private ShowThread shower;
@@ -47,6 +52,7 @@ public class ColorPreviewButton extends View {
     public void init() {
         size = toPx(DEFAULT_SIZE);
         innerSize = toPx(DEFAULT_INNER_SIZE);
+        blackRingSize = toPx(DEFAULT_INNER_SIZE + 1);
         currentOuterSize = innerSize;
         maxOuterSize = toPx(DEFAULT_OUTER_SIZE);
 
@@ -57,6 +63,12 @@ public class ColorPreviewButton extends View {
         innerPaint.setAntiAlias(true);
         innerPaint.setStyle(Paint.Style.FILL);
         innerPaint.setColor(DEFAULT_INNER_COLOR);
+
+        blackRingPaint = new Paint();
+        blackRingPaint.setAntiAlias(true);
+        blackRingPaint.setStyle(Paint.Style.FILL);
+        blackRingPaint.setColor(Color.BLACK);
+        blackRingPaint.setStrokeWidth(DensityUtils.toDp(getContext(), 1));
 
         outerPaint = new Paint();
         outerPaint.setAntiAlias(true);
@@ -70,6 +82,7 @@ public class ColorPreviewButton extends View {
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawCircle(size / 2, size / 2, currentOuterSize, outerPaint);
+        canvas.drawCircle(size / 2, size / 2, blackRingSize, blackRingPaint);
         canvas.drawCircle(size / 2, size / 2, innerSize, innerPaint);
     }
 

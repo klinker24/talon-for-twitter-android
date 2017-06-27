@@ -35,7 +35,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.SearchPagerAdapter;
@@ -185,7 +184,7 @@ public class SearchPager extends WhiteToolbarActivity {
         strip.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
         strip.setupWithViewPager(mViewPager);
 
-        int color = shouldUseLightToolbar ? lightStatusBarIcoColor : Color.WHITE;
+        int color = AppSettings.isWhiteToolbar(this) ? lightStatusBarIconColor : Color.WHITE;
         strip.setTabTextColors(color, color);
 
         int height = Utils.getActionBarHeight(this);
