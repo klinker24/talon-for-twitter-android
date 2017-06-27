@@ -43,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
@@ -97,7 +98,7 @@ import twitter4j.UserList;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.delegate.DragDismissDelegate;
 
-public class ProfilePager extends PeekViewActivity implements DragDismissDelegate.Callback {
+public class ProfilePager extends WhiteToolbarActivity implements DragDismissDelegate.Callback {
 
     private static final int NUM_TWEETS_ON_TIMELINE = 15;
     private static final int LOAD_CAPACITY_PER_LIST = 20;
@@ -122,7 +123,7 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
         }
 
         new DragDismissIntentBuilder(context)
-                .setPrimaryColorValue(AppSettings.getInstance(context).themeColors.primaryColor)
+                .setPrimaryColorValue(settings.themeColors.primaryColor)
                 .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
                 .setShouldScrollToolbar(true)
                 .setToolbarTitle(name)
@@ -188,6 +189,7 @@ public class ProfilePager extends PeekViewActivity implements DragDismissDelegat
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        neverUseLightStatusBar = true;
 
         DragDismissDelegate delegate = new DragDismissDelegate(this, this);
         delegate.onCreate(savedInstanceState);
