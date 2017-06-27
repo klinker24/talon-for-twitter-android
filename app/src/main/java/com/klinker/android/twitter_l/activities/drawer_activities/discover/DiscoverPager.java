@@ -16,6 +16,7 @@ package com.klinker.android.twitter_l.activities.drawer_activities.discover;
  */
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
@@ -61,8 +62,13 @@ public class DiscoverPager extends DrawerActivity {
         TabLayout strip = (TabLayout) findViewById(R.id.pager_tab_strip);
         strip.setBackgroundColor(settings.themeColors.primaryColor);
         strip.setSelectedTabIndicatorColor(settings.themeColors.accentColor);
-        strip.setTabTextColors(Color.WHITE, Color.WHITE);
         strip.setupWithViewPager(mViewPager);
+
+        if (AppSettings.isWhiteToolbar(this)) {
+            strip.setTabTextColors(ColorStateList.valueOf(lightStatusBarIconColor));
+        } else {
+            strip.setTabTextColors(Color.WHITE, Color.WHITE);
+        }
 
         if (statusBar != null) {
             statusBar.setVisibility(View.GONE);
