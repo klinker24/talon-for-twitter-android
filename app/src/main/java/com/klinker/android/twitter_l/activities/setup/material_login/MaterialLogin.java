@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,7 +47,7 @@ public class MaterialLogin extends AppIntro2 {
 
         SharedPreferences sharedPrefs = AppSettings.getInstance(this).sharedPrefs;
 
-        int currAccount = sharedPrefs.getInt("current_account", 1);
+        final int currAccount = sharedPrefs.getInt("current_account", 1);
         sharedPrefs.edit().putInt("key_version_" + currAccount, KEY_VERSION).apply();
 
         addSlides();
@@ -61,13 +63,24 @@ public class MaterialLogin extends AppIntro2 {
         nextButton = (ImageView) findViewById(R.id.next);
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int getRtlPage(int currentPage) {
+                boolean isRtl = getResources().getBoolean(R.bool.isRTL);
+                if (isRtl && currentPage == 1) {
+                    return 2;
+                } else if (isRtl && currentPage == 2) {
+                    return 1;
+                } else {
+                    return currentPage;
+                }
+            }
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 1) {
+                if (position == getRtlPage(1)) {
                     // hacky to disable paging
                     pager.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -86,7 +99,7 @@ public class MaterialLogin extends AppIntro2 {
                             AnalyticsHelper.finishLoginToTwitter(MaterialLogin.this);
                         }
                     });
-                } else if (position == 2) {
+                } else if (position == getRtlPage(2)) {
                     nextButton.setVisibility(View.INVISIBLE);
 
                     downloadFragment.start(new Callback() {
