@@ -184,6 +184,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
     public boolean isAConversation = false;
 
     protected boolean fromLauncher = false;
+    protected boolean fromNotification = false;
 
     private boolean sharedTransition = false;
 
@@ -208,6 +209,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         if (notificationId != -1) {
             notificationManager.cancel(notificationId);
             NotificationUtils.cancelGroupedNotificationWithNoContent(this);
+            fromNotification = true;
         }
 
         context = this;
@@ -655,6 +657,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         expansionHelper.setUser(screenName);
         expansionHelper.setText(text);
         expansionHelper.setUpOverflow();
+        expansionHelper.fromNotification(fromNotification);
         expansionHelper.setLoadCallback(new ExpansionViewHelper.TweetLoaded() {
             @Override
             public void onLoad(Status status) {

@@ -639,6 +639,11 @@ public class ExpansionViewHelper {
         tweetButtonUtils.setIsSecondAcc(sec);
     }
 
+    private boolean fromNotification = false;
+    public void fromNotification(boolean fromNotification) {
+        this.fromNotification = true;
+    }
+
     private Twitter getTwitter() {
         if (secondAcc) {
             return Utils.getSecondTwitter(context);
@@ -654,6 +659,10 @@ public class ExpansionViewHelper {
     private Status status = null;
 
     public void getInfo() {
+        getInfo(fromNotification);
+    }
+
+    public void getInfo(final boolean fromNotification) {
 
         Thread getInfo = new TimeoutThread(new Runnable() {
             @Override
@@ -681,7 +690,9 @@ public class ExpansionViewHelper {
                         }
                     });
                 } catch (Exception e) {
-
+                    if (fromNotification) {
+                        AnalyticsHelper.errorLoadingTweetFromNotification(context, e.getMessage());
+                    }
                 }
             }
         });
