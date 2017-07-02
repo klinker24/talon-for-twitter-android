@@ -129,6 +129,10 @@ public class WidgetProvider extends AppWidgetProvider {
                     res = R.layout.widget_material_dark;
                     material = true;
                     break;
+                case 6:
+                    res = R.layout.widget_material_transparent;
+                    material = false;
+                    break;
             }
             RemoteViews views = new RemoteViews(this.getPackageName(), res);
             views.setViewVisibility(R.id.replyButton, View.VISIBLE);
