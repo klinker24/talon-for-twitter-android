@@ -13,9 +13,14 @@ public class AnalyticsHelper {
     private static final String FINISH_LOGIN_TO_TWITTER = "FINISH_LOGIN_TO_TWITTER";
     private static final String LOGIN_DOWNLOAD_TWEETS = "LOGIN_DOWNLOADED_TWEETS";
     private static final String FINISH_LOGIN = "FINISH_LOGIN";
+    private static final String ERROR_LOADING_FROM_NOTIFICATION = "ERROR_LOADING_FROM_NOTIFICATION";
 
     private static void logEvent(Context context, String event) {
         Bundle bundle = new Bundle();
+        logEvent(context, event, bundle);
+    }
+
+    private static void logEvent(Context context, String event, Bundle bundle) {
         bundle.putString("screenname", AppSettings.getInstance(context).myScreenName);
         FirebaseAnalytics.getInstance(context).logEvent(event, bundle);
     }
@@ -38,5 +43,11 @@ public class AnalyticsHelper {
 
     public static void finishLogin(Context context) {
         logEvent(context, FINISH_LOGIN);
+    }
+
+    public static void errorLoadingTweetFromNotification(Context context, String errorMessage) {
+        Bundle bundle = new Bundle();
+        bundle.putString("error_message", errorMessage);
+        logEvent(context, ERROR_LOADING_FROM_NOTIFICATION);
     }
 }
