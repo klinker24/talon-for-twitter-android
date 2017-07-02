@@ -243,7 +243,7 @@ public class TweetView {
     protected void setupImage() {
         if (smallImage && shouldShowImage()) {
             ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
-            params.height = Utils.toDP(100, context);
+            params.height = Utils.toDP(settings.cropImagesOnTimeline ? 148 : 248, context);
 
             imageHolder.setLayoutParams(params);
         }
@@ -570,11 +570,11 @@ public class TweetView {
 
         if (picture) {
             try {
-                glide(imageUrl, imageIv);
+                glide(imageUrl, imageIv, settings.cropImagesOnTimeline);
             } catch (Exception e) { }
         }
 
-        glide(profilePicUrl, profilePicIv);
+        glide(profilePicUrl, profilePicIv, true);
 
         /*if (settings.useEmoji && (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || EmojiUtils.ios)) {
             if (EmojiUtils.emojiPattern.matcher(tweet).find()) {
@@ -678,12 +678,19 @@ public class TweetView {
         return true;
     }
 
-    private void glide(String url, ImageView target) {
+    private void glide(String url, ImageView target, boolean cropImage) {
         if (target != null) {
             try {
-                Glide.with(context).load(url)
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .into(target);
+                if (cropImage) {
+                    Glide.with(context).load(url)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(target);
+                } else {
+                    target.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    Glide.with(context).load(url).fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(target);
+                }
             } catch (Exception e) {
                 // load after activity is destroyed
             }

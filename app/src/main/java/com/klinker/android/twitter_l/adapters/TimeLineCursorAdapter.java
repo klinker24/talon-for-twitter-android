@@ -864,9 +864,16 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         if (picture) {
             if (!settings.condensedTweets()) {
-                Glide.with(context).load(holder.picUrl).centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(null).into(holder.image);
+                if (settings.cropImagesOnTimeline) {
+                    Glide.with(context).load(holder.picUrl).centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(null).into(holder.image);
+                } else {
+                    holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    Glide.with(context).load(holder.picUrl).fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .placeholder(null).into(holder.image);
+                }
             } else {
                 Glide.with(context).load(holder.picUrl).fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)

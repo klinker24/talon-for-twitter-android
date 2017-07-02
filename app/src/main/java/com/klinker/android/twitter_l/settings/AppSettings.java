@@ -194,6 +194,7 @@ public class AppSettings {
     public boolean largerWidgetImages;
     public boolean showProfilePictures;
     public boolean compressReplies;
+    public boolean cropImagesOnTimeline;
 
     // notifications
     public boolean timelineNot;
@@ -366,6 +367,7 @@ public class AppSettings {
         largerWidgetImages = sharedPrefs.getBoolean("widget_larger_images", false);
         showProfilePictures = sharedPrefs.getBoolean("show_profile_pictures", true);
         compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);
+        cropImagesOnTimeline = sharedPrefs.getBoolean("crop_images_timeline", true);
 
         String notificationsOption = sharedPrefs.getString("notification_options", "legacy");
         if (notificationsOption.equals("never")) {

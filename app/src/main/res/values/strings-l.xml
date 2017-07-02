@@ -221,4 +221,5 @@
     <string name="notification_channels">Notification Channels</string>
     <string name="notification_channels_summary">Channels control the types of alerts you get for
         notifications and allow you to customize your notifications.</string>
+    <string name="crop_images">Crop Images on the Timeline</string>
 </resources>
