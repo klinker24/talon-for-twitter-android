@@ -3,6 +3,7 @@
     <version name="6.6.0">
         <text>New option to use "White" as the Material Design color</text>
         <text>Default transparent system bars to "on"</text>
+        <text>Add a fully transparent widget option</text>
         <text>Update available local trends to latest cities that Twitter tracks</text>
         <text>Improvements to saving images</text>
         <text>Bug fixes</text>

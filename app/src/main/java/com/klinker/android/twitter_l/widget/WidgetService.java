@@ -135,6 +135,10 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 res = settings.largerWidgetImages ? R.layout.widget_conversation_dark_large_image :
                         R.layout.widget_conversation_dark;
                 break;
+            case 6:
+                res = settings.largerWidgetImages ? R.layout.widget_conversation_dark_large_image :
+                        R.layout.widget_conversation_dark;
+                break;
         }
 
         final RemoteViews card = new RemoteViews(mContext.getPackageName(), res);
