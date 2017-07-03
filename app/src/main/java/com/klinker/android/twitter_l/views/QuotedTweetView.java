@@ -3,9 +3,11 @@ package com.klinker.android.twitter_l.views;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Status;
 
@@ -35,7 +37,12 @@ public class QuotedTweetView extends TweetView {
 
     @Override
     protected void setupImage() {
+        if (!settings.cropImagesOnTimeline) {
+            ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
+            params.height = Utils.toDP(100, context);
 
+            imageHolder.setLayoutParams(params);
+        }
     }
 
     @Override
