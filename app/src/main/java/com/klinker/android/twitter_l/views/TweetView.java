@@ -241,7 +241,7 @@ public class TweetView {
     }
 
     protected void setupImage() {
-        if (smallImage && shouldShowImage()) {
+        if (smallImage && shouldShowImage() && !settings.condensedTweets()) {
             ViewGroup.LayoutParams params = imageHolder.getLayoutParams();
             params.height = Utils.toDP(settings.cropImagesOnTimeline ? 148 : 248, context);
 
