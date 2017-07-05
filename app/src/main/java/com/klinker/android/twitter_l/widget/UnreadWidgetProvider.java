@@ -104,6 +104,9 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 case 5:
                     res = R.layout.widget_unread_trans_black;
                     break;
+                case 6:
+                    res = R.layout.widget_unread_trans;
+                    break;
             }
 
             RemoteViews views = new RemoteViews(this.getPackageName(), res);
