@@ -48,6 +48,7 @@ import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
+import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
@@ -1708,6 +1709,17 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
     private void startUcrop(Uri sourceUri) {
         try {
             UCrop.Options options = new UCrop.Options();
+
+            if (settings.theme == AppSettings.THEME_WHITE) {
+                ThemeColor color = new ThemeColor("darkTheme", this);
+                options.setToolbarColor(color.primaryColor);
+                options.setStatusBarColor(color.primaryColorDark);
+            } else {
+                options.setToolbarColor(settings.themeColors.primaryColor);
+                options.setStatusBarColor(settings.themeColors.primaryColorDark);
+            }
+
+            options.setActiveWidgetColor(settings.themeColors.accentColor);
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
             options.setCompressionQuality(90);
 
