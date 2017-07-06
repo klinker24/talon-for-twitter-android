@@ -79,6 +79,7 @@ import com.google.android.gms.location.LocationServices;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.GiphySearch;
 import com.klinker.android.twitter_l.data.ScheduledTweet;
+import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.utils.FingerprintDialog;
@@ -896,8 +897,16 @@ public abstract class Compose extends Activity implements
     private void startUcrop(Uri sourceUri) {
         try {
             UCrop.Options options = new UCrop.Options();
-            options.setToolbarColor(settings.themeColors.primaryColor);
-            options.setStatusBarColor(settings.themeColors.primaryColorDark);
+
+            if (settings.theme == AppSettings.THEME_WHITE) {
+                ThemeColor color = new ThemeColor("darkTheme", this);
+                options.setToolbarColor(color.primaryColor);
+                options.setStatusBarColor(color.primaryColorDark);
+            } else {
+                options.setToolbarColor(settings.themeColors.primaryColor);
+                options.setStatusBarColor(settings.themeColors.primaryColorDark);
+            }
+
             options.setActiveWidgetColor(settings.themeColors.accentColor);
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
             options.setCompressionQuality(100);
