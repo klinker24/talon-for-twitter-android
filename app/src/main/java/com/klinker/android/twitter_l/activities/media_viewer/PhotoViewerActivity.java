@@ -390,14 +390,14 @@ public class PhotoViewerActivity extends DragDismissActivity {
 
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri, "image/jpg");
+                    intent.setDataAndType(uri, "image/*");
 
                     int randomId = NotificationUtils.generateRandomId();
                     PendingIntent pending = PendingIntent.getActivity(context, randomId, intent, 0);
 
                     mBuilder =
                             new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-                                    .setContentIntent(pending)
+//                                    .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                     .setContentTitle(getResources().getString(R.string.app_name))
@@ -407,13 +407,6 @@ public class PhotoViewerActivity extends DragDismissActivity {
 
                     mNotificationManager.cancel(6);
                     mNotificationManager.notify(randomId, mBuilder.build());
-
-                    MediaScannerConnection.scanFile(context, new String[]{root + "/Talon/" + fname + ".jpg"},
-                            new String[]{"image/jpg"}, null);
-
-                    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-                    mediaScanIntent.setData(uri);
-                    sendBroadcast(mediaScanIntent);
                 } catch (final Exception e) {
                     e.printStackTrace();
                     ((Activity) context).runOnUiThread(new Runnable() {
