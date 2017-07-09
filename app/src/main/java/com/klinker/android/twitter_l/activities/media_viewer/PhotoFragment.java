@@ -173,7 +173,7 @@ public class PhotoFragment extends Fragment {
 
                     mBuilder =
                             new NotificationCompat.Builder(getActivity(), NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-                                    .setContentIntent(pending)
+//                                    .setContentIntent(pending)
                                     .setSmallIcon(R.drawable.ic_stat_icon)
                                     .setTicker(getResources().getString(R.string.saved_picture) + "...")
                                     .setAutoCancel(true)
@@ -183,13 +183,6 @@ public class PhotoFragment extends Fragment {
 
                     mNotificationManager.cancel(6);
                     mNotificationManager.notify(randomId, mBuilder.build());
-
-                    MediaScannerConnection.scanFile(getActivity(), new String[]{root + "/Talon/" + fname + ".jpg"},
-                            new String[]{"image/jpg"}, null);
-
-                    Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-                    mediaScanIntent.setData(uri);
-                    getActivity().sendBroadcast(mediaScanIntent);
                 } catch (final Throwable e) {
                     e.printStackTrace();
 
