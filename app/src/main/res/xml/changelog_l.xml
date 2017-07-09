@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.6.1">
+        <text>Fix saving images</text>
+        <text>Smaller bug fixes</text>
+    </version>
+
     <version name="6.6.0">
         <text>New option to use "White" as the Material Design color</text>
         <text>Default transparent system bars to "on"</text>
