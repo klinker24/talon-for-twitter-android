@@ -310,7 +310,7 @@ public class VideoViewerActivity extends DragDismissActivity {
             share.putExtra(Intent.EXTRA_TEXT, url);
         }
 
-        context.startActivity(share);
+        context.startActivity(Intent.createChooser(share, getString(R.string.menu_share) + ": "));
     }
 
     private DetailedTweetView tweetView;
