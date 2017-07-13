@@ -1,6 +1,7 @@
 This update adds a new all-white theme option! Enable it from the "Material Design Color" section of "App Style Settings"<br><br>
 
-Along with that, there are a few new options available:<br>
+Along with that, there are a few new things available:<br>
+- A new video and GIF player<br>
 - A fully transparent widget in "Widget Customization"<br>
 - A new option to disable the image cropping on the timeline, to view the whole image<br><br>
 
