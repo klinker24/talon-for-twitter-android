@@ -17,9 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
@@ -625,15 +625,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     if (context instanceof PeekViewActivity && settings.usePeek) {
                         if (layoutRes != 0) {
                             Peek.into(layoutRes, new OnPeek() {
-                                private EasyVideoPlayer videoView;
+                                private BetterVideoPlayer videoView;
 
                                 @Override public void shown() { }
 
                                 @Override
                                 public void onInflated(View rootView) {
-                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                     videoView.setSource(Uri.parse(holder.animatedGif.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                    videoView.setCallback(new EasyVideoCallbackWrapper());
+                                    videoView.setCallback(new BetterVideoCallbackWrapper());
                                 }
 
                                 @Override

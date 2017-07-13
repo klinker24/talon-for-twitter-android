@@ -8,16 +8,14 @@
     android:layout_gravity="center"
     android:background="@android:color/black">
 
-    <com.afollestad.easyvideoplayer.EasyVideoPlayer xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.halilibo.bettervideoplayer.BetterVideoPlayer
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:evp_autoPlay="true"
-        app:evp_disableControls="false"
-        app:evp_hideControlsOnPlay="true"
-        app:evp_leftAction="restart"
-        app:evp_rightAction="none"
-        app:evp_themeColor="?colorPrimary" />
+        app:bvp_autoPlay="true"
+        app:bvp_disableControls="false"
+        app:bvp_hideControlsOnPlay="true"/>
 
 </FrameLayout>

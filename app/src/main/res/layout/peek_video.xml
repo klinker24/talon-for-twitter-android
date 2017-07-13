@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <com.afollestad.easyvideoplayer.EasyVideoPlayer
+    <com.halilibo.bettervideoplayer.BetterVideoPlayer
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/video"
-        app:evp_autoPlay="true"
-        app:evp_disableControls="true"
+        app:bvp_autoPlay="true"
+        app:bvp_disableControls="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

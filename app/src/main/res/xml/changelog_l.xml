@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.6.2">
+        <text>Improvements and fixes to the video and GIF players</text>
+    </version>
+
     <version name="6.6.1">
         <text>Fix saving images</text>
         <text>Smaller bug fixes</text>
