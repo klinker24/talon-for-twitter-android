@@ -1249,12 +1249,10 @@ public class NotificationUtils {
 
         boolean isSecondAccount = AppSettings.getInstance(context).currentAccount != accountNumberForTweets;
         Intent deleteIntent = MarkMentionReadReceiver.getIntent(context, Long.parseLong(tweetId));
-        Intent contentIntent = new Intent(context, RedirectToTweetViewer.class);
+        Intent contentIntent = TweetActivity.getIntent(context, cursor, isSecondAccount);
         Intent favoriteTweetIntent = FavoriteTweetService.getIntent(context, accountNumberForTweets, Long.parseLong(tweetId), notificationId);
         Intent retweetIntent = RetweetService.getIntent(context, accountNumberForTweets, Long.parseLong(tweetId), notificationId);
 
-        Intent tweet = TweetActivity.getIntent(context, cursor, isSecondAccount);
-        contentIntent.putExtras(tweet);
         contentIntent.putExtra("forced_tweet_id", Long.parseLong(tweetId));
         contentIntent.putExtra("notification_id", notificationId);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
