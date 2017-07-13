@@ -29,9 +29,9 @@ import android.view.ViewGroup;
 import android.view.animation.*;
 import android.widget.*;
 
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
@@ -939,7 +939,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                         options.setBackgroundDim(1f);
 
                                         Peek.into(videoPeekF, new OnPeek() {
-                                            private EasyVideoPlayer videoView;
+                                            private BetterVideoPlayer videoView;
 
                                             @Override
                                             public void shown() {
@@ -947,9 +947,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                                             @Override
                                             public void onInflated(View rootView) {
-                                                videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                                videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                                 videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                                videoView.setCallback(new EasyVideoCallbackWrapper());
+                                                videoView.setCallback(new BetterVideoCallbackWrapper());
                                             }
 
                                             @Override
@@ -1009,7 +1009,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             options.setBackgroundDim(1f);
 
                             Peek.into(videoPeekLayout, new OnPeek() {
-                                private EasyVideoPlayer videoView;
+                                private BetterVideoPlayer videoView;
 
                                 @Override
                                 public void shown() {
@@ -1017,9 +1017,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
                                 @Override
                                 public void onInflated(View rootView) {
-                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                     videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                    videoView.setCallback(new EasyVideoCallbackWrapper());
+                                    videoView.setCallback(new BetterVideoCallbackWrapper());
                                 }
 
                                 @Override

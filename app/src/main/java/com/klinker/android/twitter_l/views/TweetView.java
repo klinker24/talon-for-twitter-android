@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
@@ -28,6 +28,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.utils.BetterVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
@@ -40,7 +41,6 @@ import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.utils.EasyVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
@@ -495,16 +495,16 @@ public class TweetView {
                     if (context instanceof PeekViewActivity && settings.usePeek) {
                         if (layoutRes != 0) {
                             Peek.into(layoutRes, new OnPeek() {
-                                private EasyVideoPlayer videoView;
+                                private BetterVideoPlayer videoView;
 
                                 @Override
                                 public void shown() {}
 
                                 @Override
                                 public void onInflated(View rootView) {
-                                    videoView = (EasyVideoPlayer) rootView.findViewById(R.id.video);
+                                    videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                     videoView.setSource(Uri.parse(gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                    videoView.setCallback(new EasyVideoCallbackWrapper());
+                                    videoView.setCallback(new BetterVideoCallbackWrapper());
                                 }
 
                                 @Override
