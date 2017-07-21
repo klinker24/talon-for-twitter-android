@@ -27,7 +27,7 @@ public class Regex {
                     "academy|accountants|active|actor|aero|agency|airforce|archi|army|arpa|art|asia|associates|attorney|audio|autos|" +
                     "axa|bar|bargains|bayern|beer|berlin|best|bid|bike|bio|biz|black|blackfriday|blog|blue|bmw|boutique|brussels|build|" +
                     "builders|buzz|bzh|cab|camera|camp|cancerresearch|capetown|capital|cards|care|career|careers|cash|cat|catering|" +
-                    "center|ceo|cheap|christmas|church|citic|claims|cleaning|click|clinic|clothing|club|codes|coffee|college|cologne|com|" +
+                    "center|ceo|cheap|christmas|church|citic|city|claims|cleaning|click|clinic|clothing|club|codes|coffee|college|cologne|com|" +
                     "community|company|computer|condos|construction|consulting|contractors|cooking|cool|coop|country|credit|" +
                     "creditcard|cruises|cuisinella|dance|dating|degree|democrat|dental|dentist|desi|design|diamonds|digital|direct|" +
                     "directory|discount|dnp|domains|durban|edu|education|email|engineer|engineering|enterprises|equipment|estate|" +
