@@ -359,8 +359,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
-        holder.screenTV.setTextSize(settings.textSize - 2);
-        holder.name.setTextSize(settings.textSize + 4);
+        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() ? 1 : 2));
+        holder.name.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
         holder.muffledName.setTextSize(settings.textSize);
         holder.time.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 3);

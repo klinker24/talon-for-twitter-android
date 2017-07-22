@@ -306,8 +306,8 @@ public class TweetView {
     protected void setupFontSizes() {
         // sets up the font sizes
         tweetTv.setTextSize(settings.textSize);
-        nameTv.setTextSize(settings.textSize + 4);
-        screenTV.setTextSize(settings.textSize - 2);
+        screenTV.setTextSize(settings.textSize - (settings.condensedTweets() ? 1 : 2));
+        nameTv.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
         timeTv.setTextSize(settings.textSize - 3);
         retweeterTv.setTextSize(settings.textSize - 3);
         replies.setTextSize(settings.textSize - 2);
