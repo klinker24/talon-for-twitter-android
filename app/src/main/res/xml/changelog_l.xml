@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.6.3">
+        <text>Improvements to the compact tweet layout</text>
+    </version>
+
     <version name="6.6.2">
         <text>Improvements and fixes to the video and GIF players</text>
     </version>
