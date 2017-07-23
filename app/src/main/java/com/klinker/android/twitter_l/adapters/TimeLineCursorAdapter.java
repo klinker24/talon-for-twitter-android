@@ -375,6 +375,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 holder.background.performClick();
+                debounceClick(holder.muffledName);
             }
         });
 
@@ -382,6 +383,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 holder.background.performClick();
+                debounceClick(holder.expandArea);
             }
         });
 
@@ -400,6 +402,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (!TouchableMovementMethod.touched) {
                     holder.background.performClick();
                 }
+                debounceClick(holder.tweet);
             }
         });
 
@@ -421,6 +424,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 if (!TouchableMovementMethod.touched) {
                     holder.background.performClick();
                 }
+
+                debounceClick(holder.retweeter);
             }
         });
 
@@ -643,6 +648,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 popup.setExpansionPointForAnim(holder.quickActions);
                 popup.setOnTopOfView(holder.quickActions);
                 popup.show();
+
+                debounceClick(holder.quickActions);
             }
         });
 
@@ -691,6 +698,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 TweetActivity.applyDragDismissBundle(context, viewTweet);
 
                 context.startActivity(viewTweet);
+
+                debounceClick(holder.background);
             }
         });
 
@@ -717,6 +726,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 }
 
                 ProfilePager.start(context, name, screenname, holder.proPicUrl);
+                debounceClick(holder.profilePic);
             }
         });
 
@@ -795,6 +805,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     @Override
                     public void onClick(View view) {
                         VideoViewerActivity.startActivity(context, id, holder.gifUrl, otherUrl);
+                        debounceClick(holder.imageHolder);
                     }
                 });
 
@@ -825,14 +836,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                             PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
                         }
 
-                        holder.imageHolder.setOnClickListener(null);
-                        final View.OnClickListener thisListener = this;
-                        holder.imageHolder.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.imageHolder.setOnClickListener(thisListener);
-                            }
-                        }, 300);
+                        debounceClick(holder.imageHolder);
                     }
                 });
 
@@ -891,6 +895,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 @Override
                 public void onClick(View v) {
                     holder.profilePic.performClick();
+                    debounceClick(holder.name);
                 }
             });
         }
@@ -1325,5 +1330,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
 
     public void setQuotedTweets(Map<Long, Status> quotedTweets) {
         this.quotedTweets = quotedTweets;
+    }
+
+    private void debounceClick(final View view) {
+        view.setEnabled(false);
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setEnabled(true);
+            }
+        }, 250);
     }
 }
