@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.AbsListView;
@@ -40,6 +41,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -79,15 +81,21 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
         context = this;
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Utils.setUpTheme(this, settings);
+        Utils.setUpMainTheme(this, settings);
+
+        setContentView(R.layout.ptr_list_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(settings.themeColors.primaryColor);
+        toolbar.setVisibility(View.VISIBLE);
+        setSupportActionBar(toolbar);
+        toolbar.setPadding(0, Utils.getStatusBarHeight(this), 0, 0);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.lists));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(null);
-
-        setContentView(R.layout.ptr_list_layout);
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             View kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
@@ -199,10 +207,8 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
                     paging.setPage(currentPage);
 
                     statuses.clear();
-
-                    for (Status status : lists) {
-                        statuses.add(status);
-                    }
+                    statuses.addAll(lists);
+                    stripDuplicates();
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
@@ -252,9 +258,8 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
                     currentPage++;
                     paging.setPage(currentPage);
 
-                    for (Status status : lists) {
-                        statuses.add(status);
-                    }
+                    statuses.addAll(lists);
+                    stripDuplicates();
 
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
@@ -321,5 +326,25 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
             default:
                 return true;
         }
+    }
+
+    private void stripDuplicates() {
+        for (int i = 0; i < statuses.size(); i++) {
+            long tweetId = statuses.get(i).getId();
+            if (i != statuses.size() - 1 && containsId(statuses.subList(i + 1, statuses.size()), tweetId)) {
+                statuses.remove(i);
+                i--;
+            }
+        }
+    }
+
+    private boolean containsId(List<Status> statusList, long id) {
+        for (Status s : statusList) {
+            if (s.getId() == id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
