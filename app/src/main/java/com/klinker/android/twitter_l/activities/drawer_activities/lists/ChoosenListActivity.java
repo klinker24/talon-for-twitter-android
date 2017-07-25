@@ -41,7 +41,9 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -329,22 +331,11 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
     }
 
     private void stripDuplicates() {
-        for (int i = 0; i < statuses.size(); i++) {
-            long tweetId = statuses.get(i).getId();
-            if (i != statuses.size() - 1 && containsId(statuses.subList(i + 1, statuses.size()), tweetId)) {
-                statuses.remove(i);
-                i--;
-            }
+        Map<Long, Status> map = new LinkedHashMap<>();
+        for (Status status : statuses) {
+            map.put(status.getId(), status);
         }
-    }
-
-    private boolean containsId(List<Status> statusList, long id) {
-        for (Status s : statusList) {
-            if (s.getId() == id) {
-                return true;
-            }
-        }
-
-        return false;
+        statuses.clear();
+        statuses.addAll(map.values());
     }
 }
