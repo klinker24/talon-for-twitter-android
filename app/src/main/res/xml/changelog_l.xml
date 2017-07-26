@@ -1,6 +1,7 @@
 <changelog>
 
-    <version name="6.6.3">
+    <version name="6.7.0">
+        <text>Add night mode toggle to the navigation drawer</text>
         <text>Improvements to the compact tweet layout</text>
         <text>Bug fixes for reading lists</text>
     </version>

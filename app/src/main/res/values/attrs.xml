@@ -97,6 +97,7 @@
     <attr name="background_sync" format="reference" />
     <attr name="notification_settings" format="reference"/>
     <attr name="reply_button" format="reference" />
+    <attr name="night_mode" format="reference" />
 
     <!-- Backgrounds -->
     <attr name="compose_window_background" format="reference"/>

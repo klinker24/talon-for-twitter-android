@@ -278,16 +278,7 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
                             canRefresh = true;
                         }
                     });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            spinner.setVisibility(View.GONE);
-                            canRefresh = false;
-                        }
-                    });
-                } catch (OutOfMemoryError e) {
+                } catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override

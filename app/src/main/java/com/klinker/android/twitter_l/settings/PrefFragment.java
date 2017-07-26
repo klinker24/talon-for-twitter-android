@@ -1036,7 +1036,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
 
         final Preference nightMode = findPreference("night_mode");
-        if (sharedPrefs.getBoolean("night_mode", false)) {
+        if (sharedPrefs.getBoolean("night_mode", false) && sharedPrefs.getInt("night_start_hour", 22) != -1) {
             nightMode.setSummary(getTime(sharedPrefs.getInt("night_start_hour", 22), sharedPrefs.getInt("night_start_min", 0), sharedPrefs.getBoolean("military_time", false)) +
                     " - " +
                     getTime(sharedPrefs.getInt("day_start_hour", 6), sharedPrefs.getInt("day_start_min", 0), sharedPrefs.getBoolean("military_time", false)));

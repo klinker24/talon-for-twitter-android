@@ -101,6 +101,7 @@
         <item name="background_sync">@drawable/ic_background_sync_dark</item>
         <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
         <item name="reply_button">@drawable/ic_reply_dark</item>
+        <item name="night_mode">@drawable/ic_night_mode_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>
@@ -251,6 +252,7 @@
         <item name="background_sync">@drawable/ic_background_sync_dark</item>
         <item name="notification_settings">@drawable/ic_notification_settings_dark</item>
         <item name="reply_button">@drawable/ic_reply_dark</item>
+        <item name="night_mode">@drawable/ic_night_mode_dark</item>
 
         <item name="themeSettings">@drawable/drawer_theme_dark</item>
         <item name="drawerTrends">@drawable/drawer_trends_dark</item>

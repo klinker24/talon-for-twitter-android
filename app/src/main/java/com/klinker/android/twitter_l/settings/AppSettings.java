@@ -489,7 +489,7 @@ public class AppSettings {
             int endHour = sharedPrefs.getInt("day_start_hour", 6);
             int endMin = sharedPrefs.getInt("day_start_min", 0);
 
-            if (isInsideRange(startHour, startMin, endHour, endMin)) {
+            if (startHour == -1 || isInsideRange(startHour, startMin, endHour, endMin)) {
                 darkTheme = true;
                 baseTheme = 1;
 
@@ -584,7 +584,7 @@ public class AppSettings {
             int endHour = sharedPrefs.getInt("day_start_hour", 6);
             int endMin = sharedPrefs.getInt("day_start_min", 0);
 
-            if (isInsideRange(startHour, startMin, endHour, endMin)) {
+            if (startHour == -1 || isInsideRange(startHour, startMin, endHour, endMin)) {
                 dark = true;
                 if (sharedPrefs.getBoolean("night_mode_black", false)) {
                     black = true;
