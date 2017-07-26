@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -1017,6 +1018,46 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             status = findViewById(R.id.drawer_status_bar_2);
             status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
+
+
+        Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
+        nightModeSwitch.setChecked(sharedPrefs.getBoolean("night_mode", false));
+    }
+
+    public void onNightModeClicked(View v) {
+        context.sendBroadcast(new Intent("com.klinker.android.twitter.MARK_POSITION"));
+
+        Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
+        boolean wasNightMode = nightModeSwitch.isChecked();
+
+        nightModeSwitch.setChecked(!nightModeSwitch.isChecked());
+        mDrawerLayout.closeDrawer(Gravity.START);
+
+        if (wasNightMode) {
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                    .putBoolean("night_mode", false).commit();
+            sharedPrefs.edit().putBoolean("night_mode", false)
+                    .putInt("night_start_hour", 22)
+                    .commit();
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                    .putBoolean("night_mode", true).commit();
+            sharedPrefs.edit().putBoolean("night_mode", true)
+                    .putInt("night_start_hour", -1)
+                    .commit();
+        }
+
+        nightModeSwitch.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppSettings.invalidate();
+
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(new Intent(DrawerActivity.this, MainActivity.class));
+                overridePendingTransition(0, 0);
+            }
+        }, 400);
 
     }
 

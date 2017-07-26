@@ -1,117 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:clickable="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical">
 
-    <View android:layout_width="match_parent" android:layout_height="6dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
 
-    <View android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="?drawerDividerColor"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?drawerDividerColor" />
 
-    <View android:layout_width="match_parent" android:layout_height="6dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
 
     <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onNightModeClicked"
+        android:gravity="center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="16dp"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/night_mode_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="12dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="24dp"
+            android:maxWidth="24dp"
+            android:minHeight="24dp"
+            android:minWidth="24dp"
+            android:scaleType="fitXY"
+            android:src="?night_mode"
+            android:alpha=".92" />
+
+        <TextView
+            android:id="@+id/night_mode_button"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="onSettingsClicked"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
-            android:paddingLeft="6dp">
+            android:minHeight="48dp"
+            android:paddingStart="72dp"
+            android:singleLine="true"
+            android:text="@string/night_mode"
+            android:textColor="?textColor"
+            android:textSize="14sp" />
+
+        <com.klinker.android.twitter_l.views.widgets.InertSwitch
+            android:id="@+id/night_mode_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center_vertical"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:onClick="onSettingsClicked"
+        android:paddingStart="6dp">
 
         <ImageView
-                   android:src="?advancedSettings"
-                   android:id="@+id/settings_image"
-                   android:layout_height="28dp"
-                   android:layout_width="28dp"
-                   android:minHeight="28dp" android:minWidth="28dp"
-                   android:scaleType="fitXY" android:adjustViewBounds="true"
-                   android:maxHeight="28dp" android:maxWidth="28dp"
-                   android:layout_margin="10dp"/>
+            android:id="@+id/settings_image"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="28dp"
+            android:maxWidth="28dp"
+            android:minHeight="28dp"
+            android:minWidth="28dp"
+            android:scaleType="fitXY"
+            android:src="?advancedSettings" />
 
         <TextView
-                android:text="@string/menu_settings"
-                android:id="@+id/settings_button"
-                android:layout_height="48dp"
-                android:minHeight="48dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:singleLine="true"
-                android:textSize="14sp"
-                android:textColor="?textColor"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginRight="16dp"
-                android:paddingStart="72dp"/>
+            android:id="@+id/settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingStart="72dp"
+            android:singleLine="true"
+            android:text="@string/menu_settings"
+            android:textColor="?textColor"
+            android:textSize="14sp" />
 
 
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="onHelpClicked"
-            android:paddingLeft="6dp">
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onHelpClicked"
+        android:paddingStart="6dp">
 
         <ImageView
-                android:src="?getHelp"
-                android:id="@+id/help_image"
-                android:layout_height="28dp"
-                android:layout_width="28dp"
-                android:minHeight="28dp" android:minWidth="28dp"
-                android:scaleType="fitXY" android:adjustViewBounds="true"
-                android:maxHeight="28dp" android:maxWidth="28dp"
-                android:layout_margin="10dp"/>
+            android:id="@+id/help_image"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="28dp"
+            android:maxWidth="28dp"
+            android:minHeight="28dp"
+            android:minWidth="28dp"
+            android:scaleType="fitXY"
+            android:src="?getHelp" />
 
         <TextView
-                android:text="@string/help"
-                android:id="@+id/help_button"
-                android:layout_height="48dp"
-                android:minHeight="48dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:singleLine="true"
-                android:textSize="14sp"
-                android:textColor="?textColor"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginRight="16dp"
-                android:paddingStart="72dp"/>
+            android:id="@+id/help_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingStart="72dp"
+            android:singleLine="true"
+            android:text="@string/help"
+            android:textColor="?textColor"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="onFeedbackClicked"
-            android:paddingLeft="6dp">
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onFeedbackClicked"
+        android:paddingStart="6dp">
 
         <ImageView
-                android:src="?feedback"
-                android:id="@+id/feedback_image"
-                android:layout_height="28dp"
-                android:layout_width="28dp"
-                android:minHeight="28dp" android:minWidth="28dp"
-                android:scaleType="fitXY" android:adjustViewBounds="true"
-                android:maxHeight="28dp" android:maxWidth="28dp"
-                android:layout_margin="10dp"/>
+            android:id="@+id/feedback_image"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="10dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="28dp"
+            android:maxWidth="28dp"
+            android:minHeight="28dp"
+            android:minWidth="28dp"
+            android:scaleType="fitXY"
+            android:src="?feedback" />
 
         <TextView
-                android:text="@string/send_feedback"
-                android:id="@+id/feedback_button"
-                android:layout_height="48dp"
-                android:minHeight="48dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:singleLine="true"
-                android:textSize="14sp"
-                android:textColor="?textColor"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginRight="16dp"
-                android:paddingStart="72dp"/>
+            android:id="@+id/feedback_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:paddingStart="72dp"
+            android:singleLine="true"
+            android:text="@string/send_feedback"
+            android:textColor="?textColor"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>
