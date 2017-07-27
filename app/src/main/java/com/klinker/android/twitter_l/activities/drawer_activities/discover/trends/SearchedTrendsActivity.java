@@ -392,7 +392,9 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
                     QueryResult result = twitter.search(query);
 
                     if (searchQuery.contains(" TOP")) {
-                        query.setResultType(Query.ResultType.popular);
+                        query.setResultType(Query.POPULAR);
+                    } else {
+                        query.setResultType(Query.RECENT);
                     }
 
                     query.setQuery(searchQuery.replace(" TOP", ""));
@@ -404,8 +406,8 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
                         tweets.add(status);
                     }
 
-                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
-                        query.setMaxId(getMaxIdFromList(tweets));
+                    if (statuses.size() >= SearchedTrendsActivity.TWEETS_PER_REFRESH - 10) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;
@@ -483,8 +485,8 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
                         tweets.add(status);
                     }
 
-                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
-                        query.setMaxId(getMaxIdFromList(tweets));
+                    if (statuses.size() >= SearchedTrendsActivity.TWEETS_PER_REFRESH - 10) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
                         hasMore = false;

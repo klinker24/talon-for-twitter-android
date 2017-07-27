@@ -4,6 +4,7 @@
         <text>Add night mode toggle to the navigation drawer</text>
         <text>Improvements to the compact tweet layout</text>
         <text>Bug fixes for reading lists</text>
+        <text>Bug fixes for popular searches not showing many results</text>
     </version>
 
     <version name="6.6.2">

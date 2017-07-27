@@ -208,7 +208,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                     if (topTweets) {
                         query.setResultType(Query.POPULAR);
                     } else {
-                        query.setResultType(null);
+                        query.setResultType(Query.RECENT);
                     }
                     QueryResult result = twitter.search(query);
 
@@ -219,7 +219,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         tweets.add(status);
                     }
 
-                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                    if (statuses.size() >= SearchedTrendsActivity.TWEETS_PER_REFRESH - 10) {
                         query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -284,9 +284,9 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                     query = new Query(mQuery);
                     query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
                     if (topTweets) {
-                        query.setResultType(Query.ResultType.popular);
+                        query.setResultType(Query.POPULAR);
                     } else {
-                        query.setResultType(null);
+                        query.setResultType(Query.RECENT);
                     }
                     QueryResult result = twitter.search(query);
 
@@ -296,7 +296,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                         tweets.add(status);
                     }
 
-                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                    if (statuses.size() >= SearchedTrendsActivity.TWEETS_PER_REFRESH - 10) {
                         query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                         hasMore = true;
                     } else {
@@ -415,7 +415,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
                             tweets.add(status);
                         }
 
-                        if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        if (statuses.size() >= SearchedTrendsActivity.TWEETS_PER_REFRESH - 10) {
                             query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
                             hasMore = true;
                         } else {
