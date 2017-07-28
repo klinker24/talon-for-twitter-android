@@ -954,7 +954,17 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                             public void onInflated(View rootView) {
                                                 videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                                 videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                                videoView.setCallback(new BetterVideoCallbackWrapper());
+                                                videoView.setCallback(new BetterVideoCallbackWrapper() {
+                                                    @Override
+                                                    public void onCompletion(BetterVideoPlayer player) {
+                                                        Log.v("twitter_peek", "is complete");
+                                                        if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
+                                                            Log.v("twitter_peek", "restart");
+                                                            videoView.seekTo(0);
+                                                            videoView.start();
+                                                        }
+                                                    }
+                                                });
                                             }
 
                                             @Override
@@ -1024,7 +1034,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                 public void onInflated(View rootView) {
                                     videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                     videoView.setSource(Uri.parse(holder.gifUrl.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                    videoView.setCallback(new BetterVideoCallbackWrapper());
+                                    videoView.setCallback(new BetterVideoCallbackWrapper() {
+                                        @Override
+                                        public void onCompletion(BetterVideoPlayer player) {
+                                            if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
+                                                videoView.seekTo(0);
+                                                videoView.start();
+                                            }
+                                        }
+                                    });
                                 }
 
                                 @Override
