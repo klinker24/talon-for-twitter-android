@@ -633,7 +633,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                                 public void onInflated(View rootView) {
                                     videoView = (BetterVideoPlayer) rootView.findViewById(R.id.video);
                                     videoView.setSource(Uri.parse(holder.animatedGif.replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4")));
-                                    videoView.setCallback(new BetterVideoCallbackWrapper());
+                                    videoView.setCallback(new BetterVideoCallbackWrapper() {
+                                        @Override
+                                        public void onCompletion(BetterVideoPlayer player) {
+                                            if (VideoMatcherUtil.isTwitterGifLink(holder.animatedGif)) {
+                                                videoView.seekTo(0);
+                                                videoView.start();
+                                            }
+                                        }
+                                    });
                                 }
 
                                 @Override
