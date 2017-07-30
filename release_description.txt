@@ -1,8 +1,3 @@
-This update adds a new all-white theme option! Enable it from the "Material Design Color" section of "App Style Settings"<br><br>
+Along with bug fixes and small UI tweaks, this update adds a "night mode" toggle directly into the app's navigation drawer! Use it for quick access to the dark themes.<br/><br/>
 
-Along with that, there are a few new things available:<br>
-- A new video and GIF player<br>
-- A fully transparent widget in "Widget Customization"<br>
-- A new option to disable the image cropping on the timeline, to view the whole image<br><br>
-
-For a full list of changes, check out the changelog in settings.
+Enjoy the update!
