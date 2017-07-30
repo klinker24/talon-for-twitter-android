@@ -5,6 +5,7 @@
         <text>Improvements to the compact tweet layout</text>
         <text>Bug fixes for reading lists</text>
         <text>Bug fixes for popular searches not showing many results</text>
+        <text>Bug fixes for attaching images to direct messages</text>
     </version>
 
     <version name="6.6.2">
