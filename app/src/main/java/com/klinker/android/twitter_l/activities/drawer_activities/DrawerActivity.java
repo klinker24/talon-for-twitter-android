@@ -1021,7 +1021,9 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
 
 
         Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
-        nightModeSwitch.setChecked(sharedPrefs.getBoolean("night_mode", false));
+        if (nightModeSwitch != null) {
+            nightModeSwitch.setChecked(sharedPrefs.getBoolean("night_mode", false));
+        }
     }
 
     public void onNightModeClicked(View v) {

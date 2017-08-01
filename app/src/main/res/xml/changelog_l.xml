@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.7.1">
+        <text>Crash fix</text>
+    </version>
+
     <version name="6.7.0">
         <text>Add night mode toggle to the navigation drawer</text>
         <text>Improvements to the compact tweet layout</text>
