@@ -94,7 +94,8 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 .setShowToolbar(true)
                 .build(viewImage);
 
-        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             viewImage.putExtra("shared_trans", true);
             ActivityOptions options = ActivityOptions
                     .makeSceneTransitionAnimation(((Activity)context), imageView, "image");

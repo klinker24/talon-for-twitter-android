@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="6dp"
-    android:layout_marginEnd="6dp"
-    android:layout_marginStart="6dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -19,13 +19,13 @@
 
         <ImageButton
             android:id="@+id/compose_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:src="?reply_button"
             android:contentDescription="Reply"
-            android:minHeight="28dp" android:minWidth="28dp"
-            android:scaleType="fitXY" android:adjustViewBounds="true"
-            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
@@ -39,13 +39,13 @@
 
         <ImageButton
             android:id="@+id/like_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:src="?heart_button"
             android:contentDescription="Like"
-            android:minHeight="28dp" android:minWidth="28dp"
-            android:scaleType="fitXY" android:adjustViewBounds="true"
-            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
@@ -59,13 +59,13 @@
 
         <ImageButton
             android:id="@+id/retweet_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:src="?retweetButton"
             android:contentDescription="Retweet"
-            android:minHeight="28dp" android:minWidth="28dp"
-            android:scaleType="fitXY" android:adjustViewBounds="true"
-            android:maxWidth="28dp" android:maxHeight="28dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
@@ -79,13 +79,13 @@
 
         <ImageButton
             android:id="@+id/quote_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:src="?quote_button"
             android:contentDescription="Quote"
-            android:minHeight="32dp" android:minWidth="32dp"
-            android:scaleType="fitXY" android:adjustViewBounds="true"
-            android:maxWidth="32dp" android:maxHeight="32dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
@@ -99,13 +99,13 @@
 
         <ImageButton
             android:id="@+id/share_button"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:src="?shareButton"
             android:contentDescription="Share"
-            android:minHeight="32dp" android:minWidth="32dp"
-            android:scaleType="fitXY" android:adjustViewBounds="true"
-            android:maxWidth="32dp" android:maxHeight="32dp"
+            android:scaleType="fitCenter" android:adjustViewBounds="true"
             android:background="?selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
