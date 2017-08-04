@@ -32,7 +32,7 @@ public class Regex {
                     "creditcard|cruises|cuisinella|dance|dating|degree|democrat|dental|dentist|desi|design|diamonds|digital|direct|" +
                     "directory|discount|dnp|domains|durban|edu|education|email|engineer|engineering|enterprises|equipment|estate|" +
                     "eus|events|exchange|expert|exposed|fail|farm|feedback|finance|financial|fish|fishing|fitness|flights|florist|" +
-                    "foo|foundation|frogans|fund|furniture|futbol|gal|gallery|gift|gives|glass|global|globo|gmo|gop|google|gov|graphics|" +
+                    "foo|foundation|frogans|fund|furniture|futbol|gal|gallery|games|gift|gives|glass|global|globo|gmo|gop|google|gov|graphics|" +
                     "gratis|green|gripe|guide|guitars|guru|hamburg|haus|hiphop|hiv|hockey|holdings|holiday|homes|horse|host|house|" +
                     "immobilien|industries|info|ink|institute|insure|int|international|investments|ist|jetzt|jobs|joburg|juegos|kaufen|" +
                     "kim|kitchen|kiwi|koeln|kred|land|lawyer|lease|legal|lgbt|life|lighting|limited|limo|link|live|loans|london|lotto|luxe|" +
