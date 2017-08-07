@@ -233,8 +233,6 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
 
                 new SendDirectMessage().execute(status);
                 composeBar.setText("");
-                attachedUri = "";
-                attachmentType = "";
                 attachImage.setVisibility(View.GONE);
                 Toast.makeText(context, getString(R.string.sending), Toast.LENGTH_SHORT).show();
             }
@@ -388,6 +386,9 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
                         Toast.LENGTH_SHORT)
                         .show();
             }
+
+            attachedUri = "";
+            attachmentType = "";
 
             context.sendBroadcast(new Intent("com.klinker.android.twitter.UPDATE_DM"));
         }
