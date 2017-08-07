@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.7.3">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.7.2">
         <text>Improve the touch target size on the tweet actions</text>
         <text>Bug fixes</text>
