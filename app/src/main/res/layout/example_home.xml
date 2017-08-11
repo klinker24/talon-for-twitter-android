@@ -22,7 +22,7 @@
     android:layout_gravity="center"
     android:gravity="center">
 
-    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/here_is_home"

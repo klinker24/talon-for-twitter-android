@@ -78,7 +78,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:src="?attachButton" />
 
-            <com.klinker.android.twitter_l.views.widgets.FontPrefEditText
+            <com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText
                 android:id="@+id/tweet_content"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -94,7 +94,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/char_remaining"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"

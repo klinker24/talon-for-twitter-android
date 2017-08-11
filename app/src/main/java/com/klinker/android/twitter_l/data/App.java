@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.DynamicShortcutUtils;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
+import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
 
 import java.util.Locale;
 
@@ -41,6 +42,7 @@ public class App extends MultiDexApplication {
 
         MultiDex.install(this);
         Reprint.initialize(this);
+        EmojiInitializer.INSTANCE.initializeEmojiCompat(this);
 
         updateResources(this);
         runBackgroundSetup();

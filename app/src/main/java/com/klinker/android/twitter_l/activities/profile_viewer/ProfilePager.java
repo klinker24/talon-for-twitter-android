@@ -65,8 +65,8 @@ import com.klinker.android.twitter_l.views.popups.profile.ProfileFriendsPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileTimelinePopupLayout;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileTweetsPopup;
 import com.klinker.android.twitter_l.views.popups.profile.ProfileUsersListsPopup;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;

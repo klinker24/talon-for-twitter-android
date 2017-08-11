@@ -24,14 +24,14 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="\@"
             android:textSize="16sp"
             android:layout_marginEnd="12dp"/>
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefEditText
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText
             android:id="@+id/user"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

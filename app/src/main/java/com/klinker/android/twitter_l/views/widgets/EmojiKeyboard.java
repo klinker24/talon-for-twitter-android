@@ -44,6 +44,7 @@ import com.klinker.android.twitter_l.adapters.emoji.TransEmojiAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.EmojiDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.Recent;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
 
 import java.util.ArrayList;
 

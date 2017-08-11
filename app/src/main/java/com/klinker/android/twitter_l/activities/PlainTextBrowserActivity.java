@@ -26,7 +26,7 @@ import android.widget.ScrollView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import org.jsoup.Jsoup;

@@ -39,7 +39,7 @@ import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.views.popups.ConversationPopupLayout;
 import com.klinker.android.twitter_l.views.popups.TweetInteractionsPopup;
 import com.klinker.android.twitter_l.views.popups.WebPopupLayout;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;

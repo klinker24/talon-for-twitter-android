@@ -23,7 +23,6 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -43,16 +42,13 @@ import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UserAutoCompleteHelper;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
-import com.klinker.android.twitter_l.activities.GiphySearch;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ComposeActivity extends Compose {

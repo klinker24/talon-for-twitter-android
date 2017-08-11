@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter_l.views.widgets;
+package com.klinker.android.twitter_l.views.widgets.text;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -22,7 +22,7 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class FontPrefTextView extends TextView {
+public class FontPrefTextView extends EmojiableTextView {
 
     public FontPrefTextView(Context context) {
         super(context);

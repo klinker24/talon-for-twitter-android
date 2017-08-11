@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.klinker.android.twitter_l.views.widgets;
+package com.klinker.android.twitter_l.views.widgets.text;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,7 +24,7 @@ import android.widget.EditText;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
 
-public class FontPrefEditText extends EditText {
+public class FontPrefEditText extends EmojiableEditText {
 
     private static SharedPreferences sharedPreferences;
 

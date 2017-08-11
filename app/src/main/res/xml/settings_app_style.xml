@@ -27,6 +27,13 @@
         android:entries="@array/timeline_pictures"
         android:entryValues="@array/timeline_pictures_inserted"/>
 
+    <ListPreference
+        android:key="emoji_style"
+        android:title="@string/emoji_style"
+        android:defaultValue="default"
+        android:entries="@array/emoji_style"
+        android:entryValues="@array/emoji_style_values"/>
+
     <SwitchPreference
         android:key="detailed_quotes"
         android:title="@string/detailed_quotes"
