@@ -15,11 +15,10 @@ package com.klinker.android.twitter_l.data;
  * limitations under the License.
  */
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 import android.support.v4.os.BuildCompat;
 import android.util.DisplayMetrics;
 
@@ -32,7 +31,7 @@ import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
 
 import java.util.Locale;
 
-public class App extends MultiDexApplication {
+public class App extends Application {
 
     public static long DATA_USED = 0;
 
@@ -40,7 +39,6 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        MultiDex.install(this);
         Reprint.initialize(this);
         EmojiInitializer.INSTANCE.initializeEmojiCompat(this);
 

@@ -114,7 +114,6 @@ dependencies {
     compile "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
-    compile 'com.android.support:multidex:1.0.1'
 
     compile 'com.klinkerapps:link_builder:1.5.2'
     compile 'com.klinkerapps:peekview:1.2.3'
