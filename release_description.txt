@@ -1,3 +1,1 @@
-Along with bug fixes and small UI tweaks, this update adds a "night mode" toggle directly into the app's navigation drawer! Use it for quick access to the dark themes.<br/><br/>
-
-Enjoy the update!
+Want to see the latest emojis? This update lets you switch to viewing Google's new Android O emojis! Try it out from "App Style" settings.
