@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.8.0">
+        <text>Option to switch to the Android O style emojis under "App Style" settings</text>
+    </version>
+
     <version name="6.7.3">
         <text>Bug fixes</text>
     </version>
