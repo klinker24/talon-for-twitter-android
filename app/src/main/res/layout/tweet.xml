@@ -23,7 +23,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                 android:id="@+id/muffled_name"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical" >
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                     android:singleLine="true"
                     android:gravity="top"/>
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                     android:paddingLeft="6dp"
                     android:gravity="right|center_vertical">
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/time"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
 
         <!-- Holds the name, screen name, and time-->
 
-        <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+        <com.klinker.android.twitter_l.views.widgets.text.MaterialTextView
             android:id="@+id/tweet"
             android:tag="tweet"
             android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp" />
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
             android:id="@+id/reply_to"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
@@ -155,7 +155,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp" />
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"

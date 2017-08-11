@@ -15,7 +15,6 @@ package com.klinker.android.twitter_l.activities;
  * limitations under the License.
  */
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -49,29 +48,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.compose.Compose;
-import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.adapters.DMCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ImageUtils;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
 import com.yalantis.ucrop.UCrop;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;

@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.SearchedPeopleCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
 
 public class QustomDialogBuilder extends AlertDialog.Builder{
 

@@ -8,9 +8,11 @@ import android.media.RingtoneManager;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.data.EmojiStyle;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -253,6 +255,8 @@ public class AppSettings {
     public String translateUrl;
     public String browserSelection;
 
+    public EmojiStyle emojiStyle;
+
     public AppSettings(Context context) {
         sharedPrefs = getSharedPreferences(context);
         setPrefs(sharedPrefs, context);
@@ -368,6 +372,20 @@ public class AppSettings {
         showProfilePictures = sharedPrefs.getBoolean("show_profile_pictures", true);
         compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);
         cropImagesOnTimeline = sharedPrefs.getBoolean("crop_images_timeline", true);
+
+
+        if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
+            this.emojiStyle = EmojiStyle.ANDROID_O;
+        } else {
+            String emojiStyle = sharedPrefs.getString("emoji_style", "android_o");
+            switch (emojiStyle) {
+                case "android_o":
+                    this.emojiStyle = EmojiStyle.ANDROID_O;
+                    break;
+                default:
+                    this.emojiStyle = EmojiStyle.DEFAULT;
+            }
+        }
 
         String notificationsOption = sharedPrefs.getString("notification_options", "legacy");
         if (notificationsOption.equals("never")) {

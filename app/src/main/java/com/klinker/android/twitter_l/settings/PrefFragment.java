@@ -57,14 +57,15 @@ import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.utils.ServiceUtils;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.LocalTrendsUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
 import com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
-import com.klinker.android.twitter_l.views.widgets.FontPrefEditText;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
@@ -1004,6 +1005,9 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         final SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(getActivity());
 
+        if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
+            getPreferenceScreen().removePreference(findPreference("emoji_style"));
+        }
 
         final Preference themePicker = findPreference("material_theme");
         themePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

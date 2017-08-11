@@ -1,7 +1,6 @@
 package com.klinker.android.twitter_l.views.widgets;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v13.view.inputmethod.EditorInfoCompat;
 import android.support.v13.view.inputmethod.InputConnectionCompat;
@@ -10,7 +9,8 @@ import android.support.v4.os.BuildCompat;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.EditText;
+
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
 
 public class ImageKeyboardEditText extends FontPrefEditText {
 

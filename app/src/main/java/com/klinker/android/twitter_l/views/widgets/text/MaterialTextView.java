@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.views.widgets;
+package com.klinker.android.twitter_l.views.widgets.text;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 
 public class MaterialTextView extends FontPrefTextView {
     private int FOUR_DIP;

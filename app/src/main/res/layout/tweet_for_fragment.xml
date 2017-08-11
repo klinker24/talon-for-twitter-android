@@ -28,7 +28,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp" >
 
-        <com.klinker.android.twitter_l.views.widgets.MaterialTextView
+        <com.klinker.android.twitter_l.views.widgets.text.MaterialTextView
             android:id="@+id/tweet"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp" />
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
             android:id="@+id/reply_to"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"/>
 
-        <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
             android:id="@+id/retweeter"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

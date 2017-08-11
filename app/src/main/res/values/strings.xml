@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2014 Luke Klinker
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -717,4 +716,8 @@
     <string name="three_mb_message">Twitter only allows GIFs to be posted that are less than 5MB. Talon will grab the highest quality GIF version from Giphy that fits within these constraints.\n\nThe results you see all have a version that fits within this limit, I have not displayed GIFs whose quality is downsampled to fit within the 5MB limit.</string>
     <string name="quoted_you">quoted you</string>
     <string name="privacy_policy">Privacy Policy</string>
+
+    <string name="emoji_style">Emoji Style</string>
+    <string name="emoji_style_default">System Default</string>
+    <string name="emoji_style_android_o">Google\'s Android O</string>
 </resources>

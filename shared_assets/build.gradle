@@ -16,6 +16,7 @@
 
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
 
@@ -41,6 +42,8 @@ android {
 }
 
 dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${KOTLIN_VERSION}"
+
     compile "com.google.android.gms:play-services-location:${project.GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.android.gms:play-services-wearable:${project.GOOGLE_PLAY_SERVICES_VERSION}"
     compile "com.google.firebase:firebase-crash:${FIREBASE_VERSION}"

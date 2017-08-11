@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
-import com.klinker.android.twitter_l.views.widgets.FontPrefTextView;
+import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.QuoteUtil;
 import com.klinker.android.twitter_l.utils.Utils;

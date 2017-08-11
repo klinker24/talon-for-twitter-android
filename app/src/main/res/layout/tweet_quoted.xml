@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/name"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                     android:textSize="14dp"
                     android:textColor="?textColor" />
 
-                <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -73,7 +73,7 @@
                     android:paddingLeft="6dp"
                     android:gravity="right|center_vertical">
 
-                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/time"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent">
 
-                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/tweet"
                         android:tag="tweet"
                         android:layout_height="80dp"
@@ -117,7 +117,7 @@
                         android:textColor="?textColor"
                         android:layoutDirection="locale" />
 
-                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/reply_to"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
@@ -127,7 +127,7 @@
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 
-                    <com.klinker.android.twitter_l.views.widgets.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/retweeter"
                         android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
