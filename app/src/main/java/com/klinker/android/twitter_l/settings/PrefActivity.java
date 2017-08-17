@@ -74,7 +74,7 @@ public class PrefActivity extends WhiteToolbarActivity {
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT && AppSettings.getInstance(this).darkTheme) {
             View status = findViewById(R.id.settings_status);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) status.getLayoutParams();
-            params.height = Utils.getActionBarHeight(this) + Utils.getStatusBarHeight(this);
+            params.height = Utils.getStatusBarHeight(this);
 
             status.setLayoutParams(params);
 

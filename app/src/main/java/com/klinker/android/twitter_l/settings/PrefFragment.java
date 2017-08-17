@@ -42,6 +42,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -100,6 +101,19 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
         position = args.getInt("position");
 
         setPreferences(position);
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        if(v != null) {
+            ListView lv = (ListView) v.findViewById(android.R.id.list);
+            lv.setPadding(0,0,0,0);
+        }
+
+        return v;
     }
 
     public void setPreferences(final int position) {
@@ -1946,6 +1960,15 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
     }
 
     public void setUpOtherAppSettings() {
+
+        Preference pulse = findPreference("pulsesms");
+        pulse.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=xyz.klinker.messenger")));
+                return false;
+            }
+        });
 
         Preference evolve = findPreference("evolvesms");
         evolve.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

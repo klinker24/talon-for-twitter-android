@@ -23,6 +23,10 @@
         android:title="@string/dev_name" >
 
         <Preference
+            android:key="pulsesms"
+            android:title="Pulse SMS" />
+
+        <Preference
             android:key="evolvesms"
             android:title="@string/evolvesms" />
 

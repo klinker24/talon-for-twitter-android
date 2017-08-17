@@ -24,7 +24,9 @@ import android.preference.Preference;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
@@ -48,6 +50,18 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         if (UpdateUtils.showSupporterDialog(getActivity())) {
             showSupporterDialog();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        if(v != null) {
+            ListView lv = (ListView) v.findViewById(android.R.id.list);
+            lv.setPadding(0,0,0,0);
+        }
+
+        return v;
     }
 
     String[] titles = new String[] {
