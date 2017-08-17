@@ -29,6 +29,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -1007,6 +1008,20 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
             getPreferenceScreen().removePreference(findPreference("emoji_style"));
+        } else {
+            findPreference("emoji_style").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    new Handler().postDelayed(new Runnable() {
+                          @Override
+                          public void run() {
+                              AppSettings.invalidate();
+                              EmojiInitializer.INSTANCE.initializeEmojiCompat(getActivity());
+                          }
+                    }, 500);
+                    return false;
+                }
+            });
         }
 
         final Preference themePicker = findPreference("material_theme");
