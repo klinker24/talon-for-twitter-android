@@ -719,5 +719,5 @@
 
     <string name="emoji_style">Emoji Style</string>
     <string name="emoji_style_default">System Default</string>
-    <string name="emoji_style_android_o">Google\'s Android O</string>
+    <string name="emoji_style_android_o">Google\'s Android Oreo</string>
 </resources>
