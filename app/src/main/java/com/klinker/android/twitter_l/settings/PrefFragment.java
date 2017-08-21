@@ -1033,7 +1033,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                               EmojiInitializer.INSTANCE.initializeEmojiCompat(getActivity());
                           }
                     }, 500);
-                    return false;
+                    return true;
                 }
             });
         }
