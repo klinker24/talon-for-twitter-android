@@ -663,7 +663,7 @@ public class ExpansionViewHelper {
     }
 
     public void getInfo(final boolean fromNotification) {
-
+        tweetButtonUtils.setUpShare(buttonsRoot, id, screenName, tweet);
         Thread getInfo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {

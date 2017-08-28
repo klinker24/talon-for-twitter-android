@@ -1,7 +1,12 @@
 <changelog>
 
+    <version name="6.8.1">
+        <text>Share tweets without a data connection</text>
+        <text>Theme tweaks</text>
+    </version>
+
     <version name="6.8.0">
-        <text>Option to switch to the Android O style emojis under "App Style" settings</text>
+        <text>Option to switch to the Android Oreo style emojis under "App Style" settings</text>
         <text>Fixes for KitKat devices</text>
     </version>
 

@@ -58,6 +58,26 @@ public class TweetButtonUtils {
         this.secondAcc = secondAcc;
     }
 
+    public void setUpShare(View buttonsRoot, final long statusId, final String screenname, final String statusText) {
+        final ImageButton shareButton = (ImageButton) buttonsRoot.findViewById(R.id.share_button);
+        if (!settings.darkTheme) {
+            shareButton.setColorFilter(Color.BLACK);
+        }
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "https://twitter.com/" + screenname + "/status/" + statusId + "\n\n@" + screenname + ": " + statusText;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenname);
+                share.putExtra(Intent.EXTRA_TEXT, text);
+
+                context.startActivity(Intent.createChooser(share, "Share with:"));
+            }
+        });
+    }
+
     public void setUpButtons(Status s, View countsRoot, View buttonsRoot, boolean showOverflow) {
         if (s == null) {
             throw new RuntimeException("status should not be null.");
@@ -75,9 +95,9 @@ public class TweetButtonUtils {
         likeButton = (ImageButton) buttonsRoot.findViewById(R.id.like_button);
         retweetButton = (ImageButton) buttonsRoot.findViewById(R.id.retweet_button);
         final ImageButton composeButton = (ImageButton) buttonsRoot.findViewById(R.id.compose_button);
-        final ImageButton shareButton = (ImageButton) buttonsRoot.findViewById(R.id.share_button);
         final ImageButton quoteButton = (ImageButton) buttonsRoot.findViewById(R.id.quote_button);
         final ImageButton overflowButton = (ImageButton) buttonsRoot.findViewById(R.id.overflow_button);
+        final ImageButton shareButton = (ImageButton) buttonsRoot.findViewById(R.id.share_button);
 
         if (!settings.darkTheme) {
             likeButton.setColorFilter(Color.BLACK);
@@ -224,20 +244,6 @@ public class TweetButtonUtils {
             }
         });
 
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String screenName = status.getUser().getScreenName();
-                String text = "https://twitter.com/" + screenName + "/status/" + status.getId() + "\n\n@" + screenName + ": " + restoreLinks(status.getText());
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenName);
-                share.putExtra(Intent.EXTRA_TEXT, text);
-
-                context.startActivity(Intent.createChooser(share, "Share with:"));
-            }
-        });
-
         if (status.getUser().isProtected()) {
             retweetButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -254,6 +260,7 @@ public class TweetButtonUtils {
             });
         }
 
+        setUpShare(buttonsRoot, status.getId(), status.getUser().getScreenName(), status.getText());
         updateTweetCounts(status);
     }
 
