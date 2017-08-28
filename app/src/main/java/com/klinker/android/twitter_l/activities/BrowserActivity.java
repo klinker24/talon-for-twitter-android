@@ -34,7 +34,7 @@ import com.klinker.android.twitter_l.views.widgets.HTML5WebView;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
-public class BrowserActivity extends AppCompatActivity {
+public class BrowserActivity extends WhiteToolbarActivity {
 
     public AppSettings settings;
     public String url;
@@ -78,7 +78,6 @@ public class BrowserActivity extends AppCompatActivity {
         setUpLayout();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     public void setUpLayout() {

@@ -1170,6 +1170,9 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             buttons.findViewById(R.id.compose_button).setAlpha(.75f);
         }
 
+        final TweetButtonUtils utils = new TweetButtonUtils(context);
+        utils.setUpShare(buttons, tweetId, holder.screenTV.getText().toString(), holder.tweet.getText().toString());
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1181,7 +1184,6 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     counts.post(new Runnable() {
                         @Override
                         public void run() {
-                            TweetButtonUtils utils = new TweetButtonUtils(context);
                             utils.setUpButtons(status, counts, buttons, false);
                         }
                     });
