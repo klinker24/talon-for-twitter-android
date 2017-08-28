@@ -408,11 +408,13 @@ public class ExpansionViewHelper {
         if (screenName.equals(AppSettings.getInstance(context).myScreenName)) {
             // my tweet
 
-            final int DELETE_TWEET = 1;
-            final int COPY_LINK = 2;
-            final int COPY_TEXT = 3;
-            final int OPEN_TO_BROWSER = 4;
+            final int UPDATE_TWEET = 1;
+            final int DELETE_TWEET = 2;
+            final int COPY_LINK = 3;
+            final int COPY_TEXT = 4;
+            final int OPEN_TO_BROWSER = 5;
 
+            menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
             menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
@@ -422,6 +424,9 @@ public class ExpansionViewHelper {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
+                        case UPDATE_TWEET:
+                            updateTweet();
+                            break;
                         case DELETE_TWEET:
                             new DeleteTweet(new Runnable() {
                                 @Override
@@ -455,12 +460,14 @@ public class ExpansionViewHelper {
         } else {
             // someone else's tweet
 
-            final int COPY_LINK = 1;
-            final int COPY_TEXT = 2;
-            final int MARK_SPAM = 3;
-            final int TRANSLATE = 4;
-            final int OPEN_TO_BROWSER = 5;
+            final int UPDATE_TWEET = 1;
+            final int COPY_LINK = 2;
+            final int COPY_TEXT = 3;
+            final int MARK_SPAM = 4;
+            final int TRANSLATE = 5;
+            final int OPEN_TO_BROWSER = 6;
 
+            menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
@@ -471,6 +478,9 @@ public class ExpansionViewHelper {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
+                        case UPDATE_TWEET:
+                            updateTweet();
+                            break;
                         case COPY_LINK:
                             copyLink();
                             break;
@@ -556,6 +566,23 @@ public class ExpansionViewHelper {
                 menu.show();
             }
         });
+    }
+
+    private void updateTweet() {
+        convoSpinner.setVisibility(View.VISIBLE);
+        convoProgress.setVisibility(View.VISIBLE);
+        convoTweetArea.removeAllViews();
+        convoCard.setVisibility(View.GONE);
+        repliesButton.setVisibility(View.GONE);
+
+        replies = new ArrayList<>();
+        isRunning = true;
+        firstRun = true;
+        cardShown = false;
+        query = null;
+        adapter = null;
+
+        getInfo();
     }
 
     private void copyLink() {
