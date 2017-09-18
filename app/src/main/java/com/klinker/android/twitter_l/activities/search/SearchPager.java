@@ -308,16 +308,27 @@ public class SearchPager extends WhiteToolbarActivity {
                 Log.v("talon_search", "searching for intent to tweet");
                 try {
                     String text = "";
-                    final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+                    final Map<String, List<String>> query_pairs = new LinkedHashMap<>();
                     final String[] pairs = uri.getQuery().split("&");
                     for (String pair : pairs) {
                         final int idx = pair.indexOf("=");
                         final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
+
+                        if (!(key.equals("text") || key.equals("via"))) {
+                            continue;
+                        }
+
                         if (!query_pairs.containsKey(key)) {
                             query_pairs.put(key, new LinkedList<String>());
                         }
+
                         final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
-                        text += value + " ";
+
+                        if (key.equals("via")) {
+                            text += "via @" + value + ": ";
+                        } else {
+                            text += value + " ";
+                        }
                     }
 
                     Intent compose = new Intent(this, ComposeActivity.class);
