@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.8.2">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.8.1">
         <text>Add an "Update Tweet" button to the three dot overflow menu when viewing a tweet</text>
         <text>Share tweets without a data connection</text>
