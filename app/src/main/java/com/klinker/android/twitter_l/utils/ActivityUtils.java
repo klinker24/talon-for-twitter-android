@@ -42,7 +42,7 @@ public class ActivityUtils {
     private long originalTime; // if the tweets came before this time, then we don't want to show them in activity because it would just get blown up.
 
     private boolean separateMentionRefresh = false;
-    private List<String> notificationItems = new ArrayList<String>();
+    private List<String> notificationItems = new ArrayList<>();
     private String notificationTitle = "";
 
     public ActivityUtils(Context context) {
@@ -256,7 +256,7 @@ public class ActivityUtils {
     public void insertQuotes(List<Status> quotes) {
         try {
             List<String> notis = ActivityDataSource.getInstance(context).insertQuotes(quotes, currentAccount);
-            notificationItems.addAll(notis);
+            if (settings.mentionsNot) notificationItems.addAll(notis);
         } catch (Throwable t) {
 
         }
@@ -265,7 +265,7 @@ public class ActivityUtils {
     public void insertFollowers(List<User> users) {
         try {
             String noti = ActivityDataSource.getInstance(context).insertNewFollowers(users, currentAccount);
-            notificationItems.add(noti);
+            if (settings.followersNot) notificationItems.add(noti);
         } catch (Throwable t) {
 
         }
@@ -276,7 +276,7 @@ public class ActivityUtils {
             String noti = ActivityDataSource.getInstance(context).insertRetweeters(status, currentAccount, twitter);
 
             if (noti != null) {
-                notificationItems.add(noti);
+                if (settings.retweetNot) notificationItems.add(noti);
                 return true;
             } else {
                 return false;
@@ -291,7 +291,7 @@ public class ActivityUtils {
             String noti = ActivityDataSource.getInstance(context).insertFavoriters(status, currentAccount);
 
             if (noti != null) {
-                notificationItems.add(noti);
+                if (settings.favoritesNot) notificationItems.add(noti);
                 return true;
             } else {
                 return false;
