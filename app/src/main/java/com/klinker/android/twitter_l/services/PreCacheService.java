@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -61,6 +62,8 @@ public class PreCacheService extends SimpleJobService {
                     .setService(PreCacheService.class)
                     .setTag(JOB_TAG)
                     .setRecurring(false)
+                    .setConstraints(AppSettings.getSharedPreferences(context)
+                            .getBoolean("pre_cache_wifi_only", false) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
                     .setTrigger(Trigger.executionWindow(0,0))
                     .setReplaceCurrent(true)
                     .build();
@@ -73,25 +76,10 @@ public class PreCacheService extends SimpleJobService {
 
     private static final boolean DEBUG = false;
 
-    SharedPreferences sharedPrefs;
-
     public void cache() {
 
         if (DEBUG) {
             Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());
-        }
-
-        // if they want it only over wifi and they are on mobile data
-        if (AppSettings.getSharedPreferences(this)
-                .getBoolean("pre_cache_wifi_only", false) &&
-                Utils.getConnectionStatus(this)) {
-
-            if (DEBUG) {
-                Log.v("talon_pre_cache", "quit for connection");
-            }
-
-            // just quit because we don't want it to happen
-            return;
         }
 
         AppSettings settings = AppSettings.getInstance(this);
