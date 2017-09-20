@@ -58,7 +58,7 @@ public class PreCacheService extends SimpleJobService {
 
         if (settings.preCacheImages) {
             Job myJob = dispatcher.newJobBuilder()
-                    .setService(TimelineRefreshService.class)
+                    .setService(PreCacheService.class)
                     .setTag(JOB_TAG)
                     .setRecurring(false)
                     .setTrigger(Trigger.executionWindow(0,0))
