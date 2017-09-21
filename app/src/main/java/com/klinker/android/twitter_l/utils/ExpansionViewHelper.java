@@ -409,16 +409,16 @@ public class ExpansionViewHelper {
             // my tweet
 
             final int UPDATE_TWEET = 1;
-            final int DELETE_TWEET = 2;
-            final int COPY_LINK = 3;
-            final int COPY_TEXT = 4;
-            final int OPEN_TO_BROWSER = 5;
+            final int COPY_LINK = 2;
+            final int COPY_TEXT = 3;
+            final int OPEN_TO_BROWSER = 4;
+            final int DELETE_TWEET = 5;
 
             menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
-            menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
+            menu.getMenu().add(Menu.NONE, DELETE_TWEET, Menu.NONE, context.getString(R.string.menu_delete_tweet));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
@@ -463,16 +463,16 @@ public class ExpansionViewHelper {
             final int UPDATE_TWEET = 1;
             final int COPY_LINK = 2;
             final int COPY_TEXT = 3;
-            final int MARK_SPAM = 4;
+            final int OPEN_TO_BROWSER = 4;
             final int TRANSLATE = 5;
-            final int OPEN_TO_BROWSER = 6;
+            final int MARK_SPAM = 6;
 
             menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
-            menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
-            menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
             menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
+            menu.getMenu().add(Menu.NONE, TRANSLATE, Menu.NONE, context.getString(R.string.menu_translate));
+            menu.getMenu().add(Menu.NONE, MARK_SPAM, Menu.NONE, context.getString(R.string.menu_spam));
 
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
