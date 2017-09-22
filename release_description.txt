@@ -1,3 +1,5 @@
-Want to see the latest emojis? This update lets you switch to viewing Google's new Android O emojis! Try it out from "App Style" settings.\n\n
-
-This update also allows you to update a tweet's like/retweet count, as well as discussion, without returning to the timeline! Use the "Update Tweet" button in the three dot overflow menu of a tweet, to try it out.
+This update contains bug fixes for:<br/>
+- the pre-cache service<br/>
+- composing tweets from websites<br/>
+- the activity section giving notifications for items that are disabled in settings</br>
++ a few smaller requests from users

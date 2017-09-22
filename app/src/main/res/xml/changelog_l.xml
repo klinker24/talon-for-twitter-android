@@ -2,7 +2,10 @@
 
     <version name="6.8.2">
         <text>Improvements around the pre-cache service</text>
-        <text>Bug fixes</text>
+        <text>Bug fixes for composing tweets from websites</text>
+        <text>Bug fixes for the activity section giving notifications for items that are disabled in settings</text>
+        <text>Smaller, one-off, bug fixes</text>
+        <text>Reorder the button in the three dot overflow menu on tweets</text>
     </version>
 
     <version name="6.8.1">
