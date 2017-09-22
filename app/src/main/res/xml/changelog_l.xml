@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="6.8.2">
+        <text>Improvements around the pre-cache service</text>
         <text>Bug fixes</text>
     </version>
 

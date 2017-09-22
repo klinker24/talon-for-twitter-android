@@ -43,7 +43,7 @@ public class PreCacheService extends SimpleJobService {
 
     @Override
     public int onRunJob(JobParameters params) {
-        cache();
+        cache(this);
         return 0;
     }
 
@@ -76,14 +76,14 @@ public class PreCacheService extends SimpleJobService {
 
     private static final boolean DEBUG = false;
 
-    public void cache() {
+    public static void cache(Context context) {
 
         if (DEBUG) {
             Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());
         }
 
-        AppSettings settings = AppSettings.getInstance(this);
-        Cursor cursor = HomeDataSource.getInstance(this).getUnreadCursor(settings.currentAccount);
+        AppSettings settings = AppSettings.getInstance(context);
+        Cursor cursor = HomeDataSource.getInstance(context).getUnreadCursor(settings.currentAccount);
 
         if (cursor.moveToFirst()) {
             if (DEBUG) {
@@ -95,8 +95,8 @@ public class PreCacheService extends SimpleJobService {
                 String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
                 // image url can contain spaces, which means there are multiple pictures
 
-                Glide.with(this).load(profilePic).downloadOnly(1000, 1000);
-                Glide.with(this).load(imageUrl).downloadOnly(1000, 1000);
+                Glide.with(context).load(profilePic).downloadOnly(1000, 1000);
+                Glide.with(context).load(imageUrl).downloadOnly(1000, 1000);
 
             } while (cursor.moveToNext() && cont);
 

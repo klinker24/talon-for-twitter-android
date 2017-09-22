@@ -87,7 +87,7 @@ public class TimelineRefreshService extends SimpleJobService {
         }
     }
 
-    public static int refresh(Context context, boolean onStartRefresh) {
+    public static int refresh(final Context context, boolean onStartRefresh) {
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
         if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
@@ -208,7 +208,12 @@ public class TimelineRefreshService extends SimpleJobService {
                 }
 
                 if (settings.preCacheImages) {
-                    PreCacheService.scheduleRefresh(context);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PreCacheService.cache(context);
+                        }
+                    }).start();
                 }
 
                 context.sendBroadcast(new Intent("com.klinker.android.twitter.TIMELINE_REFRESHED").putExtra("number_new", inserted));

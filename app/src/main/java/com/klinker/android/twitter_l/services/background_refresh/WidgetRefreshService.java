@@ -76,7 +76,7 @@ public class WidgetRefreshService  extends KillerIntentService {
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(6, mBuilder.build());
 
-        Context context = getApplicationContext();
+        final Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
         Twitter twitter = Utils.getTwitter(context, settings);
         HomeDataSource dataSource = HomeDataSource.getInstance(context);
@@ -146,7 +146,12 @@ public class WidgetRefreshService  extends KillerIntentService {
         }
 
         if (settings.preCacheImages) {
-            PreCacheService.scheduleRefresh(context);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    PreCacheService.cache(context);
+                }
+            }).start();
         }
 
         WidgetProvider.updateWidget(this);
