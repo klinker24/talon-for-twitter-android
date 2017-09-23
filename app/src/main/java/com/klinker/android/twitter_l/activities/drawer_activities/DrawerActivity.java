@@ -72,6 +72,7 @@ import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import de.timroes.android.listview.EnhancedListView;
 import me.leolin.shortcutbadger.ShortcutBadger;
+import okhttp3.internal.Util;
 
 import java.lang.reflect.Field;
 
@@ -138,6 +139,21 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
     private SearchUtils searchUtils;
 
     public void setUpDrawer(int number, final String actName) {
+        int statusBarHeight = Utils.getStatusBarHeight(context);
+
+        View header = findViewById(R.id.header);
+        header.getLayoutParams().height = Utils.toDP(144, context) + statusBarHeight;
+        header.invalidate();
+
+        View profilePicImage = findViewById(R.id.profile_pic_contact);
+        ((RelativeLayout.LayoutParams) profilePicImage.getLayoutParams()).topMargin = Utils.toDP(12, context) + statusBarHeight;
+        profilePicImage.invalidate();
+
+        View profilePic2Image = findViewById(R.id.profile_pic_contact_2);
+        ((RelativeLayout.LayoutParams) profilePic2Image.getLayoutParams()).topMargin = Utils.toDP(12, context) + statusBarHeight;
+        profilePic2Image.invalidate();
+
+
 
         searchUtils = new SearchUtils(this);
         searchUtils.setUpSearch();
