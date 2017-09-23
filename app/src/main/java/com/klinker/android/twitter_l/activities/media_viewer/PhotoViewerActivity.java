@@ -89,6 +89,7 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 .setShouldScrollToolbar(false)
                 .setFullscreenOnTablets(true)
                 .setShowToolbar(true)
+                .setDrawUnderStatusBar(true)
                 .build(viewImage);
 
         if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&

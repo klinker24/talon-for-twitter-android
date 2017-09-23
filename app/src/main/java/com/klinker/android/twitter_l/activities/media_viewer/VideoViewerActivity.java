@@ -104,6 +104,7 @@ public class VideoViewerActivity extends DragDismissActivity {
                     .setShouldScrollToolbar(false)
                     .setFullscreenOnTablets(true)
                     .setShowToolbar(false)
+                    .setDrawUnderStatusBar(true)
                     .build(viewVideo);
 
             context.startActivity(viewVideo);
@@ -199,6 +200,9 @@ public class VideoViewerActivity extends DragDismissActivity {
         } else {
             root.findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
+
+        root.findViewById(R.id.fragment).setPadding(0,Utils.getStatusBarHeight(this), 0, 0);
+        ((FrameLayout.LayoutParams) root.findViewById(R.id.buttons_layout).getLayoutParams()).topMargin = Utils.getStatusBarHeight(this);
 
         return root;
     }
