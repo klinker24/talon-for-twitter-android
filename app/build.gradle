@@ -121,7 +121,7 @@ dependencies {
     compile 'com.klinkerapps:simple_videoview:1.2.4'
     compile 'com.klinkerapps:launcher-apis:1.1.0'
     compile 'com.klinkerapps:android-transcoder:1.0.1'
-    compile 'com.klinkerapps:article_viewer:0.24.1'
+    compile 'com.klinkerapps:article_viewer-glide3:0.24.1'
     compile 'com.klinkerapps:drag-dismiss-activity:1.5.0'
 
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
@@ -154,6 +154,17 @@ dependencies {
 
     compile project(':searchview')
     compile project(':shared_assets')
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion ANDROID_SUPPORT_VERSION
+            }
+        }
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

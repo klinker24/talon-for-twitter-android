@@ -129,6 +129,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 .setToolbarTitle(name)
                 .setShowToolbar(true)
                 .setTheme(theme)
+                .setDrawUnderStatusBar(true)
                 .build(intent);
 
         intent.putExtra("name", name);
