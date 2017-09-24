@@ -20,9 +20,11 @@ import android.content.*;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.RateItDialog;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
@@ -163,45 +165,13 @@ public class UpdateUtils {
     }
 
     public static void showRateItDialog(final Context context, final SharedPreferences sharedPreferences) {
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.enjoying_talon)
-                .setMessage(R.string.give_a_rating)
-                .setPositiveButton(R.string.rate_on_rating_dialog, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
-                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-
-                        try {
-                            context.startActivity(goToMarket);
-
-                            sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
-                        } catch (ActivityNotFoundException e) {
-                            Toast.makeText(context, "Couldn't launch the market", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.share_on_rating_dialog, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent share = new Intent(Intent.ACTION_SEND);
-                        share.setType("text/plain");
-                        share.putExtra(Intent.EXTRA_TEXT,
-                                "The best design, the best features. Enhance Twitter experience with @TalonAndroid!\n\n" +
-                                "http://talon.klinkerapps.com/");
-
-                        context.startActivity(share);
-
-                        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
-                    }
-                })
-                .setNeutralButton(R.string.ignore, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
-                    }
-                })
-                .create().show();
+        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                context.startActivity(new Intent(context, RateItDialog.class));
+            }
+        }, 500);
     }
 
     protected static int getAppVersion(Context c) {

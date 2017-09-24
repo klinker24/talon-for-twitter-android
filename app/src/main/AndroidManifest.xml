@@ -147,6 +147,10 @@
 
         </activity>
 
+        <activity android:name=".activities.RateItDialog"
+            android:launchMode="singleInstance"
+            android:theme="@style/tutorial_FloatingTutorialTheme" />
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
