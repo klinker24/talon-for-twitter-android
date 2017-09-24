@@ -139,7 +139,7 @@ public class DMFragment extends MainFragment {
                         CharSequence text = numberNew == 1 ?  numberNew +  " " + getResources().getString(R.string.new_direct_message) :  numberNew + " " + getResources().getString(R.string.new_direct_messages);
                         showToastBar(text + "", jumpToTop, 400, true, toTopListener);
 
-                        int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent ? Utils.getStatusBarHeight(context) : 0);
+                        int size = toDP(5) + mActionBarSize + (DrawerActivity.translucent && !MainActivity.isPopup ? Utils.getStatusBarHeight(context) : 0);
                         listView.setSelectionFromTop(numberNew + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
                     } else {
                         getCursorAdapter(false);
