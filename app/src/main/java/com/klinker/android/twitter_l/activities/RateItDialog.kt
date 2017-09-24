@@ -3,11 +3,13 @@ package com.klinker.android.twitter_l.activities
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.settings.AppSettings
+import com.klinker.android.twitter_l.utils.AnalyticsHelper
 import com.klinker.android.twitter_l.utils.Utils
 import xyz.klinker.android.floating_tutorial.FloatingTutorialActivity
 import xyz.klinker.android.floating_tutorial.TutorialFinishedListener
@@ -15,9 +17,15 @@ import xyz.klinker.android.floating_tutorial.TutorialPage
 
 class RateItDialog  : FloatingTutorialActivity(), TutorialFinishedListener {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AnalyticsHelper.showRateItPrompt(this)
+    }
+
     override fun onTutorialFinished() {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)))
+            AnalyticsHelper.rateItOnPlayStore(this)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(this, "Couldn't launch the Play Store!", Toast.LENGTH_SHORT).show()
         }
