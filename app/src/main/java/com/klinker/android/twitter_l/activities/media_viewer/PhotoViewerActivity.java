@@ -56,6 +56,7 @@ import com.klinker.android.twitter_l.utils.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper;
 import com.klinker.android.twitter_l.views.DetailedTweetView;
+import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.views.widgets.text.FontPrefEditText;
 import com.klinker.android.twitter_l.views.widgets.FullScreenImageView;
 
@@ -315,6 +316,8 @@ public class PhotoViewerActivity extends DragDismissActivity {
                 hideSystemUI(root);
             }
         }, 6000);
+
+        new NavBarOverlayLayout(this).show();
 
         showDialogAboutSwiping();
 
