@@ -129,6 +129,8 @@ public class ExpansionViewHelper {
 
         tweetSource = (FontPrefTextView) expansion.findViewById(R.id.tweet_source);
 
+        ((LinearLayout.LayoutParams) repliesText.getLayoutParams()).bottomMargin = Utils.getStatusBarHeight(context);
+
         if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
             repliesText.setTextColor(settings.themeColors.accentColor);
         } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE) {
