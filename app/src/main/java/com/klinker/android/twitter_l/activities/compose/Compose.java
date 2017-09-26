@@ -192,7 +192,7 @@ public abstract class Compose extends Activity implements
 
             if (!Patterns.WEB_URL.matcher(text).find() && quotingAStatus == null) { // no links, normal tweet
                 try {
-                    charRemaining.setText(140 - text.length() + "");
+                    charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount - text.length() + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
@@ -209,7 +209,7 @@ public abstract class Compose extends Activity implements
                     count += 24;
                 }
 
-                charRemaining.setText(140 - count + "");
+                charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount - count + "");
             }
 
             changeTextColor();
@@ -582,7 +582,7 @@ public abstract class Compose extends Activity implements
 
         //numberAttached.setText("0 " + getString(R.string.attached_images));
 
-        charRemaining.setText(140 - reply.getText().length() + "");
+        charRemaining.setText(AppSettings.getInstance(this).tweetCharacterCount - reply.getText().length() + "");
 
         reply.addTextChangedListener(new TextWatcher() {
             @Override
