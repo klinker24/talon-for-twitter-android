@@ -187,4 +187,36 @@
     <string name="quoting">اقتباس</string>
     <string name="profile_timeline">الخط الزمني</string>
     <string name="show_all_tweets">عرض كل التغربدات</string>
+    <string name="are_you_sure_unfollow">هل تريد بالتأكيد إلغاء متابعة هذا المستخدم؟</string>
+    <string name="are_you_sure_follow">هل تريد بالتأكيد متابعة هذا المستخدم؟</string>
+    <string name="larger_images">استخدام صور أكبر</string>
+    <string name="show_profile_pictures">عرض صور الملف الشخصي</string>
+    <string name="reply_to">رد إلى</string>
+    <string name="others">آخرين</string>
+    <string name="compress_reply_handles">معالجة ضغط الرد</string>
+    <string name="compress_reply_handles_summary">هذا يحسن التعامل مع سلاسل الرد الطويلة على تويتر.</string>
+    <string name="interaction_notifications">تنبيهات التفاعلات</string>
+    <string name="interaction_notifications_summary">هذه تتطلب تحديث الخلفية لصفحة النشاط، اعتراض دفع تويتر، أو لتمكين تالون سحب.</string>
+    <string name="swipable_page_notifications">تنبيهات الصفحات القابلة للتمرير السريع</string>
+    <string name="swipable_page_notifications_summary">سيتم عرض هذه كلما تم تحديث الصفحات القابلة للتمرير السريع في الخلفية.</string>
+    <string name="never_show_notifications">عدم عرض الإشعارات مطلقاً</string>
+    <string name="after_background_refresh_talon_pull">الحدث بعد تحديث الخلفية أو سحب تالون (تدفق)</string>
+    <string name="intercept_twitter_push_notifications">اعترض دفع الإخطارات من تطبيق تويتر</string>
+    <string name="intercept_twitter_push_description">يجب تثبيت تطبيق تويتر العادي وتسجيل الدخول لاستخدام هذه الميزة.\n\n
+يجب إعداد التنبيهات من خلال هذا التطبيق، كما تفعل عادة.
+لأي شيء كنت ستحصل على تنبيه في تويتر، سيتم عرضه كتنبيه تالون بدلاً من ذلك.
+لاستخدام هذه الميزة، يجب تمكين تالون، على الشاشة التالية. هذا يسمح للتطبيق الاستماع للتنبيهات من تطبيق تويتر.</string>
+    <string name="widget_refresh_channel">تحديث تنبيهات التطبيق المصغر (الويدجت)</string>
+    <string name="media_downloads_channel">تنبيهات تنزيل الوسائط</string>
+    <string name="tweeting_notifications_channel">تنبيهات التغريد</string>
+    <string name="tweet_failure_channel">تنبيهات فشل التغريد</string>
+    <string name="background_refresh_channel">تحديث التنبيهات الخلفية</string>
+    <string name="interactions_channel">التنبيهات التفاعلات</string>
+    <string name="scheduled_messages_channel">إرسال الجدول الزمني لتنبيهات التغريدة</string>
+    <string name="favorite_user_channel">"تنبيهات المستخدم المفضل "</string>
+    <string name="talon_pull_channel">تنبيهات سحب تالون</string>
+    <string name="mentions_channel">تنبيهات الإشارة</string>
+    <string name="direct_messages_channel">تنبيهات الرسائل المباشرة</string>
+    <string name="notification_channels">قنوات التنبيه</string>
+    <string name="notification_channels_summary">تتحكم القنوات في أنواع التنبيهات التي تحصل عليها وتسمح لك بتخصيص التنبيهات الخاصة بك.</string>
 </resources>
