@@ -186,4 +186,37 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="quoting">Idézés</string>
     <string name="profile_timeline">Idővonal</string>
     <string name="show_all_tweets">Mutassa az összes Tweetet</string>
+    <string name="are_you_sure_unfollow">Biztos, hogy már nem akarja követni ezt a felhasználót?</string>
+    <string name="are_you_sure_follow">Biztos, hogy követni akarja ezt a felhasználót?</string>
+    <string name="larger_images">Nagyobb képek használata</string>
+    <string name="show_profile_pictures">Profilképek mutatása</string>
+    <string name="reply_to">Válasz</string>
+    <string name="others">egyéb</string>
+    <string name="compress_reply_handles">Tömörített válaszok kezelése</string>
+    <string name="compress_reply_handles_summary">Javítja a hosszú válaszok kezelését a Twitteren.</string>
+    <string name="interaction_notifications">Esemény értesítések</string>
+    <string name="interaction_notifications_summary">Ezekehez engedélyezni kell az aktivitás lap háttérben történő frissítését, a Twitter Push elfogást vagy a Talon Pull-t.</string>
+    <string name="swipable_page_notifications">Csúsztatható lap értesítések</string>
+    <string name="swipable_page_notifications_summary">Ezek jelennek meg amikor a csúsztatható lapok frissülnek a háttérben.</string>
+    <string name="never_show_notifications">Soha ne mutassa az értesítéseket</string>
+    <string name="after_background_refresh_talon_pull">\nHáttérben történő frissítés vagy Talon Pull (közvetítés) esemény\n</string>
+    <string name="intercept_twitter_push_notifications">\nTwitter alkalmazás azonnali értesítéseinek elfogása\n</string>
+    <string name="intercept_twitter_push_description">A funkció használatához szükség van a normál Twitter alkalmazás telepítésére és bejelentkezni.\n\n
+Az értesítéseket abban az alkalmazásban kell beállítani, mint normál esetben.
+Minden értesítés, amit a Twitter kap Talon értesítésként fog megjelenni.
+A funkció használatához a következő képernyőn engedélyezni kell a Talon-t. Ez engedélyezi a Talon számára a Twitter értesítések figyelését.</string>
+    <string name="widget_refresh_channel">Widget frissítés értesítések</string>
+    <string name="media_downloads_channel">Média letöltés értesítések</string>
+    <string name="tweeting_notifications_channel">Tweetelés értesítések</string>
+    <string name="tweet_failure_channel">Sikertelen Tweet értesítések</string>
+    <string name="background_refresh_channel">Háttér frissítés értesítések</string>
+    <string name="interactions_channel">Események értesítések</string>
+    <string name="scheduled_messages_channel">Időzített Tweet küldés értesítések</string>
+    <string name="favorite_user_channel">Kedvenc felhasználó értesítések</string>
+    <string name="talon_pull_channel">Talon Pull értesítések</string>
+    <string name="mentions_channel">Említés értesítések</string>
+    <string name="direct_messages_channel">Közvetlen üzenet értesítések</string>
+    <string name="notification_channels">Értesítési csatornák</string>
+    <string name="notification_channels_summary">A csatornák szabályozzák az értesítések riasztási típusait és lehetővé teszik az értesítések testreszabását.</string>
+
 </resources>
