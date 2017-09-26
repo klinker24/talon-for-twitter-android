@@ -256,6 +256,7 @@ public class AppSettings {
     public String browserSelection;
 
     public EmojiStyle emojiStyle;
+    public int tweetCharacterCount = 140;
 
     public AppSettings(Context context) {
         sharedPrefs = getSharedPreferences(context);
@@ -297,6 +298,8 @@ public class AppSettings {
             favoriteUserNames = sharedPrefs.getString("favorite_user_names_2", "");
             myId = sharedPrefs.getLong("twitter_id_2", 0);
         }
+
+        tweetCharacterCount = sharedPrefs.getInt("tweet_character_count_limit", 140);
 
         // Booleans
         baseTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
@@ -678,5 +681,12 @@ public class AppSettings {
 
     public boolean condensedTweets() {
         return picturesType == CONDENSED_NO_IMAGES || picturesType == CONDENSED_TWEETS;
+    }
+
+    public static void setTweetCharacterCountLimit(Context context, int newCount) {
+        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
+        sharedPreferences.edit().putInt("tweet_character_count_limit", newCount).apply();
+
+        AppSettings.getInstance(context).tweetCharacterCount = newCount;
     }
 }

@@ -104,7 +104,8 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
 
             if (!Patterns.WEB_URL.matcher(text).find()) { // no links, normal tweet
                 try {
-                    charRemaining.setText(140 - composeBar.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
+                    charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount -
+                            composeBar.getText().length() - (attachedUri.equals("") ? 0 : 23) + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
@@ -121,7 +122,7 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
                     count += 23;
                 }
 
-                charRemaining.setText(140 - count + "");
+                charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount - count + "");
             }
         }
     };
@@ -192,7 +193,7 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
 
         new GetList().execute();
 
-        charRemaining.setText(140 - composeBar.getText().length() + "");
+        charRemaining.setText(AppSettings.getInstance(this).tweetCharacterCount - composeBar.getText().length() + "");
         composeBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
