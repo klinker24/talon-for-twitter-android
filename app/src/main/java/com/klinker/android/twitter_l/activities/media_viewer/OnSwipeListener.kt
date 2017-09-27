@@ -9,9 +9,7 @@ import android.view.GestureDetector.SimpleOnGestureListener
 open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        Log.v("ImageViewerActivity", "on fling")
         if (e1 == null || e2 == null) {
-            Log.v("ImageViewerActivity", "null event")
             return false
         }
 
