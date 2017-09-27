@@ -146,6 +146,7 @@ dependencies {
     compile 'com.github.fiskurgit:ChipCloud:3.0.3'
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
 
+
     compile files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
     compile files('lib/twitter4j-fork.jar')
     compile files('lib/twitter4j-stream-fork.jar')
