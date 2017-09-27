@@ -18,6 +18,6 @@ limitations under the License.
 
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-    <translate android:fromYDelta="0" android:toYDelta="30%p" android:duration="220"/>
+    <translate android:fromYDelta="0" android:toYDelta="20%p" android:duration="250"/>
     <alpha android:fromAlpha="1.0" android:toAlpha="0.0" android:duration="120" />
 </set>

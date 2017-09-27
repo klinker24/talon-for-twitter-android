@@ -17,6 +17,6 @@
   -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
-    <translate android:fromYDelta="30%p" android:toYDelta="0" android:duration="120"/>
-    <alpha android:fromAlpha="0.0" android:toAlpha="1.0" android:duration="220" />
+    <translate android:fromYDelta="10%p" android:toYDelta="0" android:duration="150"/>
+    <alpha android:fromAlpha="0.0" android:toAlpha="1.0" android:duration="150" />
 </set>

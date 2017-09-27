@@ -178,6 +178,8 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
 
         DragDismissDelegate delegate = new DragDismissDelegate(this, this);
         delegate.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, 0);
     }
 
     @Override
@@ -354,6 +356,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         }
 
         super.finish();
+        overridePendingTransition(0, R.anim.activity_slide_down);
     }
 
     public boolean hidePopups() {

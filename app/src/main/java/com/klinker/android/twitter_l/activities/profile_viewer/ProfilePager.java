@@ -194,6 +194,8 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
 
         DragDismissDelegate delegate = new DragDismissDelegate(this, this);
         delegate.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_slide_up, 0);
     }
 
     @Override
@@ -1271,7 +1273,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
         //sharedPrefs.edit().putBoolean("from_activity", true).apply();
 
         super.finish();
-        overridePendingTransition(R.anim.activity_slide_up, R.anim.activity_slide_down);
+        overridePendingTransition(0, R.anim.activity_slide_down);
 
         try {
             if (isMyProfile) {
