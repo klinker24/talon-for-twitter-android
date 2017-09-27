@@ -181,6 +181,11 @@
             android:theme="@style/DragDismissTheme" />
 
         <activity
+            android:name=".activities.media_viewer.ImageViewerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.ImageViewer" />
+
+        <activity
             android:name=".activities.media_viewer.VideoViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:launchMode="singleTop"

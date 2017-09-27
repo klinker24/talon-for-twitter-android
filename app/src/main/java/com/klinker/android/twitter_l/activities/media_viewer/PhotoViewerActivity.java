@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -71,6 +72,7 @@ import java.net.URL;
 import java.util.Random;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
+import xyz.klinker.android.article.ImageViewActivity;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
@@ -79,40 +81,49 @@ public class PhotoViewerActivity extends DragDismissActivity {
 
     // image view is not null if you want the shared transition
     public static void startActivity(Context context, long tweetId, String link, ImageView imageView) {
-        Intent viewImage = new Intent(context, PhotoViewerActivity.class);
-
+        Intent viewImage = new Intent(context, ImageViewerActivity.class);
         viewImage.putExtra("url", link);
-        viewImage.putExtra("tweet_id", tweetId);
 
-        new DragDismissIntentBuilder(context)
-                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
-                .setPrimaryColorResource(android.R.color.black)
-                .setShouldScrollToolbar(false)
-                .setFullscreenOnTablets(true)
-                .setShowToolbar(true)
-                .setDrawUnderStatusBar(true)
-                .build(viewImage);
-
-        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-            viewImage.putExtra("shared_trans", true);
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(((Activity)context), imageView, "image");
-
-            try {
-                context.startActivity(viewImage, options.toBundle());
-            } catch (Exception e) {
-                context.startActivity(viewImage);
-            }
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, imageView, "image");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.startActivity(viewImage, options.toBundle());
         } else {
             context.startActivity(viewImage);
         }
+
+        //startActivity(context, link);
+//        Intent viewImage = new Intent(context, PhotoViewerActivity.class);
+//
+//        viewImage.putExtra("url", link);
+//        viewImage.putExtra("tweet_id", tweetId);
+//
+//        new DragDismissIntentBuilder(context)
+//                .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XLARGE)
+//                .setPrimaryColorResource(android.R.color.black)
+//                .setShouldScrollToolbar(false)
+//                .setFullscreenOnTablets(true)
+//                .setShowToolbar(true)
+//                .setDrawUnderStatusBar(true)
+//                .build(viewImage);
+//
+//        if (imageView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+//                Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+//            viewImage.putExtra("shared_trans", true);
+//            ActivityOptions options = ActivityOptions
+//                    .makeSceneTransitionAnimation(((Activity)context), imageView, "image");
+//
+//            try {
+//                context.startActivity(viewImage, options.toBundle());
+//            } catch (Exception e) {
+//                context.startActivity(viewImage);
+//            }
+//        } else {
+//            context.startActivity(viewImage);
+//        }
     }
 
     public static void startActivity(Context context, String link) {
-        Intent viewImage = new Intent(context, PhotoViewerActivity.class);
-        viewImage.putExtra("url", link);
-        context.startActivity(viewImage);
+
     }
 
     public Context context;

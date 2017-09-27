@@ -19,6 +19,14 @@
 
 <resources>
 
+    <style name="Theme.ImageViewer" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
     <style name="Theme.PhotoViewerLight" parent="@style/Theme.Tutorial">
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>

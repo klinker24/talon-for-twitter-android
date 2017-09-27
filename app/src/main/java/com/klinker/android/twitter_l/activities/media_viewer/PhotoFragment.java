@@ -84,17 +84,17 @@ public class PhotoFragment extends Fragment {
         root.findViewById(R.id.info_button).setVisibility(View.GONE);
         root.findViewById(R.id.buttons_layout).setVisibility(View.INVISIBLE);
 
-        final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(getActivity(), picture);
-        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-            @Override
-            public void onViewTap(View view, float x, float y) {
-                if (activity.sysUiShown) {
-                    activity.hideSystemUI();
-                } else {
-                    activity.showSystemUI();
-                }
-            }
-        });
+//        final TalonPhotoViewAttacher mAttacher = new TalonPhotoViewAttacher(getActivity(), picture);
+//        mAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+//            @Override
+//            public void onViewTap(View view, float x, float y) {
+//                if (activity.sysUiShown) {
+//                    activity.hideSystemUI();
+//                } else {
+//                    activity.showSystemUI();
+//                }
+//            }
+//        });
 
         Glide.with(getActivity()).load(url).dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -106,7 +106,7 @@ public class PhotoFragment extends Fragment {
                 LinearLayout spinner = (LinearLayout) root.findViewById(R.id.list_progress);
                 spinner.setVisibility(View.GONE);
 
-                mAttacher.update();
+//                mAttacher.update();
             }
         });
 
