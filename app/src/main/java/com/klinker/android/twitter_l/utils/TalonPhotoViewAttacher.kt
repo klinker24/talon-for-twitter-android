@@ -23,6 +23,7 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
     private val screenCenterY: Double
     private val maxHypo: Double
     private var alpha: Int = 0
+    private var imageScale: Float = 1.0f
 
     private val view: View
 
@@ -54,7 +55,7 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (gestureDetector.onTouchEvent(event) || isAnimating) {
+        if (scale == 1f && (gestureDetector.onTouchEvent(event) || isAnimating)) {
             isAnimating = true
 
             val centerYPos = imageView.y + imageView.height / 2
@@ -69,6 +70,10 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
             alpha = (hypo * 255).toInt() / maxHypo.toInt()
             if (alpha < 255)
                 view.background.alpha = 255 - alpha
+
+            val scale = if (1 - (hypo / maxHypo).toFloat() < .7) .7f else 1 - (hypo / maxHypo).toFloat()
+            imageView.scaleX = scale
+            imageView.scaleY = scale
 
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -87,6 +92,8 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
                     } else {
                         imageView.animate().x(0f).y(screenCenterY.toFloat() - imageView.height / 2).setDuration(100).start()
                         view.background.alpha = 255
+                        view.scaleX = 1f
+                        view.scaleY = 1f
                     }
                     return false
                 }
