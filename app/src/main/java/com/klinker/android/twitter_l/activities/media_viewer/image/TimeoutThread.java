@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.utils;
+package com.klinker.android.twitter_l.activities.media_viewer.image;
 
 public class TimeoutThread extends Thread {
 

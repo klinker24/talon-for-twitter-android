@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     private Context context;
@@ -49,7 +49,7 @@ public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoPagerActivity.startActivity(context, 0, links, position, true);
+                ImageViewerActivity.Companion.startActivity(context, position, links.split(" "));
             }
         });
 

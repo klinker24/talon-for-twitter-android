@@ -29,16 +29,15 @@ import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ExpansionViewHelper;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
@@ -547,16 +546,8 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
                             }
 
                             VideoViewerActivity.startActivity(context, tweetId, gifVideo, links);
-                        } else if (webpage.contains(" ")) {
-                            /*picsPopup = new MultiplePicsPopup(context, webpage);
-                            picsPopup.setFullScreen();
-                            picsPopup.setExpansionPointForAnim(view);
-                            picsPopup.show();*/
-
-                            PhotoPagerActivity.startActivity(context, tweetId, webpage, 0);
-
                         } else {
-                            PhotoViewerActivity.startActivity(context, tweetId, webpage, image);
+                            ImageViewerActivity.Companion.startActivity(context, tweetId, image, webpage.split(" "));
                         }
                     }
                 }
