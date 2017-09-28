@@ -45,8 +45,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
@@ -55,7 +54,7 @@ import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.views.TweetView;
@@ -284,9 +283,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 @Override
                 public void onClick(View v) {
                     if (thisUser != null) {
-                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                        ImageViewerActivity.Companion.startActivity(context, proPic, thisUser.getProfileBannerURL());
                     } else {
-                        PhotoViewerActivity.startActivity(context, proPic);
+                        ImageViewerActivity.Companion.startActivity(context, proPic);
                     }
                 }
             });
@@ -295,9 +294,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 @Override
                 public void onClick(View v) {
                     if (thisUser != null) {
-                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 1);
+                        ImageViewerActivity.Companion.startActivity(context, proPic, thisUser.getProfileBannerURL());
                     } else {
-                        PhotoViewerActivity.startActivity(context, proPic);
+                        ImageViewerActivity.Companion.startActivity(context, proPic);
                     }
                 }
             });

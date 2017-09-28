@@ -28,18 +28,18 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;
 import com.klinker.android.twitter_l.views.badges.VideoBadge;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
@@ -678,11 +678,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (holder.picUrl.contains(" ")) {
-                                PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-                            } else {
-                                PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                            }
+                            ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
                         }
                     });
 

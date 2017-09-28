@@ -1,0 +1,37 @@
+package com.klinker.android.twitter_l.activities.media_viewer.image
+
+import android.view.MotionEvent
+import android.view.View
+import android.widget.ImageView
+import uk.co.senab.photoview.PhotoViewAttacher
+import android.support.v4.view.GestureDetectorCompat
+import android.support.v7.app.AppCompatActivity
+
+class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
+
+    private val dragController = DragController(activity, imageView)
+
+    private val gestureDetector: GestureDetectorCompat by lazy {
+        GestureDetectorCompat(activity, object : OnSwipeListener() {
+            override fun onSwipe(direction: Direction): Boolean {
+                return direction == Direction.UP || direction == Direction.DOWN
+            }
+        })
+    }
+
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        return if (scale == 1f && event.pointerCount == 1 && (gestureDetector.onTouchEvent(event) || dragController.isDragging)) {
+            dragController.onTouch(event)
+        } else {
+            dragController.trackTouch(event)
+            super.onTouch(v, event)
+        }
+    }
+
+    override fun onGlobalLayout() {
+        try {
+            super.onGlobalLayout()
+        } catch (e: Exception) {
+        }
+    }
+}

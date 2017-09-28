@@ -33,7 +33,7 @@ import com.klinker.android.twitter_l.services.background_refresh.MentionsRefresh
 import com.klinker.android.twitter_l.services.background_refresh.SecondMentionsRefreshService;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.List;

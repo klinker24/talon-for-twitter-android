@@ -11,9 +11,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.badges.VideoBadge;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
@@ -90,7 +90,7 @@ public class PicturesGridAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 setPics();
-                PhotoPagerActivity.startActivity(context, id, pics, position, true);
+                ImageViewerActivity.Companion.startActivity(context, -1L, null, position, pics.split(" "));
             }
         });
 

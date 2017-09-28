@@ -171,14 +171,9 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.media_viewer.PhotoPagerActivity"
+            android:name=".activities.media_viewer.image.ImageViewerActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/DragDismissTheme" />
-
-        <activity
-            android:name=".activities.media_viewer.PhotoViewerActivity"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/DragDismissTheme" />
+            android:theme="@style/Theme.ImageViewer" />
 
         <activity
             android:name=".activities.media_viewer.VideoViewerActivity"

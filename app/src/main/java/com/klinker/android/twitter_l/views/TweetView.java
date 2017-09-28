@@ -28,15 +28,14 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.utils.BetterVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;
 import com.klinker.android.twitter_l.views.badges.VideoBadge;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
@@ -546,11 +545,7 @@ public class TweetView {
                     imageIv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (imageUrl.contains(" ")) {
-                                PhotoPagerActivity.startActivity(context, tweetId, imageUrl, 0);
-                            } else {
-                                PhotoViewerActivity.startActivity(context, tweetId, imageUrl, imageIv);
-                            }
+                            ImageViewerActivity.Companion.startActivity(context, tweetId, imageIv, imageUrl.split(" "));
                         }
                     });
 
