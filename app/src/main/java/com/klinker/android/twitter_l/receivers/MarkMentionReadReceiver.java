@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.services.MarkReadService;
-import com.klinker.android.twitter_l.utils.NotificationUtils;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 
 public class MarkMentionReadReceiver extends BroadcastReceiver {
 

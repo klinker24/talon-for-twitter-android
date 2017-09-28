@@ -6,7 +6,7 @@ import android.view.View;
 import com.klinker.android.twitter_l.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 
 import twitter4j.Trend;
 import twitter4j.Trends;
