@@ -1,15 +1,11 @@
 package com.klinker.android.twitter_l.utils
 
-import android.app.Activity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import uk.co.senab.photoview.PhotoViewAttacher
-import android.os.Build
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.ViewConfiguration
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.activities.media_viewer.OnSwipeListener
 
@@ -35,9 +31,7 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
         view.background.alpha = 255
     }
 
-
     private var isAnimating = false
-
 
     private val gestureDetector: GestureDetectorCompat by lazy {
         GestureDetectorCompat(activity, object : OnSwipeListener() {
@@ -84,9 +78,10 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
                         return false
                     } else {
                         imageView.animate().x(0f).y(screenCenterY.toFloat() - imageView.height / 2).setDuration(100).start()
-                        view.background.alpha = 255
                         imageView.scaleX = 1f
                         imageView.scaleY = 1f
+
+                        view.background.alpha = 255
                     }
                     return false
                 }

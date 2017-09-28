@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -41,6 +43,12 @@ class ImageViewerActivity : AppCompatActivity() {
 
         Handler().postDelayed({ supportStartPostponedEnterTransition() }, 500)
         TalonPhotoViewAttacher(this, imageView)
+
+        imageView.post({
+            imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            imageView.invalidate()
+        })
     }
 
     private fun getLink(intent: Intent): String {
