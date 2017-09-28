@@ -1,4 +1,4 @@
-package com.klinker.android.twitter_l.activities.media_viewer.new_style
+package com.klinker.android.twitter_l.activities.media_viewer.image
 
 import android.view.GestureDetector
 import android.view.MotionEvent

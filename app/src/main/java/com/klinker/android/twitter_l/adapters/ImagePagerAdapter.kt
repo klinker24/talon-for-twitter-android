@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageFragment
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageFragment
 
 class ImagePagerAdapter(fm: FragmentManager, private val urls: Array<String>) : FragmentPagerAdapter(fm) {
 

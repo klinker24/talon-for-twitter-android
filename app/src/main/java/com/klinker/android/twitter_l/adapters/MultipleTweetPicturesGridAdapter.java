@@ -9,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 
 public class MultipleTweetPicturesGridAdapter extends BaseAdapter {
     private Context context;
