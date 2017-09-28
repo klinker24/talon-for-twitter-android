@@ -1,14 +1,17 @@
 package com.klinker.android.twitter_l.activities.media_viewer
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.support.v7.widget.Toolbar
+import android.view.*
+import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -16,8 +19,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.utils.TalonPhotoViewAttacher
+import com.klinker.android.twitter_l.utils.Utils
 import org.jetbrains.annotations.Nullable
-
 
 class ImageViewerActivity : AppCompatActivity() {
 
@@ -29,6 +32,7 @@ class ImageViewerActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_image_viewer)
 
+        val toolbar = prepareToolbar()
         val imageLink = getLink(intent)
         val imageView = findViewById<View>(R.id.imageView) as ImageView
 
@@ -42,13 +46,37 @@ class ImageViewerActivity : AppCompatActivity() {
                 }).into(imageView)
 
         Handler().postDelayed({ supportStartPostponedEnterTransition() }, 500)
-        TalonPhotoViewAttacher(this, imageView)
+        TalonPhotoViewAttacher(this, imageView).toolbar = toolbar
 
         imageView.post({
             imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
             imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             imageView.invalidate()
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_image_viewer, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun prepareToolbar(): Toolbar {
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        toolbar.title = ""
+        (toolbar.layoutParams as FrameLayout.LayoutParams).topMargin = Utils.getStatusBarHeight(this)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.navigationIcon?.setTintList(ColorStateList.valueOf(Color.WHITE))
+        }
+
+        return toolbar
     }
 
     private fun getLink(intent: Intent): String {
