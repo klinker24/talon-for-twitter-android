@@ -32,6 +32,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -547,16 +548,8 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
                             }
 
                             VideoViewerActivity.startActivity(context, tweetId, gifVideo, links);
-                        } else if (webpage.contains(" ")) {
-                            /*picsPopup = new MultiplePicsPopup(context, webpage);
-                            picsPopup.setFullScreen();
-                            picsPopup.setExpansionPointForAnim(view);
-                            picsPopup.show();*/
-
-                            PhotoPagerActivity.startActivity(context, tweetId, webpage, 0);
-
                         } else {
-                            PhotoViewerActivity.startActivity(context, tweetId, webpage, image);
+                            ImageViewerActivity.Companion.startActivity(context, tweetId, image, webpage.split(" "));
                         }
                     }
                 }

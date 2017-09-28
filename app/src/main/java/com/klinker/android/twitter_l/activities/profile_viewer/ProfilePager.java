@@ -47,6 +47,7 @@ import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeDMActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
@@ -284,9 +285,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 @Override
                 public void onClick(View v) {
                     if (thisUser != null) {
-                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 0);
+                        ImageViewerActivity.Companion.startActivity(context, proPic, thisUser.getProfileBannerURL());
                     } else {
-                        PhotoViewerActivity.startActivity(context, proPic);
+                        ImageViewerActivity.Companion.startActivity(context, proPic);
                     }
                 }
             });
@@ -295,9 +296,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 @Override
                 public void onClick(View v) {
                     if (thisUser != null) {
-                        PhotoPagerActivity.startActivity(context, 0, proPic + " " + thisUser.getProfileBannerURL(), 1);
+                        ImageViewerActivity.Companion.startActivity(context, proPic, thisUser.getProfileBannerURL());
                     } else {
-                        PhotoViewerActivity.startActivity(context, proPic);
+                        ImageViewerActivity.Companion.startActivity(context, proPic);
                     }
                 }
             });

@@ -41,6 +41,7 @@ import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
@@ -830,12 +831,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                                     .apply();
                         }
 
-                        if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                            PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-                        } else {
-                            PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                        }
-
+                        ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
                         debounceClick(holder.imageHolder);
                     }
                 });

@@ -28,6 +28,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.utils.BetterVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.utils.TimeoutThread;
@@ -546,11 +547,7 @@ public class TweetView {
                     imageIv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (imageUrl.contains(" ")) {
-                                PhotoPagerActivity.startActivity(context, tweetId, imageUrl, 0);
-                            } else {
-                                PhotoViewerActivity.startActivity(context, tweetId, imageUrl, imageIv);
-                            }
+                            ImageViewerActivity.Companion.startActivity(context, tweetId, imageIv, imageUrl.split(" "));
                         }
                     });
 

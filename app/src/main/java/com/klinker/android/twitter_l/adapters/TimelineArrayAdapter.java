@@ -28,6 +28,7 @@ import com.klinker.android.peekview.builder.PeekViewOptions;
 import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
@@ -678,11 +679,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                     holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (holder.picUrl.contains(" ")) {
-                                PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-                            } else {
-                                PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                            }
+                            ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
                         }
                     });
 

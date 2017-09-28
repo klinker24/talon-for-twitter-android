@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.PhotoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 
@@ -163,7 +164,7 @@ public class PicturesArrayAdapter extends ArrayAdapter<String> {
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhotoViewerActivity.startActivity(context, 0, url, null);
+                ImageViewerActivity.Companion.startActivity(context, url);
             }
         });
 

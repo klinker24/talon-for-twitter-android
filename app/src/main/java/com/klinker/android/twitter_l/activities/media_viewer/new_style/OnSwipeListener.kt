@@ -1,9 +1,7 @@
-package com.klinker.android.twitter_l.activities.media_viewer
+package com.klinker.android.twitter_l.activities.media_viewer.new_style
 
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.GestureDetector.SimpleOnGestureListener
 
 
 open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
@@ -103,13 +101,13 @@ open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
              */
             operator fun get(angle: Double): Direction {
                 return if (inRange(angle, 45f, 135f)) {
-                    Direction.up
+                    up
                 } else if (inRange(angle, 0f, 45f) || inRange(angle, 315f, 360f)) {
-                    Direction.right
+                    right
                 } else if (inRange(angle, 225f, 315f)) {
-                    Direction.down
+                    down
                 } else {
-                    Direction.left
+                    left
                 }
 
             }
