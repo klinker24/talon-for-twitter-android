@@ -6,11 +6,14 @@ import android.widget.ImageView
 import uk.co.senab.photoview.PhotoViewAttacher
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.activities.media_viewer.OnSwipeListener
 
 
 class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
+
+    var toolbar: Toolbar? = null
 
     private var xCoOrdinate: Float = 0.toFloat()
     private var yCoOrdinate:Float = 0.toFloat()
@@ -24,7 +27,7 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
     init {
         val display = activity.resources.displayMetrics
         screenCenterX = (display.widthPixels / 2).toDouble()
-        screenCenterY = ((display.heightPixels - Utils.getStatusBarHeight(activity)) / 2).toDouble()
+        screenCenterY = (display.heightPixels / 2).toDouble()
         maxHypo = Math.hypot(screenCenterX, screenCenterY)
 
         view = activity.findViewById<View>(R.id.layout)
@@ -55,8 +58,12 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
              * change alpha of background of layout
              */
             alpha = (hypo * 255).toInt() / maxHypo.toInt()
-            if (alpha < 255)
+            if (alpha < 255) {
                 view.background.alpha = 255 - alpha
+
+                val scaledAlpha = ((255f - alpha.toFloat()) / 255f)
+                toolbar?.alpha = if (scaledAlpha < .65f) 0f else scaledAlpha
+            }
 
             val scale = if (1 - (hypo / maxHypo).toFloat() < .7) .7f else 1 - (hypo / maxHypo).toFloat()
             imageView.scaleX = scale
@@ -82,6 +89,7 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
                         imageView.scaleY = 1f
 
                         view.background.alpha = 255
+                        toolbar?.animate()?.alpha(1.0f)?.setDuration(200)?.start()
                     }
                     return false
                 }
