@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.activities.media_viewer.image
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -18,8 +19,17 @@ import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.adapters.ImagePagerAdapter
 import com.klinker.android.twitter_l.utils.Utils
 import org.jetbrains.annotations.Nullable
+import com.klinker.android.twitter_l.views.DetailedTweetView
+import com.flipboard.bottomsheet.BottomSheetLayout
 
 class ImageViewerActivity : AppCompatActivity() {
+
+    private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
+    private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
+
+    private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
+    private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId) }
+    private val bottomSheet: BottomSheetLayout by lazy { findViewById<View>(R.id.bottom_sheet) as BottomSheetLayout }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +40,12 @@ class ImageViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_viewer)
         prepareToolbar()
 
-        val pager = findViewById<View>(R.id.pager) as ViewPager
-        pager.adapter = ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS))
+        pager.adapter = adapter
         pager.currentItem = intent.getIntExtra(EXTRA_START_INDEX, 0)
+
+        if (tweetId != -1L) {
+            tweetView.setShouldShowImage(false)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -40,7 +53,13 @@ class ImageViewerActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_info -> showInfo()
+            R.id.menu_save -> adapter.getItem(pager.currentItem).downloadImage()
+            R.id.menu_share -> adapter.getItem(pager.currentItem).shareImage()
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -55,6 +74,11 @@ class ImageViewerActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar.navigationIcon?.setTintList(ColorStateList.valueOf(Color.WHITE))
         }
+    }
+
+    private fun showInfo() {
+        tweetView.view.setBackgroundResource(R.color.dark_background)
+        bottomSheet.showWithSheetView(tweetView.view)
     }
 
     companion object {
