@@ -3,7 +3,6 @@ package com.klinker.android.twitter_l.activities.media_viewer;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -46,6 +45,7 @@ import com.bumptech.glide.request.target.Target;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
@@ -72,8 +72,6 @@ import java.net.URL;
 import java.util.Random;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
-import xyz.klinker.android.article.ImageViewActivity;
-import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity;
 import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 

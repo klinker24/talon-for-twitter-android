@@ -181,7 +181,7 @@
             android:theme="@style/DragDismissTheme" />
 
         <activity
-            android:name=".activities.media_viewer.ImageViewerActivity"
+            android:name=".activities.media_viewer.new_style.ImageViewerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.ImageViewer" />
 

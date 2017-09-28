@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.new_style.ImageViewerActivity;
 import com.klinker.android.twitter_l.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
@@ -207,11 +208,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                                     .apply();
                         }
 
-                        if (holder.picUrl.contains(" ") && !MainActivity.isPopup) {
-                            PhotoPagerActivity.startActivity(context, id, holder.picUrl, 0);
-                        } else {
-                            PhotoViewerActivity.startActivity(context, id, holder.picUrl, holder.image);
-                        }
+                        ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
                     }
                 });
             }
