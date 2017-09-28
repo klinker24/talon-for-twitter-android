@@ -8,7 +8,7 @@ import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.klinker.android.twitter_l.R
-import com.klinker.android.twitter_l.activities.media_viewer.new_style.OnSwipeListener
+import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListener
 
 
 class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
