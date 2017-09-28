@@ -58,6 +58,7 @@ class ImageViewerActivity : AppCompatActivity() {
             R.id.menu_info -> showInfo()
             R.id.menu_save -> adapter.getItem(pager.currentItem).downloadImage()
             R.id.menu_share -> adapter.getItem(pager.currentItem).shareImage()
+            android.R.id.home -> onBackPressed()
         }
 
         return super.onOptionsItemSelected(item)

@@ -38,7 +38,6 @@ class ImageFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         val root = inflater.inflate(R.layout.fragment_image, container, false)
 
         val imageLink = getLink(arguments)
@@ -92,6 +91,16 @@ class ImageFragment : Fragment() {
             return url
         }
     }
+
+
+
+
+
+    //
+    //
+    // Long methods for downloading and sharing images in the fragment
+    //
+    //
 
 
     fun downloadImage() {
