@@ -57,12 +57,12 @@ class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageV
             /**
              * change alpha of background of layout
              */
-            alpha = (hypo * 255).toInt() / maxHypo.toInt()
+            alpha = ((hypo * 255).toInt() / maxHypo.toInt()) * 2
             if (alpha < 255) {
                 view.background.alpha = 255 - alpha
 
                 val scaledAlpha = ((255f - alpha.toFloat()) / 255f)
-                toolbar?.alpha = if (scaledAlpha < .65f) 0f else scaledAlpha
+                toolbar?.alpha = if (scaledAlpha < .45f) 0f else scaledAlpha
             }
 
             val scale = if (1 - (hypo / maxHypo).toFloat() < .7) .7f else 1 - (hypo / maxHypo).toFloat()
