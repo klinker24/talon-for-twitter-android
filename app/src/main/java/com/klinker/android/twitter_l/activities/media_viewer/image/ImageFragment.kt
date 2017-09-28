@@ -57,7 +57,7 @@ class ImageFragment : Fragment() {
                 }).into(imageView)
 
         Handler().postDelayed({ activity.supportStartPostponedEnterTransition() }, 500)
-        DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView).toolbar = activity.findViewById<View>(R.id.toolbar) as Toolbar
+        DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
 
         imageView.post({
             imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT

@@ -54,7 +54,7 @@ open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
      * @param y2 the y position of the second point
      * @return the direction
      */
-    fun getDirection(x1: Float, y1: Float, x2: Float, y2: Float): Direction {
+    private fun getDirection(x1: Float, y1: Float, x2: Float, y2: Float): Direction {
         val angle = getAngle(x1, y1, x2, y2)
         return Direction[angle]
     }
@@ -71,19 +71,13 @@ open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
      * @param y2 the y position of the second point
      * @return the angle between two points
      */
-    fun getAngle(x1: Float, y1: Float, x2: Float, y2: Float): Double {
-
+    private fun getAngle(x1: Float, y1: Float, x2: Float, y2: Float): Double {
         val rad = Math.atan2((y1 - y2).toDouble(), (x2 - x1).toDouble()) + Math.PI
         return (rad * 180 / Math.PI + 180) % 360
     }
 
-
     enum class Direction {
-        up,
-        down,
-        left,
-        right;
-
+        UP, DOWN, LEFT, RIGHT;
 
         companion object {
 
@@ -100,15 +94,10 @@ open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
              * @return the direction of an angle
              */
             operator fun get(angle: Double): Direction {
-                return if (inRange(angle, 45f, 135f)) {
-                    up
-                } else if (inRange(angle, 0f, 45f) || inRange(angle, 315f, 360f)) {
-                    right
-                } else if (inRange(angle, 225f, 315f)) {
-                    down
-                } else {
-                    left
-                }
+                return if (inRange(angle, 45f, 135f)) UP
+                else if (inRange(angle, 0f, 45f) || inRange(angle, 315f, 360f)) RIGHT
+                else if (inRange(angle, 225f, 315f)) DOWN
+                else LEFT
 
             }
 
