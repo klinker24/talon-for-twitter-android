@@ -11,7 +11,7 @@ import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListener
 
 
-class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
+class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
 
     var toolbar: Toolbar? = null
 

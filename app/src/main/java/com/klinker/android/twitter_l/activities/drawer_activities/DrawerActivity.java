@@ -49,6 +49,7 @@ import android.widget.*;
 import com.bumptech.glide.Glide;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
@@ -72,7 +73,6 @@ import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import de.timroes.android.listview.EnhancedListView;
 import me.leolin.shortcutbadger.ShortcutBadger;
-import okhttp3.internal.Util;
 
 import java.lang.reflect.Field;
 

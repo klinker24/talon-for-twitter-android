@@ -39,7 +39,7 @@ import com.klinker.android.twitter_l.adapters.TrendsArrayAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HashtagDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;

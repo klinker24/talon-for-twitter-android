@@ -18,7 +18,7 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import twitter4j.Paging;
 import twitter4j.Status;

@@ -15,13 +15,11 @@ package com.klinker.android.twitter_l.activities.drawer_activities.discover.peop
  * limitations under the License.
  */
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -32,13 +30,12 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.klinker.android.peekview.util.DensityUtils;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
 import com.klinker.android.twitter_l.adapters.PeopleArrayAdapter;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.setup.material_login.MaterialLogin;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeSecAccActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 

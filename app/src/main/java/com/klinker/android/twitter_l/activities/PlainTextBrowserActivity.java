@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.utils.TimeoutThread;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView;
 import com.klinker.android.twitter_l.utils.Utils;
 

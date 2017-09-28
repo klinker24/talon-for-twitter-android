@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
+import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.data.sq_lite.DMSQLiteHelper;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
