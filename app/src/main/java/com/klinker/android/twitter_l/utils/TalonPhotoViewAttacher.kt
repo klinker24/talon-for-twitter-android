@@ -9,13 +9,12 @@ import android.os.Build
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.ViewConfiguration
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.activities.media_viewer.OnSwipeListener
 
-import com.klinker.android.twitter_l.activities.media_viewer.PhotoPagerActivity
 
 class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
-
 
     private var xCoOrdinate: Float = 0.toFloat()
     private var yCoOrdinate:Float = 0.toFloat()
@@ -23,7 +22,6 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
     private val screenCenterY: Double
     private val maxHypo: Double
     private var alpha: Int = 0
-    private var imageScale: Float = 1.0f
 
     private val view: View
 
@@ -38,24 +36,19 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
     }
 
 
-    var isAnimating = false
+    private var isAnimating = false
 
 
-    val gestureDetector: GestureDetectorCompat by lazy {
+    private val gestureDetector: GestureDetectorCompat by lazy {
         GestureDetectorCompat(activity, object : OnSwipeListener() {
             override fun onSwipe(direction: Direction): Boolean {
-                Log.v("ImageViewerActivity", "on swipe: " + direction)
-                if (direction === Direction.up || direction === Direction.down) {
-                    return true
-                }
-
-                return false
+                return direction == Direction.down || direction == Direction.up
             }
         })
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if (scale == 1f && (gestureDetector.onTouchEvent(event) || isAnimating)) {
+        if (scale == 1f && event.pointerCount == 1 && (gestureDetector.onTouchEvent(event) || isAnimating)) {
             isAnimating = true
 
             val centerYPos = imageView.y + imageView.height / 2
@@ -92,8 +85,8 @@ class TalonPhotoViewAttacher(private val activity: AppCompatActivity, imageView:
                     } else {
                         imageView.animate().x(0f).y(screenCenterY.toFloat() - imageView.height / 2).setDuration(100).start()
                         view.background.alpha = 255
-                        view.scaleX = 1f
-                        view.scaleY = 1f
+                        imageView.scaleX = 1f
+                        imageView.scaleY = 1f
                     }
                     return false
                 }
