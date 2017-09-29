@@ -30,8 +30,10 @@ import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
+import com.klinker.android.twitter_l.data.WebPreview;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
+import com.klinker.android.twitter_l.views.WebPreviewCard;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;
@@ -44,6 +46,8 @@ import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,9 +59,15 @@ import java.util.Map;
 import twitter4j.Status;
 import twitter4j.User;
 
-public class TimelineArrayAdapter extends ArrayAdapter<Status> {
+public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPreviewCard.OnLoad {
 
     public Map<Long, Status> quotedTweets = new HashMap();
+    public Map<String, WebPreview> webPreviews = new HashMap();
+
+    @Override
+    public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) {
+        webPreviews.put(link, preview);
+    }
 
     public boolean openFirst = false;
 
@@ -111,6 +121,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         public View rootView;
         public CardView embeddedTweet;
         public View quickActions;
+        public WebPreviewCard webPreviewCard;
 
         public long tweetId;
         public boolean isFavorited;
@@ -278,6 +289,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
         holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         holder.quickActions = v.findViewById(R.id.quick_actions);
+        holder.webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
 
         holder.playButton = (ImageView) v.findViewById(R.id.play_button);
         holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
@@ -367,6 +379,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 holder.embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
             }
         }
+
+        holder.webPreviewCard.clear();
 
         Status thisStatus;
 
@@ -767,6 +781,27 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
 
         }
 
+
+        final String linkToLoad;
+        if (embeddedTweetFound || picture) {
+            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                holder.webPreviewCard.setVisibility(View.GONE);
+            }
+            linkToLoad = null;
+        } else if (otherUrl != null && otherUrl.length() > 0) {
+            if (holder.webPreviewCard.getVisibility() == View.GONE) {
+                holder.webPreviewCard.setVisibility(View.VISIBLE);
+            }
+
+            linkToLoad = otherUrl.split(" ")[0];
+        } else {
+            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                holder.webPreviewCard.setVisibility(View.GONE);
+            }
+
+            linkToLoad = null;
+        }
+
         TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
         TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
 
@@ -774,6 +809,12 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
             holder.embeddedTweet.setVisibility(View.VISIBLE);
             if (!tryImmediateEmbeddedLoad(holder, otherUrl)) {
                 loadEmbeddedTweet(holder, otherUrl);
+            }
+        }
+
+        if (linkToLoad != null) {
+            if (!tryImmediateWebPageLoad(holder, linkToLoad)) {
+                holder.webPreviewCard.loadLink(linkToLoad, this);
             }
         }
 
@@ -806,6 +847,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> {
                 holder.embeddedTweet.setMinimumHeight(0);
             }
 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean tryImmediateWebPageLoad(final ViewHolder holder, String link) {
+        if (webPreviews.containsKey(link)) {
+            holder.webPreviewCard.displayPreview(webPreviews.get(link));
             return true;
         } else {
             return false;

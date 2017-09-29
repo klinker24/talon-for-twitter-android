@@ -29,6 +29,7 @@ import com.klinker.android.peekview.callback.OnPeek;
 import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
+import com.klinker.android.twitter_l.data.WebPreview;
 import com.klinker.android.twitter_l.utils.BetterVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
@@ -45,6 +46,8 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
+
+import org.jetbrains.annotations.NotNull;
 
 import twitter4j.Status;
 import twitter4j.User;
@@ -114,6 +117,7 @@ public class TweetView {
     ImageView isAConvo;
     CardView embeddedTweet;
     View quickActions;
+    WebPreviewCard webPreviewCard;
 
     int embeddedTweets = 0;
 
@@ -276,6 +280,7 @@ public class TweetView {
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
         embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
         quickActions = v.findViewById(R.id.quick_actions);
+        webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
 
         imageIv = (ImageView) v.findViewById(R.id.image);
         playButton = (ImageView) v.findViewById(R.id.play_button);
@@ -607,6 +612,26 @@ public class TweetView {
                     }
                 }
             });
+        }
+
+        if (webPreviewCard != null) {
+            if (embeddedTweetFound || picture) {
+                if (webPreviewCard.getVisibility() == View.VISIBLE) {
+                    webPreviewCard.setVisibility(View.GONE);
+                }
+            } else if (otherUrl != null && otherUrl.length() > 0) {
+                if (webPreviewCard.getVisibility() == View.GONE) {
+                    webPreviewCard.setVisibility(View.VISIBLE);
+                }
+
+                webPreviewCard.loadLink(otherUrl.split(" ")[0], new WebPreviewCard.OnLoad() {
+                    @Override public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) { }
+                });
+            } else {
+                if (webPreviewCard.getVisibility() == View.VISIBLE) {
+                    webPreviewCard.setVisibility(View.GONE);
+                }
+            }
         }
 
         TextUtils.linkifyText(context, tweetTv, backgroundLayout, true, otherUrl, false);
