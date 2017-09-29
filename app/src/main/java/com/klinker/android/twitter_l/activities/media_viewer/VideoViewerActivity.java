@@ -6,21 +6,26 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.klinker.android.twitter_l.BuildConfig;
@@ -114,14 +119,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     public Context context;
     public String url;
 
-    private FrameLayout root;
-
-    private ImageButton share;
-    private ImageButton download;
-    private ImageButton info;
-
     private BottomSheetLayout bottomSheet;
-
     private VideoFragment videoFragment;
 
     @Override
@@ -141,10 +139,7 @@ public class VideoViewerActivity extends DragDismissActivity {
         Utils.setUpTheme(this, settings);
 
         final View root = inflater.inflate(R.layout.video_view_activity, parent, false);
-
-        download = (ImageButton) root.findViewById(R.id.save_button);
-        info = (ImageButton) root.findViewById(R.id.info_button);
-        share = (ImageButton) root.findViewById(R.id.share_button);
+        prepareToolbar(root);
 
         videoFragment = VideoFragment.getInstance(url);
 
@@ -165,35 +160,6 @@ public class VideoViewerActivity extends DragDismissActivity {
 
         bottomSheet = (BottomSheetLayout) root.findViewById(R.id.bottomsheet);
 
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadVideo();
-            }
-        });
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInfo();
-            }
-        });
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareVideo();
-            }
-        });
-
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
-            ab.setBackgroundDrawable(transparent);
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setTitle("");
-            ab.setIcon(transparent);
-        }
-
         final long tweetId = getIntent().getLongExtra("tweet_id", 0);
         if (tweetId != 0) {
             prepareInfo(tweetId);
@@ -201,8 +167,57 @@ public class VideoViewerActivity extends DragDismissActivity {
             root.findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
 
-        ((FrameLayout.LayoutParams) root.findViewById(R.id.buttons_layout).getLayoutParams()).topMargin = Utils.getStatusBarHeight(this);
         return root;
+    }
+
+    private void prepareToolbar(View root) {
+        Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        ((FrameLayout.LayoutParams) toolbar.getLayoutParams()).topMargin = Utils.getStatusBarHeight(this);
+
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.getNavigationIcon().setTintList(ColorStateList.valueOf(Color.WHITE));
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_image_viewer, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final long tweetId = getIntent().getLongExtra("tweet_id", 0);
+        if (tweetId == 0) {
+            menu.removeItem(2);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_info:
+                showInfo();
+                break;
+            case R.id.menu_save:
+                downloadVideo();
+                break;
+            case R.id.menu_share:
+                shareVideo();
+                break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void downloadVideo() {
@@ -288,18 +303,6 @@ public class VideoViewerActivity extends DragDismissActivity {
                 }
             }
         }).start();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return true;
-        }
     }
 
     private void shareVideo() {

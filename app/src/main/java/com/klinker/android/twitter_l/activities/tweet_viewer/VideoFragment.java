@@ -93,7 +93,6 @@ public class VideoFragment extends Fragment implements BetterVideoCallback {
             }
         });
 
-        new NavBarOverlayLayout(getActivity()).show();
         return layout;
     }
 
