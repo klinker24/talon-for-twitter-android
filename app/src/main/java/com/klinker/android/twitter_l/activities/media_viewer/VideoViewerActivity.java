@@ -194,7 +194,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         final long tweetId = getIntent().getLongExtra("tweet_id", 0);
         if (tweetId == 0) {
-            menu.removeItem(2);
+            menu.getItem(2).setVisible(false);
         }
 
         return super.onPrepareOptionsMenu(menu);
