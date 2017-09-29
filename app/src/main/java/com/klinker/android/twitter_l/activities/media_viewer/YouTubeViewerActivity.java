@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.views.DetailedTweetView;
+import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 
 import java.io.File;
 
@@ -133,6 +134,8 @@ public class YouTubeViewerActivity extends AppCompatActivity {
         } else {
             findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
+
+        new NavBarOverlayLayout(this).show();
     }
 
     private void downloadVideo() {

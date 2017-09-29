@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -15,8 +17,12 @@ import android.view.ViewGroup;
 import com.halilibo.bettervideoplayer.BetterVideoCallback;
 import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.media_viewer.image.DragController;
+import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListener;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
+import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
+import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -53,7 +59,9 @@ public class VideoFragment extends Fragment implements BetterVideoCallback {
     private View layout;
 
     public BetterVideoPlayer videoView;
-    private GestureDetector gestureDetector;
+
+    private DragController dragController;
+    private GestureDetectorCompat gestureDetector;
 
     @Override
     public void onAttach(Activity activity) {
@@ -69,6 +77,7 @@ public class VideoFragment extends Fragment implements BetterVideoCallback {
 
         layout = inflater.inflate(R.layout.gif_player, null, false);
         videoView = (BetterVideoPlayer) layout.findViewById(R.id.player);
+        dragController = new DragController((AppCompatActivity) getActivity(), videoView);
 
         if (VideoMatcherUtil.isTwitterGifLink(tweetUrl)) {
             videoView.disableControls();
@@ -77,26 +86,14 @@ public class VideoFragment extends Fragment implements BetterVideoCallback {
 
         getGif();
 
-        gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+        gestureDetector = new GestureDetectorCompat(getActivity(), new OnSwipeListener() {
             @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if ((velocityY > 3000 || velocityY < -3000) &&
-                        (velocityX < 7000 && velocityX > -7000)) {
-                    getActivity().onBackPressed();
-                    return true;
-                } else {
-                    return false;
-                }
+            public boolean onSwipe(Direction direction) {
+                return direction == Direction.UP || direction == Direction.DOWN;
             }
         });
 
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-
+        new NavBarOverlayLayout(getActivity()).show();
         return layout;
     }
 
