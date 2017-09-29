@@ -4,10 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
 import com.klinker.android.twitter_l.R
 
-class DragController(private val activity: AppCompatActivity, private val imageView: ImageView) {
+class DragController(private val activity: AppCompatActivity, private val draggableView: View) {
 
     private val toolbar: Toolbar by lazy { activity.findViewById<View>(R.id.toolbar) as Toolbar }
     private val background: View by lazy { activity.findViewById<View>(R.id.background) }
@@ -30,20 +29,20 @@ class DragController(private val activity: AppCompatActivity, private val imageV
         background.background.alpha = 255
     }
 
-    internal fun trackTouch(event: MotionEvent) {
+    fun trackTouch(event: MotionEvent) {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                currentX = imageView.x - event.rawX
-                currentY = imageView.y - event.rawY
+                currentX = draggableView.x - event.rawX
+                currentY = draggableView.y - event.rawY
             }
         }
     }
 
-    internal fun onTouch(event: MotionEvent): Boolean {
+    fun onTouch(event: MotionEvent): Boolean {
         isDragging = true
 
-        val centerYPos = imageView.y + imageView.height / 2
-        val centerXPos = imageView.x + imageView.width / 2
+        val centerYPos = draggableView.y + draggableView.height / 2
+        val centerXPos = draggableView.x + draggableView.width / 2
         val hypo = Math.hypot(screenCenterX - centerXPos, screenCenterY - centerYPos)
 
         adjustAlpha(hypo)
@@ -51,7 +50,7 @@ class DragController(private val activity: AppCompatActivity, private val imageV
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> trackTouch(event)
-            MotionEvent.ACTION_MOVE -> imageView.animate().x(event.rawX + currentX).y(event.rawY + currentY).setDuration(0).start()
+            MotionEvent.ACTION_MOVE -> draggableView.animate().x(event.rawX + currentX).y(event.rawY + currentY).setDuration(0).start()
             MotionEvent.ACTION_UP -> {
                 isDragging = false
 
@@ -83,13 +82,13 @@ class DragController(private val activity: AppCompatActivity, private val imageV
         val scale = if (1 - (hypo / maxHypo).toFloat() < .7) .7f
                     else 1 - (hypo / maxHypo).toFloat()
 
-        imageView.scaleX = scale
-        imageView.scaleY = scale
+        draggableView.scaleX = scale
+        draggableView.scaleY = scale
     }
 
     private fun resetImage() {
-        imageView.animate()
-                .x(0f).y(screenCenterY.toFloat() - imageView.height / 2)
+        draggableView.animate()
+                .x(0f).y(screenCenterY.toFloat() - draggableView.height / 2)
                 .scaleX(1f).scaleY(1f)
                 .setDuration(100)
                 .start()
