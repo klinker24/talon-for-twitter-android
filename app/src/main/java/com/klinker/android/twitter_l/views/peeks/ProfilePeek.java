@@ -16,6 +16,7 @@ import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
+import com.klinker.android.twitter_l.util.ColorUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import twitter4j.Relationship;
@@ -69,6 +70,19 @@ public class ProfilePeek extends SimpleOnPeek {
         followingStatus = (TextView) rootView.findViewById(R.id.following_status);
 
         final Activity activity = (Activity) rootView.getContext();
+        if (!Utils.isColorDark(AppSettings.getInstance(activity).themeColors.primaryColorDark)) {
+            int color = rootView.getResources().getColor(R.color.light_text);
+            location.setTextColor(color);
+            description.setTextColor(color);
+            followerCount.setTextColor(color);
+            friendCount.setTextColor(color);
+            tweetCount.setTextColor(color);
+            followingStatus.setTextColor(color);
+
+            ((TextView) rootView.findViewById(R.id.tweets_label)).setTextColor(color);
+            ((TextView) rootView.findViewById(R.id.followers_label)).setTextColor(color);
+            ((TextView) rootView.findViewById(R.id.following_label)).setTextColor(color);
+        }
 
         new TimeoutThread(new Runnable() {
             @Override
