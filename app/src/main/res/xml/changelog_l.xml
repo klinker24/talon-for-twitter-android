@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.9.0">
+        <text>New image viewer with improved drag-to-close and animations</text>
+        <text>Fix text coloring when peeking into profiles</text>
+    </version>
+
     <version name="6.8.2">
         <text>Improvements around the pre-cache service</text>
         <text>Start improvements for the Essential Phone</text>

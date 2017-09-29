@@ -135,6 +135,7 @@
                         android:alpha=".85"/>
 
                     <TextView
+                        android:id="@+id/followers_label"
                         android:textSize="12sp"
                         android:text="@string/followers"
                         android:textColor="@android:color/white"
@@ -161,6 +162,7 @@
                         android:alpha=".85" />
 
                     <TextView
+                        android:id="@+id/following_label"
                         android:textSize="12sp"
                         android:text="@string/following"
                         android:textColor="@android:color/white"
@@ -187,6 +189,7 @@
                         android:alpha=".85" />
 
                     <TextView
+                        android:id="@+id/tweets_label"
                         android:textSize="12sp"
                         android:text="@string/tweets"
                         android:textColor="@android:color/white"
