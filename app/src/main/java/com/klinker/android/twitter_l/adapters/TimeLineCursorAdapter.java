@@ -43,9 +43,11 @@ import com.klinker.android.simple_videoview.SimpleVideoView;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
+import com.klinker.android.twitter_l.data.WebPreview;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
+import com.klinker.android.twitter_l.views.WebPreviewCard;
 import com.klinker.android.twitter_l.views.badges.GifBadge;
 import com.klinker.android.twitter_l.views.peeks.ProfilePeek;
 import com.klinker.android.twitter_l.views.popups.QuickActionsPopup;
@@ -57,6 +59,8 @@ import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity;
 import com.klinker.android.twitter_l.utils.*;
 import com.klinker.android.twitter_l.utils.text.TextUtils;
 import com.klinker.android.twitter_l.utils.text.TouchableMovementMethod;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,9 +76,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class TimeLineCursorAdapter extends CursorAdapter {
+public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCard.OnLoad {
 
     public Map<Long, Status> quotedTweets = new HashMap();
+    public Map<String, WebPreview> webPreviews = new HashMap();
+
+    @Override
+    public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) {
+        webPreviews.put(link, preview);
+    }
 
     public Set<String> muffledUsers = new HashSet<String>();
     public Cursor cursor;
@@ -139,6 +149,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         public View quickActions;
         public SimpleVideoView videoView;
         public LinearLayout conversationArea;
+        public WebPreviewCard webPreviewCard;
 
         public long tweetId;
         public boolean isFavorited;
@@ -355,6 +366,7 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
         holder.conversationArea = (LinearLayout) v.findViewById(R.id.conversation_area);
+        holder.webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -506,6 +518,8 @@ public class TimeLineCursorAdapter extends CursorAdapter {
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
         }
+
+        holder.webPreviewCard.clear();
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
@@ -894,6 +908,26 @@ public class TimeLineCursorAdapter extends CursorAdapter {
             });
         }
 
+        final String linkToLoad;
+        if (embeddedTweetFound || picture) {
+            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                holder.webPreviewCard.setVisibility(View.GONE);
+            }
+            linkToLoad = null;
+        } else if (otherUrl != null && otherUrl.length() > 0) {
+            if (holder.webPreviewCard.getVisibility() == View.GONE) {
+                holder.webPreviewCard.setVisibility(View.VISIBLE);
+            }
+
+            linkToLoad = otherUrl.split(" ")[0];
+        } else {
+            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                holder.webPreviewCard.setVisibility(View.GONE);
+            }
+
+            linkToLoad = null;
+        }
+
         if (mHandlers != null) {
             final boolean picturePeekF = picturePeek;
             final int videoPeekF = videoPeekLayout;
@@ -909,6 +943,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                         if (TweetView.isEmbeddedTweet(tweetText) &&
                                 holder.embeddedTweet.getChildCount() == 0) {
                             loadEmbeddedTweet(holder, otherUrl);
+                        }
+
+                        if (linkToLoad != null) {
+                            holder.webPreviewCard.loadLink(linkToLoad, TimeLineCursorAdapter.this);
                         }
 
                         if (settings.usePeek) {
@@ -987,6 +1025,10 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.embeddedTweet.setVisibility(View.VISIBLE);
                 tryImmediateEmbeddedLoad(holder, otherUrl);
             }
+
+            if (linkToLoad != null) {
+                tryImmediateWebPageLoad(holder, otherUrl);
+            }
         } else {
             TextUtils.linkifyText(context, holder.tweet, holder.background, true, otherUrl, false);
             TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
@@ -1059,6 +1101,12 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                     loadEmbeddedTweet(holder, otherUrl);
                 }
             }
+
+            if (linkToLoad != null) {
+                if (!tryImmediateWebPageLoad(holder, linkToLoad)) {
+                    holder.webPreviewCard.loadLink(linkToLoad, this);
+                }
+            }
         }
     }
 
@@ -1085,6 +1133,15 @@ public class TimeLineCursorAdapter extends CursorAdapter {
                 holder.embeddedTweet.setMinimumHeight(0);
             }
 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean tryImmediateWebPageLoad(final ViewHolder holder, String link) {
+        if (webPreviews.containsKey(link)) {
+            holder.webPreviewCard.displayPreview(webPreviews.get(link));
             return true;
         } else {
             return false;

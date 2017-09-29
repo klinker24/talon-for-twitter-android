@@ -218,6 +218,22 @@
             card_view:cardBackgroundColor="?embeddedTweetBackground"
             android:visibility="gone" />
 
+        <com.klinker.android.twitter_l.views.WebPreviewCard
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/web_preview_card"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="6dp"
+            card_view:cardElevation="2dp"
+            card_view:cardCornerRadius="3dp"
+            card_view:cardBackgroundColor="?embeddedTweetBackground" >
+
+
+        </com.klinker.android.twitter_l.views.WebPreviewCard>
+
     </LinearLayout>
 
     <LinearLayout
