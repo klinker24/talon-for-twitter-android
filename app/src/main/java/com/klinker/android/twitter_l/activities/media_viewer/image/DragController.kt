@@ -54,7 +54,7 @@ class DragController(private val activity: AppCompatActivity, private val dragga
             MotionEvent.ACTION_UP -> {
                 isDragging = false
 
-                if (background.background.alpha < 70) {
+                if (background.background.alpha < 100) {
                     activity.supportFinishAfterTransition()
                 } else {
                     resetImage()
