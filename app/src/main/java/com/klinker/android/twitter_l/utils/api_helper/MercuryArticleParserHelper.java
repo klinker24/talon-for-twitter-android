@@ -59,9 +59,8 @@ public class MercuryArticleParserHelper {
                 String dek = data.getString("dek");
                 String leadImage = data.getString("lead_image_url");
                 String webDomain = data.getString("domain");
-                String link = data.getString("url");
 
-                return new WebPreview(title, summary != null ? summary : dek, leadImage, webDomain, link);
+                return new WebPreview(title, summary != null ? summary : dek, leadImage, webDomain, url);
             } catch (Exception e) {
                 return new WebPreview("", url, "", "", url);
             }
