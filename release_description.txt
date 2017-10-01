@@ -1,5 +1,4 @@
-This update contains bug fixes for:<br/>
-- the pre-cache service<br/>
-- composing tweets from websites<br/>
-- the activity section giving notifications for items that are disabled in settings</br>
-+ a few smaller requests from users
+This update brings a few new features to Talon:
+- Preview web links directly from the timeline
+- New image viewer with improved paging, zooming, and drag-to-dismiss
+- Improvements around viewing saved searches
