@@ -51,6 +51,8 @@ class WebPreviewCard @JvmOverloads constructor(
             return
         }
 
+        progress.visibility = View.VISIBLE
+        
         MercuryArticleParserHelper.getArticle(link) { webPreview ->
             listener.onLinkLoaded(link, webPreview)
 
@@ -105,7 +107,7 @@ class WebPreviewCard @JvmOverloads constructor(
 
     fun clear() {
         image.setImageDrawable(null)
-        progress.visibility = View.VISIBLE
+        progress.visibility = View.GONE
 
         title.text = ""
         summary.text = ""
