@@ -65,10 +65,8 @@ public class MercuryArticleParserHelper {
 
                 return new WebPreview(title, summary != null ? summary : dek, leadImage, webDomain, link);
             } catch (Exception e) {
-                e.printStackTrace();
+                return new WebPreview("", url, "", "", url);
             }
-
-            return null;
         }
 
         @Override
