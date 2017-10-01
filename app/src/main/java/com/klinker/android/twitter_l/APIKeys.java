@@ -112,4 +112,5 @@ public class APIKeys {
     public static final String TWITPIC_API_KEY = "8cd3757bb6acb94c61e3cbf840c91872";
     public static final String GIPHY_API_KEY = "***REMOVED***";
     public static final String ARTICLE_API_KEY = "***REMOVED***";
+    public static final String MERCURY_API_KEY = "***REMOVED***";
 }

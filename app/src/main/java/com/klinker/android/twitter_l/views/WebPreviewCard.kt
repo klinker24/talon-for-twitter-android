@@ -52,7 +52,7 @@ class WebPreviewCard @JvmOverloads constructor(
         }
 
         progress.visibility = View.VISIBLE
-        
+
         MercuryArticleParserHelper.getArticle(link) { webPreview ->
             listener.onLinkLoaded(link, webPreview)
 
