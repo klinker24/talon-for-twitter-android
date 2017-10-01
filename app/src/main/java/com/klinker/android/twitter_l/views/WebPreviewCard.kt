@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -46,6 +47,9 @@ class WebPreviewCard @JvmOverloads constructor(
     }
 
     fun loadLink(link: String, listener: OnLoad) {
+        Log.v("link_loading", link)
+        tag = link
+
         if (loadedPreview != null) {
             displayPreview(loadedPreview!!)
             return
@@ -56,13 +60,15 @@ class WebPreviewCard @JvmOverloads constructor(
         MercuryArticleParserHelper.getArticle(link) { webPreview ->
             listener.onLinkLoaded(link, webPreview)
 
-            try {
-                displayPreview(webPreview)
-            } catch (e: Exception) { }
+            displayPreview(webPreview)
         }
     }
 
     fun displayPreview(preview: WebPreview) {
+        if (tag != preview.link) {
+            return
+        }
+
         loadedPreview = preview
 
         if (preview.imageUrl.isBlank()) {
@@ -70,6 +76,7 @@ class WebPreviewCard @JvmOverloads constructor(
             image.visibility = View.GONE
         } else {
             blankImage.visibility = View.GONE
+            image.visibility = View.VISIBLE
             Glide.with(context).load(preview.imageUrl).into(image)
         }
 
@@ -106,7 +113,8 @@ class WebPreviewCard @JvmOverloads constructor(
     }
 
     fun clear() {
-        image.setImageDrawable(null)
+        Glide.clear(image)
+        blankImage.visibility = View.GONE
         progress.visibility = View.GONE
 
         title.text = ""

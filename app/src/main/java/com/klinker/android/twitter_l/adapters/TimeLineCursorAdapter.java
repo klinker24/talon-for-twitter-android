@@ -122,6 +122,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     public boolean hasExpandedTweet = false;
 
     private Handler videoHandler;
+    private Handler webPreviewHandler;
 
     private boolean isDataSaver = false;
 
@@ -189,6 +190,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }).start();
 
         videoHandler = new Handler();
+        webPreviewHandler = new Handler();
 
         othersText = context.getString(R.string.others);
         replyToText = context.getString(R.string.reply_to);
@@ -1104,7 +1106,14 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
             if (linkToLoad != null) {
                 if (!tryImmediateWebPageLoad(holder, linkToLoad)) {
-                    holder.webPreviewCard.loadLink(linkToLoad, this);
+                    webPreviewHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (holder.tweetId == id) {
+                                holder.webPreviewCard.loadLink(linkToLoad, TimeLineCursorAdapter.this);
+                            }
+                        }
+                    }, 1000);
                 }
             }
         }
