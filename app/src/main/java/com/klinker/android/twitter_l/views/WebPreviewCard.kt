@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.klinker.android.twitter_l.R
@@ -22,11 +23,13 @@ class WebPreviewCard @JvmOverloads constructor(
 ) : CardView(context, attrs, defStyleAttr) {
 
     interface OnLoad {
-        fun onLinkLoaded(link: String, preview: WebPreview?)
+        fun onLinkLoaded(link: String, preview: WebPreview)
     }
 
     private var loadedPreview: WebPreview? = null
 
+    private val progress: ProgressBar by lazy { findViewById<View>(R.id.progress_bar) as ProgressBar }
+    private val blankImage: ImageView by lazy { findViewById<View>(R.id.blank_image) as ImageView }
     private val image: ImageView by lazy { findViewById<View>(R.id.web_image) as ImageView }
     private val title: TextView by lazy { findViewById<View>(R.id.web_title) as TextView }
     private val summary: TextView by lazy { findViewById<View>(R.id.web_summary) as TextView }
@@ -50,46 +53,60 @@ class WebPreviewCard @JvmOverloads constructor(
 
         MercuryArticleParserHelper.getArticle(link) { webPreview ->
             listener.onLinkLoaded(link, webPreview)
-            displayPreview(webPreview)
+
+            try {
+                displayPreview(webPreview)
+            } catch (e: Exception) { }
         }
     }
 
-    fun displayPreview(preview: WebPreview?) {
+    fun displayPreview(preview: WebPreview) {
         loadedPreview = preview
 
-        if (preview != null) {
-            Glide.with(context).load(preview.imageUrl).into(image)
-            title.text = preview.title
-
-            if (preview.summary.isBlank()) {
-                summary.text = preview.webDomain
-            } else {
-                summary.text = preview.summary
-            }
-
-            val link = preview.link
-            setOnClickListener {
-                if (link.contains("/i/web/status/") || link.contains("twitter.com") && link.contains("/moments/")) {
-                    val browser = Intent(context, BrowserActivity::class.java)
-                    browser.putExtra("url", link)
-                    context.startActivity(browser)
-                } else if (link.contains("vine.co/v/")) {
-                    VideoViewerActivity.startActivity(context, 0L, link, "")
-                } else {
-                    WebIntentBuilder(context)
-                            .setUrl(link)
-                            .build().start()
-                }
-            }
+        if (preview.imageUrl.isBlank()) {
+            blankImage.visibility = View.VISIBLE
+            image.visibility = View.GONE
         } else {
-            Glide.clear(image)
-            title.text = "No Preview available"
-            summary.text = ""
+            blankImage.visibility = View.GONE
+            Glide.with(context).load(preview.imageUrl).into(image)
+        }
+
+        progress.visibility = View.GONE
+
+        if (preview.title.isNotBlank()) {
+            if (title.visibility != View.VISIBLE) title.visibility = View.VISIBLE
+            title.text = preview.title
+        } else {
+            title.visibility = View.GONE
+        }
+
+        if (preview.summary.isNotBlank()) {
+            summary.text = preview.summary
+        } else {
+            if (preview.webDomain.isNotBlank()) summary.text = preview.webDomain
+            else summary.visibility = View.GONE
+        }
+
+        val link = preview.link
+        setOnClickListener {
+            if (link.contains("/i/web/status/") || link.contains("twitter.com") && link.contains("/moments/")) {
+                val browser = Intent(context, BrowserActivity::class.java)
+                browser.putExtra("url", link)
+                context.startActivity(browser)
+            } else if (link.contains("vine.co/v/")) {
+                VideoViewerActivity.startActivity(context, 0L, link, "")
+            } else {
+                WebIntentBuilder(context)
+                        .setUrl(link)
+                        .build().start()
+            }
         }
     }
 
     fun clear() {
         image.setImageDrawable(null)
+        progress.visibility = View.VISIBLE
+
         title.text = ""
         summary.text = ""
 
