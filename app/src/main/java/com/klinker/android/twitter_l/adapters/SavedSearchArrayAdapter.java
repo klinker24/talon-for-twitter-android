@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.search.SearchPager;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.drawer_activities.SavedSearchesActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
@@ -52,7 +53,7 @@ public class SavedSearchArrayAdapter extends TrendsArrayAdapter {
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent search = new Intent(context, SearchedTrendsActivity.class);
+                Intent search = new Intent(context, SearchPager.class);
                 search.setAction(Intent.ACTION_SEARCH);
                 search.putExtra(SearchManager.QUERY, trend);
                 context.startActivity(search);
