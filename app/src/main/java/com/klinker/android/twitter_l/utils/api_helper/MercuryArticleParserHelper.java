@@ -25,8 +25,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class MercuryArticleParserHelper {
 
-    private static String API_KEY = "da3c7yjPQEOdipJic8CM1ZDi81QLK81uGskIqC3M";
-
     public interface Callback {
         void onResponse(WebPreview webPreview);
     }
@@ -84,7 +82,7 @@ public class MercuryArticleParserHelper {
         private HttpsURLConnection buildAuthenticatedUrlConnection(URL url) throws IOException {
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("x-api-key", API_KEY);
+            urlConnection.setRequestProperty("x-api-key", APIKeys.MERCURY_API_KEY);
             urlConnection.setRequestProperty("Content-Type", "application/json");
 
             return urlConnection;
