@@ -1,10 +1,11 @@
 <changelog>
 
     <version name="6.9.0">
-        <text>Preview web links on the timeline</text>
+        <text>Preview web links on the timeline (Turn it off from App Style settings)</text>
         <text>New image viewer with improved drag-to-close and animations</text>
         <text>Saved searches are opened to the full search screen (with user, timeline, and Twitter searches)</text>
         <text>Fix text coloring when peeking into profiles</text>
+        <text>Fixes for the black theme</text>
     </version>
 
     <version name="6.8.2">
