@@ -314,6 +314,10 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             findViewById(R.id.notification_drawer_ab).setVisibility(View.GONE);
         }
 
+        if (settings.blackTheme) {
+            mDrawer.setBackgroundColor(Color.BLACK);
+        }
+
         try {
             mDrawerLayout = (NotificationDrawerLayout) findViewById(R.id.drawer_layout);
             mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
@@ -1396,6 +1400,10 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (settings.blackTheme) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
 
         cancelTeslaUnread();
 
