@@ -140,7 +140,6 @@ class WebPreviewCard @JvmOverloads constructor(
                 "pic.twitter.com",
                 "tl.gd",
                 "vine.co",
-                "bit.ly",
                 "twitch.tv",
                 "youtube",
                 "youtu.be"

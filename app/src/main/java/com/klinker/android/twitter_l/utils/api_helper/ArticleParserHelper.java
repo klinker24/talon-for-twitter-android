@@ -47,6 +47,16 @@ public class ArticleParserHelper {
         @Override
         protected WebPreview doInBackground(Void... arg0) {
             try {
+                String url = this.url;
+                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                connection.setInstanceFollowRedirects(false);
+                connection.getResponseCode();
+
+                url = connection.getHeaderField("location");
+                if (url == null || url.isEmpty()) {
+                    url = this.url;
+                }
+
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpGet httpget = new HttpGet(url);
                 HttpResponse response = httpclient.execute(httpget);
@@ -78,9 +88,10 @@ public class ArticleParserHelper {
                 String leadImage = getImage(document);
                 String webDomain = getDomain(url);
 
-                return new WebPreview(title, summary, leadImage, webDomain, url);
+                return new WebPreview(title, summary, leadImage, webDomain, this.url);
             } catch (Exception e) {
-                return new WebPreview("", url, "", "", url);
+                e.printStackTrace();
+                return new WebPreview("", getDomain(url), "", "", url);
             }
         }
 
