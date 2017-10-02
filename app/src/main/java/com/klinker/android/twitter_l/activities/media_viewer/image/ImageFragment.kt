@@ -51,12 +51,12 @@ class ImageFragment : Fragment() {
                 .listener(object : RequestListener<String, GlideDrawable> {
                     override fun onException(e: Exception, model: String, target: Target<GlideDrawable>, isFirstResource: Boolean): Boolean = false
                     override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
-                        activity.supportStartPostponedEnterTransition()
+                        if (activity != null) activity.supportStartPostponedEnterTransition()
                         return false
                     }
                 }).into(imageView)
 
-        Handler().postDelayed({ activity.supportStartPostponedEnterTransition() }, 500)
+        Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 500)
         DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
 
         imageView.post({
@@ -72,7 +72,7 @@ class ImageFragment : Fragment() {
         private val EXTRA_URL = "extra_url"
         private val EXTRA_INDEX = "extra_index"
 
-        fun getInstance(index: Int, imageLink: String): ImageFragment {
+        fun getInstance(index: Int, imageLink: String?): ImageFragment {
             val b = Bundle()
             b.putString(EXTRA_URL, imageLink)
             b.putInt(EXTRA_INDEX, index)
@@ -175,7 +175,7 @@ class ImageFragment : Fragment() {
                 mNotificationManager.notify(randomId, builder2.build())
             } catch (e: Exception) {
                 e.printStackTrace()
-                activity.runOnUiThread({
+                activity?.runOnUiThread({
                     try {
                         PermissionModelUtils(context).showStorageIssue(e)
                     } catch (x: Exception) {
