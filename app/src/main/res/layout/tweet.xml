@@ -229,10 +229,7 @@
             android:layout_marginBottom="6dp"
             card_view:cardElevation="2dp"
             card_view:cardCornerRadius="3dp"
-            card_view:cardBackgroundColor="?embeddedTweetBackground" >
-
-
-        </com.klinker.android.twitter_l.views.WebPreviewCard>
+            card_view:cardBackgroundColor="?embeddedTweetBackground" />
 
     </LinearLayout>
 
