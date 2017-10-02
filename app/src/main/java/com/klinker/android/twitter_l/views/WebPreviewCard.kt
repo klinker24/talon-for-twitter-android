@@ -17,6 +17,7 @@ import com.klinker.android.twitter_l.activities.media_viewer.VideoViewerActivity
 import com.klinker.android.twitter_l.data.WebPreview
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.WebIntentBuilder
+import com.klinker.android.twitter_l.utils.api_helper.ArticleParserHelper
 import com.klinker.android.twitter_l.utils.api_helper.MercuryArticleParserHelper
 
 class WebPreviewCard @JvmOverloads constructor(
@@ -57,15 +58,19 @@ class WebPreviewCard @JvmOverloads constructor(
 
         progress.visibility = View.VISIBLE
 
-        MercuryArticleParserHelper.getArticle(link) { webPreview ->
+        ArticleParserHelper.getArticle(link) { webPreview ->
             listener.onLinkLoaded(link, webPreview)
-
             displayPreview(webPreview)
         }
     }
 
     fun displayPreview(preview: WebPreview) {
         if (tag != preview.link) {
+            if (loadedPreview != null) {
+                tag = loadedPreview!!.link
+                displayPreview(loadedPreview!!)
+            }
+
             return
         }
 
@@ -128,5 +133,21 @@ class WebPreviewCard @JvmOverloads constructor(
         loadedPreview = null
 
         setOnClickListener { }
+    }
+
+    companion object {
+        private val ignoredLinks = listOf(
+                "pic.twitter.com",
+                "tl.gd",
+                "vine.co",
+                "bit.ly",
+                "twitch.tv",
+                "youtube",
+                "youtu.be"
+        )
+
+        fun ignoreLink(link: String): Boolean {
+            return ignoredLinks.any { link.contains(it) }
+        }
     }
 }

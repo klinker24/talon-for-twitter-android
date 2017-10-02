@@ -622,7 +622,11 @@ public class TweetView {
             } else if (otherUrl != null && otherUrl.length() > 0) {
                 String link = otherUrl.split(" ")[0];
 
-                if (!link.contains("pic.twitter.com")) {
+                if (WebPreviewCard.Companion.ignoreLink(link)) {
+                    if (webPreviewCard.getVisibility() == View.VISIBLE) {
+                        webPreviewCard.setVisibility(View.GONE);
+                    }
+                } else {
                     if (webPreviewCard.getVisibility() == View.GONE) {
                         webPreviewCard.setVisibility(View.VISIBLE);
                     }
@@ -630,10 +634,6 @@ public class TweetView {
                     webPreviewCard.loadLink(otherUrl.split(" ")[0], new WebPreviewCard.OnLoad() {
                         @Override public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) { }
                     });
-                } else {
-                    if (webPreviewCard.getVisibility() == View.VISIBLE) {
-                        webPreviewCard.setVisibility(View.GONE);
-                    }
                 }
             } else {
                 if (webPreviewCard.getVisibility() == View.VISIBLE) {
