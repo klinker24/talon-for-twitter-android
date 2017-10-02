@@ -620,13 +620,21 @@ public class TweetView {
                     webPreviewCard.setVisibility(View.GONE);
                 }
             } else if (otherUrl != null && otherUrl.length() > 0) {
-                if (webPreviewCard.getVisibility() == View.GONE) {
-                    webPreviewCard.setVisibility(View.VISIBLE);
-                }
+                String link = otherUrl.split(" ")[0];
 
-                webPreviewCard.loadLink(otherUrl.split(" ")[0], new WebPreviewCard.OnLoad() {
-                    @Override public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) { }
-                });
+                if (!link.contains("pic.twitter.com")) {
+                    if (webPreviewCard.getVisibility() == View.GONE) {
+                        webPreviewCard.setVisibility(View.VISIBLE);
+                    }
+
+                    webPreviewCard.loadLink(otherUrl.split(" ")[0], new WebPreviewCard.OnLoad() {
+                        @Override public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) { }
+                    });
+                } else {
+                    if (webPreviewCard.getVisibility() == View.VISIBLE) {
+                        webPreviewCard.setVisibility(View.GONE);
+                    }
+                }
             } else {
                 if (webPreviewCard.getVisibility() == View.VISIBLE) {
                     webPreviewCard.setVisibility(View.GONE);

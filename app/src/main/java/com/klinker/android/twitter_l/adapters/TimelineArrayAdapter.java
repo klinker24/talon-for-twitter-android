@@ -784,22 +784,29 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         final String linkToLoad;
         if (embeddedTweetFound || picture) {
+            linkToLoad = null;
             if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
             }
-            linkToLoad = null;
         } else if (otherUrl != null && otherUrl.length() > 0) {
-            if (holder.webPreviewCard.getVisibility() == View.GONE) {
-                holder.webPreviewCard.setVisibility(View.VISIBLE);
-            }
+            String link = otherUrl.split(" ")[0];
 
-            linkToLoad = otherUrl.split(" ")[0];
+            if (link.contains("pic.twitter.com")) {
+                linkToLoad = null;
+                if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                    holder.webPreviewCard.setVisibility(View.GONE);
+                }
+            } else {
+                linkToLoad = link;
+                if (holder.webPreviewCard.getVisibility() == View.GONE) {
+                    holder.webPreviewCard.setVisibility(View.VISIBLE);
+                }
+            }
         } else {
+            linkToLoad = null;
             if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
             }
-
-            linkToLoad = null;
         }
 
         TextUtils.linkifyText(context, holder.retweeter, holder.background, true, "", false);
