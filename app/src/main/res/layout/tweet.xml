@@ -213,7 +213,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="6dp"
-            android:elevation="2dp"
+            card_view:cardElevation="2dp"
             card_view:cardCornerRadius="3dp"
             card_view:cardBackgroundColor="?embeddedTweetBackground"
             android:visibility="gone" />
