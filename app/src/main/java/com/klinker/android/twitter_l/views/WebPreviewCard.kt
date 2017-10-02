@@ -138,6 +138,7 @@ class WebPreviewCard @JvmOverloads constructor(
     companion object {
         private val ignoredLinks = listOf(
                 "pic.twitter.com",
+                "twitter.com/i/moments",
                 "tl.gd",
                 "vine.co",
                 "twitch.tv",
