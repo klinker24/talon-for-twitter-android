@@ -45,6 +45,11 @@
         android:title="@string/transparent_system_bars"
         android:defaultValue="true" />
 
+    <SwitchPreference
+        android:key="web_previews_timeline"
+        android:title="@string/preview_web_links"
+        android:defaultValue="true" />
+
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/color_options" >
 
