@@ -615,7 +615,7 @@ public class TweetView {
         }
 
         if (webPreviewCard != null) {
-            if (embeddedTweetFound || picture) {
+            if (embeddedTweetFound || picture || !settings.webPreviews) {
                 if (webPreviewCard.getVisibility() == View.VISIBLE) {
                     webPreviewCard.setVisibility(View.GONE);
                 }

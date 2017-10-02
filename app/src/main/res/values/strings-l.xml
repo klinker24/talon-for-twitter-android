@@ -229,4 +229,5 @@
     <string name="rate_it_summary"><b>5-star ratings</b> are extremely helpful to the app\'s growth
         and visibility on the Play Store. If you want to see the app <i>continue to soar</i>, help me out!</string>
     <string name="rate_it_not_ready">Not ready to rate it? No problem. Back out of this dialog and I will never ask again.</string>
+    <string name="preview_web_links">Preview Web Links</string>
 </resources>
