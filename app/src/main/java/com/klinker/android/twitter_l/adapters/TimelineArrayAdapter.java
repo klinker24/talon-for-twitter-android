@@ -790,7 +790,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         } else if (otherUrl != null && otherUrl.length() > 0) {
             String link = otherUrl.split(" ")[0];
 
-            if (link.contains("pic.twitter.com")) {
+            if (WebPreviewCard.Companion.ignoreLink(link)) {
                 linkToLoad = null;
                 if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
                     holder.webPreviewCard.setVisibility(View.GONE);
@@ -861,6 +861,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
     private boolean tryImmediateWebPageLoad(final ViewHolder holder, String link) {
         if (webPreviews.containsKey(link)) {
+            holder.webPreviewCard.setTag(link);
             holder.webPreviewCard.displayPreview(webPreviews.get(link));
             return true;
         } else {
