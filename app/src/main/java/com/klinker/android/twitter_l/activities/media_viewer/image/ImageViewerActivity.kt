@@ -21,6 +21,7 @@ import com.klinker.android.twitter_l.utils.Utils
 import org.jetbrains.annotations.Nullable
 import com.klinker.android.twitter_l.views.DetailedTweetView
 import com.flipboard.bottomsheet.BottomSheetLayout
+import com.klinker.android.twitter_l.settings.AppSettings
 
 class ImageViewerActivity : AppCompatActivity() {
 

@@ -120,10 +120,11 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
 
         DragDismissIntentBuilder.Theme theme = DragDismissIntentBuilder.Theme.LIGHT;
         AppSettings settings = AppSettings.getInstance(context);
-        if (settings.darkTheme) {
-            theme = DragDismissIntentBuilder.Theme.DARK;
-        } else if (settings.blackTheme) {
+
+        if (settings.blackTheme) {
             theme = DragDismissIntentBuilder.Theme.BLACK;
+        } else if (settings.darkTheme) {
+            theme = DragDismissIntentBuilder.Theme.DARK;
         }
 
         new DragDismissIntentBuilder(context)
