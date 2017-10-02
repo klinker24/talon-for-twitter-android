@@ -77,7 +77,12 @@ class WebPreviewCard @JvmOverloads constructor(
         } else {
             blankImage.visibility = View.GONE
             image.visibility = View.VISIBLE
-            Glide.with(context).load(preview.imageUrl).into(image)
+
+            try {
+                Glide.with(context).load(preview.imageUrl).into(image)
+            } catch (e: IllegalArgumentException) {
+                // destroyed activity
+            }
         }
 
         progress.visibility = View.GONE
