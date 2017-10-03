@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.klinker.android.twitter_l.R;
@@ -71,7 +72,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
             ab.hide();
         }
 
+        findViewById(R.id.toolbar).setVisibility(View.GONE);
         findViewById(R.id.fragment).setPadding(0,0,0,0);
-        new NavBarOverlayLayout(this).show();
     }
 }
