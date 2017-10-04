@@ -19,6 +19,7 @@ import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.WebIntentBuilder
 import com.klinker.android.twitter_l.utils.api_helper.ArticleParserHelper
 import com.klinker.android.twitter_l.utils.api_helper.MercuryArticleParserHelper
+import com.klinker.android.twitter_l.utils.text.TouchableSpan
 
 class WebPreviewCard @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -42,13 +43,11 @@ class WebPreviewCard @JvmOverloads constructor(
         title.textSize = AppSettings.getInstance(context).textSize + 3.toFloat()
         summary.textSize = AppSettings.getInstance(context).textSize.toFloat()
 
-        setOnClickListener {
-
-        }
+        setOnClickListener { }
+        setOnLongClickListener { true }
     }
 
     fun loadLink(link: String, listener: OnLoad) {
-        Log.v("link_loading", link)
         tag = link
 
         if (loadedPreview != null) {
@@ -120,6 +119,11 @@ class WebPreviewCard @JvmOverloads constructor(
                         .build().start()
             }
         }
+
+        setOnLongClickListener {
+            TouchableSpan.longClickWeb(context, link)
+            true
+        }
     }
 
     fun clear() {
@@ -133,6 +137,7 @@ class WebPreviewCard @JvmOverloads constructor(
         loadedPreview = null
 
         setOnClickListener { }
+        setOnLongClickListener { true }
     }
 
     companion object {

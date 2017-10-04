@@ -158,7 +158,7 @@ public class TouchableSpan extends ClickableSpan {
             // open internal
             // copy link
             // share link
-            longClickWeb();
+            longClickWeb(mContext, full);
         } else if (Regex.HASHTAG_PATTERN.matcher(mValue).find()) {
             // search hashtag
             // mute hashtag
@@ -201,8 +201,8 @@ public class TouchableSpan extends ClickableSpan {
         touched = isTouched;
     }
 
-    public void longClickWeb() {
-        AlertDialog.Builder builder = getBuilder();
+    public static void longClickWeb(final Context mContext, final String full) {
+        AlertDialog.Builder builder = getBuilder(mContext, full);
 
         builder.setItems(R.array.long_click_web, new DialogInterface.OnClickListener() {
             @Override
@@ -225,6 +225,9 @@ public class TouchableSpan extends ClickableSpan {
                         if (data.contains("vine.co/v/")) {
                             VideoViewerActivity.startActivity(mContext, 0l, data, "");
                         } else {
+                            AppSettings settings = AppSettings.getInstance(mContext);
+                            boolean mobilizedBrowser = settings.alwaysMobilize || (settings.mobilizeOnData && Utils.getConnectionStatus(mContext));
+
                             launchBrowser = new Intent(mContext, mobilizedBrowser ? PlainTextBrowserActivity.class :BrowserActivity.class);
                             launchBrowser.putExtra("url", data);
                             mContext.startActivity(launchBrowser);
@@ -232,10 +235,10 @@ public class TouchableSpan extends ClickableSpan {
 
                         break;
                     case 2: // copy link
-                        copy();
+                        copy(mContext, full);
                         break;
                     case 3: // share link
-                        share(full);
+                        share(mContext, full);
                         break;
                 }
             }
@@ -245,7 +248,7 @@ public class TouchableSpan extends ClickableSpan {
     }
 
     public void longClickHashtag() {
-        AlertDialog.Builder builder = getBuilder();
+        AlertDialog.Builder builder = getBuilder(mContext, full);
 
         builder.setItems(R.array.long_click_hashtag, new DialogInterface.OnClickListener() {
             @Override
@@ -270,7 +273,7 @@ public class TouchableSpan extends ClickableSpan {
                         }
                         break;
                     case 2: // copy hashtag
-                        copy();
+                        copy(mContext, full);
                         break;
                 }
             }
@@ -280,7 +283,7 @@ public class TouchableSpan extends ClickableSpan {
     }
 
     public void longClickMentions() {
-        AlertDialog.Builder builder = getBuilder();
+        AlertDialog.Builder builder = getBuilder(mContext, full);
 
         builder.setItems(R.array.long_click_mentions, new DialogInterface.OnClickListener() {
             @Override
@@ -293,10 +296,10 @@ public class TouchableSpan extends ClickableSpan {
                         TouchableSpan.this.onClick(null);
                         break;
                     case 1: // copy handle
-                        copy();
+                        copy(mContext, full);
                         break;
                     case 2: // search user
-                        search();
+                        search(mContext, full);
                         break;
                     case 3: // favorite user
                         new TimeoutThread(new Runnable() {
@@ -351,7 +354,7 @@ public class TouchableSpan extends ClickableSpan {
                         }
                         break;
                     case 7: // share profile
-                        share("https://twitter.com/" + full.replace("@", "").replace(" ", ""));
+                        share(mContext, "https://twitter.com/" + full.replace("@", "").replace(" ", ""));
                         break;
                 }
             }
@@ -361,7 +364,7 @@ public class TouchableSpan extends ClickableSpan {
     }
 
     public void longClickCashtag() {
-        AlertDialog.Builder builder = getBuilder();
+        AlertDialog.Builder builder = getBuilder(mContext, full);
 
         builder.setItems(R.array.long_click_cashtag, new DialogInterface.OnClickListener() {
             @Override
@@ -371,7 +374,7 @@ public class TouchableSpan extends ClickableSpan {
                         TouchableSpan.this.onClick(null);
                         break;
                     case 1: // copy cashtag
-                        copy();
+                        copy(mContext, full);
                         break;
                 }
             }
@@ -380,7 +383,7 @@ public class TouchableSpan extends ClickableSpan {
         builder.create().show();
     }
 
-    private AlertDialog.Builder getBuilder() {
+    private static AlertDialog.Builder getBuilder(Context mContext, String full) {
         String display = "";
 
         if (full.length() > 20) {
@@ -392,21 +395,21 @@ public class TouchableSpan extends ClickableSpan {
                 .setTitle(full);
     }
 
-    private void search() {
+    private static void search(Context mContext, String text) {
         Intent search = new Intent(mContext, SearchedTrendsActivity.class);
         search.setAction(Intent.ACTION_SEARCH);
-        search.putExtra(SearchManager.QUERY, full);
+        search.putExtra(SearchManager.QUERY, text);
         mContext.startActivity(search);
     }
 
-    private void copy() {
+    private static void copy(Context mContext, String text) {
         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Activity.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("link", full);
+        ClipData clip = ClipData.newPlainText("link", text);
         clipboard.setPrimaryClip(clip);
         Toast.makeText(mContext, R.string.copied, Toast.LENGTH_SHORT).show();
     }
 
-    private void share(String text) {
+    private static void share(Context mContext, String text) {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, text);
