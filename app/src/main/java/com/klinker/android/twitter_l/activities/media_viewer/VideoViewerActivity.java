@@ -163,8 +163,6 @@ public class VideoViewerActivity extends DragDismissActivity {
         final long tweetId = getIntent().getLongExtra("tweet_id", 0);
         if (tweetId != 0) {
             prepareInfo(tweetId);
-        } else {
-            root.findViewById(R.id.buttons_layout).setVisibility(View.GONE);
         }
 
         return root;

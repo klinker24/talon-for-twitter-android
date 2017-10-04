@@ -85,24 +85,28 @@ public class PreCacheService extends SimpleJobService {
         AppSettings settings = AppSettings.getInstance(context);
         Cursor cursor = HomeDataSource.getInstance(context).getUnreadCursor(settings.currentAccount);
 
-        if (cursor.moveToFirst()) {
-            if (DEBUG) {
-                Log.v("talon_pre_cache", "found database and moved to first picture. cursor size: " + cursor.getCount());
+        try {
+            if (cursor.moveToFirst()) {
+                if (DEBUG) {
+                    Log.v("talon_pre_cache", "found database and moved to first picture. cursor size: " + cursor.getCount());
+                }
+                boolean cont = true;
+                do {
+                    String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
+                    String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
+                    // image url can contain spaces, which means there are multiple pictures
+
+                    Glide.with(context).load(profilePic).downloadOnly(1000, 1000);
+                    Glide.with(context).load(imageUrl).downloadOnly(1000, 1000);
+
+                } while (cursor.moveToNext() && cont);
+
+                if (DEBUG) {
+                    Log.v("talon_pre_cache", "done with service. time: " + Calendar.getInstance().getTime().toString());
+                }
             }
-            boolean cont = true;
-            do {
-                String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
-                String imageUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PIC_URL));
-                // image url can contain spaces, which means there are multiple pictures
-
-                Glide.with(context).load(profilePic).downloadOnly(1000, 1000);
-                Glide.with(context).load(imageUrl).downloadOnly(1000, 1000);
-
-            } while (cursor.moveToNext() && cont);
-
-            if (DEBUG) {
-                Log.v("talon_pre_cache", "done with service. time: " + Calendar.getInstance().getTime().toString());
-            }
+        } catch (Exception e) {
+            
         }
     }
 

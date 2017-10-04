@@ -49,7 +49,7 @@ class ImageFragment : Fragment() {
 
         Glide.with(this).load(imageLink).diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(object : RequestListener<String, GlideDrawable> {
-                    override fun onException(e: Exception, model: String, target: Target<GlideDrawable>, isFirstResource: Boolean): Boolean = false
+                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean = false
                     override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
                         if (activity != null) activity.supportStartPostponedEnterTransition()
                         return false
@@ -83,7 +83,11 @@ class ImageFragment : Fragment() {
             return fragment
         }
 
-        private fun getLink(args: Bundle): String {
+        private fun getLink(args: Bundle?): String {
+            if (args == null) {
+                return ""
+            }
+
             val url = args.getString(EXTRA_URL)
             if (url.contains("imgur")) return url.replace("t.jpg", ".jpg")
             if (url.contains("insta")) return url.substring(0, url.length - 1) + "l"
@@ -109,20 +113,20 @@ class ImageFragment : Fragment() {
             val url = getLink(arguments)
 
             try {
-                val mBuilder = NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                val mBuilder = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setTicker(resources.getString(R.string.downloading) + "...")
                         .setContentTitle(resources.getString(R.string.app_name))
                         .setContentText(resources.getString(R.string.saving_picture) + "...")
                         .setProgress(100, 100, true)
 
-                val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 mNotificationManager.notify(6, mBuilder.build())
 
                 val bitmap = if (url.contains("ton.twitter.com") || url.contains("twitter.com/messages/")) {
                     // it is a direct message picture
                     val helper = TwitterDMPicHelper()
-                    helper.getDMPicture(url, Utils.getTwitter(context, AppSettings.getInstance(context)), context)
+                    helper.getDMPicture(url, Utils.getTwitter(activity, AppSettings.getInstance(activity)), activity)
                 } else {
                     var urlString = url
                     if (urlString.contains("pbs.twimg")) {
@@ -144,13 +148,13 @@ class ImageFragment : Fragment() {
                 val name = "Image-" + Random().nextInt(1000000)
 
 
-                var uri = IOUtils.saveImage(bitmap, name, context)
+                var uri = IOUtils.saveImage(bitmap, name, activity)
                 val root = Environment.getExternalStorageDirectory().toString()
                 val myDir = File(root + "/Talon")
                 val file = File(myDir, name + ".jpg")
 
                 try {
-                    uri = FileProvider.getUriForFile(context,
+                    uri = FileProvider.getUriForFile(activity,
                             BuildConfig.APPLICATION_ID + ".provider", file)
                 } catch (err: Exception) {
                 }
@@ -160,9 +164,9 @@ class ImageFragment : Fragment() {
                 intent.setDataAndType(uri, "image/*")
 
                 val randomId = NotificationUtils.generateRandomId()
-                val pending = PendingIntent.getActivity(context, randomId, intent, 0)
+                val pending = PendingIntent.getActivity(activity, randomId, intent, 0)
 
-                val builder2 = NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
 //                                    .setContentIntent(pending)
                         .setSmallIcon(R.drawable.ic_stat_icon)
                         .setTicker(resources.getString(R.string.saved_picture) + "...")
@@ -177,21 +181,23 @@ class ImageFragment : Fragment() {
                 e.printStackTrace()
                 activity?.runOnUiThread({
                     try {
-                        PermissionModelUtils(context).showStorageIssue(e)
+                        PermissionModelUtils(activity).showStorageIssue(e)
                     } catch (x: Exception) {
                         e.printStackTrace()
                     }
                 })
 
-                val builder2 = NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setTicker(resources.getString(R.string.error) + "...")
-                        .setContentTitle(resources.getString(R.string.app_name))
-                        .setContentText(resources.getString(R.string.error) + "...")
-                        .setProgress(0, 100, true)
+                if (activity != null) {
+                    val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
+                            .setTicker(resources.getString(R.string.error) + "...")
+                            .setContentTitle(resources.getString(R.string.app_name))
+                            .setContentText(resources.getString(R.string.error) + "...")
+                            .setProgress(0, 100, true)
 
-                val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                mNotificationManager.notify(6, builder2.build())
+                    val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    mNotificationManager.notify(6, builder2.build())
+                }
             }
         }).start()
     }
