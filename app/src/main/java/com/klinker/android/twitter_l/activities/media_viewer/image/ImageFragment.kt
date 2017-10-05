@@ -36,6 +36,8 @@ import java.util.*
 
 class ImageFragment : Fragment() {
 
+    private var attacher: DraggablePhotoViewAttacher? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val root = inflater.inflate(R.layout.fragment_image, container, false)
@@ -47,7 +49,7 @@ class ImageFragment : Fragment() {
             imageView.transitionName = ""
         }
 
-        Glide.with(this).load(imageLink).diskCacheStrategy(DiskCacheStrategy.ALL)
+        Glide.with(this).load(imageLink).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(object : RequestListener<String, GlideDrawable> {
                     override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean = false
                     override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
@@ -57,7 +59,7 @@ class ImageFragment : Fragment() {
                 }).into(imageView)
 
         Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 500)
-        DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
+        attacher = DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
 
         imageView.post({
             imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -66,6 +68,11 @@ class ImageFragment : Fragment() {
         })
 
         return root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try { attacher?.cleanup() } catch (e: Exception) { }
     }
 
     companion object {
