@@ -96,8 +96,8 @@ class ImageFragment : Fragment() {
             }
 
             val url = args.getString(EXTRA_URL)
-            if (url.contains("imgur")) return url.replace("t.jpg", ".jpg")
-            if (url.contains("insta")) return url.substring(0, url.length - 1) + "l"
+            if (url != null && url.contains("imgur")) return url.replace("t.jpg", ".jpg")
+            if (url != null && url.contains("insta")) return url.substring(0, url.length - 1) + "l"
 
             return url
         }

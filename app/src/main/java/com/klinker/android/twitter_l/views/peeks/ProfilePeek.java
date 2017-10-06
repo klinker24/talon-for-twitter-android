@@ -94,6 +94,10 @@ public class ProfilePeek extends SimpleOnPeek {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (activity.isDestroyed()) {
+                                return;
+                            }
+                            
                             Glide.with(activity).load(user.getOriginalProfileImageURL()).into(profilePicture);
                             Glide.with(activity).load(user.getProfileBannerURL()).into(bannerImage);
 

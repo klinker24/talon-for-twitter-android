@@ -127,7 +127,9 @@ public class FollowersArrayAdapter extends ArrayAdapter<User> {
 
         final String url = user.getOriginalProfileImageURL();
 
-        Glide.with(context).load(url).into(holder.picture);
+        try {
+            Glide.with(context).load(url).into(holder.picture);
+        } catch (Exception e) { }
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
