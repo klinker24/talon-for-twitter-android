@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -53,6 +54,10 @@ public class ConfigurePagerActivity extends WhiteToolbarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (AppSettings.getInstance(this).blackTheme) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
 
         context = this;
         sharedPrefs = AppSettings.getSharedPreferences(context);

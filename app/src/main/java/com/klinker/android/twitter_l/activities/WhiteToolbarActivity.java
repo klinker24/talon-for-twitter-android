@@ -3,6 +3,7 @@ package com.klinker.android.twitter_l.activities;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,10 @@ public class WhiteToolbarActivity extends PeekViewActivity {
         super.onCreate(savedInstanceState);
         this.lightStatusBarIconColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ?
                 getResources().getColor(R.color.light_status_bar_color) : Color.BLACK;
+
+        if (AppSettings.getInstance(this).blackTheme) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
     }
 
     @Override
