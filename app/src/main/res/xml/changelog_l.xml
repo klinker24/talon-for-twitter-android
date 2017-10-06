@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.9.1">
+        <text>Fix some character encoding issues with the article previews</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.9.0">
         <text>Preview web links on the timeline (Turn it off from App Style settings)</text>
         <text>New image viewer with improved drag-to-close and animations</text>
