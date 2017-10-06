@@ -148,7 +148,8 @@ class WebPreviewCard @JvmOverloads constructor(
                 "vine.co",
                 "twitch.tv",
                 "youtube",
-                "youtu.be"
+                "youtu.be",
+                "bit.ly"
         )
 
         fun ignoreLink(link: String): Boolean {
