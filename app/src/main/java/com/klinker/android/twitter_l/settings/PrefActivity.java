@@ -42,6 +42,10 @@ public class PrefActivity extends WhiteToolbarActivity {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
+        if (AppSettings.getInstance(this).blackTheme) {
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        }
+
         setUpTheme();
 
         setContentView(R.layout.settings_base);
