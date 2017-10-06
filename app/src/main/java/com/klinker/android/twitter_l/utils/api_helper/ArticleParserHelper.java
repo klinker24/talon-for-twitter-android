@@ -6,6 +6,7 @@ import android.util.Log;
 import com.klinker.android.twitter_l.APIKeys;
 import com.klinker.android.twitter_l.data.WebPreview;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -61,9 +62,22 @@ public class ArticleParserHelper {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpGet httpget = new HttpGet(url);
                 HttpResponse response = httpclient.execute(httpget);
+
+                String format = "UTF-8";
+                for (Header header : response.getAllHeaders()) {
+                    String name = header.getName().toLowerCase();
+                    String value = header.getValue();
+
+                    if (name.equals("content-type") && value.contains("encoding=")) {
+                        format = value.substring(value.indexOf("encoding=") + 9);
+                    } else if (name.equals("content-type") && value.contains("charset=")) {
+                        format = value.substring(value.indexOf("charset=") + 8);
+                    }
+                }
+
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8), 8);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format), 8);
                 StringBuilder sb = new StringBuilder();
                 String line = null;
                 while ((line = reader.readLine()) != null) {
