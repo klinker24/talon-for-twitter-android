@@ -54,18 +54,18 @@ class ImageFragment : Fragment() {
                     override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean = false
                     override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
                         if (activity != null) activity.supportStartPostponedEnterTransition()
+                        imageView.post({
+                            imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                            imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                            imageView.invalidate()
+                        })
+
                         return false
                     }
                 }).into(imageView)
 
         Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 500)
         attacher = DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
-
-        imageView.post({
-            imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-            imageView.invalidate()
-        })
 
         return root
     }
