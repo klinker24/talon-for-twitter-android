@@ -28,6 +28,7 @@ import com.klinker.android.twitter_l.BuildConfig
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.*
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper
+import xyz.klinker.android.article.ImageViewActivity
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -54,6 +55,7 @@ class ImageFragment : Fragment() {
                     override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean = false
                     override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
                         if (activity != null) activity.supportStartPostponedEnterTransition()
+
                         imageView.post({
                             imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
                             imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
@@ -63,6 +65,14 @@ class ImageFragment : Fragment() {
                         return false
                     }
                 }).into(imageView)
+
+        if (activity is ImageViewerActivity && (activity as ImageViewerActivity).hasMultipleImages()) {
+            imageView.post({
+                imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                imageView.invalidate()
+            })
+        }
 
         Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 500)
         attacher = DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
