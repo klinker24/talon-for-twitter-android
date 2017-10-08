@@ -91,6 +91,10 @@ class ImageViewerActivity : AppCompatActivity() {
         bottomSheet.showWithSheetView(tweetView.view)
     }
 
+    fun hasMultipleImages(): Boolean {
+        return intent.getStringArrayExtra(EXTRA_URLS).size > 1
+    }
+
     companion object {
         private val EXTRA_URLS = "extra_urls"
         private val EXTRA_TWEET_ID = "extra_tweet_id"
