@@ -53,7 +53,7 @@ class ImageFragment : Fragment() {
             imageView.transitionName = ""
         }
 
-        Glide.with(this).load(imageLink).fitCenter()
+        Glide.with(this).load(imageLink)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(object : SimpleTarget<GlideDrawable>() {
                     override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
@@ -99,10 +99,17 @@ class ImageFragment : Fragment() {
             }
 
             val url = args.getString(EXTRA_URL)
-            if (url != null && url.contains("imgur")) return url.replace("t.jpg", ".jpg")
-            if (url != null && url.contains("insta")) return url.substring(0, url.length - 1) + "l"
 
-            return url
+            try {
+                if (url != null && url.contains("imgur")) return url.replace("t.jpg", ".jpg")
+            } catch (e: Exception) { }
+
+            try {
+                if (url != null && url.contains("insta")) return url.substring(0, url.length - 1) + "l"
+            } catch (e: Exception) { }
+
+
+            return url ?: ""
         }
     }
 

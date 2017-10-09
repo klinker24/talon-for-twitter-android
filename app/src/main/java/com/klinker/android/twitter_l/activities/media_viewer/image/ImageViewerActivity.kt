@@ -100,7 +100,11 @@ class ImageViewerActivity : AppCompatActivity() {
         private val EXTRA_TWEET_ID = "extra_tweet_id"
         private val EXTRA_START_INDEX = "extra_start_index"
 
-        @JvmOverloads fun startActivity(context: Context, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
+        @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
+            if (context == null) {
+                return
+            }
+
             val viewImage = Intent(context, ImageViewerActivity::class.java)
             viewImage.putExtra(EXTRA_URLS, links)
             viewImage.putExtra(EXTRA_START_INDEX, startIndex)
