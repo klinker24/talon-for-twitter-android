@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="6.9.2">
+        <text>Crash fixes</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.9.1">
         <text>Fix some character encoding issues with the article previews</text>
         <text>Bug fixes</text>

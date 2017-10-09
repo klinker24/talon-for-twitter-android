@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.activities.media_viewer.image
 
+import android.graphics.Matrix
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
