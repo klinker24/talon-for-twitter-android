@@ -6,6 +6,7 @@ import android.widget.ImageView
 import uk.co.senab.photoview.PhotoViewAttacher
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.ViewGroup
 
 class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
 

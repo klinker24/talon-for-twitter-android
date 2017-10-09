@@ -24,6 +24,9 @@ import android.os.*
 import android.support.v4.content.FileProvider
 import android.os.Environment.getExternalStorageDirectory
 import android.support.v4.app.NotificationCompat
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
 import com.klinker.android.twitter_l.BuildConfig
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.*
@@ -50,31 +53,21 @@ class ImageFragment : Fragment() {
             imageView.transitionName = ""
         }
 
-        Glide.with(this).load(imageLink).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL)
-                .listener(object : RequestListener<String, GlideDrawable> {
-                    override fun onException(e: Exception?, model: String?, target: Target<GlideDrawable>?, isFirstResource: Boolean): Boolean = false
-                    override fun onResourceReady(resource: GlideDrawable, model: String, target: Target<GlideDrawable>, isFromMemoryCache: Boolean, isFirstResource: Boolean): Boolean {
+        Glide.with(this).load(imageLink).fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(object : SimpleTarget<GlideDrawable>() {
+                    override fun onResourceReady(resource: GlideDrawable?, glideAnimation: GlideAnimation<in GlideDrawable>?) {
+                        imageView.setImageDrawable(resource)
+
+                        imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+                        imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                        imageView.invalidate()
+
                         if (activity != null) activity.supportStartPostponedEnterTransition()
-
-                        imageView.post({
-                            imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                            imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                            imageView.invalidate()
-                        })
-
-                        return false
                     }
-                }).into(imageView)
+                })
 
-        if (activity is ImageViewerActivity && (activity as ImageViewerActivity).hasMultipleImages()) {
-            imageView.post({
-                imageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-                imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-                imageView.invalidate()
-            })
-        }
-
-        Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 500)
+        Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 1500)
         attacher = DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
 
         return root
@@ -251,7 +244,7 @@ class ImageFragment : Fragment() {
     private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val f = File(getExternalStorageDirectory().path + "/Talon/image_to_share.jpg")
+        val f = File(getExternalStorageDirectory().path + "/Talon/share_" + System.currentTimeMillis() + ".jpg")
         val dir = File(Environment.getExternalStorageDirectory(), "Talon")
 
         return try {
