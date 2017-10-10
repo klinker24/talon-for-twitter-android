@@ -52,6 +52,7 @@
         <item name="drawer_options_background">@color/drawer_options_background_light</item>
         <item name="tweet_background">@color/light_background</item>
         <item name="tweet_activity_background">@color/tweet_activity_light_background</item>
+        <item name="revamped_tweet_timeline_line">@color/revamped_tweet_timeline_line_light</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
         <item name="cancelButton">@drawable/ic_cancel_light</item>
@@ -262,6 +263,7 @@
         <item name="drawer_options_background">@color/drawer_options_background_light</item>
         <item name="tweet_background">@color/light_background</item>
         <item name="tweet_activity_background">@color/tweet_activity_light_background</item>
+        <item name="revamped_tweet_timeline_line">@color/revamped_tweet_timeline_line_light</item>
 
         <item name="fullScreenTweet">@drawable/full_screen_background_light</item>
         <item name="cancelButton">@drawable/ic_cancel_light</item>

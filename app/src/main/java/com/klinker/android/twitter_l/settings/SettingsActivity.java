@@ -47,10 +47,6 @@ public class SettingsActivity extends WhiteToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (AppSettings.getInstance(this).blackTheme) {
-            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        }
-
         AppSettings.invalidate();
 
         setUpTheme();

@@ -33,14 +33,14 @@
             android:id="@+id/line_above_profile_picture"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="?embeddedTweetBackground" />
+            android:background="?revamped_tweet_timeline_line" />
 
         <View
             android:id="@+id/line_below_profile_picture"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="?embeddedTweetBackground" />
+            android:background="?revamped_tweet_timeline_line" />
 
     </LinearLayout>
 
@@ -270,7 +270,7 @@
             android:layout_height="8dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="23dp"
-            android:src="?embeddedTweetBackground"
+            android:src="?revamped_tweet_timeline_line"
             app:civ_border_width="0dp" />
 
         <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView

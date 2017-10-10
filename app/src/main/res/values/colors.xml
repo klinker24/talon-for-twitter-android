@@ -59,6 +59,7 @@
     <color name="icon_light">#CC5c5c5c</color>
     <color name="light_ripple">#11000000</color>
     <color name="tweet_activity_light_background">#f5f5f5</color>
+    <color name="revamped_tweet_timeline_line_light">#f5f5f5</color>
 
     <!-- Dark Theme -->
     <color name="dark_background">#263238</color>
