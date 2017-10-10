@@ -136,7 +136,7 @@ public class AppSettings {
     public String favoriteUserNames;
     public String locale;
 
-    public boolean revampedTweetLayout = true;
+    public boolean revampedTweetLayout = BuildConfig.DEBUG;
     public boolean transpartSystemBars;
     public boolean darkTheme;
     public boolean blackTheme;
