@@ -224,15 +224,6 @@
 
                 </FrameLayout>
 
-                <com.klinker.android.twitter_l.views.WebPreviewCard
-                    android:id="@+id/web_preview_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="?embeddedTweetBackground"
-                    app:cardCornerRadius="0dp"
-                    app:cardElevation="0dp" />
-
                 <LinearLayout
                     android:id="@+id/expansion"
                     android:layout_width="match_parent"
@@ -250,6 +241,18 @@
             android:id="@+id/embedded_tweet_card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/quoted_tweet_height"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="46dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="?embeddedTweetBackground"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp" />
+
+        <com.klinker.android.twitter_l.views.WebPreviewCard
+            android:id="@+id/web_preview_card"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="46dp"
