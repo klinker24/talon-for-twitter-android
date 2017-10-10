@@ -8,10 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -125,6 +129,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         // revamped tweet
         public View revampedTopLine;
         public View revampedRetweetIcon;
+        public View revampedTweetContent;
+        public View revampedContentRipple;
 
         public long tweetId;
         public boolean isFavorited;
@@ -302,6 +308,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         // revamped tweet
         holder.revampedTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.revampedRetweetIcon = v.findViewById(R.id.retweet_icon);
+        holder.revampedTweetContent = v.findViewById(R.id.content_card);
+        holder.revampedContentRipple = v.findViewById(R.id.content_ripple);
 
         //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -338,26 +346,39 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             }
         });
 
-        holder.retweeter.setSoundEffectsEnabled(false);
-        holder.retweeter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TouchableMovementMethod.touched) {
-                    holder.background.performClick();
-                }
-            }
-        });
+        if (settings.revampedTweetLayout) {
+            holder.tweet.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (!TouchableMovementMethod.touched && event.getAction() == MotionEvent.ACTION_DOWN) {
+                        forceRippleAnimation(holder.revampedContentRipple, event);
+                    }
 
-        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!TouchableMovementMethod.touched) {
-                    holder.background.performLongClick();
-                    holder.preventNextClick = true;
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        } else {
+            holder.retweeter.setSoundEffectsEnabled(false);
+            holder.retweeter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!TouchableMovementMethod.touched) {
+                        holder.background.performClick();
+                    }
+                }
+            });
+
+            holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (!TouchableMovementMethod.touched) {
+                        holder.background.performLongClick();
+                        holder.preventNextClick = true;
+                    }
+                    return false;
+                }
+            });
+        }
 
         if (settings.picturesType == AppSettings.PICTURES_SMALL &&
                 holder.imageHolder.getHeight() != smallPictures) {
@@ -379,8 +400,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
     public void bindView(final View view, Status status, final int position) {
         final ViewHolder holder = (ViewHolder) view.getTag();
-
-        setUpRevampedTweet(position, holder);
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
@@ -851,6 +870,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             holder.background.performClick();
             ((Activity)context).finish();
         }
+
+        setUpRevampedTweet(position, holder);
     }
 
     private boolean tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
@@ -975,6 +996,24 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             if (holder.revampedRetweetIcon.getVisibility() != View.VISIBLE) holder.revampedRetweetIcon.setVisibility(View.VISIBLE);
         } else if (holder.revampedRetweetIcon.getVisibility() != View.GONE) {
             holder.revampedRetweetIcon.setVisibility(View.GONE);
+        }
+    }
+
+    private void forceRippleAnimation(View view, MotionEvent event) {
+        Drawable background = view.getBackground();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
+            final RippleDrawable rippleDrawable = (RippleDrawable) background;
+
+            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+            rippleDrawable.setHotspot(event.getX(), event.getY());
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rippleDrawable.setState(new int[]{});
+                }
+            }, 300);
         }
     }
 }

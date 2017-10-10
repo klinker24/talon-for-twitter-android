@@ -14,6 +14,8 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +25,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.*;
@@ -154,6 +157,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         // revamped tweet
         public View revampedTopLine;
         public View revampedRetweetIcon;
+        public View revampedTweetContent;
+        public View revampedContentRipple;
 
         public long tweetId;
         public boolean isFavorited;
@@ -377,6 +382,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         // revamped tweet
         holder.revampedTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.revampedRetweetIcon = v.findViewById(R.id.retweet_icon);
+        holder.revampedTweetContent = v.findViewById(R.id.content_card);
+        holder.revampedContentRipple = v.findViewById(R.id.content_ripple);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -438,28 +445,41 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         });
 
-        holder.retweeter.setSoundEffectsEnabled(false);
-        holder.retweeter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TouchableMovementMethod.touched) {
-                    holder.background.performClick();
-                }
+        if (settings.revampedTweetLayout) {
+            holder.tweet.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (!TouchableMovementMethod.touched && event.getAction() == MotionEvent.ACTION_DOWN) {
+                        forceRippleAnimation(holder.revampedContentRipple, event);
+                    }
 
-                debounceClick(holder.retweeter);
-            }
-        });
-
-        holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!TouchableMovementMethod.touched) {
-                    holder.background.performLongClick();
-                    holder.preventNextClick = true;
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        } else {
+            holder.retweeter.setSoundEffectsEnabled(false);
+            holder.retweeter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!TouchableMovementMethod.touched) {
+                        holder.background.performClick();
+                    }
+
+                    debounceClick(holder.retweeter);
+                }
+            });
+
+            holder.retweeter.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (!TouchableMovementMethod.touched) {
+                        holder.background.performLongClick();
+                        holder.preventNextClick = true;
+                    }
+                    return false;
+                }
+            });
+        }
 
         if (settings.picturesType == AppSettings.PICTURES_SMALL &&
                 holder.imageHolder.getHeight() != smallPictures) {
@@ -1480,6 +1500,24 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             if (holder.revampedRetweetIcon.getVisibility() != View.VISIBLE) holder.revampedRetweetIcon.setVisibility(View.VISIBLE);
         } else if (holder.revampedRetweetIcon.getVisibility() != View.GONE) {
             holder.revampedRetweetIcon.setVisibility(View.GONE);
+        }
+    }
+
+    private void forceRippleAnimation(View view, MotionEvent event) {
+        Drawable background = view.getBackground();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background instanceof RippleDrawable) {
+            final RippleDrawable rippleDrawable = (RippleDrawable) background;
+
+            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+            rippleDrawable.setHotspot(event.getX(), event.getY());
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rippleDrawable.setState(new int[]{});
+                }
+            }, 300);
         }
     }
 }
