@@ -1398,12 +1398,8 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-
-        if (settings.blackTheme) {
-            getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        }
 
         cancelTeslaUnread();
 

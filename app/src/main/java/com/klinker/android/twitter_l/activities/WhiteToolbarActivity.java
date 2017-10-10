@@ -29,7 +29,11 @@ public class WhiteToolbarActivity extends PeekViewActivity {
         super.onCreate(savedInstanceState);
         this.lightStatusBarIconColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ?
                 getResources().getColor(R.color.light_status_bar_color) : Color.BLACK;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         if (AppSettings.getInstance(this).blackTheme) {
             getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         }
