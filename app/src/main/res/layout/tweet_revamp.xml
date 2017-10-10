@@ -128,20 +128,20 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/quick_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="end|bottom"
                 android:orientation="vertical"
                 android:paddingLeft="6dp"
-                android:paddingRight="6dp">
+                android:paddingRight="6dp"
+                android:paddingBottom="6dp">
 
                 <ImageView
-                    android:id="@+id/is_a_conversation"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:id="@+id/retweet_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:scaleType="fitCenter"
-                    android:src="?directMessageItem"
+                    android:src="?retweetButton"
                     android:visibility="gone" />
 
                 <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView

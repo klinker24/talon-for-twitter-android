@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityManagerCompat;
-import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Log;
 import android.view.Display;
@@ -131,7 +130,6 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     int embeddedTweetMinHeight;
 
     public static class ViewHolder {
-        public View revampedTweetTopLine;
         public TextView name;
         public TextView muffledName;
         public TextView screenTV;
@@ -152,6 +150,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public SimpleVideoView videoView;
         public LinearLayout conversationArea;
         public WebPreviewCard webPreviewCard;
+
+        // revamped tweet
+        public View revampedTopLine;
+        public View revampedRetweetIcon;
 
         public long tweetId;
         public boolean isFavorited;
@@ -352,7 +354,6 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         v = inflater.inflate(layout, viewGroup, false);
 
-        holder.revampedTweetTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.muffledName = (TextView) v.findViewById(R.id.muffled_name);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
@@ -372,6 +373,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
         holder.conversationArea = (LinearLayout) v.findViewById(R.id.conversation_area);
         holder.webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
+
+        // revamped tweet
+        holder.revampedTopLine = v.findViewById(R.id.line_above_profile_picture);
+        holder.revampedRetweetIcon = v.findViewById(R.id.retweet_icon);
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
@@ -576,8 +581,6 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         final boolean muffled = isMuffled(screenname, retweeter);
 
-        setUpRevampedTweet(cursor, holder, muffled);
-
         holder.gifUrl = cursor.getString(GIF_COL);
 
         final boolean inAConversation;
@@ -588,11 +591,11 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         if (inAConversation) {
-            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+            if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.VISIBLE) {
                 holder.isAConversation.setVisibility(View.VISIBLE);
             }
         } else {
-            if (holder.isAConversation.getVisibility() != View.GONE) {
+            if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.GONE) {
                 holder.isAConversation.setVisibility(View.GONE);
             }
         }
@@ -659,17 +662,19 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         }
 
-        holder.quickActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetWithReplyHandles, secondAcc);
-                popup.setExpansionPointForAnim(holder.quickActions);
-                popup.setOnTopOfView(holder.quickActions);
-                popup.show();
+        if (holder.quickActions != null) {
+            holder.quickActions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    QuickActionsPopup popup = new QuickActionsPopup(context, holder.tweetId, screenname, fRetweeter, tweetWithReplyHandles, secondAcc);
+                    popup.setExpansionPointForAnim(holder.quickActions);
+                    popup.setOnTopOfView(holder.quickActions);
+                    popup.show();
 
-                debounceClick(holder.quickActions);
-            }
-        });
+                    debounceClick(holder.quickActions);
+                }
+            });
+        }
 
         holder.background.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -882,7 +887,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         if (retweeter.length() > 0 && !isDM) {
             String text = context.getResources().getString(R.string.retweeter);
-            holder.retweeter.setText(text + retweeter);
+            holder.retweeter.setText((settings.revampedTweetLayout ? "@" : text) + retweeter);
             holder.retweeterName = retweeter;
 
             if (holder.retweeter.getVisibility() != View.VISIBLE) {
@@ -1140,6 +1145,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 }
             }
         }
+
+        setUpRevampedTweet(cursor, holder, muffled);
     }
 
     private boolean tryImmediateEmbeddedLoad(final ViewHolder holder, String otherUrl) {
@@ -1457,16 +1464,22 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         if (cursor.getPosition() == cursor.getCount() - 1) {
-            holder.revampedTweetTopLine.setVisibility(View.INVISIBLE);
-        } else if (holder.revampedTweetTopLine != null && holder.revampedTweetTopLine.getVisibility() != View.VISIBLE) {
-            holder.revampedTweetTopLine.setVisibility(View.VISIBLE);
+            holder.revampedTopLine.setVisibility(View.INVISIBLE);
+        } else if (holder.revampedTopLine.getVisibility() != View.VISIBLE) {
+            holder.revampedTopLine.setVisibility(View.VISIBLE);
         }
 
         View timeHolder = ((View) holder.time.getParent());
         if (muffled) {
             if (timeHolder.getVisibility() != View.GONE) timeHolder.setVisibility(View.GONE);
-        } else if (timeHolder.getVisibility() != View.GONE) {
+        } else if (timeHolder.getVisibility() != View.VISIBLE) {
             timeHolder.setVisibility(View.VISIBLE);
+        }
+
+        if (holder.retweeter.getVisibility() == View.VISIBLE) {
+            if (holder.revampedRetweetIcon.getVisibility() != View.VISIBLE) holder.revampedRetweetIcon.setVisibility(View.VISIBLE);
+        } else if (holder.revampedRetweetIcon.getVisibility() != View.GONE) {
+            holder.revampedRetweetIcon.setVisibility(View.GONE);
         }
     }
 }
