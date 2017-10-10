@@ -131,6 +131,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     int embeddedTweetMinHeight;
 
     public static class ViewHolder {
+        public View revampedTweetTopLine;
         public TextView name;
         public TextView muffledName;
         public TextView screenTV;
@@ -351,6 +352,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         v = inflater.inflate(layout, viewGroup, false);
 
+        holder.revampedTweetTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.muffledName = (TextView) v.findViewById(R.id.muffled_name);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
@@ -373,10 +375,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
-        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() ? 1 : 2));
+        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweetLayout ? 1 : 2));
         holder.name.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
         holder.muffledName.setTextSize(settings.textSize);
-        holder.time.setTextSize(settings.textSize - 3);
+        holder.time.setTextSize(settings.textSize - (settings.revampedTweetLayout ? 2 : 3));
         holder.retweeter.setTextSize(settings.textSize - 3);
         holder.replies.setTextSize(settings.textSize - 2);
 
@@ -517,6 +519,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+
+        setUpRevampedTweet(cursor, holder);
 
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
@@ -777,11 +781,24 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         try {
-            holder.tweet.setText(removeLastCharacters ?
+            String text = removeLastCharacters ?
                     tweetText.substring(0, tweetText.length() - (embeddedTweetFound ? 33 : 25)) :
-                    tweetText);
+                    tweetText;
+            holder.tweet.setText(text);
+
+            if (text.isEmpty()) {
+                if (holder.tweet.getVisibility() != View.GONE) holder.tweet.setVisibility(View.GONE);
+            } else if (holder.tweet.getVisibility() != View.VISIBLE) {
+                holder.tweet.setVisibility(View.VISIBLE);
+            }
         } catch (Exception e) {
             holder.tweet.setText(tweetText);
+
+            if (tweetText.isEmpty()) {
+                if (holder.tweet.getVisibility() != View.GONE) holder.tweet.setVisibility(View.GONE);
+            } else if (holder.tweet.getVisibility() != View.VISIBLE) {
+                holder.tweet.setVisibility(View.VISIBLE);
+            }
         }
 
         boolean picture = false;
@@ -1429,5 +1446,17 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 view.setEnabled(true);
             }
         }, 250);
+    }
+
+    private void setUpRevampedTweet(final Cursor cursor, ViewHolder holder) {
+        if (!settings.revampedTweetLayout) {
+            return;
+        }
+
+        if (cursor.getPosition() == cursor.getCount() - 1) {
+            holder.revampedTweetTopLine.setVisibility(View.INVISIBLE);
+        } else if (holder.revampedTweetTopLine != null && holder.revampedTweetTopLine.getVisibility() != View.VISIBLE) {
+            holder.revampedTweetTopLine.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.util.Log;
 
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.EmojiStyle;
 import com.klinker.android.twitter_l.data.ThemeColor;
@@ -134,7 +136,7 @@ public class AppSettings {
     public String favoriteUserNames;
     public String locale;
 
-    public boolean revampedTweetLayout = false;
+    public boolean revampedTweetLayout = BuildConfig.DEBUG;
     public boolean transpartSystemBars;
     public boolean darkTheme;
     public boolean blackTheme;
