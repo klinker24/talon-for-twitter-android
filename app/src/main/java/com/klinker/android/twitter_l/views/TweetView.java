@@ -110,12 +110,12 @@ public class TweetView {
     ImageView imageIv;
     TextView retweeterTv;
     TextView replies;
-    LinearLayout backgroundLayout;
+    View backgroundLayout;
     ImageView playButton;
     TextView screenTV;
     FrameLayout imageHolder;
     ImageView isAConvo;
-    CardView embeddedTweet;
+    ViewGroup embeddedTweet;
     View quickActions;
     WebPreviewCard webPreviewCard;
 
@@ -253,10 +253,14 @@ public class TweetView {
     }
 
     protected View createTweet() {
-        View tweetView = ((Activity) context).getLayoutInflater().inflate(
-                !settings.condensedTweets() ? R.layout.tweet : R.layout.tweet_condensed,
-                null, false);
-        return tweetView;
+        int layout = R.layout.tweet;
+        if (settings.revampedTweetLayout) {
+            layout = R.layout.tweet_revamp;
+        } else if (settings.condensedTweets()) {
+            layout = R.layout.tweet_condensed;
+        }
+
+        return ((Activity) context).getLayoutInflater().inflate(layout, null, false);
     }
 
     //private boolean images = true;
@@ -274,11 +278,11 @@ public class TweetView {
         tweetTv = (TextView) v.findViewById(R.id.tweet);
         retweeterTv = (TextView) v.findViewById(R.id.retweeter);
         replies = (TextView) v.findViewById(R.id.reply_to);
-        backgroundLayout = (LinearLayout) v.findViewById(R.id.background);
+        backgroundLayout = v.findViewById(R.id.background);
         playButton = (ImageView) v.findViewById(R.id.play_button);
         screenTV = (TextView) v.findViewById(R.id.screenname);
         isAConvo = (ImageView) v.findViewById(R.id.is_a_conversation);
-        embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        embeddedTweet = (ViewGroup) v.findViewById(R.id.embedded_tweet_card);
         quickActions = v.findViewById(R.id.quick_actions);
         webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
 
