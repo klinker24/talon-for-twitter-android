@@ -520,8 +520,6 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
-        setUpRevampedTweet(cursor, holder);
-
         if (holder.expandArea.getVisibility() != View.GONE) {
             removeExpansion(holder, false);
         }
@@ -567,6 +565,18 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         final String otherUrl = cursor.getString(URL_COL);
         final String users = cursor.getString(USER_COL);
         final String hashtags = cursor.getString(HASHTAG_COL);
+
+        String retweeter;
+        try {
+            retweeter = cursor.getString(RETWEETER_COL);
+        } catch (Exception e) {
+            retweeter = "";
+        }
+        final String fRetweeter = retweeter;
+
+        final boolean muffled = isMuffled(screenname, retweeter);
+
+        setUpRevampedTweet(cursor, holder, muffled);
 
         holder.gifUrl = cursor.getString(GIF_COL);
 
@@ -635,30 +645,18 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             holder.replies.setVisibility(View.GONE);
         }
 
-        String retweeter;
-        try {
-            retweeter = cursor.getString(RETWEETER_COL);
-        } catch (Exception e) {
-            retweeter = "";
-        }
-        final String fRetweeter = retweeter;
-
         final String tweetText = tweetTexts;
 
-        final boolean muffled;
-        if (muffledUsers.contains(screenname) ||
-                (retweeter != null && !android.text.TextUtils.isEmpty(retweeter) && muffledUsers.contains(retweeter))) {
+        if (muffled) {
             if (holder.background.getVisibility() != View.GONE) {
                 holder.background.setVisibility(View.GONE);
                 holder.muffledName.setVisibility(View.VISIBLE);
             }
-            muffled = true;
         } else {
             if (holder.background.getVisibility() != View.VISIBLE) {
                 holder.background.setVisibility(View.VISIBLE);
                 holder.muffledName.setVisibility(View.GONE);
             }
-            muffled = false;
         }
 
         holder.quickActions.setOnClickListener(new View.OnClickListener() {
@@ -1448,7 +1446,12 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }, 250);
     }
 
-    private void setUpRevampedTweet(final Cursor cursor, ViewHolder holder) {
+    private boolean isMuffled(String screenname, String retweeter) {
+        return muffledUsers.contains(screenname) ||
+                (retweeter != null && !android.text.TextUtils.isEmpty(retweeter) && muffledUsers.contains(retweeter));
+    }
+
+    private void setUpRevampedTweet(final Cursor cursor, ViewHolder holder, boolean muffled) {
         if (!settings.revampedTweetLayout) {
             return;
         }
@@ -1457,6 +1460,13 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             holder.revampedTweetTopLine.setVisibility(View.INVISIBLE);
         } else if (holder.revampedTweetTopLine != null && holder.revampedTweetTopLine.getVisibility() != View.VISIBLE) {
             holder.revampedTweetTopLine.setVisibility(View.VISIBLE);
+        }
+
+        View timeHolder = ((View) holder.time.getParent());
+        if (muffled) {
+            if (timeHolder.getVisibility() != View.GONE) timeHolder.setVisibility(View.GONE);
+        } else if (timeHolder.getVisibility() != View.GONE) {
+            timeHolder.setVisibility(View.VISIBLE);
         }
     }
 }
