@@ -99,8 +99,8 @@ public class Utils {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
 
-    public static String getTimeAgo(long time, Context context) {
-        if (AppSettings.getInstance(context).revampedTweetLayout) {
+    public static String getTimeAgo(long time, Context context, boolean allowLongFormat) {
+        if (allowLongFormat && AppSettings.getInstance(context).revampedTweetLayout) {
             return getTimeAgoLongFormat(time, context);
         }
 

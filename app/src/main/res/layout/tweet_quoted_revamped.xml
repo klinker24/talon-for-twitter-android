@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+                android:id="@+id/muffled_name"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColor="?textColor"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:background="?android:attr/selectableItemBackground" />
+
+    <LinearLayout
+        android:id="@+id/background"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
+        android:background="?android:attr/selectableItemBackground">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/conversation_area"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp" />
+
+        <LinearLayout
+            android:id="@+id/tweet_header"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layoutDirection="ltr"
+            android:paddingTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp">
+
+            <!-- The tweeters picture -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_pic"
+                android:layout_width="@dimen/pro_pic_size"
+                android:layout_height="@dimen/pro_pic_size"
+                android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
+                android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="15dp"
+                app:civ_border_width="0dp"
+                app:civ_border_color="#FF000000"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical" >
+
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+                    android:id="@+id/name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="?textColor"
+                    android:singleLine="true"
+                    android:gravity="top"/>
+
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+                    android:id="@+id/screenname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?dateColor"
+                    android:singleLine="true"
+                    android:gravity="top"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/quick_actions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingRight="6dp"
+                    android:paddingLeft="6dp"
+                    android:gravity="right|center_vertical">
+
+                <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+                        android:id="@+id/time"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="?dateColor" />
+
+                <ImageView
+                        android:id="@+id/is_a_conversation"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="?directMessageItem"
+                        android:scaleType="fitCenter"
+                        android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Holds the name, screen name, and time-->
+
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+            android:id="@+id/reply_to"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:paddingTop="12dp"
+            android:gravity="end"
+            android:textColor="?dateColor"
+            android:visibility="gone"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp" />
+
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+            android:id="@+id/retweeter"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:paddingTop="12dp"
+            android:gravity="end"
+            android:textColor="?dateColor"
+            android:visibility="gone"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp" />
+
+        <com.klinker.android.twitter_l.views.widgets.text.MaterialTextView
+            android:id="@+id/tweet"
+            android:tag="tweet"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:padding="16dp"
+            android:paddingTop="12dp"
+            android:textColor="?textColor"
+            android:layoutDirection="locale"/>
+
+        <FrameLayout
+            android:id="@+id/picture_holder"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_condensed_height"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:transitionName="image" />
+
+            <ImageView
+                android:id="@+id/play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:padding="12dp" />
+
+            <com.klinker.android.simple_videoview.SimpleVideoView
+                android:id="@+id/video_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"
+                android:visibility="gone"
+                app:loop="true"
+                app:muted="true"
+                app:showSpinner="true"
+                app:stopSystemAudio="false" />
+
+        </FrameLayout>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/embedded_tweet_card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/quoted_tweet_height"
+            android:maxWidth="300dp"
+            card_view:cardElevation="0dp"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardBackgroundColor="?embeddedTweetBackground"
+            android:visibility="gone" />
+
+        <com.klinker.android.twitter_l.views.WebPreviewCard
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/web_preview_card"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            card_view:cardElevation="0dp"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardBackgroundColor="?embeddedTweetBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="top"
+            android:id="@+id/expansion"
+            android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-4dp"
+        android:gravity="top"
+        android:id="@+id/replies"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/line"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="18dp"
+            android:alpha=".6"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/inner_expansion"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

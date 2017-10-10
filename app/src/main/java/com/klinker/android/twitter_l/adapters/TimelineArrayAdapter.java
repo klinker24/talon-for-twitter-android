@@ -579,7 +579,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         holder.name.setText(name);
 
         if (!settings.absoluteDate) {
-            holder.time.setText(Utils.getTimeAgo(time, context));
+            holder.time.setText(Utils.getTimeAgo(time, context, true));
         } else {
             Date date = new Date(time);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));

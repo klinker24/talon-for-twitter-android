@@ -148,7 +148,7 @@ class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             card.setTextViewText(R.id.contactText, TextUtils.colorText(mContext, mWidgetItems.get(arg0).getTweet(), settings.themeColors.accentColor));
 
             if (!settings.absoluteDate) {
-                card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext));
+                card.setTextViewText(R.id.time, Utils.getTimeAgo(mWidgetItems.get(arg0).getTime(), mContext, false));
             } else {
                 Date date = new Date(mWidgetItems.get(arg0).getTime());
                 String text = timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date);
