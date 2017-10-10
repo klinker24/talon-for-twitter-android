@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +104,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
     }
 
     public static class ViewHolder {
-        public View revampedTweetTopLine;
         public TextView name;
         public ImageView profilePic;
         public TextView tweet;
@@ -123,6 +121,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         public ViewGroup embeddedTweet;
         public View quickActions;
         public WebPreviewCard webPreviewCard;
+
+        // revamped tweet
+        public View revampedTopLine;
+        public View revampedRetweetIcon;
 
         public long tweetId;
         public boolean isFavorited;
@@ -279,7 +281,6 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         v = inflater.inflate(layout, viewGroup, false);
 
-        holder.revampedTweetTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
@@ -297,6 +298,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         holder.playButton = (ImageView) v.findViewById(R.id.play_button);
         holder.imageHolder = (FrameLayout) v.findViewById(R.id.picture_holder);
         holder.image = (ImageView) v.findViewById(R.id.image);
+
+        // revamped tweet
+        holder.revampedTopLine = v.findViewById(R.id.line_above_profile_picture);
+        holder.revampedRetweetIcon = v.findViewById(R.id.retweet_icon);
 
         //surfaceView.profilePic.setClipToOutline(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -421,11 +426,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         final boolean inAConversation = thisStatus.getInReplyToStatusId() != -1;
 
         if (inAConversation) {
-            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+            if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.VISIBLE) {
                 holder.isAConversation.setVisibility(View.VISIBLE);
             }
         } else {
-            if (holder.isAConversation.getVisibility() != View.GONE) {
+            if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.GONE) {
                 holder.isAConversation.setVisibility(View.GONE);
             }
         }
@@ -480,7 +485,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         final String tweetText = tweetTexts;
 
-        if (canUseQuickActions) {
+        if (canUseQuickActions && holder.quickActions != null) {
             holder.quickActions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -961,9 +966,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         }
 
         if (position == 0) {
-            holder.revampedTweetTopLine.setVisibility(View.INVISIBLE);
-        } else if (holder.revampedTweetTopLine != null && holder.revampedTweetTopLine.getVisibility() != View.VISIBLE) {
-            holder.revampedTweetTopLine.setVisibility(View.VISIBLE);
+            holder.revampedTopLine.setVisibility(View.INVISIBLE);
+        } else if (holder.revampedTopLine.getVisibility() != View.VISIBLE) {
+            holder.revampedTopLine.setVisibility(View.VISIBLE);
+        }
+
+        if (holder.retweeter.getVisibility() == View.VISIBLE) {
+            if (holder.revampedRetweetIcon.getVisibility() != View.VISIBLE) holder.revampedRetweetIcon.setVisibility(View.VISIBLE);
+        } else if (holder.revampedRetweetIcon.getVisibility() != View.GONE) {
+            holder.revampedRetweetIcon.setVisibility(View.GONE);
         }
     }
 }
