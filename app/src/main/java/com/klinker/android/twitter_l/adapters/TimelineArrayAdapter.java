@@ -113,13 +113,13 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         public TextView replies;
         public LinearLayout expandArea;
         public ImageView image;
-        public LinearLayout background;
+        public View background;
         public ImageView playButton;
         public ImageView isAConversation;
         public TextView screenTV;
         public FrameLayout imageHolder;
         public View rootView;
-        public CardView embeddedTweet;
+        public ViewGroup embeddedTweet;
         public View quickActions;
         public WebPreviewCard webPreviewCard;
 
@@ -250,9 +250,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             dateFormatter = android.text.format.DateFormat.getDateFormat(context);
         }
 
-        if (!settings.condensedTweets()) {
-            layout = R.layout.tweet;
-        } else {
+        layout = R.layout.tweet;
+        if (settings.revampedTweetLayout) {
+            layout = R.layout.tweet_revamp;
+        } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;
         }
 
@@ -284,10 +285,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.replies = (TextView) v.findViewById(R.id.reply_to);
-        holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.background = (View) v.findViewById(R.id.background);
         holder.screenTV = (TextView) v.findViewById(R.id.screenname);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
-        holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        holder.embeddedTweet = (ViewGroup) v.findViewById(R.id.embedded_tweet_card);
         holder.quickActions = v.findViewById(R.id.quick_actions);
         holder.webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
 

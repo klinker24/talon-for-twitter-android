@@ -401,6 +401,10 @@ public abstract class MainFragment extends Fragment implements Expandable {
         listView.addHeaderView(viewHeader, null, false);
         listView.setHeaderDividersEnabled(false);
 
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
+
         if (DrawerActivity.translucent) {
             if (Utils.hasNavBar(context)) {
                 View footer = new View(context);

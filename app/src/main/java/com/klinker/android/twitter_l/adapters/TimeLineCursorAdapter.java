@@ -141,12 +141,12 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public TextView replies;
         public LinearLayout expandArea;
         public ImageView image;
-        public LinearLayout background;
+        public View background;
         public ImageView playButton;
         public ImageView isAConversation;
         public FrameLayout imageHolder;
         public View rootView;
-        public CardView embeddedTweet;
+        public ViewGroup embeddedTweet;
         public View quickActions;
         public SimpleVideoView videoView;
         public LinearLayout conversationArea;
@@ -214,9 +214,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         }
 
-        if (!settings.condensedTweets()) {
-            layout = R.layout.tweet;
-        } else {
+        layout = R.layout.tweet;
+        if (settings.revampedTweetLayout) {
+            layout = R.layout.tweet_revamp;
+        } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;
         }
 
@@ -359,9 +360,9 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         holder.expandArea = (LinearLayout) v.findViewById(R.id.expansion);
         holder.retweeter = (TextView) v.findViewById(R.id.retweeter);
         holder.replies = (TextView) v.findViewById(R.id.reply_to);
-        holder.background = (LinearLayout) v.findViewById(R.id.background);
+        holder.background = v.findViewById(R.id.background);
         holder.isAConversation = (ImageView) v.findViewById(R.id.is_a_conversation);
-        holder.embeddedTweet = (CardView) v.findViewById(R.id.embedded_tweet_card);
+        holder.embeddedTweet = (ViewGroup) v.findViewById(R.id.embedded_tweet_card);
         holder.quickActions = v.findViewById(R.id.quick_actions);
         holder.image = (ImageView) v.findViewById(R.id.image);
         holder.playButton = (ImageView) v.findViewById(R.id.play_button);
