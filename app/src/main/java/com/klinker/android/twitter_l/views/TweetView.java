@@ -181,7 +181,7 @@ public class TweetView {
         longTime = status.getCreatedAt().getTime();
 
         if (!settings.absoluteDate) {
-            time = Utils.getTimeAgo(status.getCreatedAt().getTime(), context);
+            time = Utils.getTimeAgo(status.getCreatedAt().getTime(), context, false);
         } else {
             Date date = new Date(status.getCreatedAt().getTime());
             time = timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date);
@@ -255,7 +255,7 @@ public class TweetView {
     protected View createTweet() {
         int layout = R.layout.tweet;
         if (settings.revampedTweetLayout) {
-            //layout = R.layout.tweet_revamp;
+            //layout = R.layout.tweet_quoted_revamped;
         } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;
         }

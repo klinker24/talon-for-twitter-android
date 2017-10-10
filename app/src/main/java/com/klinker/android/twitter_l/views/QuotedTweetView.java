@@ -14,7 +14,9 @@ import twitter4j.Status;
 public class QuotedTweetView extends TweetView {
 
     public static TweetView create(Context context, Status status) {
-        if (AppSettings.getInstance(context).detailedQuotes) {
+        if (AppSettings.getInstance(context).revampedTweetLayout) {
+            return new QuotedTweetViewRevamped(context, status);
+        } else if (AppSettings.getInstance(context).detailedQuotes) {
             return new TweetView(context, status);
         } else {
             return new QuotedTweetView(context, status);

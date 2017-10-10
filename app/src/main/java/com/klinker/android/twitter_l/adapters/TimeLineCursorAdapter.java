@@ -762,7 +762,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         if (!settings.absoluteDate) {
-            holder.time.setText(Utils.getTimeAgo(longTime, context));
+            holder.time.setText(Utils.getTimeAgo(longTime, context, true));
         } else {
             Date date = new Date(longTime);
             holder.time.setText(timeFormatter.format(date).replace("24:", "00:") + ", " + dateFormatter.format(date));
