@@ -105,6 +105,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
     }
 
     public static class ViewHolder {
+        public View revampedTweetTopLine;
         public TextView name;
         public ImageView profilePic;
         public TextView tweet;
@@ -278,6 +279,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         v = inflater.inflate(layout, viewGroup, false);
 
+        holder.revampedTweetTopLine = v.findViewById(R.id.line_above_profile_picture);
         holder.name = (TextView) v.findViewById(R.id.name);
         holder.profilePic = (ImageView) v.findViewById(R.id.profile_pic);
         holder.time = (TextView) v.findViewById(R.id.time);
@@ -303,9 +305,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
-        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() ? 1 : 2));
+        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweetLayout ? 1 : 2));
         holder.name.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
-        holder.time.setTextSize(settings.textSize - 3);
+        holder.time.setTextSize(settings.textSize - (settings.revampedTweetLayout ? 2 : 3));
         holder.retweeter.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 2);
 
@@ -372,6 +374,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
     public void bindView(final View view, Status status, final int position) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+
+        setUpRevampedTweet(position, holder);
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
@@ -592,11 +596,24 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         }
 
         try {
-            holder.tweet.setText(removeLastCharacters ?
+            String text = removeLastCharacters ?
                     tweetText.substring(0, tweetText.length() - (embeddedTweetFound ? 33 : 25)) :
-                    tweetText);
+                    tweetText;
+            holder.tweet.setText(text);
+
+            if (text.isEmpty()) {
+                if (holder.tweet.getVisibility() != View.GONE) holder.tweet.setVisibility(View.GONE);
+            } else if (holder.tweet.getVisibility() != View.VISIBLE) {
+                holder.tweet.setVisibility(View.VISIBLE);
+            }
         } catch (Exception e) {
             holder.tweet.setText(tweetText);
+
+            if (tweetText.isEmpty()) {
+                if (holder.tweet.getVisibility() != View.GONE) holder.tweet.setVisibility(View.GONE);
+            } else if (holder.tweet.getVisibility() != View.VISIBLE) {
+                holder.tweet.setVisibility(View.VISIBLE);
+            }
         }
 
         boolean picture = false;
@@ -938,17 +955,15 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         }).start();
     }
 
-    private Intent addDimensForExpansion(Intent i, View view) {
-        i.putExtra(TweetActivity.USE_EXPANSION, true);
+    private void setUpRevampedTweet(final int position, ViewHolder holder) {
+        if (!settings.revampedTweetLayout) {
+            return;
+        }
 
-        int location[] = new int[2];
-        view.getLocationOnScreen(location);
-
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_LEFT_OFFSET, location[0]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_TOP_OFFSET, location[1]);
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_HEIGHT, view.getHeight());
-        i.putExtra(TweetActivity.EXPANSION_DIMEN_WIDTH, view.getWidth());
-
-        return i;
+        if (position == 0) {
+            holder.revampedTweetTopLine.setVisibility(View.INVISIBLE);
+        } else if (holder.revampedTweetTopLine != null && holder.revampedTweetTopLine.getVisibility() != View.VISIBLE) {
+            holder.revampedTweetTopLine.setVisibility(View.VISIBLE);
+        }
     }
 }

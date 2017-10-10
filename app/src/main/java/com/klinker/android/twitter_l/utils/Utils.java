@@ -100,6 +100,10 @@ public class Utils {
 
 
     public static String getTimeAgo(long time, Context context) {
+        if (AppSettings.getInstance(context).revampedTweetLayout) {
+            return getTimeAgoLongFormat(time, context);
+        }
+
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
@@ -128,6 +132,38 @@ public class Utils {
             return 1 + "d";
         } else {
             return diff / DAY_MILLIS + "d";
+        }
+    }
+
+    private static String getTimeAgoLongFormat(long time, Context context) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = getCurrentTime();
+        if (time > now || time <= 0) {
+            return "+1d";
+        }
+
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return diff / SECOND_MILLIS + " seconds ago";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return 1 + " minute ago";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + " minutes ago";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return 1 + " hour ago";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            if (diff / HOUR_MILLIS == 1)
+                return 1 + " hour ago";
+            else
+                return diff / HOUR_MILLIS + " hours ago";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return 1 + " day ago";
+        } else {
+            return diff / DAY_MILLIS + " days ago";
         }
     }
 

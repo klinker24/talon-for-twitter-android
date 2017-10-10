@@ -28,7 +28,7 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
 
     protected User user;
 
-    public ArrayList<Status> tweets = new ArrayList<Status>();
+    public ArrayList<Status> tweets = new ArrayList<>();
     public Paging paging = new Paging(1, 20);
     public boolean canRefresh = false;
     public TimelineArrayAdapter adapter;
@@ -40,6 +40,10 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
 
         list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
+
+        if (AppSettings.getInstance(context).revampedTweetLayout) {
+            list.setDivider(null);
+        }
 
         //setTitle(getTitle());
         showTitle(false);

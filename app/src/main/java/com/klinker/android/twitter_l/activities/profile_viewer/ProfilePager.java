@@ -653,7 +653,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
             for (int i = 0; i < size; i++) {
                 if (i != 0) {
                     View tweetDivider = new View(context);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(settings.revampedTweetLayout ? 0 : 1, context));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.toDP(1, context));
                     tweetDivider.setLayoutParams(params);
 
                     if (settings.darkTheme) {
