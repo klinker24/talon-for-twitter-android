@@ -148,22 +148,22 @@ public class Utils {
 
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
-            return diff / SECOND_MILLIS + " seconds ago";
+            return context.getString(R.string.seconds_ago, diff / SECOND_MILLIS);
         } else if (diff < 2 * MINUTE_MILLIS) {
-            return 1 + " minute ago";
+            return context.getString(R.string.min_ago, 1);
         } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " minutes ago";
+            return context.getString(R.string.mins_ago, diff / MINUTE_MILLIS);
         } else if (diff < 90 * MINUTE_MILLIS) {
-            return 1 + " hour ago";
+            return context.getString(R.string.hour_ago, 1);
         } else if (diff < 24 * HOUR_MILLIS) {
             if (diff / HOUR_MILLIS == 1)
-                return 1 + " hour ago";
+                return context.getString(R.string.hour_ago, 1);
             else
-                return diff / HOUR_MILLIS + " hours ago";
+                return context.getString(R.string.new_hours_ago, diff / HOUR_MILLIS);
         } else if (diff < 48 * HOUR_MILLIS) {
-            return 1 + " day ago";
+            return context.getString(R.string.day_ago, 1);
         } else {
-            return diff / DAY_MILLIS + " days ago";
+            return context.getString(R.string.new_days_ago, diff / DAY_MILLIS);
         }
     }
 

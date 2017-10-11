@@ -230,4 +230,11 @@
         and visibility on the Play Store. If you want to see the app <i>continue to soar</i>, help me out!</string>
     <string name="rate_it_not_ready">Not ready to rate it? No problem. Back out of this dialog and I will never ask again.</string>
     <string name="preview_web_links">Preview Web Links</string>
+    <string name="seconds_ago">%1$d seconds ago</string>
+    <string name="min_ago">%1$d minute ago</string>
+    <string name="mins_ago">%1$d minutes ago</string>
+    <string name="hour_ago">%1$d hour ago</string>
+    <string name="new_hours_ago">%1$d hours ago</string>
+    <string name="day_ago">%1$d day ago</string>
+    <string name="new_days_ago">%1$d days ago</string>
 </resources>
