@@ -165,6 +165,10 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
         listView.addHeaderView(header);
         listView.setHeaderDividersEnabled(false);
 
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {

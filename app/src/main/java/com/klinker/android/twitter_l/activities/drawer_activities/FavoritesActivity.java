@@ -68,6 +68,9 @@ public class FavoritesActivity extends DrawerActivity {
         }
 
         listView.setHeaderDividersEnabled(false);
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
 
         if (Utils.hasNavBar(context)) {
             View footer = new View(context);
