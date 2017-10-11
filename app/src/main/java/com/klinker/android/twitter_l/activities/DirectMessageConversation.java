@@ -191,6 +191,10 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
+
         new GetList().execute();
 
         charRemaining.setText(AppSettings.getInstance(this).tweetCharacterCount - composeBar.getText().length() + "");

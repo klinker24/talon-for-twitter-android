@@ -154,6 +154,10 @@ public class ChoosenListActivity extends WhiteToolbarActivity {
         header.setLayoutParams(params);
         listView.addHeaderView(header);
         listView.setHeaderDividersEnabled(false);
+
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
         //listView.setTranslationY(Utils.getStatusBarHeight(context) + Utils.getActionBarHeight(context));
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {

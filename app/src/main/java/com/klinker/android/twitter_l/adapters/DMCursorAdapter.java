@@ -70,21 +70,14 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         holder.gifUrl = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_THREE));
 
-        boolean inAConversation;
-        if (hasConvo) {
-            inAConversation = cursor.getInt(CONVO_COL) == 1;
-        } else {
-            inAConversation = false;
-        }
+        boolean inAConversation = hasConvo && cursor.getInt(CONVO_COL) == 1;
 
         if (inAConversation) {
-            if (holder.isAConversation.getVisibility() != View.VISIBLE) {
+            if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.VISIBLE) {
                 holder.isAConversation.setVisibility(View.VISIBLE);
             }
-        } else {
-            if (holder.isAConversation.getVisibility() != View.GONE) {
-                holder.isAConversation.setVisibility(View.GONE);
-            }
+        } else if (holder.isAConversation != null && holder.isAConversation.getVisibility() != View.GONE) {
+            holder.isAConversation.setVisibility(View.GONE);
         }
 
         final String tweetText = tweetTexts;
@@ -164,7 +157,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         boolean picture = false;
 
-        if(holder.picUrl != null && !holder.picUrl.equals("")) {
+        if (holder.picUrl != null && !holder.picUrl.equals("")) {
 
             if (holder.imageHolder.getVisibility() == View.GONE) {
                 holder.imageHolder.setVisibility(View.VISIBLE);
@@ -226,13 +219,13 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
 
         if (picture) {
             if (!settings.condensedTweets()) {
-                if (settings.preCacheImages){
+                if (settings.preCacheImages) {
                     Glide.with(context).load(holder.picUrl).centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {
                     Glide.with(context).load(holder.picUrl).centerCrop().placeholder(null).into(holder.image);
                 }
             } else {
-                if (settings.preCacheImages){
+                if (settings.preCacheImages) {
                     Glide.with(context).load(holder.picUrl).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(null).into(holder.image);
                 } else {
                     Glide.with(context).load(holder.picUrl).fitCenter().placeholder(null).into(holder.image);

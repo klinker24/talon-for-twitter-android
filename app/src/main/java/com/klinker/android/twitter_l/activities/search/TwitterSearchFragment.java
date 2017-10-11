@@ -146,6 +146,10 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
         listView = (ListView) layout.findViewById(R.id.listView);
 
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {

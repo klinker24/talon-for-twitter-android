@@ -73,6 +73,9 @@ public class RetweetActivity extends DrawerActivity {
         }
 
         listView.setHeaderDividersEnabled(false);
+        if (settings.revampedTweetLayout) {
+            listView.setDivider(null);
+        }
 
         if (Utils.hasNavBar(context) && (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) || getResources().getBoolean(R.bool.isTablet)) {
             View footer = new View(context);
