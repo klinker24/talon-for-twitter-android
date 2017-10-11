@@ -19,6 +19,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
+    android:background="?revamped_tweet_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -97,7 +98,7 @@
                 android:maxWidth="52dp"
                 android:minHeight="52dp"
                 android:minWidth="52dp"
-                app:civ_border_color="?windowBackground"
+                app:civ_border_color="?revamped_tweet_background"
                 app:civ_border_width="5dp" />
 
             <LinearLayout

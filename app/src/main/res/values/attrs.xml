@@ -41,6 +41,7 @@
     <attr name="border_color" format="color"/>
     <attr name="tweet_activity_background" format="color"/>
     <attr name="revamped_tweet_timeline_line" format="color" />
+    <attr name="revamped_tweet_background" format="color" />
 
     <!-- Drawables -->
     <attr name="rippleBackground" format="reference"/>
