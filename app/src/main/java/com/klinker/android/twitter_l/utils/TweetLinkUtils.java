@@ -245,7 +245,9 @@ public class TweetLinkUtils {
                     }
                 }
 
-                otherUrl += sMediaDisplay[i];
+                if (!otherUrl.contains(sMediaDisplay[i])) {
+                    otherUrl += sMediaDisplay[i];
+                }
             }
         }
 
