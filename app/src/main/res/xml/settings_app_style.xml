@@ -41,11 +41,6 @@
         android:defaultValue="false" />
 
     <SwitchPreference
-        android:key="transparent_system_bars"
-        android:title="@string/transparent_system_bars"
-        android:defaultValue="true" />
-
-    <SwitchPreference
         android:key="web_previews_timeline"
         android:title="@string/preview_web_links"
         android:defaultValue="true" />
