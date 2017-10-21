@@ -44,6 +44,10 @@ public class ProfileTimelinePopupLayout extends PopupLayout {
         list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
+        if (AppSettings.getInstance(context).revampedTweetLayout) {
+            list.setDivider(null);
+        }
+
         showTitle(false);
         setFullScreen();
 
