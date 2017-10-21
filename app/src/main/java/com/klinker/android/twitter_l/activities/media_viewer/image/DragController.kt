@@ -9,6 +9,7 @@ import com.klinker.android.twitter_l.R
 class DragController(private val activity: AppCompatActivity, private val draggableView: View) {
 
     private val toolbar: Toolbar by lazy { activity.findViewById<View>(R.id.toolbar) as Toolbar }
+    private val countLayout: View? by lazy { activity.findViewById<View>(R.id.show_info) }
     private val background: View by lazy { activity.findViewById<View>(R.id.background) }
 
     private val screenCenterX: Double
@@ -75,6 +76,10 @@ class DragController(private val activity: AppCompatActivity, private val dragga
         if (alpha < 255) {
             background.background.alpha = 255 - alpha
             toolbar.alpha = if (scaledAlpha < .45f) 0f else scaledAlpha
+
+            if (countLayout?.visibility == View.VISIBLE) {
+                countLayout?.alpha = if (scaledAlpha < .45f) 0f else scaledAlpha
+            }
         }
     }
 

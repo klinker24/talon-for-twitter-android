@@ -15,21 +15,23 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.adapters.ImagePagerAdapter
 import com.klinker.android.twitter_l.utils.Utils
 import org.jetbrains.annotations.Nullable
 import com.klinker.android.twitter_l.views.DetailedTweetView
 import com.flipboard.bottomsheet.BottomSheetLayout
-import com.klinker.android.twitter_l.settings.AppSettings
+import com.klinker.android.twitter_l.views.TweetView
+import twitter4j.Status
 
-class ImageViewerActivity : AppCompatActivity() {
+class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
 
     private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
-    private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId) }
+    private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
     private val bottomSheet: BottomSheetLayout by lazy { findViewById<View>(R.id.bottom_sheet) as BottomSheetLayout }
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
@@ -55,22 +57,31 @@ class ImageViewerActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (tweetId == -1L) {
-            menu.getItem(2).isVisible = false
-        }
-
+        menu.getItem(2).isVisible = false
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_info -> showInfo()
             R.id.menu_save -> adapter.getItem(pager.currentItem).downloadImage()
             R.id.menu_share -> adapter.getItem(pager.currentItem).shareImage()
             android.R.id.home -> onBackPressed()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onLoaded(status: Status?) {
+        if (tweetId != -1L && status != null) {
+            findViewById<View>(R.id.show_info).setOnClickListener { showInfo() }
+            findViewById<View>(R.id.show_info).visibility = View.VISIBLE
+
+            val retweetCount = findViewById<View>(R.id.retweet_count) as TextView
+            val likeCount = findViewById<View>(R.id.like_count) as TextView
+
+            retweetCount.text = status.retweetCount.toString()
+            likeCount.text = status.favoriteCount.toString()
+        }
     }
 
     private fun prepareToolbar() {

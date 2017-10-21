@@ -58,6 +58,10 @@ import java.util.regex.Pattern;
 
 public class TweetView {
 
+    public interface TweetLoaded {
+        public void onLoaded(Status status);
+    }
+
     private static final int MAX_EMBEDDED_TWEETS = 2;
 
     public static final Pattern embeddedTweetPattern = Pattern.compile("\\stwitter.com/");
@@ -72,6 +76,7 @@ public class TweetView {
 
     Context context;
     AppSettings settings;
+    TweetLoaded loadedCallback;
 
     public Status status;
     String currentUser = null;
@@ -196,6 +201,10 @@ public class TweetView {
             retweetText = null;
             retweeter = null;
             this.status = status;
+        }
+
+        if (loadedCallback != null) {
+            loadedCallback.onLoaded(this.status);
         }
 
         User user = status.getUser();
@@ -712,6 +721,11 @@ public class TweetView {
                 }
             }
         }).start();
+    }
+
+    public TweetView setTweetLoadedCallback(TweetLoaded callback) {
+        this.loadedCallback = callback;
+        return this;
     }
 
     protected boolean shouldShowImage() {
