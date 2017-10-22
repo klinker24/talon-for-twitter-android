@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
@@ -33,6 +34,8 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
     private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
     private val bottomSheet: BottomSheetLayout by lazy { findViewById<View>(R.id.bottom_sheet) as BottomSheetLayout }
+
+    private val createdTime = System.currentTimeMillis()
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,14 +76,23 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     override fun onLoaded(status: Status?) {
         if (tweetId != -1L && status != null) {
-            findViewById<View>(R.id.show_info).setOnClickListener { showInfo() }
-            findViewById<View>(R.id.show_info).visibility = View.VISIBLE
 
-            val retweetCount = findViewById<View>(R.id.retweet_count) as TextView
-            val likeCount = findViewById<View>(R.id.like_count) as TextView
+            val timeout = if (System.currentTimeMillis() - createdTime > TIME_TO_DISPLAY_COUNT) {
+                0
+            } else {
+                System.currentTimeMillis() - createdTime
+            }
 
-            retweetCount.text = status.retweetCount.toString()
-            likeCount.text = status.favoriteCount.toString()
+            Handler().postDelayed({
+                findViewById<View>(R.id.show_info).setOnClickListener { showInfo() }
+                findViewById<View>(R.id.show_info).visibility = View.VISIBLE
+
+                val retweetCount = findViewById<View>(R.id.retweet_count) as TextView
+                val likeCount = findViewById<View>(R.id.like_count) as TextView
+
+                retweetCount.text = status.retweetCount.toString()
+                likeCount.text = status.favoriteCount.toString()
+            }, timeout)
         }
     }
 
@@ -110,6 +122,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         private val EXTRA_URLS = "extra_urls"
         private val EXTRA_TWEET_ID = "extra_tweet_id"
         private val EXTRA_START_INDEX = "extra_start_index"
+        private val TIME_TO_DISPLAY_COUNT = 1000
 
         @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
             if (context == null) {
