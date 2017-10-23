@@ -122,7 +122,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         private val EXTRA_URLS = "extra_urls"
         private val EXTRA_TWEET_ID = "extra_tweet_id"
         private val EXTRA_START_INDEX = "extra_start_index"
-        private val TIME_TO_DISPLAY_COUNT = 1000
+        private val TIME_TO_DISPLAY_COUNT = 1500
 
         @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
             if (context == null) {

@@ -18,6 +18,8 @@ package com.klinker.android.twitter_l.settings;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -49,6 +51,10 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
 
         if (UpdateUtils.showSupporterDialog(getActivity())) {
             showSupporterDialog();
+        }
+
+        if (AppSettings.getInstance(getActivity()).blackTheme) {
+            getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         }
     }
 
