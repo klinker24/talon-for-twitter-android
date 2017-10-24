@@ -40,6 +40,14 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
 
+        if (holder.webPreviewCard != null && holder.embeddedTweet.getVisibility() != View.GONE) {
+            holder.embeddedTweet.setVisibility(View.GONE);
+        }
+
+        if (holder.webPreviewCard != null && holder.webPreviewCard.getVisibility() != View.GONE) {
+            holder.webPreviewCard.setVisibility(View.GONE);
+        }
+
         final String title = cursor.getString(TITLE_COL);
         final long id = cursor.getLong(TWEET_COL);
         holder.tweetId = id;
