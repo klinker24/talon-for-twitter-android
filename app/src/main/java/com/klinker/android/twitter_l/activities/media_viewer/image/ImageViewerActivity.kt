@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -26,6 +27,7 @@ import com.flipboard.bottomsheet.BottomSheetLayout
 import com.klinker.android.twitter_l.views.TweetView
 import twitter4j.Status
 
+@SuppressLint("InlinedApi")
 class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
@@ -39,6 +41,10 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Utils.isAndroidO()) {
+            window.colorMode = ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT
+        }
 
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         supportPostponeEnterTransition()
@@ -78,9 +84,9 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         if (tweetId != -1L && status != null) {
 
             val timeout = if (System.currentTimeMillis() - createdTime > TIME_TO_DISPLAY_COUNT) {
-                0
+                0L
             } else {
-                System.currentTimeMillis() - createdTime
+                TIME_TO_DISPLAY_COUNT - (System.currentTimeMillis() - createdTime)
             }
 
             Handler().postDelayed({
@@ -122,7 +128,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         private val EXTRA_URLS = "extra_urls"
         private val EXTRA_TWEET_ID = "extra_tweet_id"
         private val EXTRA_START_INDEX = "extra_start_index"
-        private val TIME_TO_DISPLAY_COUNT = 1500
+        private val TIME_TO_DISPLAY_COUNT = 1500L
 
         @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
             if (context == null) {
