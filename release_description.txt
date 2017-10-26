@@ -2,3 +2,4 @@ This update brings a few new features to Talon:<br/>
 - Preview web links directly from the timeline<br/>
 - New image viewer with improved paging, zooming, and drag-to-dismiss<br/>
 - Improvements around viewing saved searches<br/>
++ Bug fixes and Talon is now built for Android 8.1
