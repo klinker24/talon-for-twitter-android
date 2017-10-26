@@ -153,8 +153,13 @@ class ImageFragment : Fragment() {
                         urlString += ":orig"
                     }
 
-                    val conn = URL(urlString).openConnection() as HttpURLConnection
-                    val inputStream = BufferedInputStream(conn.getInputStream())
+                    val inputStream = try {
+                        val conn = URL(urlString).openConnection() as HttpURLConnection
+                        BufferedInputStream(conn.inputStream)
+                    } catch (e: FileNotFoundException) {
+                        val conn = URL(urlString.replace(":orig", "")).openConnection() as HttpURLConnection
+                        BufferedInputStream(conn.inputStream)
+                    }
 
                     val options = BitmapFactory.Options()
                     options.inJustDecodeBounds = false
