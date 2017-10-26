@@ -36,7 +36,7 @@ public class NotificationChannelUtil {
         createChannel(context, TWEETING_NOTIFICATION_CHANNEL, R.string.tweeting_notifications_channel, NotificationManager.IMPORTANCE_LOW);
         createChannel(context, FAILED_TWEETS_CHANNEL, R.string.tweet_failure_channel, NotificationManager.IMPORTANCE_HIGH);
         createChannel(context, SENDING_SCHEDULED_MESSAGE_CHANNEL, R.string.scheduled_messages_channel, NotificationManager.IMPORTANCE_MIN);
-        createChannel(context, MEDIA_DOWNLOAD_CHANNEL, R.string.media_downloads_channel, NotificationManager.IMPORTANCE_MIN);
+        createChannel(context, MEDIA_DOWNLOAD_CHANNEL, R.string.media_downloads_channel, NotificationManager.IMPORTANCE_DEFAULT);
         createChannel(context, WIDGET_REFRESH_CHANNEL, R.string.widget_refresh_channel, NotificationManager.IMPORTANCE_MIN);
         createChannel(context, FAVORITE_USERS_CHANNEL, R.string.favorite_user_channel, NotificationManager.IMPORTANCE_DEFAULT);
         createChannel(context, TALON_PULL_CHANNEL, R.string.talon_pull_channel, NotificationManager.IMPORTANCE_MIN);

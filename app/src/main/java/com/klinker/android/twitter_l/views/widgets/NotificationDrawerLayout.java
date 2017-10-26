@@ -1219,7 +1219,6 @@ public class NotificationDrawerLayout extends ViewGroup {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && hasVisibleDrawer()) {
-            KeyEventCompat.startTracking(event);
             return true;
         }
         return super.onKeyDown(keyCode, event);

@@ -103,6 +103,10 @@ public class ArticleParserHelper {
                 String leadImage = getImage(document);
                 String webDomain = getDomain(url);
 
+                if (title.contains("404")) {
+                    throw new RuntimeException("No article found");
+                }
+
                 return new WebPreview(title, summary, leadImage, webDomain, this.url);
             } catch (Exception e) {
                 e.printStackTrace();

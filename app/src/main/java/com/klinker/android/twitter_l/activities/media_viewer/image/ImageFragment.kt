@@ -49,7 +49,8 @@ class ImageFragment : Fragment() {
         val imageLink = getLink(arguments)
         val imageView = root.findViewById<View>(R.id.imageView) as ImageView
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && arguments.getInt(EXTRA_INDEX, 0) != 0) {
+        val args = arguments
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && args != null && args.getInt(EXTRA_INDEX, 0) != 0) {
             imageView.transitionName = ""
         }
 
@@ -63,11 +64,11 @@ class ImageFragment : Fragment() {
                         imageView.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
                         imageView.invalidate()
 
-                        if (activity != null) activity.supportStartPostponedEnterTransition()
+                        if (activity != null) activity?.supportStartPostponedEnterTransition()
                     }
                 })
 
-        Handler().postDelayed({ if (activity != null) activity.supportStartPostponedEnterTransition() }, 1500)
+        Handler().postDelayed({ if (activity != null) activity?.supportStartPostponedEnterTransition() }, 1500)
         attacher = DraggablePhotoViewAttacher(activity as AppCompatActivity, imageView)
 
         return root
@@ -128,6 +129,8 @@ class ImageFragment : Fragment() {
         TimeoutThread({
             Looper.prepare()
             val url = getLink(arguments)
+
+            val activity = activity ?: return@TimeoutThread
 
             try {
                 val mBuilder = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
@@ -196,7 +199,7 @@ class ImageFragment : Fragment() {
                 mNotificationManager.notify(randomId, builder2.build())
             } catch (e: Exception) {
                 e.printStackTrace()
-                activity?.runOnUiThread({
+                activity.runOnUiThread({
                     try {
                         PermissionModelUtils(activity).showStorageIssue(e)
                     } catch (x: Exception) {
@@ -204,23 +207,23 @@ class ImageFragment : Fragment() {
                     }
                 })
 
-                if (activity != null) {
-                    val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-                            .setSmallIcon(R.drawable.ic_stat_icon)
-                            .setTicker(resources.getString(R.string.error) + "...")
-                            .setContentTitle(resources.getString(R.string.app_name))
-                            .setContentText(resources.getString(R.string.error) + "...")
-                            .setProgress(0, 100, true)
+                val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                        .setSmallIcon(R.drawable.ic_stat_icon)
+                        .setTicker(resources.getString(R.string.error) + "...")
+                        .setContentTitle(resources.getString(R.string.app_name))
+                        .setContentText(resources.getString(R.string.error) + "...")
+                        .setProgress(0, 100, true)
 
-                    val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                    mNotificationManager.notify(6, builder2.build())
-                }
+                val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                mNotificationManager.notify(6, builder2.build())
             }
         }).start()
     }
 
     fun shareImage() {
         TimeoutThread(Runnable {
+            val activity = activity ?: return@Runnable
+
             try {
                 val bitmap = Glide.with(this@ImageFragment)
                         .load(getLink(arguments))

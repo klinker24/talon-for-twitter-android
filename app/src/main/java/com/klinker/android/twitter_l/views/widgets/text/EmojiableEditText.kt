@@ -50,11 +50,11 @@ open class EmojiableEditText : AppCompatEditText {
     }
 
     override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
-        if (useEmojiCompat) {
+        return if (useEmojiCompat) {
             val inputConnection = super.onCreateInputConnection(outAttrs)
-            return emojiEditTextHelper.onCreateInputConnection(inputConnection, outAttrs)
+            emojiEditTextHelper.onCreateInputConnection(inputConnection, outAttrs)!!
         } else {
-            return super.onCreateInputConnection(outAttrs)
+            super.onCreateInputConnection(outAttrs)
         }
     }
 }
