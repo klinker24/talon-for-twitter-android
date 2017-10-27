@@ -165,7 +165,7 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
         listView.addHeaderView(header);
         listView.setHeaderDividersEnabled(false);
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 

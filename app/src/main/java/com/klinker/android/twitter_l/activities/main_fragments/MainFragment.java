@@ -401,7 +401,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
         listView.addHeaderView(viewHeader, null, false);
         listView.setHeaderDividersEnabled(false);
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 
