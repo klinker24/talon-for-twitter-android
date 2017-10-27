@@ -88,6 +88,7 @@ public class AppSettings {
     public static final int PICTURES_NONE = 2;
     public static final int CONDENSED_TWEETS = 3;
     public static final int CONDENSED_NO_IMAGES = 4;
+    public static final int REVAMPED_TWEETS = 5;
 
     public static final int PAGE_TYPE_NONE = 0;
     public static final int PAGE_TYPE_PICS = 1;
@@ -136,7 +137,6 @@ public class AppSettings {
     public String favoriteUserNames;
     public String locale;
 
-    public boolean revampedTweetLayout = BuildConfig.DEBUG;
     public boolean transpartSystemBars;
     public boolean darkTheme;
     public boolean blackTheme;
@@ -685,6 +685,10 @@ public class AppSettings {
 
     public boolean condensedTweets() {
         return picturesType == CONDENSED_NO_IMAGES || picturesType == CONDENSED_TWEETS;
+    }
+
+    public boolean revampedTweets() {
+        return picturesType == REVAMPED_TWEETS;
     }
 
     public static void setTweetCharacterCountLimit(Context context, int newCount) {

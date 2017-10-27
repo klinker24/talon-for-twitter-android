@@ -19,6 +19,9 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <com.klinker.android.twitter_l.views.preference.TweetStylePreviewPreference
+        android:key="tweet_style_preview" />
+
     <ListPreference
         android:key="timeline_pictures"
         android:title="@string/tweet_style"
@@ -26,24 +29,6 @@
         android:defaultValue="0"
         android:entries="@array/timeline_pictures"
         android:entryValues="@array/timeline_pictures_inserted"/>
-
-    <ListPreference
-        android:key="emoji_style"
-        android:title="@string/emoji_style"
-        android:defaultValue="default"
-        android:entries="@array/emoji_style"
-        android:entryValues="@array/emoji_style_values"/>
-
-    <SwitchPreference
-        android:key="detailed_quotes"
-        android:title="@string/detailed_quotes"
-        android:summary="@string/detailed_quotes_summary"
-        android:defaultValue="false" />
-
-    <SwitchPreference
-        android:key="web_previews_timeline"
-        android:title="@string/preview_web_links"
-        android:defaultValue="true" />
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/color_options" >
@@ -74,6 +59,13 @@
         android:title="@string/font_options" >
 
         <ListPreference
+            android:key="emoji_style"
+            android:title="@string/emoji_style"
+            android:defaultValue="default"
+            android:entries="@array/emoji_style"
+            android:entryValues="@array/emoji_style_values"/>
+
+        <ListPreference
             android:key="font_type"
             android:title="@string/font_type"
             android:defaultValue="1"
@@ -101,6 +93,17 @@
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/advanced" >
+
+        <SwitchPreference
+            android:key="detailed_quotes"
+            android:title="@string/detailed_quotes"
+            android:summary="@string/detailed_quotes_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="web_previews_timeline"
+            android:title="@string/preview_web_links"
+            android:defaultValue="true" />
 
         <Preference
             android:key="advanced"
