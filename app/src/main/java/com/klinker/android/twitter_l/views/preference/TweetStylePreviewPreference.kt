@@ -122,6 +122,7 @@ class TweetStylePreviewPreference : Preference {
         } else {
             retweeter.text = TextUtils.colorText(context, "@" + RETWEETER, settings.themeColors.accentColor)
             revampedRetweetIcon.visibility = View.VISIBLE
+            tweetHolder?.getChildAt(0)?.setPadding(0,0,0,Utils.toDP(12, context))
         }
 
         if (settings.absoluteDate) {
