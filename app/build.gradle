@@ -60,8 +60,8 @@ android {
                 signingConfig signingConfigs.debug
             }
             release {
-                minifyEnabled true
-                shrinkResources true
+                minifyEnabled false
+                shrinkResources false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
                 signingConfig signingConfigs.release
             }
@@ -112,7 +112,7 @@ dependencies {
     implementation "com.android.support:customtabs:${project.ANDROID_SUPPORT_VERSION}"
     implementation "com.android.support:preference-v7:${project.ANDROID_SUPPORT_VERSION}"
     implementation "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
-    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:multidex:1.0.2'
 
     implementation 'com.klinkerapps:link_builder:1.5.2'
     implementation 'com.klinkerapps:peekview:1.2.3'
