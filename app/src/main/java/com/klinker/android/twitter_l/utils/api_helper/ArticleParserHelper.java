@@ -77,7 +77,7 @@ public class ArticleParserHelper {
 
                 HttpEntity entity = response.getEntity();
                 InputStream is = entity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format), 8);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format));
                 StringBuilder sb = new StringBuilder();
                 String line = null;
                 while ((line = reader.readLine()) != null) {

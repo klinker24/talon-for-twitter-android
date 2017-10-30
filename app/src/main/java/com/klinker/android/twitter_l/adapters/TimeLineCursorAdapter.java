@@ -952,7 +952,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         final String linkToLoad;
-        if (embeddedTweetFound || picture || !settings.webPreviews) {
+        if (embeddedTweetFound || (picture && !settings.revampedTweets()) || !settings.webPreviews) {
             linkToLoad = null;
             if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
