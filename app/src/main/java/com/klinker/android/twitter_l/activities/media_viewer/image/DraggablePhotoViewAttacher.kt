@@ -36,4 +36,20 @@ class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageV
         } catch (e: Exception) {
         }
     }
+    
+    override fun onFling(startX: Float, startY: Float, velocityX: Float, velocityY: Float) {
+        try {
+            super.onFling(startX, startY, velocityX, velocityY)
+        } catch (e: Exception) {
+
+        }
+    }
+
+    override fun onDrag(dx: Float, dy: Float) {
+        try {
+            super.onDrag(dx, dy)
+        } catch (e: Exception) {
+
+        }
+    }
 }
