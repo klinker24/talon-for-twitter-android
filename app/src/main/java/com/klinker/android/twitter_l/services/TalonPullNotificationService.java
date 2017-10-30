@@ -497,7 +497,10 @@ public class TalonPullNotificationService extends Service {
 
                     pushStream.addListener(userStream);
                     //pushStream.filter(new FilterQuery().track(new String[]{myName}));
-                    pushStream.user(new String[] {myName});
+                    try {
+                        pushStream.user(new String[] {myName});
+                    } catch (Throwable t) {
+                    }
                     Log.v("twitter_stream_push", "started push notifications");
                 }
             }).start();
