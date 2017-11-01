@@ -824,7 +824,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         }
 
         final String linkToLoad;
-        if (embeddedTweetFound || (picture && !settings.revampedTweets()) || !settings.webPreviews) {
+        if (embeddedTweetFound || picture || !settings.webPreviews) {
             linkToLoad = null;
             if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
