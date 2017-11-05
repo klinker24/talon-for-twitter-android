@@ -550,6 +550,9 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         holder.webPreviewCard.clear();
+        if (holder.webPreviewCard.getVisibility() != View.GONE) {
+            holder.webPreviewCard.setVisibility(View.GONE);
+        }
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
@@ -954,7 +957,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         final String linkToLoad;
         if (embeddedTweetFound || picture || !settings.webPreviews) {
             linkToLoad = null;
-            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+            if (holder.webPreviewCard.getVisibility() != View.GONE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
             }
         } else if (otherUrl != null && otherUrl.length() > 0) {
@@ -962,18 +965,18 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
             if (WebPreviewCard.Companion.ignoreLink(link)) {
                 linkToLoad = null;
-                if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+                if (holder.webPreviewCard.getVisibility() != View.GONE) {
                     holder.webPreviewCard.setVisibility(View.GONE);
                 }
             } else {
                 linkToLoad = link;
-                if (holder.webPreviewCard.getVisibility() == View.GONE) {
+                if (holder.webPreviewCard.getVisibility() != View.VISIBLE) {
                     holder.webPreviewCard.setVisibility(View.VISIBLE);
                 }
             }
         } else {
             linkToLoad = null;
-            if (holder.webPreviewCard.getVisibility() == View.VISIBLE) {
+            if (holder.webPreviewCard.getVisibility() != View.GONE) {
                 holder.webPreviewCard.setVisibility(View.GONE);
             }
         }
