@@ -65,10 +65,10 @@ class WebPreviewCard @JvmOverloads constructor(
 
     fun displayPreview(preview: WebPreview) {
         if (tag != preview.link) {
-            if (loadedPreview != null) {
-                tag = loadedPreview!!.link
-                displayPreview(loadedPreview!!)
-            }
+//            if (loadedPreview != null) {
+//                tag = loadedPreview!!.link
+//                displayPreview(loadedPreview!!)
+//            }
 
             return
         }
@@ -138,6 +138,8 @@ class WebPreviewCard @JvmOverloads constructor(
 
         setOnClickListener { }
         setOnLongClickListener { true }
+
+        tag = ""
     }
 
     companion object {

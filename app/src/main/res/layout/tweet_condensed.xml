@@ -19,108 +19,109 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:orientation="vertical">
 
     <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
         android:id="@+id/muffled_name"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textColor="?textColor"
-        android:paddingTop="12dp"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:paddingBottom="12dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:paddingTop="12dp"
         android:singleLine="true"
-        android:visibility="gone"
-        android:background="?android:attr/selectableItemBackground" />
+        android:textColor="?textColor"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/conversation_area"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:orientation="vertical" />
 
     <LinearLayout
         android:id="@+id/background"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:layoutDirection="ltr"
+        android:orientation="horizontal"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:background="?android:attr/selectableItemBackground">
+        android:paddingTop="8dp">
 
         <!-- The tweeters picture -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_pic"
             android:layout_width="@dimen/pro_pic_size"
             android:layout_height="@dimen/pro_pic_size"
-            android:minHeight="@dimen/pro_pic_size" android:minWidth="@dimen/pro_pic_size"
-            android:maxWidth="@dimen/pro_pic_size" android:maxHeight="@dimen/pro_pic_size"
-            android:layout_marginRight="2dp"
             android:layout_marginLeft="6dp"
+            android:layout_marginRight="2dp"
             android:layout_marginTop="3dp"
-            app:civ_border_width="0dp"
-            app:civ_border_color="#FF000000"/>
+            android:maxHeight="@dimen/pro_pic_size"
+            android:maxWidth="@dimen/pro_pic_size"
+            android:minHeight="@dimen/pro_pic_size"
+            android:minWidth="@dimen/pro_pic_size"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:gravity="center_vertical"
             android:layoutDirection="ltr"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/name"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:textColor="?textColor"
-                    android:singleLine="true"/>
+                    android:textStyle="bold" />
 
                 <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                     android:id="@+id/screenname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
-                    android:textColor="?dateColor"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:gravity="center_vertical"/>
+                    android:textColor="?dateColor" />
 
                 <LinearLayout
                     android:id="@+id/quick_actions"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:background="?android:selectableItemBackground"
-                    android:paddingRight="6dp"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal"
                     android:paddingLeft="6dp"
-                    android:gravity="right|center_vertical">
+                    android:paddingRight="6dp">
 
                     <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/time"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textColor="?dateColor" />
 
                     <ImageView
                         android:id="@+id/is_a_conversation"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:src="?directMessageItem"
                         android:scaleType="fitCenter"
+                        android:src="?directMessageItem"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -128,148 +129,148 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <com.klinker.android.twitter_l.views.widgets.text.MaterialTextView
                         android:id="@+id/tweet"
-                        android:tag="tweet"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layoutDirection="locale"
                         android:paddingTop="4dp"
-                        android:textColor="?textColor"
-                        android:layoutDirection="locale" />
+                        android:tag="tweet"
+                        android:textColor="?textColor" />
 
                     <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/reply_to"
-                        android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
-                        android:paddingTop="3dp"
+                        android:layout_height="wrap_content"
                         android:gravity="start"
+                        android:paddingTop="3dp"
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 
                     <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
                         android:id="@+id/retweeter"
-                        android:layout_height="wrap_content"
                         android:layout_width="fill_parent"
-                        android:paddingTop="3dp"
+                        android:layout_height="wrap_content"
                         android:gravity="start"
+                        android:paddingTop="3dp"
                         android:textColor="?dateColor"
                         android:visibility="gone" />
 
                 </LinearLayout>
 
-                <FrameLayout android:layout_width="75dp"
+                <FrameLayout
+                    android:id="@+id/picture_holder"
+                    android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_marginLeft="4dp"
-                    android:id="@+id/picture_holder"
                     android:visibility="gone">
 
                     <ImageView
+                        android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitCenter"
                         android:background="@drawable/rounded_rect"
-                        android:transitionName="image"
-                        android:id="@+id/image"/>
+                        android:scaleType="fitCenter"
+                        android:transitionName="image" />
 
                     <ImageView
                         android:id="@+id/play_button"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:padding="12dp"
-                        android:layout_gravity="bottom|start"/>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:padding="12dp" />
 
                     <com.klinker.android.simple_videoview.SimpleVideoView
                         android:id="@+id/video_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
                         android:background="@android:color/black"
+                        android:visibility="gone"
                         app:loop="true"
-                        app:stopSystemAudio="false"
-                        app:muted="true" />
+                        app:muted="true"
+                        app:stopSystemAudio="false" />
 
                 </FrameLayout>
 
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/embedded_tweet_card"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/quoted_tweet_height"
-                android:maxWidth="300dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginBottom="6dp"
-                card_view:cardElevation="2dp"
-                card_view:cardCornerRadius="3dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="12dp"
+                android:maxWidth="300dp"
+                android:visibility="gone"
                 card_view:cardBackgroundColor="?embeddedTweetBackground"
-                android:visibility="gone" />
+                card_view:cardCornerRadius="3dp"
+                card_view:cardElevation="2dp" />
 
             <com.klinker.android.twitter_l.views.WebPreviewCard
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/web_preview_card"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginBottom="6dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
                 android:visibility="gone"
-                card_view:cardElevation="2dp"
+                card_view:cardBackgroundColor="?embeddedTweetBackground"
                 card_view:cardCornerRadius="3dp"
-                card_view:cardBackgroundColor="?embeddedTweetBackground" />
+                card_view:cardElevation="2dp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/expansion"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="top"
-        android:id="@+id/expansion"
+        android:orientation="vertical"
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/replies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="16dp"
         android:layout_marginTop="-4dp"
         android:gravity="top"
-        android:id="@+id/replies"
+        android:orientation="horizontal"
         android:visibility="gone">
 
         <View
             android:id="@+id/line"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="18dp"
-            android:alpha=".6"
             android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp" />
+            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="16dp"
+            android:alpha=".6" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/inner_expansion"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" />
 
     </LinearLayout>
 
