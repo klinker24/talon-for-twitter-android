@@ -1860,7 +1860,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                     builder.setItems(names.toArray(new CharSequence[lists.size()]), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                            if (thisUser != null) {
+                                new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                            }
                         }
                     });
                     builder.setTitle(getResources().getString(R.string.choose_list) + ":");
