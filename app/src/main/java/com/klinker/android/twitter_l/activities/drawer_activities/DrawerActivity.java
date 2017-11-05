@@ -1697,7 +1697,9 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
-                statusBar.setBackgroundColor(val);
+                if (statusBar != null) {
+                    statusBar.setBackgroundColor(val);
+                }
             }
         });
         showStatus.setDuration(ANIM_DURATION);
