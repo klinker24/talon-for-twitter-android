@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="6.9.4">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.9.3">
         <text>Improvements to the image viewer</text>
         <text>Built against Android 8.1</text>
