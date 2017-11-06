@@ -539,20 +539,36 @@ public class ExpansionViewHelper {
                             webPopup.show();
                             break;
                         case MARK_SPAM:
-                            new MarkSpam(new Runnable() {
-                                @Override
-                                public void run() {
-                                    AppSettings.getInstance(context).sharedPrefs
-                                            .edit().putBoolean("just_muted", true).apply();
+                            new AlertDialog.Builder(context)
+                                    .setMessage(R.string.are_you_sure_spam)
+                                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new MarkSpam(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    AppSettings.getInstance(context).sharedPrefs
+                                                            .edit().putBoolean("just_muted", true).apply();
 
-                                    ((Activity)context).finish();
+                                                    ((Activity)context).finish();
 
-                                    if (context instanceof DrawerActivity) {
-                                        context.startActivity(new Intent(context, MainActivity.class));
-                                        ((Activity) context).overridePendingTransition(0,0);
-                                    }
-                                }
-                            }).execute();
+                                                    if (context instanceof DrawerActivity) {
+                                                        context.startActivity(new Intent(context, MainActivity.class));
+                                                        ((Activity) context).overridePendingTransition(0,0);
+                                                    }
+                                                }
+                                            }).execute();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+
                             break;
                         case OPEN_TO_BROWSER:
                             openToBrowser();
