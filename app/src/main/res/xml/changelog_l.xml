@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="6.9.4">
+        <text>Post tweets that are 280 characters</text>
         <text>Confirmation before marking a tweet as spam</text>
         <text>Bug fixes</text>
     </version>
