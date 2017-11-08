@@ -575,9 +575,12 @@ public class TweetView {
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(imageUrl.split(" ")[0])
-                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                        .into((ImageView) rootView.findViewById(R.id.image));
+                                try {
+                                    Glide.with(context).load(imageUrl.split(" ")[0])
+                                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                            .into((ImageView) rootView.findViewById(R.id.image));
+                                } catch (IllegalArgumentException e) {
+                                }
                             }
                         }).with(options).applyTo((PeekViewActivity) context, imageIv);
                     }

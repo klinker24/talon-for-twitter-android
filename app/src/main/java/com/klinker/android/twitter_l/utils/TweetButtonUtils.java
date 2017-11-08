@@ -486,6 +486,10 @@ public class TweetButtonUtils {
 
     String restoreLinks(String text) {
         String imageUrl = TweetLinkUtils.getLinksInStatus(status)[1];
+        if (imageUrl.contains(" ")) {
+            imageUrl = imageUrl.split(" ")[0];
+        }
+
         int urlEntitiesSize = status.getURLEntities().length;
         int length = imageUrl != null && !imageUrl.isEmpty() ? urlEntitiesSize + 1 : urlEntitiesSize;
 

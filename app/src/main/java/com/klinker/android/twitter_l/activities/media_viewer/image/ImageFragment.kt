@@ -212,15 +212,18 @@ class ImageFragment : Fragment() {
                     }
                 })
 
-                val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setTicker(resources.getString(R.string.error) + "...")
-                        .setContentTitle(resources.getString(R.string.app_name))
-                        .setContentText(resources.getString(R.string.error) + "...")
-                        .setProgress(0, 100, true)
+                try {
+                    val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
+                            .setTicker(resources.getString(R.string.error) + "...")
+                            .setContentTitle(resources.getString(R.string.app_name))
+                            .setContentText(resources.getString(R.string.error) + "...")
+                            .setProgress(0, 100, true)
 
-                val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                mNotificationManager.notify(6, builder2.build())
+                    val mNotificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    mNotificationManager.notify(6, builder2.build())
+                } catch (x: IllegalStateException) {
+                }
             }
         }).start()
     }
