@@ -925,7 +925,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             v = convertView;
         }
 
-        bindView(v, statuses.get(position), position);
+        if (statuses.size() > position) {
+            bindView(v, statuses.get(position), position);
+        }
 
         return v;
     }

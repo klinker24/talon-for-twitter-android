@@ -639,7 +639,9 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         expansionHelper.setLoadCallback(new ExpansionViewHelper.TweetLoaded() {
             @Override
             public void onLoad(Status status) {
-                setTime(status.getCreatedAt().getTime());
+                if (status != null) {
+                    setTime(status.getCreatedAt().getTime());
+                }
             }
         });
 
