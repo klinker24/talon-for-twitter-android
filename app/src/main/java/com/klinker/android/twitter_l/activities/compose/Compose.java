@@ -1269,7 +1269,7 @@ public abstract class Compose extends Activity implements
             String mentions = "";
             String[] tokens = message.split(" ");
             String tempString = "";
-            /* Only check for 132 as we are adding (xx/xx) at the end of long tweets */
+            /* Only check for 272 as we are adding (xx/xx) at the end of long tweets */
             for (int i = 0; i < tokens.length; i++) {
                 if (notiId != 0) {
                     /* This is a reply tweet Take any mentions out of the tweets */
@@ -1278,7 +1278,7 @@ public abstract class Compose extends Activity implements
                         continue;
                     }
                 }
-                if (tempString.length() + tokens[i].length() + 1 <= 132) {
+                if (tempString.length() + tokens[i].length() + 1 <= 272) {
                     tempString += tokens[i] + " ";
                 } else {
                     /* We have our split tweet */
