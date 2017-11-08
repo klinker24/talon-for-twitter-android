@@ -48,6 +48,11 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
         final ViewHolder holder = (ViewHolder) view.getTag();
+        
+        holder.webPreviewCard.clear();
+        if (holder.webPreviewCard.getVisibility() != View.GONE) {
+            holder.webPreviewCard.setVisibility(View.GONE);
+        }
 
         if (holder.embeddedTweet.getChildCount() > 0 || holder.embeddedTweet.getVisibility() == View.VISIBLE) {
             holder.embeddedTweet.removeAllViews();
