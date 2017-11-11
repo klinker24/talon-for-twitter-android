@@ -49,6 +49,8 @@ public class ArticleParserHelper {
         @Override
         protected WebPreview doInBackground(Void... arg0) {
             try {
+                long startTime = System.currentTimeMillis();
+
                 String url = this.url;
                 HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                 connection.setInstanceFollowRedirects(false);
@@ -59,27 +61,31 @@ public class ArticleParserHelper {
                     url = this.url;
                 }
 
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet(url);
-                HttpResponse response = httpclient.execute(httpget);
+//                HttpClient httpclient = new DefaultHttpClient();
+//                HttpGet httpget = new HttpGet(url);
+//                HttpResponse response = httpclient.execute(httpget);
+//
+//                String format = "UTF-8";
+//                for (Header header : response.getAllHeaders()) {
+//                    String name = header.getName().toLowerCase();
+//                    String value = header.getValue();
+//
+//                    if (name.equals("content-type") && value.contains("encoding=")) {
+//                        format = value.substring(value.indexOf("encoding=") + 9);
+//                    } else if (name.equals("content-type") && value.contains("charset=")) {
+//                        format = value.substring(value.indexOf("charset=") + 8);
+//                    }
+//                }
+//
+//                HttpEntity entity = response.getEntity();
+//                InputStream is = entity.getContent();
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format), 8);
 
-                String format = "UTF-8";
-                for (Header header : response.getAllHeaders()) {
-                    String name = header.getName().toLowerCase();
-                    String value = header.getValue();
+                InputStream is = new URL(url).openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-                    if (name.equals("content-type") && value.contains("encoding=")) {
-                        format = value.substring(value.indexOf("encoding=") + 9);
-                    } else if (name.equals("content-type") && value.contains("charset=")) {
-                        format = value.substring(value.indexOf("charset=") + 8);
-                    }
-                }
-
-                HttpEntity entity = response.getEntity();
-                InputStream is = entity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format), 8);
-                StringBuilder sb = new StringBuilder();
                 String line = null;
+                StringBuilder sb = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
 
@@ -91,6 +97,7 @@ public class ArticleParserHelper {
                 sb.append("</html>");
                 String docHtml = sb.toString();
 
+                reader.close();
                 is.close();
 
                 Document document = Jsoup.parse(docHtml);
@@ -102,6 +109,8 @@ public class ArticleParserHelper {
                 String summary = getSummary(document);
                 String leadImage = getImage(document);
                 String webDomain = getDomain(url);
+
+                Log.v("article_parser", System.currentTimeMillis() - startTime + " ms");
 
                 if (title.contains("404")) {
                     throw new RuntimeException("No article found");
