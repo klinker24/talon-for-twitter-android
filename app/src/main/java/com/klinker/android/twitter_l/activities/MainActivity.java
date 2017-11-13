@@ -428,6 +428,15 @@ public class MainActivity extends DrawerActivity {
             sharedPrefs.edit().putBoolean("open_interactions", false).apply();
             mDrawerLayout.openDrawer(Gravity.END);
         }
+
+
+        try {
+            int current = mViewPager.getCurrentItem();
+            MainFragment currentFragment = (MainFragment) mSectionsPagerAdapter.getRealFrag(current);
+            currentFragment.scrollDown();
+        } catch (Exception e) {
+            
+        }
     }
 
     @Override
