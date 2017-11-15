@@ -1271,13 +1271,21 @@ public class NotificationUtils {
             reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
 
             replyPending = PendingIntent.getService(context, notificationId, reply, 0);
-        } else {
-            reply = new Intent(context, isSecondAccount ? NotificationComposeSecondAcc.class : NotificationCompose.class);
+        } else if (isSecondAccount) {
+            reply = new Intent(context, NotificationComposeSecondAcc.class);
 
             SharedPreferences sharedPrefs = AppSettings.getInstance(context).sharedPrefs;
             sharedPrefs.edit().putString("from_notification_second", "@" + screenname).apply();
             sharedPrefs.edit().putLong("from_notification_long_second", Long.parseLong(tweetId)).apply();
             sharedPrefs.edit().putString("from_notification_text_second", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).apply();
+
+            replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+        } else {
+            reply = new Intent(context, NotificationCompose.class);
+
+            reply.putExtra("from_noti", "@" + screenname);
+            reply.putExtra("rom_noti_long", Long.parseLong(tweetId));
+            reply.putExtra("from_noti_text", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context)));
 
             replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
         }
