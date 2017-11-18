@@ -119,7 +119,7 @@ dependencies {
     implementation 'com.klinkerapps:simple_videoview:1.2.4'
     implementation 'com.klinkerapps:launcher-apis:1.1.0'
     implementation 'com.klinkerapps:android-transcoder:1.0.1'
-    implementation 'com.klinkerapps:article_viewer-glide3:0.24.3'
+    implementation 'com.klinkerapps:article_viewer-glide3:0.24.4'
     implementation 'com.klinkerapps:drag-dismiss-activity:1.5.0'
     implementation 'com.klinkerapps:floating-tutorial:1.0.1'
 
