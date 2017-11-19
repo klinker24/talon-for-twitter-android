@@ -199,6 +199,8 @@ public class ActivityUtils {
             wakeLock.acquire(5000);
         }
 
+        summaryBuilder.setAutoCancel(true);
+
         // Pebble notification
         if(sharedPrefs.getBoolean("pebble_notification", false)) {
             NotificationUtils.sendAlertToPebble(context, notificationTitle, notificationItems.get(0));
@@ -220,6 +222,7 @@ public class ActivityUtils {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setSmallIcon(R.drawable.ic_stat_icon)
                 .setContentIntent(contentIntent)
+                .setAutoCancel(true)
                 .setGroup(GROUP_ACTIVITY)
                 .setGroupSummary(false);
 
