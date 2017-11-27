@@ -144,7 +144,8 @@ public class ActivityUtils {
             contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0);
         }
 
-        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context,
+                NotificationChannelUtil.INTERACTIONS_CHANNEL);
         summaryBuilder.setContentTitle(notificationTitle);
         summaryBuilder.setSmallIcon(R.drawable.ic_stat_icon);
         summaryBuilder.setContentIntent(contentIntent);
