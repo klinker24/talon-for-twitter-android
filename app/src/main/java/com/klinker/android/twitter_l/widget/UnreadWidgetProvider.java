@@ -56,10 +56,10 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
         if (intent.getAction().equals(TimelineWidgetProvider.Companion.getREFRESH_ACTION()) ||
                 intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
+
             try {
                 context.startService(updateWidget);
             } catch (Exception e) {
-
             }
         } else {
             super.onReceive(context, intent);
