@@ -171,12 +171,6 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
         public Bitmap getCachedPic(String url) {
             try {
-            /*return ImageUtils.getCircleBitmap(Glide.
-                    with(mContext).
-                    load(url).
-                    asBitmap().
-                    into(200, 200).
-                    get());*/
                 return Glide.with(this)
                         .load(url)
                         .asBitmap()
