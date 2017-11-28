@@ -22,6 +22,11 @@
             android:entryValues="@array/text_size" />
 
         <SwitchPreference
+            android:key="widget_display_screenname"
+            android:title="@string/widget_display_screenname"
+            android:defaultValue="true" />
+
+        <SwitchPreference
             android:key="widget_images"
             android:title="@string/show_images_on_widget"
             android:defaultValue="true" />

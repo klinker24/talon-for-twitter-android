@@ -40,6 +40,7 @@ import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToTimeline;
+import com.klinker.android.twitter_l.widget.timeline.TimelineWidgetProvider;
 
 public class UnreadWidgetProvider extends AppWidgetProvider {
 
@@ -52,7 +53,7 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(WidgetProvider.UPDATE_WIDGET) ||
+        if (intent.getAction().equals(TimelineWidgetProvider.Companion.getREFRESH_ACTION()) ||
                 intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Intent updateWidget = new Intent(context, UnreadWidgetService.class);
             try {
@@ -118,10 +119,6 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
                 Intent quickText = new Intent(this, WidgetCompose.class);
                 quickText.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
-
-                Intent intent2 = new Intent(this, WidgetService.class);
-                intent2.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                intent2.setData(Uri.parse(intent2.toUri(Intent.URI_INTENT_SCHEME)));
 
                 Intent openApp = new Intent(this, RedirectToTimeline.class);
                 openApp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
