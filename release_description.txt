@@ -2,5 +2,6 @@ This update brings a few new features to Talon:<br/>
 - Tweet with 280 characters<br/>
 - Preview web links directly from the timeline<br/>
 - New image viewer with improved paging, zooming, and drag-to-dismiss<br/>
+- Performance and compatibility improvements on the widget<br/>
 - Improvements around viewing saved searches<br/>
 + Bug fixes and Talon is now built for Android 8.1
