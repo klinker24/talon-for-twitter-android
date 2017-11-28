@@ -201,6 +201,7 @@ public class AppSettings {
     public boolean compressReplies;
     public boolean cropImagesOnTimeline;
     public boolean webPreviews;
+    public boolean widgetDisplayScreenname;
 
     // notifications
     public boolean timelineNot;
@@ -378,6 +379,7 @@ public class AppSettings {
         compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);
         cropImagesOnTimeline = sharedPrefs.getBoolean("crop_images_timeline", true);
         webPreviews = sharedPrefs.getBoolean("web_previews_timeline", true);
+        widgetDisplayScreenname = sharedPrefs.getBoolean("widget_display_screenname", true);
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
             this.emojiStyle = EmojiStyle.ANDROID_O;
