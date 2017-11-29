@@ -42,10 +42,13 @@ import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.regex.Matcher;
 
 import twitter4j.Twitter;
+import twitter4j.UserList;
 
 public class SendScheduledTweet extends SimpleJobService {
 
@@ -53,7 +56,13 @@ public class SendScheduledTweet extends SimpleJobService {
 
     public static void scheduleNextRun(Context context) {
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+
         ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
+        Collections.sort(tweets, new Comparator<ScheduledTweet>() {
+            public int compare(ScheduledTweet result1, ScheduledTweet result2) {
+                return Long.compare(result1.time, result2.time);
+            }
+        });
 
         if (tweets.size() == 0) {
             dispatcher.cancel(JOB_TAG);

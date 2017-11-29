@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.CatchupPull;
+import com.klinker.android.twitter_l.services.SendScheduledTweet;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
@@ -544,6 +545,7 @@ public class MainActivity extends DrawerActivity {
             @Override
             public void run() {
                 NotificationUtils.sendTestNotification(MainActivity.this);
+                SendScheduledTweet.scheduleNextRun(context);
             }
         }, 1000);
     }
