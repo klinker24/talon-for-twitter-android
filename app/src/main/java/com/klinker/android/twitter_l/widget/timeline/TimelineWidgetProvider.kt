@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
@@ -118,7 +119,12 @@ class TimelineWidgetProvider : AppWidgetProvider() {
             rv.setOnClickPendingIntent(R.id.replyButton, pendingCompose)
             rv.setOnClickPendingIntent(R.id.syncButton, pendingRefresh)
 
-            rv.setImageViewBitmap(R.id.widget_pro_pic, getCachedPic(AppSettings.getInstance(context).myProfilePicUrl, context))
+//            val handler = Handler()
+//            Thread {
+//                val bitmap = getCachedPic(context, AppSettings.getInstance(context).myProfilePicUrl)
+//                handler.post { rv.setImageViewBitmap(R.id.widget_pro_pic, bitmap) }
+//            }.start()
+            rv.setViewVisibility(R.id.widget_pro_pic, View.GONE)
             rv.setViewVisibility(R.id.replyButton, View.VISIBLE)
 
             if (AppSettings.getInstance(context).widgetDisplayScreenname) {
@@ -145,9 +151,15 @@ class TimelineWidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
     }
 
-    fun getCachedPic(url: String, context: Context): Bitmap? {
-        return try {
-            Glide.with(context)
+    fun getCachedPic(context: Context, url: String): Bitmap? {
+        try {
+            /*return ImageUtils.getCircleBitmap(Glide.
+                    with(mContext).
+                    load(url).
+                    asBitmap().
+                    into(200, 200).
+                    get());*/
+            return Glide.with(context)
                     .load(url)
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -156,8 +168,9 @@ class TimelineWidgetProvider : AppWidgetProvider() {
                     .get()
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+            return null
         }
+
     }
 
     companion object {
