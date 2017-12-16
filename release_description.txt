@@ -1,7 +1,2 @@
-This update brings a few new features to Talon:<br/>
-- Tweet with 280 characters<br/>
-- Preview web links directly from the timeline<br/>
-- New image viewer with improved paging, zooming, and drag-to-dismiss<br/>
-- Performance and compatibility improvements on the widget<br/>
-- Improvements around viewing saved searches<br/>
-+ Bug fixes and Talon is now built for Android 8.1
+This update brings a brand new "Tweet Style" to Talon, for those of you that want something a little different and more modern on your phone! This new "Timeline Style" is especially great for users with timelines full of rich media content, rather than just walls of text. To try out the new style, head to the "App Style" section of settings.<br/><br/>
+For more details: https://blog.klinkerapps.com/upgrading-your-twitter-timeline
