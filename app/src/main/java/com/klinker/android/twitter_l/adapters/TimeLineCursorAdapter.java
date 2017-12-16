@@ -223,7 +223,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         layout = R.layout.tweet;
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             layout = R.layout.tweet_revamp;
         } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;
@@ -387,10 +387,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
-        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweetLayout ? 1 : 2));
+        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweets() ? 1 : 2));
         holder.name.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
         holder.muffledName.setTextSize(settings.textSize);
-        holder.time.setTextSize(settings.textSize - (settings.revampedTweetLayout ? 2 : 3));
+        holder.time.setTextSize(settings.textSize - (settings.revampedTweets() ? 2 : 3));
         holder.retweeter.setTextSize(settings.textSize - 3);
         holder.replies.setTextSize(settings.textSize - 2);
 
@@ -445,7 +445,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         });
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             holder.tweet.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -910,7 +910,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         if (retweeter.length() > 0 && !isDM) {
             String text = context.getResources().getString(R.string.retweeter);
-            holder.retweeter.setText((settings.revampedTweetLayout ? "@" : text) + retweeter);
+            holder.retweeter.setText((settings.revampedTweets() ? "@" : text) + retweeter);
             holder.retweeterName = retweeter;
 
             if (holder.retweeter.getVisibility() != View.VISIBLE) {
@@ -1482,7 +1482,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     }
 
     private void setUpRevampedTweet(final Cursor cursor, ViewHolder holder, boolean muffled) {
-        if (!settings.revampedTweetLayout) {
+        if (!settings.revampedTweets()) {
             return;
         }
 

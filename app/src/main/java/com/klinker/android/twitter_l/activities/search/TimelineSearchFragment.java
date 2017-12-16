@@ -124,7 +124,7 @@ public class TimelineSearchFragment extends Fragment {
 
         listView = (ListView) layout.findViewById(R.id.listView);
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 

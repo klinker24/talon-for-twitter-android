@@ -41,7 +41,7 @@ public abstract class ProfileListPopupLayout extends PopupLayout {
         list = (ListView) main.findViewById(R.id.listView);
         spinner = (LinearLayout) main.findViewById(R.id.spinner);
 
-        if (AppSettings.getInstance(context).revampedTweetLayout) {
+        if (AppSettings.getInstance(context).revampedTweets()) {
             list.setDivider(null);
         }
 

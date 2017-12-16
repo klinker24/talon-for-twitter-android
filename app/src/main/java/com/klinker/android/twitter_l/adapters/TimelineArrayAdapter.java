@@ -260,7 +260,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         }
 
         layout = R.layout.tweet;
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             layout = R.layout.tweet_revamp;
         } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;
@@ -318,9 +318,9 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         // sets up the font sizes
         holder.tweet.setTextSize(settings.textSize);
-        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweetLayout ? 1 : 2));
+        holder.screenTV.setTextSize(settings.textSize - (settings.condensedTweets() || settings.revampedTweets() ? 1 : 2));
         holder.name.setTextSize(settings.textSize + (settings.condensedTweets() ? 1 : 4));
-        holder.time.setTextSize(settings.textSize - (settings.revampedTweetLayout ? 2 : 3));
+        holder.time.setTextSize(settings.textSize - (settings.revampedTweets() ? 2 : 3));
         holder.retweeter.setTextSize(settings.textSize - 3);
         holder.retweeter.setTextSize(settings.textSize - 2);
 
@@ -346,7 +346,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
             }
         });
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             holder.tweet.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -984,7 +984,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
     }
 
     private void setUpRevampedTweet(final int position, ViewHolder holder) {
-        if (!settings.revampedTweetLayout) {
+        if (!settings.revampedTweets()) {
             return;
         }
 

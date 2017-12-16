@@ -100,7 +100,7 @@ public class Utils {
 
 
     public static String getTimeAgo(long time, Context context, boolean allowLongFormat) {
-        if (allowLongFormat && AppSettings.getInstance(context).revampedTweetLayout) {
+        if (allowLongFormat && AppSettings.getInstance(context).revampedTweets()) {
             return getTimeAgoLongFormat(time, context);
         }
 

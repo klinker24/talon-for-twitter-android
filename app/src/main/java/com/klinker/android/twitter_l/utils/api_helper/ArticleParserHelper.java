@@ -79,7 +79,7 @@ public class ArticleParserHelper {
 //
 //                HttpEntity entity = response.getEntity();
 //                InputStream is = entity.getContent();
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format), 8);
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format));
 
                 InputStream is = new URL(url).openStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
