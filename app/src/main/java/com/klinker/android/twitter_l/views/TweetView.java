@@ -263,7 +263,7 @@ public class TweetView {
 
     protected View createTweet() {
         int layout = R.layout.tweet;
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             //layout = R.layout.tweet_quoted_revamped;
         } else if (settings.condensedTweets()) {
             layout = R.layout.tweet_condensed;

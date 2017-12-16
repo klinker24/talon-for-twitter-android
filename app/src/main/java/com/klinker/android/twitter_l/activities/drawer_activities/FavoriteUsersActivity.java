@@ -91,7 +91,7 @@ public class FavoriteUsersActivity extends DrawerActivity {
         }
 
         listView.setHeaderDividersEnabled(false);
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 

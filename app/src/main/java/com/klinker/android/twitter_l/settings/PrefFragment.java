@@ -980,6 +980,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
 
         dialog.dismiss();
         AppSettings.invalidate();
+        getActivity().recreate();
     }
 
     Spinner getSpinner(SharedPreferences sharedPrefs) {
@@ -1037,6 +1038,16 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 }
             });
         }
+
+        final Preference baseTheme = findPreference("main_theme_string");
+        baseTheme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                AppSettings.invalidate();
+                getActivity().recreate();
+                return true;
+            }
+        });
 
         final Preference themePicker = findPreference("material_theme");
         themePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

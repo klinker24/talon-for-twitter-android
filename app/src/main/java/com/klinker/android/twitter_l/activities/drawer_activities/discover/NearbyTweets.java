@@ -116,7 +116,7 @@ public class NearbyTweets extends Fragment implements
             }
         });
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 

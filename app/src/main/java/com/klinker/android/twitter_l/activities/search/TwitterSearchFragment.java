@@ -146,7 +146,7 @@ public class TwitterSearchFragment extends Fragment implements Expandable {
 
         listView = (ListView) layout.findViewById(R.id.listView);
 
-        if (settings.revampedTweetLayout) {
+        if (settings.revampedTweets()) {
             listView.setDivider(null);
         }
 
