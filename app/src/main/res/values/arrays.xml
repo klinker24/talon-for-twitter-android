@@ -412,21 +412,21 @@
     </string-array>
 
     <string-array name="timeline_pictures">
+        <item>@string/revamped_layout</item>
         <item>@string/normal_pictures</item>
         <item>@string/smaller_pictures</item>
         <item>@string/no_pictures</item>
         <item>@string/condensed_tweet_style</item>
         <item>@string/compact_layout_no_pictures</item>
-        <item>@string/revamped_layout</item>
     </string-array>
 
     <string-array name="timeline_pictures_inserted">
+        <item>5</item>
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
-        <item>5</item>
     </string-array>
 
     <string-array name="long_click_mentions">
