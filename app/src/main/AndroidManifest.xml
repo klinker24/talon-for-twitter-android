@@ -940,7 +940,7 @@
 
         <!-- Widget -->
         <receiver
-            android:name="com.klinker.android.twitter_l.widget.WidgetProvider"
+            android:name="com.klinker.android.twitter_l.widget.timeline.TimelineWidgetProvider"
             android:label="@string/talon_large_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -969,9 +969,8 @@
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <service
-            android:name="com.klinker.android.twitter_l.widget.WidgetService"
+            android:name="com.klinker.android.twitter_l.widget.timeline.TimelineWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service android:name="com.klinker.android.twitter_l.widget.WidgetProvider$CardWidgetService2" />
         <service android:name="com.klinker.android.twitter_l.widget.UnreadWidgetProvider$UnreadWidgetService" />
 
         <!-- DashClock -->

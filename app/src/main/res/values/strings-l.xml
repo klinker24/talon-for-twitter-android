@@ -239,4 +239,5 @@
     <string name="day_ago">%1$d day ago</string>
     <string name="new_days_ago">%1$d days ago</string>
     <string name="revamped_layout">Revamped Tweet Layout</string>
+    <string name="widget_display_screenname">Display Screenname</string>
 </resources>
