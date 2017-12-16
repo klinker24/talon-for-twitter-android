@@ -1398,6 +1398,18 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
     }
 
     @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (settings.autoDismissNotifications) {
+            // cancels the notifications when the app is opened
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.cancelAll();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 

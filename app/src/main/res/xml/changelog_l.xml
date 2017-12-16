@@ -1,5 +1,18 @@
 <changelog>
 
+    <version name="6.9.8">
+        <text>Fixes for scheduled tweets</text>
+    </version>
+
+    <version name="6.9.7">
+        <text>Improvements to the widget: scrolling, performance, Oreo compatibility</text>
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="6.9.6">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="6.9.5">
         <text>Talon's tweetstorms now take advantage of the 280 characters</text>
         <text>Fix issue with direct messages displaying a blank box in some cases</text>

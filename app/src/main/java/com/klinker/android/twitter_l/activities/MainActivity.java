@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.data.sq_lite.InteractionsDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.services.CatchupPull;
+import com.klinker.android.twitter_l.services.SendScheduledTweet;
 import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
@@ -412,10 +413,7 @@ public class MainActivity extends DrawerActivity {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void handleOpenPage() {
         if (sharedPrefs.getBoolean("open_a_page", false)) {
             sharedPrefs.edit().putBoolean("open_a_page", false).apply();
             int page = sharedPrefs.getInt("open_what_page", 1);
@@ -427,6 +425,26 @@ public class MainActivity extends DrawerActivity {
         if (sharedPrefs.getBoolean("open_interactions", false)) {
             sharedPrefs.edit().putBoolean("open_interactions", false).apply();
             mDrawerLayout.openDrawer(Gravity.END);
+        }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleOpenPage();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handleOpenPage();
+
+        try {
+            int current = mViewPager.getCurrentItem();
+            MainFragment currentFragment = (MainFragment) mSectionsPagerAdapter.getRealFrag(current);
+            currentFragment.scrollDown();
+        } catch (Exception e) {
+            
         }
     }
 
@@ -527,6 +545,7 @@ public class MainActivity extends DrawerActivity {
             @Override
             public void run() {
                 NotificationUtils.sendTestNotification(MainActivity.this);
+                SendScheduledTweet.scheduleNextRun(context);
             }
         }, 1000);
     }

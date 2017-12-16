@@ -255,7 +255,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
             config.checkedChipColor(settings.themeColors.accentColor);
         } else if (settings.darkTheme && settings.theme == AppSettings.THEME_DARK_BACKGROUND_COLOR) {
             config.checkedChipColor(settings.themeColors.accentColor);
-        } else if (!settings.darkTheme && settings.theme == AppSettings.THEME_WHITE) {
+        } else if (settings.theme == AppSettings.THEME_WHITE) {
             config.checkedChipColor(settings.themeColors.accentColor);
         }
 

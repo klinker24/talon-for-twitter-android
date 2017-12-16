@@ -31,6 +31,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
+import com.klinker.android.twitter_l.widget.timeline.TimelineWidgetProvider;
 
 
 public class TalonDashClockExtension extends DashClockExtension {
@@ -53,7 +54,7 @@ public class TalonDashClockExtension extends DashClockExtension {
         }
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction("com.klinker.android.talon.UPDATE_WIDGET");
+        filter.addAction(TimelineWidgetProvider.Companion.getREFRESH_ACTION());
         registerReceiver(update, filter);
 
         String[] watcher = {HomeContentProvider.CONTENT_URI.toString()};
