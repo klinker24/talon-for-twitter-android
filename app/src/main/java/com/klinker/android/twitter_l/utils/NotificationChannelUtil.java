@@ -22,7 +22,7 @@ public class NotificationChannelUtil {
     public static final String MEDIA_DOWNLOAD_CHANNEL = "media-download-channel";
     public static final String WIDGET_REFRESH_CHANNEL = "widget-refresh-channel";
     public static final String FAVORITE_USERS_CHANNEL = "favorite-users-channel";
-    public static final String TALON_PULL_CHANNEL = "favorite-users-channel";
+    public static final String TALON_PULL_CHANNEL = "talon-pull-channel";
 
     public static void createNotificationChannels(Context context) {
         if (!Utils.isAndroidO()) {
