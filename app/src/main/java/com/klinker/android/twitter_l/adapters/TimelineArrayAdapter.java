@@ -357,6 +357,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
                     return false;
                 }
             });
+
+            holder.time.setTextSize(13);
         } else {
             holder.retweeter.setSoundEffectsEnabled(false);
             holder.retweeter.setOnClickListener(new View.OnClickListener() {
