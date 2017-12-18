@@ -557,6 +557,10 @@ public class AppSettings {
         }
 
         setColors(context);
+
+        if (revampedTweets()) {
+            detailedQuotes = true;
+        }
     }
 
     private static boolean isInsideRange(int startHour, int startMin, int endHour, int endMin) {

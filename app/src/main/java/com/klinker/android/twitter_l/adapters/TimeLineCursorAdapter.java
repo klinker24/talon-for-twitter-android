@@ -456,6 +456,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                     return false;
                 }
             });
+
+            holder.time.setTextSize(13);
         } else {
             holder.retweeter.setSoundEffectsEnabled(false);
             holder.retweeter.setOnClickListener(new View.OnClickListener() {
