@@ -68,6 +68,10 @@ public class QuotersFragment extends Fragment {
 
         noContentText.setText(getActivity().getResources().getString(R.string.no_quotes));
 
+        if (AppSettings.getInstance(getActivity()).revampedTweets()) {
+            listView.setDivider(null);
+        }
+
         startSearch();
 
         return layout;
