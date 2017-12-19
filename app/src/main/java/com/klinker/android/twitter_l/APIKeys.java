@@ -30,6 +30,11 @@ public class APIKeys {
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(c);
         if (currentAccount == -1) {
+            if (sharedPrefs == null) {
+                sharedPrefs = c.getSharedPreferences("com.klinker.android.twitter_world_preferences",
+                        Context.MODE_PRIVATE);
+            }
+
             currentAccount = sharedPrefs.getInt("current_account", 1);
         }
 
