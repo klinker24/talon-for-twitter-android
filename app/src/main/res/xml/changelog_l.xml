@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.0.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.0.0">
         <text>A new tweet layout option for the timeline: https://blog.klinkerapps.com/upgrading-your-twitter-timeline</text>
         <text>Revamp of the "App Style" settings page to highlight how the tweets will look with the different layout options</text>
