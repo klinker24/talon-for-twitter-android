@@ -226,7 +226,7 @@ public class ActivityCursorAdapter extends TimeLineCursorAdapter {
                 if (!TouchableMovementMethod.touched) {
                     // we need to manually set the background for click feedback because the spannable
                     // absorbs the click on the background
-                    if (!holder.preventNextClick) {
+                    if (!holder.preventNextClick && holder.background != null && holder.background.getBackground() != null) {
                         holder.background.getBackground().setState(new int[]{android.R.attr.state_pressed});
                         new Handler().postDelayed(new Runnable() {
                             @Override

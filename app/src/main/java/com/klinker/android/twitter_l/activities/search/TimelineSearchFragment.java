@@ -200,11 +200,11 @@ public class TimelineSearchFragment extends Fragment {
 
                                 try {
                                     listView.setAdapter(adapter);
+                                    listView.setVisibility(View.VISIBLE);
                                 } catch (Exception e) {
 
                                 }
 
-                                listView.setVisibility(View.VISIBLE);
                                 spinner.setVisibility(View.GONE);
 
                                 if (cursor.getCount() == 0) {

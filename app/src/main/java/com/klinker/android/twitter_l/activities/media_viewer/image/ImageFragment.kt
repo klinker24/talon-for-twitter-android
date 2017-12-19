@@ -251,7 +251,7 @@ class ImageFragment : Fragment() {
                     sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
                     // start the chooser
-                    startActivity(Intent.createChooser(sharingIntent, getString(R.string.menu_share) + ": "))
+                    activity.startActivity(Intent.createChooser(sharingIntent, activity.getString(R.string.menu_share) + ": "))
                 })
             } catch (e: Exception) {
 
