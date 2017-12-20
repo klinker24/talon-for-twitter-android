@@ -283,4 +283,29 @@ public class SavedTweetsDataSource {
 
         return cursor;
     }
+
+    public synchronized boolean isTweetSaved(long tweetId, int accountId) {
+        Cursor cursor;
+        try {
+            cursor = database.query(SavedTweetSQLiteHelper.TABLE_HOME,
+                    allColumns, SavedTweetSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + SavedTweetSQLiteHelper.COLUMN_TWEET_ID + " = ?",
+                    new String[] { "" + accountId, "" + tweetId }, null, null,
+                    SavedTweetSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        } catch (Exception e) {
+            open();
+            cursor = database.query(SavedTweetSQLiteHelper.TABLE_HOME,
+                    allColumns, SavedTweetSQLiteHelper.COLUMN_ACCOUNT + " = ? AND " + SavedTweetSQLiteHelper.COLUMN_TWEET_ID + " = ?",
+                    new String[] { "" + accountId, "" + tweetId }, null, null,
+                    SavedTweetSQLiteHelper.COLUMN_TWEET_ID + " ASC");
+        }
+
+        boolean saved = cursor != null && cursor.getCount() > 0;
+
+        try {
+            cursor.close();
+        } catch (Exception e) {
+        }
+
+        return saved;
+    }
 }
