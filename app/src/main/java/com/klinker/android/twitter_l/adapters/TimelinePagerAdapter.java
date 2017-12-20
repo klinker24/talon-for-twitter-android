@@ -148,7 +148,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                     names.add(pageNames.get(i));
                     break;
                 default:
-                    frags.add(getFrag(pageTypes.get(i), -1L));
+                    frags.add(getFrag(pageTypes.get(i)));
                     names.add(getName(pageTypes.get(i)));
                     break;
             }
@@ -186,7 +186,7 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
         return frags.size();
     }
 
-    public MainFragment getFrag(int type, long listId) {
+    public MainFragment getFrag(int type) {
         switch (type) {
             case AppSettings.PAGE_TYPE_LINKS:
                 return new LinksFragment();
@@ -194,6 +194,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 return new PicFragment();
             case AppSettings.PAGE_TYPE_FAV_USERS:
                 return new FavUsersFragment();
+            case AppSettings.PAGE_TYPE_SAVED_TWEETS:
+                return new SavedTweetsFragment();
         }
 
         return null;
@@ -207,6 +209,8 @@ public class TimelinePagerAdapter extends FragmentPagerAdapter {
                 return context.getResources().getString(R.string.pictures);
             case AppSettings.PAGE_TYPE_FAV_USERS:
                 return context.getString(R.string.favorite_users);
+            case AppSettings.PAGE_TYPE_SAVED_TWEETS:
+                return context.getString(R.string.saved_tweets);
         }
 
         return null;

@@ -171,7 +171,7 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 iconRes = R.attr.directMessageItem;
             } else if (pageName.equals(context.getResources().getString(R.string.retweets))) {
                 iconRes = R.attr.retweetButton;
-            } else if (pageName.equals(context.getResources().getString(R.string.favorite_tweets))) {
+            } else if (pageName.equals(context.getResources().getString(R.string.favorite_tweets)) || pageType == AppSettings.PAGE_TYPE_SAVED_TWEETS) {
                 iconRes = R.attr.heart_button;
             } else if (pageName.equals(context.getResources().getString(R.string.favorite_users)) || pageType == AppSettings.PAGE_TYPE_FAV_USERS || pageType == AppSettings.PAGE_TYPE_USER_TWEETS) {
                 iconRes = R.attr.favUser;
@@ -266,6 +266,8 @@ public class MainDrawerArrayAdapter extends ArrayAdapter<String> {
                 return context.getResources().getString(R.string.pictures);
             case AppSettings.PAGE_TYPE_FAV_USERS:
                 return context.getString(R.string.favorite_users_tweets);
+            case AppSettings.PAGE_TYPE_SAVED_TWEETS:
+                return context.getString(R.string.saved_tweets);
         }
 
         return null;

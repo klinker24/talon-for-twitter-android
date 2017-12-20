@@ -391,6 +391,8 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return context.getResources().getString(R.string.pictures);
             case AppSettings.PAGE_TYPE_FAV_USERS:
                 return context.getString(R.string.favorite_users);
+            case AppSettings.PAGE_TYPE_SAVED_TWEETS:
+                return context.getString(R.string.saved_tweets);
         }
 
         return null;
