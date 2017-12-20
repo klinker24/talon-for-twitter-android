@@ -107,7 +107,7 @@ public class SavedTweetsDataSource {
         return dbHelper;
     }
 
-    public synchronized void createTweet(Status status) {
+    public synchronized void createTweet(Status status, int account) {
         ContentValues values = new ContentValues();
         String originalName = "";
         long time = status.getCreatedAt().getTime();
@@ -141,6 +141,7 @@ public class SavedTweetsDataSource {
         values.put(SavedTweetSQLiteHelper.COLUMN_USERS, users);
         values.put(SavedTweetSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+        values.put(SavedTweetSQLiteHelper.COLUMN_ACCOUNT, account);
 
 
         try {
@@ -151,7 +152,7 @@ public class SavedTweetsDataSource {
         }
     }
 
-    public int insertTweets(List<Status> statuses) {
+    public int insertTweets(List<Status> statuses, int account) {
 
         ContentValues[] valueses = new ContentValues[statuses.size()];
 
@@ -191,6 +192,7 @@ public class SavedTweetsDataSource {
             values.put(SavedTweetSQLiteHelper.COLUMN_USERS, users);
             values.put(SavedTweetSQLiteHelper.COLUMN_HASHTAGS, hashtags);
             values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+            values.put(SavedTweetSQLiteHelper.COLUMN_ACCOUNT, account);
 
             valueses[i] = values;
         }
