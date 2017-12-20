@@ -638,8 +638,23 @@ public class ExpansionViewHelper {
         SavedTweetsDataSource.getInstance(context).createTweet(status, settings.currentAccount);
         context.sendBroadcast(new Intent(SavedTweetsFragment.REFRESH_ACTION));
 
-        if (context instanceof Activity) {
-            ((Activity) context).finish();
+        SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
+        if (sharedPreferences.getBoolean("alert_save_tweet", true)) {
+            sharedPreferences.edit().putBoolean("alert_save_tweet", false).apply();
+            new AlertDialog.Builder(context)
+                    .setMessage(R.string.saved_tweet_description)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (context instanceof Activity) {
+                                ((Activity) context).finish();
+                            }
+                        }
+                    }).show();
+        } else {
+            if (context instanceof Activity) {
+                ((Activity) context).finish();
+            }
         }
     }
 
