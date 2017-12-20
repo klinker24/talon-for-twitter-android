@@ -213,7 +213,7 @@ public class TweetView {
         try {
             profilePicUrl = user.getOriginalProfileImageURL();
         } catch (Exception e) {
-            profilePicUrl = user.getBiggerProfileImageURL();
+            profilePicUrl = user.getProfileImageURL();
         }
         tweet = status.getText();
         name = user.getName();
