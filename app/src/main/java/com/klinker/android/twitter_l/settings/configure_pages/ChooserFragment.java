@@ -28,6 +28,7 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.FeatureFlags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +87,10 @@ public class ChooserFragment extends Fragment {
         list.add(getString(R.string.activity));
         list.add(getString(R.string.favorite_tweets));
         list.add(context.getString(R.string.user_tweets));
+
+        if (FeatureFlags.SAVED_TWEETS) {
+            list.add(context.getString(R.string.saved_tweets));
+        }
 
         View layout = inflater.inflate(R.layout.configuration_page, null);
 
@@ -172,6 +177,9 @@ public class ChooserFragment extends Fragment {
                 break;
             case AppSettings.PAGE_TYPE_USER_TWEETS:
                 spinner.setSelection(14);
+                break;
+            case AppSettings.PAGE_TYPE_SAVED_TWEETS:
+                spinner.setSelection(15);
                 break;
             default:
                 spinner.setSelection(0);

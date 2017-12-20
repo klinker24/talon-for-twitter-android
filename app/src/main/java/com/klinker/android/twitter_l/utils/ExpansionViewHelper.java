@@ -30,9 +30,11 @@ import android.widget.*;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.BrowserActivity;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.SavedTweetsFragment;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
+import com.klinker.android.twitter_l.data.sq_lite.SavedTweetsDataSource;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
@@ -408,6 +410,7 @@ public class ExpansionViewHelper {
 
     public void setUpOverflow() {
         final PopupMenu menu = new PopupMenu(context, overflowButton);
+        final boolean tweetIsSaved = SavedTweetsDataSource.getInstance(context).isTweetSaved(id, settings.currentAccount);
 
         if (screenName.equals(AppSettings.getInstance(context).myScreenName)) {
             // my tweet
@@ -417,8 +420,14 @@ public class ExpansionViewHelper {
             final int COPY_TEXT = 3;
             final int OPEN_TO_BROWSER = 4;
             final int DELETE_TWEET = 5;
+            final int SAVE_TWEET = 6;
 
             menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
+
+            if (FeatureFlags.SAVED_TWEETS) {
+                menu.getMenu().add(Menu.NONE, SAVE_TWEET, Menu.NONE, context.getString(tweetIsSaved ? R.string.remove_from_saved_tweets : R.string.save_for_later));
+            }
+
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
@@ -430,6 +439,13 @@ public class ExpansionViewHelper {
                     switch (menuItem.getItemId()) {
                         case UPDATE_TWEET:
                             updateTweet();
+                            break;
+                        case SAVE_TWEET:
+                            if (tweetIsSaved) {
+                                removeSavedTweet();
+                            } else {
+                                saveTweet();
+                            }
                             break;
                         case DELETE_TWEET:
                             new DeleteTweet(new Runnable() {
@@ -470,8 +486,14 @@ public class ExpansionViewHelper {
             final int OPEN_TO_BROWSER = 4;
             final int TRANSLATE = 5;
             final int MARK_SPAM = 6;
+            final int SAVE_TWEET = 7;
 
             menu.getMenu().add(Menu.NONE, UPDATE_TWEET, Menu.NONE, context.getString(R.string.update_tweet));
+
+            if (FeatureFlags.SAVED_TWEETS) {
+                menu.getMenu().add(Menu.NONE, SAVE_TWEET, Menu.NONE, context.getString(tweetIsSaved ? R.string.remove_from_saved_tweets : R.string.save_for_later));
+            }
+
             menu.getMenu().add(Menu.NONE, COPY_LINK, Menu.NONE, context.getString(R.string.copy_link));
             menu.getMenu().add(Menu.NONE, COPY_TEXT, Menu.NONE, context.getString(R.string.menu_copy_text));
             menu.getMenu().add(Menu.NONE, OPEN_TO_BROWSER, Menu.NONE, context.getString(R.string.open_to_browser));
@@ -484,6 +506,13 @@ public class ExpansionViewHelper {
                     switch (menuItem.getItemId()) {
                         case UPDATE_TWEET:
                             updateTweet();
+                            break;
+                        case SAVE_TWEET:
+                            if (tweetIsSaved) {
+                                removeSavedTweet();
+                            } else {
+                                saveTweet();
+                            }
                             break;
                         case COPY_LINK:
                             copyLink();
@@ -603,6 +632,24 @@ public class ExpansionViewHelper {
         adapter = null;
 
         getInfo();
+    }
+
+    private void saveTweet() {
+        SavedTweetsDataSource.getInstance(context).createTweet(status, settings.currentAccount);
+        context.sendBroadcast(new Intent(SavedTweetsFragment.REFRESH_ACTION));
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+    }
+
+    private void removeSavedTweet() {
+        SavedTweetsDataSource.getInstance(context).deleteTweet(status.getId());
+        context.sendBroadcast(new Intent(SavedTweetsFragment.REFRESH_ACTION));
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
     }
 
     private void copyLink() {
