@@ -910,6 +910,7 @@ public class ExpansionViewHelper {
     public boolean isRunning = true;
     public List<Status> replies;
     public List<Status> profileTweets;
+    private boolean foundProfileTweet = false;
     public TimelineArrayAdapter adapter;
     public Query query;
     private boolean cardShown = false;
@@ -928,15 +929,13 @@ public class ExpansionViewHelper {
                 try {
                     Log.v("talon_replies", "looking for discussion");
 
-                    if (Pattern.compile("[0-9]/[0-9]").matcher(status.getText()).find()) {
-                        // probably a tweetstorm. We should try loading it, then loading the discussion
-                        profileTweets = getTwitter().getUserTimeline(status.getUser().getId(), new Paging(1, 60));
-                        for (int i = 0; i < profileTweets.size(); i++) {
-                            if (profileTweets.get(i).getInReplyToStatusId() == status.getId()) {
-                                replies.add(profileTweets.get(i));
-                                // we will finish filling the replies from the chain search method
-                                break;
-                            }
+                    profileTweets = getTwitter().getUserTimeline(status.getUser().getId(), new Paging(1, 40));
+                    for (int i = 0; i < profileTweets.size(); i++) {
+                        if (profileTweets.get(i).getInReplyToStatusId() == status.getId()) {
+                            replies.add(profileTweets.get(i));
+                            // we will finish filling the replies from the chain search method
+                            foundProfileTweet = true;
+                            break;
                         }
                     }
 
@@ -1086,7 +1085,7 @@ public class ExpansionViewHelper {
                         long replyIdForNextTweet = firstLevelReply.getId();
 
                         List<Status> results;
-                        if (i == 0 && profileTweets != null && profileTweets.size() != 0) {
+                        if (i == 0 && profileTweets != null && profileTweets.size() != 0 && foundProfileTweet) {
                             // tweetstorm search
                             results = profileTweets;
                         } else {
