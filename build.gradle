@@ -25,7 +25,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_VERSION}"
         classpath 'com.google.gms:google-services:3.1.0'
-        classpath 'com.google.firebase:firebase-plugins:1.1.1'
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
     }
 }
