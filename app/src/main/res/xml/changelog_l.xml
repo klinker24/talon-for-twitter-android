@@ -5,6 +5,11 @@
         <!--<text>View those saved tweets by adding the "Saved Tweets" swipe-able page in settings</text>-->
     <!--</version>-->
 
+    <version name="7.0.2">
+        <text>Bug fixes</text>
+        <text>Dependency updates</text>
+    </version>
+
     <version name="7.0.1">
         <text>Bug fixes</text>
     </version>
