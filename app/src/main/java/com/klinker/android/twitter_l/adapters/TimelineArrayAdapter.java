@@ -430,7 +430,14 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
 
         holder.tweetId = thisStatus.getId();
         final long id = holder.tweetId;
-        final String profilePic = user.getOriginalProfileImageURL();
+        String pic = null;
+        try {
+            pic = user.getOriginalProfileImageURL();
+        } catch (Exception e) {
+            pic = user.getProfileImageURL();
+        }
+
+        final String profilePic = pic;
         final String name = user.getName();
         final String screenname = user.getScreenName();
 
