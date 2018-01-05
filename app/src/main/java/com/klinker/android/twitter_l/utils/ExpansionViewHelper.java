@@ -972,8 +972,19 @@ public class ExpansionViewHelper {
 
                         if (all.size() > 0) {
                             for (int i = all.size() - 1; i >= 0; i--) {
-                                Log.v("talon_replies", all.get(i).getText());
-                                replies.add(all.get(i));
+                                Status tweet = all.get(i);
+                                boolean repliesContainsTweet = false;
+
+                                for (Status s : replies) {
+                                    if (s.getId() == tweet.getId()) {
+                                        repliesContainsTweet = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!repliesContainsTweet) {
+                                    replies.add(tweet);
+                                }
 
                                 repliesChangedOnThisIteration = true;
                             }
