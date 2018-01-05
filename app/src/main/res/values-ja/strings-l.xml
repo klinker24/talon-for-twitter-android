@@ -90,8 +90,8 @@
     <string name="no_pictures">画像なし</string>
     <string name="quick_actions">クイックアクション</string>
     <string name="liked_status">いいねしました</string>
-    <string name="become_supporter">2016 年サポーターになる</string>
-    <string name="are_supporter">あなたは 2016 年のサポーターです！</string>
+    <string name="become_supporter">2018 年サポーターになる</string>
+    <string name="are_supporter">あなたは 2018 年のサポーターです！</string>
     <string name="are_supporter_summary">ありがとうございます！ ご支援に心から感謝いたします。私にできることがあれば、ご遠慮なくお申し付けください</string>
     <string name="tweetmarker_disclaimer">自動 TweetMarker はアプリ起動時にタイムラインを自動更新します</string>
     <string name="discover_people">人</string>
@@ -109,7 +109,7 @@
     <string name="widget_settings">ウィジェットのカスタマイズ</string>
     <string name="background">バックグラウンド</string>
     <string name="data_saving_settings">データ節約オプション</string>
-    <string name="supporter_2016">2016 年サポーター</string>
+    <string name="supporter_2016">2018 年サポーター</string>
     <string name="app_style">アプリのスタイル</string>
     <string name="in_app_browser">アプリ内ブラウザ</string>
     <string name="location">位置情報</string>

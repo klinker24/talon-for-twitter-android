@@ -211,7 +211,7 @@ public class SettingsActivity extends WhiteToolbarActivity {
 
                     SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(this);
 
-                    sharedPreferences.edit().putBoolean("2017_supporter", true).commit();
+                    sharedPreferences.edit().putBoolean("2018_supporter", true).commit();
 
                     recreate();
                 } catch (JSONException e) {
