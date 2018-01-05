@@ -90,8 +90,8 @@
     <string name="no_pictures">Ingen billeder</string>
     <string name="quick_actions">Vælg handling</string>
     <string name="liked_status">Liked</string>
-    <string name="become_supporter">Bliv 2017 supporter</string>
-    <string name="are_supporter">Du er 2017 supporter</string>
+    <string name="become_supporter">Bliv 2018 supporter</string>
+    <string name="are_supporter">Du er 2018 supporter</string>
     <string name="are_supporter_summary">Tak! Din støtte er højt værdsat. Er der noget du ønsker anderledes, er du velkommen til at spørge</string>
     <string name="tweetmarker_disclaimer">Automatisk Tweetmarker opdaterer altid tidslinjen ved opstart</string>
     <string name="discover_people">Personer</string>
@@ -116,7 +116,7 @@
     <string name="background">Baggrund</string>
     <string name="advanced">Avanceret</string>
     <string name="data_saving_settings">Data indstillinger</string>
-    <string name="supporter_2016">2017 Supporter</string>
+    <string name="supporter_2016">2018 Supporter</string>
     <string name="app_style">App stil</string>
     <string name="in_app_browser">Intern Browser</string>
     <string name="location">Lokation</string>

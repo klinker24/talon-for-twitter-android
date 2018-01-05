@@ -148,8 +148,8 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
     private void showSupporterDialog() {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Love Talon?")
-                .setMessage(Html.fromHtml("Talon has been available for almost a year and a half now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.<br><br>" +
-                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2017 SUPPORTER to help out development!<br><br>" +
+                .setMessage(Html.fromHtml("Talon has been available for around four years now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.<br><br>" +
+                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2018 SUPPORTER to help out development!<br><br>" +
                         "I do want to be clear that becoming a supporter doesn't enhance the app or its feature set in any way. This is purely a voluntary contribution if you have enjoyed my work, like I know many of you have.<br><br>" +
                         "<b>So, why should I become a Supporter?</b>" +
                         "<ul>" +

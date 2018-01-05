@@ -90,8 +90,8 @@ Siéntase libre de cancelar cualquiera de los permisos. Si deseas activarlos lue
     <string name="no_pictures">No hay fotos</string>
     <string name="quick_actions">Acciones rápidas</string>
     <string name="liked_status">Me gusta exitoso</string>
-    <string name="become_supporter">Conviértete en un simpatizante del 2017</string>
-    <string name="are_supporter">¡Eres un simpatizante del 2017!</string>
+    <string name="become_supporter">Conviértete en un simpatizante del 2018</string>
+    <string name="are_supporter">¡Eres un simpatizante del 2018!</string>
     <string name="are_supporter_summary">¡Gracias! Tu soporte está agradecido inmensamente. Si hay algo que pueda hacer por ti no dudes en preguntarme.</string>
     <string name="tweetmarker_disclaimer">TweetMarker automático refrescará siempre la cronología cuando se abra la aplicación.</string>
     <string name="discover_people">Gente</string>
@@ -116,7 +116,7 @@ Siéntase libre de cancelar cualquiera de los permisos. Si deseas activarlos lue
     <string name="background">Fondo</string>
     <string name="advanced">Avanzado</string>
     <string name="data_saving_settings">Opciones de ahorro de datos</string>
-    <string name="supporter_2016">Simpatizante del 2017</string>
+    <string name="supporter_2016">Simpatizante del 2018</string>
     <string name="app_style">Estilo de la aplicación</string>
     <string name="in_app_browser">Navegador integrado</string>
     <string name="location">Ubicación</string>

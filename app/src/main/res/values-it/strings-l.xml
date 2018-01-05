@@ -90,8 +90,8 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="no_pictures">Nessuna immagine</string>
     <string name="quick_actions">Azioni rapide</string>
     <string name="liked_status">Mi piace effettuato</string>
-    <string name="become_supporter">Diventa un SUPPORTER 2017</string>
-    <string name="are_supporter">Sei un SUPPORTER 2017!</string>
+    <string name="become_supporter">Diventa un SUPPORTER 2018</string>
+    <string name="are_supporter">Sei un SUPPORTER 2018!</string>
     <string name="are_supporter_summary">Grazie! Il tuo supporto è immensamente apprezzato. Se c\'è qualcosa che posso fare, non esitare a chiedere.</string>
     <string name="tweetmarker_disclaimer">TweetMarker automatico aggiornerà la timeline ad ogni avvio.</string>
     <string name="discover_people">Persone</string>
@@ -116,7 +116,7 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="background">Background</string>
     <string name="advanced">Avanzate</string>
     <string name="data_saving_settings">Opzioni risparmio dati</string>
-    <string name="supporter_2016">Supporter 2017</string>
+    <string name="supporter_2016">Supporter 2018</string>
     <string name="app_style">Stile app</string>
     <string name="in_app_browser">Browser integrato</string>
     <string name="location">Posizione</string>
