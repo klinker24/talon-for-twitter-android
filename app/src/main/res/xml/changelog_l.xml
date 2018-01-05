@@ -5,6 +5,11 @@
         <!--<text>View those saved tweets by adding the "Saved Tweets" swipe-able page in settings</text>-->
     <!--</version>-->
 
+    <version name="7.0.3">
+        <text>Bug fixes around threads/discussion</text>
+        <text>Enable the 2018 supporter option in settings</text>
+    </version>
+
     <version name="7.0.2">
         <text>Bug fixes</text>
         <text>Dependency updates</text>
