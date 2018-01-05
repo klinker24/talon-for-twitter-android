@@ -157,7 +157,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
                         "<li>You understand that development is hard. I put all my free time into this product, and I think it shows! I hope you agree.</li>" +
                         "<li>You want the warm-fuzzy feeling that comes with giving a little extra for something that you enjoy and use every day.</li><br>" +
                         "</ul><br>" +
-                        "Even the $10 Supporter option is less than $1 per month for 2017. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
+                        "Even the $10 Supporter option is less than $1 per month for 2018. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
                         "Continue enjoying Talon either way, but I love when my users show me their support :)", null, new ListTagHandler()))
                 .setPositiveButton("$10", new DialogInterface.OnClickListener() {
                     @Override

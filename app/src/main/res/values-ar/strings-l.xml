@@ -91,8 +91,8 @@
     <string name="no_pictures">لا تعرض الصور</string>
     <string name="quick_actions">إجراءات سريعة</string>
     <string name="liked_status">تم الإعجاب</string>
-    <string name="become_supporter">أصبحت داعم في 2017</string>
-    <string name="are_supporter">أنت داعم في 2017!</string>
+    <string name="become_supporter">أصبحت داعم في 2018</string>
+    <string name="are_supporter">أنت داعم في2017!</string>
     <string name="are_supporter_summary">شكراً!  ودعمكم محل تقدير. إذا كان هناك أي شيء يمكنني القيام به، لا تتردد في طلبه.</string>
     <string name="tweetmarker_disclaimer">تويت ماركر تلقائي سيتم تحديث الخط الزمني دائماً عند بدء تشغيل التطبيق.</string>
     <string name="discover_people">الناس</string>
@@ -117,7 +117,7 @@
     <string name="background">الخلفية</string>
     <string name="advanced">متقدم</string>
     <string name="data_saving_settings">خيارات توفير البيانات</string>
-    <string name="supporter_2016">داعم 2017</string>
+    <string name="supporter_2016">داعم 2018</string>
     <string name="app_style">شكل التطبيق</string>
     <string name="in_app_browser">المتصفح الداخلي</string>
     <string name="location">الموقع</string>
