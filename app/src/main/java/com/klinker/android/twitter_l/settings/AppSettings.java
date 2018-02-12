@@ -383,7 +383,7 @@ public class AppSettings {
         widgetDisplayScreenname = sharedPrefs.getBoolean("widget_display_screenname", true);
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
-            this.emojiStyle = EmojiStyle.ANDROID_O;
+            this.emojiStyle = EmojiStyle.DEFAULT;
         } else {
             String emojiStyle = sharedPrefs.getString("emoji_style", "android_o");
             switch (emojiStyle) {
