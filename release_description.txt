@@ -1,3 +1,1 @@
-This update brings a brand new "Tweet Style" to Talon, for those of you that want something a little different and more modern on your phone!<br/><br/>
-For more details on the new look: https://blog.klinkerapps.com/upgrading-your-twitter-timeline<br/><br/>
-This release also enables the 2018 supporter option in settings, if you feel like Talon goes above and beyond what you would have expected!
+This update is just bug fixes.

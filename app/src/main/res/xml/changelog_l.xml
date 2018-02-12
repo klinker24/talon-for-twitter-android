@@ -5,6 +5,11 @@
         <!--<text>View those saved tweets by adding the "Saved Tweets" swipe-able page in settings</text>-->
     <!--</version>-->
 
+    <version name="7.0.5">
+        <text>Android Oreo: Don't use emoji compat, it is breaking flag emojis</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.0.4">
         <text>Bug fixes</text>
     </version>
