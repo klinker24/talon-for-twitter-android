@@ -61,7 +61,7 @@
         <ListPreference
             android:key="emoji_style"
             android:title="@string/emoji_style"
-            android:defaultValue="default"
+            android:defaultValue="android_o"
             android:entries="@array/emoji_style"
             android:entryValues="@array/emoji_style_values"/>
 
