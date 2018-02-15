@@ -1,1 +1,3 @@
-This update is just bug fixes.
+This update adds a new feature to the app: saving tweets for later!<br/><br/>
+
+Don't want to publicly like a tweet, but you want to remember to come back to it later? Save any tweet by opening that tweet and hitting the three dot overflow menu. To view those saved tweets, you can add the "Saved Tweets" swipable page through Talon's settings menu.
