@@ -66,10 +66,8 @@
     <string name="windowed_helper_message">Tablet üzerindeki bir pencereyi kapatmak için, pencerenin dışındaki soluk bölgeyi tıklamanız yeterlidir.\n\nBu, zaman çizelgenizin asla çok uzak olmamasını sağlar!</string>
     <string name="permission_check_title">Talon\'un İzinleri:</string>
     <string name="permission_check_message">Talon, şu iki konuda sizden izin istemek üzere: konum ve depolama.\n\n
-
-- Konum, yerel trendlere erişmenin yanı sıra, tweet\'lerinizde konumunuzu etiketlemek için kullanılır (tabi isteseniz). Konumunuzu hiç bir zaman kaydetmiyorum.
-- Depolama, tweet resimlerini harici belleğe kaydetmek için kullanılır (istenildiğinde) ve resimlerinizi Twitter\'a yüklediğinizde kullanılır.\n\n
-
+- Konum, yerel trendlere erişmenin yanı sıra, konumunuzu tweetlerinize eklemek için kullanılır (tabi isterseniz). Konumunuzu hiç bir zaman kaydetmiyoruz.\n
+- Depolama, tweet resimlerini harici belleğe kaydetmek için (istenirse) ve resimlerinizi Twitter\'a yüklediğinizde kullanılır.\n\n
 İzinleri reddetmekten çekinmeyin. Bunlara, sisteminizin uygulama ayarlarından manuel olarak erişebilirsiniz.</string>
     <string name="tell_about_swipe_down">İpucu: Bu ekranı kapatmak için aşağı doğru hızlıca kaydırın.</string>
     <string name="download_video">Video indir</string>
@@ -99,7 +97,7 @@
     <string name="autoplay_title">Zaman Akışı Otomatik Oynatımı</string>
     <string name="autoplay_summary">Zaman akışından ayrılmadan otomatik olarak videoları ve Twitter GIF\'lerini oynat.</string>
     <string name="high_quality_images">Yüksek Kaliteli Resimler Kullan</string>
-    <string name="high_quality_images_summary">Ugulamanın tamamıda uygulanır.</string>
+    <string name="high_quality_images_summary">Uygulamanın tamamında uygulanır.</string>
     <string name="view_likes">Beğenileri Görüntüle</string>
     <string name="view_retweets">Retweet\'leri Göster</string>
     <string name="list_size">Liste Boyutu</string>
@@ -162,7 +160,7 @@
     <string name="dual_panels_summary">Yatay modda iki kaydırılabilir sayfa, yan yana gösterilir.</string>
     <string name="protected_account_quote">Korunan bir hesabı alıntılayamazsınız!</string>
     <string name="protected_account_retweet">Korunan bir hesabı retweet edemezsiniz!</string>
-    <string name="copied_link">Kopyaladı Link!</string>
+    <string name="copied_link">Bağlantı Kopyalandı!</string>
     <string name="original_probably_deleted">Orijinal tweet muhtemelen silindi.</string>
     <string name="shortcut_compose_short">Tweet Oluştur</string>
     <string name="shortcut_compose_dm">DM Oluştur</string>

@@ -101,7 +101,7 @@
     <string name="fav_user_tweets">yeni favori kullanıcı tweetleri</string>
     <string name="sec_acc">İkinci Hesap</string>
     <string name="talon_pull">Talon Pull</string>
-    <string name="talon_pull_summary">UYARI: Bu seçeneği etkinleştirmek Android Lollipop\'da kayda değe bir pil tüketimine neden olabilir.</string>
+    <string name="talon_pull_summary">UYARI: Bu seçeneği etkinleştirmek Android Lollipop\'da kayda değer bir pil tüketimine neden olabilir.</string>
     <string name="listening">Dinleniyor</string>
     <string name="listening_for_mentions">Etkileşimler için dinleniyor</string>
     <string name="refreshing">Yenileniyor</string>
@@ -210,7 +210,7 @@
     <!-- Retweets Activity -->
     <string name="retweets_lower">retweetler</string>
     <string name="retweet_lower">retweet</string>
-    <string name="retweeter">retweetleyen @</string>
+    <string name="retweeter">Retweet eden: @</string>
     <!-- Tweet Activity -->
     <string name="menu_open_web">Web Adresini Aç</string>
     <string name="menu_copy_text">Tweet Metnini Kopyala</string>
@@ -298,7 +298,7 @@ NOT: Deneme süresi dolsa bile Emojiler bu uygulamada kullanılmaya devam edilec
     <string name="theme_light">Aydınlık Tema</string>
     <string name="theme_dark">Koyu Tema</string>
     <string name="theme_black">Siyah Tema</string>
-    <string name="sync_settings">Arkaplan Senkronizasyonu</string>
+    <string name="sync_settings">Arkaplan Eşitlemesi</string>
     <string name="sync_mobile_data">Mobil Veri Üzerinden Eşitle</string>
     <string name="sync_mobile_data_summary">Mobil veri ve WiFi üzerinden zaman akışını otomatik yenile.</string>
     <string name="auto_sync_notifications">Otomatik Yenileme Bildirim Seçenekleri</string>
@@ -318,9 +318,9 @@ NOT: Deneme süresi dolsa bile Emojiler bu uygulamada kullanılmaya devam edilec
     <string name="timeline_sync_interval">Ana Sayfa Akışı Yenileme Hızı</string>
     <string name="mentions_sync_interval">Bahsedenler Yenileme Hızı</string>
     <string name="dm_sync_interval">Direkt Mesajlar Yenileme Hızı</string>
-    <string name="sync_friends">Arkadaşları Senkronize Et</string>
+    <string name="sync_friends">Arkadaş Verilerini Eşitle</string>
     <string name="sync_friends_summary2">Arkadaş verilerinizi yeniden eşitleyin ve tweet oluştururken kullanın.</string>
-    <string name="sync_friends_summary">Arkadaş listesini el ile eşitle.\n\nSizin adınıza giriş yapılır ve Talon\'da birini takip etiğinizde otomatik olarak eklenir, ancak bu seçenek en son takip etmeye başladıklarınızı kapsar.\n\nBu veri, bir tweet oluştururken kişi araması yaptığınızda kullanılır.</string>
+    <string name="sync_friends_summary">Arkadaş listesini el ile eşitle.\n\nBu, oturum açıldığında sizin adınıza yapılır ve Talon\'da birini takip ettiğinizde otomatik olarak eklenir, ancak bu seçenek en son takip etmeye başladıklarınızı kapsar.\n\nBu veri, bir tweet oluştururken kişi araması yaptığınızda kullanılır.</string>
     <string name="sync_success">Senkronizasyon Başarılı</string>
     <string name="sync_failed">Senkronizasyon Başarısız</string>
     <string name="push_notification_options">"''Push Bildirimi'' Seçenekleri"</string>
@@ -439,7 +439,7 @@ Varsayılan (devre dışı bırakıldığında):\n
     <string name="deleting_messages">Mesajları Sil</string>
     <string name="type_message">Mesaj yazın...</string>
     <string name="fill_gaps">Zaman Akışı Boşluklarını Doldur</string>
-    <string name="fill_gaps_summary">Canlı izleme etkinken kötü bir bağlantı akışında meydana  gelen boşlukları doldurun.</string>
+    <string name="fill_gaps_summary">Canlı akış etkinleştirildiğinde, kötü bir bağlantı nedeniyle oluşan boşlukları doldurun.</string>
     <string name="filling_timeline">Zaman akışı boşlukları dolduruluyor</string>
     <string name="follows_you">Seni takip ediyor</string>
     <string name="not_following_you">Seni takip etmiyor</string>
@@ -585,9 +585,9 @@ Talon yerine TwitPic kullanarak resim yükleme.</string>
     <string name="plain_text_on_data">Mobil Veri üzerinden Düz Metin</string>
     <string name="plain_text_on_data_summary">WiFi üzerinden değil, mobil veri bağlantısı üzerinde düz metin tarayıcısını etkinleştirin.</string>
     <string name="layout_full_screen">Tam Ekran</string>
-    <string name="pre_cache_images">Ön Bellekteki Resimler</string>
+    <string name="pre_cache_images">Resimleri Önbelleğe Al</string>
     <string name="pre_cache_summary">Resimleri, canlı akış sonrası veya arkaplan yenilemesinden sonra hemen indir.</string>
-    <string name="pre_cache_settings">Ön Bellek Ayarları</string>
+    <string name="pre_cache_settings">Önbellek Ayarları</string>
     <string name="pre_cache_only_wifi">Yalnızca WiFi üzerinden</string>
     <string name="tweet_page">Tweet Sayfası</string>
     <string name="web_page">Web Sayfası</string>
@@ -704,7 +704,7 @@ Bahsedenler, yeni takipçiler ve retweetler/beğeniler burada görünmeye başla
     <string name="copy_hashtag">Hashtag Kopyala</string>
     <string name="search_cashtag">Cashtag Ara</string>
     <string name="copy_cashtag">Cashtag Kopyala</string>
-    <string name="copied">Kopyalanmış Metin</string>
+    <string name="copied">Metin Kopyalandı</string>
     <string name="favorite_user_text">Favori Kullanıcı</string>
     <string name="open_to_web">Web sayfasına aç</string>
     <string name="open_to_web_summary">Tweet bir web bağlantısı içeriyorsa, tweet\'in kendisi yerine o bağlantı doğrudan açılacaktır.</string>
