@@ -997,14 +997,14 @@ public class HomeDataSource {
                 return null;
             }
         }
-        if (count > 200) {
+        if (count > 500) {
             try {
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 500) + "," + 500);
             } catch (Exception e) {
                 open();
                 cursor = database.query(HomeSQLiteHelper.TABLE_HOME,
-                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 200) + "," + 200);
+                        allColumns, where, null, null, null, HomeSQLiteHelper.COLUMN_TWEET_ID + " ASC", (count - 500) + "," + 500);
             }
         } else {
             try {
