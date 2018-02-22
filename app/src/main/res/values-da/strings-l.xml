@@ -90,8 +90,8 @@
     <string name="no_pictures">Ingen billeder</string>
     <string name="quick_actions">Vælg handling</string>
     <string name="liked_status">Liked</string>
-    <string name="become_supporter">Bliv 2017 supporter</string>
-    <string name="are_supporter">Du er 2017 supporter</string>
+    <string name="become_supporter">Bliv 2018 supporter</string>
+    <string name="are_supporter">Du er 2018 supporter</string>
     <string name="are_supporter_summary">Tak! Din støtte er højt værdsat. Er der noget du ønsker anderledes, er du velkommen til at spørge</string>
     <string name="tweetmarker_disclaimer">Automatisk Tweetmarker vil opdaterer tidslinjen ved opstart</string>
     <string name="discover_people">Personer</string>
@@ -116,7 +116,7 @@
     <string name="background">Baggrund</string>
     <string name="advanced">Avanceret</string>
     <string name="data_saving_settings">Data indstillinger</string>
-    <string name="supporter_2016">2017 Supporter</string>
+    <string name="supporter_2016">2018 Supporter</string>
     <string name="app_style">App stil</string>
     <string name="in_app_browser">Intern Browser</string>
     <string name="location">Lokation</string>
@@ -141,6 +141,7 @@
     <string name="widget_disclaimer">Du skal fjerne og tilføje widgeten igen på din skærm, før ændringerne vises</string>
     <string name="widget_material_light">Material Design Lys</string>
     <string name="widget_material_dark">Material Design Mørk</string>
+    <string name="widget_material_transparent">Helt transparent</string>
     <string name="in_app_browser_summary">Deaktivering af den interne browser, vil ved tap på links åbne standard browseren</string>
     <string name="chrome_custom_tabs_summary">Alternativ til Talon´s egen interne browser. Bruger services tildelt af Google Chrome</string>
     <string name="reverse_click_actions_default">Standard (Ingen omvendte handlinger):\n- Tap = Vis In-Line\n- Tap &amp; hold = Vis Tweet</string>
@@ -172,7 +173,7 @@
     <string name="detailed_quotes">Detaljer for citat</string>
     <string name="detailed_quotes_summary">Vis mere infomation i citerede tweets på tidslinjen</string>
     <string name="open_to_browser">Åbn i web</string>
-    <string name="browser_selection">Web Browser</string>
+    <string name="browser_selection">Web browser</string>
     <string name="article_enhancer">Artikel visning (Readability)</string>
     <string name="compact_layout_no_pictures">Kompakte tweets (Uden billeder)</string>
     <string name="user_tweets">Udvalgte brugers tweets</string>
@@ -188,6 +189,7 @@
     <string name="show_all_tweets">Vis alle Tweets</string>
     <string name="are_you_sure_unfollow">Er du sikker på du vil stoppe med at følge profilen?</string>
     <string name="are_you_sure_follow">Vil du følge profilen?</string>
+    <string name="are_you_sure_spam">Vil du markere Tweetet som spam?</string>
     <string name="larger_images">Brug større billeder</string>
     <string name="show_profile_pictures">Vis profilbilleder</string>
     <string name="reply_to">Svar til</string>
@@ -219,4 +221,25 @@
     <string name="notification_channels">Notifikationskanaler</string>
     <string name="notification_channels_summary">Kanaler bestemmer typen af meddelelser du får for
         notifikationer og giver dig mulighed for at redigere i dem</string>
+    <string name="crop_images">Forminsk billeder på tidslinjen</string>
+    <string name="update_tweet">Opdater Tweet</string>
+    <string name="rate_it_button">Bedøm Talon!</string>
+    <string name="rate_it_title">Top bedømmelser er populære</string>
+    <string name="rate_it_summary"><b>5 stjernede bedømmelser</b>er ekstremt vigtige for appens udvikling
+
+og synlighed i Play Store.
+Hvis du vil bidrage til at udbrede kendskabet til app\'en<i>og dens berettigelse</i>, venligst hjælp mig</string>
+    <string name="rate_it_not_ready">Ikke klar til at give en bedømmelse?
+Helt iorden. Tap tilbage for at undlade, og du vil aldrig blive spurgt igen</string>
+    <string name="preview_web_links">Eksempel på web link</string>
+    <string name="seconds_ago">%1$d sekunder siden</string>
+    <string name="min_ago">%1$d minut siden</string>
+    <string name="mins_ago">%1$d minutter siden</string>
+    <string name="hour_ago">%1$d time siden</string>
+    <string name="new_hours_ago">%1$d timer siden</string>
+    <string name="day_ago">%1$d dag siden</string>
+    <string name="new_days_ago">%1$d dage siden</string>
+    <string name="revamped_layout">Tidslinje stil og Tweet layout</string>
+    <string name="widget_display_screenname">Vis brugernavn</string>
+    <string name="saved_tweet_description">For at tilgå gemte Tweets, gå til den  swiable side og tilføj en<i>Gemte Tweets</i>side</string>
 </resources>
