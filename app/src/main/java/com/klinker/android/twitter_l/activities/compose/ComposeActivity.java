@@ -72,11 +72,12 @@ public class ComposeActivity extends Compose {
             findViewById(R.id.accounts).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String[] options = new String[3];
+                    String[] options = new String[2];
+//                    String[] options = new String[3];
 
                     options[0] = "@" + settings.myScreenName;
                     options[1] = "@" + settings.secondScreenName;
-                    options[2] = getString(R.string.both_accounts);
+//                    options[2] = getString(R.string.both_accounts);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setItems(options, new DialogInterface.OnClickListener() {

@@ -552,10 +552,11 @@ public class AppSettings {
             numberOfAccounts++;
         }
 
-        if(numberOfAccounts != 2) {
+        if (numberOfAccounts != 2) {
             syncSecondMentions = false;
-            crossAccActions = false;
         }
+
+        crossAccActions = false;
 
         setColors(context);
 

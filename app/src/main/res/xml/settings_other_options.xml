@@ -39,11 +39,11 @@
         android:summary="@string/followers_only_auto_complete_summary"
         android:defaultValue="false" />
 
-    <SwitchPreference
-        android:key="fav_rt_multiple_accounts"
-        android:title="@string/fav_rt_multiple_accounts"
-        android:summary="@string/fav_rt_multiple_accounts_summary"
-        android:defaultValue="true" />
+    <!--<SwitchPreference-->
+        <!--android:key="fav_rt_multiple_accounts"-->
+        <!--android:title="@string/fav_rt_multiple_accounts"-->
+        <!--android:summary="@string/fav_rt_multiple_accounts_summary"-->
+        <!--android:defaultValue="true" />-->
 
     <SwitchPreference
         android:key="top_down_mode"
