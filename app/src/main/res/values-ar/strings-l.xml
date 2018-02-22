@@ -92,7 +92,7 @@
     <string name="quick_actions">إجراءات سريعة</string>
     <string name="liked_status">تم الإعجاب</string>
     <string name="become_supporter">أصبحت داعم في 2018</string>
-    <string name="are_supporter">أنت داعم في2017!</string>
+    <string name="are_supporter">أنت داعم في 2018!</string>
     <string name="are_supporter_summary">شكراً!  ودعمكم محل تقدير. إذا كان هناك أي شيء يمكنني القيام به، لا تتردد في طلبه.</string>
     <string name="tweetmarker_disclaimer">تويت ماركر تلقائي سيتم تحديث الخط الزمني دائماً عند بدء تشغيل التطبيق.</string>
     <string name="discover_people">الناس</string>
@@ -142,6 +142,7 @@
     <string name="widget_disclaimer">قد تحتاج إلى إزالة، ثم إعادة إضافة الأداة إلى الشاشة الرئيسية الخاصة بك، لتطبيق هذه التغييرات.</string>
     <string name="widget_material_light">تصميم مادي فاتح</string>
     <string name="widget_material_dark">تصميم مادي غامق</string>
+    <string name="widget_material_transparent">شفافة تماماً</string>
     <string name="in_app_browser_summary">تعطيل المتصفح الداخلي سوف يرسلك للمستعرض الافتراضي عند فتح الروابط.</string>
     <string name="chrome_custom_tabs_summary">بديل لتالون نفسه متصفح داخلي. يستخدم الخدمات التي يقدمها جوجل كروم .</string>
     <string name="reverse_click_actions_default">أفتراضي (توجد إجراءات عكسية):\n- انقر بخفة = توسع التغريدة في الخط\n- انقر مطولاً = تفتح التغريدة</string>
@@ -189,6 +190,7 @@
     <string name="show_all_tweets">عرض كل التغربدات</string>
     <string name="are_you_sure_unfollow">هل تريد بالتأكيد إلغاء متابعة هذا المستخدم؟</string>
     <string name="are_you_sure_follow">هل تريد بالتأكيد متابعة هذا المستخدم؟</string>
+    <string name="are_you_sure_spam">هل تريد بالتأكيد وضع علامة على هذه التغريدة كرسالة غير مرغوب فيها؟</string>
     <string name="larger_images">استخدام صور أكبر</string>
     <string name="show_profile_pictures">عرض صور الملف الشخصي</string>
     <string name="reply_to">رد إلى</string>
@@ -219,4 +221,11 @@
     <string name="direct_messages_channel">تنبيهات الرسائل المباشرة</string>
     <string name="notification_channels">قنوات التنبيه</string>
     <string name="notification_channels_summary">تتحكم القنوات في أنواع التنبيهات التي تحصل عليها وتسمح لك بتخصيص التنبيهات الخاصة بك.</string>
+    <string name="crop_images">اقتصاص الصور على الخط الزمني</string>
+    <string name="update_tweet">تحديث التغريدة</string>
+    <string name="rate_it_button">قيمه!</string>
+    <string name="preview_web_links">معاينة روابط الويب</string>
+    <string name="seconds_ago">قبل %1$d ثانية/ثواني</string>
+    <string name="min_ago">قبل %1$d دقيقة</string>
+    <string name="mins_ago">قبل %1$d دقائق</string>
 </resources>

@@ -141,6 +141,7 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="widget_disclaimer">A változások alkalmazásához el kell távolítani, és újra hozzá kell adni a widgetet a kezdőképernyőn.</string>
     <string name="widget_material_light">Világos Material Stílus</string>
     <string name="widget_material_dark">Sötét Material Stílus</string>
+    <string name="widget_material_transparent">Teljesen átlátszó</string>
     <string name="in_app_browser_summary">A belső böngésző letiltásával minden link az alapértelmezett böngészőben fog megnyílni.</string>
     <string name="chrome_custom_tabs_summary">A Talon saját belső böngészőjének helyettesítője. A Google Chrome által biztosított szolgáltatásokat használja.</string>
     <string name="reverse_click_actions_default">Alapértelmezett (nem fordított műveletek):\n- Rövid kattintás = Kiterjesztés\n- Hosszú kattintás = Tweet megjelenítő</string>
@@ -188,6 +189,7 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="show_all_tweets">Mutassa az összes Tweetet</string>
     <string name="are_you_sure_unfollow">Biztos, hogy már nem akarja követni ezt a felhasználót?</string>
     <string name="are_you_sure_follow">Biztos, hogy követni akarja ezt a felhasználót?</string>
+    <string name="are_you_sure_spam">Biztos, hogy spamnek akarja jelölni ezt a tweetet?</string>
     <string name="larger_images">Nagyobb képek használata</string>
     <string name="show_profile_pictures">Profilképek mutatása</string>
     <string name="reply_to">Válasz</string>
@@ -218,5 +220,21 @@ A funkció használatához a következő képernyőn engedélyezni kell a Talon-
     <string name="direct_messages_channel">Közvetlen üzenet értesítések</string>
     <string name="notification_channels">Értesítési csatornák</string>
     <string name="notification_channels_summary">A csatornák szabályozzák az értesítések riasztási típusait és lehetővé teszik az értesítések testreszabását.</string>
-
+    <string name="crop_images">Képek levágása az idővonalon</string>
+    <string name="update_tweet">Tweet frissítése</string>
+    <string name="rate_it_button">Értékelje!</string>
+    <string name="rate_it_title">A legjobb értékelésekig hosszú az út</string>
+    <string name="rate_it_summary">Az <b>5 csillagos értékelések</b> nagyot segítenek az alkalmazás népszerűségéhez és láthatóságához a Play Áruházban.  Ha szeretné látni az alkalmazás <i>további szárnyalását</i>, akkor segítsen!</string>
+    <string name="rate_it_not_ready">Még nem értékeli? Semmi baj. Lépjen vissza és soha nem kérdezzük újra.</string>
+    <string name="preview_web_links">Webes hivatkozások előnézete</string>
+    <string name="seconds_ago">%1$d másodperce</string>
+    <string name="min_ago">%1$d perce</string>
+    <string name="mins_ago">%1$d perce</string>
+    <string name="hour_ago">%1$d órája</string>
+    <string name="new_hours_ago">%1$d órája</string>
+    <string name="day_ago">%1$d napja</string>
+    <string name="new_days_ago">%1$d napja</string>
+    <string name="revamped_layout">Idővonal stílusú Tweet elrendezés</string>
+    <string name="widget_display_screenname">Képernyőnév megjelenítése</string>
+    <string name="saved_tweet_description">"A mentett tweetek olvasásához a beállításokban menjen a csúsztatható oldalak részhez és állítsa be a <i>Mentett Tweetek</i> oldalt. "</string>
 </resources>
