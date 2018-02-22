@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="7.1.1">
+        <text>Twitter has a new policy that all apps using their service should stop allowing for tweeting, liking, and retweeting using multiple accounts at once: https://blog.twitter.com/developer/en_us/topics/tips/2018/automation-and-the-use-of-multiple-accounts.html. I have unfortunately had to remove this functionality from Talon.</text>
         <text>Translation updates</text>
     </version>
 
