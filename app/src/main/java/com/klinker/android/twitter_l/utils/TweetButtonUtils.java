@@ -120,11 +120,12 @@ public class TweetButtonUtils {
                     favoriteStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                 } else if (settings.crossAccActions) {
                     // dialog for favoriting
-                    String[] options = new String[3];
+                    String[] options = new String[2];
+//                    String[] options = new String[3];
 
                     options[0] = "@" + settings.myScreenName;
                     options[1] = "@" + settings.secondScreenName;
-                    options[2] = context.getString(R.string.both_accounts);
+//                    options[2] = context.getString(R.string.both_accounts);
 
                     new AlertDialog.Builder(context)
                             .setItems(options, new DialogInterface.OnClickListener() {
@@ -144,11 +145,12 @@ public class TweetButtonUtils {
                     retweetStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                 } else {
                     // dialog for favoriting
-                    String[] options = new String[3];
+                    String[] options = new String[2];
+//                    String[] options = new String[3];
 
                     options[0] = "@" + settings.myScreenName;
                     options[1] = "@" + settings.secondScreenName;
-                    options[2] = context.getString(R.string.both_accounts);
+//                    options[2] = context.getString(R.string.both_accounts);
 
                     new AlertDialog.Builder(context)
                             .setItems(options, new DialogInterface.OnClickListener() {

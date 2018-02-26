@@ -408,11 +408,12 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 @Override
                 public void onClick(View view) {
                     // dialog for favoriting
-                    String[] options = new String[3];
+                    String[] options = new String[2];
+//                    String[] options = new String[3];
 
                     options[0] = "@" + settings.myScreenName;
                     options[1] = "@" + settings.secondScreenName;
-                    options[2] = context.getString(R.string.both_accounts);
+//                    options[2] = context.getString(R.string.both_accounts);
 
                     new android.app.AlertDialog.Builder(context)
                             .setItems(options, new DialogInterface.OnClickListener() {

@@ -556,8 +556,6 @@ public class AppSettings {
             syncSecondMentions = false;
         }
 
-        crossAccActions = false;
-
         setColors(context);
 
         if (revampedTweets()) {
