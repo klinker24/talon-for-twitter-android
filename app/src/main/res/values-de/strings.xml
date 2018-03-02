@@ -56,7 +56,7 @@
     <!-- Main Activity -->
     <string name="links">Links</string>
     <string name="pictures">Bilder</string>
-    <string name="timeline">Zeitlinie</string>
+    <string name="timeline">Timeline</string>
     <string name="mentions">Erwähnungen</string>
     <string name="direct_messages">Direktnachrichten</string>
     <string name="retweets">Retweets</string>
