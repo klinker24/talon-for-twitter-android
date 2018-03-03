@@ -120,6 +120,7 @@ public class DMDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);
         values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, info.url);
+        values.put(DMSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -167,6 +168,7 @@ public class DMDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);
         values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, info.url);
+        values.put(DMSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         MediaEntity[] entities = status.getMediaEntities();
 

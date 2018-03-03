@@ -459,7 +459,7 @@ public class TweetLinkUtils {
         }
 
         // otherwise, lets just go with a blank string
-        return new TweetMediaInformation("", 0);
+        return new TweetMediaInformation("", -1);
     }
 
     public static long getTweetIdFromLink(String link) {

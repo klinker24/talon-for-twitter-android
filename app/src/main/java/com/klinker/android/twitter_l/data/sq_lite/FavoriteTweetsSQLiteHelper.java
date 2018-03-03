@@ -27,9 +27,10 @@ public class FavoriteTweetsSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EXTRA_TWO = "extra_two";
     public static final String COLUMN_CLIENT_SOURCE = "extra_three";
     public static final String COLUMN_CONVERSATION = "conversation";
+    public static final String COLUMN_MEDIA_LENGTH = "media_length";
 
     private static final String DATABASE_NAME = "favorite_tweets.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
@@ -57,6 +58,9 @@ public class FavoriteTweetsSQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_ADD_CONVO_FIELD =
             "ALTER TABLE " + TABLE_FAVORITE_TWEETS + " ADD COLUMN " + COLUMN_CONVERSATION + " INTEGER DEFAULT 0";
 
+    private static final String DATABASE_ADD_MEDIA_LENGTH_FIELD =
+            "ALTER TABLE " + TABLE_FAVORITE_TWEETS + " ADD COLUMN " + COLUMN_MEDIA_LENGTH + " INTEGER DEFAULT -1";
+
     public FavoriteTweetsSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -65,11 +69,14 @@ public class FavoriteTweetsSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
         database.execSQL(DATABASE_ADD_CONVO_FIELD);
+        database.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
+        }
     }
 
 }
