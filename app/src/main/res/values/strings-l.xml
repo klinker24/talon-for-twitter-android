@@ -243,4 +243,6 @@
     <string name="saved_tweet_description">To access your saved tweets, head to the swipe-able pages section of settings and set up a <i>Saved Tweets</i> page.</string>
     <string name="auto_play_gifs">Only Autoplay GIFs</string>
     <string name="auto_play_gifs_summary">By default, both GIFs and Twitter videos are played directly on the timeline.</string>
+    <string name="data_saver_mode">Data Saver Mode</string>
+    <string name="data_saver_mode_summary">This will override some of your current settings to give you the least amount of background data usage.</string>
 </resources>

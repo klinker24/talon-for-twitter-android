@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:summary="@string/background_refreshes_disclaimer" />
+    <SwitchPreference
+        android:key="data_saver_mode"
+        android:title="@string/data_saver_mode"
+        android:summary="@string/data_saver_mode_summary"
+        android:defaultValue="false" />
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:title="@string/data_saving_settings">
+
+        <Preference
+            android:summary="@string/background_refreshes_disclaimer" />
 
         <SwitchPreference
             android:key="sync_mobile_data"
