@@ -275,10 +275,12 @@ public class ActivityDataSource {
         values.put(ActivitySQLiteHelper.COLUMN_USERS, users);
         values.put(ActivitySQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ActivitySQLiteHelper.COLUMN_TYPE, TYPE_MENTION);
-        values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
         values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
         values.put(ActivitySQLiteHelper.COLUMN_FAV_COUNT, status.getFavoriteCount());
         values.put(ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, status.getRetweetCount());
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         return values;
     }
@@ -315,10 +317,12 @@ public class ActivityDataSource {
         values.put(ActivitySQLiteHelper.COLUMN_USERS, users);
         values.put(ActivitySQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ActivitySQLiteHelper.COLUMN_TYPE, TYPE_MENTION);
-        values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
         values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
         values.put(ActivitySQLiteHelper.COLUMN_FAV_COUNT, status.getFavoriteCount());
         values.put(ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, status.getRetweetCount());
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         return values;
     }
@@ -359,10 +363,12 @@ public class ActivityDataSource {
             values.put(ActivitySQLiteHelper.COLUMN_USERS, users);
             values.put(ActivitySQLiteHelper.COLUMN_HASHTAGS, hashtags);
             values.put(ActivitySQLiteHelper.COLUMN_TYPE, TYPE_FAVORITES);
-            values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
             values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
             values.put(ActivitySQLiteHelper.COLUMN_FAV_COUNT, status.getFavoriteCount());
             values.put(ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, status.getRetweetCount());
+
+            TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+            values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             return values;
         } catch (Exception e) {
@@ -417,8 +423,10 @@ public class ActivityDataSource {
                 values.put(ActivitySQLiteHelper.COLUMN_PIC_URL, media);
                 values.put(ActivitySQLiteHelper.COLUMN_USERS, userString);
                 values.put(ActivitySQLiteHelper.COLUMN_HASHTAGS, hashtags);
-                values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
                 values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+                TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+                values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
             } else {
                 return null;
             }

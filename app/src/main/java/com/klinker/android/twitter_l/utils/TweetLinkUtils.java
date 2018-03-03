@@ -25,6 +25,16 @@ import twitter4j.*;
 
 public class TweetLinkUtils {
 
+    public static class TweetMediaInformation {
+        public String url;
+        public long duration;
+
+        public TweetMediaInformation(String url, long duration) {
+            this.url = url;
+            this.duration = duration;
+        }
+    }
+
     public static String[] getLinksInStatus(Status status) {
         return getLinksInStatus(status.getText(), status.getUserMentionEntities(),
                 status.getHashtagEntities(), status.getURLEntities(), status.getMediaEntities());
@@ -390,11 +400,11 @@ public class TweetLinkUtils {
         return text;
     }
 
-    public static String getGIFUrl(Status status, String otherUrls) {
+    public static TweetMediaInformation getGIFUrl(Status status, String otherUrls) {
         return getGIFUrl(status.getMediaEntities(), otherUrls);
     }
 
-    public static String getGIFUrl(MediaEntity[] entities, String otherUrls) {
+    public static TweetMediaInformation getGIFUrl(MediaEntity[] entities, String otherUrls) {
 
         for (MediaEntity e : entities) {
             if (e.getType().contains("gif")) {
@@ -403,7 +413,7 @@ public class TweetLinkUtils {
                     MediaEntity.Variant variants[] = e.getVideoVariants();
 
                     if (variants.length == 0) {
-                        return url;
+                        return new TweetMediaInformation(url, e.getVideoDurationMillis());
                     }
 
                     for (int i = variants.length - 1; i >= 0; i--) {
@@ -413,16 +423,18 @@ public class TweetLinkUtils {
                         }
                     }
 
-                    return url;
+                    return new TweetMediaInformation(url, e.getVideoDurationMillis());
                 }
-                return e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
+
+                String url = e.getMediaURL().replace("tweet_video_thumb", "tweet_video").replace(".png", ".mp4").replace(".jpg", ".mp4").replace(".jpeg", ".mp4");
+                return new TweetMediaInformation(url, e.getVideoDurationMillis());
             } else if (e.getType().equals("surfaceView") || e.getType().equals("video")) {
                 if (e.getVideoVariants().length > 0) {
                     String url = "";
                     MediaEntity.Variant variants[] = e.getVideoVariants();
 
                     if (variants.length == 0) {
-                        return url;
+                        return new TweetMediaInformation(url, e.getVideoDurationMillis());
                     }
 
                     for (int i = variants.length - 1; i >= 0; i--) {
@@ -441,13 +453,13 @@ public class TweetLinkUtils {
                         }
                     }
 
-                    return url;
+                    return new TweetMediaInformation(url, e.getVideoDurationMillis());
                 }
             }
         }
 
         // otherwise, lets just go with a blank string
-        return "";
+        return new TweetMediaInformation("", 0);
     }
 
     public static long getTweetIdFromLink(String link) {

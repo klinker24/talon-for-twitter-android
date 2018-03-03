@@ -140,8 +140,10 @@ public class SavedTweetsDataSource {
         values.put(SavedTweetSQLiteHelper.COLUMN_URL, url);
         values.put(SavedTweetSQLiteHelper.COLUMN_USERS, users);
         values.put(SavedTweetSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
         values.put(SavedTweetSQLiteHelper.COLUMN_ACCOUNT, account);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+        values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
 
         try {
@@ -191,8 +193,10 @@ public class SavedTweetsDataSource {
             values.put(SavedTweetSQLiteHelper.COLUMN_URL, url);
             values.put(SavedTweetSQLiteHelper.COLUMN_USERS, users);
             values.put(SavedTweetSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-            values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
             values.put(SavedTweetSQLiteHelper.COLUMN_ACCOUNT, account);
+
+            TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+            values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             valueses[i] = values;
         }

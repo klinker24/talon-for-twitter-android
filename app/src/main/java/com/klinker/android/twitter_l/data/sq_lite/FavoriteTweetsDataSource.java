@@ -132,8 +132,10 @@ public class FavoriteTweetsDataSource {
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_USERS, users);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
-        values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+        values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         try {
             database.insert(FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS, null, values);
@@ -186,8 +188,10 @@ public class FavoriteTweetsDataSource {
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_USERS, users);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
-        values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+        values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         try {
             database.insert(FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS, null, values);
@@ -248,8 +252,10 @@ public class FavoriteTweetsDataSource {
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_USERS, users);
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_CLIENT_SOURCE, source);
-                values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+                TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+                values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             } else {
                 values = null;
