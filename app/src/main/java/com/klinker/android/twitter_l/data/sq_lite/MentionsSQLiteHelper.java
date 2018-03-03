@@ -42,9 +42,10 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EXTRA_TWO = "extra_two";
     public static final String COLUMN_EXTRA_THREE = "extra_three";
     public static final String COLUMN_CONVERSATION = "conversation";
+    public static final String COLUMN_MEDIA_LENGTH = "media_length";
 
     private static final String DATABASE_NAME = "mentions.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
@@ -71,6 +72,9 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_ADD_CONVO_FIELD =
             "ALTER TABLE " + TABLE_MENTIONS + " ADD COLUMN " + COLUMN_CONVERSATION + " INTEGER DEFAULT 0";
 
+    private static final String DATABASE_ADD_MEDIA_LENGTH_FIELD =
+            "ALTER TABLE " + TABLE_MENTIONS + " ADD COLUMN " + COLUMN_MEDIA_LENGTH + " INTEGER DEFAULT -1";
+
     public MentionsSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -79,14 +83,17 @@ public class MentionsSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
         database.execSQL(DATABASE_ADD_CONVO_FIELD);
+        database.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        switch (oldVersion) {
-            case 1:
-                db.execSQL(DATABASE_ADD_CONVO_FIELD);
-                break;
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ADD_CONVO_FIELD);
+        }
+
+        if (oldVersion < 3) {
+            db.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
         }
     }
 

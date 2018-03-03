@@ -41,9 +41,10 @@ public class SavedTweetSQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ANIMATED_GIF = "extra_one";
     public static final String COLUMN_EXTRA_TWO = "extra_two";
     public static final String COLUMN_EXTRA_THREE = "extra_three";
+    public static final String COLUMN_MEDIA_LENGTH = "media_length";
 
     private static final String DATABASE_NAME = "saved_tweets.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
@@ -67,6 +68,9 @@ public class SavedTweetSQLiteHelper extends SQLiteOpenHelper {
             + " text extra two, " + COLUMN_EXTRA_THREE
             + " text extra three);";
 
+    private static final String DATABASE_ADD_MEDIA_LENGTH_FIELD =
+            "ALTER TABLE " + TABLE_HOME + " ADD COLUMN " + COLUMN_MEDIA_LENGTH + " INTEGER DEFAULT -1";
+
     public SavedTweetSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -74,15 +78,14 @@ public class SavedTweetSQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
+        database.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(HomeSQLiteHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HOME);
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
+        }
     }
 
 }

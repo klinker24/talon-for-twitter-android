@@ -134,6 +134,7 @@ public class MentionsDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
         values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(MentionsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
@@ -177,6 +178,7 @@ public class MentionsDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
         values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(MentionsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
@@ -226,6 +228,7 @@ public class MentionsDataSource {
 
             TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
             values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+            values.put(MentionsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             valueses[i] = values;
         }

@@ -144,7 +144,7 @@ public class SavedTweetsDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
-
+        values.put(SavedTweetSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(SavedTweetSQLiteHelper.TABLE_HOME, null, values);
@@ -197,6 +197,7 @@ public class SavedTweetsDataSource {
 
             TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
             values.put(SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+            values.put(SavedTweetSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             valueses[i] = values;
         }

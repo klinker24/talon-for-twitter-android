@@ -160,6 +160,7 @@ public class HomeDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(HomeSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(HomeSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -220,6 +221,7 @@ public class HomeDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(HomeSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(HomeSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(HomeSQLiteHelper.TABLE_HOME, null, values);
@@ -288,6 +290,7 @@ public class HomeDataSource {
 
                 TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
                 values.put(HomeSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+                values.put(HomeSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             } else {
                 values = null;

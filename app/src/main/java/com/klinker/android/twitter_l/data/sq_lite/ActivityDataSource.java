@@ -281,6 +281,7 @@ public class ActivityDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
         values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(ActivitySQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         return values;
     }
@@ -323,6 +324,7 @@ public class ActivityDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
         values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(ActivitySQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         return values;
     }
@@ -369,6 +371,7 @@ public class ActivityDataSource {
 
             TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
             values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+            values.put(ActivitySQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             return values;
         } catch (Exception e) {
@@ -427,6 +430,7 @@ public class ActivityDataSource {
 
                 TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
                 values.put(ActivitySQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+                values.put(ActivitySQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
             } else {
                 return null;
             }

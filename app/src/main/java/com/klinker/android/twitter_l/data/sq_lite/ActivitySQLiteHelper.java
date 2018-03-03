@@ -28,9 +28,10 @@ public class ActivitySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CONVERSATION = "conversation";
     public static final String COLUMN_FAV_COUNT = "fav_count";
     public static final String COLUMN_RETWEET_COUNT = "retweet_count";
+    public static final String COLUMN_MEDIA_LENGTH = "media_length";
 
     private static final String DATABASE_NAME = "activity.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
@@ -59,6 +60,9 @@ public class ActivitySQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_ADD_CONVO_FIELD =
             "ALTER TABLE " + TABLE_ACTIVITY + " ADD COLUMN " + COLUMN_CONVERSATION + " INTEGER DEFAULT 0";
 
+    private static final String DATABASE_ADD_MEDIA_LENGTH_FIELD =
+            "ALTER TABLE " + TABLE_ACTIVITY + " ADD COLUMN " + COLUMN_MEDIA_LENGTH + " INTEGER DEFAULT -1";
+
     public ActivitySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -67,11 +71,14 @@ public class ActivitySQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(DATABASE_CREATE);
         database.execSQL(DATABASE_ADD_CONVO_FIELD);
+        database.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ADD_MEDIA_LENGTH_FIELD);
+        }
     }
 
 }

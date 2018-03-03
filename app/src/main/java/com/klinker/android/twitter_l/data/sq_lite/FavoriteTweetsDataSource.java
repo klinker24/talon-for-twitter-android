@@ -136,6 +136,7 @@ public class FavoriteTweetsDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(FavoriteTweetsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS, null, values);
@@ -192,6 +193,7 @@ public class FavoriteTweetsDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+        values.put(FavoriteTweetsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(FavoriteTweetsSQLiteHelper.TABLE_FAVORITE_TWEETS, null, values);
@@ -256,6 +258,7 @@ public class FavoriteTweetsDataSource {
 
                 TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
                 values.put(FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+                values.put(FavoriteTweetsSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             } else {
                 values = null;

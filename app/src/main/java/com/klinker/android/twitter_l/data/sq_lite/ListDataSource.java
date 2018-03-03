@@ -153,7 +153,7 @@ public class ListDataSource {
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
         values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
-
+        values.put(ListSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
         try {
             database.insert(ListSQLiteHelper.TABLE_HOME, null, values);
@@ -206,6 +206,7 @@ public class ListDataSource {
 
             TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
             values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
+            values.put(ListSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
 
             valueses[i] = values;
         }
