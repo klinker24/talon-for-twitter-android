@@ -71,7 +71,7 @@ public class HomeDataSource {
             HomeSQLiteHelper.COLUMN_TEXT, HomeSQLiteHelper.COLUMN_NAME, HomeSQLiteHelper.COLUMN_PRO_PIC,
             HomeSQLiteHelper.COLUMN_SCREEN_NAME, HomeSQLiteHelper.COLUMN_TIME, HomeSQLiteHelper.COLUMN_PIC_URL,
             HomeSQLiteHelper.COLUMN_RETWEETER, HomeSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS,
-            HomeSQLiteHelper.COLUMN_CURRENT_POS, HomeSQLiteHelper.COLUMN_ANIMATED_GIF, HomeSQLiteHelper.COLUMN_CONVERSATION
+            HomeSQLiteHelper.COLUMN_CURRENT_POS, HomeSQLiteHelper.COLUMN_ANIMATED_GIF, HomeSQLiteHelper.COLUMN_CONVERSATION, HomeSQLiteHelper.COLUMN_MEDIA_LENGTH
     };
 
     public HomeDataSource(Context context) {

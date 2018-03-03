@@ -449,7 +449,8 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         final String hashtags = html[3];
         final String users = html[4];
 
-        holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
+        final TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        holder.animatedGif = info.url;
 
         final boolean inAConversation = thisStatus.getInReplyToStatusId() != -1;
 
@@ -680,7 +681,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
                         holder.playButton.setImageDrawable(new GifBadge(context));
                         layoutRes = R.layout.peek_gif;
                     } else {
-                        holder.playButton.setImageDrawable(new VideoBadge(context));
+                        holder.playButton.setImageDrawable(new VideoBadge(context, info.duration));
 
                         if (!holder.picUrl.contains("youtu")) {
                             layoutRes = R.layout.peek_video;

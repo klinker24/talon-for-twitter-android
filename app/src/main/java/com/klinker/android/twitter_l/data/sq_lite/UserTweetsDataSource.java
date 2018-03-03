@@ -62,7 +62,8 @@ public class UserTweetsDataSource {
             UserTweetsSQLiteHelper.COLUMN_URL,
             UserTweetsSQLiteHelper.COLUMN_USERS,
             UserTweetsSQLiteHelper.COLUMN_HASHTAGS,
-            UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF
+            UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF,
+            UserTweetsSQLiteHelper.COLUMN_MEDIA_LENGTH
     };
 
     private UserTweetsDataSource(Context context) {

@@ -72,6 +72,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
         final String otherUrl = cursor.getString(URL_COL);
         final String users = cursor.getString(USER_COL);
         final String hashtags = cursor.getString(HASHTAG_COL);
+        final long mediaDuration = cursor.getLong(VIDEO_DURATION_COL);
 
         holder.gifUrl = cursor.getString(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_EXTRA_THREE));
 
@@ -182,7 +183,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                 if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
                     holder.playButton.setImageDrawable(new GifBadge(context));
                 } else {
-                    holder.playButton.setImageDrawable(new VideoBadge(context));
+                    holder.playButton.setImageDrawable(new VideoBadge(context, mediaDuration));
                 }
 
                 holder.imageHolder.setOnClickListener(new View.OnClickListener() {

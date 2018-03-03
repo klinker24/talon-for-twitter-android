@@ -3,6 +3,7 @@
     <version name="7.2.0">
         <text>Add a new "data saver" mode that overrides your settings configuration to prevent mobile data usage in the background and limit it in the foreground</text>
         <text>Added an option to only auto-play GIFs on the timeline, rather than both GIFs and Twitter videos</text>
+        <text>Display Twitter video durations, on the timeline</text>
     </version>
 
     <version name="7.1.2">

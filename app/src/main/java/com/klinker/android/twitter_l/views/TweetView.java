@@ -100,6 +100,7 @@ public class TweetView {
     String hashtags;
     String users;
     String gifUrl;
+    long videoDuration;
     boolean isConvo = false;
     int embeddedTweetMinHeight = 0;
 
@@ -226,7 +227,9 @@ public class TweetView {
         hashtags = html[3];
         users = html[4];
 
-        gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        gifUrl = info.url;
+        videoDuration = info.duration;
 
         isConvo = status.getInReplyToStatusId() != -1;
 
@@ -374,7 +377,7 @@ public class TweetView {
                 viewTweet.putExtra("hashtags", hashtags);
                 viewTweet.putExtra("animated_gif", gifUrl);
                 viewTweet.putExtra("conversation", isConvo);
-
+                viewTweet.putExtra("video_duration", videoDuration);
 
                 TweetActivity.applyDragDismissBundle(context, viewTweet);
                 context.startActivity(viewTweet);
@@ -506,7 +509,7 @@ public class TweetView {
                         playButton.setImageDrawable(new GifBadge(context));
                         layoutRes = R.layout.peek_gif;
                     } else {
-                        playButton.setImageDrawable(new VideoBadge(context));
+                        playButton.setImageDrawable(new VideoBadge(context, videoDuration));
 
                         if (!imageUrl.contains("youtube")) {
                             layoutRes = R.layout.peek_video;

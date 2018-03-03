@@ -64,7 +64,7 @@ public class MentionsDataSource {
             MentionsSQLiteHelper.COLUMN_TEXT, MentionsSQLiteHelper.COLUMN_NAME, MentionsSQLiteHelper.COLUMN_PRO_PIC,
             MentionsSQLiteHelper.COLUMN_SCREEN_NAME, MentionsSQLiteHelper.COLUMN_TIME, MentionsSQLiteHelper.COLUMN_PIC_URL,
             MentionsSQLiteHelper.COLUMN_RETWEETER, MentionsSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, MentionsSQLiteHelper.COLUMN_ANIMATED_GIF,
-            MentionsSQLiteHelper.COLUMN_CONVERSATION};
+            MentionsSQLiteHelper.COLUMN_CONVERSATION, MentionsSQLiteHelper.COLUMN_MEDIA_LENGTH };
 
     public MentionsDataSource(Context context) {
         dbHelper = new MentionsSQLiteHelper(context);

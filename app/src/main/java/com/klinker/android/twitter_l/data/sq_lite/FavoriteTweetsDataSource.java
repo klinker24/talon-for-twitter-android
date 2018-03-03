@@ -53,7 +53,7 @@ public class FavoriteTweetsDataSource {
             FavoriteTweetsSQLiteHelper.COLUMN_TEXT, FavoriteTweetsSQLiteHelper.COLUMN_NAME, FavoriteTweetsSQLiteHelper.COLUMN_PRO_PIC,
             FavoriteTweetsSQLiteHelper.COLUMN_SCREEN_NAME, FavoriteTweetsSQLiteHelper.COLUMN_TIME, FavoriteTweetsSQLiteHelper.COLUMN_PIC_URL,
             FavoriteTweetsSQLiteHelper.COLUMN_RETWEETER, FavoriteTweetsSQLiteHelper.COLUMN_URL, FavoriteTweetsSQLiteHelper.COLUMN_USERS, FavoriteTweetsSQLiteHelper.COLUMN_HASHTAGS,
-            FavoriteTweetsSQLiteHelper.COLUMN_EXTRA_TWO, FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, FavoriteTweetsSQLiteHelper.COLUMN_CONVERSATION
+            FavoriteTweetsSQLiteHelper.COLUMN_EXTRA_TWO, FavoriteTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, FavoriteTweetsSQLiteHelper.COLUMN_CONVERSATION, FavoriteTweetsSQLiteHelper.COLUMN_MEDIA_LENGTH
     };
 
     public FavoriteTweetsDataSource(Context context) {

@@ -56,7 +56,7 @@ public class ActivityDataSource {
             ActivitySQLiteHelper.COLUMN_TEXT, ActivitySQLiteHelper.COLUMN_NAME, ActivitySQLiteHelper.COLUMN_PRO_PIC,
             ActivitySQLiteHelper.COLUMN_SCREEN_NAME, ActivitySQLiteHelper.COLUMN_TIME, ActivitySQLiteHelper.COLUMN_PIC_URL,
             ActivitySQLiteHelper.COLUMN_RETWEETER, ActivitySQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, ActivitySQLiteHelper.COLUMN_ANIMATED_GIF,
-            ActivitySQLiteHelper.COLUMN_CONVERSATION, ActivitySQLiteHelper.COLUMN_FAV_COUNT, ActivitySQLiteHelper.COLUMN_RETWEET_COUNT };
+            ActivitySQLiteHelper.COLUMN_CONVERSATION, ActivitySQLiteHelper.COLUMN_FAV_COUNT, ActivitySQLiteHelper.COLUMN_RETWEET_COUNT, ActivitySQLiteHelper.COLUMN_MEDIA_LENGTH };
 
     public ActivityDataSource(Context context) {
         dbHelper = new ActivitySQLiteHelper(context);
