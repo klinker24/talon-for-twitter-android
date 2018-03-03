@@ -134,7 +134,9 @@ public class UserTweetsDataSource {
         values.put(UserTweetsSQLiteHelper.COLUMN_USERS, users);
         values.put(UserTweetsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(UserTweetsSQLiteHelper.COLUMN_USER_ID, userId);
-        values.put(UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+        values.put(UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         try {
             database.insert(UserTweetsSQLiteHelper.TABLE_HOME, null, values);
@@ -184,7 +186,9 @@ public class UserTweetsDataSource {
             values.put(UserTweetsSQLiteHelper.COLUMN_USERS, users);
             values.put(UserTweetsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
             values.put(UserTweetsSQLiteHelper.COLUMN_USER_ID, userId);
-            values.put(UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+
+            TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+            values.put(UserTweetsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             valueses[i] = values;
         }

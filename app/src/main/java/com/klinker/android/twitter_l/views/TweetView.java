@@ -226,7 +226,7 @@ public class TweetView {
         hashtags = html[3];
         users = html[4];
 
-        gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
 
         isConvo = status.getInReplyToStatusId() != -1;
 

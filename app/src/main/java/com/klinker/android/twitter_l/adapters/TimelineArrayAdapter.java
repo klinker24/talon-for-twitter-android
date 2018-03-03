@@ -449,7 +449,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         final String hashtags = html[3];
         final String users = html[4];
 
-        holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        holder.animatedGif = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
 
         final boolean inAConversation = thisStatus.getInReplyToStatusId() != -1;
 

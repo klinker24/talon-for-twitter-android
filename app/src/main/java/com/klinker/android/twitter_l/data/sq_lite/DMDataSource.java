@@ -117,7 +117,9 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url));
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, info.url);
 
         MediaEntity[] entities = status.getMediaEntities();
 
@@ -162,7 +164,9 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, recipient.getOriginalProfileImageURL());
         values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, recipient.getName());
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
-        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url));
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, info.url);
 
         MediaEntity[] entities = status.getMediaEntities();
 

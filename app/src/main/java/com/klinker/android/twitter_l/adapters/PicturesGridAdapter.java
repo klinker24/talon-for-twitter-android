@@ -107,7 +107,7 @@ public class PicturesGridAdapter extends BaseAdapter {
             final String hashtags = html[3];
             final String users = html[4];
 
-            final String gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl);
+            final String gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
 
             if (url.contains("youtube") || gifUrl != null && !gifUrl.isEmpty()) {
                 if (VideoMatcherUtil.isTwitterGifLink(gifUrl)) {

@@ -130,8 +130,10 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_PIC_URL, media);
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
         values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
@@ -171,8 +173,10 @@ public class MentionsDataSource {
         values.put(MentionsSQLiteHelper.COLUMN_URL, otherUrl);
         values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
         values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-        values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
         values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+        values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
         try {
             database.insert(MentionsSQLiteHelper.TABLE_MENTIONS, null, values);
@@ -218,8 +222,10 @@ public class MentionsDataSource {
             values.put(MentionsSQLiteHelper.COLUMN_URL, otherUrl);
             values.put(MentionsSQLiteHelper.COLUMN_USERS, users);
             values.put(MentionsSQLiteHelper.COLUMN_HASHTAGS, hashtags);
-            values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, otherUrl));
             values.put(HomeSQLiteHelper.COLUMN_CONVERSATION, status.getInReplyToStatusId() == -1 ? 0 : 1);
+
+            TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+            values.put(MentionsSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             valueses[i] = values;
         }

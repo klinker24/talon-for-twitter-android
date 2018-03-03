@@ -150,7 +150,9 @@ public class ListDataSource {
         values.put(ListSQLiteHelper.COLUMN_USERS, users);
         values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
         values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
-        values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+        values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
 
         try {
@@ -201,7 +203,9 @@ public class ListDataSource {
             values.put(ListSQLiteHelper.COLUMN_USERS, users);
             values.put(ListSQLiteHelper.COLUMN_HASHTAGS, hashtags);
             values.put(ListSQLiteHelper.COLUMN_LIST_ID, listId);
-            values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, TweetLinkUtils.getGIFUrl(status, url));
+
+            TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, url);
+            values.put(ListSQLiteHelper.COLUMN_ANIMATED_GIF, info.url);
 
             valueses[i] = values;
         }
