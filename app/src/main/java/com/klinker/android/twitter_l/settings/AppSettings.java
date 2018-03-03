@@ -203,6 +203,7 @@ public class AppSettings {
     public boolean cropImagesOnTimeline;
     public boolean webPreviews;
     public boolean widgetDisplayScreenname;
+    public boolean onlyAutoPlayGifs;
 
     // notifications
     public boolean timelineNot;
@@ -381,6 +382,7 @@ public class AppSettings {
         cropImagesOnTimeline = sharedPrefs.getBoolean("crop_images_timeline", true);
         webPreviews = sharedPrefs.getBoolean("web_previews_timeline", true);
         widgetDisplayScreenname = sharedPrefs.getBoolean("widget_display_screenname", true);
+        onlyAutoPlayGifs = sharedPrefs.getBoolean("autoplay_gifs", false);
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
             this.emojiStyle = EmojiStyle.DEFAULT;

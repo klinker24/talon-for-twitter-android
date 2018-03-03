@@ -241,4 +241,6 @@
     <string name="revamped_layout">Timeline Style Tweet Layout</string>
     <string name="widget_display_screenname">Display Screenname</string>
     <string name="saved_tweet_description">To access your saved tweets, head to the swipe-able pages section of settings and set up a <i>Saved Tweets</i> page.</string>
+    <string name="auto_play_gifs">Only Autoplay GIFs</string>
+    <string name="auto_play_gifs_summary">By default, both GIFs and Twitter videos are played directly on the timeline.</string>
 </resources>

@@ -851,12 +851,14 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                     holder.playButton.setVisibility(View.VISIBLE);
                 }
 
+                int videoType;
                 if (VideoMatcherUtil.isTwitterGifLink(holder.gifUrl)) {
                     holder.playButton.setImageDrawable(new GifBadge(context));
                     videoPeekLayout = R.layout.peek_gif;
+                    videoType = 0;
                 } else {
                     holder.playButton.setImageDrawable(new VideoBadge(context));
-
+                    videoType = 1;
                     if (!holder.picUrl.contains("youtube")) {
                         videoPeekLayout = R.layout.peek_video;
                     }
@@ -871,7 +873,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 });
 
                 if (holder.gifUrl.contains(".mp4") || holder.gifUrl.contains(".m3u8")) {
-                    videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl, cursor.getPosition()));
+                    videos.add(new Video(holder.videoView, holder.tweetId, holder.gifUrl, cursor.getPosition(), videoType));
                 }
 
                 picture = true;
@@ -1406,16 +1408,19 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     }
 
     private class Video {
+
         public int positionOnTimeline;
         public String url;
         public long tweetId;
         public SimpleVideoView videoView;
+        public int videoType = 0; // 0 = GIF, 1 = VIDEO
 
-        public Video(SimpleVideoView videoView, long tweetId, String url, int positionOnTimeline) {
+        public Video(SimpleVideoView videoView, long tweetId, String url, int positionOnTimeline, int videoType) {
             this.videoView = videoView;
             this.tweetId = tweetId;
             this.url = url;
             this.positionOnTimeline = getCount() - positionOnTimeline + 1;
+            this.videoType = videoType;
         }
 
         private boolean isPlaying = false;
@@ -1424,16 +1429,25 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 videoHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!activityPaused && videoView != null && !Video.this.isPlaying) {
-                            if (settings.autoplay == AppSettings.AUTOPLAY_ALWAYS ||
-                                    (settings.autoplay == AppSettings.AUTOPLAY_WIFI && !Utils.getConnectionStatus(context))) {
-                                if (videoView.getVisibility() != View.VISIBLE) {
-                                    videoView.setVisibility(View.VISIBLE);
-                                }
-                                videoView.start(url);
-                                Video.this.isPlaying = true;
-                            }
+                        if (activityPaused || videoView == null || Video.this.isPlaying) {
+                            return;
                         }
+
+                        if (settings.autoplay == AppSettings.AUTOPLAY_NEVER ||
+                                (settings.autoplay == AppSettings.AUTOPLAY_WIFI && Utils.getConnectionStatus(context))) {
+                            return;
+                        }
+
+                        if (videoType == 1 && settings.onlyAutoPlayGifs) {
+                            return;
+                        }
+
+                        if (videoView.getVisibility() != View.VISIBLE) {
+                            videoView.setVisibility(View.VISIBLE);
+                        }
+
+                        videoView.start(url);
+                        Video.this.isPlaying = true;
                     }
                 }, 500);
             }

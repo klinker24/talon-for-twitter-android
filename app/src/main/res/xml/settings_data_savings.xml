@@ -26,6 +26,11 @@
             android:entries="@array/pre_cache"
             android:entryValues="@array/talon_pull_inserted" />
 
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
+
+    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
+        android:title="@string/autoplay_title">
+
         <ListPreference
             android:key="autoplay"
             android:title="@string/autoplay_title"
@@ -34,6 +39,12 @@
             android:entries="@array/autoplay"
             android:entryValues="@array/autoplay_inserted" />
 
-    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>\
+        <SwitchPreference
+            android:key="autoplay_gifs"
+            android:title="@string/auto_play_gifs"
+            android:summary="@string/auto_play_gifs_summary"
+            android:defaultValue="false" />
+
+    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
 </PreferenceScreen>
