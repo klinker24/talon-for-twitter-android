@@ -63,7 +63,7 @@ public class DMDataSource {
             DMSQLiteHelper.COLUMN_TEXT, DMSQLiteHelper.COLUMN_NAME, DMSQLiteHelper.COLUMN_PRO_PIC,
             DMSQLiteHelper.COLUMN_SCREEN_NAME, DMSQLiteHelper.COLUMN_TIME, DMSQLiteHelper.COLUMN_PIC_URL, DMSQLiteHelper.COLUMN_RETWEETER,
             DMSQLiteHelper.COLUMN_URL, HomeSQLiteHelper.COLUMN_USERS, HomeSQLiteHelper.COLUMN_HASHTAGS, DMSQLiteHelper.COLUMN_EXTRA_ONE,
-            DMSQLiteHelper.COLUMN_EXTRA_TWO, DMSQLiteHelper.COLUMN_EXTRA_THREE };
+            DMSQLiteHelper.COLUMN_EXTRA_TWO, DMSQLiteHelper.COLUMN_EXTRA_THREE, DMSQLiteHelper.COLUMN_MEDIA_LENGTH };
 
     public DMDataSource(Context context) {
         dbHelper = new DMSQLiteHelper(context);

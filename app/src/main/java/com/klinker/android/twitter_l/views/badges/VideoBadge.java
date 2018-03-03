@@ -14,6 +14,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
+import java.util.concurrent.TimeUnit;
 
 public class VideoBadge  extends Drawable {
 
@@ -25,13 +28,17 @@ public class VideoBadge  extends Drawable {
     private static final int STROKE_COLOR = Color.DKGRAY;
     private static final String TYPEFACE = "sans-serif-black";
     private static final int TYPEFACE_STYLE = Typeface.NORMAL;
-    private static Bitmap bitmap;
-    private static int width;
-    private static int height;
+    private Bitmap bitmap;
+    private int width;
+    private int height;
     private final Paint paint;
+    private final long duration;
 
-    public VideoBadge(Context context) {
-        if (bitmap == null) {
+    public VideoBadge(Context context, long duration) {
+        this.duration = duration;
+        String text = duration > 0 ? VIDEO + " - " + getDuration() : VIDEO;
+
+//        if (bitmap == null) {
             final DisplayMetrics dm = context.getResources().getDisplayMetrics();
             final float density = dm.density;
             final float scaledDensity = dm.scaledDensity;
@@ -43,7 +50,7 @@ public class VideoBadge  extends Drawable {
             final float padding = PADDING * density;
             final float cornerRadius = CORNER_RADIUS * density;
             final Rect textBounds = new Rect();
-            textPaint.getTextBounds(VIDEO, 0, VIDEO.length(), textBounds);
+            textPaint.getTextBounds(text, 0, text.length(), textBounds);
             height = (int) (padding + textBounds.height() + padding);
             width = (int) (padding + textBounds.width() + padding);
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -74,7 +81,7 @@ public class VideoBadge  extends Drawable {
 
             // punch out the word 'GIF', leaving transparency
             textPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            canvas.drawText(VIDEO, padding, height - padding, textPaint);
+            canvas.drawText(text, padding, height - padding, textPaint);
 
             /*textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
             textPaint.setTypeface(Typeface.create(TYPEFACE, TYPEFACE_STYLE));
@@ -84,7 +91,7 @@ public class VideoBadge  extends Drawable {
             textPaint.setColor(STROKE_COLOR);
             textPaint.setStrokeWidth(Utils.toDP(1, context));
             canvas.drawText(VIDEO, padding, height - padding, textPaint);*/
-        }
+//        }
         paint = new Paint();
     }
 
@@ -116,5 +123,13 @@ public class VideoBadge  extends Drawable {
     @Override
     public int getOpacity() {
         return 0;
+    }
+
+    private String getDuration() {
+        return String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+        );
     }
 }

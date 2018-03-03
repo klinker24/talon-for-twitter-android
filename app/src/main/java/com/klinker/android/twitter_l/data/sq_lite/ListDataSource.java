@@ -78,7 +78,8 @@ public class ListDataSource {
             ListSQLiteHelper.COLUMN_URL,
             ListSQLiteHelper.COLUMN_USERS,
             ListSQLiteHelper.COLUMN_HASHTAGS,
-            ListSQLiteHelper.COLUMN_ANIMATED_GIF
+            ListSQLiteHelper.COLUMN_ANIMATED_GIF,
+            ListSQLiteHelper.COLUMN_MEDIA_LENGTH
     };
 
     public ListDataSource(Context context) {

@@ -278,6 +278,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         HASHTAG_COL = cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_HASHTAGS);
         GIF_COL = cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF);
         RETWEETER_COL = cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER);
+        VIDEO_DURATION_COL = cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_MEDIA_LENGTH);
 
         if (hasConvo) {
             CONVO_COL = cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_CONVERSATION);
@@ -542,6 +543,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     protected int GIF_COL;
     protected int CONVO_COL;
     protected int RETWEETER_COL;
+    protected int VIDEO_DURATION_COL;
 
     @Override
     public void bindView(final View view, Context mContext, final Cursor cursor) {
@@ -595,6 +597,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         final String otherUrl = cursor.getString(URL_COL);
         final String users = cursor.getString(USER_COL);
         final String hashtags = cursor.getString(HASHTAG_COL);
+        final long mediaDuration = cursor.getLong(VIDEO_DURATION_COL);
 
         String retweeter;
         try {
@@ -857,7 +860,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                     videoPeekLayout = R.layout.peek_gif;
                     videoType = 0;
                 } else {
-                    holder.playButton.setImageDrawable(new VideoBadge(context));
+                    holder.playButton.setImageDrawable(new VideoBadge(context, mediaDuration));
                     videoType = 1;
                     if (!holder.picUrl.contains("youtube")) {
                         videoPeekLayout = R.layout.peek_video;

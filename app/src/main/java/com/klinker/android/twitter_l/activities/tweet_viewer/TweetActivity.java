@@ -78,6 +78,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         String profilePic = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_PRO_PIC));
         String otherUrls = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_URL));
         String gifUrl = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_ANIMATED_GIF));
+        long videoDuration = cursor.getLong(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_MEDIA_LENGTH));
         String retweeter;
         try {
             retweeter = cursor.getString(cursor.getColumnIndex(HomeSQLiteHelper.COLUMN_RETWEETER));
@@ -110,6 +111,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         viewTweet.putExtra("hashtags", hashtags);
         viewTweet.putExtra("animated_gif", gifUrl);
         viewTweet.putExtra("second_account", isSecondAccount);
+        viewTweet.putExtra("video_duration", videoDuration);
 
         applyDragDismissBundle(context, viewTweet);
 
@@ -165,6 +167,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
     public boolean secondAcc = false;
     public String gifVideo;
     public boolean isAConversation = false;
+    public long videoDuration = -1;
 
     protected boolean fromLauncher = false;
     protected boolean fromNotification = false;
@@ -382,6 +385,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
         secondAcc = from.getBooleanExtra("second_account", false);
         gifVideo = from.getStringExtra("animated_gif");
         isAConversation = from.getBooleanExtra("conversation", false);
+        videoDuration = from.getLongExtra("video_duration", -1);
 
         try {
             users = from.getStringExtra("users").split("  ");
@@ -532,7 +536,7 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
                 if (gifVideo != null && VideoMatcherUtil.isTwitterGifLink(gifVideo)) {
                     ((ImageView) layout.findViewById(R.id.play_button)).setImageDrawable(new GifBadge(this));
                 } else {
-                    ((ImageView) layout.findViewById(R.id.play_button)).setImageDrawable(new VideoBadge(this));
+                    ((ImageView) layout.findViewById(R.id.play_button)).setImageDrawable(new VideoBadge(this, videoDuration));
                 }
             }
 

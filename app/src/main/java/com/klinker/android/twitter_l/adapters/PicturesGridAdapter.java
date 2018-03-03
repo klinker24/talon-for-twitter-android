@@ -107,13 +107,14 @@ public class PicturesGridAdapter extends BaseAdapter {
             final String hashtags = html[3];
             final String users = html[4];
 
-            final String gifUrl = TweetLinkUtils.getGIFUrl(status, otherUrl).url;
+            final TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status, otherUrl);
+            final String gifUrl = info.url;
 
             if (url.contains("youtube") || gifUrl != null && !gifUrl.isEmpty()) {
                 if (VideoMatcherUtil.isTwitterGifLink(gifUrl)) {
                     holder.badge.setImageDrawable(new GifBadge(context));
                 } else {
-                    holder.badge.setImageDrawable(new VideoBadge(context));
+                    holder.badge.setImageDrawable(new VideoBadge(context, info.duration));
                 }
 
                 if (holder.badge.getVisibility() != View.VISIBLE) {

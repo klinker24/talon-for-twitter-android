@@ -74,7 +74,8 @@ public class SavedTweetsDataSource {
             SavedTweetSQLiteHelper.COLUMN_URL,
             SavedTweetSQLiteHelper.COLUMN_USERS,
             SavedTweetSQLiteHelper.COLUMN_HASHTAGS,
-            SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF
+            SavedTweetSQLiteHelper.COLUMN_ANIMATED_GIF,
+            SavedTweetSQLiteHelper.COLUMN_MEDIA_LENGTH
     };
 
     public SavedTweetsDataSource(Context context) {
