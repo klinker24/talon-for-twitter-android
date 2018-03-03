@@ -564,6 +564,17 @@ public class AppSettings {
         if (revampedTweets()) {
             detailedQuotes = true;
         }
+
+        if (sharedPrefs.getBoolean("data_saver_mode", false)) {
+            refreshOnStart = false;
+            syncMobile = false;
+            syncSecondMentions = false;
+            liveStreaming = false;
+            pushNotifications = false;
+            higherQualityImages = false;
+            webPreviews = false;
+            autoplay = AUTOPLAY_WIFI;
+        }
     }
 
     private static boolean isInsideRange(int startHour, int startMin, int endHour, int endMin) {
