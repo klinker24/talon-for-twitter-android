@@ -114,7 +114,7 @@ dependencies {
     implementation "com.android.support:preference-v14:${project.ANDROID_SUPPORT_VERSION}"
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.klinkerapps:link_builder:2.0.2'
+    implementation 'com.klinkerapps:link_builder:2.0.3'
     implementation 'com.klinkerapps:peekview:1.2.3'
     implementation 'com.klinkerapps:simple_videoview:1.2.4'
     implementation 'com.klinkerapps:launcher-apis:1.1.0'
