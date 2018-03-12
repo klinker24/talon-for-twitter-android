@@ -43,6 +43,7 @@
     <style name="Theme.PhotoViewerBlack" parent="@style/Theme.Tutorial">
         <item name="android:windowActionBar">true</item>
         <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
     <style name="Theme.PhotoViewerLight.Popup" parent="@style/Theme.Tutorial">

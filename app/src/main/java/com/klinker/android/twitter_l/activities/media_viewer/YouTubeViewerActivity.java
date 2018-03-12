@@ -49,6 +49,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.BLACK);
+            getWindow().setNavigationBarColor(Color.BLACK);
         }
 
         AppSettings settings = new AppSettings(context);
