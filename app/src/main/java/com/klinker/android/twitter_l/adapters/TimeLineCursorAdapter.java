@@ -1305,7 +1305,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                     counts.post(new Runnable() {
                         @Override
                         public void run() {
-                            utils.setUpButtons(status, counts, buttons, false);
+                            utils.setUpButtons(status, counts, buttons, false, true);
                         }
                     });
                 } catch (Exception e) {
