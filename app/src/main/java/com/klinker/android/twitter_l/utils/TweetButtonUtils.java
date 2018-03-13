@@ -79,7 +79,7 @@ public class TweetButtonUtils {
         });
     }
 
-    public void setUpButtons(Status s, View countsRoot, View buttonsRoot, boolean showOverflow) {
+    public void setUpButtons(Status s, View countsRoot, View buttonsRoot, boolean showOverflow, boolean tweetLoadedSuccessfully) {
         if (s == null) {
             return;
         }
@@ -111,6 +111,10 @@ public class TweetButtonUtils {
 
         if (showOverflow) {
             overflowButton.setVisibility(View.VISIBLE);
+        }
+
+        if (!tweetLoadedSuccessfully) {
+            return;
         }
 
         likeButton.setOnClickListener(new View.OnClickListener() {
