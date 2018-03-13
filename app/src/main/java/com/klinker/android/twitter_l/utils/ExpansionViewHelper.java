@@ -776,6 +776,7 @@ public class ExpansionViewHelper {
         Thread getInfo = new TimeoutThread(new Runnable() {
             @Override
             public void run() {
+                boolean tweetLoadedSuccessfully = false;
                 try {
                     Twitter twitter =  getTwitter();
 
@@ -788,11 +789,10 @@ public class ExpansionViewHelper {
                         id = status.getId();
                     }
 
+                    tweetLoadedSuccessfully = true;
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            tweetButtonUtils.setUpButtons(status, countsView, buttonsRoot, true);
-
                             if (loadedCallback != null) {
                                 loadedCallback.onLoad(status);
                             }
@@ -803,6 +803,14 @@ public class ExpansionViewHelper {
                         AnalyticsHelper.errorLoadingTweetFromNotification(context, e.getMessage());
                     }
                 }
+
+                final boolean loadSuccess = tweetLoadedSuccessfully;
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tweetButtonUtils.setUpButtons(status, countsView, buttonsRoot, true, loadSuccess);
+                    }
+                });
             }
         });
 
