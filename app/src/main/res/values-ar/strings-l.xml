@@ -224,8 +224,19 @@
     <string name="crop_images">اقتصاص الصور على الخط الزمني</string>
     <string name="update_tweet">تحديث التغريدة</string>
     <string name="rate_it_button">قيمه!</string>
+    <string name="rate_it_title">أعلى التقييمات تأخذ وقت طويل</string>
+    <string name="rate_it_summary"><b> التقييم بخمس نجوم </b> مهم جداً لمساعدة البرامج في النظرة المستقبلية والتطور في المتجر, إذا أردتم أن تروا البرنامج
+<i>يستمر في التحليق</i>, ساعدوني!</string>
+    <string name="rate_it_not_ready">لست جاهز للتقييم؟ لا مشكلة, ارجع للخلف من هذا المكان ولن اسألك مرة اخرى ابداً</string>
     <string name="preview_web_links">معاينة روابط الويب</string>
     <string name="seconds_ago">قبل %1$d ثانية/ثواني</string>
     <string name="min_ago">قبل %1$d دقيقة</string>
     <string name="mins_ago">قبل %1$d دقائق</string>
+    <string name="hour_ago">منذ %1$d ساعة</string>
+    <string name="new_hours_ago">منذ %1$d ساعات</string>
+    <string name="day_ago">منذ %1$d يوم</string>
+    <string name="new_days_ago">منذ %1$d أيام</string>
+    <string name="revamped_layout">نمط الخط الزمني لتخطيط التغريدات</string>
+    <string name="widget_display_screenname">إظهار اسم الشاشه</string>
+    <string name="saved_tweet_description">للوصول الى تغريداتك المحفوضه, توجه الى قسم الصفحات القابلة للتمرير السريع  من الإعدادات و اضبط صفحة <i>التغريدات المحفوضه</i>.</string>
 </resources>

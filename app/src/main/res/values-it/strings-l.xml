@@ -141,6 +141,7 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="widget_disclaimer">Devi rimuovere e aggiungere di nuovo il widget per applicare questi cambiamenti.</string>
     <string name="widget_material_light">Material Design Light</string>
     <string name="widget_material_dark">Material Design Dark</string>
+    <string name="widget_material_transparent">Completamente trasparente</string>
     <string name="in_app_browser_summary">Disabilitando il browser integrato i link saranno aperti nel browser predefinito.</string>
     <string name="chrome_custom_tabs_summary">Un\'alternativa al browser integrato di Talon. Usa servizi forniti da Google Chrome.</string>
     <string name="reverse_click_actions_default">Predefinito (no azioni inverse):\n- Tocco breve per espandere il tweet\n- Tocco prolungato per aprire il tweet</string>
@@ -188,6 +189,7 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="show_all_tweets">Mostra tutti i tweet</string>
     <string name="are_you_sure_unfollow">Sei sicuro di non voler più seguire questo utente?</string>
     <string name="are_you_sure_follow">Sei sicuro di voler seguire questo utente?</string>
+    <string name="are_you_sure_spam">Sei sicuro di segnare come spam questo tweet?</string>
     <string name="larger_images">Usa immagini più grandi</string>
     <string name="show_profile_pictures">Mostra immagini del profilo</string>
     <string name="reply_to">Rispondi a</string>
@@ -218,4 +220,22 @@ Sentititi libero di rifiutare entrambe le autorizzazioni. Puoi cambiarle manualm
     <string name="direct_messages_channel">Notifiche messaggi diretti</string>
     <string name="notification_channels">Canali notifiche</string>
     <string name="notification_channels_summary">I canali controllano i tipi di avvisi che ricevi e ti permettono di personalizzare le notifiche.</string>
+    <string name="crop_images">Ritaglia le immagini sulla Timeline</string>
+    <string name="update_tweet">Aggiorna tweet</string>
+    <string name="rate_it_button">Valutalo!</string>
+    <string name="rate_it_title">Le migliori valutazioni fanno molta strada</string>
+    <string name="rate_it_summary"><b>Le valutazioni a 5 stelle</b> sono estremamente utili per la crescita dell\'app
+e la visibilità sul Play Store. Se vuoi vedere l\'app <i>continuare a salire</i>, aiutami!</string>
+    <string name="rate_it_not_ready">Non sei pronto per valutarlo? Nessun problema. Chiudi questa finestra e non lo chiederò più.</string>
+    <string name="preview_web_links">Anteprima link web</string>
+    <string name="seconds_ago">%1$d secondi fa</string>
+    <string name="min_ago">%1$d minuto fa</string>
+    <string name="mins_ago">%1$d minuti fa</string>
+    <string name="hour_ago">%1$d ora fa</string>
+    <string name="new_hours_ago">%1$d ore fa</string>
+    <string name="day_ago">%1$d giorno fa</string>
+    <string name="new_days_ago">%1$d giorni fa</string>
+    <string name="revamped_layout">Layout in stile timeline</string>
+    <string name="widget_display_screenname">Mostra nome utente</string>
+    <string name="saved_tweet_description">Per accedere ai tweet salvati, vai alla sezione pagine scorrevoli delle impostazioni e imposta la pagina <i>Tweet salvati</i>.</string>
 </resources>

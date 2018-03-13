@@ -90,9 +90,9 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="no_pictures">Keine Bilder</string>
     <string name="quick_actions">Schnellaktionen</string>
     <string name="liked_status">Faven erfolgreich</string>
-    <string name="become_supporter">Werde ein 2017er-Unterstützer!</string>
-    <string name="are_supporter">Du bist ein 2017er-Unterstützer!</string>
-    <string name="are_supporter_summary">Vielen Dank! Deine Unterstützung wird enorm wertgeschätzt! Wenn es irgendetwas gibt was ich für Dich tun kann, zögere nicht zu fragen!</string>
+    <string name="become_supporter">Werde ein 2018er-Unterstützer!</string>
+    <string name="are_supporter">Du bist ein 2018er-Unterstützer!</string>
+    <string name="are_supporter_summary">Vielen Dank! Deine Unterstützung wird enorm wertgeschätzt! Wenn es irgendetwas gibt, was ich für Dich tun kann, zögere nicht zu fragen!</string>
     <string name="tweetmarker_disclaimer">Das Einschalten von TweetMarker wird beim Start der App immer die Timeline auffrischen.</string>
     <string name="discover_people">Leute</string>
     <string name="no_media_preview">Für diesen Videoservice ist keine Vorschau verfügbar.</string>
@@ -116,7 +116,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="background">Hintergrund</string>
     <string name="advanced">Erweitert</string>
     <string name="data_saving_settings">Option zum Datensparen</string>
-    <string name="supporter_2016">2017er-Unterstützer</string>
+    <string name="supporter_2016">2018er-Unterstützer</string>
     <string name="app_style">App-Design</string>
     <string name="in_app_browser">In-App-Browser</string>
     <string name="location">Standort</string>
@@ -141,6 +141,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="widget_disclaimer">Möglicherweise musst du das Widget vom Startbildschirm entfernen und neu hinzufügen, damit diese Änderungen wirksam werden.</string>
     <string name="widget_material_light">Material Design hell</string>
     <string name="widget_material_dark">Material Design dunkel</string>
+    <string name="widget_material_transparent">Voll transparent</string>
     <string name="in_app_browser_summary">Bei deaktiviertem In-App-Browser wird der Standardbrowser zum Öffnen von Links genutzt.</string>
     <string name="chrome_custom_tabs_summary">Ein Ersatz für Talons eigenen In-App-Browser, der auf den von Google Chrome bereitgestellten Diensten basiert.</string>
     <string name="reverse_click_actions_default">Standard (keine umgekehrten Aktionen):\n- Kurzes Tippen = Ausklappen innerhalb der Zeile\n- Langes Tippen = Tweet Viewer</string>
@@ -183,10 +184,11 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="followers_only_auto_complete">Followers auto-vervollständigen</string>
     <string name="followers_only_auto_complete_summary">Durchsuche nicht das ganze Twitter bei der Auto-Vervollständigung einer Antwort.</string>
     <string name="quoting">Zitieren</string>
-    <string name="profile_timeline">Timeline</string>
+    <string name="profile_timeline">Zeitleiste</string>
     <string name="show_all_tweets">Zeige alle Tweets</string>
     <string name="are_you_sure_unfollow">Bist Du Dir sicher, dass Du diesem Nutzer entfolgen möchtest?</string>
     <string name="are_you_sure_follow">Bist Du Dir sicher, dass Du diesem Nutzer folgen möchtest?</string>
+    <string name="are_you_sure_spam">Bist Du Dir sicher, dass Du diesen Twet als Spam melden möchtest?</string>
     <string name="larger_images">Nutze größere Bilder</string>
     <string name="show_profile_pictures">Zeige Profilbilder</string>
     <string name="reply_to">Antwort an</string>
@@ -196,7 +198,11 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="interaction_notifications">Interaktionen-Benachrichtigungen</string>
     <string name="swipable_page_notifications">Wischbare Seiten-Benachrichtigungen</string>
     <string name="never_show_notifications">Zeige niemals Benachrichtigungen</string>
+    <string name="after_background_refresh_talon_pull">\nNach einer Hintergrundaktualisierung oder einem Talon Pull (Streaming) Ereignis\n</string>
     <string name="intercept_twitter_push_notifications">Fange Push-Benachrichtigungen von der offiziellen Twitter-App ab</string>
+    <string name="intercept_twitter_push_description">Du musst die offizielle Twitter-App installiert haben und dort eingeloggt sein, um diese Funktion nutzen zu können.\n\n
+Du solltest in diesem offiziellen Client die Benachrichtigungen so einstellen, wie Du sie gerne bekommen magst. Alles, was dann als Benachrichtigung  von der offiziellen App hereinkommt, wird dann stattdessen als Talon-Benachrichtigung dargestellt.
+Um diese Funktion nutzen zu können, musst Du im nächsten Bildschirm Talon Zugriff auf Deine Benachrichtigungen erlauben. Damit ermöglichst Du der App, die Benachrichtigungen der Twitter-App zu lesen.</string>
     <string name="widget_refresh_channel">Widget: Neuladen-Benachrichtigungen</string>
     <string name="tweeting_notifications_channel">Twittern-Benachtichtigungen</string>
     <string name="tweet_failure_channel">Sendefehlerbenachrichtigungen</string>
@@ -207,4 +213,14 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="mentions_channel">Erwähnungsbenachrichtigungen</string>
     <string name="direct_messages_channel">Direktnachrichtbenachrichtigungen</string>
     <string name="notification_channels">Benachrichtigungskanäle</string>
+    <string name="crop_images">Beschneide Bilder in der Zeitleiste</string>
+    <string name="rate_it_button">Bewertung!</string>
+    <string name="preview_web_links">Vorschau WWW Links</string>
+    <string name="seconds_ago">Vor %1$d Sekunden</string>
+    <string name="min_ago">Vor %1$d Minute</string>
+    <string name="mins_ago">Vor %1$d Minuten</string>
+    <string name="hour_ago">Vor %1$d Stunde</string>
+    <string name="new_hours_ago">Vor %1$d Stunden</string>
+    <string name="day_ago">Vor %1$d Tag</string>
+    <string name="new_days_ago">Vor %1$d Tagen</string>
 </resources>
