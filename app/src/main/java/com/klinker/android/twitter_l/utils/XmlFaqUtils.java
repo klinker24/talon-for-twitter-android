@@ -18,9 +18,11 @@ package com.klinker.android.twitter_l.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -169,32 +171,36 @@ public class XmlFaqUtils {
     }
 
     public static void showFaqDialog(final Context context) {
-        final RecyclerView list = new RecyclerView(context);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://klinkerapps.com/talon-overview/help"));
+        context.startActivity(i);
 
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height - 200);
-        list.setLayoutParams(params);
-
-        new AsyncTask<Void, Void, List<FaqCategory>>() {
-            @Override
-            public List<FaqCategory> doInBackground(Void... params) {
-                return XmlFaqUtils.parse(context);
-            }
-
-            @Override
-            public void onPostExecute(List<FaqCategory> results) {
-                list.setLayoutManager(new LinearLayoutManager(context));
-                list.setAdapter(new FaqAdapter(context, results));
-            }
-        }.execute();
-
-        new AlertDialog.Builder(context)
-                .setView(list)
-                .setPositiveButton(R.string.ok, null)
-                .show();
+//        final RecyclerView list = new RecyclerView(context);
+//
+//        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int height = size.y;
+//
+//        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height - 200);
+//        list.setLayoutParams(params);
+//
+//        new AsyncTask<Void, Void, List<FaqCategory>>() {
+//            @Override
+//            public List<FaqCategory> doInBackground(Void... params) {
+//                return XmlFaqUtils.parse(context);
+//            }
+//
+//            @Override
+//            public void onPostExecute(List<FaqCategory> results) {
+//                list.setLayoutManager(new LinearLayoutManager(context));
+//                list.setAdapter(new FaqAdapter(context, results));
+//            }
+//        }.execute();
+//
+//        new AlertDialog.Builder(context)
+//                .setView(list)
+//                .setPositiveButton(R.string.ok, null)
+//                .show();
     }
 }
