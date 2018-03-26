@@ -12,16 +12,23 @@ import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klinker.android.twitter_l.R;
+import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeActivity;
 import com.klinker.android.twitter_l.activities.compose.ComposeSecAccActivity;
+import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
+import com.klinker.android.twitter_l.activities.main_fragments.other_fragments.SavedTweetsFragment;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteTweetsDataSource;
+import com.klinker.android.twitter_l.data.sq_lite.SavedTweetsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 
 import java.util.ArrayList;
@@ -79,8 +86,48 @@ public class TweetButtonUtils {
         });
     }
 
-    public void setUpButtons(Status s, View countsRoot, View buttonsRoot, boolean showOverflow, boolean tweetLoadedSuccessfully) {
+    public void setUpButtons(Status s, final long tweetId, View countsRoot, View buttonsRoot, boolean showOverflow, boolean tweetLoadedSuccessfully) {
+        final ImageButton overflowButton = (ImageButton) buttonsRoot.findViewById(R.id.overflow_button);
         if (s == null) {
+            if (showOverflow) {
+                overflowButton.setVisibility(View.VISIBLE);
+                final boolean tweetIsSaved = SavedTweetsDataSource.getInstance(context).isTweetSaved(tweetId, settings.currentAccount);
+
+                if (!tweetIsSaved) {
+                    overflowButton.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View view) { }
+                    });
+                } else {
+                    overflowButton.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View view) {
+                            final PopupMenu menu = new PopupMenu(context, overflowButton);
+                            final int SAVE_TWEET = 0;
+
+                            menu.getMenu().add(Menu.NONE, SAVE_TWEET, Menu.NONE, context.getString(R.string.remove_from_saved_tweets));
+                            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem menuItem) {
+                                    switch (menuItem.getItemId()) {
+                                        case SAVE_TWEET:
+                                            SavedTweetsDataSource.getInstance(context).deleteTweet(tweetId);
+                                            context.sendBroadcast(new Intent(SavedTweetsFragment.REFRESH_ACTION));
+
+                                            if (context instanceof Activity) {
+                                                ((Activity) context).finish();
+                                            }
+                                            break;
+
+                                    }
+                                    return false;
+                                }
+                            });
+
+                            menu.show();
+                        }
+                    });
+                }
+            }
+
             return;
         }
 
@@ -97,7 +144,6 @@ public class TweetButtonUtils {
         retweetButton = (ImageButton) buttonsRoot.findViewById(R.id.retweet_button);
         final ImageButton composeButton = (ImageButton) buttonsRoot.findViewById(R.id.compose_button);
         final ImageButton quoteButton = (ImageButton) buttonsRoot.findViewById(R.id.quote_button);
-        final ImageButton overflowButton = (ImageButton) buttonsRoot.findViewById(R.id.overflow_button);
         final ImageButton shareButton = (ImageButton) buttonsRoot.findViewById(R.id.share_button);
 
         if (!settings.darkTheme) {
