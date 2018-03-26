@@ -808,7 +808,7 @@ public class ExpansionViewHelper {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tweetButtonUtils.setUpButtons(status, countsView, buttonsRoot, true, loadSuccess);
+                        tweetButtonUtils.setUpButtons(status, id, countsView, buttonsRoot, true, loadSuccess);
                     }
                 });
             }
