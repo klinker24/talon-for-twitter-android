@@ -97,6 +97,12 @@ android {
         noCompress 'apk'
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     useLibrary 'org.apache.http.legacy'
 }
 
