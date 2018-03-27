@@ -6,6 +6,10 @@
         <text>Display Twitter video durations, on the timeline</text>
     </version>
 
+    <version name="7.1.4">
+        <text>Bug fixes and performance improvements</text>
+    </version>
+
     <version name="7.1.3">
         <text>Bug fixes and dependency updates</text>
         <text>Translation updates</text>
