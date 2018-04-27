@@ -19,6 +19,7 @@ import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class AppSettings {
 
@@ -263,7 +264,7 @@ public class AppSettings {
     public String browserSelection;
 
     public EmojiStyle emojiStyle;
-    public int tweetCharacterCount = 280;
+    public int tweetCharacterCount = isLimitedTweetCharLanguage() ? 140 : 280;
 
     public AppSettings(Context context) {
         sharedPrefs = getSharedPreferences(context);
@@ -704,8 +705,22 @@ public class AppSettings {
     public boolean condensedTweets() {
         return picturesType == CONDENSED_NO_IMAGES || picturesType == CONDENSED_TWEETS;
     }
+
     public boolean revampedTweets() {
         return picturesType == REVAMPED_TWEETS;
+    }
+
+    private static boolean isLimitedTweetCharLanguage() {
+        String systemLanguage = Locale.getDefault().getLanguage();
+        String[] limitingLanguages = new String[] { "ko" };
+
+        for (String limitingLanguage : limitingLanguages) {
+            if (limitingLanguage.equals(systemLanguage)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
