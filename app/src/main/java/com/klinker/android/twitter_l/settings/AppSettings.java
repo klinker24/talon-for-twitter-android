@@ -574,7 +574,10 @@ public class AppSettings {
             pushNotifications = false;
             higherQualityImages = false;
             webPreviews = false;
-            autoplay = AUTOPLAY_WIFI;
+
+            if (autoplay == AUTOPLAY_ALWAYS) {
+                autoplay = AUTOPLAY_WIFI;
+            }
         }
     }
 
