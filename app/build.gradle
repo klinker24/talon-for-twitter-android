@@ -159,6 +159,7 @@ dependencies {
     implementation files('lib/YouTubeAndroidPlayerApi.jar') // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')
     implementation files('lib/twitter4j-stream-fork.jar')
+    implementation(name: 'datetimepicker', ext: 'aar')
     implementation(name: 'sectioned-recyclerview', ext: 'aar')
     implementation(name: 'material-camera', ext: 'aar')
 
