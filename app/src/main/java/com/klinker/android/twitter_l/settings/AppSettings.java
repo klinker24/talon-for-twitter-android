@@ -264,7 +264,7 @@ public class AppSettings {
     public String browserSelection;
 
     public EmojiStyle emojiStyle;
-    public int tweetCharacterCount = isLimitedTweetCharLanguage() ? 140 : 280;
+    public int tweetCharacterCount = 280;
 
     public AppSettings(Context context) {
         sharedPrefs = getSharedPreferences(context);
@@ -713,7 +713,7 @@ public class AppSettings {
         return picturesType == REVAMPED_TWEETS;
     }
 
-    private static boolean isLimitedTweetCharLanguage() {
+    public static boolean isLimitedTweetCharLanguage() {
         String systemLanguage = Locale.getDefault().getLanguage();
         String[] limitingLanguages = new String[] { "ko" };
 

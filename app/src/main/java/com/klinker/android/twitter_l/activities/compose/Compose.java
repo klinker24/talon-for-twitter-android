@@ -173,6 +173,14 @@ public abstract class Compose extends Activity implements
 
     final Pattern p = Patterns.WEB_URL;
 
+    private int getCountFromString(String text) {
+        if (AppSettings.isLimitedTweetCharLanguage()) {
+            return text.getBytes().length;
+        } else {
+            return text.length();
+        }
+    }
+
     public Handler countHandler;
     public Runnable getCount = new Runnable() {
         @Override
@@ -192,12 +200,12 @@ public abstract class Compose extends Activity implements
 
             if (!Patterns.WEB_URL.matcher(text).find() && quotingAStatus == null) { // no links, normal tweet
                 try {
-                    charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount - text.length() + "");
+                    charRemaining.setText(AppSettings.getInstance(context).tweetCharacterCount - getCountFromString(text) + "");
                 } catch (Exception e) {
                     charRemaining.setText("0");
                 }
             } else {
-                int count = text.length();
+                int count = getCountFromString(text);
                 Matcher m = p.matcher(text);
                 while (m.find()) {
                     String url = m.group();
