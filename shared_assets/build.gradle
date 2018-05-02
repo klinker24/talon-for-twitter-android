@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:${KOTLIN_VERSION}"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KOTLIN_VERSION}"
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
     api "com.google.firebase:firebase-core:${FIREBASE_VERSION}"
