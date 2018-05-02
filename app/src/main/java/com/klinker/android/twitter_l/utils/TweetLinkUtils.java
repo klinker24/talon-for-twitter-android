@@ -156,8 +156,9 @@ public class TweetLinkUtils {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 if (str.contains("instag") && !str.contains("blog.insta")) {
-                    imageUrl = exp + "media/?size=l";
-                    otherUrl += exp + "  ";
+                    String link = exp.replace("?utm_source=twitter", "");
+                    imageUrl = link + "media/?size=l";
+                    otherUrl += link + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
                     // first get the youtube surfaceView code
                     int start = exp.indexOf("v=") + 2;
@@ -328,7 +329,8 @@ public class TweetLinkUtils {
                 String str = exp.toLowerCase();
 
                 if(str.contains("instag") && !str.contains("blog.insta")) {
-                    images.add(exp + "media/?size=m");
+                    String link = exp.replace("?utm_source=twitter", "");
+                    images.add(link + "media/?size=m");
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
                     // first get the youtube surfaceView code
                     int start = exp.indexOf("v=") + 2;
