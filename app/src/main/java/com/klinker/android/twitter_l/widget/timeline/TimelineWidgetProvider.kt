@@ -21,6 +21,7 @@ import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity
 import com.klinker.android.twitter_l.services.background_refresh.WidgetRefreshService
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform
+import java.util.*
 
 class TimelineWidgetProvider : AppWidgetProvider() {
 
@@ -97,6 +98,7 @@ class TimelineWidgetProvider : AppWidgetProvider() {
         for (i in appWidgetIds.indices) {
             val intent = Intent(context, TimelineWidgetService::class.java)
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
+            intent.putExtra("nonce", Random().nextInt())
             intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
 
             val compose = Intent(context, WidgetCompose::class.java)
@@ -140,7 +142,6 @@ class TimelineWidgetProvider : AppWidgetProvider() {
             val openIntent = Intent(context, TimelineWidgetProvider::class.java)
             openIntent.action = TimelineWidgetProvider.OPEN_ACTION
             openIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
-            intent.data = Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME))
             val openPendingIntent = PendingIntent.getBroadcast(context, 0, openIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT)
             rv.setPendingIntentTemplate(R.id.widgetList, openPendingIntent)
