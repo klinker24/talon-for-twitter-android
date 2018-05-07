@@ -21,7 +21,6 @@ apply plugin: 'kotlin-android'
 android {
 
     compileSdkVersion parseSdkVersion(project.TARGET_SDK)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion parseSdkVersion(project.MIN_SDK)
@@ -45,9 +44,9 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KOTLIN_VERSION}"
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
-    api "com.google.firebase:firebase-core:$FIREBASE_VERSION"
-    api "com.google.firebase:firebase-crash:$FIREBASE_VERSION"
-    api "com.google.firebase:firebase-perf:$FIREBASE_VERSION"
+    api "com.google.firebase:firebase-core:$FIREBASE_CORE"
+    api "com.google.firebase:firebase-crash:$FIREBASE_CORE"
+    api "com.google.firebase:firebase-perf:$FIREBASE_PERF"
 
     api "com.google.android.gms:play-services-location:$GOOGLE_PLAY_SERVICES_VERSION"
     api "com.google.android.gms:play-services-wearable:$GOOGLE_PLAY_SERVICES_VERSION"

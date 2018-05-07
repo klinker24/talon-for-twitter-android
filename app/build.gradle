@@ -28,7 +28,6 @@ android {
     }
 
     compileSdkVersion parseSdkVersion(project.COMPILE_SDK)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
@@ -174,8 +173,6 @@ configurations.all {
             if (!requested.name.startsWith("multidex")) {
                 details.useVersion ANDROID_SUPPORT_VERSION
             }
-        } else if (requested.group == 'com.google.firebase') {
-            details.useVersion FIREBASE_VERSION
         }
     }
 }
