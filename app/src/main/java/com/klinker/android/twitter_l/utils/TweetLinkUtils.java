@@ -156,7 +156,11 @@ public class TweetLinkUtils {
                     tweetTexts = tweetTexts.replace(comp, exp.replace("http://", "").replace("https://", "").replace("www.", ""));
                 }
                 if (str.contains("instag") && !str.contains("blog.insta")) {
-                    String link = exp.replace("?utm_source=twitter", "");
+                    String link = exp;
+                    if (link.contains("?")) {
+                        link = link.substring(0, link.indexOf("?"));
+                    }
+
                     imageUrl = link + "media/?size=l";
                     otherUrl += link + "  ";
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
@@ -329,7 +333,11 @@ public class TweetLinkUtils {
                 String str = exp.toLowerCase();
 
                 if(str.contains("instag") && !str.contains("blog.insta")) {
-                    String link = exp.replace("?utm_source=twitter", "");
+                    String link = exp;
+                    if (link.contains("?")) {
+                        link = link.substring(0, link.indexOf("?"));
+                    }
+
                     images.add(link + "media/?size=m");
                 } else if (exp.toLowerCase().contains("youtub") && !(str.contains("channel") || str.contains("user") || str.contains("playlist"))) {
                     // first get the youtube surfaceView code
