@@ -138,16 +138,18 @@ public class PeopleArrayAdapter extends ArrayAdapter<User> {
         holder.name.setText(user.getName());
         holder.screenName.setText("@" + user.getScreenName());
 
-        final String url = user.getOriginalProfileImageURL();
+        String u;
+        try {
+            u = user.getOriginalProfileImageURL();
+        } catch (Exception e) {
+            u = user.getProfileImageURL();
+        }
+
+        final String url = u;
 
         Glide.with(context).load(url).into(holder.picture);
 
-        holder.background.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ProfilePager.start(context, user);
-            }
-        });
+        holder.background.setOnClickListener(view1 -> ProfilePager.start(context, user));
 
         if (openFirst && position == 0) {
             holder.background.performClick();
