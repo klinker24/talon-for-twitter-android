@@ -198,6 +198,7 @@ public class AppSettings {
     public boolean detailedQuotes;
     public boolean fingerprintLock;
     public boolean followersOnlyAutoComplete;
+    public boolean autoCompleteHashtags;
     public boolean largerWidgetImages;
     public boolean showProfilePictures;
     public boolean compressReplies;
@@ -377,6 +378,7 @@ public class AppSettings {
         browserSelection = sharedPrefs.getString("browser_selection", "article");
         fingerprintLock = sharedPrefs.getBoolean("fingerprint_lock", false);
         followersOnlyAutoComplete = sharedPrefs.getBoolean("followers_only_auto_complete", false);
+        autoCompleteHashtags = sharedPrefs.getBoolean("hashtag_auto_complete", true);
         largerWidgetImages = sharedPrefs.getBoolean("widget_larger_images", false);
         showProfilePictures = sharedPrefs.getBoolean("show_profile_pictures", true);
         compressReplies = sharedPrefs.getBoolean("new_twitter_replies", true);

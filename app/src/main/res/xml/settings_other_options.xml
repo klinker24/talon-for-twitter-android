@@ -40,6 +40,12 @@
         android:defaultValue="false" />
 
     <SwitchPreference
+        android:key="hashtag_auto_complete"
+        android:title="@string/auto_complete_hashtags"
+        android:summary="@string/auto_complete_hashtags_summary"
+        android:defaultValue="true" />
+
+    <SwitchPreference
         android:key="fav_rt_multiple_accounts"
         android:title="@string/fav_rt_multiple_accounts"
         android:summary="@string/fav_rt_multiple_accounts_summary"

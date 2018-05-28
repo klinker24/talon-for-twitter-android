@@ -188,7 +188,7 @@ public class ComposeActivity extends Compose {
 
                 ListPopupWindow window = userAutoCompleteHelper.getHashtagAutoComplete();
                 try {
-                    if (!window.isShowing()) {
+                    if (AppSettings.getInstance(context).autoCompleteHashtags && !window.isShowing()) {
                         window.show();
                     }
                 } catch (Exception e) {
