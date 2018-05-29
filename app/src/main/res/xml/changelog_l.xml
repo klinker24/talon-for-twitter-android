@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.2.4">
+        <text>You can now disable the hashtag auto complete, by going to Other Options, in settings</text>
+    </version>
+
     <version name="7.2.3">
         <text>Bug fixes</text>
     </version>

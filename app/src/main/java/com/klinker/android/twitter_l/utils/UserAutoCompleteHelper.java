@@ -137,7 +137,7 @@ public class UserAutoCompleteHelper {
         }
 
         try {
-            if (searchText.charAt(position) == '#') {
+            if (searchText.charAt(position) == '#' && AppSettings.getInstance(context).autoCompleteHashtags) {
                 hashtagAutoComplete.show();
                 userAutoComplete.dismiss();
             } else if (searchText.charAt(position) == ' ') {
