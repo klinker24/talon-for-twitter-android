@@ -80,7 +80,7 @@ public class TwitterStreamFetcher extends HttpUrlFetcher {
             Bitmap combined = ImageUtils.combineBitmaps(context, bitmaps);
             return convertToInputStream(combined);
         } else {
-            Request.Builder requestBuilder = new Request.Builder().url(url.toStringUrl());
+            Request.Builder requestBuilder = new Request.Builder().url(url.toStringUrl().replace("http://", "https://"));
 
             for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
                 String key = headerEntry.getKey();
