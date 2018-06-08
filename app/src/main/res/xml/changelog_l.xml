@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="7.2.5">
+        <text>Update to build for Android P</text>
+        <text>Bug fixes and dependency updates</text>
+    </version>
+
     <version name="7.2.4">
         <text>You can now disable the hashtag auto complete, by going to Other Options, in settings</text>
     </version>
