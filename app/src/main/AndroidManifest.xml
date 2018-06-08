@@ -35,6 +35,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <!-- http://android-developers.blogspot.com/2016/05/bring-your-android-app-to-chromebooks.html -->
     <!-- http://www.chromium.org/chromium-os/android-apps -->
