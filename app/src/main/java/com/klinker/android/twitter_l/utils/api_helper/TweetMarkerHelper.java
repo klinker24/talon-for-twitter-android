@@ -119,7 +119,7 @@ public class TweetMarkerHelper extends APIHelper {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
@@ -329,10 +329,8 @@ public class TweetMarkerHelper extends APIHelper {
                     }
                 }
             });
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
-        } catch (OutOfMemoryError e) {
-
         }
 
         Log.v("talon_launcher_stuff", "writing " + currentId + " to shared prefs");

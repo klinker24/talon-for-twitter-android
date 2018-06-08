@@ -139,7 +139,7 @@ public class TwitLongerHelper extends APIHelper {
 
             statusId = postedStatus.getId();
             updateTwitlonger(status, statusId);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             statusId = 0;
         }
@@ -194,7 +194,7 @@ public class TwitLongerHelper extends APIHelper {
             Log.v("talon_twitlonger", "id: " + id);
             return new TwitLongerStatus(content, id);
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
@@ -228,7 +228,7 @@ public class TwitLongerHelper extends APIHelper {
                 return true;
             }
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
