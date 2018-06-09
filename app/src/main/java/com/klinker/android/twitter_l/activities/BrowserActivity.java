@@ -70,7 +70,7 @@ public class BrowserActivity extends WhiteToolbarActivity {
             getWindow().setNavigationBarColor(Color.BLACK);
         }
 
-        url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url").replace("http://", "https://");
 
         Utils.setUpTweetTheme(this, settings);
         Utils.setActionBar(this);
@@ -176,10 +176,7 @@ public class BrowserActivity extends WhiteToolbarActivity {
             if (url.contains("vine")) {
                 ((AudioManager)getSystemService(
                         Context.AUDIO_SERVICE)).requestAudioFocus(
-                        new AudioManager.OnAudioFocusChangeListener() {
-                            @Override
-                            public void onAudioFocusChange(int focusChange) {}
-                        }, AudioManager.STREAM_MUSIC,
+                        focusChange -> {}, AudioManager.STREAM_MUSIC,
                         AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
             }
         } catch (Exception e) {
