@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.2.6">
+        <text>Bug fixes for Android P</text>
+    </version>
+
     <version name="7.2.5">
         <text>Update to build for Android P</text>
         <text>Bug fixes and dependency updates</text>
