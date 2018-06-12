@@ -42,7 +42,6 @@ import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.TwitLongerHelper;
-import com.klinker.android.twitter_l.utils.api_helper.TwitPicHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -166,15 +165,9 @@ public class SendTweet extends Service {
                     fos.flush();
                     fos.close();
 
-                    if (!settings.twitpic) {
-                        reply.setMedia(f);
-                        twitter.updateStatus(reply);
-                        return true;
-                    } else {
-                        TwitPicHelper helper = new TwitPicHelper(twitter, message, f, context);
-                        helper.setInReplyToStatusId(tweetId);
-                        return helper.createPost() != 0;
-                    }
+                    reply.setMedia(f);
+                    twitter.updateStatus(reply);
+                    return true;
                 } else {
                     // no picture
                     Status status = twitter.updateStatus(reply);
