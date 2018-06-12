@@ -46,26 +46,6 @@ public class ArticleParserHelper {
                     url = this.url;
                 }
 
-//                HttpClient httpclient = new DefaultHttpClient();
-//                HttpGet httpget = new HttpGet(url);
-//                HttpResponse response = httpclient.execute(httpget);
-//
-//                String format = "UTF-8";
-//                for (Header header : response.getAllHeaders()) {
-//                    String name = header.getName().toLowerCase();
-//                    String value = header.getValue();
-//
-//                    if (name.equals("content-type") && value.contains("encoding=")) {
-//                        format = value.substring(value.indexOf("encoding=") + 9);
-//                    } else if (name.equals("content-type") && value.contains("charset=")) {
-//                        format = value.substring(value.indexOf("charset=") + 8);
-//                    }
-//                }
-//
-//                HttpEntity entity = response.getEntity();
-//                InputStream is = entity.getContent();
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(is, format));
-
                 InputStream is = new URL(url).openStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
