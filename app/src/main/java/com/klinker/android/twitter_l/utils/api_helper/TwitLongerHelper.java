@@ -32,9 +32,17 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ConnectionSpec;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import twitter4j.GeoLocation;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -154,34 +162,29 @@ public class TwitLongerHelper extends APIHelper {
      */
     public TwitLongerStatus postToTwitLonger() {
         try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(POST_URL);
-            post.addHeader("X-API-KEY", TWITLONGER_API_KEY);
-            post.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            post.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
+            Request request = new Request.Builder()
+                    .url(POST_URL)
+                    .addHeader("X-API-KEY", TWITLONGER_API_KEY)
+                    .addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER)
+                    .addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context))
+                    .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;  charset=utf-8"), buildUrlParams().getBytes("UTF8")))
+                    .build();
 
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("content", tweetText));
-
-            if (replyToId != 0) {
-                nvps.add(new BasicNameValuePair("reply_to_id", String.valueOf(replyToId)));
-            } else if (replyToScreenname != null) {
-                nvps.add(new BasicNameValuePair("reply_to_screen_name", replyToScreenname));
-            }
-
-            post.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-            HttpResponse response = client.execute(post);
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            Response response = new OkHttpClient.Builder().build().newCall(request).execute();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.body().byteStream()));
 
             String line;
             String content = "";
             String id = "";
+
             StringBuilder builder = new StringBuilder();
+
             while ((line = rd.readLine()) != null) {
                 builder.append(line);
             }
 
             Log.v("twitlonger", builder.toString());
+
             try {
                 // there is only going to be one thing returned ever
                 JSONObject jsonObject = new JSONObject(builder.toString());
@@ -190,6 +193,7 @@ public class TwitLongerHelper extends APIHelper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             Log.v("talon_twitlonger", "content: " + content);
             Log.v("talon_twitlonger", "id: " + id);
             return new TwitLongerStatus(content, id);
@@ -201,6 +205,21 @@ public class TwitLongerHelper extends APIHelper {
         return null;
     }
 
+    private String buildUrlParams() {
+        try {
+            String url = "content=" + URLEncoder.encode(tweetText, "UTF-8") + "&";
+            if (replyToId != 0) {
+                url += "reply_to_id=" + String.valueOf(replyToId);
+            } else if (replyToScreenname != null) {
+                url += "reply_to_screen_name=" + replyToScreenname;
+            }
+
+            return url;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * Updates the status on twitlonger to include the tweet id from Twitter.
      * Helpful for threading.
@@ -210,18 +229,16 @@ public class TwitLongerHelper extends APIHelper {
      */
     public boolean updateTwitlonger(TwitLongerStatus status, long tweetId) {
         try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPut put = new HttpPut(PUT_URL + status.getId());
-            put.addHeader("X-API-KEY", TWITLONGER_API_KEY);
-            put.addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER);
-            put.addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context));
+            Request request = new Request.Builder()
+                    .url(PUT_URL + status.getId())
+                    .addHeader("X-API-KEY", TWITLONGER_API_KEY)
+                    .addHeader("X-Auth-Service-Provider", SERVICE_PROVIDER)
+                    .addHeader("X-Verify-Credentials-Authorization", getAuthrityHeader(twitter, context))
+                    .put(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;  charset=utf-8"), ("twitter_status_id=" + tweetId).getBytes("UTF8")))
+                    .build();
 
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("twitter_status_id", tweetId + ""));
-
-            put.setEntity(new UrlEncodedFormEntity(nvps));
-            HttpResponse response = client.execute(put);
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            Response response = new OkHttpClient.Builder().build().newCall(request).execute();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.body().byteStream()));
 
             if (rd.readLine() != null) {
                 Log.v("twitlonger", "updated the status successfully");
