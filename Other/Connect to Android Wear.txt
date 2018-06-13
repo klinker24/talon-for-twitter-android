@@ -1,3 +1,0 @@
-Use this command to connect your device to the phone to debug over bluetooth:
-
-adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444

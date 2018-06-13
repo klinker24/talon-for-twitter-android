@@ -1,10 +1,10 @@
 require 'twitter'
 
 client = Twitter::REST::Client.new do |config|
-  config.consumer_key        = "***REMOVED***"
-  config.consumer_secret     = "***REMOVED***"
-  config.access_token        = "***REMOVED***"
-  config.access_token_secret = "***REMOVED***"
+  config.consumer_key        = "<insert-here>"
+  config.consumer_secret     = "<insert-here>"
+  config.access_token        = "<insert-here>"
+  config.access_token_secret = "<insert-here>"
 end
 
 locations = client.trends_available
