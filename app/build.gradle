@@ -8,7 +8,7 @@ def props = new Properties()
 if (keystoreProperties.exists()) {
     props.load(new FileInputStream(keystoreProperties))
 } else {
-    props['keystorefile'] = 'none';
+    props['keystorefile'] = 'none'
 }
 
 android {
@@ -36,6 +36,45 @@ android {
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
         multiDexEnabled true
+
+        File secretsExists = new File("secrets.properties")
+        if (secretsExists.exists()) {
+            def secretsFile = rootProject.file('secrets.properties')
+            def secrets = new Properties()
+            secrets.load(new FileInputStream(secretsFile))
+
+            buildConfigField "String", "CONSUMER_KEY", secrets['CONSUMER_KEY']
+            buildConfigField "String", "CONSUMER_SECRET", secrets['CONSUMER_SECRET']
+            buildConfigField "String", "YOUTUBE_API_KEY", secrets['YOUTUBE_API_KEY']
+            buildConfigField "String", "TWEETMARKER_KEY",secrets['TWEETMARKER_KEY']
+            buildConfigField "String", "TWITLONGER_KEY", secrets['TWITLONGER_KEY']
+            buildConfigField "String", "GIPHY_API_KEY", secrets['GIPHY_KEY']
+            buildConfigField "String", "ARTICLE_API_KEY", secrets['ARTICLE_KEY']
+            buildConfigField "String", "MERCURY_API_KEY", secrets['MERCURY_KEY']
+
+            buildConfigField "String", "CONSUMER_KEY_OLD_1", secrets['CONSUMER_KEY_OLD_1'] != null ? secrets['CONSUMER_KEY_OLD_1'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_1", secrets['CONSUMER_SECRET_OLD_1'] != null ? secrets['CONSUMER_SECRET_OLD_1'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_KEY_OLD_2", secrets['CONSUMER_KEY_OLD_12'] != null ? secrets['CONSUMER_KEY_OLD_2'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_2", secrets['CONSUMER_SECRET_OLD_2'] != null ? secrets['CONSUMER_SECRET_OLD_2'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_KEY_OLD_3", secrets['CONSUMER_KEY_OLD_3'] != null ? secrets['CONSUMER_KEY_OLD_3'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_3", secrets['CONSUMER_SECRET_OLD_3'] != null ? secrets['CONSUMER_SECRET_OLD_3'] : "\"This is optional.\""
+        } else {
+            buildConfigField "String", "CONSUMER_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "YOUTUBE_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "TWEETMARKER_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "TWITLONGER_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "GIPHY_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "ARTICLE_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "MERCURY_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+
+            buildConfigField "String", "CONSUMER_KEY_OLD_1", "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_1", "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_KEY_OLD_2", "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_2", "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_KEY_OLD_3", "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_SECRET_OLD_3", "\"This is optional.\""
+        }
     }
 
     File keystore = new File(props['keystorefile'])

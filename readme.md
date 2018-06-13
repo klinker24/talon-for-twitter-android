@@ -2,62 +2,53 @@
 
 ![Main Drawer](Other/Promo\ Stuff/Graphics/Plus/Final\ Promos/Feature\ graphic\ 4.png)
 
-This is the Material Design version of Talon, my popular Twitter client.
+This is the complete version of the Twitter client that I created for Android. It is 100% open source, the only thing that you will have to do plug in is your own API keys.
 
-### Compiling Talon
+The code hasn't all aged-well. Most of it was created when I was just learning about coding. It works well though and can probably be considered one of the most popular third party Twitter apps.
 
-Please don't try to compile it as an ANT build. I beg you, just use Android Studio or IntelliJ and compile it with Gradle. It will make your life so much easier and I will not be answering questions about dependencies and compiling for Eclipse. We spent a long time changing all of our projects over to Gradle and I want it to help some people.
+### Building Talon
 
-To compile it:
-
-1. Check out the project with a *git clone <clone path here>*
-2. You can compile it from the command line by CDing into the folder then *./gradlew assembleDebug*
-3. Import it to IntelliJ or Android Studio by going to File -> Import Project... then selecting the *build.gradle* file in the root of the project
+Before Talon will work, you will need to generate some API keys, for Twitter. I will not be distributing my keys.
 
 To get your Twitter API key, go through these steps:
 
 1. sign in on their developer site (https://apps.twitter.com/)
-2. Click *Create New App* You will have to implement a callback url.
+2. Click `Create New App`.
 3. Choose a name, description, and website. These are all required and unique to your app, but it makes no difference what you call them. Anything will work here.
-4. For the callback URL, you can do anything you like, but to have it work out of the box, use: *http://www.talonforandroid.com*
-  * If you want a different one (stressing that it really DOES NOT matter..) then change it in the LoginActivity under com.klinker.android.twitter.ui.setup
-5. Read and accept their *Rules of the Road*, then *Create your Twitter Application*
+4. For the callback URL, you can do anything you like, but to have it work out of the box, use: `http://talonfortwitter.com`
+  * If you want a different one (stressing that it really DOES NOT matter..) then change it in the `LoginFragment`
+5. Read and accept their `Rules of the Road`, then `Create your Twitter Application`
 6. After it is created, you can change the icon and add some other info from the settings page.
-7. You NEED to go to the *Permissions* page of the app and select the *Read, Write and Access direct messages* option, or else you won't be able to do anything but view your timeline.
+7. You NEED to go to the `Permissions` page of the app and select the `Read, Write and Access direct messages` option, or else you won't be able to do anything but view your timeline.
 
-Once you get signed up and everything, just copy and paste your API key and API secret into the APIKeys class.
+##### Adding API Keys to the App
 
-If you get TwitLonger or TweetMarker support, you can paste the keys for that into APIKeys class as well. If you do not get them, then those services WILL NOT work.
+In the `.gitignore` file, I have ignored `secrets.properties` which should contain your keys. Go ahead, copy the `secrets.properties.sample` to `secrets.properties` and fill in the keys in it.
 
+This allows me to keep the keys out of source control, but still build the app without any hassle.
 
-### Pull Requests
+There are fields for the Twitter keys, as well as some third party services that Talon utilizes. You do not have to generate keys for the third party services. Those services just will not work.
 
-One of the reasons that I decided to open source this wasn't just because people would be able to learn from it. I also need help. There are somethings that I just don't know how to do any better. I don't have experience or knowledge yet to understand what is going wrong with them or why they randomly fail for some people.
+##### Providing a Signing Configuration
 
-I have done the absolute best I can with this app, but the more minds working on it, the better. Chances are if you are here and actually reading the readme, you have far more experience programming than me anyways and know how things can be improved.
+For release builds, add your keystore simply as `keystore` to the root of the project, then add a `keystore.properties` file to the root with (no quotation marks around these strings!):
 
+```
+KEY_SIGNATURE=xxxx
+KEY_ALIAS=xxxx
+```
 
-### Issues
-
-If you think something could be done better, then tell me. I am not saying that I will agree with you on it or that it will ever be the way you think it should be, but there is no hurt in asking.
-
-
-### Wrap Up
-
-There isn't to much more I have to say about this. I have put a ton of time and effort into this project and I truly hope that this helps someone out there. Take the leap, try something you never have before, see what you can learn from me and my mistakes.
-
-Let me know if you have questions and I will answer them to the best of my ability.
-
-Thanks and have fun with Talon!
+## Contributing
 
 
+Please fork this repository and contribute back using [pull requests](https://github.com/klinker24/Talon-for-Twitter/pulls). Features can be requested using [issues](https://github.com/klinker24/Talon-for-Twitter/issues). All code, comments, and critiques are greatly appreciated.
 
 
 ---
 
 ## License
 
-    Copyright 2016 Luke Klinker
+    Copyright 2018 Luke Klinker
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

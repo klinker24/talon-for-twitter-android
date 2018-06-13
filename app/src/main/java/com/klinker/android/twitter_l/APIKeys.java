@@ -77,20 +77,20 @@ public class APIKeys {
 
     // Key version is stored in the MaterialLogin.KEY_VERSION field.
     // Talon Plus
-    public static String TWITTER_CONSUMER_KEY = "***REMOVED***";
-    public static String TWITTER_CONSUMER_SECRET = "***REMOVED***";
+    public static String TWITTER_CONSUMER_KEY = BuildConfig.CONSUMER_KEY_OLD_1;
+    public static String TWITTER_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET_OLD_1;
 
     // Talon (Plus)
-    public static String TWITTER_CONSUMER_KEY_2 = "***REMOVED***";
-    public static String TWITTER_CONSUMER_SECRET_2 = "***REMOVED***";
+    public static String TWITTER_CONSUMER_KEY_2 = BuildConfig.CONSUMER_KEY_OLD_2;
+    public static String TWITTER_CONSUMER_SECRET_2 = BuildConfig.CONSUMER_SECRET_OLD_2;
 
     // Talon - Plus
-    public static String TWITTER_CONSUMER_KEY_3 = "***REMOVED***";
-    public static String TWITTER_CONSUMER_SECRET_3 = "***REMOVED***";
+    public static String TWITTER_CONSUMER_KEY_3 = BuildConfig.CONSUMER_KEY_OLD_3;
+    public static String TWITTER_CONSUMER_SECRET_3 = BuildConfig.CONSUMER_SECRET_OLD_3;
 
     // Talon Android (June 5th w/ 77,056 downloads)
-    public static String TWITTER_CONSUMER_KEY_4 = "***REMOVED***";
-    public static String TWITTER_CONSUMER_SECRET_4 = "***REMOVED***";
+    public static String TWITTER_CONSUMER_KEY_4 = BuildConfig.CONSUMER_KEY;
+    public static String TWITTER_CONSUMER_SECRET_4 = BuildConfig.CONSUMER_SECRET;
 
     /**
      * For the In-App Youtube Player
@@ -100,22 +100,16 @@ public class APIKeys {
      * Here is how you can get a key for yourself:
      * https://developers.google.com/youtube/android/player/register
      */
-    public static String YOUTUBE_API_KEY = "***REMOVED***";
+    public static String YOUTUBE_API_KEY = BuildConfig.YOUTUBE_API_KEY;
 
     /**
      * These are third party service API keys for Talon.
      *
-     * If you wish to use these services, You will need to get a key as I will not be sharing mine
-     * for obvious security reasons.
-     *
-     * Tweetmarker is a paid service, so if you want a key, you will have to pay $75 a month for it
-     * For Twitlonger, you must request access to their API for your app. I do not know if he would grant an Open Source Api key or not.
-     * TwitPic is dead, but I kept its classes in here so that you can still learn from them. The service no longer is supported.
+     * If you wish to use these services, You will need to get a key for the ones you want to use.
      */
-    public static final String TWEETMARKER_API_KEY = "***REMOVED***";
-    public static final String TWITLONGER_API_KEY = "***REMOVED***";
-    public static final String TWITPIC_API_KEY = "8cd3757bb6acb94c61e3cbf840c91872";
-    public static final String GIPHY_API_KEY = "***REMOVED***";
-    public static final String ARTICLE_API_KEY = "***REMOVED***";
-    public static final String MERCURY_API_KEY = "***REMOVED***";
+    public static final String TWEETMARKER_API_KEY = BuildConfig.TWEETMARKER_KEY;
+    public static final String TWITLONGER_API_KEY = BuildConfig.TWITLONGER_KEY;
+    public static final String GIPHY_API_KEY = BuildConfig.GIPHY_API_KEY;
+    public static final String ARTICLE_API_KEY = BuildConfig.ARTICLE_API_KEY;
+    public static final String MERCURY_API_KEY = BuildConfig.MERCURY_API_KEY;
 }
