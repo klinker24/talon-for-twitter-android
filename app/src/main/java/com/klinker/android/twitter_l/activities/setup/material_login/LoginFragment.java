@@ -30,7 +30,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class LoginFragment extends Fragment {
 
-    private static final String CALLBACK_URL = "oauth:///talonfortwitter";
+    private static final String CALLBACK_URL = "http://talonfortwitter.com";
 
     private Twitter twitter;
 
