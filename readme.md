@@ -41,7 +41,7 @@ KEY_ALIAS=xxxx
 ## Contributing
 
 
-Please fork this repository and contribute back using [pull requests](https://github.com/klinker24/Talon-for-Twitter/pulls). Features can be requested using [issues](https://github.com/klinker24/Talon-for-Twitter/issues). All code, comments, and critiques are greatly appreciated.
+Please fork this repository and contribute back using [pull requests](https://github.com/klinker24/talon-twitter-material/pulls). Features can be requested using [issues](https://github.com/klinker24/talon-twitter-material/issues). All code, comments, and critiques are greatly appreciated.
 
 
 ---
