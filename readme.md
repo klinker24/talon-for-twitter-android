@@ -4,7 +4,11 @@
 
 This is the complete version of the Twitter client that I created for Android. It is 100% open source, the only thing that you will have to do plug in is your own API keys.
 
-The code hasn't all aged-well. Most of it was created when I was just learning about coding. It works well though and can probably be considered one of the most popular third party Twitter apps.
+I am lucky enough to say that, as a paid app, Talon has perched itself at the top of the **top paid social apps** list since it's release in 2014. It has amassed 100,000+ downloads while holding a 4.6 star rating on the Play Store. This app is one of the more successful apps I have ever made and I am open sourcing it as a "thank you" to everyone that has supported my work over the years! It works great and I'm proud to say that it can probably be considered one of the most popular third party Twitter apps.
+
+While I will be the first to admit that it is very far from perfect - and a lot of the base code was written when I had no clue what I was doing - it it could be a very cool project to look at for inspiration, implementation details, and contributions.
+
+Enjoy Talon for Twitter and let me know what you want to see next!
 
 ### Building Talon
 
