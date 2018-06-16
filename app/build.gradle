@@ -54,7 +54,7 @@ android {
 
             buildConfigField "String", "CONSUMER_KEY_OLD_1", secrets['CONSUMER_KEY_OLD_1'] != null ? secrets['CONSUMER_KEY_OLD_1'] : "\"This is optional.\""
             buildConfigField "String", "CONSUMER_SECRET_OLD_1", secrets['CONSUMER_SECRET_OLD_1'] != null ? secrets['CONSUMER_SECRET_OLD_1'] : "\"This is optional.\""
-            buildConfigField "String", "CONSUMER_KEY_OLD_2", secrets['CONSUMER_KEY_OLD_12'] != null ? secrets['CONSUMER_KEY_OLD_2'] : "\"This is optional.\""
+            buildConfigField "String", "CONSUMER_KEY_OLD_2", secrets['CONSUMER_KEY_OLD_2'] != null ? secrets['CONSUMER_KEY_OLD_2'] : "\"This is optional.\""
             buildConfigField "String", "CONSUMER_SECRET_OLD_2", secrets['CONSUMER_SECRET_OLD_2'] != null ? secrets['CONSUMER_SECRET_OLD_2'] : "\"This is optional.\""
             buildConfigField "String", "CONSUMER_KEY_OLD_3", secrets['CONSUMER_KEY_OLD_3'] != null ? secrets['CONSUMER_KEY_OLD_3'] : "\"This is optional.\""
             buildConfigField "String", "CONSUMER_SECRET_OLD_3", secrets['CONSUMER_SECRET_OLD_3'] != null ? secrets['CONSUMER_SECRET_OLD_3'] : "\"This is optional.\""
