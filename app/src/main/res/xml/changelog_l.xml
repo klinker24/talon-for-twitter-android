@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="7.3.0">
+        <text>The app is now open source! It will continue to be distributed from Google Play, but any developers can take a look if they want! https://github.com/klinker24/talon-for-twitter-android</text>
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.2.6">
         <text>Bug fixes for Android P</text>
     </version>
