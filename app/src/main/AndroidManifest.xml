@@ -848,14 +848,6 @@
         </service>
 
         <service
-            android:name=".services.SendScheduledTweet"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
-
-        <service
             android:name=".services.TrimDataService"
             android:exported="false">
             <intent-filter>
@@ -925,6 +917,9 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".services.SendScheduledTweet"
+            android:exported="false" />
 
         <receiver android:name="com.klinker.android.twitter_l.receivers.MarkMentionReadReceiver" />
 

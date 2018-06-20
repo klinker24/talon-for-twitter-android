@@ -15,10 +15,13 @@ package com.klinker.android.twitter_l.services;
  * limitations under the License.
  */
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -31,6 +34,7 @@ import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.SimpleJobService;
 import com.firebase.jobdispatcher.Trigger;
+import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.compose.RetryCompose;
@@ -50,66 +54,69 @@ import java.util.regex.Matcher;
 import twitter4j.Twitter;
 import twitter4j.UserList;
 
-public class SendScheduledTweet extends SimpleJobService {
+public class SendScheduledTweet extends BroadcastReceiver {
 
     public static final String JOB_TAG = "send-scheduled-tweet";
 
     public static void scheduleNextRun(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
-        Collections.sort(tweets, new Comparator<ScheduledTweet>() {
-            public int compare(ScheduledTweet result1, ScheduledTweet result2) {
-                return Long.compare(result1.time, result2.time);
+        Collections.sort(tweets, (result1, result2) -> Long.compare(result1.time, result2.time));
+
+        Intent intent = new Intent(context, SendScheduledTweet.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+
+        if (tweets.size() > 0) {
+            long nextTime = 0L;
+            for (int i = 0; i < tweets.size(); i++) {
+                if (tweets.get(i).time > new Date().getTime()) {
+                    nextTime = tweets.get(i).time;
+                    break;
+                }
             }
-        });
 
-        if (tweets.size() == 0) {
-            dispatcher.cancel(JOB_TAG);
-        } else {
-            ScheduledTweet s = tweets.get(0);
-            int tweetInSeconds = (int) (s.time - new Date().getTime()) / 1000;
-
-            if (tweetInSeconds <= 0) {
+            if (nextTime == 0L) {
                 return;
             }
 
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(SendScheduledTweet.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(false)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(tweetInSeconds, tweetInSeconds + 60)) // within 1 min
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
+            }
         }
     }
 
     @Override
-    public int onRunJob(JobParameters parameters) {
+    public void onReceive(Context context, Intent intent) {
         Log.v("talon_scheduled_tweet", "started service");
 
-        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(this).getScheduledTweets();
+        ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
         if (tweets.size() != 0) {
-            ScheduledTweet s = tweets.get(0);
-            final Context context = this;
+            ScheduledTweet tweet = null;
+            for (int i = 0; i < tweets.size(); i++) {
+                if (tweets.get(i).time > new Date().getTime()) {
+                    tweet = tweets.get(i);
+                    break;
+                }
+            }
+
             final AppSettings settings = AppSettings.getInstance(context);
 
-            sendingNotification();
-            boolean sent = sendTweet(settings, context, s.text, settings.currentAccount);
+            sendingNotification(context);
+            boolean sent = sendTweet(settings, context, tweet.text, settings.currentAccount);
 
             if (sent) {
-                finishedTweetingNotification();
-                QueuedDataSource.getInstance(context).deleteScheduledTweet(s.alarmId);
+                finishedTweetingNotification(context);
+                QueuedDataSource.getInstance(context).deleteScheduledTweet(tweet.alarmId);
             } else {
-                makeFailedNotification(s.text, settings);
+                makeFailedNotification(context, tweet.text, settings);
             }
         }
 
-        scheduleNextRun(this);
-        return 0;
+        scheduleNextRun(context);
     }
 
     public boolean sendTweet(AppSettings settings, Context context, String message, int account) {
@@ -125,12 +132,12 @@ public class SendScheduledTweet extends SimpleJobService {
 
             Log.v("talon_queued", "sending: " + message);
 
-            if (size > AppSettings.getInstance(this).tweetCharacterCount && settings.twitlonger) {
+            if (size > AppSettings.getInstance(context).tweetCharacterCount && settings.twitlonger) {
                 // twitlonger goes here
                 TwitLongerHelper helper = new TwitLongerHelper(message, twitter, context);
 
                 return helper.createPost() != 0;
-            } else if (size <= AppSettings.getInstance(this).tweetCharacterCount) {
+            } else if (size <= AppSettings.getInstance(context).tweetCharacterCount) {
                 twitter4j.StatusUpdate reply = new twitter4j.StatusUpdate(message);
                 twitter.updateStatus(reply);
             } else {
@@ -161,20 +168,20 @@ public class SendScheduledTweet extends SimpleJobService {
         }
     }
 
-    public void sendingNotification() {
+    public void sendingNotification(Context context) {
         // first we will make a notification to let the user know we are tweeting
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this, NotificationChannelUtil.SENDING_SCHEDULED_MESSAGE_CHANNEL)
+                new NotificationCompat.Builder(context, NotificationChannelUtil.SENDING_SCHEDULED_MESSAGE_CHANNEL)
                         .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setContentTitle(getResources().getString(R.string.sending_tweet))
+                        .setContentTitle(context.getResources().getString(R.string.sending_tweet))
                         .setOngoing(true)
                         .setProgress(100, 0, true);
 
-        Intent resultIntent = new Intent(this, MainActivity.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
-                        this,
+                        context,
                         0,
                         resultIntent,
                         0
@@ -182,19 +189,21 @@ public class SendScheduledTweet extends SimpleJobService {
 
         mBuilder.setContentIntent(resultPendingIntent);
 
-        startForeground(6, mBuilder.build());
+        NotificationManager mNotificationManager =
+                (NotificationManager) MainActivity.sContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(6, mBuilder.build());
     }
 
-    public void makeFailedNotification(String text, AppSettings settings) {
+    public void makeFailedNotification(Context context, String text, AppSettings settings) {
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
+                    new NotificationCompat.Builder(context, NotificationChannelUtil.FAILED_TWEETS_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_icon)
-                            .setContentTitle(getResources().getString(R.string.tweet_failed))
-                            .setContentText(getResources().getString(R.string.tap_to_retry));
+                            .setContentTitle(context.getResources().getString(R.string.tweet_failed))
+                            .setContentText(context.getResources().getString(R.string.tap_to_retry));
 
-            Intent resultIntent = new Intent(this, RetryCompose.class);
-            QueuedDataSource.getInstance(this).createDraft(text, settings.currentAccount);
+            Intent resultIntent = new Intent(context, RetryCompose.class);
+            QueuedDataSource.getInstance(context).createDraft(text, settings.currentAccount);
             resultIntent.setAction(Intent.ACTION_SEND);
             resultIntent.setType("text/plain");
             resultIntent.putExtra(Intent.EXTRA_TEXT, text);
@@ -202,7 +211,7 @@ public class SendScheduledTweet extends SimpleJobService {
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
-                            this,
+                            context,
                             0,
                             resultIntent,
                             0
@@ -210,30 +219,28 @@ public class SendScheduledTweet extends SimpleJobService {
 
             mBuilder.setContentIntent(resultPendingIntent);
             NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(5, mBuilder.build());
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(6, mBuilder.build());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void finishedTweetingNotification() {
+    public void finishedTweetingNotification(Context context) {
         try {
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this, NotificationChannelUtil.SENDING_SCHEDULED_MESSAGE_CHANNEL)
+                    new NotificationCompat.Builder(context, NotificationChannelUtil.SENDING_SCHEDULED_MESSAGE_CHANNEL)
                             .setSmallIcon(R.drawable.ic_stat_icon)
-                            .setContentTitle(getResources().getString(R.string.tweet_success))
+                            .setContentTitle(context.getResources().getString(R.string.tweet_success))
                             .setOngoing(false)
-                            .setTicker(getResources().getString(R.string.tweet_success));
+                            .setTicker(context.getResources().getString(R.string.tweet_success));
 
-            if (AppSettings.getInstance(this).vibrate) {
+            if (AppSettings.getInstance(context).vibrate) {
                 Log.v("talon_vibrate", "vibrate on compose");
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                 long[] pattern = { 0, 50, 500 };
                 v.vibrate(pattern, -1);
             }
-
-            stopForeground(true);
 
             NotificationManager mNotificationManager =
                     (NotificationManager) MainActivity.sContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -244,4 +251,5 @@ public class SendScheduledTweet extends SimpleJobService {
             // not attached to activity
         }
     }
+
 }
