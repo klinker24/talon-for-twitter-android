@@ -105,7 +105,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent">
 
-                    <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+                    <com.klinker.android.twitter_l.views.widgets.text.MaterialTextView
                         android:id="@+id/tweet"
                         android:tag="tweet"
                         android:layout_height="80dp"
