@@ -541,12 +541,9 @@ public class MainActivity extends DrawerActivity {
                     .apply();
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                NotificationUtils.sendTestNotification(MainActivity.this);
-                SendScheduledTweet.scheduleNextRun(context);
-            }
+        new Handler().postDelayed(() -> {
+            NotificationUtils.sendTestNotification(MainActivity.this);
+            SendScheduledTweet.scheduleNextRun(context);
         }, 1000);
     }
 

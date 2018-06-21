@@ -113,19 +113,14 @@ public class ViewScheduledTweets extends AppCompatActivity {
             }
         });
 
-        addNew.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(context, NewScheduledTweet.class);
-                if (getIntent().getBooleanExtra("has_text", false)) {
-                    intent.putExtra("has_text", true);
-                    intent.putExtra("text", text);
-                    getIntent().putExtra("has_text", false);
-                }
-                startActivity(intent);
+        addNew.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(context, NewScheduledTweet.class);
+            if (getIntent().getBooleanExtra("has_text", false)) {
+                intent.putExtra("has_text", true);
+                intent.putExtra("text", text);
+                getIntent().putExtra("has_text", false);
             }
-
+            startActivity(intent);
         });
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -154,6 +149,8 @@ public class ViewScheduledTweets extends AppCompatActivity {
         tweets = QueuedDataSource.getInstance(context).getScheduledTweets(AppSettings.getInstance(context).currentAccount);
         adapter = new ScheduledArrayAdapter((Activity)context, tweets);
         listView.setAdapter(adapter);
+
+        SendScheduledTweet.scheduleNextRun(this);
     }
 
 

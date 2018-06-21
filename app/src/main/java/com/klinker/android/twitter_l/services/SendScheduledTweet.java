@@ -68,6 +68,8 @@ public class SendScheduledTweet extends BroadcastReceiver {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
 
+        Log.v("talon_scheduled", "scheduling next run");
+
         if (tweets.size() > 0) {
             long nextTime = 0L;
             for (int i = 0; i < tweets.size(); i++) {
@@ -80,6 +82,8 @@ public class SendScheduledTweet extends BroadcastReceiver {
             if (nextTime == 0L) {
                 return;
             }
+
+            Log.v("talon_scheduled", "scheduling tweet: " + new Date(nextTime).toString());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
@@ -95,25 +99,32 @@ public class SendScheduledTweet extends BroadcastReceiver {
 
         ArrayList<ScheduledTweet> tweets = QueuedDataSource.getInstance(context).getScheduledTweets();
         if (tweets.size() != 0) {
-            ScheduledTweet tweet = null;
+            ScheduledTweet t = null;
             for (int i = 0; i < tweets.size(); i++) {
-                if (tweets.get(i).time > new Date().getTime()) {
-                    tweet = tweets.get(i);
+                if (tweets.get(i).time > new Date().getTime() - (60 * 60 * 1000)) { // within the hour
+                    t = tweets.get(i);
                     break;
                 }
             }
 
+            if (t == null) {
+                return;
+            }
+
+            final ScheduledTweet tweet = t;
             final AppSettings settings = AppSettings.getInstance(context);
 
-            sendingNotification(context);
-            boolean sent = sendTweet(settings, context, tweet.text, settings.currentAccount);
+            new Thread(() -> {
+                sendingNotification(context);
+                boolean sent = sendTweet(settings, context, tweet.text, settings.currentAccount);
 
-            if (sent) {
-                finishedTweetingNotification(context);
-                QueuedDataSource.getInstance(context).deleteScheduledTweet(tweet.alarmId);
-            } else {
-                makeFailedNotification(context, tweet.text, settings);
-            }
+                if (sent) {
+                    finishedTweetingNotification(context);
+                    QueuedDataSource.getInstance(context).deleteScheduledTweet(tweet.alarmId);
+                } else {
+                    makeFailedNotification(context, tweet.text, settings);
+                }
+            }).start();
         }
 
         scheduleNextRun(context);
@@ -130,7 +141,7 @@ public class SendScheduledTweet extends BroadcastReceiver {
 
             int size = getCount(message);
 
-            Log.v("talon_queued", "sending: " + message);
+            Log.v("talon_scheduled", "sending: " + message);
 
             if (size > AppSettings.getInstance(context).tweetCharacterCount && settings.twitlonger) {
                 // twitlonger goes here
