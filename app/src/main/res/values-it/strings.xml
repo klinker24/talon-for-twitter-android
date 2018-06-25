@@ -727,9 +727,5 @@ Menzioni, nuovi follower e retweet/mi piace sul tuo stato inizieranno a comparir
     <string name="auto_play_gifs">Autoriproduci solo GIF</string>
     <string name="auto_play_gifs_summary">Di default le GIF e i video di Twitter vengono autoriprodotti nella timeline.</string>
     <string name="data_saver_mode">Modalità risparmio dati</string>
-    <string name="data_saver_mode_summary">Questo sovrascriverà alcune delle tue impostazioni correnti per darti il minor consumo di dati in background.</string>
     <string name="auto_complete_hashtags">Autocompletamento Hashtag</string>
-    <string name="auto_complete_hashtags_summary">Durante il componimento di un tweet mostra gli hashtag cercati o visti di recenti.</string>
-    <string name="top_down">Parti da capo</string>
-    <string name="reverse_click_actions_default">Predefitnito (Azioni non invertite)::\n- Tocco breve per espandere il tweet\n- Tocco prolungato per aprire il tweet</string>
 </resources>

@@ -236,4 +236,9 @@ e la visibilità sul Play Store. Se vuoi vedere l\'app <i>continuare a salire</i
     <string name="revamped_layout">Layout in stile timeline</string>
     <string name="widget_display_screenname">Mostra nome utente</string>
     <string name="saved_tweet_description">Per accedere ai tweet salvati, vai alla sezione pagine scorrevoli delle impostazioni e imposta la pagina <i>Tweet salvati</i>.</string>
+    <string name="top_down">Parti da capo</string>
+    <string name="reverse_click_actions_default">Predefitnito (Azioni non invertite)::\n- Tocco breve per espandere il tweet\n- Tocco prolungato per aprire il tweet</string>
+    <string name="data_saver_mode_summary">Questo sovrascriverà alcune delle tue impostazioni correnti per darti il minor consumo di dati in background.</string>
+    <string name="auto_complete_hashtags_summary">Durante il componimento di un tweet mostra gli hashtag cercati o visti di recenti.</string>
+
 </resources>
