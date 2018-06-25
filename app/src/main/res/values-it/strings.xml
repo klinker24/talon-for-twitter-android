@@ -586,7 +586,7 @@ Talon invece caricherà le immagini usando TwitPic.</string>
     <string name="plain_text_on_data">Browser testuale su connessione dati</string>
     <string name="plain_text_on_data_summary">Abilita il browser testuale solo quando è presente una connessione dati, non su WiFi.</string>
     <string name="layout_full_screen">Schermo intero</string>
-    <string name="pre_cache_images">Pre-cache immagini</string>
+    <string name="pre_cache_images">Precarica immagini</string>
     <string name="pre_cache_summary">Scarica le immagini immediatamente così come sono in diretta streaming o recuperate da un aggiornamento in background della timeline.</string>
     <string name="pre_cache_settings">Opzioni di pre-cache</string>
     <string name="pre_cache_only_wifi">Solo con WiFi</string>
@@ -724,4 +724,8 @@ Menzioni, nuovi follower e retweet/mi piace sul tuo stato inizieranno a comparir
     <string name="saved_tweets">Tweet salvati</string>
     <string name="save_for_later">Salva per dopo</string>
     <string name="remove_from_saved_tweets">Rimuovi dai Tweet salvati</string>
+    <string name="auto_play_gifs">Autoriproduci solo GIF</string>
+    <string name="auto_play_gifs_summary">Di default le GIF e i video di Twitter vengono autoriprodotti nella timeline.</string>
+    <string name="data_saver_mode">Modalità risparmio dati</string>
+    <string name="auto_complete_hashtags">Autocompletamento Hashtag</string>
 </resources>

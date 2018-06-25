@@ -17,17 +17,17 @@
 
 <resources>
     <!-- Dev account and other apps names -->
-    <string name="dev_name">Klinker Apps</string>
-    <string name="dev_name_open_source">Klinker Apps (Open-Source)</string>
-    <string name="sliding_messaging">Sliding Messaging Pro</string>
-    <string name="sliding_theme_engine">Sliding Messaging Theme Engine</string>
-    <string name="evolvesms">EvolveSMS</string>
-    <string name="emoji_keyboard">Sliding Emoji Keyboard</string>
-    <string name="emoji_keyboard_ios">Sliding Emoji Keyboard - iOS</string>
-    <string name="emoji_keyboard_unlock">Sliding Emoji Keyboard Unlocker</string>
-    <string name="halopop">HaloPop</string>
-    <string name="floating_windows">Floating Windows Guide</string>
-    <string name="slideover_messaging">SlideOver Messaging</string>
-    <string name="blur">Blur - A Launcher Replacement</string>
-    <string name="theme_spotlight">Theme Spotlight</string>
+    <string name="dev_name" translatable="false">Klinker Apps</string>
+    <string name="dev_name_open_source" translatable="false">Klinker Apps (Open-Source)</string>
+    <string name="sliding_messaging" translatable="false">Sliding Messaging Pro</string>
+    <string name="sliding_theme_engine" translatable="false">Sliding Messaging Theme Engine</string>
+    <string name="evolvesms" translatable="false">EvolveSMS</string>
+    <string name="emoji_keyboard" translatable="false">Sliding Emoji Keyboard</string>
+    <string name="emoji_keyboard_ios" translatable="false">Sliding Emoji Keyboard - iOS</string>
+    <string name="emoji_keyboard_unlock" translatable="false">Sliding Emoji Keyboard Unlocker</string>
+    <string name="halopop" translatable="false">HaloPop</string>
+    <string name="floating_windows" translatable="false">Floating Windows Guide</string>
+    <string name="slideover_messaging" translatable="false">SlideOver Messaging</string>
+    <string name="blur" translatable="false">Blur - A Launcher Replacement</string>
+    <string name="theme_spotlight" translatable="false">Theme Spotlight</string>
 </resources>
