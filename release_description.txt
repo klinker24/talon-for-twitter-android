@@ -1,1 +1,1 @@
-You can now disable the hashtag auto complete, by going to Other Options, in settings.
+With this release, Talon adds freeform cropping for images! When adding an image to a tweet, you can now crop the image to any aspect ratio, rather than just the pre-defined aspect ratios.
