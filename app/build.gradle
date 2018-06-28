@@ -186,7 +186,7 @@ dependencies {
     implementation 'com.melnykov:floatingactionbutton:1.3.0'
     implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation 'com.flipboard:bottomsheet-core:1.5.0'
-    implementation 'com.yalantis:ucrop:1.5.0'
+    implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'me.leolin:ShortcutBadger:1.1.14@aar'
     implementation 'com.github.ajalt.reprint:core:2.9.2@aar'
     implementation 'com.github.ajalt.reprint:reprint_spass:2.9.2@aar'

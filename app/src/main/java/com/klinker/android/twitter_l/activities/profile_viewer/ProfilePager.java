@@ -1725,6 +1725,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
             options.setActiveWidgetColor(settings.themeColors.accentColor);
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
             options.setCompressionQuality(90);
+            options.setFreeStyleCropEnabled(true);
 
             File destination = File.createTempFile("ucrop", "jpg", getCacheDir());
             UCrop.of(sourceUri, Uri.fromFile(destination))

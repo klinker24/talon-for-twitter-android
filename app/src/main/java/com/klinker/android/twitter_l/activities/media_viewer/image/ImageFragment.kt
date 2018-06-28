@@ -110,7 +110,7 @@ class ImageFragment : Fragment() {
             } catch (e: Exception) { }
 
 
-            return url ?: ""
+            return url?.replace("http://", "https://") ?: ""
         }
     }
 
@@ -126,7 +126,7 @@ class ImageFragment : Fragment() {
 
 
     fun downloadImage() {
-        TimeoutThread({
+        TimeoutThread {
             Looper.prepare()
             val url = getLink(arguments)
 
@@ -175,8 +175,8 @@ class ImageFragment : Fragment() {
 
                 var uri = IOUtils.saveImage(bitmap, name, activity)
                 val root = Environment.getExternalStorageDirectory().toString()
-                val myDir = File(root + "/Talon")
-                val file = File(myDir, name + ".jpg")
+                val myDir = File("$root/Talon")
+                val file = File(myDir, "$name.jpg")
 
                 try {
                     uri = FileProvider.getUriForFile(activity,
@@ -204,13 +204,13 @@ class ImageFragment : Fragment() {
                 mNotificationManager.notify(randomId, builder2.build())
             } catch (e: Exception) {
                 e.printStackTrace()
-                activity.runOnUiThread({
+                activity.runOnUiThread {
                     try {
                         PermissionModelUtils(activity).showStorageIssue(e)
                     } catch (x: Exception) {
                         e.printStackTrace()
                     }
-                })
+                }
 
                 try {
                     val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
@@ -225,7 +225,7 @@ class ImageFragment : Fragment() {
                 } catch (x: IllegalStateException) {
                 }
             }
-        }).start()
+        }.start()
     }
 
     fun shareImage() {
@@ -240,7 +240,7 @@ class ImageFragment : Fragment() {
                         .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                         .get()
 
-                activity.runOnUiThread({
+                activity.runOnUiThread {
                     // create the intent
                     val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
                     sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -252,7 +252,7 @@ class ImageFragment : Fragment() {
 
                     // start the chooser
                     activity.startActivity(Intent.createChooser(sharingIntent, activity.getString(R.string.menu_share) + ": "))
-                })
+                }
             } catch (e: Exception) {
 
             }
