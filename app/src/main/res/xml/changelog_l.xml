@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="7.4.0">
+        <text>Crop images with a custom aspect ratio, instead of the pre-defined ratios</text>
+        <text>Save images on Android P beta</text>
+    </version>
+
     <version name="7.3.1">
         <text>Improvements around scheduled tweets</text>
     </version>
