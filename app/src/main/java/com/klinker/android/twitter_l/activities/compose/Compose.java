@@ -1155,7 +1155,7 @@ public abstract class Compose extends Activity implements
                 User user = twitter.showUser(sendTo);
                 MessageData data = new MessageData(user.getId(), status);
 
-                if (!attachedUri.equals("")) {
+                if (!attachedUri[0].equals("")) {
                     try {
                         File f;
 
@@ -1170,12 +1170,7 @@ public abstract class Compose extends Activity implements
                         data.setMediaId(media.getMediaId());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show());
                     }
 
                 }

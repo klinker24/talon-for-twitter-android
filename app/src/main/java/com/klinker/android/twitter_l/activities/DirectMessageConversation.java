@@ -341,12 +341,7 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
                         data.setMediaId(media.getMediaId());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        runOnUiThread(() -> Toast.makeText(context, getString(R.string.error_attaching_image), Toast.LENGTH_SHORT).show());
                     }
 
                 }
