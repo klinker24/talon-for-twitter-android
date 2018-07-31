@@ -323,7 +323,7 @@ public class DMCursorAdapter extends TimeLineCursorAdapter {
                 DMDataSource source = DMDataSource.getInstance(context);
                 source.deleteTweet(tweetId);
 
-                twitter.destroyDirectMessage(tweetId);
+                twitter.destroyDirectMessageEvent(tweetId);
 
                 return true;
             } catch (TwitterException e) {

@@ -220,7 +220,7 @@ public class DirectMessageListArrayAdapter extends ArrayAdapter<User> {
                         long id = cursor.getLong(cursor.getColumnIndex(DMSQLiteHelper.COLUMN_TWEET_ID));
                         data.deleteTweet(id);
                         try {
-                            twitter.destroyDirectMessage(id);
+                            twitter.destroyDirectMessageEvent(id);
                         } catch (Exception x) {
                             // it doesn't actually exist on the twitter side
                         }
