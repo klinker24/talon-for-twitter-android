@@ -119,7 +119,7 @@ public class NotificationUtils {
 
         if (!TEST_NOTIFICATION) {
             // if they don't want that type of notification, simply set it to zero
-            if (!settings.timelineNot || (settings.pushNotifications && settings.liveStreaming) || noTimeline) {
+            if (!settings.timelineNot || noTimeline) {
                 unreadCounts[0] = 0;
             }
             if (!settings.mentionsNot) {

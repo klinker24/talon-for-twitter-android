@@ -2,38 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
-        android:key="talon-pull"
-        android:title="@string/push_notification_options" >
-
-        <Preference
-            android:summary="@string/push_notification_warning" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq" />
-        </Preference>
-
-        <ListPreference
-            android:key="talon_pull"
-            android:title="@string/talon_pull"
-            android:summary="@string/talon_pull_summary"
-            android:defaultValue="0"
-            android:entries="@array/talon_pull"
-            android:entryValues="@array/talon_pull_inserted" />
-
-        <SwitchPreference
-            android:key="show_pull_notification"
-            android:title="@string/show_pull_notification"
-            android:summary="@string/show_pull_notification_summary"
-            android:defaultValue="true" />
-
-        <SwitchPreference
-            android:key="interaction_drawer"
-            android:title="@string/use_interaction_drawer"
-            android:summary="@string/when_talon_pull_on"
-            android:defaultValue="true" />
-
-    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
-
-    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory
         android:key="other_options"
         android:title="@string/sync_options" >
 

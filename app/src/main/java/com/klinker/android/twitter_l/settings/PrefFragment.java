@@ -1423,14 +1423,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 new AlertDialog.Builder(getActivity())
                         .setMessage(R.string.intercept_twitter_push_description)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                                } else {
-                                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                                }
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                            } else {
+                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
                             }
                         }).show();
             }

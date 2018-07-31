@@ -32,7 +32,6 @@ import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter_l.services.CatchupPull;
 import com.klinker.android.twitter_l.services.PreCacheService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
@@ -90,7 +89,7 @@ public class TimelineRefreshService extends SimpleJobService {
     public static int refresh(final Context context, boolean onStartRefresh) {
 
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
-        if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
+        if (!MainActivity.canSwitch || WidgetRefreshService.isRunning || TimelineRefreshService.isRunning) {
             return 0;
         }
 

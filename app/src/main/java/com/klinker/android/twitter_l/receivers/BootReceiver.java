@@ -40,17 +40,8 @@ import java.util.Date;
 
 public class BootReceiver extends BroadcastReceiver {
 
-    private Context context;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        this.context = context;
-        AppSettings settings = AppSettings.getInstance(context);
-
         ServiceUtils.rescheduleAllServices(context);
-
-        if (settings.pushNotifications && !Utils.isAndroidO()) {
-            context.startService(new Intent(context, CatchupPull.class));
-        }
     }
 }

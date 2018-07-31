@@ -204,7 +204,7 @@
     <string name="swipable_page_notifications">Swipable Page Notifications</string>
     <string name="swipable_page_notifications_summary">These will be displayed whenever the swipable page is updated in the background.</string>
     <string name="never_show_notifications">Never show notifications</string>
-    <string name="after_background_refresh_talon_pull">\nAfter a background refresh or Talon Pull (streaming) event\n</string>
+    <string name="after_background_refresh_talon_pull">\nAfter a background refresh\n</string>
     <string name="intercept_twitter_push_notifications">\nIntercept push notifications from the Twitter app\n</string>
     <string name="intercept_twitter_push_description">You must have the normal Twitter app installed and logged in to use this feature.\n\n
         You should set up notifications through that app, as you normally would.

@@ -22,7 +22,6 @@ public class NotificationChannelUtil {
     public static final String MEDIA_DOWNLOAD_CHANNEL = "media-download-channel";
     public static final String WIDGET_REFRESH_CHANNEL = "widget-refresh-channel";
     public static final String FAVORITE_USERS_CHANNEL = "favorite-users-channel";
-    public static final String TALON_PULL_CHANNEL = "talon-pull-channel";
 
     public static void createNotificationChannels(Context context) {
         if (!Utils.isAndroidO()) {
@@ -39,7 +38,6 @@ public class NotificationChannelUtil {
         createChannel(context, MEDIA_DOWNLOAD_CHANNEL, R.string.media_downloads_channel, NotificationManager.IMPORTANCE_DEFAULT);
         createChannel(context, WIDGET_REFRESH_CHANNEL, R.string.widget_refresh_channel, NotificationManager.IMPORTANCE_MIN);
         createChannel(context, FAVORITE_USERS_CHANNEL, R.string.favorite_user_channel, NotificationManager.IMPORTANCE_DEFAULT);
-        createChannel(context, TALON_PULL_CHANNEL, R.string.talon_pull_channel, NotificationManager.IMPORTANCE_MIN);
     }
 
     private static void createChannel(Context context, String channelId, @StringRes int title, int priority) {

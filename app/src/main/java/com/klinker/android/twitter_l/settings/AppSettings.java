@@ -164,8 +164,6 @@ public class AppSettings {
     public boolean favoriteUserNotifications;
     public boolean syncSecondMentions;
     public boolean displayScreenName;
-    public boolean liveStreaming;
-    public boolean pushNotifications;
     public boolean inAppBrowser;
     public boolean showBoth;
     public boolean absoluteDate;
@@ -464,18 +462,6 @@ public class AppSettings {
             useEmoji = false;
         }
 
-        String pull = sharedPrefs.getString("talon_pull", "0");
-        if (pull.equals("0")) {
-            liveStreaming = false;
-            pushNotifications = false;
-        } else if (pull.equals("1")) {
-            pushNotifications = true;
-            liveStreaming = false;
-        } else {
-            pushNotifications = true;
-            liveStreaming = true;
-        }
-
         // Integers
         currentAccount = sharedPrefs.getInt("current_account", 1);
         theme = sharedPrefs.getInt("material_theme_" + currentAccount, DEFAULT_THEME);
@@ -572,8 +558,6 @@ public class AppSettings {
             refreshOnStart = false;
             syncMobile = false;
             syncSecondMentions = false;
-            liveStreaming = false;
-            pushNotifications = false;
             higherQualityImages = false;
             webPreviews = false;
 

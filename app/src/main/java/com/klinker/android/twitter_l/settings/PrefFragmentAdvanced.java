@@ -75,102 +75,25 @@ public class PrefFragmentAdvanced extends PrefFragment {
 
         final boolean mentionsChanges = count == 2;
 
-        final Preference fillGaps = findPreference("fill_gaps");
-        fillGaps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new FillGaps().execute();
-                return false;
-            }
-        });
-
-        final Preference interactionsDrawer = findPreference("interaction_drawer");
-        final Preference noti = findPreference("show_pull_notification");
-
-        if (AppSettings.getInstance(getActivity()).pushNotifications) {
-            interactionsDrawer.setEnabled(true);
-            noti.setEnabled(true);
-        } else {
-            interactionsDrawer.setEnabled(false);
-            noti.setEnabled(false);
-        }
-
-        if (Utils.isAndroidO()) {
-            ((PreferenceCategory) findPreference("talon-pull")).removePreference(noti);
-        }
-
-        noti.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                return true;
-            }
-        });
-
-        final Preference stream = findPreference("talon_pull");
-        stream.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-
-                if (o.equals("2")) {
-                    ActivityRefreshService.cancelRefresh(context);
-                    DirectMessageRefreshService.cancelRefresh(context);
-                    ListRefreshService.cancelRefresh(context);
-                    MentionsRefreshService.cancelRefresh(context);
-                    TimelineRefreshService.cancelRefresh(context);
-
-                    SharedPreferences.Editor e = sharedPrefs.edit();
-                    if (sharedPrefs.getBoolean("live_streaming", true)) {
-                        e.putString("timeline_sync_interval", "0");
-                    }
-                    e.putString("mentions_sync_interval", "0");
-                    e.putString("dm_sync_interval", "0");
-                    e.apply();
-                }
-
-                if (o.equals("0")) {
-                    interactionsDrawer.setEnabled(false);
-                    noti.setEnabled(false);
-                } else {
-                    interactionsDrawer.setEnabled(true);
-                    noti.setEnabled(true);
-                }
-
-                return true;
-            }
-        });
-
         Preference sync = findPreference("sync_friends");
-        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        sync.setOnPreferenceClickListener(arg0 -> {
+            new AlertDialog.Builder(context)
+                    .setTitle(context.getResources().getString(R.string.sync_friends))
+                    .setMessage(context.getResources().getString(R.string.sync_friends_summary))
+                    .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                        try {
+                            new SyncFriends(settings.myScreenName, sharedPrefs).execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    })
+                    .setNegativeButton(R.string.no, (dialogInterface, i) -> {
 
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                new AlertDialog.Builder(context)
-                        .setTitle(context.getResources().getString(R.string.sync_friends))
-                        .setMessage(context.getResources().getString(R.string.sync_friends_summary))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    new SyncFriends(settings.myScreenName, sharedPrefs).execute();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                    })
+                    .create()
+                    .show();
 
-                            }
-                        })
-                        .create()
-                        .show();
-
-                return false;
-            }
-
+            return false;
         });
 
         if(count != 2) {

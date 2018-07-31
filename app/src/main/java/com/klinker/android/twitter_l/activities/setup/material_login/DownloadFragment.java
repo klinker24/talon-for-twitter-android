@@ -131,39 +131,39 @@ public class DownloadFragment extends Fragment {
                 }
 
                 // syncs 100 Direct Messages
-                DMDataSource dmSource = DMDataSource.getInstance(activity);
-
-                try {
-                    paging = new Paging(1, 100);
-
-                    List<DirectMessage> dm = twitter.getDirectMessages(paging);
-
-                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).apply();
-
-                    for (DirectMessage directMessage : dm) {
-                        try {
-                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
-                        } catch (Exception e) {
-                            dmSource = DMDataSource.getInstance(activity);
-                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
-                        }
-                    }
-
-                    List<DirectMessage> sent = twitter.getSentDirectMessages();
-
-                    for (DirectMessage directMessage : sent) {
-                        try {
-                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
-                        } catch (Exception e) {
-                            dmSource = DMDataSource.getInstance(activity);
-                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
-                        }
-                    }
-
-                } catch (Exception e) {
-                    // they have no direct messages
-                    e.printStackTrace();
-                }
+//                DMDataSource dmSource = DMDataSource.getInstance(activity);
+//
+//                try {
+//                    paging = new Paging(1, 100);
+//
+//                    List<DirectMessage> dm = twitter.getDirectMessages(paging);
+//
+//                    sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), dm.get(0).getId()).apply();
+//
+//                    for (DirectMessage directMessage : dm) {
+//                        try {
+//                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+//                        } catch (Exception e) {
+//                            dmSource = DMDataSource.getInstance(activity);
+//                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+//                        }
+//                    }
+//
+//                    List<DirectMessage> sent = twitter.getSentDirectMessages();
+//
+//                    for (DirectMessage directMessage : sent) {
+//                        try {
+//                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+//                        } catch (Exception e) {
+//                            dmSource = DMDataSource.getInstance(activity);
+//                            dmSource.createDirectMessage(directMessage, sharedPrefs.getInt("current_account", 1));
+//                        }
+//                    }
+//
+//                } catch (Exception e) {
+//                    // they have no direct messages
+//                    e.printStackTrace();
+//                }
 
                 FollowersDataSource followers = FollowersDataSource.getInstance(activity);
 
