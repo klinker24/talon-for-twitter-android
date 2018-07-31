@@ -10,11 +10,7 @@ import com.klinker.android.twitter_l.services.background_refresh.SecondDMRefresh
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.NotificationUtils
 import com.klinker.android.twitter_l.utils.Utils
-
-import twitter4j.DirectMessageEvent
-import twitter4j.DirectMessageEventList
-import twitter4j.Twitter
-import twitter4j.TwitterException
+import twitter4j.*
 
 object DirectMessageDownload {
 
@@ -49,14 +45,23 @@ object DirectMessageDownload {
             var dataSource = DMDataSource.getInstance(context)
             var inserted = 0
 
+            val possibleUserIds = mutableListOf<Long>()
+            for (i in 0 until dms.size) {
+                possibleUserIds.add(dms[i].recipientId)
+                possibleUserIds.add(dms[i].senderId)
+            }
+
+            val possibleUserIdsArray = possibleUserIds.distinctBy { it }.toLongArray()
+            val possibleUsers = if (possibleUserIdsArray.isNotEmpty()) twitter.lookupUsers(*possibleUserIdsArray) else emptyList<User>()
+
             for (i in dms.indices) {
                 val directMessage = dms[i]
                 if (directMessage.id > lastId) {
                     try {
-                        dataSource.createDirectMessage(directMessage, currentAccount)
+                        dataSource.createDirectMessage(directMessage, possibleUsers, currentAccount)
                     } catch (e: Exception) {
                         dataSource = DMDataSource.getInstance(context)
-                        dataSource.createDirectMessage(directMessage, currentAccount)
+                        dataSource.createDirectMessage(directMessage, possibleUsers, currentAccount)
                     }
 
                     inserted++
@@ -87,7 +92,6 @@ object DirectMessageDownload {
             }
 
             return inserted
-
         } catch (e: TwitterException) {
             // Error in updating status
             Log.d("Twitter Update Error", e.message)
