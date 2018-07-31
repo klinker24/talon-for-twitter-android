@@ -71,7 +71,7 @@ object DirectMessageDownload {
             sharedPrefs.edit().putBoolean("refresh_me", true).apply()
             sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply()
 
-            if (settings.notifications && settings.dmsNot && inserted > 0) {
+            if (settings.notifications && settings.dmsNot && inserted > 0 && !alwaysSync) {
                 val currentUnread = sharedPrefs.getInt("dm_unread_$currentAccount", 0)
                 sharedPrefs.edit().putInt("dm_unread_$currentAccount", inserted + currentUnread).apply()
 
