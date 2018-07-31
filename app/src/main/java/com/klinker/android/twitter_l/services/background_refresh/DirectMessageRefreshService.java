@@ -32,6 +32,7 @@ import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.api_helper.DirectMessageDownload;
 
 import java.util.List;
 
@@ -88,79 +89,7 @@ public class DirectMessageRefreshService extends SimpleJobService {
 
     @Override
     public int onRunJob(JobParameters parameters) {
-        sharedPrefs = AppSettings.getSharedPreferences(this);
-
-        Context context = getApplicationContext();
-        AppSettings settings = AppSettings.getInstance(context);
-
-        int numberNew;
-
-        try {
-            Twitter twitter = Utils.getTwitter(context, settings);
-
-            int currentAccount = sharedPrefs.getInt("current_account", 1);
-
-            long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
-            Paging paging;
-            if (lastId != 0) {
-                paging = new Paging(1).sinceId(lastId);
-            } else {
-                paging = new Paging(1, 500);
-            }
-
-            List<DirectMessage> dm = twitter.getDirectMessages(paging);
-            List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
-
-            if (dm.size() != 0) {
-                sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).apply();
-                numberNew = dm.size();
-            } else {
-                numberNew = 0;
-            }
-
-            DMDataSource dataSource = DMDataSource.getInstance(context);
-            int inserted = 0;
-
-            for (DirectMessage directMessage : dm) {
-                try {
-                    dataSource.createDirectMessage(directMessage, currentAccount);
-                } catch (Exception e) {
-                    dataSource = DMDataSource.getInstance(context);
-                    dataSource.createDirectMessage(directMessage, currentAccount);
-                }
-                inserted++;
-            }
-
-            for (DirectMessage directMessage : sent) {
-                try {
-                    dataSource.createDirectMessage(directMessage, currentAccount);
-                } catch (Exception e) {
-                    dataSource = DMDataSource.getInstance(context);
-                    dataSource.createDirectMessage(directMessage, currentAccount);
-                }
-            }
-
-            sharedPrefs.edit().putBoolean("refresh_me", true).apply();
-            sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();
-
-            if (settings.notifications && settings.dmsNot && inserted > 0) {
-                int currentUnread = sharedPrefs.getInt("dm_unread_" + currentAccount, 0);
-                sharedPrefs.edit().putInt("dm_unread_" + currentAccount, numberNew + currentUnread).apply();
-
-                NotificationUtils.refreshNotification(context);
-            }
-
-            if (settings.syncSecondMentions) {
-                SecondDMRefreshService.startNow(this);
-            }
-
-            sendBroadcast(new Intent("com.klinker.android.twitter.NEW_DIRECT_MESSAGE"));
-
-        } catch (TwitterException e) {
-            // Error in updating status
-            Log.d("Twitter Update Error", e.getMessage());
-        }
-
+        DirectMessageDownload.download(this, false, false);
         return 0;
     }
 }

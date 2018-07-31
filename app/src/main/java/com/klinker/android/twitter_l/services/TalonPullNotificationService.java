@@ -759,7 +759,7 @@ public class TalonPullNotificationService extends Service {
 
             AppSettings settings = new AppSettings(mContext);
 
-            DMDataSource.getInstance(mContext).createDirectMessage(directMessage, sharedPreferences.getInt("current_account", 1));
+//            DMDataSource.getInstance(mContext).createDirectMessage(directMessage, sharedPreferences.getInt("current_account", 1));
 
             int numUnread = sharedPreferences.getInt("dm_unread_" + sharedPreferences.getInt("current_account", 1), 0);
             numUnread++;

@@ -347,10 +347,7 @@ public class DirectMessageConversation extends WhiteToolbarActivity {
                 }
 
                 DirectMessageEvent message = twitter.createMessage(data);
-
-                if (!settings.pushNotifications) {
-                    DMDataSource.getInstance(context).createSentDirectMessage(message, user, settings, settings.currentAccount);
-                }
+                DMDataSource.getInstance(context).createSentDirectMessage(message, user, settings, settings.currentAccount);
 
                 sharedPrefs.edit().putLong("last_direct_message_id_" + sharedPrefs.getInt("current_account", 1), message.getId()).apply();
                 sharedPrefs.edit().putBoolean("refresh_me_dm", true).apply();

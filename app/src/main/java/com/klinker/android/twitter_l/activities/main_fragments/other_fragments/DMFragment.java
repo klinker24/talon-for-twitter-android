@@ -33,6 +33,7 @@ import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.utils.Utils;
+import com.klinker.android.twitter_l.utils.api_helper.DirectMessageDownload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,55 +76,7 @@ public class DMFragment extends MainFragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                try {
-                    twitter = Utils.getTwitter(context, DrawerActivity.settings);
-
-                    User user = twitter.verifyCredentials();
-                    long lastId = sharedPrefs.getLong("last_direct_message_id_" + currentAccount, 0);
-                    Paging paging;
-                    if (lastId != 0) {
-                        paging = new Paging(1).sinceId(lastId);
-                    } else {
-                        paging = new Paging(1, 500);
-                    }
-
-                    List<DirectMessage> dm = twitter.getDirectMessages(paging);
-                    List<DirectMessage> sent = twitter.getSentDirectMessages(paging);
-
-                    if (dm.size() != 0) {
-                        sharedPrefs.edit().putLong("last_direct_message_id_" + currentAccount, dm.get(0).getId()).apply();
-                        update = true;
-                        numberNew = dm.size();
-                    } else {
-                        update = false;
-                        numberNew = 0;
-                    }
-
-                    DMDataSource dataSource = DMDataSource.getInstance(context);
-
-                    for (DirectMessage directMessage : dm) {
-                        try {
-                            dataSource.createDirectMessage(directMessage, currentAccount);
-                        } catch (IllegalStateException e) {
-                            dataSource = DMDataSource.getInstance(context);
-                            dataSource.createDirectMessage(directMessage, currentAccount);
-                        }
-                    }
-
-                    for (DirectMessage directMessage : sent) {
-                        try {
-                            dataSource.createDirectMessage(directMessage, currentAccount);
-                        } catch (Exception e) {
-                            dataSource = DMDataSource.getInstance(context);
-                            dataSource.createDirectMessage(directMessage, currentAccount);
-                        }
-                    }
-
-                } catch (TwitterException e) {
-                    // Error in updating status
-                    Log.d("Twitter Update Error", e.getMessage());
-                }
-
+                update = DirectMessageDownload.download(getActivity(), false, true) > 0;
                 DirectMessageRefreshService.scheduleRefresh(context);
 
                 return null;

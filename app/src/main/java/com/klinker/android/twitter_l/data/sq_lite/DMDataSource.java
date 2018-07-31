@@ -143,6 +143,54 @@ public class DMDataSource {
 
     }
 
+    public synchronized void createDirectMessage(DirectMessageEvent status, int account) {
+        ContentValues values = new ContentValues();
+        long time = status.getCreatedTimestamp().getTime();
+
+        String[] html = TweetLinkUtils.getLinksInStatus(status);
+        String text = html[0];
+        String media = html[1];
+        String url = html[2];
+        String hashtags = html[3];
+        String users = html[4];
+
+        values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
+        values.put(DMSQLiteHelper.COLUMN_TEXT, text);
+        values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
+        values.put(DMSQLiteHelper.COLUMN_NAME, status.get.getName());
+        values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getOriginalProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
+        values.put(DMSQLiteHelper.COLUMN_TIME, time);
+        values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
+        values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
+
+        TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);
+        values.put(DMSQLiteHelper.COLUMN_EXTRA_THREE, info.url);
+        values.put(DMSQLiteHelper.COLUMN_MEDIA_LENGTH, info.duration);
+
+        MediaEntity[] entities = status.getMediaEntities();
+
+        if (entities.length > 0) {
+            values.put(DMSQLiteHelper.COLUMN_PIC_URL, entities[0].getMediaURL());
+        }
+
+        URLEntity[] urls = status.getUrlEntities();
+        for (URLEntity u : urls) {
+            Log.v("inserting_dm", "url here: " + u.getExpandedURL());
+            values.put(DMSQLiteHelper.COLUMN_URL, u.getExpandedURL());
+        }
+
+        try {
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        } catch (Exception e) {
+            open();
+            database.insert(DMSQLiteHelper.TABLE_DM, null, values);
+        }
+
+    }
+
     public synchronized void createSentDirectMessage(DirectMessageEvent status, User recipient, AppSettings settings, int account) {
         ContentValues values = new ContentValues();
         long time = status.getCreatedTimestamp().getTime();
