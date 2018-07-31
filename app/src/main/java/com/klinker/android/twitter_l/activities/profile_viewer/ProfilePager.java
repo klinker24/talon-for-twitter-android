@@ -50,7 +50,6 @@ import com.klinker.android.twitter_l.adapters.TimeLineCursorAdapter;
 import com.klinker.android.twitter_l.data.ThemeColor;
 import com.klinker.android.twitter_l.data.sq_lite.FavoriteUsersDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.FollowersDataSource;
-import com.klinker.android.twitter_l.services.TalonPullNotificationService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
 import com.klinker.android.twitter_l.utils.MySuggestionsProvider;
@@ -1071,11 +1070,6 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 }
             } else {
                 Toast.makeText(context, getResources().getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            if(settings.liveStreaming) {
-                context.sendBroadcast(new Intent("com.klinker.android.twitter.STOP_PUSH_SERVICE"));
-                TalonPullNotificationService.start(context);
             }
 
             new GetActionBarInfo().execute();

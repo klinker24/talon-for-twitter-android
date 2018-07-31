@@ -157,13 +157,13 @@ public class DMDataSource {
         values.put(DMSQLiteHelper.COLUMN_ACCOUNT, account);
         values.put(DMSQLiteHelper.COLUMN_TEXT, text);
         values.put(DMSQLiteHelper.COLUMN_TWEET_ID, status.getId());
-        values.put(DMSQLiteHelper.COLUMN_NAME, status.get.getName());
-        values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getOriginalProfileImageURL());
-        values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
+//        values.put(DMSQLiteHelper.COLUMN_NAME, status.get.getName());
+//        values.put(DMSQLiteHelper.COLUMN_PRO_PIC, status.getSender().getOriginalProfileImageURL());
+//        values.put(DMSQLiteHelper.COLUMN_SCREEN_NAME, status.getSender().getScreenName());
         values.put(DMSQLiteHelper.COLUMN_TIME, time);
-        values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
-        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
-        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
+//        values.put(DMSQLiteHelper.COLUMN_RETWEETER, status.getRecipientScreenName());
+//        values.put(DMSQLiteHelper.COLUMN_EXTRA_ONE, status.getRecipient().getOriginalProfileImageURL());
+//        values.put(DMSQLiteHelper.COLUMN_EXTRA_TWO, status.getRecipient().getName());
         values.put(HomeSQLiteHelper.COLUMN_PIC_URL, media);
 
         TweetLinkUtils.TweetMediaInformation info = TweetLinkUtils.getGIFUrl(status.getMediaEntities(), url);

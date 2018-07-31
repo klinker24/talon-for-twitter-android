@@ -771,16 +771,6 @@
         </service>
 
         <service
-            android:name=".services.TalonPullQSService"
-            android:icon="@drawable/ic_stat_icon"
-            android:label="@string/talon_pull"
-            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
-            <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
-            </intent-filter>
-        </service>
-
-        <service
             android:name=".services.ComposeTileService"
             android:icon="@drawable/ic_stat_icon"
             android:label="@string/menu_compose"
@@ -891,10 +881,7 @@
         <service android:name=".services.RetweetService" />
         <service android:name=".services.ReplyFromWearService" />
         <service android:name=".services.ReplySecondAccountFromWearService" />
-        <service android:name=".services.TalonPullNotificationService" />
         <service android:name=".services.SendTweet" />
-        <service android:name=".services.CatchupPull" />
-        <service android:name=".services.StopPull" />
         <service android:name=".services.MarkReadService" />
         <service android:name=".services.MarkReadSecondAccService" />
         <service android:name=".services.ReadInteractionsService" />
@@ -904,12 +891,6 @@
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
-
-        <!--<receiver android:name="com.klinker.android.twitter_l.receivers.ConnectivityChangeReceiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>-->
 
         <receiver android:name="com.klinker.android.twitter_l.receivers.BootReceiver">
             <intent-filter>

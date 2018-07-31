@@ -821,190 +821,10 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             drawerStatusBar.setVisibility(View.VISIBLE);
         }
 
-        if(!settings.pushNotifications || !settings.useInteractionDrawer) {
-            try {
-                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-            } catch (Exception e) {
-                // no drawer?
-            }
-        } else {
-            mDrawerLayout.setDrawerRightEdgeSize(this, .1f);
-
-            Cursor c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
-            notificationAdapter = new InteractionsCursorAdapter(context, c);
-            try {
-                notificationList.setAdapter(notificationAdapter);
-            } catch (Exception e) {
-
-            }
-
-            try {
-                if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
-                    noInteractions.setVisibility(View.VISIBLE);
-                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                } else if (noInteractions.getVisibility() != View.GONE) {
-                    noInteractions.setVisibility(View.GONE);
-                    noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                }
-            } catch (Exception e) {
-
-            }
-
-            oldInteractions = (TextView) findViewById(R.id.old_interactions_text);
-            readButton = (ImageView) findViewById(R.id.read_button);
-
-            ImageButton dismiss = (ImageButton) findViewById(R.id.dismiss_button);
-            dismiss.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismissNotifications();
-                }
-            });
-
-            LinearLayout footer = (LinearLayout) findViewById(R.id.footer);
-            View seperater = findViewById(R.id.nav_bar_seperator_interactions);
-            if (Utils.hasNavBar(context) &&
-                    (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || getResources().getBoolean(R.bool.isTablet)) &&
-                    !MainActivity.isPopup) {
-                LinearLayout.LayoutParams navParams = (LinearLayout.LayoutParams) seperater.getLayoutParams();
-                navParams.height = navBarHeight;
-                seperater.setLayoutParams(navParams);
-            } else {
-                seperater.setVisibility(View.GONE);
-            }
-            footer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Cursor c;
-
-                    final boolean allInteractions;
-
-                    if (oldInteractions.getText().toString().equals(getResources().getString(R.string.old_interactions))) {
-                        allInteractions = true;
-
-                        oldInteractions.setText(getResources().getString(R.string.new_interactions));
-                        readButton.setImageResource(closedMailResource);
-
-                        notificationList.disableSwipeToDismiss();
-
-                        c = InteractionsDataSource.getInstance(context).getCursor(DrawerActivity.settings.currentAccount);
-
-                        notificationAdapter = new InteractionsCursorAdapter(context, c);
-                    } else {
-                        allInteractions = false;
-
-                        oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                        readButton.setImageResource(openMailResource);
-
-                        notificationList.enableSwipeToDismiss();
-
-                        c = InteractionsDataSource.getInstance(context).getUnreadCursor(DrawerActivity.settings.currentAccount);
-                        notificationAdapter = new InteractionsCursorAdapter(context, c);
-                    }
-
-                    try {
-                        if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
-                            noInteractions.setVisibility(View.VISIBLE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                        } else if (noInteractions.getVisibility() != View.GONE) {
-                            noInteractions.setVisibility(View.GONE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                        }
-                    } catch (Exception e) {
-
-                    }
-
-                    if (notificationList.getCount() != 0) {
-                        // fade out the list
-                        // set the adapter
-                        // animate it up from the bottom
-
-                        Animation anim = AnimationUtils.loadAnimation(context, !allInteractions ? R.anim.slide_card_down : R.anim.fade_out);
-                        anim.setDuration(300);
-                        notificationList.startAnimation(anim);
-
-                        notificationList.setVisibility(View.INVISIBLE);
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                notificationList.setAdapter(notificationAdapter);
-                                notificationList.setTranslationY(0);
-
-                                Animation anim = AnimationUtils.loadAnimation(context, allInteractions ? R.anim.slide_card_up : R.anim.fade_in);
-                                anim.setDuration(250);
-                                notificationList.startAnimation(anim);
-
-                                notificationList.setVisibility(View.VISIBLE);
-                            }
-                        }, 300);
-                    } else {
-                        // set the visibility to gone
-                        // set the adapter
-                        // slide up animation
-                        // set visibility to visible
-
-                        notificationList.setVisibility(View.INVISIBLE);
-                        notificationList.setAdapter(notificationAdapter);
-
-                        Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_card_up);
-                        anim.setDuration(250);
-                        notificationList.startAnimation(anim);
-
-                        notificationList.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-
-            if (DrawerActivity.translucent) {
-                if (Utils.hasNavBar(context)) {
-                    View nav = new View(context);
-                    nav.setOnClickListener(null);
-                    nav.setOnLongClickListener(null);
-                    ListView.LayoutParams params = new ListView.LayoutParams(ListView.LayoutParams.MATCH_PARENT, Utils.getNavBarHeight(context));
-                    nav.setLayoutParams(params);
-                    //notificationList.addFooterView(nav);
-                    notificationList.setFooterDividersEnabled(false);
-                }
-            }
-
-            notificationList.setDismissCallback(new EnhancedListView.OnDismissCallback() {
-                @Override
-                public EnhancedListView.Undoable onDismiss(EnhancedListView listView, int position) {
-                    InteractionsDataSource data = InteractionsDataSource.getInstance(context);
-                    data.markRead(settings.currentAccount, position);
-                    Cursor c = data.getUnreadCursor(DrawerActivity.settings.currentAccount);
-                    notificationAdapter = new InteractionsCursorAdapter(context, c);
-                    notificationList.setAdapter(notificationAdapter);
-
-                    try {
-                        if (c.getCount() == 0 && noInteractions.getVisibility() != View.VISIBLE) {
-                            noInteractions.setVisibility(View.VISIBLE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
-                        } else if (noInteractions.getVisibility() != View.GONE) {
-                            noInteractions.setVisibility(View.GONE);
-                            noInteractions.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
-                        }
-                    } catch (Exception e) {
-
-                    }
-
-                    oldInteractions.setText(getResources().getString(R.string.old_interactions));
-                    readButton.setImageResource(openMailResource);
-
-                    if (notificationAdapter.getCount() == 0) {
-                        setNotificationFilled(false);
-                    }
-
-                    return null;
-                }
-            });
-
-            notificationList.enableSwipeToDismiss();
-            notificationList.setSwipeDirection(EnhancedListView.SwipeDirection.START);
-
-            notificationList.setOnItemClickListener(new InteractionClickListener(context, mDrawerLayout, mViewPager));
+        try {
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+        } catch (Exception e) {
+            // no drawer?
         }
 
         kitkatStatusBar = findViewById(R.id.kitkat_status_bar);
@@ -1452,12 +1272,10 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
 
         DrawerActivity.settings = AppSettings.getInstance(context);
 
-        if (!settings.pushNotifications || !settings.useInteractionDrawer) {
-            try {
-                mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
-            } catch (Exception x) {
-                // no drawer?
-            }
+        try {
+            mDrawerLayout.setDrawerLockMode(NotificationDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+        } catch (Exception x) {
+            // no drawer?
         }
     }
 
@@ -1489,12 +1307,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             menu.getItem(COMPOSE).setVisible(false);
             menu.getItem(DM).setVisible(false);
             menu.getItem(TOFIRST).setVisible(false);
-
-            if (settings.pushNotifications && settings.useInteractionDrawer) {
-                menu.getItem(NOTIFICATIONS).setVisible(true);
-            } else {
-                menu.getItem(NOTIFICATIONS).setVisible(false);
-            }
+            menu.getItem(NOTIFICATIONS).setVisible(false);
 
         } else {
             menu.getItem(DISMISS).setVisible(false);
@@ -1502,16 +1315,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             menu.getItem(SEARCH).setVisible(true);
             menu.getItem(COMPOSE).setVisible(true);
             menu.getItem(DM).setVisible(true);
-
-            if (!settings.pushNotifications || !settings.useInteractionDrawer) {
-                menu.getItem(NOTIFICATIONS).setVisible(false);
-            } else {
-                if (settings.floatingCompose || getResources().getBoolean(R.bool.isTablet)) {
-                    menu.getItem(NOTIFICATIONS).setVisible(true);
-                } else {
-                    menu.getItem(NOTIFICATIONS).setVisible(false);
-                }
-            }
+            menu.getItem(NOTIFICATIONS).setVisible(false);
         }
 
         // to first button in overflow instead of the toast

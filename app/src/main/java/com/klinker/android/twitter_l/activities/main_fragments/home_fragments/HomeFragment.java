@@ -35,7 +35,6 @@ import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.services.CatchupPull;
 import com.klinker.android.twitter_l.services.PreCacheService;
 import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
 import com.klinker.android.twitter_l.services.background_refresh.WidgetRefreshService;
@@ -183,11 +182,7 @@ public class HomeFragment extends MainFragment {
         public void onReceive(Context context, Intent intent) {
             // if it is live streaming, then we will not have to refresh the timeline
             // otherwise, we do have to refresh the timeline.
-            if (settings.liveStreaming) {
-                fetchTweetMarker();
-            } else {
-                refreshOnStart();
-            }
+            refreshOnStart();
         }
     };
 
@@ -196,20 +191,17 @@ public class HomeFragment extends MainFragment {
         public void onReceive(final Context context, Intent intent) {
             markReadForLoad();
             if (settings.tweetmarker) {
-                new TimeoutThread(new Runnable() {
-                    @Override
-                    public void run() {
+                new TimeoutThread(() -> {
 
-                        TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                                sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                                Utils.getTwitter(context, new AppSettings(context)),
-                                sharedPrefs,
-                                getActivity());
+                    TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
+                            sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
+                            Utils.getTwitter(context, new AppSettings(context)),
+                            sharedPrefs,
+                            getActivity());
 
-                        long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
-                        helper.sendCurrentId("timeline", currentId);
+                    long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
+                    helper.sendCurrentId("timeline", currentId);
 
-                    }
                 }).start();
             }
         }
@@ -410,7 +402,7 @@ public class HomeFragment extends MainFragment {
 
         int numberNew = 0;
 
-        if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning || CatchupPull.isRunning) {
+        if (TimelineRefreshService.isRunning || WidgetRefreshService.isRunning) {
             // quit if it is running in the background
             return 0;
         }
@@ -1016,15 +1008,7 @@ public class HomeFragment extends MainFragment {
         }
 
 
-        if (settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
-            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
-            HomeFragment.refreshHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    fetchTweetMarker();
-                }
-            }, 600);
-        } else if (!settings.liveStreaming && settings.tweetmarker && !settings.tweetmarkerManualOnly) {
+        if (settings.tweetmarker && !settings.tweetmarkerManualOnly) {
             HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
             HomeFragment.refreshHandler.postDelayed(new Runnable() {
                 @Override

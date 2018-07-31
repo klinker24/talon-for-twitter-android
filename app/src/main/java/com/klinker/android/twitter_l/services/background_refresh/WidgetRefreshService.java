@@ -26,7 +26,6 @@ import android.util.Log;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
-import com.klinker.android.twitter_l.services.CatchupPull;
 import com.klinker.android.twitter_l.services.PreCacheService;
 import com.klinker.android.twitter_l.services.abstract_services.KillerIntentService;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -55,7 +54,7 @@ public class WidgetRefreshService  extends KillerIntentService {
     @Override
     public void handleIntent(Intent intent) {
         // it is refreshing elsewhere, so don't start
-        if (WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || CatchupPull.isRunning || !MainActivity.canSwitch) {
+        if (WidgetRefreshService.isRunning || TimelineRefreshService.isRunning || !MainActivity.canSwitch) {
             return;
         }
 

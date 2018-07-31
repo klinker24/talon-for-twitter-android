@@ -16,7 +16,6 @@ import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
-import com.klinker.android.twitter_l.services.CatchupPull;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
@@ -64,7 +63,7 @@ public class ListRefreshService extends SimpleJobService {
 
     @Override
     public int onRunJob(JobParameters job) {
-        if (!MainActivity.canSwitch || CatchupPull.isRunning || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
+        if (!MainActivity.canSwitch || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
             return 0;
         }
 
