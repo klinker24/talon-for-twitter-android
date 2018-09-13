@@ -44,8 +44,6 @@ import twitter4j.TwitterException;
 public class DirectMessageRefreshService extends SimpleJobService {
 
     public static final String JOB_TAG = "direct-message-refresh";
-
-    SharedPreferences sharedPrefs;
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {

@@ -91,8 +91,6 @@
     <string name="mention">Mening</string>
     <string name="message">Besked</string>
     <string name="messages">Beskeder</string>
-    <string name="new_message">ny besked</string>
-    <string name="new_messages">nye beskeder</string>
     <string name="mentioned_by">Mening fra</string>
     <string name="message_from">Besked fra</string>
     <string name="mark_read">Læst</string>
@@ -192,7 +190,7 @@ Flere data hentes
     <!-- User Profile Activity -->
     <string name="followers">Følgere</string>
     <string name="following">Følger</string>
-    <string name="blocked_user">Blokeret profil</string>
+    <string name="blocked_user">Profil blokeret</string>
     <string name="unblocked_user">Ophæv blokering</string>
     <string name="followed_user">Følger profil</string>
     <string name="unfollowed_user">Følger ikke profil</string>
@@ -309,9 +307,6 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="sync_mobile_data_summary">Opdater automatisk over WiFi og mobildata forbindelser</string>
     <string name="auto_sync_notifications">Opdater notifikationer automatisk</string>
     <string name="notifications">Notifikationer</string>
-    <string name="vibrate">Vibration</string>
-    <string name="led">Blink med LED</string>
-    <string name="wake_screen">Tænd skærm</string>
     <string name="sound">Notifikations lyd</string>
     <string name="quiet_hours">Forstyr ikke mode</string>
     <string name="max_number_on_refresh">Max. antal tweets som opdateres</string>
@@ -442,9 +437,6 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="to_replies">Indsæt hashtag der er indeholdt i tweetet</string>
     <string name="clean_now">Rens database nu</string>
     <string name="clean_now_summary">Inkluderer trimning og fjerner dubletter i databasen</string>
-    <string name="delete_conversation">Slet samtale?</string>
-    <string name="deleting_messages">Sletter beskeder</string>
-    <string name="type_message">Skriv besked...</string>
     <string name="fill_gaps">Luk hul i tidslinje</string>
     <string name="fill_gaps_summary">Lukker \"hul\" der kan opstå i tidslinjen grundet dårlig streaming forbindelse, når live-streaming er aktiveret</string>
     <string name="filling_timeline">Lukker huller i tidslinje</string>
@@ -724,10 +716,87 @@ Nye meninger, følgere, retweets og likes vises</string>
     <string name="three_mb_message">Twitter tillader kun afspilning af GIFs på max. 5MB. Talon vil bruge versionen med den bedste kvalitet fra Giphy, der ligger inden for denne grænse\n\nDe viste vil alle være versioner der ligger inden for grænsen. Ingen GIFs hvor kvaliteten er forringet for at overholde grænsen på de 5 MB, er vist</string>
     <string name="quoted_you">citerede dig</string>
     <string name="privacy_policy">Privatlivspolitik</string>
-    <string name="emoji_style">Emoji stil</string>
-    <string name="emoji_style_default">System standard</string>
-    <string name="emoji_style_android_o">Google\'s Android Oreo</string>
     <string name="saved_tweets">Gemte tweets</string>
     <string name="save_for_later">Gem tweet</string>
     <string name="remove_from_saved_tweets">Fjern fra gemte tweets</string>
+    <string name="today">I dag</string>
+    <string name="last_week">Denne uge</string>
+    <string name="last_month">Denne måned</string>
+    <string name="older">Ældre</string>
+    <string name="undo">Fortryd</string>
+    <string name="enter_search">Søg efter...</string>
+    <string name="message_from_bullet">%1$s•</string>
+    <string name="now">Nu</string>
+    <string name="failed">Fejl</string>
+    <string name="delivered">Besked modtaget</string>
+    <string name="attach_image">Vedhæft billede</string>
+    <string name="capture_image">Tag billede</string>
+    <string name="record_video">Optag video</string>
+    <string name="flip_picture">Vend kamera</string>
+    <string name="fullscreen">Fuldskærm</string>
+    <string name="attached_image">Vedhæftet billede</string>
+    <string name="share">Del</string>
+    <string name="share_content">Del indhold...</string>
+    <string name="saved">Gemt i download mappe</string>
+    <string name="failed_to_save">Ikke gemt</string>
+    <string name="read">Læs</string>
+    <string name="mark_as_read">Markér som læst</string>
+    <string name="reply_to">Svar %1$s</string>
+    <string-array name="reply_choices">
+        <item>Ja</item>
+        <item>Nej</item>
+        <item>Måske</item>
+        <item>OK</item>
+        <item>Tak</item>
+    </string-array>
+    <string name="media">Medie</string>
+    <string name="status_notifications_channel">Status for notifikationer</string>
+    <string name="background_service_channel">Notifikationer for baggrundsservices</string>
+    <string name="general_notifications_channel">Generelle notifikationer</string>
+    <string name="copyright_summary">Vis information om open source licenser</string>
+    <string name="app_version">App version</string>
+    <string name="faqs">FAQ</string>
+    <string name="get_help">Hjælp</string>
+    <string name="google_plus_summary">Pulse Beta Forum</string>
+    <string name="email">Email</string>
+    <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="support">Support</string>
+    <string name="theme_settings_category">Brugeroplevelse</string>
+    <string name="conversation_list_category">Samtale oversigt</string>
+    <string name="general_category">Generelt</string>
+    <string name="theme_settings_redirect">Tema</string>
+    <string name="add">Tilføj</string>
+    <string name="privacy_policy_summary">Læs vores privatlivspolitik på nettet</string>
+    <string name="signout_time">Logger ud for: %1$s</string>
+    <string name="no_apps_found">Ingen app understøtter denne handling</string>
+    <string name="you_denied_permission">Du har afvist denne tilladelse</string>
+    <string name="advanced">Avanceret</string>
+    <string name="verify">Godkend</string>
+    <string name="default_text">Standard</string>
+    <string name="dismiss">Afvis</string>
+    <string name="renew">Forny</string>
+    <string name="hours">Timer</string>
+    <string name="minutes">Minutter</string>
+    <string name="test">Test</string>
+    <string name="off">Sluk</string>
+    <string name="on">Tænd</string>
+    <string name="rate_it_title">Top bedømmelser går langt tilbage</string>
+    <string name="rate_it_summary"><b>5-stjerne bedømmelser</b> er ekstremt vigtige for app\'ens udvikling
+and synlighed på Play Store. Hvis du ønsker at se app\'en <i>fortsætte sin sejrsgang</i>, så hjælp mig gerne!</string>
+    <string name="rate_it_not_ready">Ikke klar til at bedømme app\'en? Intet problem - blot tap på tilbage, og du vil aldrig blive spurgt igen</string>
+    <!-- Times -->
+    <string name="one_second">Et sekund</string>
+    <string name="three_seconds">Tre sekunder</string>
+    <string name="five_seconds">Fem sekunder</string>
+    <string name="ten_seconds">Ti sekunder</string>
+    <string name="fifteen_seconds">Femten sekunder</string>
+    <string name="thirty_seconds">Tredive sekunder</string>
+    <string name="one_minute">Et minut</string>
+    <string name="one_week">En uge</string>
+    <string name="two_weeks">To uger</string>
+    <string name="one_month">En måned</string>
+    <string name="three_months">Tre måneder</string>
+    <string name="six_months">Seks måneder</string>
+    <string name="one_year">Et år</string>
 </resources>

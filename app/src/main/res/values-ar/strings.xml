@@ -91,8 +91,6 @@
     <string name="mention">"إشارة "</string>
     <string name="message">"رسالة "</string>
     <string name="messages">"رسائل "</string>
-    <string name="new_message">رسالة جديدة</string>
-    <string name="new_messages">"رسائل جديدة "</string>
     <string name="mentioned_by">"إشارة بواسطة "</string>
     <string name="message_from">رسالة من</string>
     <string name="mark_read">"مقروء "</string>
@@ -303,9 +301,6 @@
     <string name="sync_mobile_data_summary">"تحديث تلقائي للخط الزمني عبر شبكة الجوال والواي فاي "</string>
     <string name="auto_sync_notifications">"خيارات تنبيهات التحديث التلقائي "</string>
     <string name="notifications">"التنبيهات "</string>
-    <string name="vibrate">"الإهتزاز "</string>
-    <string name="led">"ضوء الفلاش "</string>
-    <string name="wake_screen">"أيقظ الشاشة "</string>
     <string name="sound">"نعمة التنبيهات "</string>
     <string name="quiet_hours">وضع عدم الإزعاج</string>
     <string name="max_number_on_refresh">العدد الأقصى للتغريدات في التحديث</string>
@@ -436,9 +431,6 @@
     <string name="to_replies">أضف أي هاشتاق موجود في التغريدة إلى الرد.</string>
     <string name="clean_now">نظف قاعدة البيانات الآن</string>
     <string name="clean_now_summary">يتضمن ترتيب وإزالة التكرارات في قاعدة البيانات الخاصة بك.</string>
-    <string name="delete_conversation">أحذف المحادثة؟</string>
-    <string name="deleting_messages">حذف الرسائل</string>
-    <string name="type_message">كتابة رسالة...</string>
     <string name="fill_gaps">ملء الفراغات في الخط الزمني</string>
     <string name="fill_gaps_summary">عبئ الفراغات التي حصلت نتيجة أتصال مباشر سيء وتفعيل البث المباشر.</string>
     <string name="filling_timeline">يعبئ الفراغات في الخط الزمني</string>
@@ -719,10 +711,45 @@
     <string name="three_mb_message">تويتر يسمح فقط بنشر الصورة المتحركة GIF التي هي أقل من 5MB. تالون سوف  يجلب أعلى جودة لنسخة GIF من Giphy الذي يناسب ضمن هذه القيود.\n\nالنتائج التي تراها كلها لديها الإصدار الذي يتناسب ضمن هذا الحد ،أنا لم اظهر صور GIF التي بجودة مماثلة  لتناسب في حدود 5MB الجودة.</string>
     <string name="quoted_you">نقلت لك</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
-    <string name="emoji_style">نمط الرموز التعبيرية</string>
-    <string name="emoji_style_default">النظام الافتراضي</string>
-    <string name="emoji_style_android_o">نظام قوقل أندرويد اوريو (Oreo)</string>
     <string name="saved_tweets">التغريدات المحفوظة</string>
     <string name="save_for_later">احفظ لوقت لاحق</string>
     <string name="remove_from_saved_tweets">إزالة من التغريدات المحفوظة</string>
+    <string name="today">اليوم</string>
+    <string name="last_week">هذا الاسبوع</string>
+    <string name="last_month">هذا الشهر</string>
+    <string name="older">الاقدم</string>
+    <string name="undo">تراجع</string>
+    <string name="enter_search">البحث عن...</string>
+    <string name="message_from_bullet">%1$s •</string>
+    <string name="now">الآن</string>
+    <string name="failed">فشل</string>
+    <string name="delivered">تم استلام الرسالة</string>
+    <string name="attach_image">إرفاق صورة</string>
+    <string name="capture_image">التقاط صورة</string>
+    <string name="record_video">تسجيل فيديو</string>
+    <string name="flip_picture">كاميرا فليب</string>
+    <string name="fullscreen">شاشة كاملة</string>
+    <string name="attached_image">صورة مرفقة</string>
+    <string name="share">شارك</string>
+    <string name="share_content">مشاركة المحتوى ...</string>
+    <string name="saved">حفظ إلى مجلد التنزيلات!</string>
+    <string name="failed_to_save">فشل الحفظ</string>
+    <string name="read">مقروء</string>
+    <string name="mark_as_read">تحديد كمقروء</string>
+    <string name="reply_to">الرد على %1$s</string>
+    <string-array name="reply_choices">
+        <item>نعم</item>
+        <item>لا</item>
+        <item>ربما</item>
+        <item>حسناً</item>
+        <item>شكراً</item>
+    </string-array>
+    <string name="media">الوسائط</string>
+    <string name="status_notifications_channel">إشعارات الحالة</string>
+    <string name="background_service_channel">خدمة إشعارات الخلفية</string>
+    <string name="general_notifications_channel">الإشعارات العامة</string>
+    <string name="copyright_summary">شاهد معلومات الرخصة مفتوحة المصدر</string>
+    <string name="app_version">إصدار التطبيق</string>
+    <string name="faqs">الأسئلة الشائعة</string>
+    <string name="get_help">احصل على مساعدة</string>
 </resources>

@@ -91,8 +91,6 @@
     <string name="mention">Bahseden</string>
     <string name="message">Mesaj</string>
     <string name="messages">Mesaj</string>
-    <string name="new_message">yeni mesaj</string>
-    <string name="new_messages">yeni mesaj</string>
     <string name="mentioned_by">Bahseden:</string>
     <string name="message_from">Mesaj gönderen</string>
     <string name="mark_read">Oku</string>
@@ -303,9 +301,6 @@ NOT: Deneme süresi dolsa bile Emojiler bu uygulamada kullanılmaya devam edilec
     <string name="sync_mobile_data_summary">Mobil veri ve WiFi üzerinden zaman akışını otomatik yenile.</string>
     <string name="auto_sync_notifications">Otomatik Yenileme Bildirim Seçenekleri</string>
     <string name="notifications">Bildirimler</string>
-    <string name="vibrate">Titreşim</string>
-    <string name="led">LED Işıltısı</string>
-    <string name="wake_screen">Ekranı Uyandır</string>
     <string name="sound">Bildirim Sesi</string>
     <string name="quiet_hours">Rahatsız Etmeyin Modu</string>
     <string name="max_number_on_refresh">Yenilenecek En Fazla Tweet</string>
@@ -409,7 +404,7 @@ Varsayılan (devre dışı bırakıldığında):\n
     <!-- added after release -->
     <string name="use_inapp_browser">Dahili Tarayıcıyı Kullanın</string>
     <string name="use_browser_on_tweet">Tweet Tarayıcı Sayfası</string>
-    <string name="dismiss_all">Tümünü Kapat</string>
+    <string name="dismiss_all">Tümünü Reddet</string>
     <string name="handle_and_name">Kullanıcı Adı ve İsim Göster</string>
     <string name="notification_types">Bildirim Türleri</string>
     <string name="with_talon_pull">\"Talon Pull\" aracığılıyla erişin.</string>
@@ -435,9 +430,6 @@ Varsayılan (devre dışı bırakıldığında):\n
     <string name="to_replies">Yanıtlarken, tweette bulunan herhangi bir hashtagi yanıta ekle.</string>
     <string name="clean_now">Veritabanlarını Hemen Temizle</string>
     <string name="clean_now_summary">Veritabanlarınızın kırpılmasını ve çift kayıtların kaldırılmasını içerir.</string>
-    <string name="delete_conversation">Sohbeti Sil?</string>
-    <string name="deleting_messages">Mesajları Sil</string>
-    <string name="type_message">Mesaj yazın...</string>
     <string name="fill_gaps">Zaman Akışı Boşluklarını Doldur</string>
     <string name="fill_gaps_summary">Canlı akış etkinleştirildiğinde, kötü bir bağlantı nedeniyle oluşan boşlukları doldurun.</string>
     <string name="filling_timeline">Zaman akışı boşlukları dolduruluyor</string>
@@ -633,7 +625,7 @@ Talon yerine TwitPic kullanarak resim yükleme.</string>
     <string name="second_account">2nci Hesap</string>
     <string name="second_account_login_info">Twitter bazı giriş bilgilerinizi sisteminde tuttuğundan dolayı, sonraki ekran yeni hesabınızla oturum açmanıza hemen izin vermeyebilir. Eğer oturum açmayı atlayıp doğrulama sayfasına giderse, uygulamanın ikinci hesabınıza girmesine izin vermek için sayfanın sağ üstündeki \"Sign Out\" butonuna dokunun.</string>
     <string name="fetch_tweetmarker">TweetMarker\'ı getir</string>
-    <string name="rate_limit_reached">Hız Sınırına Erişildi</string>
+    <string name="rate_limit_reached">Akış Sınırına Ulaşıldı</string>
     <string name="info">Bilgi</string>
     <string name="help_and_feedback">Yardım/Geri Bildirim</string>
     <string name="faq_first">Selam. Talon\'u geliştirmeme yardım etmenize çok sevindim!\n\nSorularınız veya geri bildirimleriniz için bana e-posta veya tweet göndermekten çekinmeyin. Fakat bundan önce sıkça sorulan sorular bölümü kontrol ettiniz mi? \n\nTalon\'un uygulama içinde çok geniş bir yardım/destek konuları bulunur. Benden cevap beklemeden önce bunlara göz atabilirsiniz! (Yine de en kısa sürede cevap vermeye çalışırım) \n\nTalon\'u beğendiğinizi umuyorum!</string>
@@ -714,10 +706,85 @@ Retweetler, beğeniler, bahsedenler ve yeni takipçiler burada görünmeye başl
     <string name="three_mb_message">Twitter, yalnızca 5MB\'dan az olan GIF\'lerin yayınlanmasına izin verir. Talon, Giphy\'den bu kısıtlamalara uyan en yüksek kalitede GIF sürümünü alacaktır.\n\nGördüğünüz sonuçların tümü bu sınırın içine sığan bir sürüme sahip. Kalitesi 5MB sınırına sığacak şekilde düşürülmüş olan GIF\'ler gösterilmiyor.</string>
     <string name="quoted_you">seni alıntıladı</string>
     <string name="privacy_policy">Gizlilik Politikası</string>
-    <string name="emoji_style">Emoji Stili</string>
-    <string name="emoji_style_default">Sistem Varsayılanı</string>
-    <string name="emoji_style_android_o">Google\'s Android Oreo</string>
     <string name="saved_tweets">Kaydedilmiş Tweetler</string>
     <string name="save_for_later">Sonrası için Kaydet</string>
     <string name="remove_from_saved_tweets">Kaydedilmişlerden Kaldır</string>
+    <string name="today">Bugün</string>
+    <string name="last_week">Bu hafta</string>
+    <string name="last_month">Bu ay</string>
+    <string name="older">Daha eski</string>
+    <string name="undo">Geri al</string>
+    <string name="enter_search">Ara…</string>
+    <string name="message_from_bullet">%1$s •</string>
+    <string name="now">Şimdi</string>
+    <string name="failed">Başarısız oldu</string>
+    <string name="delivered">Mesaj teslim edildi</string>
+    <string name="attach_image">Resim Ekle</string>
+    <string name="capture_image">Resim Yakala</string>
+    <string name="record_video">Video Kaydet</string>
+    <string name="flip_picture">Kamerayı Çevir</string>
+    <string name="fullscreen">Tam ekran</string>
+    <string name="attached_image">Ekli Resim</string>
+    <string name="share">Paylaş</string>
+    <string name="share_content">İçeriği paylaş...</string>
+    <string name="saved">İndirilenler klasörüne kaydedildi!</string>
+    <string name="failed_to_save">Kaydedilemedi</string>
+    <string name="read">Okundu</string>
+    <string name="mark_as_read">Okundu Yap</string>
+    <string-array name="reply_choices">
+        <item>Evet</item>
+        <item>Hayır</item>
+        <item>Belki</item>
+        <item>TAMAM</item>
+        <item>Teşekkürler</item>
+    </string-array>
+    <string name="media">Medya</string>
+    <string name="status_notifications_channel">Durum bildirimleri</string>
+    <string name="background_service_channel">Arkaplan hizmet bildirimleri</string>
+    <string name="general_notifications_channel">Genel bildirimler</string>
+    <string name="copyright_summary">Açık kaynak lisans bilgilerini görüntüle</string>
+    <string name="app_version">Uygulama Sürümü</string>
+    <string name="faqs">Sıkça Sorulan Sorular</string>
+    <string name="get_help">Yardım Alın</string>
+    <string name="google_plus_summary">Pulse Beta Topluluğu</string>
+    <string name="email">E-posta</string>
+    <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="support">Destek</string>
+    <string name="theme_settings_category">Görünüm</string>
+    <string name="conversation_list_category">Sohbet listesi</string>
+    <string name="general_category">Genel</string>
+    <string name="theme_settings_redirect">Tema</string>
+    <string name="add">Ekle</string>
+    <string name="privacy_policy_summary">Web\'de gizlilik politikamızı görün</string>
+    <string name="signout_time">Çıkış: %1$s</string>
+    <string name="no_apps_found">Bu işlemi gerçekleştiren hiçbir uygulama bulunamadı</string>
+    <string name="you_denied_permission">Bu izni vermediniz</string>
+    <string name="advanced">Gelişmiş</string>
+    <string name="verify">Doğrula</string>
+    <string name="default_text">Varsayılan</string>
+    <string name="dismiss">Reddet</string>
+    <string name="renew">Yenile</string>
+    <string name="hours">Saat</string>
+    <string name="minutes">Dakika</string>
+    <string name="test">Test</string>
+    <string name="off">Kapalı</string>
+    <string name="on">Açık</string>
+    <string name="rate_it_title">Yüksek değerlendirmeler çok yararlıdır</string>
+    <string name="rate_it_summary"><b>5-yıldızlı değerlendirmeler</b> uygulamanın Play Store\'da büyümesine ve görünür olmasına oldukça yardımcı olur. Uygulamanın <i>hızla yükseldiğini</i> görmek istiyorsanız, bana yardımcı olun!</string>
+    <string name="rate_it_not_ready">Değerlendirme yapmaya hazır değil misiniz? Sorun değil. Bu pencereyi kapatın, tekrar sormayacağım.</string>
+    <!-- Times -->
+    <string name="one_second">Bir saniye</string>
+    <string name="three_seconds">Üç saniye</string>
+    <string name="five_seconds">Beş saniye</string>
+    <string name="ten_seconds">On saniye</string>
+    <string name="fifteen_seconds">On beş saniye</string>
+    <string name="thirty_seconds">Otuz saniye</string>
+    <string name="one_minute">Bir dakika</string>
+    <string name="one_week">Bir hafta</string>
+    <string name="two_weeks">İki hafta</string>
+    <string name="one_month">Bir ay</string>
+    <string name="three_months">Üç ay</string>
+    <string name="six_months">Altı ay</string>
+    <string name="one_year">Bir yıl</string>
 </resources>

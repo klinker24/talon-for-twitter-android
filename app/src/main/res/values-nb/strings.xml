@@ -91,8 +91,6 @@
     <string name="mention">Nevning</string>
     <string name="message">Melding</string>
     <string name="messages">Meldinger</string>
-    <string name="new_message">ny melding</string>
-    <string name="new_messages">nye meldinger</string>
     <string name="mentioned_by">Nevnt av</string>
     <string name="message_from">Melding fra</string>
     <string name="mark_read">Les</string>
@@ -305,9 +303,6 @@ MERK: Emojis vil fortsette å fungere i denne appen selv om prøveperioden er ut
     <string name="sync_mobile_data_summary">Automatisk oppdater tidslinjer over både mobildata og WiFi.</string>
     <string name="auto_sync_notifications">Automatisk Oppdater Varslingsalternativer</string>
     <string name="notifications">Varsler</string>
-    <string name="vibrate">Vibrer</string>
-    <string name="led">Flash LED</string>
-    <string name="wake_screen">Vekk Skjermen</string>
     <string name="sound">Varslingslyd</string>
     <string name="quiet_hours">Ikke Forstyrr Modus</string>
     <string name="max_number_on_refresh">Maks Tweets å Oppdatere</string>
@@ -446,9 +441,6 @@ Standard (når deaktivert):
     <string name="to_replies">Sett inn hvilken som helst hashtag inneholdt i tweetet i svaret.</string>
     <string name="clean_now">Rengjør Databaser Nå</string>
     <string name="clean_now_summary">Inkluderer trimming og fjerning av duplikater i din database.</string>
-    <string name="delete_conversation">Slett Samtalen?</string>
-    <string name="deleting_messages">Sletter Meldinger</string>
-    <string name="type_message">Skriv Melding...</string>
     <string name="fill_gaps">Fyll Tidslinje-Mellomrom</string>
     <string name="fill_gaps_summary">Fyll mellomrom som oppstår fra en dårlig streaming-forbindelse mens direktesending er aktivert.</string>
     <string name="filling_timeline">Fyller Tidslinje-Mellomrom</string>
@@ -734,10 +726,86 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="three_mb_message">Twitter tillater bare at GIFs som blir lagt ut er mindre enn 5MB. Talon vil ta GIF-versjonen av høyeste kvalitet fra Giphy som passer innenfor disse begrensningene.\n\nResultatene du ser har alle en versjon som passer innenfor denne grensen, jeg har ikke vist GIF-er der kvaliteten er nedsamplet for å passe innenfor 5MB grensen.</string>
     <string name="quoted_you">siterte deg</string>
     <string name="privacy_policy">Personvernregler</string>
-    <string name="emoji_style">Emoji stil</string>
-    <string name="emoji_style_default">System standard</string>
-    <string name="emoji_style_android_o">Google\'s Android Oreo</string>
     <string name="saved_tweets">Lagrede Tweets</string>
     <string name="save_for_later">Lagre for senere</string>
     <string name="remove_from_saved_tweets">Fjern fra lagrede tweets</string>
+    <string name="today">I dag</string>
+    <string name="last_week">Denne uken</string>
+    <string name="last_month">Denne måneden</string>
+    <string name="older">Eldre</string>
+    <string name="undo">Angre</string>
+    <string name="enter_search">Søk etter...</string>
+    <string name="message_from_bullet">%1$s  •</string>
+    <string name="now">Nå</string>
+    <string name="failed">Mislyktes</string>
+    <string name="delivered">Melding levert</string>
+    <string name="attach_image">Legg til Bilde</string>
+    <string name="capture_image">Ta Bilde</string>
+    <string name="record_video">Ta opp Video</string>
+    <string name="flip_picture">Bytt Kamera</string>
+    <string name="fullscreen">Fullskjerm</string>
+    <string name="attached_image">Vedlagt Bilde</string>
+    <string name="share">Del</string>
+    <string name="share_content">Del innhold...</string>
+    <string name="saved">Lagret i nedlastingsmappen!</string>
+    <string name="failed_to_save">Kunne ikke lagre</string>
+    <string name="read">Les</string>
+    <string name="mark_as_read">Merk som Lest</string>
+    <string name="reply_to">Svar til %1$s</string>
+    <string-array name="reply_choices">
+        <item>Ja</item>
+        <item>Nei</item>
+        <item>Kanskje</item>
+        <item>OK</item>
+        <item>Takk</item>
+    </string-array>
+    <string name="media">Media</string>
+    <string name="status_notifications_channel">Statusvarsler</string>
+    <string name="background_service_channel">Bakgrunnstjeneste-varsler</string>
+    <string name="general_notifications_channel">Generelle varsler</string>
+    <string name="copyright_summary">Se åpen kildekode lisensinformasjon</string>
+    <string name="faqs">Ofte Stilte Spørsmål</string>
+    <string name="get_help">Få Hjelp</string>
+    <string name="google_plus_summary">Pulse Beta Samfunn</string>
+    <string name="email">E-post</string>
+    <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="support">Støtte</string>
+    <string name="theme_settings_category">Utseende og Følelse</string>
+    <string name="conversation_list_category">Samtaleliste</string>
+    <string name="general_category">Generell</string>
+    <string name="theme_settings_redirect">Tema</string>
+    <string name="add">Legg til</string>
+    <string name="privacy_policy_summary">Se vår personvernpolicy på nettet</string>
+    <string name="signout_time">Logger ut på: %1$s</string>
+    <string name="no_apps_found">Ingen apper funnet til å håndtere denne handlingen</string>
+    <string name="you_denied_permission">Du har nektet denne tillatelsen</string>
+    <string name="advanced">Avansert</string>
+    <string name="verify">Bekreft</string>
+    <string name="default_text">Standard</string>
+    <string name="dismiss">Avvis</string>
+    <string name="renew">Forny</string>
+    <string name="hours">Timer</string>
+    <string name="minutes">Minutter</string>
+    <string name="test">Test</string>
+    <string name="off">Av</string>
+    <string name="on">På</string>
+    <string name="rate_it_title">Topp rangeringer går en lang vei</string>
+    <string name="rate_it_summary"><b>5-stjerners rangeringer</b> er svært nyttig for appens vekst
+og synlighet i Play-butikken. Hvis du vil se appen <i>fortsette å sveve</i>, hjelp meg!</string>
+    <string name="rate_it_not_ready">Ikke klar for å rangere det? Ikke noe problem. Gå ut av denne dialogen, og jeg vil aldri spørre igjen.</string>
+    <!-- Times -->
+    <string name="one_second">Ett sekund</string>
+    <string name="three_seconds">Tre sekunder</string>
+    <string name="five_seconds">Fem sekunder</string>
+    <string name="ten_seconds">Ti sekunder</string>
+    <string name="fifteen_seconds">Femten sekunder</string>
+    <string name="thirty_seconds">Tretti sekunder</string>
+    <string name="one_minute">Ett minutt</string>
+    <string name="one_week">En uke</string>
+    <string name="two_weeks">To uker</string>
+    <string name="one_month">En måned</string>
+    <string name="three_months">Tre måneder</string>
+    <string name="six_months">Seks måneder</string>
+    <string name="one_year">Ett år</string>
 </resources>
