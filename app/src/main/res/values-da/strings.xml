@@ -386,7 +386,6 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="disclaimer">Ansvarsfraskrivelse</string>
     <string name="other_apps">Klinker\'s applikationer</string>
     <string name="whats_new">Hvad er nyt</string>
-    <string name="rate_it">Bedøm Talon</string>
     <string name="talon_settings">Talon indstillinger</string>
     <string name="feature_requests">Fremtidige ønsker</string>
     <!-- Emoji Keyboard -->
@@ -741,7 +740,6 @@ Nye meninger, følgere, retweets og likes vises</string>
     <string name="failed_to_save">Ikke gemt</string>
     <string name="read">Læs</string>
     <string name="mark_as_read">Markér som læst</string>
-    <string name="reply_to">Svar %1$s</string>
     <string-array name="reply_choices">
         <item>Ja</item>
         <item>Nej</item>
@@ -749,7 +747,6 @@ Nye meninger, følgere, retweets og likes vises</string>
         <item>OK</item>
         <item>Tak</item>
     </string-array>
-    <string name="media">Medie</string>
     <string name="status_notifications_channel">Status for notifikationer</string>
     <string name="background_service_channel">Notifikationer for baggrundsservices</string>
     <string name="general_notifications_channel">Generelle notifikationer</string>
@@ -771,7 +768,6 @@ Nye meninger, følgere, retweets og likes vises</string>
     <string name="signout_time">Logger ud for: %1$s</string>
     <string name="no_apps_found">Ingen app understøtter denne handling</string>
     <string name="you_denied_permission">Du har afvist denne tilladelse</string>
-    <string name="advanced">Avanceret</string>
     <string name="verify">Godkend</string>
     <string name="default_text">Standard</string>
     <string name="dismiss">Afvis</string>
@@ -781,10 +777,6 @@ Nye meninger, følgere, retweets og likes vises</string>
     <string name="test">Test</string>
     <string name="off">Sluk</string>
     <string name="on">Tænd</string>
-    <string name="rate_it_title">Top bedømmelser går langt tilbage</string>
-    <string name="rate_it_summary"><b>5-stjerne bedømmelser</b> er ekstremt vigtige for app\'ens udvikling
-and synlighed på Play Store. Hvis du ønsker at se app\'en <i>fortsætte sin sejrsgang</i>, så hjælp mig gerne!</string>
-    <string name="rate_it_not_ready">Ikke klar til at bedømme app\'en? Intet problem - blot tap på tilbage, og du vil aldrig blive spurgt igen</string>
     <!-- Times -->
     <string name="one_second">Et sekund</string>
     <string name="three_seconds">Tre sekunder</string>

@@ -379,7 +379,6 @@ Varsayılan (devre dışı bırakıldığında):\n
     <string name="disclaimer">Sorumluluk Reddi</string>
     <string name="other_apps">Diğer Uygulamalarımız</string>
     <string name="whats_new">Neler Yeni</string>
-    <string name="rate_it">Talon\'u Oyla</string>
     <string name="talon_settings">Talon Ayarları</string>
     <string name="feature_requests">Özellik İstekleri</string>
     <!-- Emoji Keyboard -->
@@ -738,7 +737,6 @@ Retweetler, beğeniler, bahsedenler ve yeni takipçiler burada görünmeye başl
         <item>TAMAM</item>
         <item>Teşekkürler</item>
     </string-array>
-    <string name="media">Medya</string>
     <string name="status_notifications_channel">Durum bildirimleri</string>
     <string name="background_service_channel">Arkaplan hizmet bildirimleri</string>
     <string name="general_notifications_channel">Genel bildirimler</string>
@@ -760,7 +758,6 @@ Retweetler, beğeniler, bahsedenler ve yeni takipçiler burada görünmeye başl
     <string name="signout_time">Çıkış: %1$s</string>
     <string name="no_apps_found">Bu işlemi gerçekleştiren hiçbir uygulama bulunamadı</string>
     <string name="you_denied_permission">Bu izni vermediniz</string>
-    <string name="advanced">Gelişmiş</string>
     <string name="verify">Doğrula</string>
     <string name="default_text">Varsayılan</string>
     <string name="dismiss">Reddet</string>
@@ -770,9 +767,6 @@ Retweetler, beğeniler, bahsedenler ve yeni takipçiler burada görünmeye başl
     <string name="test">Test</string>
     <string name="off">Kapalı</string>
     <string name="on">Açık</string>
-    <string name="rate_it_title">Yüksek değerlendirmeler çok yararlıdır</string>
-    <string name="rate_it_summary"><b>5-yıldızlı değerlendirmeler</b> uygulamanın Play Store\'da büyümesine ve görünür olmasına oldukça yardımcı olur. Uygulamanın <i>hızla yükseldiğini</i> görmek istiyorsanız, bana yardımcı olun!</string>
-    <string name="rate_it_not_ready">Değerlendirme yapmaya hazır değil misiniz? Sorun değil. Bu pencereyi kapatın, tekrar sormayacağım.</string>
     <!-- Times -->
     <string name="one_second">Bir saniye</string>
     <string name="three_seconds">Üç saniye</string>
