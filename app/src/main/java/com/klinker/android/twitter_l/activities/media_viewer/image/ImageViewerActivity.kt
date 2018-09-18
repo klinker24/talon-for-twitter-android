@@ -66,7 +66,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.getItem(2).isVisible = false
+        menu.getItem(2).isVisible = tweetId != -1L
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -74,6 +74,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         when (item.itemId) {
             R.id.menu_save -> adapter.getItem(pager.currentItem).downloadImage()
             R.id.menu_share -> adapter.getItem(pager.currentItem).shareImage()
+            R.id.menu_info -> showInfo()
             android.R.id.home -> onBackPressed()
         }
 
@@ -92,6 +93,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
             Handler().postDelayed({
                 findViewById<View>(R.id.show_info).setOnClickListener { showInfo() }
                 findViewById<View>(R.id.show_info).visibility = View.VISIBLE
+
 
                 val retweetCount = findViewById<View>(R.id.retweet_count) as TextView
                 val likeCount = findViewById<View>(R.id.like_count) as TextView

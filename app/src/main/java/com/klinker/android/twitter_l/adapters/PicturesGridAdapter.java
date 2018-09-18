@@ -90,7 +90,7 @@ public class PicturesGridAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 setPics();
-                ImageViewerActivity.Companion.startActivity(context, -1L, null, position, pics.split(" "));
+                ImageViewerActivity.Companion.startActivity(context, id == 0 ? -1L : id, null, position, pics.split(" "));
             }
         });
 
