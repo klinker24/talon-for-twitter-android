@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable
 import com.klinker.android.twitter_l.views.DetailedTweetView
 import com.flipboard.bottomsheet.BottomSheetLayout
 import com.klinker.android.twitter_l.views.TweetView
+import kotlin.collections.HashMap
 import twitter4j.Status
 
 @SuppressLint("InlinedApi")
@@ -33,8 +34,13 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
 
-    private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
-    private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
+    //private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
+    private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_ID) }
+
+    //private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
+    private val tweetViews: MutableMap<Long, DetailedTweetView> by lazy { HashMap<Long, DetailedTweetView>() }
+    private val toolbarMenu: Menu by lazy { findViewById<Toolbar>(R.id.toolbar).menu }
+
     private val bottomSheet: BottomSheetLayout by lazy { findViewById<View>(R.id.bottom_sheet) as BottomSheetLayout }
 
     private val createdTime = System.currentTimeMillis()
@@ -55,9 +61,63 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         pager.adapter = adapter
         pager.currentItem = intent.getIntExtra(EXTRA_START_INDEX, 0)
 
-        if (tweetId != -1L) {
+        val initTweetId = tweetIds[pager.currentItem]
+
+        if (initTweetId != -1L){
+            val tweetView = tweetViews.getOrPut(initTweetId) { DetailedTweetView.create(this, initTweetId).setTweetLoadedCallback(this) as DetailedTweetView }
             tweetView.setShouldShowImage(false)
         }
+
+        pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                val tweetId = tweetIds[position]
+
+                if (tweetId == -1L) {
+                    findViewById<View>(R.id.show_info).visibility = View.GONE
+                    toolbarMenu.getItem(2).isVisible = false
+
+                } else {
+
+                    val tweetView = tweetViews.getOrPut(tweetId) {
+                        val tv = DetailedTweetView.create(this@ImageViewerActivity, tweetId).setTweetLoadedCallback(this@ImageViewerActivity) as DetailedTweetView
+                        tv.setShouldShowImage(false)
+                        tv
+                    }
+
+                    val timeout = if (System.currentTimeMillis() - createdTime > TIME_TO_DISPLAY_COUNT) {
+                        0L
+                    } else {
+                        TIME_TO_DISPLAY_COUNT - (System.currentTimeMillis() - createdTime)
+                    }
+
+                    Handler().postDelayed({
+                        val status = tweetView.status
+                        toolbarMenu.getItem(2).isVisible = status != null
+
+                        if (status != null) {
+
+                            findViewById<View>(R.id.show_info).visibility = View.VISIBLE
+
+                            val retweetCount = findViewById<TextView>(R.id.retweet_count)
+                            val likeCount = findViewById<TextView>(R.id.like_count)
+
+                            retweetCount.text = status.retweetCount.toString()
+                            likeCount.text = status.favoriteCount.toString()
+
+                        } else {
+
+                            findViewById<View>(R.id.show_info).visibility = View.GONE
+
+                        }
+                    }, timeout)
+
+                }
+
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -66,7 +126,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.getItem(2).isVisible = tweetId != -1L
+        menu.getItem(2).isVisible = tweetIds[pager.currentItem] != -1L
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -82,7 +142,8 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     }
 
     override fun onLoaded(status: Status?) {
-        if (tweetId != -1L && status != null) {
+
+        if (tweetIds[pager.currentItem] != -1L && status != null) {
 
             val timeout = if (System.currentTimeMillis() - createdTime > TIME_TO_DISPLAY_COUNT) {
                 0L
@@ -93,7 +154,6 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
             Handler().postDelayed({
                 findViewById<View>(R.id.show_info).setOnClickListener { showInfo() }
                 findViewById<View>(R.id.show_info).visibility = View.VISIBLE
-
 
                 val retweetCount = findViewById<View>(R.id.retweet_count) as TextView
                 val likeCount = findViewById<View>(R.id.like_count) as TextView
@@ -118,6 +178,8 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     }
 
     private fun showInfo() {
+        val tweetId = tweetIds[pager.currentItem]
+        val tweetView = tweetViews.getOrPut(tweetId) { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
         tweetView.view.setBackgroundResource(R.color.dark_background)
         bottomSheet.showWithSheetView(tweetView.view)
     }
@@ -132,15 +194,18 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         private val EXTRA_START_INDEX = "extra_start_index"
         private val TIME_TO_DISPLAY_COUNT = 1500L
 
-        @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links: String) {
+        @JvmOverloads fun startActivity(context: Context?, tweetId: Long = -1L, imageView: ImageView? = null, startIndex: Int = 0, vararg links : String) {
+
             if (context == null) {
                 return
             }
 
             val viewImage = Intent(context, ImageViewerActivity::class.java)
-            viewImage.putExtra(EXTRA_URLS, links)
-            viewImage.putExtra(EXTRA_START_INDEX, startIndex)
-            if (tweetId != -1L) viewImage.putExtra(EXTRA_TWEET_ID, tweetId)
+
+            viewImage.putExtra(EXTRA_TWEET_ID, LongArray(links.size) {tweetId})
+                    .putExtra(EXTRA_URLS, links)
+                    .putExtra(EXTRA_START_INDEX, startIndex)
+
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && imageView != null && links.size == 1) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, imageView, "image")
@@ -148,6 +213,30 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
             } else {
                 context.startActivity(viewImage)
             }
+
         }
+
+        @JvmOverloads fun startActivity(context: Context?, imageView: ImageView? = null, startIndex: Int = 0, linksWithIds: List<Pair<String, Long>>) {
+
+            if (context == null) {
+                return
+            }
+
+
+            val viewImage = Intent(context, ImageViewerActivity::class.java)
+                    .putExtra(EXTRA_START_INDEX, startIndex)
+                    .putExtra(EXTRA_URLS, linksWithIds.map { it.first }.toTypedArray())
+                    .putExtra(EXTRA_TWEET_ID, LongArray(linksWithIds.size) { x -> linksWithIds[x].second })
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && imageView != null && linksWithIds.size == 1) {
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, imageView, "image")
+                context.startActivity(viewImage, options.toBundle())
+            } else {
+                context.startActivity(viewImage)
+            }
+
+        }
+
     }
 }
