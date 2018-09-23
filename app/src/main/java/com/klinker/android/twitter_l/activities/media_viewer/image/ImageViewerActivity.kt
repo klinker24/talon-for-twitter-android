@@ -34,8 +34,8 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
 
-    //private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_ID, -1L) }
-    private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_ID) }
+    //private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_IDS, -1L) }
+    private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_IDS) }
 
     //private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
     private val tweetViews: MutableMap<Long, DetailedTweetView> by lazy { HashMap<Long, DetailedTweetView>() }
@@ -190,7 +190,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     companion object {
         private val EXTRA_URLS = "extra_urls"
-        private val EXTRA_TWEET_ID = "extra_tweet_id"
+        private val EXTRA_TWEET_IDS = "extra_tweet_ids"
         private val EXTRA_START_INDEX = "extra_start_index"
         private val TIME_TO_DISPLAY_COUNT = 1500L
 
@@ -202,7 +202,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
             val viewImage = Intent(context, ImageViewerActivity::class.java)
 
-            viewImage.putExtra(EXTRA_TWEET_ID, LongArray(links.size) {tweetId})
+            viewImage.putExtra(EXTRA_TWEET_IDS, LongArray(links.size) {tweetId})
                     .putExtra(EXTRA_URLS, links)
                     .putExtra(EXTRA_START_INDEX, startIndex)
 
@@ -226,7 +226,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
             val viewImage = Intent(context, ImageViewerActivity::class.java)
                     .putExtra(EXTRA_START_INDEX, startIndex)
                     .putExtra(EXTRA_URLS, linksWithIds.map { it.first }.toTypedArray())
-                    .putExtra(EXTRA_TWEET_ID, LongArray(linksWithIds.size) { x -> linksWithIds[x].second })
+                    .putExtra(EXTRA_TWEET_IDS, LongArray(linksWithIds.size) { x -> linksWithIds[x].second })
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && imageView != null && linksWithIds.size == 1) {
