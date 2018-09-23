@@ -34,10 +34,8 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
 
-    //private val tweetId: Long by lazy { intent.getLongExtra(EXTRA_TWEET_IDS, -1L) }
     private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_IDS) }
 
-    //private val tweetView: DetailedTweetView by lazy { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
     private val tweetViews: MutableMap<Long, DetailedTweetView> by lazy { HashMap<Long, DetailedTweetView>() }
     private val toolbarMenu: Menu by lazy { findViewById<Toolbar>(R.id.toolbar).menu }
 
