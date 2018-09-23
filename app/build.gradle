@@ -16,6 +16,7 @@ android {
         jumboMode true
         javaMaxHeapSize "4g"
     }
+    
     packagingOptions {
         exclude 'LICENSE'
         exclude 'README.md'
@@ -25,13 +26,17 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/DEPENDENCIES'
     }
-    compileSdkVersion 27
+    
+    compileSdkVersion parseSdkVersion(project.COMPILE_SDK)	
+
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
-        targetSdkVersion 27
-        minSdkVersion 23
+        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
+        minSdkVersion parseSdkVersion(project.MIN_SDK)
+        versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
         multiDexEnabled true
+        
         File secretsExists = new File("secrets.properties")
         if (secretsExists.exists()) {
             def secretsFile = rootProject.file('secrets.properties')
@@ -71,6 +76,7 @@ android {
             buildConfigField "String", "CONSUMER_SECRET_OLD_3", "\"This is optional.\""
         }
     }
+    
     File keystore = new File(props['keystorefile'])
     if (keystore.exists()) {
         signingConfigs {
@@ -114,34 +120,39 @@ android {
             }
         }
     }
+    
     sourceSets {
         androidTest {
             setRoot('src/test')
         }
     }
+    
     lintOptions {
         ignore "InnerClasses"
         abortOnError false
     }
+    
     aaptOptions {
         noCompress 'apk'
     }
+    
     testOptions {
         unitTests {
             includeAndroidResources = true
         }
     }
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '28.0.2'
-    productFlavors {
-    }
+    
 }
 
 dependencies {
+
     wearApp project(':wear')
+    
     implementation "com.android.support:appcompat-v7:$ANDROID_SUPPORT_VERSION"
     implementation "com.android.support:cardview-v7:$ANDROID_SUPPORT_VERSION"
     implementation "com.android.support:recyclerview-v7:$ANDROID_SUPPORT_VERSION"
@@ -185,6 +196,7 @@ dependencies {
     implementation(name: 'datetimepicker', ext: 'aar')
     implementation(name: 'sectioned-recyclerview', ext: 'aar')
     implementation(name: 'material-camera', ext: 'aar')
+    
     implementation project(':searchview')
     implementation project(':shared_assets')
 }
