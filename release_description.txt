@@ -1,1 +1,1 @@
-With this release, Talon adds freeform cropping for images! When adding an image to a tweet, you can now crop the image to any aspect ratio, rather than just the pre-defined aspect ratios.
+When you are viewing an picture from the list of images on a user's profile, you can now tap the "info" button at the top of the screen to quickly access the details for the associated tweet.

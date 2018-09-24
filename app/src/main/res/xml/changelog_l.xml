@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.5.0">
+        <text>Open tweet details when looking through a users list of images on their profiles.</text>
+    </version>
+
     <version name="7.4.1">
         <text>Twitter is shutting down their streaming services. I have removed Talon Pull from the app, as it will no longer work.</text>
         <text>Other updates to work with the latest Twitter APIs.</text>
