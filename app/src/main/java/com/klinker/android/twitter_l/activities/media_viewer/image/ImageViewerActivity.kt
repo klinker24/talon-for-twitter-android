@@ -79,15 +79,17 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
                 } else {
 
                     val tweetView = tweetViews.getOrPut(tweetId) {
-                        val tv = DetailedTweetView.create(this@ImageViewerActivity, tweetId).setTweetLoadedCallback(this@ImageViewerActivity) as DetailedTweetView
+                        val tv = DetailedTweetView.create(this@ImageViewerActivity, tweetId) as DetailedTweetView
                         tv.setShouldShowImage(false)
                         tv
                     }
 
-                    val timeout = if (System.currentTimeMillis() - createdTime > TIME_TO_DISPLAY_COUNT) {
+                    val switchTime = System.currentTimeMillis()
+
+                    val timeout = if (System.currentTimeMillis() - switchTime > TIME_TO_DISPLAY_COUNT) {
                         0L
                     } else {
-                        TIME_TO_DISPLAY_COUNT - (System.currentTimeMillis() - createdTime)
+                        TIME_TO_DISPLAY_COUNT - (System.currentTimeMillis() - switchTime)
                     }
 
                     Handler().postDelayed({
