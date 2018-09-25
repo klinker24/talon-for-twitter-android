@@ -8,12 +8,12 @@ import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
+import androidx.core.app.ActivityOptionsCompat
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.ImageView

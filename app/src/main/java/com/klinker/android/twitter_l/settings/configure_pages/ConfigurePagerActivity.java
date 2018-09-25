@@ -26,9 +26,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -48,7 +48,7 @@ public class ConfigurePagerActivity extends WhiteToolbarActivity {
     private Context context;
     private SharedPreferences sharedPrefs;
     private AppSettings settings;
-    private android.support.v7.app.ActionBar actionBar;
+    private androidx.appcompat.app.ActionBar actionBar;
     private ViewPager mViewPager;
 
     @Override
@@ -191,12 +191,12 @@ public class ConfigurePagerActivity extends WhiteToolbarActivity {
                 });
 
         // Show the custom action bar view and hide the normal Home icon and question.
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        final androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
                         | ActionBar.DISPLAY_SHOW_TITLE);
-        actionBar.setCustomView(customActionBarView, new android.support.v7.app.ActionBar.LayoutParams(
+        actionBar.setCustomView(customActionBarView, new androidx.appcompat.app.ActionBar.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
     }

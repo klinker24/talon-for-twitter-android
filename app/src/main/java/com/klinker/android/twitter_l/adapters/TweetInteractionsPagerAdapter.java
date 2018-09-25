@@ -3,7 +3,7 @@ package com.klinker.android.twitter_l.adapters;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.support.v13.app.FragmentPagerAdapter;
+import androidx.legacy.app.FragmentPagerAdapter;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.tweet_viewer.LikersFragment;

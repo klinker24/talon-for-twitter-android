@@ -153,22 +153,22 @@ dependencies {
 
     wearApp project(':wear')
     
-    implementation "com.android.support:appcompat-v7:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:cardview-v7:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:recyclerview-v7:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:support-emoji:${ANDROID_SUPPORT_VERSION}"
-    implementation "com.android.support:design:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:customtabs:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:preference-v7:$ANDROID_SUPPORT_VERSION"
-    implementation "com.android.support:preference-v14:$ANDROID_SUPPORT_VERSION"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.emoji:emoji:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.0'
+
     implementation 'com.klinkerapps:link_builder:2.0.3'
     implementation 'com.klinkerapps:peekview:1.2.3'
     implementation 'com.klinkerapps:simple_videoview:1.2.4'
     implementation 'com.klinkerapps:launcher-apis:1.1.0'
     implementation 'com.klinkerapps:android-transcoder:1.0.1'
     implementation 'com.klinkerapps:article_viewer-glide3:0.24.9'
-    implementation 'com.klinkerapps:drag-dismiss-activity:1.5.1'
+    implementation 'com.klinkerapps:drag-dismiss-activity:1.6.0'
     implementation 'com.klinkerapps:floating-tutorial:1.0.4'
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
@@ -179,14 +179,13 @@ dependencies {
     implementation 'com.github.apl-devs:appintro:v4.2.0'
     implementation 'de.timroes.android:EnhancedListView:0.3.2@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.melnykov:floatingactionbutton:1.3.0'
     implementation 'com.astuetz:pagerslidingtabstrip:1.0.1'
     implementation 'com.flipboard:bottomsheet-core:1.5.0'
     implementation 'com.github.yalantis:ucrop:2.2.2'
-    implementation 'me.leolin:ShortcutBadger:1.1.14@aar'
-    implementation 'com.github.ajalt.reprint:core:2.9.2@aar'
-    implementation 'com.github.ajalt.reprint:reprint_spass:2.9.2@aar'
+    implementation 'me.leolin:ShortcutBadger:1.1.19@aar'
+    implementation 'com.github.ajalt.reprint:core:3.2.1@aar'
     implementation 'com.github.fiskurgit:ChipCloud:3.0.3'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')

@@ -14,7 +14,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -52,7 +52,7 @@ public abstract class MainFragment extends Fragment implements Expandable {
     protected SharedPreferences sharedPrefs;
     protected Activity context;
 
-    protected android.support.v7.app.ActionBar actionBar;
+    protected androidx.appcompat.app.ActionBar actionBar;
     protected int mActionBarSize;
 
     protected int currentAccount;

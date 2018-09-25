@@ -45,10 +45,9 @@ dependencies {
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
     api "com.google.firebase:firebase-core:$FIREBASE_CORE"
-    api "com.google.firebase:firebase-crash:$FIREBASE_CORE"
     api "com.google.firebase:firebase-perf:$FIREBASE_PERF"
 
     api "com.google.android.gms:play-services-location:$GOOGLE_PLAY_SERVICES_VERSION"
     api "com.google.android.gms:play-services-wearable:$GOOGLE_PLAY_SERVICES_VERSION"
-    api "com.android.support:support-v13:$project.ANDROID_SUPPORT_VERSION"
+    api 'androidx.legacy:legacy-support-v13:1.0.0'
 }

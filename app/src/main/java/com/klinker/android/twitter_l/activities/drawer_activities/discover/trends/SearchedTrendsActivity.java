@@ -25,8 +25,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.legacy.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -67,7 +67,7 @@ public class SearchedTrendsActivity extends WhiteToolbarActivity {
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private android.support.v7.app.ActionBar actionBar;
+    private androidx.appcompat.app.ActionBar actionBar;
 
     private ActionBarDrawerToggle mDrawerToggle;
 

@@ -18,7 +18,7 @@ package com.klinker.android.twitter_l.utils.redirects;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import com.klinker.android.twitter_l.activities.MainActivityPopup;
 
 public class RedirectToPopup extends AppCompatActivity {

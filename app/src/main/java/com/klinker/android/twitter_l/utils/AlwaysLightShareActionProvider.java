@@ -9,7 +9,7 @@ import com.klinker.android.twitter_l.R;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class AlwaysLightShareActionProvider extends android.support.v7.widget.ShareActionProvider {
+public class AlwaysLightShareActionProvider extends androidx.appcompat.widget.ShareActionProvider {
 
     private final Context mContext;
 

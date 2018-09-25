@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -14,7 +14,6 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetYouTubeFragment;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 
 public class YouTubeViewerActivity extends AppCompatActivity {
 
@@ -62,7 +61,7 @@ public class YouTubeViewerActivity extends AppCompatActivity {
                 .add(R.id.fragment, fragment)
                 .commit();
 
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        androidx.appcompat.app.ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ColorDrawable transparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
             ab.setBackgroundDrawable(transparent);

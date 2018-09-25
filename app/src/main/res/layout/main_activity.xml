@@ -32,7 +32,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                              xmlns:tools="http://schemas.android.com/tools"
                              android:id="@+id/pager"
                              android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:background="@android:color/black"
                 android:visibility="gone"/>
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -55,7 +55,7 @@
                     android:gravity="center_vertical"
                     style="@style/MyToolbar"/>
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"

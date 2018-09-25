@@ -23,7 +23,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
@@ -49,7 +48,7 @@ public class ViewUsers extends WhiteToolbarActivity {
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private android.support.v7.app.ActionBar actionBar;
+    private androidx.appcompat.app.ActionBar actionBar;
 
     private ListView listView;
     private LinearLayout spinner;

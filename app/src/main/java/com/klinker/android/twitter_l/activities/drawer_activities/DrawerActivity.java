@@ -34,10 +34,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.*;
@@ -54,7 +54,6 @@ import com.klinker.android.twitter_l.adapters.InteractionsCursorAdapter;
 import com.klinker.android.twitter_l.adapters.MainDrawerArrayAdapter;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.*;
-import com.klinker.android.twitter_l.listeners.InteractionClickListener;
 import com.klinker.android.twitter_l.listeners.MainDrawerClickListener;
 import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 import com.klinker.android.twitter_l.settings.AppSettings;
@@ -82,7 +81,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
     public Activity context;
     public SharedPreferences sharedPrefs;
 
-    public android.support.v7.app.ActionBar actionBar;
+    public androidx.appcompat.app.ActionBar actionBar;
 
     public static ViewPager mViewPager;
     public TimelinePagerAdapter mSectionsPagerAdapter;

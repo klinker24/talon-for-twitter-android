@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -50,7 +50,7 @@ public class PeopleSearch extends WhiteToolbarActivity {
     private Context context;
     private SharedPreferences sharedPrefs;
 
-    private android.support.v7.app.ActionBar actionBar;
+    private androidx.appcompat.app.ActionBar actionBar;
 
     private ListView listView;
 

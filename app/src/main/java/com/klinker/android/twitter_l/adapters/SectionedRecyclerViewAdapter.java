@@ -1,14 +1,12 @@
 package com.klinker.android.twitter_l.adapters;
 
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.ArrayMap;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.VisibleForTesting;
+import androidx.collection.ArrayMap;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
 
 /**
  * Edited from https://github.com/afollestad/sectioned-recyclerview

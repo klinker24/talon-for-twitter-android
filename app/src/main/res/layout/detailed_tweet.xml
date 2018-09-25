@@ -212,7 +212,7 @@
                 />
         </FrameLayout>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/embedded_tweet_card"
             android:layout_width="match_parent"
