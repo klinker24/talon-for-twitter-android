@@ -2,6 +2,7 @@
 
     <version name="7.5.0">
         <text>Open tweet details when looking through a users list of images on their profiles.</text>
+        <text>Dependency updates and bug fixes</text>
     </version>
 
     <version name="7.4.1">

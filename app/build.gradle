@@ -153,13 +153,13 @@ dependencies {
 
     wearApp project(':wear')
     
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.emoji:emoji:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'androidx.preference:preference:1.0.0'
-    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation "androidx.appcompat:appcompat:$ANDROID_X_VERSION"
+    implementation "androidx.recyclerview:recyclerview:$ANDROID_X_VERSION"
+    implementation "androidx.emoji:emoji:$ANDROID_X_VERSION"
+    implementation "com.google.android.material:material:$ANDROID_X_VERSION"
+    implementation "androidx.browser:browser:$ANDROID_X_VERSION"
+    implementation "androidx.preference:preference:$ANDROID_X_VERSION"
+    implementation "androidx.legacy:legacy-preference-v14:$ANDROID_X_VERSION"
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'com.klinkerapps:link_builder:2.0.3'
@@ -198,17 +198,6 @@ dependencies {
     
     implementation project(':searchview')
     implementation project(':shared_assets')
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion ANDROID_SUPPORT_VERSION
-            }
-        }
-    }
 }
 
 apply plugin: 'com.google.gms.google-services'
