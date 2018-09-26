@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
 
 File keystoreProperties = rootProject.file("keystore.properties")
