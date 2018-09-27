@@ -13,9 +13,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceFragment;
-import android.support.design.widget.Snackbar;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.widget.Toast;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.vending.billing.IInAppBillingService;
 import com.klinker.android.twitter_l.R;

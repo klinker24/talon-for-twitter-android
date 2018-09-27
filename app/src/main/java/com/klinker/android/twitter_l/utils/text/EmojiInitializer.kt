@@ -2,9 +2,9 @@ package com.klinker.android.twitter_l.utils.text
 
 import android.content.Context
 import android.os.Build
-import android.support.text.emoji.EmojiCompat
-import android.support.text.emoji.FontRequestEmojiCompatConfig
-import android.support.v4.provider.FontRequest
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
+import androidx.core.provider.FontRequest
 import android.util.Log
 import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.data.EmojiStyle

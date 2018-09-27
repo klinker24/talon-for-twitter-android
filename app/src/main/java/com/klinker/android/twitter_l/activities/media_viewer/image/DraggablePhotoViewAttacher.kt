@@ -1,13 +1,11 @@
 package com.klinker.android.twitter_l.activities.media_viewer.image
 
-import android.graphics.Matrix
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import uk.co.senab.photoview.PhotoViewAttacher
-import android.support.v4.view.GestureDetectorCompat
-import android.support.v7.app.AppCompatActivity
-import android.view.ViewGroup
+import androidx.core.view.GestureDetectorCompat
+import androidx.appcompat.app.AppCompatActivity
 
 class DraggablePhotoViewAttacher(private val activity: AppCompatActivity, imageView: ImageView) : PhotoViewAttacher(imageView) {
 

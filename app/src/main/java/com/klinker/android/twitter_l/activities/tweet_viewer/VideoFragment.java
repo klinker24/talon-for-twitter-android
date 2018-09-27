@@ -8,17 +8,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.GestureDetector;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.halilibo.bettervideoplayer.BetterVideoCallback;
 import com.halilibo.bettervideoplayer.BetterVideoPlayer;
 import com.klinker.android.twitter_l.R;
@@ -26,9 +23,7 @@ import com.klinker.android.twitter_l.activities.media_viewer.image.DragControlle
 import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListener;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
-import com.klinker.android.twitter_l.views.NavBarOverlayLayout;
 
 
 public class VideoFragment extends Fragment implements BetterVideoCallback {

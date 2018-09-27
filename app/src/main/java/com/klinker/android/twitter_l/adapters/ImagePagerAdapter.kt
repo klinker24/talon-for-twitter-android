@@ -1,7 +1,7 @@
 package com.klinker.android.twitter_l.adapters
 
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageFragment
 

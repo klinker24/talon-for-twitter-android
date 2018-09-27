@@ -18,7 +18,7 @@ package com.klinker.android.twitter_l.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.klinker.android.twitter_l.R;
 
 public class SettingsActivity extends Activity {

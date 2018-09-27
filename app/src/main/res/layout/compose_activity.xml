@@ -108,7 +108,7 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/reply_to_card"
                 android:visibility="gone"
@@ -131,7 +131,7 @@
                     android:textSize="14sp"
                     android:textColor="?textColor" />
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <com.klinker.android.twitter_l.views.widgets.ImageKeyboardEditText
                     android:id="@+id/tweet_content"

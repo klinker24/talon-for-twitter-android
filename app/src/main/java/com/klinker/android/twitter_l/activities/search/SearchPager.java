@@ -26,9 +26,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -63,7 +63,7 @@ public class SearchPager extends WhiteToolbarActivity {
     public AppSettings settings;
     public Activity context;
     public SharedPreferences sharedPrefs;
-    public android.support.v7.app.ActionBar actionBar;
+    public androidx.appcompat.app.ActionBar actionBar;
     public boolean translucent;
     public ViewPager mViewPager;
 
@@ -406,7 +406,7 @@ public class SearchPager extends WhiteToolbarActivity {
         }
     }
 
-    private android.support.v7.widget.SearchView searchView;
+    private androidx.appcompat.widget.SearchView searchView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

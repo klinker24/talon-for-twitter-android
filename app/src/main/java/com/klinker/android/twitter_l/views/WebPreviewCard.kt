@@ -2,9 +2,8 @@ package com.klinker.android.twitter_l.views
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.widget.CardView
+import androidx.cardview.widget.CardView
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -18,7 +17,6 @@ import com.klinker.android.twitter_l.data.WebPreview
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.WebIntentBuilder
 import com.klinker.android.twitter_l.utils.api_helper.ArticleParserHelper
-import com.klinker.android.twitter_l.utils.api_helper.MercuryArticleParserHelper
 import com.klinker.android.twitter_l.utils.text.TouchableSpan
 
 class WebPreviewCard @JvmOverloads constructor(

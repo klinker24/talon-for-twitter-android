@@ -20,7 +20,9 @@ import com.klinker.android.twitter_l.utils.TweetLinkUtils;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import kotlin.Pair;
 import twitter4j.Status;
 
 public class PicturesGridAdapter extends BaseAdapter {
@@ -90,7 +92,15 @@ public class PicturesGridAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 setPics();
-                ImageViewerActivity.Companion.startActivity(context, -1L, null, position, pics.split(" "));
+                List<Pair<String, Long>> linksWithIds = new ArrayList<>(text.size());
+                String[] links = pics.split(" ");
+
+                for (int i = 0; i < text.size(); i++) {
+                    Status s = statuses.get(i);
+                    linksWithIds.add(new Pair<>(links[i], (s == null) ? -1L : s.getId()));
+                }
+
+                ImageViewerActivity.Companion.startActivity(context, null, position, linksWithIds);
             }
         });
 

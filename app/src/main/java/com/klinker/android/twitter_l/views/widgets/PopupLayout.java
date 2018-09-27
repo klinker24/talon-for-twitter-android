@@ -12,7 +12,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.util.TypedValue;
 import android.view.*;
 import android.view.animation.DecelerateInterpolator;

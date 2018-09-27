@@ -24,11 +24,11 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:${ANDROID_GRADLE_VERSION}"
-        classpath 'com.google.gms:google-services:3.2.1'
-        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath "com.android.tools.build:gradle:$ANDROID_GRADLE_VERSION"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
-        classpath 'io.fabric.tools:gradle:1.25.3'
+        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath 'io.fabric.tools:gradle:1.25.4'
     }
 }
 

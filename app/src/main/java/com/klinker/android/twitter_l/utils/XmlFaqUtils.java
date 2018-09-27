@@ -15,22 +15,12 @@ package com.klinker.android.twitter_l.utils;
  * limitations under the License.
  */
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.ViewGroup;
 
 import com.klinker.android.twitter_l.R;
-import com.klinker.android.twitter_l.adapters.FaqAdapter;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

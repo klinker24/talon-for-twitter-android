@@ -5,8 +5,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.WhiteToolbarActivity;
-import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.utils.Utils;
 
 public class PrefActivity extends WhiteToolbarActivity {
@@ -66,7 +65,7 @@ public class PrefActivity extends WhiteToolbarActivity {
                 .replace(R.id.settings_content, fragment)
                 .commit();
 
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        androidx.appcompat.app.ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
         ab.setTitle(getIntent().getStringExtra("title"));
@@ -119,7 +118,7 @@ public class PrefActivity extends WhiteToolbarActivity {
         }
     }
 
-    public void setIcon(android.support.v7.app.ActionBar ab, int position) {
+    public void setIcon(androidx.appcompat.app.ActionBar ab, int position) {
         if (position == 0) {
             ab.setIcon(R.drawable.drawer_theme_dark);
         } else if (position == 1) {

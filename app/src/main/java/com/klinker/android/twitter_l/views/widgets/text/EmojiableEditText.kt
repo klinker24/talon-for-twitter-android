@@ -1,8 +1,8 @@
 package com.klinker.android.twitter_l.views.widgets.text
 
 import android.content.Context
-import android.support.text.emoji.widget.EmojiEditTextHelper
-import android.support.v7.widget.AppCompatEditText
+import androidx.emoji.widget.EmojiEditTextHelper
+import androidx.appcompat.widget.AppCompatEditText
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection

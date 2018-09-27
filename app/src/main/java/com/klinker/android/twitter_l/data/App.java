@@ -15,13 +15,12 @@ package com.klinker.android.twitter_l.data;
  * limitations under the License.
  */
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
-import android.support.v4.os.BuildCompat;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+import androidx.core.os.BuildCompat;
 import android.util.DisplayMetrics;
 
 import com.github.ajalt.reprint.core.Reprint;
