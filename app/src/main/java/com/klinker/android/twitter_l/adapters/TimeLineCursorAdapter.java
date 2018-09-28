@@ -46,6 +46,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.data.WebPreview;
+import com.klinker.android.twitter_l.listeners.MultipleImageTouchListener;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
@@ -169,6 +170,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public String gifUrl = "";
 
         public boolean preventNextClick = false;
+        public MultipleImageTouchListener imageTouchListener;
     }
 
     // This is need for the case that the activity is paused while the handler is counting down
@@ -500,6 +502,9 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         v.setTag(holder);
 
+        holder.imageTouchListener = new MultipleImageTouchListener();
+        holder.image.setOnTouchListener(holder.imageTouchListener);
+
         return v;
     }
 
@@ -593,6 +598,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         final String screenname = cursor.getString(SCREEN_NAME_COL);
         final String picUrl = cursor.getString(PIC_COL);
         holder.picUrl = picUrl;
+        holder.imageTouchListener.setImageUrls(picUrl);
         final long longTime = cursor.getLong(TIME_COL);
         final String otherUrl = cursor.getString(URL_COL);
         final String users = cursor.getString(USER_COL);
@@ -896,7 +902,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                                     .apply();
                         }
 
-                        ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
+                        ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.imageTouchListener.getImageTouchPosition(), holder.picUrl.split(" "));
                         debounceClick(holder.imageHolder);
                     }
                 });
@@ -1021,7 +1027,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                                     Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                                         @Override
                                         public void onInflated(View rootView) {
-                                            Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                            Glide.with(context).load(holder.picUrl.split(" ")[holder.imageTouchListener.getImageTouchPosition()])
                                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                                     .into((ImageView) rootView.findViewById(R.id.image));
                                         }
@@ -1105,7 +1111,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                Glide.with(context).load(holder.picUrl.split(" ")[holder.imageTouchListener.getImageTouchPosition()])
                                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .into((ImageView) rootView.findViewById(R.id.image));
                             }
