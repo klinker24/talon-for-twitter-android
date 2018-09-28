@@ -28,6 +28,7 @@ import com.klinker.android.peekview.callback.SimpleOnPeek;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.data.WebPreview;
+import com.klinker.android.twitter_l.listeners.MultipleImageTouchListener;
 import com.klinker.android.twitter_l.utils.BetterVideoCallbackWrapper;
 import com.klinker.android.twitter_l.utils.ReplyUtils;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
@@ -313,6 +314,7 @@ public class TweetView {
 
         embeddedTweetMinHeight = Utils.toDP(140, context);
         embeddedTweet.setMinimumHeight(embeddedTweetMinHeight);
+
     }
 
     protected void setupProfilePicture() {
@@ -478,6 +480,10 @@ public class TweetView {
 
         boolean picture = false;
 
+        MultipleImageTouchListener imageTouchListener = new MultipleImageTouchListener(imageUrl);
+        imageIv.setOnTouchListener(imageTouchListener);
+
+
         if(settings.inlinePics && shouldShowImage()) {
             if (imageUrl.equals("")) {
                 // no image
@@ -541,11 +547,11 @@ public class TweetView {
                                 public void dismissed() {
                                     videoView.release();
                                 }
-                            }).with(options).applyTo((PeekViewActivity) context, imageIv);
+                            }).with(options).applyTo((PeekViewActivity) context, imageHolder);
                         }
                     }
 
-                    imageIv.setOnClickListener(new View.OnClickListener() {
+                    imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             VideoViewerActivity.startActivity(context, tweetId, gifUrl, otherUrl);
@@ -565,10 +571,11 @@ public class TweetView {
                         playButton.setVisibility(View.GONE);
                     }
 
-                    imageIv.setOnClickListener(new View.OnClickListener() {
+                    imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            ImageViewerActivity.Companion.startActivity(context, tweetId, imageIv, imageUrl.split(" "));
+                            int imagePosition = imageTouchListener.getImageTouchPosition();
+                            ImageViewerActivity.Companion.startActivity(context, tweetId, imageIv, imagePosition, imageUrl.split(" "));
                         }
                     });
 
@@ -581,13 +588,14 @@ public class TweetView {
                             @Override
                             public void onInflated(View rootView) {
                                 try {
-                                    Glide.with(context).load(imageUrl.split(" ")[0])
+                                    int imagePosition = imageTouchListener.getImageTouchPosition();
+                                    Glide.with(context).load(imageUrl.split(" ")[imagePosition])
                                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                             .into((ImageView) rootView.findViewById(R.id.image));
                                 } catch (IllegalArgumentException e) {
                                 }
                             }
-                        }).with(options).applyTo((PeekViewActivity) context, imageIv);
+                        }).with(options).applyTo((PeekViewActivity) context, imageHolder);
                     }
                 }
 

@@ -34,6 +34,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.ImageViewerActivity;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.data.WebPreview;
+import com.klinker.android.twitter_l.listeners.MultipleImageTouchListener;
 import com.klinker.android.twitter_l.views.QuotedTweetView;
 import com.klinker.android.twitter_l.views.TweetView;
 import com.klinker.android.twitter_l.views.WebPreviewCard;
@@ -139,6 +140,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         public String retweeterName;
         public String animatedGif;
 
+        public MultipleImageTouchListener imageTouchListener;
         public boolean preventNextClick = false;
     }
 
@@ -397,6 +399,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         holder.rootView = v;
 
         v.setTag(holder);
+
+        holder.imageTouchListener = new MultipleImageTouchListener();
+        holder.image.setOnTouchListener(holder.imageTouchListener);
+
         return v;
     }
 
@@ -445,6 +451,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
         String tweetTexts = html[0];
         final String picUrl = html[1];
         holder.picUrl = picUrl;
+        holder.imageTouchListener.setImageUrls(picUrl);
         final String otherUrl = html[2];
         final String hashtags = html[3];
         final String users = html[4];
@@ -741,10 +748,10 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
                         holder.playButton.setVisibility(View.GONE);
                     }
 
-                    holder.image.setOnClickListener(new View.OnClickListener() {
+                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.picUrl.split(" "));
+                            ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.imageTouchListener.getImageTouchPosition(), holder.picUrl.split(" "));
                         }
                     });
 
@@ -756,11 +763,11 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
                         Peek.into(R.layout.peek_image, new SimpleOnPeek() {
                             @Override
                             public void onInflated(View rootView) {
-                                Glide.with(context).load(holder.picUrl.split(" ")[0])
+                                Glide.with(context).load(holder.picUrl.split(" ")[holder.imageTouchListener.getImageTouchPosition()])
                                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                         .into((ImageView) rootView.findViewById(R.id.image));
                             }
-                        }).with(options).applyTo((PeekViewActivity) context, holder.image);
+                        }).with(options).applyTo((PeekViewActivity) context, holder.imageHolder);
                     }
                 }
 
