@@ -102,7 +102,11 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
     private static final int LOAD_CAPACITY_PER_LIST = 20;
 
     public static void start(Context context, User user) {
-        start(context, user.getName(), user.getScreenName(), user.getOriginalProfileImageURL());
+        try {
+            start(context, user.getName(), user.getScreenName(), user.getOriginalProfileImageURL());
+        } catch (StringIndexOutOfBoundsException e) {
+            start(context, user.getName(), user.getScreenName(), user.getProfileImageURL());
+        }
     }
 
     public static void start(Context context, String screenname) {

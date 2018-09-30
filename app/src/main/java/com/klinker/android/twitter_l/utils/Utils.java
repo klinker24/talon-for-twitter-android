@@ -272,14 +272,19 @@ public class Utils {
     public static boolean getConnectionStatus(Context context) {
         final ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (null != activeNetwork) {
-            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
-                return false;
+        try {
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            if (null != activeNetwork) {
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+                    return false;
 
-            if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
-                return true;
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+                    return true;
+            }
+        } catch (Exception e) {
+
         }
+
 
         return false;
     }

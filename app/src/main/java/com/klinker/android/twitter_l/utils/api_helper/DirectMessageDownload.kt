@@ -14,7 +14,11 @@ import twitter4j.*
 
 object DirectMessageDownload {
 
-    @JvmStatic fun download(context: Context, useSecondAccount: Boolean, alwaysSync: Boolean): Int {
+    @JvmStatic fun download(context: Context?, useSecondAccount: Boolean, alwaysSync: Boolean): Int {
+        if (context == null) {
+            return 0
+        }
+
         val sharedPrefs = AppSettings.getSharedPreferences(context)
         val settings = AppSettings.getInstance(context)
 

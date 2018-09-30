@@ -14,6 +14,7 @@ public class ComposeTileService extends TileService {
     @Override
     public void onClick() {
         Intent compose = new Intent(this, LauncherCompose.class);
+        compose.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivityAndCollapse(compose);
     }
 

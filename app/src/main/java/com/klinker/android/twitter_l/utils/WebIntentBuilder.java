@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.utils;
 
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -125,18 +126,19 @@ public class WebIntentBuilder {
             }
 
             WebIntentBuilder.JUST_RAN = true;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) { }
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) { }
 
-                    WebIntentBuilder.JUST_RAN = false;
-                }
+                WebIntentBuilder.JUST_RAN = false;
             }).start();
         } else {
-            context.startActivity(intent);
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

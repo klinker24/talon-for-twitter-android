@@ -100,19 +100,23 @@ public class TouchableMovementMethod extends LinkMovementMethod {
         x += widget.getScrollX();
         y += widget.getScrollY();
 
-        Layout layout = widget.getLayout();
-        int line = layout.getLineForVertical(y);
-        int off = layout.getOffsetForHorizontal(line, x);
-        int end = layout.getLineEnd(line);
+        try {
+            Layout layout = widget.getLayout();
+            int line = layout.getLineForVertical(y);
+            int off = layout.getOffsetForHorizontal(line, x);
+            int end = layout.getLineEnd(line);
 
-        // offset seems like it can be one off in some cases
-        // Could be what was causing issue 7 in the first place:
-        // https://github.com/klinker24/Android-TextView-LinkBuilder/issues/7
-        if (off != end && off != end - 1) {
-            TouchableSpan[] link = spannable.getSpans(off, off, TouchableSpan.class);
+            // offset seems like it can be one off in some cases
+            // Could be what was causing issue 7 in the first place:
+            // https://github.com/klinker24/Android-TextView-LinkBuilder/issues/7
+            if (off != end && off != end - 1) {
+                TouchableSpan[] link = spannable.getSpans(off, off, TouchableSpan.class);
 
-            if (link.length > 0)
-                return link[0];
+                if (link.length > 0)
+                    return link[0];
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
 
         return null;
