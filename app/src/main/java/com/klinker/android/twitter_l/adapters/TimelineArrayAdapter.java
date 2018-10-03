@@ -748,7 +748,7 @@ public class TimelineArrayAdapter extends ArrayAdapter<Status> implements WebPre
                         holder.playButton.setVisibility(View.GONE);
                     }
 
-                    holder.imageHolder.setOnClickListener(new View.OnClickListener() {
+                    holder.image.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             ImageViewerActivity.Companion.startActivity(context, id, holder.image, holder.imageTouchListener.getImageTouchPosition(), holder.picUrl.split(" "));
