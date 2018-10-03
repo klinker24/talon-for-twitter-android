@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.5.1">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.5.0">
         <text>Open tweet details when looking through a users list of images on their profiles.</text>
         <text>Improvements to handling tweets with multiple images</text>
