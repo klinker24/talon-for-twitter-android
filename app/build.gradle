@@ -2,40 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
-File keystoreProperties = rootProject.file("keystore.properties")
-def props = new Properties()
-if (keystoreProperties.exists()) {
-    props.load(new FileInputStream(keystoreProperties))
-} else {
-    props['keystorefile'] = 'none'
-}
-
 android {
-    dexOptions {
-        jumboMode true
-        javaMaxHeapSize "4g"
-    }
-    
-    packagingOptions {
-        exclude 'LICENSE'
-        exclude 'README.md'
-        exclude 'Other/'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/DEPENDENCIES'
-    }
-    
-    compileSdkVersion parseSdkVersion(project.COMPILE_SDK)	
 
     defaultConfig {
-        applicationId "com.klinker.android.twitter_l"
-        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-        minSdkVersion parseSdkVersion(project.MIN_SDK)
-        versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
-        versionName project.VERSION_NAME
-        multiDexEnabled true
-        
+        applicationId buildInfo.id
+
         File secretsExists = new File("secrets.properties")
         if (secretsExists.exists()) {
             def secretsFile = rootProject.file('secrets.properties')
@@ -75,75 +46,12 @@ android {
             buildConfigField "String", "CONSUMER_SECRET_OLD_3", "\"This is optional.\""
         }
     }
-    
-    File keystore = new File(props['keystorefile'])
-    if (keystore.exists()) {
-        signingConfigs {
-            release {
-                storeFile keystore
-                storePassword props['keystorepassword']
-                keyAlias props['keyalias']
-                keyPassword props['keypassword']
-            }
-            debug {
-                storeFile file("../Other/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
-            }
-        }
 
-        buildTypes {
-            debug {
-                signingConfig signingConfigs.debug
-            }
-            release {
-                minifyEnabled true
-                shrinkResources true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.release
-            }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
         }
-    } else {
-        signingConfigs {
-            debug {
-                storeFile file("../Other/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
-            }
-        }
-        buildTypes {
-            debug {
-                signingConfig signingConfigs.debug
-            }
-        }
-    }
-    
-    sourceSets {
-        androidTest {
-            setRoot('src/test')
-        }
-    }
-    
-    lintOptions {
-        ignore "InnerClasses"
-        abortOnError false
-    }
-    
-    aaptOptions {
-        noCompress 'apk'
-    }
-    
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
     
 }
@@ -152,13 +60,13 @@ dependencies {
 
     wearApp project(':wear')
     
-    implementation "androidx.appcompat:appcompat:$ANDROID_X_VERSION"
-    implementation "androidx.recyclerview:recyclerview:$ANDROID_X_VERSION"
-    implementation "androidx.emoji:emoji:$ANDROID_X_VERSION"
-    implementation "com.google.android.material:material:$ANDROID_X_VERSION"
-    implementation "androidx.browser:browser:$ANDROID_X_VERSION"
-    implementation "androidx.preference:preference:$ANDROID_X_VERSION"
-    implementation "androidx.legacy:legacy-preference-v14:$ANDROID_X_VERSION"
+    implementation "androidx.appcompat:appcompat:${versions.androidX}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidX}"
+    implementation "androidx.emoji:emoji:${versions.androidX}"
+    implementation "com.google.android.material:material:${versions.androidX}"
+    implementation "androidx.browser:browser:${versions.androidX}"
+    implementation "androidx.preference:preference:${versions.androidX}"
+    implementation "androidx.legacy:legacy-preference-v14:${versions.androidX}"
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'com.klinkerapps:link_builder:2.0.3'
@@ -169,6 +77,7 @@ dependencies {
     implementation 'com.klinkerapps:article_viewer-glide3:0.25.3'
     implementation 'com.klinkerapps:drag-dismiss-activity:1.6.1'
     implementation 'com.klinkerapps:floating-tutorial:1.0.4'
+
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'

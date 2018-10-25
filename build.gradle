@@ -14,25 +14,51 @@
  * limitations under the License.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+File keystoreProperties = rootProject.file("keystore.properties")
+def props = new Properties()
+if (keystoreProperties.exists()) {
+    props.load(new FileInputStream(keystoreProperties))
+} else {
+    props['keystorefile'] = 'none'
+}
 
 buildscript {
+
+    ext.buildInfo = [
+            'id'                : 'com.klinker.android.twitter_l',
+            'name'              : '7.5.1',
+            'number'            : System.getenv("BUILD_NUMBER") as Integer ?: 1458,
+    ]
+
+    ext.versions = [
+            'gradlePlugin'      : '3.2.1',
+            'targetSdk'         : 28,
+            'minSdk'            : 19,
+
+            'kotlin'            : '1.2.71',
+
+            'androidX'          : '1.0.0',
+            'playServices'      : '16.0.0',
+            'firebaseCore'      : '16.0.4',
+    ]
+
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$ANDROID_GRADLE_VERSION"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
-        classpath 'com.google.gms:google-services:4.0.1'
-        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath "com.android.tools.build:gradle:${versions.gradlePlugin}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        classpath 'com.google.gms:google-services:4.1.0'
         classpath 'io.fabric.tools:gradle:1.25.4'
     }
+
 }
 
 allprojects {
+
     repositories {
         google()
         mavenCentral()
@@ -42,12 +68,113 @@ allprojects {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         flatDir { dirs 'lib' }
     }
+
 }
 
-ext.parseSdkVersion = { sdk ->
-    try {
-        return Integer.parseInt(sdk)
-    } catch (NumberFormatException e) {
-        return sdk
+// add the common project properties, to each app variant
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+
+            android {
+                compileSdkVersion versions.targetSdk
+
+                defaultConfig {
+                    targetSdkVersion versions.targetSdk
+                    minSdkVersion versions.minSdk
+
+                    versionName(buildInfo.name + '.' + buildInfo.number)
+                    versionCode buildInfo.number
+
+                    vectorDrawables.useSupportLibrary = true
+                    multiDexEnabled true
+                }
+
+                File keystore = new File(props['keystorefile'])
+                if (keystore.exists()) {
+                    signingConfigs {
+                        debug {
+                            storeFile file("Other/debug.keystore")
+                            storePassword "android"
+                            keyAlias "androiddebugkey"
+                            keyPassword "android"
+                        }
+                        release {
+                            storeFile keystore
+                            storePassword props['keystorepassword']
+                            keyAlias props['keyalias']
+                            keyPassword props['keypassword']
+                        }
+                    }
+
+                    buildTypes {
+                        debug {
+                            signingConfig signingConfigs.debug
+                        }
+                        release {
+                            minifyEnabled true
+                            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                            signingConfig signingConfigs.release
+                        }
+                    }
+                } else {
+                    signingConfigs {
+                        debug {
+                            storeFile file("Other/debug.keystore")
+                            storePassword "android"
+                            keyAlias "androiddebugkey"
+                            keyPassword "android"
+                        }
+                    }
+                    buildTypes {
+                        debug {
+                            signingConfig signingConfigs.debug
+                        }
+                    }
+                }
+
+                dexOptions {
+                    jumboMode true
+                    javaMaxHeapSize "4g"
+                }
+
+                packagingOptions {
+                    exclude 'LICENSE'
+                    exclude 'README.md'
+                    exclude 'Other/'
+                    exclude 'META-INF/LICENSE'
+                    exclude 'META-INF/LICENSE.txt'
+                    exclude 'META-INF/NOTICE'
+                    exclude 'META-INF/DEPENDENCIES'
+                }
+
+                lintOptions {
+                    ignore "InnerClasses"
+                    abortOnError false
+                }
+
+                aaptOptions {
+                    noCompress 'apk'
+                }
+
+                testOptions {
+                    unitTests {
+                        includeAndroidResources = true
+                    }
+                }
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+
+                sourceSets {
+                    androidTest {
+                        setRoot('src/test')
+                    }
+                }
+            }
+        }
+
     }
 }

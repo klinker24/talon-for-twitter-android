@@ -2,33 +2,13 @@ apply plugin: 'com.android.library'
 
 android {
 
-    compileSdkVersion parseSdkVersion(project.TARGET_SDK)
-
-    defaultConfig {
-        minSdkVersion parseSdkVersion(project.MIN_SDK)
-        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-    }
-
     sourceSets {
         main.res.srcDirs 'res', 'res-public'
-        //main.res.srcDirs += 'src/main/res-public'
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            // minifyEnabled true
-            // shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
-        }
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
-    implementation "androidx.cardview:cardview:$ANDROID_X_VERSION"
-    implementation "androidx.recyclerview:recyclerview:$ANDROID_X_VERSION"
+    implementation "androidx.cardview:cardview:${versions.androidX}"
+    implementation "androidx.recyclerview:recyclerview:${versions.androidX}"
 }

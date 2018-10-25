@@ -20,33 +20,15 @@ apply plugin: 'kotlin-android'
 
 android {
 
-    compileSdkVersion parseSdkVersion(project.TARGET_SDK)
-
-    defaultConfig {
-        minSdkVersion parseSdkVersion(project.MIN_SDK)
-        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
-        }
-    }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${KOTLIN_VERSION}"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
 
     api('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
-    api "com.google.firebase:firebase-core:$FIREBASE_CORE"
+    api "com.google.firebase:firebase-core:${versions.firebaseCore}"
 
-    api "com.google.android.gms:play-services-location:$GOOGLE_PLAY_SERVICES_VERSION"
-    api "com.google.android.gms:play-services-wearable:$GOOGLE_PLAY_SERVICES_VERSION"
-    api "androidx.legacy:legacy-support-v13:$ANDROID_X_VERSION"
+    api "com.google.android.gms:play-services-location:${versions.playServices}"
+    api "com.google.android.gms:play-services-wearable:${versions.playServices}"
+    api "androidx.legacy:legacy-support-v13:${versions.androidX}"
 }

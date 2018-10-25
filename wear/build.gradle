@@ -1,76 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-File keystoreProperties = rootProject.file("keystore.properties")
-def props = new Properties()
-if (keystoreProperties.exists()) {
-    props.load(new FileInputStream(keystoreProperties))
-} else {
-    props['keystorefile'] = 'none';
-}
-
 android {
-
-    compileSdkVersion parseSdkVersion(project.COMPILE_SDK)
 
     defaultConfig {
         applicationId "com.klinker.android.twitter_l"
-        targetSdkVersion parseSdkVersion(project.TARGET_SDK)
-        minSdkVersion parseSdkVersion(project.MIN_SDK)
-        versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
-        versionName project.VERSION_NAME
     }
 
-    File keystore = new File(props['keystorefile'])
-    if (keystore.exists()) {
-        signingConfigs {
-            release {
-                storeFile keystore
-                storePassword props['keystorepassword']
-                keyAlias props['keyalias']
-                keyPassword props['keypassword']
-            }
-            debug {
-                storeFile file("../Other/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
-            }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
         }
-
-        buildTypes {
-            debug {
-                signingConfig signingConfigs.debug
-            }
-            release {
-                minifyEnabled true
-                shrinkResources true
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), '../app/proguard-rules.pro'
-                signingConfig signingConfigs.release
-            }
-        }
-    } else {
-        signingConfigs {
-            debug {
-                storeFile file("../Other/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
-            }
-        }
-        buildTypes {
-            debug {
-                signingConfig signingConfigs.debug
-            }
-        }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 
 dependencies {
     implementation project(':shared_assets')
-    implementation "com.google.android.support:wearable:$ANDROID_X_VERSION"
+    implementation "com.google.android.support:wearable:${versions.androidX}"
 }
