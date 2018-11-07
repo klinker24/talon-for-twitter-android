@@ -46,7 +46,7 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
     override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Utils.isAndroidO()) {
+        if (Utils.isAndroidO() && supportsWideColorGamut()) {
             window.colorMode = ActivityInfo.COLOR_MODE_WIDE_COLOR_GAMUT
         }
 
@@ -236,6 +236,11 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
                 context.startActivity(viewImage)
             }
 
+        }
+
+        private fun supportsWideColorGamut(): Boolean {
+            val disabledManufacturers = arrayOf("oneplus")
+            return !disabledManufacturers.contains(Build.MANUFACTURER.toLowerCase())
         }
 
     }
