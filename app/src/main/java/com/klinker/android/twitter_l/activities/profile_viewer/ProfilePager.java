@@ -752,9 +752,9 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                         // put in the banner and profile pic to shared prefs
                         sharedPrefs.edit().putString("profile_pic_url_" + settings.currentAccount, thisUser.getOriginalProfileImageURL()).apply();
                         sharedPrefs.edit().putString("twitter_background_url_" + settings.currentAccount, thisUser.getProfileBannerURL()).apply();
-                        isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
-                        isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
-                        isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
+                        isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<>()).contains(screenName);
+                        isMuted = sharedPrefs.getString("muted_users", "").toLowerCase().contains(screenName.toLowerCase());
+                        isRTMuted = sharedPrefs.getString("muted_rts", "").toLowerCase().contains(screenName.toLowerCase());
                     }
                 } else {
                     try {
@@ -765,8 +765,8 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                         isFollowing = friendship.isSourceFollowingTarget();
                         followingYou = friendship.isTargetFollowingSource();
                         isBlocking = friendship.isSourceBlockingTarget();
-                        isMuted = sharedPrefs.getString("muted_users", "").contains(screenName);
-                        isRTMuted = sharedPrefs.getString("muted_rts", "").contains(screenName);
+                        isMuted = sharedPrefs.getString("muted_users", "").toLowerCase().contains(screenName.toLowerCase());
+                        isRTMuted = sharedPrefs.getString("muted_rts", "").toLowerCase().contains(screenName.toLowerCase());
                         isMuffled = sharedPrefs.getStringSet("muffled_users", new HashSet<String>()).contains(screenName);
                         isFavorite = FavoriteUsersDataSource.getInstance(context).isFavUser(otherUserName);
 
