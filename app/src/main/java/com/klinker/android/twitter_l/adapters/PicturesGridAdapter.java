@@ -81,27 +81,29 @@ public class PicturesGridAdapter extends BaseAdapter {
         holder.url = url;
 
         try {
-            Glide.with(context).load(url).into(holder.iv);
+            Glide.with(context)
+                    .load(url)
+                    .asBitmap()
+                    .override(300, 300)
+                    .fitCenter()
+                    .into(holder.iv);
         } catch (Exception e) {
 
         }
 
         final long id = status != null ? status.getId() : 0;
 
-        holder.iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setPics();
-                List<Pair<String, Long>> linksWithIds = new ArrayList<>(text.size());
-                String[] links = pics.split(" ");
+        holder.iv.setOnClickListener(view -> {
+            setPics();
+            List<Pair<String, Long>> linksWithIds = new ArrayList<>(text.size());
+            String[] links = pics.split(" ");
 
-                for (int i = 0; i < text.size(); i++) {
-                    Status s = statuses.get(i);
-                    linksWithIds.add(new Pair<>(links[i], (s == null) ? -1L : s.getId()));
-                }
-
-                ImageViewerActivity.Companion.startActivity(context, null, position, linksWithIds);
+            for (int i = 0; i < text.size(); i++) {
+                Status s = statuses.get(i);
+                linksWithIds.add(new Pair<>(links[i], (s == null) ? -1L : s.getId()));
             }
+
+            ImageViewerActivity.Companion.startActivity(context, null, position, linksWithIds);
         });
 
 
@@ -132,59 +134,46 @@ public class PicturesGridAdapter extends BaseAdapter {
                 }
 
                 final long fStatusId = status.getId();
-                holder.iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        VideoViewerActivity.startActivity(context, fStatusId, gifUrl, otherUrl);
-                    }
-                });
+                holder.iv.setOnClickListener(view -> VideoViewerActivity.startActivity(context, fStatusId, gifUrl, otherUrl));
             } else if (holder.badge.getVisibility() != View.GONE) {
                 holder.badge.setVisibility(View.GONE);
             }
 
-            holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    String link;
+            holder.iv.setOnLongClickListener(v -> {
+                String link;
 
-                    boolean displayPic = !picUrl.equals("");
-                    if (displayPic) {
-                        link = picUrl;
-                    } else {
-                        link = otherUrl.split("  ")[0];
-                    }
-
-                    Intent viewTweet = new Intent(context, TweetActivity.class);
-                    viewTweet.putExtra("name", name);
-                    viewTweet.putExtra("screenname", screenname);
-                    viewTweet.putExtra("time", time);
-                    viewTweet.putExtra("tweet", tweetText);
-                    viewTweet.putExtra("retweeter", retweeter);
-                    viewTweet.putExtra("webpage", link);
-                    viewTweet.putExtra("other_links", otherUrl);
-                    viewTweet.putExtra("picture", displayPic);
-                    viewTweet.putExtra("tweetid", id);
-                    viewTweet.putExtra("proPic", profilePic);
-                    viewTweet.putExtra("users", users);
-                    viewTweet.putExtra("hashtags", hashtags);
-                    viewTweet.putExtra("animated_gif", "");
-
-                    TweetActivity.applyDragDismissBundle(context, viewTweet);
-
-                    context.startActivity(viewTweet);
-
-                    return false;
+                boolean displayPic = !picUrl.equals("");
+                if (displayPic) {
+                    link = picUrl;
+                } else {
+                    link = otherUrl.split("  ")[0];
                 }
+
+                Intent viewTweet = new Intent(context, TweetActivity.class);
+                viewTweet.putExtra("name", name);
+                viewTweet.putExtra("screenname", screenname);
+                viewTweet.putExtra("time", time);
+                viewTweet.putExtra("tweet", tweetText);
+                viewTweet.putExtra("retweeter", retweeter);
+                viewTweet.putExtra("webpage", link);
+                viewTweet.putExtra("other_links", otherUrl);
+                viewTweet.putExtra("picture", displayPic);
+                viewTweet.putExtra("tweetid", id);
+                viewTweet.putExtra("proPic", profilePic);
+                viewTweet.putExtra("users", users);
+                viewTweet.putExtra("hashtags", hashtags);
+                viewTweet.putExtra("animated_gif", "");
+
+                TweetActivity.applyDragDismissBundle(context, viewTweet);
+
+                context.startActivity(viewTweet);
+
+                return false;
             });
 
             return convertView;
         } else {
-            holder.iv.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return true;
-                }
-            });
+            holder.iv.setOnLongClickListener(v -> true);
 
             return convertView;
         }
