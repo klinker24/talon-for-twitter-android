@@ -1,9 +1,12 @@
 <changelog>
 
+    <version name="7.5.3">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.5.2">
         <text>Bug fixes and build process improvements</text>
     </version>
-
 
     <version name="7.5.1">
         <text>Bug fixes</text>
