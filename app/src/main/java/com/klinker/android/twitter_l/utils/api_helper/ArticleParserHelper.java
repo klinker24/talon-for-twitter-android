@@ -38,6 +38,7 @@ public class ArticleParserHelper {
 
                 String url = this.url;
                 HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                connection.setRequestMethod("HEAD");
                 connection.setInstanceFollowRedirects(false);
                 connection.getResponseCode();
 

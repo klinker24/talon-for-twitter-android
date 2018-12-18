@@ -1,6 +1,7 @@
 <changelog>
 
     <version name="7.5.3">
+        <text>Improve load times of the article previews on the timeline</text>
         <text>Bug fixes</text>
     </version>
 
