@@ -107,7 +107,7 @@
     <string name="quotes">Citater</string>
     <string name="no_quotes">Ingen citater</string>
     <string name="tweet_style">Tweet stil</string>
-    <string name="tweet_style_description">Hvordan tweets skal vises i tidslinjen</string>
+    <string name="tweet_style_description">Hvordan tweets vises på tidslinjen</string>
     <string name="condensed_tweet_style">Kompakt tweet layout</string>
     <string name="locale">Lokal liste for oversættelser</string>
     <string name="locale_summary">Ikke alle oversættelser er fuldendt</string>
@@ -182,6 +182,8 @@
     <string name="authenticate">Godkend</string>
     <string name="enable_fingerprint_lock">Aktiver lås med fingeraftryk</string>
     <string name="disable_fingerprint_lock">Deaktiver lås med fingeraftryk</string>
+    <string name="auto_complete_hashtags">Auto fuldfør hashtags</string>
+    <string name="auto_complete_hashtags_summary">Vis senest søgte og benyttede hashtags, ved oprettelse af nyt tweet</string>
     <string name="followers_only_auto_complete">Fuldfør automatisk</string>
     <string name="followers_only_auto_complete_summary">Søg ikke hele Twitter igennem når du bruge autofuldførelse af meninger</string>
     <string name="quoting">Citérer</string>
@@ -190,12 +192,12 @@
     <string name="are_you_sure_unfollow">Er du sikker på du vil stoppe med at følge profilen?</string>
     <string name="are_you_sure_follow">Vil du følge profilen?</string>
     <string name="are_you_sure_spam">Vil du markere Tweetet som spam?</string>
-    <string name="larger_images">Brug større billeder</string>
+    <string name="larger_images">Vis større billeder</string>
     <string name="show_profile_pictures">Vis profilbilleder</string>
     <string name="reply_to">Svar til</string>
     <string name="others">andre</string>
     <string name="compress_reply_handles">Komprimer svarene</string>
-    <string name="compress_reply_handles_summary">Dette forbedrer håndteringen af lange svartråde på Twitter</string>
+    <string name="compress_reply_handles_summary">Forbedrer håndteringen af lange svartråde på Twitter</string>
     <string name="interaction_notifications">Notifikationer for interaktioner</string>
     <string name="interaction_notifications_summary">Dette kræver en baggrundssynkronisering for siden [Aktiviteter], Twitter´s push service, eller Talon Pull for at blive aktiveret</string>
     <string name="swipable_page_notifications">Notifikationer for swipable side</string>
@@ -242,4 +244,9 @@ Helt iorden. Tap tilbage for at undlade, og du vil aldrig blive spurgt igen</str
     <string name="revamped_layout">Tidslinje stil og Tweet layout</string>
     <string name="widget_display_screenname">Vis brugernavn</string>
     <string name="saved_tweet_description">For at tilgå gemte Tweets, gå til den  swiable side og tilføj en<i>Gemte Tweets</i>side</string>
+    <string name="auto_play_gifs">Afspil kun GIF\'s automatisk</string>
+    <string name="auto_play_gifs_summary">Både GIF\'s og Twitter videoer afspilles direkte i tidslinjen som standard</string>
+    <string name="data_saver_mode">Indstillinger for hukommelse</string>
+    <string name="data_saver_mode_summary">Dette vil overskrive nogle af dine hidtidige indstillinger, for at bruge mindst mulig hukommelse i baggrunden</string>
+
 </resources>
