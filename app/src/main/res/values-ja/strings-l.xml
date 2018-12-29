@@ -202,5 +202,4 @@
     <string name="auto_play_gifs_summary">デフォルトでは、タイムライン上にある GIF とビデオの両方が再生されます。</string>
     <string name="data_saver_mode">データ節約モード</string>
     <string name="data_saver_mode_summary">これは現在の設定を上書きし、バックグラウンドでのデータ使用量を低減させます。</string>
-
 </resources>

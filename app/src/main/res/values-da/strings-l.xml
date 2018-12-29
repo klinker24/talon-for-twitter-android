@@ -248,5 +248,4 @@ Helt iorden. Tap tilbage for at undlade, og du vil aldrig blive spurgt igen</str
     <string name="auto_play_gifs_summary">Både GIF\'s og Twitter videoer afspilles direkte i tidslinjen som standard</string>
     <string name="data_saver_mode">Indstillinger for hukommelse</string>
     <string name="data_saver_mode_summary">Dette vil overskrive nogle af dine hidtidige indstillinger, for at bruge mindst mulig hukommelse i baggrunden</string>
-
 </resources>

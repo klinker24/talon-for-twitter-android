@@ -15,75 +15,231 @@
   limitations under the License.
   -->
 <resources>
+    <string name="extension_description">728</string>
     <!-- Action Bar -->
+    <string name="menu_refresh">รีเฟรช Timeline</string>
     <string name="menu_compose">ทวีตใหม่</string>
     <string name="menu_logout">ออกจากระบบ</string>
-    <string name="menu_settings">ตั้งค่า</string>
+    <string name="menu_settings">การตั้งค่า</string>
+    <string name="menu_follow">ติดตามบัญชีนี้</string>
+    <string name="menu_unfollow">เลิกติดตามบัญชีนี้</string>
+    <string name="menu_tweet">ส่งทวีตถึง</string>
+    <string name="menu_dm">ส่งข้อความ</string>
+    <string name="menu_block">บล็อกบัญชีนี้</string>
+    <string name="menu_unblock">ยกเลิกการบล็อกบัญชีนี้</string>
     <string name="menu_add_to_list">เพิ่มสู่ลิสต์</string>
     <string name="menu_change_picture">เปลี่ยนรูปภาพโปรไฟล์</string>
+    <string name="menu_change_bio">แก้ไขข้อมูลโปรไฟล์</string>
+    <string name="menu_change_banner">เปลียนภาพส่วนหัว</string>
+    <string name="menu_direct_message">สร้างข้อความใหม่</string>
     <string name="menu_save_image">บันทึกรูปภาพ</string>
+    <string name="menu_favorite">ชื่นชอบบัญชีนี้</string>
+    <string name="menu_unfavorite">เลิกชื่นชอบบัญชีนี้</string>
+    <string name="menu_create_list">สร้างรายการลิตส์ใหม่</string>
+    <string name="menu_spam">รายงานว่าเป็นสแปม</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
-    <string name="just_now">ตอนนี้</string>
+    <string name="just_now">%s ที่ผ่านมา</string>
+    <string name="a_min_ago">%s นาทีที่แล้ว</string>
+    <string name="minutes_ago">%s นาทีที่แล้ว</string>
+    <string name="an_hour_ago">เมื่อชั่วโมงที่แล้ว</string>
+    <string name="hours_ago">%s ชั่วโมงที่แล้ว</string>
     <string name="yesterday">เมื่อวานนี้</string>
+    <string name="days_ago">%s วันที่แล้ว</string>
     <!-- Muting -->
+    <string name="mute">ซ่อน</string>
+    <string name="unmute">ยกเลิกการซ่อน</string>
+    <string name="muted_users">บัญชีที่ถูกซ่อนทวีต</string>
+    <string name="no_users">ไม่มีบัญชีผู้ใช้</string>
     <!-- Main Activity -->
+    <string name="links">ลิงค์</string>
     <string name="pictures">รูปภาพ</string>
-    <string name="timeline">ไทม์ไลน์</string>
+    <string name="timeline">หน้าแรก</string>
+    <string name="mentions">การพูดถึง</string>
+    <string name="direct_messages">ข้อความ</string>
     <string name="retweets">รีทวีต</string>
+    <string name="favorite_tweets">ทวีตที่ชอบ</string>
+    <string name="favorite_users">บัญชีผู้ใช้ทีชอบ</string>
+    <string name="favorite_users_tweets">ทวีตของผู้ใช้ที่ชอบ</string>
+    <string name="trends">เทรนด์</string>
+    <string name="local_trends">ท้องถิ่น</string>
     <string name="search">ค้นหา</string>
     <string name="lists">ลิสต์</string>
+    <string name="search_hint">ค้นหา....</string>
     <string name="new_tweet">ทวีตใหม่</string>
+    <string name="new_tweets">ทวีตใหม่ๆ</string>
     <string name="no_new_tweets">ไม่มีทวีตใหม่</string>
     <string name="tap_to_setup">แตะเพื่อตั้งค่า</string>
+    <string name="new_account">บัญชีผู้ใช้ใหม่</string>
+    <string name="from_top">จากบนสุด</string>
+    <string name="jump_to_top">จากลำดับแรก</string>
+    <string name="all_read">อ่านทั้งหมดแล้ว!</string>
     <string name="view_new">โหลด?</string>
+    <string name="old_interactions">ทุกปฏิสัมพันธ์</string>
     <!-- Notifications -->
-    <string name="mention">เมนชั่น</string>
+    <string name="tweet">ทวีต</string>
+    <string name="tweets">ทวีต</string>
+    <string name="mention">การพูดถึง</string>
+    <string name="message">ข้อความ</string>
+    <string name="messages">ข้อความ</string>
     <string name="message_from">ข้อความจาก</string>
+    <string name="mark_read">อ่าน</string>
     <string name="noti_reply">ตอบกลับ</string>
-    <string name="downloading">กำลังดาวโหลด</string>
+    <string name="popup">ป๊อปอัพ</string>
+    <string name="fav_user_tweets">ทวีตของบัญชีที่ชื่นชอบใหม่</string>
+    <string name="sec_acc">บัญชีสำรอง</string>
+    <string name="talon_pull_summary">คำเตือน : การเปิดใช้งานตัวเลือกนี้ เป็นสาเหตุของการสิ้นเปลืองแบ็ตเตอรี่อย่างมีนัยสำคัญ บน Android Lollipop</string>
+    <string name="listening">กำลังตรวจสอบ</string>
+    <string name="listening_for_mentions">กำลังตรวจสอบการตอบโต้</string>
+    <string name="refreshing">กำลังรีเฟรช</string>
+    <string name="refreshing_widget">กำลังรีเฟรชวิดเจต</string>
+    <string name="downloading">กำลังดาวน์โหลด</string>
     <string name="new_interaction_upper">การโต้ตอบใหม่</string>
+    <string name="retweeted">รีทวิตสถานะของท่านแล้ว</string>
+    <string name="favorited">ถูกใจสถานะของท่านแล้ว</string>
+    <string name="quoted">สถานะที่ให้ความเห็นแล้ว</string>
+    <string name="followed">ติดตามท่านแล้ว</string>
+    <string name="new_retweets">รีทวีต</string>
+    <string name="new_favorites">ถูกใจ</string>
+    <string name="new_quotes">อ้างอิง</string>
+    <string name="new_tweets_upper">ทวีตใหม่</string>
     <!-- Login Screen -->
+    <string name="setup_talon">ตั้งค่า Talon</string>
+    <string name="login_to_twitter">เข้าสู่ระบบ Twitter</string>
     <string name="second_welcome">กำลังซิงค์ข้อมูล</string>
-    <string name="second_info">เยี่ยม!\n\n\n\n</string>
-    <string name="third_info">\n\n-- Luke Klinker</string>
+    <string name="third_welcome">นี่แหละ  ขอให้สนุก!</string>
+    <string name="back_to_timeline">"พาฉันไป Timeline "</string>
+    <string name="initial_sync">ซิงค์เดี๋ยวนี้</string>
+    <string name="first_info">ก่อนที่เราจะเริ่มกัน มาเข้าระบบและซิงค์ข้อมูลจาก Twitter กัน</string>
+    <string name="second_info">"เยี่ยม! เราได้ให้ Twitter ทำการซิงค์ข้อมูลบัญชีของท่านแล้ว
+
+
+"</string>
+    <string name="third_info">หวังว่าท่านจะสนุกกับ Talon!</string>
     <string name="syncing_timeline">กำลังซิงค์ไทม์ไลน์...</string>
-    <string name="syncing_mentions">กำลังซิงค์เมนชั่น...</string>
-    <string name="syncing_direct_messages">กำลังซิงค์ข้อความส่วนตัว</string>
-    <string name="no_network">คุณไม่ได้เชื่อมต่ออินเตอร์เน็ต</string>
+    <string name="syncing_mentions">กำลังซิงค์รายการพูดถึง</string>
+    <string name="syncing_direct_messages">กำลังซิงค์รายการข้อความ</string>
+    <string name="syncing_user">กำลังซิงค์รายชื่อเพื่อน</string>
+    <string name="done_syncing">เรียบร้อย</string>
+    <string name="login_error">มีบางอย่างผิดปกติ กรุณาลองใหม่อีกครั้ง\n\nอาจเกิดจากวันและเวลาบนอุปกรณ์ของท่านไม่ได้ตั้งค่าเป็นอัตโนมัติเอาไว้ ซึ่งเป็นสิ่งที่จำเป็นต่อ Twitter 3rd party API อย่างมาก</string>
+    <string name="no_network">ท่านไม่ได้เชื่อมต่ออินเตอร์เน็ต</string>
+    <string name="no_thanks">ไม่ใช่ตอนนี้</string>
+    <string name="follow_me">ติดตาม!</string>
+    <string name="follow_me_description">กรุณาเลือกที่ปุ่มเพื่อติดตามบัญชีซัพพอร์ตโดยอัตโนมัติ หรือกดปุ่ม back เพื่อข้ามรายการนี้</string>
     <!-- Compose New Activity -->
-    <string name="compose_tweet_hint">พิมทวีตที่นี่...</string>
+    <string name="compose_activity">ทวีตใหม่</string>
+    <string name="compose_tweet_hint">พิมพ์ทวีตที่นี่...</string>
+    <string name="send_to">พิมพ์ชื่อบัญชี....</string>
+    <string name="direct_message_sent">ข้อความได้ถูกส่งแล้ว</string>
+    <string name="type_user">พิมพ์ชื่อบัญชี</string>
+    <string name="add_user">เพิ่มบัญชีผู้ใช้</string>
+    <string name="location_connected">เพิ่มตำแหน่ง</string>
+    <string name="location_disconnected">ไม่พบตำแหน่ง</string>
+    <string name="finding_location">กำลังค้นหาตำแหน่ง</string>
+    <string name="draft_found">ค้นพบเฉพาะร่าง</string>
+    <string name="apply">จะนำมาใช้?</string>
+    <string name="tweet_failed">พบข้อผิดพลาดในการส่งทวีต</string>
+    <string name="tap_to_retry">แตะเพื่อลองใหม่</string>
+    <string name="one_recepient">ท่านสามารถส่งข้อความให้บัญชีเป้าหมายได้ทีละบัญชีเท่านั้น</string>
     <!-- Actionbar Done-Discard -->
+    <string name="discard">ละทิ้ง</string>
+    <string name="send">ส่ง</string>
     <!-- Other -->
+    <string name="placeholder">ตัวยึด</string>
+    <string name="reply">ตอบกลับ...</string>
+    <string name="error">ข้อผิดพลาด</string>
+    <string name="error_loading_page">พบข้อผิดพลาดขณะโหลดหน้าเพจ</string>
+    <string name="delete">ลบ</string>
     <string name="cancel">ยกเลิก</string>
+    <string name="save_image">บันทึกรูปภาพแล้ว</string>
     <string name="tweet_success">ทวีตสำเร็จ</string>
+    <string name="error_sending_tweet">พบข้อผิดพลาดขณะส่งทวีต</string>
+    <string name="tweet_to_long">ทวีตยาวมีความยาวมากเกินไป</string>
     <string name="ok">ตกลง</string>
     <string name="no">ไม่</string>
+    <string name="yes">ใช่</string>
     <string name="changelog">มีอะไรใหม่</string>
+    <string name="created_by">สร้างโดย</string>
+    <string name="no_location">ไม่สามารถค้นหาตำแหน่งได้</string>
+    <string name="take_picture">ถ่ายภาพ</string>
     <string name="from_file">แนบรูปภาพ</string>
     <string name="via">ผ่านทาง</string>
     <string name="version">เวอร์ชั่น</string>
+    <string name="from">จาก</string>
+    <string name="save">บันทึก</string>
+    <string name="stop">หยุด</string>
+    <string name="tweeted">ทวีตแล้ว</string>
     <!-- User Profile Activity -->
+    <string name="followers">ผู้ติดตาม</string>
     <string name="following">กำลังติดตาม</string>
+    <string name="blocked_user">บัญชีที่ถูกบล็อค</string>
+    <string name="unblocked_user">บัญชีที่ยกเลิกการบล็อกแล้ว</string>
+    <string name="followed_user">ติดตาม</string>
+    <string name="unfollowed_user">เลิกติดตาม</string>
+    <string name="no_description">ไม่มีรายละเอียดของบัญชีผู้ใช้นี้</string>
+    <string name="favorite_user">บัญชีที่ชื่นชอบ</string>
+    <string name="updating_pro_pic">กำลังปรับปรุงรูปภาพโปรไฟล์</string>
+    <string name="updating_banner_pic">กำลังปรับปรุงภาพส่วนหัวของคุณ</string>
+    <string name="uploaded">อัพโหลดไฟล์เรียบร้อย</string>
+    <string name="change_profile_info">แก้ไขรายละเอียดโปรไฟล์</string>
     <string name="update">อัพเดต</string>
+    <string name="optional_name">ชื่อ (ไม่จำเป็น)</string>
+    <string name="optional_url">URL (ไม่จำเป็น)</string>
+    <string name="optional_location">ตำแหน่ง (ไม่จำเป็น)</string>
+    <string name="optional_description">ประวัติ (ไม่จำเป็น)</string>
+    <string name="updated_profile">แก้ไขโปรไฟล์</string>
+    <string name="name_char_length">ชื่อ : ไม่เกิน 20 ตัวอักษร</string>
+    <string name="url_char_length">URL : ไม่เกิน 100 ตัวอักษร</string>
+    <string name="description_char_length">ประวัติ : ไม่เกิน 160 ตัวอักษร</string>
     <!-- Retweets Activity -->
+    <string name="retweets_lower">รีทวีต</string>
+    <string name="retweet_lower">รีทวิต</string>
     <string name="retweeter">รีทวีตโดย @</string>
     <!-- Tweet Activity -->
+    <string name="menu_open_web">เปิดเว็บจากลิงค์</string>
+    <string name="menu_copy_text">คัดลอกข้อความทวีต</string>
     <string name="menu_share">แชร์ทวีต</string>
     <string name="menu_delete_tweet">ลบทวีต</string>
-    <string name="conversation">บทสนทนา</string>
+    <string name="conversation">การสนทนา</string>
+    <string name="webpage">หน้าเว็บ</string>
+    <string name="tweet_youtube">Youtube</string>
+    <string name="gif">สื่อในทวีต</string>
+    <string name="vine">Vine</string>
+    <string name="menu_quote">ให้ความเห็นต่อทวีต</string>
+    <string name="deleted_tweet">ลบทวิต</string>
+    <string name="error_deleting">พบข้อผิดพลาดในการลบทวีต</string>
+    <string name="sending">กำลังส่ง</string>
+    <string name="open_what">เปิดด้วย</string>
+    <string name="youtube_error">พบข้อผิดพลาดในการเล่นวิดีโอ</string>
+    <string name="no_conversation">ไม่มีทวีตก่อนหน้า</string>
     <string name="saving_picture">กำลังบันทึกรูปภาพ</string>
-    <string name="favorite_success">ชื่นชอบสำเร็จ</string>
+    <string name="saved_picture">บันทึกรูปภาพเสร็จสิ้น</string>
+    <string name="retweet_success">รีทวิตสำเร็จ</string>
+    <string name="favorite_success">ถูกใจแล้ว</string>
     <string name="success">สำเร็จ</string>
     <!-- User Lists -->
+    <string name="view_users">แสดงบัญชีผู้ใช้</string>
     <string name="delete_list">ลบลิสต์</string>
+    <string name="remove_user">นำบัญชีผู้ใช้ออก</string>
+    <string name="remove">นำออก</string>
     <string name="from_list">จากลิสต์</string>
+    <string name="removed_user">บัญชีผู้ใช้ถูกนำออกแล้ว</string>
     <string name="create_new_list">สร้างลิสต์ใหม่</string>
     <string name="list_name">ชื่อลิสต์...</string>
+    <string name="list_description">รายละเอียดเพิ่มเติมสำหรับลิสต์</string>
+    <string name="deleted_list">ลบลิสต์</string>
+    <string name="back_to_refresh">เปลี่ยนการรีเฟรชลิสต์</string>
     <string name="sPrivate">ส่วนตัว</string>
     <string name="sPublic">สาธารณะ</string>
+    <string name="finding_lists">กำลังค้นหาลิสต์</string>
     <string name="choose_list">เลือกลิสต์</string>
+    <string name="added_to_list">นำเข้าสู่ลิสต์แล้ว</string>
     <!-- Tutorial Activity -->
+    <string name="part_1_tablet">เข้าถึงฟีเจอร์โดยการแตะที่ไอเทมในส่วนของการนำทาง</string>
+    <string name="part_1_phone">ดึงเพื่อเปิดส่วนการนำทางโดยการปาดไปทางด้านซ้าย</string>
+    <string name="part_3">ใช่แล้ว!!\n\nแตะที่หน้าจอเพื่อเริ่มต่อได้เลย</string>
+    <string name="part_4">แตะที่ app bar เพื่อแสดงตำแหน่ง Timeline</string>
+    <string name="part_5">แตะค้างที่ app bar เพื่อกระโดดไปยังด้านบนสุดของ Timeline</string>
     <!-- Settings Menu -->
     <string name="theme_settings">ตั้งค่าธีม</string>
     <string name="theme">ธีม</string>
@@ -117,6 +273,7 @@
     <!-- added after release -->
     <string name="notification_types">ประเภทการแจ้งเตือน</string>
     <string name="new_followers">ผู้ติดตามใหม่</string>
+    <string name="rt_style_quotes">รูปแบบแสดงผล \"RT\"</string>
     <string name="follows_you">ติดตามคุณ</string>
     <string name="roboto_condensed">Roboto Condensed</string>
     <string name="our_website">เว็บไซต์</string>
@@ -131,14 +288,39 @@
     <string name="page_1">หน้าที่ 1</string>
     <string name="page_2">หน้าที่ 2</string>
     <string name="load_tweets">โหลดทวีต</string>
-    <string name="compose_dm_hint">พิมพ์ข้อความส่วนตัวที่นี่...</string>
+    <string name="compose_dm_hint">พิมพ์ข้อความที่นี่...</string>
     <string name="pwiccer">Pwiccer</string>
+    <string name="view_favoriters">ถูกใจ</string>
     <string name="menu_save_search">บันทึกการค้นหา</string>
     <string name="version_two">เวอร์ชั่น 2.0.0</string>
     <string name="city">เมือง</string>
     <string name="widget_light">ธีมสว่าง</string>
     <string name="ui_settings">ตั้งค่า UI</string>
     <string name="show_pos_dashclock">แสดงตำแหน่งไทม์ไลน์</string>
+    <string name="attach_video">วิดีโอ</string>
     <!-- %s will be replaced with a number for the currently selected page -->
+    <!-- the username will replace %s -->
+    <string name="retweet">รีทวีต</string>
+    <string name="new_follower_lower">ผู้ติดตามรายใหม่</string>
+    <string name="new_followers_lower">ผู้ติดตามกลุ่มใหม่</string>
+    <string name="item">ไอเทม</string>
+    <string name="items">ไอเทม</string>
+    <string name="and">และ</string>
+    <string name="no_favorites">ไม่ถูกใจ</string>
+    <string name="quote_style">รูปแบบการแสดงผลการอ้างอิง</string>
+    <string name="quote_style_twitter">รูปแบบการแสดงผลทวีต (ลิงค์ไปยังทวีต)</string>
+    <string name="show_pull_notification">แสดงการแจ้งเตือนที่ยังตกค้าง</string>
+    <string name="show_pull_notification_summary">หากท่านปิดการแจ้งเตือน ระบบ Android อาจปิดการสตรีมเมื่อไหร่ก็ได้ โปรใช้ความระมัดระวังอย่างมาก</string>
+    <string name="custom_tab_message">ระบบของท่านไม่อนุญาตให้ Talon เปิด Chrome Custom Tab โดยอัตโนมัติได้ หากต้องการใช้ฟีเจอร์นี้ ต้องการให้ท่านตั้งค่าให้ Chrome เป็นเบราซ์เซอร์เริ่มต้นของระบบ Talon จะเริ่มเป็นเบราซ์เซอร์ในแอพต่อไป\n\nกรุณาเลือก \"ใช่\"  หาก Chrome เบราซ์เซอร์เริ่มต้นของระบบ หรือ \"ไม่\" หากท่านไม่ได้เลือกเป็นค่าเริ่มต้น</string>
+    <string name="learn_more">เรียนรู้เพ่ิมเติม</string>
     <!-- Long click methods -->
+    <string name="open_to_web">เปิดหน้าเว็บ</string>
+    <string name="open_to_web_summary">หากทวีตมี URL ของเว็บ จะเป็นการเปิดตรงไปยัง URL นั้นๆ แทนตัวของทวีตเอง</string>
+    <string name="open_webpage">เปิดลิงค์</string>
+    <string name="play_gif">เล่น</string>
+    <string name="add_to_tweet_gif">เพิ่มเข้าไปในทวีต</string>
+    <string name="find_a_gif">ค้นหาภาพ GIF</string>
+    <string name="three_mb_limit">จำกัดขนาดที่ 5 MB</string>
+    <string name="three_mb_message">Twitter อนุญาตให้ส่งภาพ GIF ขนาดไม่เกิน 5 MB Talon จะจำเอา GIF ที่คุณภาพดีที่สุดจาก Giphy ที่พอดีกับข้อจำกัดนี้\n\nผลที่ท่านได้รับคือ จะเห็นภาพเวอร์ชั่นที่พอดีกับข้อจำกัดนี้ เราจะไม่แสดงภาพ GIF ที่ถูกลดคุณภาพตามข้อจำกัด 5 MB นี้แต่อย่างใด</string>
+    <string name="quoted_you">อ้างอิงถึงคุณ</string>
 </resources>

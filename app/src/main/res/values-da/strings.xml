@@ -442,7 +442,7 @@ BEMÆRK: Emojis vil fortsætte med at virke i applikationen selv efter prøveper
     <string name="follows_you">Følger dig</string>
     <string name="not_following_you">Følger ikke dig</string>
     <string name="device">Enhedens tekst type</string>
-    <string name="roboto_light">Roboto Lyst (Standard)</string>
+    <string name="roboto_light">Roboto Regular (Standard)</string>
     <string name="roboto_condensed">Roboto Fortættet</string>
     <string name="font_type">Tekst type</string>
     <string name="our_website">Webside</string>
