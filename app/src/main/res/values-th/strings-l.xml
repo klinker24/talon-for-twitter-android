@@ -108,5 +108,4 @@
     <string name="chrome_custom_tabs_summary">เบราซเซอร์ภายในแอพของ Talon เองด้วยเซอร์วิสของ Google Chrome</string>
     <string name="auto_dismiss">ยกเลิกการแจ้งเตือนอัตโนมัติ</string>
     <string name="followers_only_auto_complete_summary">ไม่ค้นหาทั่วทวิตเตอร์เมื่อขณะทำ auto-complete แก่การพูดถึง</string>
-    <string name="quote_style">รูปแบบ Quate</string>
 </resources>
