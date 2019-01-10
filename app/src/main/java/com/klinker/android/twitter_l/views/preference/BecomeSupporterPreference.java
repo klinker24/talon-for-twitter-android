@@ -27,7 +27,7 @@ public class BecomeSupporterPreference extends IconPreference {
     public void init() {
         SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(getContext());
 
-        isSupporter = sharedPreferences.getBoolean("2018_supporter", false);
+        isSupporter = sharedPreferences.getBoolean("2019_supporter", false);
     }
 
     @Override
