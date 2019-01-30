@@ -90,8 +90,8 @@ Ta gjerne bort tillatelser. Du kan manuelt få tilgang til disse fra systemets a
     <string name="no_pictures">Ingen bilder</string>
     <string name="quick_actions">Hurtighandlinger</string>
     <string name="liked_status">Liker vellykket</string>
-    <string name="become_supporter">Bli en 2018 SUPPORTER</string>
-    <string name="are_supporter">Du er en 2018 SUPPORTER!</string>
+    <string name="become_supporter">Bli en 2019 SUPPORTER</string>
+    <string name="are_supporter">Du er en 2019 SUPPORTER!</string>
     <string name="are_supporter_summary">Takk! Din støtte er enormt verdsatt. Hvis det er noe jeg kan gjøre, ikke nøl med å spørre.</string>
     <string name="tweetmarker_disclaimer">Automatisk TweetMarker vil alltid oppdatere tidslinjen ved oppstart av appen.</string>
     <string name="discover_people">Folk</string>
@@ -116,7 +116,7 @@ Ta gjerne bort tillatelser. Du kan manuelt få tilgang til disse fra systemets a
     <string name="background">Bakgrunn</string>
     <string name="advanced">Avansert</string>
     <string name="data_saving_settings">Datalagringsalternativer</string>
-    <string name="supporter_2016">2018 supporter</string>
+    <string name="supporter_2016">2019 supporter</string>
     <string name="app_style">App stil</string>
     <string name="in_app_browser">Appnettleser</string>
     <string name="location">Plassering</string>

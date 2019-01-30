@@ -18,8 +18,8 @@
     <string name="no_pictures">אין תמונות</string>
     <string name="quick_actions">פעולות מהירות</string>
     <string name="liked_status">לייק בוצע בהצלחה</string>
-    <string name="become_supporter">תהיה תומך 2016</string>
-    <string name="are_supporter">אתה תומך 2016!</string>
+    <string name="become_supporter">תהיה תומך 2019</string>
+    <string name="are_supporter">אתה תומך 2019!</string>
     <string name="are_supporter_summary">תודה! התמיכה שלך מוערכת מאוד. אם יש משהו שאני יכול לעשות, אל תהסס לשאול.</string>
     <string name="tweetmarker_disclaimer">הגרסה האוטומטית של TweetMarker תמיד תרענן את ציר הזמן כשהאפליקציה תופעל.</string>
     <string name="discover_people">אנשים</string>
@@ -44,7 +44,7 @@
     <string name="background">רקע</string>
     <string name="advanced">מתקדם</string>
     <string name="data_saving_settings">אפשרויות לחסכון בנתונים</string>
-    <string name="supporter_2016">תומך 2016</string>
+    <string name="supporter_2016">תומך 2019</string>
     <string name="app_style">סגנון אפליקציה</string>
     <string name="in_app_browser">דפדפן בתוך האפליקציה</string>
     <string name="location">מיקום</string>

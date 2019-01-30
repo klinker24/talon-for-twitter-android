@@ -90,8 +90,8 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="no_pictures">Nincsenek képek</string>
     <string name="quick_actions">Gyors műveletek</string>
     <string name="liked_status">Sikeres kedvelés</string>
-    <string name="become_supporter">Legyen 2016-os TÁMOGATÓ</string>
-    <string name="are_supporter">Ön 2016-os TÁMOGATÓ!</string>
+    <string name="become_supporter">Legyen 2019-os TÁMOGATÓ</string>
+    <string name="are_supporter">Ön 2019-os TÁMOGATÓ!</string>
     <string name="are_supporter_summary">Köszönjük! Nagyon hálásak vagyunk a támogatásért. Ha bármit tehetünk, kérjük ne habozzon megkérdezni.</string>
     <string name="tweetmarker_disclaimer">Az automatikus TweetMarker az alkalmazás indításakor mindig frissíteni fogja az idővonalat.</string>
     <string name="discover_people">Emberek</string>
@@ -116,7 +116,7 @@ Nyugodtan elutasíthatja bármelyik engedélyt. Kézzel megadhatja a hozzáfér�
     <string name="background">Háttér</string>
     <string name="advanced">Haladó</string>
     <string name="data_saving_settings">Adatmegtakarítás beállítások</string>
-    <string name="supporter_2016">2016-os támogató</string>
+    <string name="supporter_2016">2019-os támogató</string>
     <string name="app_style">Alkalmazás stílusa</string>
     <string name="in_app_browser">Belső böngésző</string>
     <string name="location">Hely</string>

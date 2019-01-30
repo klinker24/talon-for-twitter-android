@@ -49,8 +49,8 @@
     <string name="no_pictures">사진이 없습니다</string>
     <string name="quick_actions">빠른 실행</string>
     <string name="liked_status">성공적으로 마음에 담았습니다!</string>
-    <string name="become_supporter">2018 서포터가 되십시오</string>
-    <string name="are_supporter">당신은 2016 서포터입니다!</string>
+    <string name="become_supporter">2019 서포터가 되십시오</string>
+    <string name="are_supporter">당신은 2019 서포터입니다!</string>
     <string name="are_supporter_summary">고맙습니다! 당신의 서포트에 매우 감사합니다. 제가 할 수 있는 게 있다면 주저하지 말고 물어봐주세요</string>
     <string name="tweetmarker_disclaimer">자동 TweetMarker가 앱을 시작할 때마다 타임라인을 갱신합니다</string>
     <string name="no_media_preview">이 비디오에 대해서 가능한 미리보기가 없습니다</string>
@@ -70,7 +70,7 @@
     <string name="widget_settings">위젯 설정</string>
     <string name="background">배경</string>
     <string name="data_saving_settings">데이터 절약 옵션</string>
-    <string name="supporter_2016">2016 서포터</string>
+    <string name="supporter_2016">2019 서포터</string>
     <string name="app_style">앱 스타일</string>
     <string name="in_app_browser">앱 내 브라우저</string>
     <string name="location">위치</string>

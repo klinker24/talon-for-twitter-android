@@ -88,8 +88,8 @@
     <string name="no_pictures">Resimsiz</string>
     <string name="quick_actions">Hızlı Eylemler</string>
     <string name="liked_status">Beğeni Başarılı</string>
-    <string name="become_supporter">2018 DESTEKÇİSİ Olun</string>
-    <string name="are_supporter">2018 DESTEKÇİSİ Oldunuz!</string>
+    <string name="become_supporter">2019 DESTEKÇİSİ Olun</string>
+    <string name="are_supporter">2019 DESTEKÇİSİ Oldunuz!</string>
     <string name="are_supporter_summary">Teşekkürler! Desteğiniz çok takdir edilmektedir. Yapabileceğim bir şey varsa, sormaktan çekinmeyin.</string>
     <string name="tweetmarker_disclaimer">Otomatik TweetMarker, uygulama başlatıldığında zaman akışını daima yeniler.</string>
     <string name="discover_people">Kişiler</string>
@@ -114,7 +114,7 @@
     <string name="background">Arkaplan</string>
     <string name="advanced">Gelişmiş</string>
     <string name="data_saving_settings">Veri Tasarrufu Seçenekleri</string>
-    <string name="supporter_2016">2018 Destekçisi</string>
+    <string name="supporter_2016">2019 Destekçisi</string>
     <string name="app_style">Uygulama Stili</string>
     <string name="in_app_browser">Uygulama İçi Tarayıcı</string>
     <string name="location">Konum</string>

@@ -95,8 +95,8 @@ Sinta-se à vontade para negar qualquer uma das permissões. Você pode acessá-
     <string name="no_pictures">Sem fotos</string>
     <string name="quick_actions">Ações Rápidas</string>
     <string name="liked_status">Curtido</string>
-    <string name="become_supporter">Torne-se um PATROCINADOR de 2017</string>
-    <string name="are_supporter">Você é um PATROCINADOR de 2017!</string>
+    <string name="become_supporter">Torne-se um PATROCINADOR de 2019</string>
+    <string name="are_supporter">Você é um PATROCINADOR de 2019!</string>
     <string name="are_supporter_summary">"Obrigado! Apreciamos muito o seu apoio. Se há algo que eu possa fazer, não hesite em pedir. "</string>
     <string name="tweetmarker_disclaimer">TweetMarker Automático irá sempre atualizar a linha do tempo ao abrir o app</string>
     <string name="discover_people">Pessoas</string>
@@ -121,7 +121,7 @@ Sinta-se à vontade para negar qualquer uma das permissões. Você pode acessá-
     <string name="background">Segundo plano</string>
     <string name="advanced">"Avançado "</string>
     <string name="data_saving_settings">Opções de Economia de Dados</string>
-    <string name="supporter_2016">Apoiador de 2016</string>
+    <string name="supporter_2016">Apoiador de 2019</string>
     <string name="app_style">Estilo do App</string>
     <string name="in_app_browser">Navegador Interno</string>
     <string name="location">Local</string>

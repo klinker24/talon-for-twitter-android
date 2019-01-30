@@ -59,8 +59,8 @@
     <string name="no_pictures">ไม่มีรูปภาพ</string>
     <string name="quick_actions">การทำงานทันที</string>
     <string name="liked_status">ถูกใจสำเร็จ</string>
-    <string name="become_supporter">ร่วมเป็นผู้สนับสนุนประจำปี 2016</string>
-    <string name="are_supporter">คุณคือผู้สนับสนุนประจำปี 2016!</string>
+    <string name="become_supporter">ร่วมเป็นผู้สนับสนุนประจำปี 2019</string>
+    <string name="are_supporter">คุณคือผู้สนับสนุนประจำปี 2019!</string>
     <string name="are_supporter_summary">ขอบคุณที่เป็นผู้สนับสนุน หากมีสิ่งใดที่เราทำได้ อย่าลังเลที่จะบอกเรา</string>
     <string name="tweetmarker_disclaimer">TweetMarker จะรีเฟรชโดยอัตโนมัติทุกครั้ง เมื่อเปิดแอพ</string>
     <string name="discover_people">ทุกคน</string>
@@ -84,7 +84,7 @@
     <string name="background">พื้นหลัง</string>
     <string name="advanced">เพิ่มเติม</string>
     <string name="data_saving_settings">ตัวเลือกการประหยัดการใช้ข้อมูล</string>
-    <string name="supporter_2016">ผู้สนับสนุนประจำปี 2016</string>
+    <string name="supporter_2016">ผู้สนับสนุนประจำปี 2019</string>
     <string name="app_style">รูปแบบของแอพ</string>
     <string name="in_app_browser">เบราซ์เซอร์ในแอพ</string>
     <string name="location">ตำแหน่งที่ตั้ง</string>

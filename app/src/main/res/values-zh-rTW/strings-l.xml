@@ -86,8 +86,8 @@
     <string name="no_pictures">沒有圖片</string>
     <string name="quick_actions">快捷動作</string>
     <string name="liked_status">成功按讚</string>
-    <string name="become_supporter">成為 2018 年度贊助者</string>
-    <string name="are_supporter">您是 2018 年度贊助者</string>
+    <string name="become_supporter">成為 2019 年度贊助者</string>
+    <string name="are_supporter">您是 2019 年度贊助者</string>
     <string name="are_supporter_summary">感謝！您的支持我們非常感激。如果您有任何我可以做到的事，歡迎跟我說！</string>
     <string name="tweetmarker_disclaimer">自動 TweetMarker 將會在每次啟動軟體時重新整理時間軸</string>
     <string name="discover_people">人物</string>
@@ -111,7 +111,7 @@
     <string name="background">背景</string>
     <string name="advanced">進階</string>
     <string name="data_saving_settings">節省數據選項</string>
-    <string name="supporter_2016">2018 贊助者</string>
+    <string name="supporter_2016">2019 贊助者</string>
     <string name="app_style">軟體樣式</string>
     <string name="in_app_browser">內建瀏覽器</string>
     <string name="location">位置</string>
