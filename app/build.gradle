@@ -95,12 +95,12 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'me.leolin:ShortcutBadger:1.1.19@aar'
     implementation 'com.github.ajalt.reprint:core:3.2.1@aar'
-    implementation 'com.github.fiskurgit:ChipCloud:3.0.3'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')
     implementation files('lib/twitter4j-stream-fork.jar')
+    implementation(name: 'ChipCloud-3.0.3', ext: 'aar')
     implementation(name: 'datetimepicker', ext: 'aar')
     implementation(name: 'sectioned-recyclerview', ext: 'aar')
     implementation(name: 'material-camera', ext: 'aar')
