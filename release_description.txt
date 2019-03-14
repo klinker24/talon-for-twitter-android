@@ -1,1 +1,1 @@
-When you are viewing an picture from the list of images on a user's profile, you can now tap the "info" button at the top of the screen to quickly access the details for the associated tweet.
+This version contains bug fixes, including a fix for an issue with translating tweets.
