@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.5.6">
+        <text>Fix Google Translate support</text>
+    </version>
+
     <version name="7.5.5">
         <text>Bug fixes</text>
     </version>
