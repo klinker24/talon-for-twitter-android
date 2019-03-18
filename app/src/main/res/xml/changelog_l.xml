@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.5.7">
+        <text>Improvements to loading videos</text>
+    </version>
+
     <version name="7.5.6">
         <text>Fix Google Translate support</text>
     </version>
