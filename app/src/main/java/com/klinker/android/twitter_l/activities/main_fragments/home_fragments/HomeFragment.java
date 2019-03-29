@@ -305,7 +305,11 @@ public class HomeFragment extends MainFragment {
                             spinner.setVisibility(View.GONE);
                         }
 
-                        if (listView.getVisibility() != View.VISIBLE) {
+                        if (cursorAdapter.getCount() == 0) {
+                            if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        } else {
+                            if (noContent != null) noContent.setVisibility(View.GONE);
                             listView.setVisibility(View.VISIBLE);
                         }
 
@@ -1074,155 +1078,7 @@ public class HomeFragment extends MainFragment {
     }
 
     public boolean trueLive = false;
-
-    /*@Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-
-        if (!trueLive && !initial) {
-            Log.v("talon_tweetmarker", "true live");
-            markReadForLoad();
-        }
-
-        try {
-            Looper.prepare();
-        } catch (Exception e) {
-
-        }
-
-        String[] projection = HomeDataSource.allColumns;
-        CursorLoader cursorLoader = new CursorLoader(
-                context,
-                HomeContentProvider.CONTENT_URI,
-                projection,
-                null,
-                new String[] {currentAccount + ""},
-                null );
-
-        return cursorLoader;
-    }*/
-
     public boolean viewPressed = false;
-
-    /*@Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
-
-                        currCursor = cursor;
-
-                        Cursor c = null;
-                        if (cursorAdapter != null) {
-                            c = cursorAdapter.getCursor();
-                        }
-
-                        cursorAdapter = new TimeLineCursorAdapter(context, cursor, false, true);
-
-                        initial = false;
-
-                        long id = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-                        boolean update = true;
-                        int numTweets;
-                        if (id == 0) {
-                            numTweets = 0;
-                        } else {
-                            numTweets = getPosition(cursor, id);
-                            if (numTweets == -1) {
-                                return;
-                            }
-
-                            // tweetmarker was sending me the id of the wrong one sometimes, minus one from what it showed on the web and what i was sending it
-                            // so this is to error trap that
-                            if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-
-                                // go with id + 1 first because tweetmarker seems to go 1 id less than I need
-                                numTweets = getPosition(cursor, id + 1);
-                                if (numTweets == -1) {
-                                    return;
-                                }
-
-                                if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                    numTweets = getPosition(cursor, id + 2);
-                                    if (numTweets == -1) {
-                                        return;
-                                    }
-
-                                    if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                        numTweets = getPosition(cursor, id - 1);
-                                        if (numTweets == -1) {
-                                            return;
-                                        }
-
-                                        if (numTweets < settings.timelineSize + 10 && numTweets > settings.timelineSize - 10) {
-                                            numTweets = 0;
-                                            update = sharedPrefs.getBoolean("just_muted", false);
-                                        }
-                                    }
-                                }
-                            }
-
-                            sharedPrefs.edit().putBoolean("just_muted", false).apply();
-
-                            Log.v("talon_tweetmarker", "finishing loader, id = " + id + " for account " + currentAccount);
-
-                            switch (currentAccount) {
-                                case 1:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 2, 0) + " for account " + 2);
-                                    break;
-                                case 2:
-                                    Log.v("talon_tweetmarker", "finishing loader, id = " + sharedPrefs.getLong("current_position_" + 1, 0) + " for account " + 1);
-                                    break;
-                            }
-                        }
-
-                        final int tweets = numTweets;
-
-                        if (spinner.getVisibility() == View.VISIBLE) {
-                            spinner.setVisibility(View.GONE);
-                        }
-
-                        if (listView.getVisibility() != View.VISIBLE) {
-                            update = true; // we want to do this to ensure there just isn't a blank list shown...
-                            listView.setVisibility(View.VISIBLE);
-                        }
-
-                        if (update) {
-                            applyAdapter();
-
-                            if (viewPressed) {
-                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                listView.setSelectionFromTop(liveUnread + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                            } else if (tweets != 0) {
-                                unread = tweets;
-                                int size = mActionBarSize + (DrawerActivity.translucent ? DrawerActivity.statusBarHeight : 0);
-                                listView.setSelectionFromTop(tweets + (MainActivity.isPopup || landscape || MainActivity.settings.jumpingWorkaround ? 1 : 2), size);
-                            } else {
-                                listView.setSelectionFromTop(0, 0);
-                            }
-                        }
-
-                        liveUnread = 0;
-                        viewPressed = false;
-
-                        refreshLayout.setRefreshing(false);
-
-                        try {
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    newTweets = false;
-                                }
-                            }, 500);
-                        } catch (Exception e) {
-                            newTweets = false;
-                        }
-
-                        if (update) {
-                            try {
-                                c.close();
-                            } catch (Exception e) {
-
-                            }
-                        }
-    }*/
 
     // use the cursor to find which one has "1" in current position column
     public int getPosition(Cursor cursor) {
@@ -1274,91 +1130,7 @@ Log.v("talon_remake", "load finished, " + cursor.getCount() + " tweets");
         return pos;
     }
 
-    /*@Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        // data is not available anymore, delete reference
-        Log.v("talon_timeline", "had to restart the loader for some reason, it was reset");
-
-        resetTimeline(false);
-    }*/
-
     public Handler handler = new Handler();
-    public Runnable hideToast = new Runnable() {
-        @Override
-        public void run() {
-            infoBar = false;
-            hideToastBar(mLength);
-        }
-    };
-    public long mLength;
-
-    /*public void showToastBar(String description, String buttonText, final long length, final boolean quit, View.OnClickListener listener) {
-        showToastBar(description, buttonText, length, quit, listener, false);
-    }*/
-
-    public boolean topViewToastShowing = false;
-
-    /*public void showToastBar(final String description, final String buttonText, final long length, final boolean quit, final View.OnClickListener listener, boolean isLive) {
-        try {
-            if (!isToastShowing || isLive) {
-                if (isToastShowing) {
-                    if (topViewToastShowing) {
-                        return;
-                    }
-                    infoBar = false;
-                    hideToastBar(300);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            topViewToastShowing = true;
-                            showToastBar(description, buttonText, length, quit, listener, false);
-                        }
-                    }, 350);
-                } else {
-                    infoBar = quit;
-
-                    mLength = length;
-
-                    toastDescription.setText(description);
-                    toastButton.setText(buttonText);
-                    toastButton.setOnClickListener(listener);
-
-                    handler.removeCallbacks(hideToast);
-                    isToastShowing = true;
-                    toastBar.setVisibility(View.VISIBLE);
-
-                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-                    anim.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            if (quit) {
-                                handler.postDelayed(hideToast, 3000);
-                            }
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    anim.setDuration(length);
-                    toastBar.startAnimation(anim);
-                }
-            } else if (!infoBar) {
-                // this will change the # from top
-                toastDescription.setText(description);
-            }
-        } catch (Exception e) {
-            // fragment not attached
-        }
-    }*/
-
-    public boolean isHiding = false;
 
     public void markReadForLoad() {
         try {

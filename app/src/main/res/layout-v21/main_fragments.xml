@@ -40,6 +40,43 @@
             android:textColor="?textColor"
             android:layout_marginTop="5dp"
             android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/no_content"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:visibility="gone"
+        android:gravity="center" >
+
+        <ImageView android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_biker"
+            android:id="@+id/picture"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:id="@+id/no_content_title"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_content_home"
+            android:textColor="?textColor"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/no_content_summary"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_content_home_summary"
+            android:textColor="?textColor"
+            android:gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14dp"/>
+
     </LinearLayout>
 
     <com.klinker.android.twitter_l.views.widgets.swipe_refresh_layout.material.MaterialSwipeRefreshLayout

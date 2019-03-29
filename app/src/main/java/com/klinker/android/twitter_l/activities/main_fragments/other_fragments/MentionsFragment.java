@@ -215,6 +215,16 @@ public class MentionsFragment extends MainFragment {
         super.onStop();
     }
 
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_mentions);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_mentions_summary);
+    }
+
     public void getCursorAdapter(boolean showSpinner) {
         if (showSpinner) {
             try {
@@ -267,7 +277,14 @@ public class MentionsFragment extends MainFragment {
 
                         try {
                             spinner.setVisibility(View.GONE);
-                            listView.setVisibility(View.VISIBLE);
+
+                            if (cursorAdapter.getCount() == 0) {
+                                if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            } else {
+                                if (noContent != null) noContent.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e) { }
 
                         attachCursor();

@@ -306,7 +306,13 @@ public class ListFragment extends MainFragment {
                         } catch (Exception e) { }
 
                         try {
-                            listView.setVisibility(View.VISIBLE);
+                            if (cursorAdapter.getCount() == 0) {
+                                if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            } else {
+                                if (noContent != null) noContent.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e) {
 
                         }
@@ -324,6 +330,16 @@ public class ListFragment extends MainFragment {
                 });
             }
         }).start();
+    }
+
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_lists);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_lists_summary);
     }
 
     public int getPosition(Cursor cursor, long id) {

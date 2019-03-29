@@ -175,7 +175,13 @@ public class DMFragment extends MainFragment {
 
             try {
                 spinner.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
+                if (arrayAdapter.getCount() == 0) {
+                    if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                } else {
+                    if (noContent != null) noContent.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                }
             } catch (Exception e) { }
 
             try {
@@ -185,6 +191,16 @@ public class DMFragment extends MainFragment {
             }
         }
 
+    }
+
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_dms);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_dms_summary);
     }
 
     @Override

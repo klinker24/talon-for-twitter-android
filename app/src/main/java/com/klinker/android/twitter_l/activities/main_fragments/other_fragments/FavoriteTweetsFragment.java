@@ -250,7 +250,13 @@ public class FavoriteTweetsFragment extends MainFragment {
                         } catch (Exception e) { }
 
                         try {
-                            listView.setVisibility(View.VISIBLE);
+                            if (cursorAdapter.getCount() == 0) {
+                                if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            } else {
+                                if (noContent != null) noContent.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e) {
 
                         }
@@ -268,6 +274,16 @@ public class FavoriteTweetsFragment extends MainFragment {
                 });
             }
         }).start();
+    }
+
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_fav_tweets);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_fav_tweets_summary);
     }
 
     public Handler handler = new Handler();

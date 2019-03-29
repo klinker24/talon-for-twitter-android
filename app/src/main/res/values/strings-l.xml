@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
     <string name="fast_transitions">Quick Transitions</string>
     <string name="help">Help</string>
     <string name="send_feedback">Send Feedback</string>
@@ -247,4 +247,20 @@
     <string name="auto_play_gifs_summary">By default, both GIFs and Twitter videos are played directly on the timeline.</string>
     <string name="data_saver_mode">Data Saver Mode</string>
     <string name="data_saver_mode_summary">This will override some of your current settings to give you the least amount of background data usage.</string>
+
+    <string name="no_content_home">No tweets!</string>
+    <string name="no_content_home_summary">To fill this page, start following some users. You can find people to follow from the Discover section, or by searching for different topics.</string>
+    <string name="no_content_mentions">No mentions!</string>
+    <string name="no_content_mentions_summary">To fill this page, talking to others, on Twitter. As they reply, their tweets will show up on this page.</string>
+    <string name="no_content_dms">No direct messages!</string>
+    <string name="no_content_dms_summary">To fill this page, you can start sending direct messages, on Twitter. You can start a new direct message from Talon\'s compose page.</string>
+    <string name="no_content_fav_tweets">No liked tweets!</string>
+    <string name="no_content_fav_tweets_summary">To fill this page, just like a user\'s status. As you like different tweets, they will show up on this page.</string>
+    <string name="no_content_lists">No tweets!</string>
+    <string name="no_content_lists_summary">To fill this page, start adding some user\'s to this list.</string>
+    <string name="no_content_save_searches">No tweets found!</string>
+    <string name="no_content_save_searches_summary">Try changing your search query.</string>
+    <string name="no_content_user_tweets">No tweets found!</string>
+    <string name="no_content_user_tweets_summary">As this user tweets, their statuses will show up here.</string>
+    <string name="no_content_saved_tweets_summary">Add a saved tweet by opening it, and selecting the option to save it for later.</string>
 </resources>

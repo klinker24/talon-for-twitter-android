@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.TimelineArrayAdapter;
 import com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity;
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
@@ -109,7 +110,15 @@ public class SavedSearchFragment extends MainFragment {
 
                                 adapter = new TimelineArrayAdapter(context, tweets);
                                 listView.setAdapter(adapter);
-                                listView.setVisibility(View.VISIBLE);
+
+                                if (cursorAdapter.getCount() == 0) {
+                                    if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                                    listView.setVisibility(View.GONE);
+                                } else {
+                                    if (noContent != null) noContent.setVisibility(View.GONE);
+                                    listView.setVisibility(View.VISIBLE);
+                                }
+
                                 listView.setSelection(top);
 
                                 spinner.setVisibility(View.GONE);
@@ -136,6 +145,16 @@ public class SavedSearchFragment extends MainFragment {
                 }
             }
         }).start();
+    }
+
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_save_searches);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_save_searches_summary);
     }
 
     public boolean canRefresh = true;

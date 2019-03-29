@@ -287,7 +287,13 @@ public class UserTweetsFragment extends MainFragment {
                         } catch (Exception e) { }
 
                         try {
-                            listView.setVisibility(View.VISIBLE);
+                            if (cursorAdapter.getCount() == 0) {
+                                if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                                listView.setVisibility(View.GONE);
+                            } else {
+                                if (noContent != null) noContent.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
                         } catch (Exception e) {
 
                         }
@@ -305,6 +311,16 @@ public class UserTweetsFragment extends MainFragment {
                 });
             }
         }).start();
+    }
+
+    @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_user_tweets);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_user_tweets_summary);
     }
 
     public int getPosition(Cursor cursor, long id) {

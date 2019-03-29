@@ -51,15 +51,17 @@ public class ActivityFragment extends MainFragment {
         noActivityPic.getDrawable().setColorFilter(settings.themeColors.primaryColor, PorterDuff.Mode.MULTIPLY);
 
         View button = layout.findViewById(R.id.activity_info);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri weburi = Uri.parse("https://plus.google.com/+LukeKlinker/posts/Hy58Cr9xHK8");
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(launchBrowser);
-            }
+        button.setOnClickListener(view -> {
+            Uri weburi = Uri.parse("https://plus.google.com/+LukeKlinker/posts/Hy58Cr9xHK8");
+            Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
+            launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(launchBrowser);
         });
+    }
+
+    @Override
+    protected void setNoContent(View layout) {
+
     }
 
     @Override

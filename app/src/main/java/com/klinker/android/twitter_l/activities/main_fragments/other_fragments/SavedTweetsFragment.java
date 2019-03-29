@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 
+import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.main_fragments.home_fragments.HomeExtensionFragment;
 import com.klinker.android.twitter_l.data.sq_lite.SavedTweetsDataSource;
 
@@ -42,6 +43,11 @@ public class SavedTweetsFragment extends HomeExtensionFragment {
         IntentFilter filter = new IntentFilter();
         filter.addAction(REFRESH_ACTION);
         context.registerReceiver(resetLists, filter);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_saved_tweets_summary);
     }
 
     @Override
