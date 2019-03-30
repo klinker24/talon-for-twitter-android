@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -220,28 +221,25 @@ public class NearbyTweets extends Fragment implements
                         statuses.add(s);
                     }
 
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter = new TimelineArrayAdapter(context, statuses);
-                            listView.setAdapter(adapter);
-                            listView.setVisibility(View.VISIBLE);
+                    ((Activity)context).runOnUiThread(() -> {
+                        adapter = new TimelineArrayAdapter(context, statuses);
+                        listView.setAdapter(adapter);
+                        listView.setVisibility(View.VISIBLE);
 
-                            LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-                            spinner.setVisibility(View.GONE);
-                        }
+                        LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                        spinner.setVisibility(View.GONE);
                     });
                 } catch (Throwable e) {
                     e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show();
-                            } catch (IllegalStateException e) {
-                                // not attached to activity
-                            }
-                        }
+                    ((Activity)context).runOnUiThread(() -> {
+                        LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                        spinner.setVisibility(View.GONE);
+
+                        LinearLayout noContent = (LinearLayout) layout.findViewById(R.id.no_content);
+                        noContent.setVisibility(View.VISIBLE);
+
+                        TextView noContentText = (TextView) layout.findViewById(R.id.no_content_message);
+                        noContentText.setText(R.string.no_content_local_trends);
                     });
                 }
 

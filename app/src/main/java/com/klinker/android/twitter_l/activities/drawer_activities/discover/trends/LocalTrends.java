@@ -49,13 +49,13 @@ import twitter4j.ResponseList;
 import twitter4j.Trend;
 import twitter4j.Twitter;
 
-
 public class LocalTrends extends Fragment implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
     private boolean connected = false;
+    private boolean connectionError = false;
 
     private Context context;
     private SharedPreferences sharedPrefs;
@@ -129,6 +129,7 @@ public class LocalTrends extends Fragment implements
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
     }
+
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -136,95 +137,90 @@ public class LocalTrends extends Fragment implements
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(context, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        connectionError = true;
     }
 
     public void getTrends() {
 
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
+        new TimeoutThread(() -> {
+            try {
+                Twitter twitter =  Utils.getTwitter(context, DrawerActivity.settings);
 
-                    int i = 0;
-                    while (!connected && i < 5) {
-                        try {
-                            Thread.sleep(1500);
-                        } catch (Exception e) {
+                int i = 0;
+                while (!connected && i < 5) {
+                    try {
+                        Thread.sleep(1500);
+                    } catch (Exception e) {
 
-                        }
-
-                        i++;
                     }
 
-                    twitter4j.Trends trends;
-
-                    if (sharedPrefs.getBoolean("manually_config_location", false)) {
-                        trends = twitter.getPlaceTrends(sharedPrefs.getInt("woeid", 2379574)); // chicago to default
-                    } else {
-                        Location location = mLastLocation;
-
-                        ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
-                        trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
+                    if (connectionError) {
+                        throw new RuntimeException("no location");
                     }
 
-                    final ArrayList<String> currentTrends = new ArrayList<String>();
-
-                    for(Trend t: trends.getTrends()){
-                        String name = t.getName();
-                        currentTrends.add(name);
-                    }
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                if (currentTrends != null) {
-                                    listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
-                                    listView.setVisibility(View.VISIBLE);
-                                } else {
-                                    Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
-                                }
-
-                                LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
-                                spinner.setVisibility(View.GONE);
-                            } catch (Exception e) {
-                                // not attached to activity
-                            }
-                        }
-                    });
-
-                    HashtagDataSource source = HashtagDataSource.getInstance(context);
-
-                    for (String s : currentTrends) {
-                        Log.v("talon_hashtag", "trend: " + s);
-                        if (s.contains("#")) {
-                            // we want to add it to the auto complete
-                            Log.v("talon_hashtag", "adding: " + s);
-
-                            // could be much more efficient by querying and checking first, but I
-                            // just didn't feel like it when there is only ever 10 of them here
-                            source.deleteTag(s);
-
-                            // add it to the userAutoComplete database
-                            source.createTag(s);
-                        }
-                    }
-
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                // not attached to activity
-                            }
-                        }
-                    });
+                    i++;
                 }
+
+                twitter4j.Trends trends;
+
+                if (sharedPrefs.getBoolean("manually_config_location", false)) {
+                    trends = twitter.getPlaceTrends(sharedPrefs.getInt("woeid", 2379574)); // chicago to default
+                } else {
+                    Location location = mLastLocation;
+
+                    ResponseList<twitter4j.Location> locations = twitter.getClosestTrends(new GeoLocation(location.getLatitude(),location.getLongitude()));
+                    trends = twitter.getPlaceTrends(locations.get(0).getWoeid());
+                }
+
+                final ArrayList<String> currentTrends = new ArrayList<String>();
+
+                for(Trend t: trends.getTrends()){
+                    String name = t.getName();
+                    currentTrends.add(name);
+                }
+
+                ((Activity)context).runOnUiThread(() -> {
+                    try {
+                        if (currentTrends != null) {
+                            listView.setAdapter(new TrendsArrayAdapter(context, currentTrends));
+                            listView.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.no_location), Toast.LENGTH_SHORT).show();
+                        }
+
+                        LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                        spinner.setVisibility(View.GONE);
+                    } catch (Exception e) {
+                        // not attached to activity
+                    }
+                });
+
+                HashtagDataSource source = HashtagDataSource.getInstance(context);
+
+                for (String s : currentTrends) {
+                    Log.v("talon_hashtag", "trend: " + s);
+                    if (s.contains("#")) {
+                        // we want to add it to the auto complete
+                        Log.v("talon_hashtag", "adding: " + s);
+
+                        // could be much more efficient by querying and checking first, but I
+                        // just didn't feel like it when there is only ever 10 of them here
+                        source.deleteTag(s);
+
+                        // add it to the userAutoComplete database
+                        source.createTag(s);
+                    }
+                }
+
+            } catch (Throwable e) {
+                e.printStackTrace();
+                ((Activity)context).runOnUiThread(() -> {
+                    LinearLayout spinner = (LinearLayout) layout.findViewById(R.id.list_progress);
+                    spinner.setVisibility(View.GONE);
+
+                    LinearLayout noContent = (LinearLayout) layout.findViewById(R.id.no_content);
+                    noContent.setVisibility(View.VISIBLE);
+                });
             }
         }).start();
     }

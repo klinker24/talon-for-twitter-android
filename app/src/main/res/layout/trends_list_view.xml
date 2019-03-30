@@ -40,8 +40,26 @@
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.ProgressBar"
             android:indeterminateOnly="true" />
+
     </LinearLayout>
 
+    <LinearLayout android:id="@+id/no_content"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="275dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <com.klinker.android.twitter_l.views.widgets.text.FontPrefTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_content_local_trends" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listView"

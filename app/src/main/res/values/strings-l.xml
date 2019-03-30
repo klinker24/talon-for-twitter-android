@@ -271,4 +271,5 @@
     <string name="no_content_saved_searches_summary">To quickly look back at old searches, you can save that search for later. When you do, they will appear on this page.</string>
     <string name="no_content_lists_page">No lists created!</string>
     <string name="no_content_lists_page_summary">You can create a list from the option in the three dot overflow menu. After creating a list, add users to that list to quickly find their content.</string>
+    <string name="no_content_local_trends">You must accept the location permission, to view nearby activity. You can grant this permission, through your system level settings.</string>
 </resources>
