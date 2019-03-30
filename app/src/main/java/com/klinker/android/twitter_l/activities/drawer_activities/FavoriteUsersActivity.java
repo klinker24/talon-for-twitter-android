@@ -57,6 +57,16 @@ public class FavoriteUsersActivity extends DrawerActivity {
     }
 
     @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_fav_users);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_fav_users_summary);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

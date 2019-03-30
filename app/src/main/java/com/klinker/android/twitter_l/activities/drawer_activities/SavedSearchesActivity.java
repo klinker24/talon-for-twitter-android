@@ -47,6 +47,16 @@ public class SavedSearchesActivity extends DrawerActivity {
     public static ListView listView;
 
     @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_saved_searches);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_saved_searches_summary);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

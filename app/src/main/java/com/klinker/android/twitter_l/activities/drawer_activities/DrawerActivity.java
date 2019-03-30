@@ -135,6 +135,14 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
         Utils.setTaskDescription(this);
     }
 
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_home);
+    }
+
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_home_summary);
+    }
+
     private SearchUtils searchUtils;
 
     public void setUpDrawer(int number, final String actName) {
@@ -152,7 +160,14 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
         ((RelativeLayout.LayoutParams) profilePic2Image.getLayoutParams()).topMargin = Utils.toDP(12, context) + statusBarHeight;
         profilePic2Image.invalidate();
 
+        ImageView noActivityPic = (ImageView) findViewById(R.id.picture);
+        if (noActivityPic != null) noActivityPic.getDrawable().setColorFilter(settings.themeColors.primaryColor, PorterDuff.Mode.MULTIPLY);
 
+        TextView noContentTitle = (TextView) findViewById(R.id.no_content_title);
+        if (noContentTitle != null) noContentTitle.setText(getNoContentTitle());
+
+        TextView noContentSummary = (TextView) findViewById(R.id.no_content_summary);
+        if (noContentSummary != null) noContentSummary.setText(getNoContentSummary());
 
         searchUtils = new SearchUtils(this);
         searchUtils.setUpSearch();

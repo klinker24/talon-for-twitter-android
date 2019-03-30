@@ -232,7 +232,6 @@ public abstract class MainFragment extends Fragment implements Expandable {
 
         sharedPrefs = AppSettings.getSharedPreferences(context);
 
-
         setAppSettings();
         setHome();
 

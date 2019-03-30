@@ -44,6 +44,16 @@ public class FavoritesActivity extends DrawerActivity {
     private boolean landscape;
 
     @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_fav_tweets);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_fav_tweets_summary);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

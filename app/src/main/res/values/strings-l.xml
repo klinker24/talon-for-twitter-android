@@ -263,4 +263,12 @@
     <string name="no_content_user_tweets">No tweets found!</string>
     <string name="no_content_user_tweets_summary">As this user tweets, their statuses will show up here.</string>
     <string name="no_content_saved_tweets_summary">Add a saved tweet by opening it, and selecting the option to save it for later.</string>
+    <string name="no_content_fav_users">No users found!</string>
+    <string name="no_content_fav_users_summary">If you favorite a user, from their profile, you will be able to quickly find and access them, from this page.</string>
+    <string name="no_content_retweets">No retweets found!</string>
+    <string name="no_content_retweets_summary">As you interact on Twitter, this page will show all of your personal tweets that have been retweeted by others.</string>
+    <string name="no_content_saved_searches">No saved searches!</string>
+    <string name="no_content_saved_searches_summary">To quickly look back at old searches, you can save that search for later. When you do, they will appear on this page.</string>
+    <string name="no_content_lists_page">No lists created!</string>
+    <string name="no_content_lists_page_summary">You can create a list from the option in the three dot overflow menu. After creating a list, add users to that list to quickly find their content.</string>
 </resources>

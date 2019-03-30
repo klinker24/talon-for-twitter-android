@@ -46,6 +46,16 @@ import twitter4j.UserList;
 public class ListsActivity extends DrawerActivity {
 
     @Override
+    protected String getNoContentTitle() {
+        return getString(R.string.no_content_lists_page);
+    }
+
+    @Override
+    protected String getNoContentSummary() {
+        return getString(R.string.no_content_lists_page_summary);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
