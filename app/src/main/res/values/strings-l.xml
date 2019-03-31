@@ -235,7 +235,7 @@
     <string name="preview_web_links">Preview Web Links</string>
     <string name="seconds_ago">%1$d seconds ago</string>
     <string name="min_ago">%1$d minute ago</string>
-    <string name="mins_ago">%1$d minutes ago</string>
+    <string name="mins_ago">%1$d minutes ago</string>requl
     <string name="hour_ago">%1$d hour ago</string>
     <string name="new_hours_ago">%1$d hours ago</string>
     <string name="day_ago">%1$d day ago</string>
@@ -272,4 +272,7 @@
     <string name="no_content_lists_page">No lists created!</string>
     <string name="no_content_lists_page_summary">You can create a list from the option in the three dot overflow menu. After creating a list, add users to that list to quickly find their content.</string>
     <string name="no_content_local_trends">You must accept the location permission, to view nearby activity. You can grant this permission, through your system level settings.</string>
+
+    <string name="storage_permission">Storage Permission</string>
+    <string name="no_storage_permission">Talon needs the storage permission to be able to save media. You can grant this permission from your system settings.</string>
 </resources>

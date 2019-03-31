@@ -4,9 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+
 import androidx.appcompat.app.AlertDialog;
 
 import com.klinker.android.twitter_l.R;
@@ -39,12 +43,9 @@ public class PermissionModelUtils {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.permission_check_title)
                 .setMessage(R.string.permission_check_message)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        requestPermissions();
-                        sharedPrefs.edit().putBoolean(PERMISSION_CHECK_PREF, false).apply();
-                    }
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    requestPermissions();
+                    sharedPrefs.edit().putBoolean(PERMISSION_CHECK_PREF, false).apply();
                 })
                 .setCancelable(false)
                 .create().show();
@@ -58,25 +59,20 @@ public class PermissionModelUtils {
     public void showStorageIssue(Throwable e) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             new AlertDialog.Builder(context)
-                    .setTitle("Storage Permission")
-                    .setMessage("Talon needs the storage permission to complete this. Please grant this permission, then retry.")
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ((Activity) context).requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                        }
+                    .setTitle(R.string.storage_permission)
+                    .setMessage(R.string.no_storage_permission)
+                    .setPositiveButton(R.string.ok, (dialog, which) -> ((Activity) context).requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1))
+                    .setNegativeButton(R.string.talon_settings, (dialog, which) -> {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                        context.startActivity(intent);
                     })
                     .create().show();
         } else {
             new AlertDialog.Builder(context)
                     .setTitle("Something went wrong")
                     .setMessage("Here is the description: " + e.getMessage())
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> { })
                     .create().show();
         }
     }
