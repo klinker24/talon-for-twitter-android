@@ -77,6 +77,19 @@ public class PermissionModelUtils {
         }
     }
 
+    public void showVideoRecorderPermissions() {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.video_permissions)
+                .setMessage(R.string.no_video_permission)
+                .setPositiveButton(R.string.ok, (dialog, which) -> { })
+                .setNegativeButton(R.string.talon_settings, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.parse("package:" + context.getApplicationContext().getPackageName()));
+                    context.startActivity(intent);
+                })
+                .create().show();
+    }
+
     public void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ((Activity) context).requestPermissions(new String[]{Manifest.permission.CAMERA}, 1);

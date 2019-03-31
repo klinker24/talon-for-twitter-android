@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import android.util.Log;
@@ -49,9 +51,14 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class ComposeActivity extends Compose {
+
+    private static final int VIDEO_PERMISSION_REQUEST_CODE = 1;
 
     public void setUpLayout() {
         setContentView(R.layout.compose_activity);
@@ -69,71 +76,68 @@ public class ComposeActivity extends Compose {
         }
 
         if (count == 2) {
-            findViewById(R.id.accounts).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String[] options = new String[2];
+            findViewById(R.id.accounts).setOnClickListener(v -> {
+                String[] options = new String[2];
 //                    String[] options = new String[3];
 
-                    options[0] = "@" + settings.myScreenName;
-                    options[1] = "@" + settings.secondScreenName;
+                options[0] = "@" + settings.myScreenName;
+                options[1] = "@" + settings.secondScreenName;
 //                    options[2] = getString(R.string.both_accounts);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setItems(options, new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int item) {
-                            ImageView pic = (ImageView) findViewById(R.id.profile_pic);
-                            FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int item) {
+                        ImageView pic = (ImageView) findViewById(R.id.profile_pic);
+                        FontPrefTextView currentName = (FontPrefTextView) findViewById(R.id.current_name);
 
-                            switch (item) {
-                                case 0:
-                                    useAccOne = true;
-                                    useAccTwo = false;
+                        switch (item) {
+                            case 0:
+                                useAccOne = true;
+                                useAccTwo = false;
 
-                                    Glide.with(ComposeActivity.this).load(settings.myProfilePicUrl).into(pic);
-                                    currentName.setText("@" + settings.myScreenName);
+                                Glide.with(ComposeActivity.this).load(settings.myProfilePicUrl).into(pic);
+                                currentName.setText("@" + settings.myScreenName);
 
-                                    String tweetText = reply.getText().toString();
-                                    tweetText = tweetText.replace("@" + settings.myScreenName + " ", "")
-                                                    .replace("@" + settings.myScreenName, "");
+                                String tweetText = reply.getText().toString();
+                                tweetText = tweetText.replace("@" + settings.myScreenName + " ", "")
+                                                .replace("@" + settings.myScreenName, "");
 
-                                    reply.setText(tweetText);
-                                    reply.setSelection(tweetText.length());
+                                reply.setText(tweetText);
+                                reply.setSelection(tweetText.length());
 
-                                    break;
-                                case 1:
-                                    useAccOne = false;
-                                    useAccTwo = true;
+                                break;
+                            case 1:
+                                useAccOne = false;
+                                useAccTwo = true;
 
-                                    Glide.with(ComposeActivity.this).load(settings.secondProfilePicUrl).into(pic);
-                                    currentName.setText("@" + settings.secondScreenName);
+                                Glide.with(ComposeActivity.this).load(settings.secondProfilePicUrl).into(pic);
+                                currentName.setText("@" + settings.secondScreenName);
 
-                                    tweetText = reply.getText().toString();
-                                    tweetText = tweetText.replace("@" + settings.secondScreenName + " ", "")
-                                                    .replace("@" + settings.secondScreenName, "");
+                                tweetText = reply.getText().toString();
+                                tweetText = tweetText.replace("@" + settings.secondScreenName + " ", "")
+                                                .replace("@" + settings.secondScreenName, "");
 
-                                    reply.setText(tweetText);
-                                    reply.setSelection(tweetText.length());
+                                reply.setText(tweetText);
+                                reply.setSelection(tweetText.length());
 
-                                    break;
-                                case 2:
-                                    useAccOne = true;
-                                    useAccTwo = true;
+                                break;
+                            case 2:
+                                useAccOne = true;
+                                useAccTwo = true;
 
-                                    TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.bothAccounts});
-                                    int resource = a.getResourceId(0, 0);
-                                    a.recycle();
-                                    pic.setImageResource(resource);
+                                TypedArray a = getTheme().obtainStyledAttributes(new int[]{R.attr.bothAccounts});
+                                int resource = a.getResourceId(0, 0);
+                                a.recycle();
+                                pic.setImageResource(resource);
 
-                                    currentName.setText(getString(R.string.both_accounts));
+                                currentName.setText(getString(R.string.both_accounts));
 
-                                    break;
-                            }
+                                break;
                         }
-                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             });
         }
 
@@ -537,6 +541,24 @@ public class ComposeActivity extends Compose {
                         startActivityForResult(gifIntent, SELECT_GIF);
                     }
                 } else if (item == 3) {
+                    List<String> permissionsToRequest = new ArrayList<>();
+                    int cameraPermission = ContextCompat.checkSelfPermission(ComposeActivity.this,
+                            Manifest.permission.CAMERA);
+                    if (cameraPermission == PackageManager.PERMISSION_DENIED) {
+                        permissionsToRequest.add(Manifest.permission.CAMERA);
+                    }
+
+                    int audioPermission = ContextCompat.checkSelfPermission(ComposeActivity.this,
+                            Manifest.permission.RECORD_AUDIO);
+                    if (audioPermission == PackageManager.PERMISSION_DENIED) {
+                        permissionsToRequest.add(Manifest.permission.RECORD_AUDIO);
+                    }
+
+                    if (permissionsToRequest.size() > 0) {
+                        ActivityCompat.requestPermissions(ComposeActivity.this, permissionsToRequest.toArray(new String[permissionsToRequest.size()]), VIDEO_PERMISSION_REQUEST_CODE);
+                        return;
+                    }
+
                     try {
                         new MaterialCamera(ComposeActivity.this)
                                 .saveDir(getFilesDir().getPath())
@@ -567,6 +589,20 @@ public class ComposeActivity extends Compose {
         });
 
         builder.create().show();
+    }
+
+    @Override
+    public final void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        List<Integer> results = new ArrayList<>();
+        for (int result : grantResults) {
+            results.add(result);
+        }
+
+        if (requestCode == VIDEO_PERMISSION_REQUEST_CODE && results.contains(PackageManager.PERMISSION_DENIED)) {
+            new PermissionModelUtils(this).showVideoRecorderPermissions();
+        }
     }
 
     public void setUpReplyText() {
