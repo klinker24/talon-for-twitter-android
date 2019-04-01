@@ -62,86 +62,77 @@ public class SavedSearchFragment extends MainFragment {
             spinner.setVisibility(View.VISIBLE);
         }
 
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                final long topId;
-                if (tweets.size() > 0) {
-                    topId = tweets.get(0).getId();
+        new TimeoutThread(() -> {
+            final long topId;
+            if (tweets.size() > 0) {
+                topId = tweets.get(0).getId();
+            } else {
+                topId = 0;
+            }
+
+            try {
+                Twitter twitter = Utils.getTwitter(context, settings);
+                query = new Query(search);
+                query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
+                QueryResult result = twitter.search(query);
+
+                tweets.clear();
+
+                for (Status status : result.getTweets()) {
+                    tweets.add(status);
+                }
+
+                if (tweets.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                    query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
+                    hasMore = true;
                 } else {
-                    topId = 0;
+                    hasMore = false;
                 }
 
                 try {
-                    Twitter twitter = Utils.getTwitter(context, settings);
-                    query = new Query(search);
-                    query.setCount(SearchedTrendsActivity.TWEETS_PER_REFRESH);
-                    QueryResult result = twitter.search(query);
+                    context.runOnUiThread(() -> {
 
-                    tweets.clear();
+                        if (!isAdded()) {
+                            return;
+                        }
 
-                    for (twitter4j.Status status : result.getTweets()) {
-                        tweets.add(status);
-                    }
-
-                    if (tweets.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
-                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
-                        hasMore = true;
-                    } else {
-                        hasMore = false;
-                    }
-
-                    try {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                if (!isAdded()) {
-                                    return;
-                                }
-
-                                int top = 0;
-                                for (int i = 0; i < tweets.size(); i++) {
-                                    if (tweets.get(i).getId() == topId) {
-                                        top = i;
-                                        break;
-                                    }
-                                }
-
-                                adapter = new TimelineArrayAdapter(context, tweets);
-                                listView.setAdapter(adapter);
-
-                                if (cursorAdapter.getCount() == 0) {
-                                    if (noContent != null) noContent.setVisibility(View.VISIBLE);
-                                    listView.setVisibility(View.GONE);
-                                } else {
-                                    if (noContent != null) noContent.setVisibility(View.GONE);
-                                    listView.setVisibility(View.VISIBLE);
-                                }
-
-                                listView.setSelection(top);
-
-                                spinner.setVisibility(View.GONE);
-
-                                refreshLayout.setRefreshing(false);
+                        int top = 0;
+                        for (int i = 0; i < tweets.size(); i++) {
+                            if (tweets.get(i).getId() == topId) {
+                                top = i;
+                                break;
                             }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        }
+
+                        adapter = new TimelineArrayAdapter(context, tweets);
+                        listView.setAdapter(adapter);
+
+                        if (adapter.getCount() == 0) {
+                            if (noContent != null) noContent.setVisibility(View.VISIBLE);
+                            listView.setVisibility(View.GONE);
+                        } else {
+                            if (noContent != null) noContent.setVisibility(View.GONE);
+                            listView.setVisibility(View.VISIBLE);
+                        }
+
+                        listView.setSelection(top);
+
+                        spinner.setVisibility(View.GONE);
+
+                        refreshLayout.setRefreshing(false);
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
-                    try {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                spinner.setVisibility(View.GONE);
-                                refreshLayout.setRefreshing(false);
-                            }
-                        });
-                    } catch (Exception x) {
-                        e.printStackTrace();
-                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    context.runOnUiThread(() -> {
+                        spinner.setVisibility(View.GONE);
+                        refreshLayout.setRefreshing(false);
+                    });
+                } catch (Exception x) {
+                    e.printStackTrace();
                 }
             }
         }).start();
@@ -163,53 +154,44 @@ public class SavedSearchFragment extends MainFragment {
             canRefresh = false;
             refreshLayout.setRefreshing(true);
 
-            new TimeoutThread(new Runnable() {
-                @Override
-                public void run() {
+            new TimeoutThread(() -> {
+                try {
+                    Twitter twitter = Utils.getTwitter(context, settings);
+                    QueryResult result = twitter.search(query);
+
+                    List<Status> statuses = result.getTweets();
+                    for (Status status : statuses) {
+                        tweets.add(status);
+                    }
+
+                    if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
+                        query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
+                        hasMore = true;
+                    } else {
+                        hasMore = false;
+                    }
+
                     try {
-                        Twitter twitter = Utils.getTwitter(context, settings);
-                        QueryResult result = twitter.search(query);
+                        context.runOnUiThread(() -> {
+                            if (adapter != null) {
+                                adapter.notifyDataSetChanged();
+                            }
 
-                        List<Status> statuses = result.getTweets();
-                        for (twitter4j.Status status : statuses) {
-                            tweets.add(status);
-                        }
-
-                        if (statuses.size() == SearchedTrendsActivity.TWEETS_PER_REFRESH) {
-                            query.setMaxId(SearchedTrendsActivity.getMaxIdFromList(tweets));
-                            hasMore = true;
-                        } else {
-                            hasMore = false;
-                        }
-
-                        try {
-                            context.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (adapter != null) {
-                                        adapter.notifyDataSetChanged();
-                                    }
-
-                                    refreshLayout.setRefreshing(false);
-                                    canRefresh = true;
-                                }
-                            });
-                        } catch (Exception e) {
-
-                        }
+                            refreshLayout.setRefreshing(false);
+                            canRefresh = true;
+                        });
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        try {
-                            context.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    refreshLayout.setRefreshing(false);
-                                    canRefresh = true;
-                                }
-                            });
-                        }catch (Exception x) {
 
-                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        context.runOnUiThread(() -> {
+                            refreshLayout.setRefreshing(false);
+                            canRefresh = true;
+                        });
+                    }catch (Exception x) {
+
                     }
                 }
             }).start();
