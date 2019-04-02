@@ -95,15 +95,4 @@
         android:textColor="@color/tutorial_light_background_indicator"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/bottom_text_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="12dp"
-        android:text="@string/rate_it_not_ready"
-        android:textColor="@color/tutorial_light_background_indicator"
-        android:textSize="16sp" />
-
 </LinearLayout>

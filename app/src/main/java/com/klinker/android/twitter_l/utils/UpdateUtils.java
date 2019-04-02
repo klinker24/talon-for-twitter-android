@@ -165,13 +165,8 @@ public class UpdateUtils {
     }
 
     public static void showRateItDialog(final Context context, final SharedPreferences sharedPreferences) {
-        sharedPreferences.edit().putBoolean("show_rate_it", false).apply();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                context.startActivity(new Intent(context, RateItDialog.class));
-            }
-        }, 500);
+        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
+        new Handler().postDelayed(() -> context.startActivity(new Intent(context, RateItDialog.class)), 500);
     }
 
     protected static int getAppVersion(Context c) {

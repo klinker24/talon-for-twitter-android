@@ -229,9 +229,9 @@
 
     <string name="rate_it_button">Rate it!</string>
     <string name="rate_it_title">Top ratings go a long way</string>
+    <string name="rate_it_no_thanks">No thanks</string>
     <string name="rate_it_summary">Reviews are extremely helpful to the app\'s growth
         and visibility on the Play Store. If you want to see the app <i>continue to soar</i>, please provide your feedback!</string>
-    <string name="rate_it_not_ready">Not ready to rate it? No problem. Back out of this dialog and I will never ask again.</string>
     <string name="preview_web_links">Preview Web Links</string>
     <string name="seconds_ago">%1$d seconds ago</string>
     <string name="min_ago">%1$d minute ago</string>

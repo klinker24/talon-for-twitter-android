@@ -24,7 +24,7 @@ class RateItDialog  : FloatingTutorialActivity(), TutorialFinishedListener {
 
     override fun onTutorialFinished() {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
             AnalyticsHelper.rateItOnPlayStore(this)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(this, "Couldn't launch the Play Store!", Toast.LENGTH_SHORT).show()
@@ -36,6 +36,7 @@ class RateItDialog  : FloatingTutorialActivity(), TutorialFinishedListener {
             override fun initPage() {
                 setContentView(R.layout.tutorial_page_rate_it)
                 setNextButtonText(R.string.rate_it_button)
+                setBackButtonText(R.string.rate_it_no_thanks)
 
                 val topText = findViewById<View>(R.id.top_text) as TextView
 
@@ -51,7 +52,6 @@ class RateItDialog  : FloatingTutorialActivity(), TutorialFinishedListener {
                 val startTime: Long = 300
 
                 quickViewReveal(findViewById<View>(R.id.bottom_text_1), startTime)
-                quickViewReveal(findViewById<View>(R.id.bottom_text_2), startTime + 75)
 
                 quickViewReveal(findViewById<View>(R.id.star_1), startTime)
                 quickViewReveal(findViewById<View>(R.id.star_2), startTime + 50)
