@@ -146,6 +146,7 @@ subprojects {
                     exclude 'META-INF/LICENSE.txt'
                     exclude 'META-INF/NOTICE'
                     exclude 'META-INF/DEPENDENCIES'
+                    exclude 'META-INF/library_release.kotlin_module'
                 }
 
                 lintOptions {
