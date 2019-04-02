@@ -31,6 +31,8 @@ import android.provider.MediaStore;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
+import android.provider.Settings;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
@@ -606,9 +608,18 @@ public class ComposeActivity extends Compose {
         }
 
         if (requestCode == VIDEO_PERMISSION_REQUEST_CODE && results.contains(PackageManager.PERMISSION_DENIED)) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) ||
-                    shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) ||
+                    !shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 new PermissionModelUtils(this).showVideoRecorderPermissions();
+            } else {
+                new androidx.appcompat.app.AlertDialog.Builder(context)
+                        .setTitle(R.string.video_permissions)
+                        .setMessage(R.string.no_video_permission_first_time)
+                        .setPositiveButton(R.string.ok, (dialog, which) ->
+                                ActivityCompat.requestPermissions(ComposeActivity.this,
+                                    new String[] { Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO },
+                                    VIDEO_PERMISSION_REQUEST_CODE))
+                        .create().show();
             }
         }
     }
