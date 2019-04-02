@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -595,13 +596,20 @@ public class ComposeActivity extends Compose {
     public final void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+
         List<Integer> results = new ArrayList<>();
         for (int result : grantResults) {
             results.add(result);
         }
 
         if (requestCode == VIDEO_PERMISSION_REQUEST_CODE && results.contains(PackageManager.PERMISSION_DENIED)) {
-            new PermissionModelUtils(this).showVideoRecorderPermissions();
+            if (shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) ||
+                    shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                new PermissionModelUtils(this).showVideoRecorderPermissions();
+            }
         }
     }
 
