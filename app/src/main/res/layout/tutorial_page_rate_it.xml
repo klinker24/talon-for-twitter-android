@@ -64,24 +64,6 @@
             android:tint="@color/tutorial_light_background_indicator"
             android:src="@drawable/ic_star" />
 
-        <ImageView
-            android:id="@+id/star_4"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"
-            android:tint="@color/tutorial_light_background_indicator"
-            android:src="@drawable/ic_star" />
-
-        <ImageView
-            android:id="@+id/star_5"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginStart="12dp"
-            android:tint="@color/tutorial_light_background_indicator"
-            android:src="@drawable/ic_star" />
-
     </LinearLayout>
 
     <TextView
