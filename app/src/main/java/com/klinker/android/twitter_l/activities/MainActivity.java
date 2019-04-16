@@ -50,6 +50,7 @@ import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.activities.setup.material_login.MaterialLogin;
 import com.klinker.android.twitter_l.activities.setup.TutorialActivity;
+import com.klinker.android.twitter_l.utils.LvlCheck;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
@@ -135,6 +136,8 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        LvlCheck.check(this);
 
         AppSettings settings = AppSettings.getInstance(this);
         if (settings.myScreenName == null || settings.myScreenName.isEmpty()) {
