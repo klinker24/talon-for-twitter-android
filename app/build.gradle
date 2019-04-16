@@ -21,6 +21,7 @@ android {
             buildConfigField "String", "GIPHY_API_KEY", secrets['GIPHY_KEY']
             buildConfigField "String", "ARTICLE_API_KEY", secrets['ARTICLE_KEY']
             buildConfigField "String", "MERCURY_API_KEY", secrets['MERCURY_KEY']
+            buildConfigField "String", "LVL_KEY", secrets['LVL_KEY'] != null ? secrets['LVL_KEY'] : "\"none\""
 
             buildConfigField "String", "CONSUMER_KEY_OLD_1", secrets['CONSUMER_KEY_OLD_1'] != null ? secrets['CONSUMER_KEY_OLD_1'] : "\"This is optional.\""
             buildConfigField "String", "CONSUMER_SECRET_OLD_1", secrets['CONSUMER_SECRET_OLD_1'] != null ? secrets['CONSUMER_SECRET_OLD_1'] : "\"This is optional.\""
@@ -37,6 +38,7 @@ android {
             buildConfigField "String", "GIPHY_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
             buildConfigField "String", "ARTICLE_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
             buildConfigField "String", "MERCURY_API_KEY", "\"View Talon's readme to learn about inserting your keys.\""
+            buildConfigField "String", "LVL_KEY", "\"none\""
 
             buildConfigField "String", "CONSUMER_KEY_OLD_1", "\"This is optional.\""
             buildConfigField "String", "CONSUMER_SECRET_OLD_1", "\"This is optional.\""
