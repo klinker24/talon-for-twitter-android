@@ -1114,7 +1114,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
         }
     }
 
-    private void logoutFromTwitter() {
+    public void logoutFromTwitter() {
 
         context.sendBroadcast(new Intent("com.klinker.android.STOP_PUSH_SERVICE"));
 

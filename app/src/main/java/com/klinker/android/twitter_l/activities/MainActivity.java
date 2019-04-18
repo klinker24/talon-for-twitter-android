@@ -137,7 +137,7 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LvlCheck.check(this);
+        LvlCheck.check(this, true);
 
         AppSettings settings = AppSettings.getInstance(this);
         if (settings.myScreenName == null || settings.myScreenName.isEmpty()) {

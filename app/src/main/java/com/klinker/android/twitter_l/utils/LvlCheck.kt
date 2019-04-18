@@ -1,18 +1,21 @@
 package com.klinker.android.twitter_l.utils
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.preference.PreferenceManager
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.github.javiersantos.piracychecker.*
 import com.klinker.android.twitter_l.BuildConfig
+import com.klinker.android.twitter_l.activities.MainActivity
 import java.util.*
 
 
 @Suppress("ConstantConditionIf")
+@SuppressLint("ApplySharedPref")
 object LvlCheck {
 
     @JvmStatic
-    fun check(context: Context, retry: Boolean = true) {
+    fun check(context: MainActivity, retryable: Boolean = true) {
         val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
         val oneDayAgo = Date().time - (1000 * 60 * 60 * 24)
         if (sharedPrefs.getLong("last_licence_check", -1) > oneDayAgo) {
@@ -31,14 +34,40 @@ object LvlCheck {
             callback {
                 allow {
                     AnalyticsHelper.appPurchased(context)
+                    sharedPrefs.edit().putInt("license_failed_days", 0).commit()
                 }
-                doNotAllow { piracyCheckerError, pirateApp ->
-                    AnalyticsHelper.appNotPurchased(context)
-
-                    if (retry) {
+                doNotAllow { _, _ ->
+                    if (retryable) {
                         LvlCheck.check(context, false)
                     } else {
-                        // TODO: warn the user that they will be logged out.
+                        AnalyticsHelper.appNotPurchased(context)
+
+                        // I will give them three days to make the purchase.
+                        // There could be an issue with the Play Store, or something else.
+
+                        val daysFailed = sharedPrefs.getInt("license_failed_days", 0) + 1
+                        when {
+                            daysFailed >= 3 -> {
+                                // Warn the user that they are about to be logged out.
+
+                                AnalyticsHelper.appNotPurchasedLastWarning(context)
+                                AlertDialog.Builder(context)
+                                        .setMessage("Google Play is still reporting that you have not purchased the app. " +
+                                                "You will now be logged out.")
+                                        .setPositiveButton(android.R.string.ok) { _, _ -> context.logoutFromTwitter() }
+                            }
+                            daysFailed >= 2 -> {
+                                // Warn the user that they have failed the license check for two days in a row.
+                                // They will be logged out tomorrow if they don't purchase the app
+
+                                AnalyticsHelper.appNotPurchasedFirstWarning(context)
+                                AlertDialog.Builder(context)
+                                        .setMessage("Google Play is reporting that you have not purchased the app. " +
+                                                "You will be logged out, tomorrow, unless you make a purchase.")
+                                        .setPositiveButton(android.R.string.ok) { _, _ -> }
+                            }
+                            else -> sharedPrefs.edit().putInt("license_failed_days", daysFailed).commit()
+                        }
                     }
 
                 }
