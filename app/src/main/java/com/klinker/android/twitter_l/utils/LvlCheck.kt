@@ -2,8 +2,6 @@ package com.klinker.android.twitter_l.utils
 
 import android.annotation.SuppressLint
 import android.preference.PreferenceManager
-import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import com.github.javiersantos.piracychecker.*
 import com.klinker.android.twitter_l.BuildConfig
 import com.klinker.android.twitter_l.activities.MainActivity
@@ -71,8 +69,9 @@ object LvlCheck {
                     }
 
                 }
-                onError { error ->
-                    Log.v("LvlChecker", "an error occurred during license verification: $error")
+                onError { _ ->
+                    // rerun the license check, next time they open the app
+                    sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
                 }
             }
         }.start()
