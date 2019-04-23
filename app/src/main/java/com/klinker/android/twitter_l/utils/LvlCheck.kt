@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.utils
 
 import android.annotation.SuppressLint
 import android.preference.PreferenceManager
+import androidx.appcompat.app.AlertDialog
 import com.github.javiersantos.piracychecker.*
 import com.klinker.android.twitter_l.BuildConfig
 import com.klinker.android.twitter_l.activities.MainActivity
@@ -49,20 +50,20 @@ object LvlCheck {
                                 // Warn the user that they are about to be logged out.
 
                                 AnalyticsHelper.appNotPurchasedLastWarning(context)
-//                                AlertDialog.Builder(context)
-//                                        .setMessage("Google Play is still reporting that you have not purchased the app. " +
-//                                                "You will now be logged out.")
-//                                        .setPositiveButton(android.R.string.ok) { _, _ -> context.logoutFromTwitter() }
+                                AlertDialog.Builder(context)
+                                        .setMessage("Google Play is still reporting that you have not purchased the app. " +
+                                                "You will now be logged out.")
+                                        .setPositiveButton(android.R.string.ok) { _, _ -> context.logoutFromTwitter() }
                             }
                             daysFailed >= 2 -> {
                                 // Warn the user that they have failed the license check for two days in a row.
                                 // They will be logged out tomorrow if they don't purchase the app
 
                                 AnalyticsHelper.appNotPurchasedFirstWarning(context)
-//                                AlertDialog.Builder(context)
-//                                        .setMessage("Google Play is reporting that you have not purchased the app. " +
-//                                                "You will be logged out, tomorrow, unless you make a purchase.")
-//                                        .setPositiveButton(android.R.string.ok) { _, _ -> }
+                                AlertDialog.Builder(context)
+                                        .setMessage("Google Play is reporting that you have not purchased the app. " +
+                                                "You will be logged out, tomorrow, unless you make a purchase.")
+                                        .setPositiveButton(android.R.string.ok) { _, _ -> }
                             }
                             else -> sharedPrefs.edit().putInt("license_failed_days", daysFailed).commit()
                         }
