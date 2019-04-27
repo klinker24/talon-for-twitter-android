@@ -137,8 +137,6 @@ public class MainActivity extends DrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LvlCheck.check(this, true);
-
         AppSettings settings = AppSettings.getInstance(this);
         if (settings.myScreenName == null || settings.myScreenName.isEmpty()) {
             if (settings.currentAccount == 1) {
@@ -517,6 +515,8 @@ public class MainActivity extends DrawerActivity {
         }
 
         UpdateUtils.checkUpdate(this);
+
+        LvlCheck.check(this, true);
 
         if (sharedPrefs.getBoolean("force_reverse_click", true)) {
             sharedPrefs.edit().putBoolean("reverse_click_option", false)
