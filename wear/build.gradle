@@ -17,5 +17,5 @@ android {
 
 dependencies {
     implementation project(':shared_assets')
-    implementation "com.google.android.support:wearable:${versions.androidX}"
+    implementation "com.google.android.support:wearable:2.4.0"
 }
