@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.5.11">
+        <text>UI improvements</text> <!-- specifically for Android Q -->
+    </version>
+
     <version name="7.5.10">
         <text>Bug fixes</text>
     </version>
