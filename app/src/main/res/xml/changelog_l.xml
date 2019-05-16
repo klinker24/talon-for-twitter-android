@@ -1,7 +1,12 @@
 <changelog>
 
+    <version name="7.6.0">
+        <text>Android Q: Theme support improvements. Talon will now follow your system default theme for light/dark support.</text>
+        <text>Dark theme color improvements</text>
+    </version>
+
     <version name="7.5.11">
-        <text>UI improvements</text> <!-- specifically for Android Q -->
+        <text>UI improvements</text> <!-- specifically for Android Q, around the article/drag dismiss library adjusting for edge to edge content -->
     </version>
 
     <version name="7.5.10">

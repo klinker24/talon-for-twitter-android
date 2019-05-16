@@ -1,1 +1,1 @@
-This version contains bug fixes, including a fix for an issue with translating tweets.
+This version contains improvements to the light/dark theme support, for Android Q. It will now follow whatever theme you have set up, at the system level.
