@@ -34,12 +34,16 @@ import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
 
 import java.util.Locale;
 
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
+
 public class App extends MultiDexApplication {
 
     public static long DATA_USED = 0;
 
     static {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        if (AndroidVersionUtils.isAndroidQ()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
     }
 
     @Override

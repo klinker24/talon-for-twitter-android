@@ -26,6 +26,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager.widget.ViewPager;
 import android.transition.ChangeBounds;
 import android.util.Log;
@@ -55,6 +57,8 @@ import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.PermissionModelUtils;
 import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.Utils;
+
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
 
 
 public class MainActivity extends DrawerActivity {

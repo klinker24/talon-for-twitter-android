@@ -9,6 +9,8 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.klinker.android.twitter_l.BuildConfig;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.data.EmojiStyle;
@@ -332,6 +334,12 @@ public class AppSettings {
             darkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
             nightMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
             baseTheme = darkTheme ? 1 : 0;
+        }
+
+        if (!AndroidVersionUtils.isAndroidQ()) {
+            int currentTheme = AppSettings.getCurrentTheme(context, sharedPrefs);
+            boolean isNight = currentTheme == 1 || currentTheme == 2;
+            AppCompatDelegate.setDefaultNightMode(isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
