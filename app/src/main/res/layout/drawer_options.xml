@@ -20,6 +20,7 @@
         android:layout_height="6dp" />
 
     <RelativeLayout
+        android:id="@+id/night_mode_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:attr/selectableItemBackground"

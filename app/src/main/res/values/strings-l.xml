@@ -278,4 +278,5 @@
     <string name="video_permissions">Permissions Required</string>
     <string name="no_video_permission_first_time">Talon needs both the camera and the microphone permission, to be able to record videos. Please accept this permission to continue.</string>
     <string name="no_video_permission">Talon needs both the camera and the microphone permission, to be able to record videos. You can grant this permission from your system settings.</string>
+    <string name="system_default">System Default (Light or Dark)</string>
 </resources>

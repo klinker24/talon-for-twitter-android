@@ -72,6 +72,7 @@ import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
 import de.timroes.android.listview.EnhancedListView;
 import me.leolin.shortcutbadger.ShortcutBadger;
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
 
 import java.lang.reflect.Field;
 
@@ -873,10 +874,14 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
             status.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         }
 
-
-        Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
-        if (nightModeSwitch != null) {
-            nightModeSwitch.setChecked(sharedPrefs.getBoolean("night_mode", false));
+        if (AndroidVersionUtils.isAndroidQ()) {
+            View nightMode = findViewById(R.id.night_mode_container);
+            nightMode.setVisibility(View.GONE);
+        } else {
+            Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
+            if (nightModeSwitch != null) {
+                nightModeSwitch.setChecked(sharedPrefs.getBoolean("night_mode", false));
+            }
         }
     }
 
