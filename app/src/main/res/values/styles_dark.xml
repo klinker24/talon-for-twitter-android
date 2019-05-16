@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.TalonDark.Base" parent="Theme.AppCompat">
+    <style name="Theme.TalonDark.Base" parent="Theme.AppCompat.DayNight">
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -187,7 +187,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="Theme.TalonDark.Main" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.TalonDark.Main" parent="Theme.AppCompat.DayNight.NoActionBar">
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

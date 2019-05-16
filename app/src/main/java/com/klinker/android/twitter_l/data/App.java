@@ -18,6 +18,8 @@ package com.klinker.android.twitter_l.data;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import androidx.core.os.BuildCompat;
@@ -35,6 +37,10 @@ import java.util.Locale;
 public class App extends MultiDexApplication {
 
     public static long DATA_USED = 0;
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    }
 
     @Override
     public void onCreate() {

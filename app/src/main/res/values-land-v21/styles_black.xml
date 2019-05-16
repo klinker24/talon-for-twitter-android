@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.TalonBlack.Base" parent="Theme.AppCompat">
+    <style name="Theme.TalonBlack.Base" parent="Theme.AppCompat.DayNight">
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
@@ -171,7 +171,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="Theme.TalonBlack.Main" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.TalonBlack.Main" parent="Theme.AppCompat.DayNight.NoActionBar">
 
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>

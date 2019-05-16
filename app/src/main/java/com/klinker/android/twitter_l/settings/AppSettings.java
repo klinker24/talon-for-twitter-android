@@ -1,5 +1,6 @@
 package com.klinker.android.twitter_l.settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
 
 public class AppSettings {
 
@@ -323,6 +326,14 @@ public class AppSettings {
                 break;
         }
 
+        if (AndroidVersionUtils.isAndroidQ() && !blackTheme) {
+            // we want to use the system level theme instead
+            int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            darkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+            nightMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+            baseTheme = darkTheme ? 1 : 0;
+        }
+
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
         reverseClickActions = sharedPrefs.getBoolean("reverse_click_actions", false);
         advanceWindowed = sharedPrefs.getBoolean("advance_windowed", true);
@@ -500,7 +511,7 @@ public class AppSettings {
 
         translateUrl = sharedPrefs.getString("translate_url", "https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=");
 
-        if (baseTheme != 2 && sharedPrefs.getBoolean("night_mode", false)) {
+        if (baseTheme != 2 && sharedPrefs.getBoolean("night_mode", false) && !AndroidVersionUtils.isAndroidQ()) {
             int startHour = sharedPrefs.getInt("night_start_hour", 22);
             int startMin = sharedPrefs.getInt("night_start_min", 0);
             int endHour = sharedPrefs.getInt("day_start_hour", 6);
@@ -594,7 +605,7 @@ public class AppSettings {
         }
     }
 
-    public static int getCurrentTheme(SharedPreferences sharedPrefs) {
+    public static int getCurrentTheme(Context context, SharedPreferences sharedPrefs) {
         boolean dark = false;
         boolean black = false;
         int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
@@ -611,16 +622,22 @@ public class AppSettings {
                 break;
         }
 
-        if (sharedPrefs.getBoolean("night_mode", false)) {
-            int startHour = sharedPrefs.getInt("night_start_hour", 22);
-            int startMin = sharedPrefs.getInt("night_start_min", 0);
-            int endHour = sharedPrefs.getInt("day_start_hour", 6);
-            int endMin = sharedPrefs.getInt("day_start_min", 0);
+        if (AndroidVersionUtils.isAndroidQ() && !black) {
+            // we want to use the system level theme instead
+            int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            dark = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+        } else {
+            if (sharedPrefs.getBoolean("night_mode", false)) {
+                int startHour = sharedPrefs.getInt("night_start_hour", 22);
+                int startMin = sharedPrefs.getInt("night_start_min", 0);
+                int endHour = sharedPrefs.getInt("day_start_hour", 6);
+                int endMin = sharedPrefs.getInt("day_start_min", 0);
 
-            if (startHour == -1 || isInsideRange(startHour, startMin, endHour, endMin)) {
-                dark = true;
-                if (sharedPrefs.getBoolean("night_mode_black", false)) {
-                    black = true;
+                if (startHour == -1 || isInsideRange(startHour, startMin, endHour, endMin)) {
+                    dark = true;
+                    if (sharedPrefs.getBoolean("night_mode_black", false)) {
+                        black = true;
+                    }
                 }
             }
         }
@@ -636,7 +653,6 @@ public class AppSettings {
 
     protected void setValue(String key, boolean value, Context context) {
         SharedPreferences sharedPreferences = AppSettings.getSharedPreferences(context);
-
 
         sharedPreferences.edit()
                 .putBoolean(key, value)

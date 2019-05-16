@@ -18,7 +18,7 @@
 
 <resources>
 
-    <style name="Theme.TalonLight.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.TalonLight.Base" parent="Theme.AppCompat.DayNight.DarkActionBar">
 
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -220,7 +220,7 @@
         <item name="android:windowBackground">@color/light_background</item>
     </style>
 
-    <style name="ActionBarPopup" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="ActionBarPopup" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.Light.ListView.DropDown</item>
     </style>
@@ -236,7 +236,7 @@
         <item name="android:src">@drawable/ic_action_circle_overflow</item>
     </style>
 
-    <style name="Theme.TalonLight.Main" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.TalonLight.Main" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
 

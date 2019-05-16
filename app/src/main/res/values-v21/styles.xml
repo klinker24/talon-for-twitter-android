@@ -101,7 +101,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Main theme colors -->
         <!--   your app's branding color (for the app bar) -->
         <item name="android:colorPrimary">@color/primary</item>
