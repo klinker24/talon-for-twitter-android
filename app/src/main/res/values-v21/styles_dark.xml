@@ -24,6 +24,10 @@
         <item name="android:windowContentTransitions">false</item>
         <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
 
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:textColorSecondary">@color/dark_text_secondary</item>
+
         <!-- For Slidr -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -179,6 +183,10 @@
         <!-- enable window content transitions -->
         <item name="android:windowContentTransitions">false</item>
         <!-- <item name="android:windowAllowExitTransitionOverlap">false</item> -->
+
+        <item name="android:textColor">@color/dark_text</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:textColorSecondary">@color/dark_text_secondary</item>
 
         <!-- For Slidr -->
         <item name="android:windowIsTranslucent">false</item>
