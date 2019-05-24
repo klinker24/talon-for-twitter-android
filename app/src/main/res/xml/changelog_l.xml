@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.6.1">
+        <text>Android Q: manually specify light vs dark theme, separate from the system theme.</text>
+    </version>
+
     <version name="7.6.0">
         <text>Android Q: Theme support improvements. Talon will now follow your system default theme for light/dark support.</text>
         <text>Dark theme color improvements</text>
