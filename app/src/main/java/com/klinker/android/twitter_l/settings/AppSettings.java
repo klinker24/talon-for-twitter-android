@@ -315,10 +315,12 @@ public class AppSettings {
         baseTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (baseTheme) {
             case 0:
+            case 3:
                 darkTheme = false;
                 blackTheme = false;
                 break;
             case 1:
+            case 4:
                 darkTheme = true;
                 blackTheme = false;
                 break;
@@ -328,18 +330,29 @@ public class AppSettings {
                 break;
         }
 
-        if (AndroidVersionUtils.isAndroidQ() && !blackTheme) {
-            // we want to use the system level theme instead
-            int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            darkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
-            nightMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
-            baseTheme = darkTheme ? 1 : 0;
-        }
-
         if (!AndroidVersionUtils.isAndroidQ()) {
             int currentTheme = AppSettings.getCurrentTheme(context, sharedPrefs);
             boolean isNight = currentTheme == 1 || currentTheme == 2;
             AppCompatDelegate.setDefaultNightMode(isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (baseTheme == 3 || baseTheme == 4) {
+            boolean isNight = baseTheme == 4;
+            AppCompatDelegate.setDefaultNightMode(isNight ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        if (AndroidVersionUtils.isAndroidQ()) {
+            if (baseTheme < 2) {
+                // we want to use the system level theme instead
+                int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                darkTheme = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+                nightMode = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+                baseTheme = darkTheme ? 1 : 0;
+
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            } else if (baseTheme == 3) {
+                baseTheme = 0;
+            } else if (baseTheme == 4) {
+                baseTheme = 1;
+            }
         }
 
         isTwitterLoggedIn = sharedPrefs.getBoolean("is_logged_in_1", false) || sharedPrefs.getBoolean("is_logged_in_2", false);
@@ -619,9 +632,11 @@ public class AppSettings {
         int mainTheme = Integer.parseInt(sharedPrefs.getString("main_theme_string", "" + DEFAULT_MAIN_THEME));
         switch (mainTheme) {
             case 0:
+            case 3:
                 dark = false;
                 break;
             case 1:
+            case 4:
                 dark = true;
                 break;
             case 2:
@@ -630,12 +645,12 @@ public class AppSettings {
                 break;
         }
 
-        if (AndroidVersionUtils.isAndroidQ() && !black) {
+        if (AndroidVersionUtils.isAndroidQ() && mainTheme < 2) {
             // we want to use the system level theme instead
             int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
             dark = currentNightMode == Configuration.UI_MODE_NIGHT_YES;
         } else {
-            if (sharedPrefs.getBoolean("night_mode", false)) {
+            if (sharedPrefs.getBoolean("night_mode", false) && !AndroidVersionUtils.isAndroidQ()) {
                 int startHour = sharedPrefs.getInt("night_start_hour", 22);
                 int startMin = sharedPrefs.getInt("night_start_min", 0);
                 int endHour = sharedPrefs.getInt("day_start_hour", 6);
