@@ -41,7 +41,7 @@
     <string name="menu_spam">Marker som Spam</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
-    <string name="just_now">akkuratt nå</string>
+    <string name="just_now">akkurat nå</string>
     <string name="a_min_ago">et minutt siden</string>
     <string name="minutes_ago">%s minutter siden</string>
     <string name="an_hour_ago">en time siden</string>
@@ -377,7 +377,7 @@ Standard (når deaktivert):
     <string name="restore_settings">Gjenopprettingsinnstillinger</string>
     <string name="restore_settings_summary">Vil fjerne hurtigbuffen for å bruke noen temaendringer.</string>
     <string name="get_help_settings">Få Hjelp</string>
-    <string name="rerun_tutorial">Kjør Oppstartstutorial</string>
+    <string name="rerun_tutorial">Kjør Oppstartsguide</string>
     <string name="faq">Ofte Stilte Spørsmål</string>
     <string name="features_explained">Funksjoner Forklart</string>
     <string name="youtube">YouTube Video</string>
@@ -390,7 +390,6 @@ Standard (når deaktivert):
     <string name="disclaimer">Ansvarsfraskrivelse</string>
     <string name="other_apps">Våre Andre Apper</string>
     <string name="whats_new">Hva er Nytt</string>
-    <string name="rate_it">Vurder Talon</string>
     <string name="talon_settings">Talon Innstillinger</string>
     <string name="feature_requests">Funksjonsforespørsler</string>
     <!-- Emoji Keyboard -->
@@ -428,7 +427,7 @@ Standard (når deaktivert):
     <string name="absolute_date">Bruk Absolutte Datoer</string>
     <string name="clear_searches">Tøm Søk</string>
     <string name="compose_with_search">Skriv Tweet sammen med Søk</string>
-    <string name="use_toast">Bruk \"To First\" Toast</string>
+    <string name="use_toast">Bruk \"Til første\" Toast</string>
     <string name="ignore_retweets">Ignorer Retweets</string>
     <string name="ignore_retweets_summary">Ikke vis noen retweets mens du ruller på dine viktigste tidslinjer.</string>
     <string name="view">Se</string>
@@ -512,7 +511,7 @@ Standard (når deaktivert):
     <string name="currently_in_beta">For tiden i BETA.</string>
     <string name="changed_screenname">Du har endret brukernavnet ditt før Talon kunne lagre din ID! Du må logge ut og tilbake på en gang for å gjøre de riktige endringene!</string>
     <string name="menu_save_search">Lagre Søk</string>
-    <string name="saving_search">Lager Søk</string>
+    <string name="saving_search">Lagrer Søk</string>
     <string name="delete_saved_search">Slett Lagrede Søk</string>
     <string name="deleting_search">Sletter Søk</string>
     <string name="none">Ingen</string>
@@ -735,7 +734,7 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="older">Eldre</string>
     <string name="undo">Angre</string>
     <string name="enter_search">Søk etter...</string>
-    <string name="message_from_bullet">%1$s  •</string>
+    <string name="message_from_bullet">%1$s•</string>
     <string name="now">Nå</string>
     <string name="failed">Mislyktes</string>
     <string name="delivered">Melding levert</string>
@@ -751,7 +750,6 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="failed_to_save">Kunne ikke lagre</string>
     <string name="read">Les</string>
     <string name="mark_as_read">Merk som Lest</string>
-    <string name="reply_to">Svar til %1$s</string>
     <string-array name="reply_choices">
         <item>Ja</item>
         <item>Nei</item>
@@ -759,11 +757,11 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
         <item>OK</item>
         <item>Takk</item>
     </string-array>
-    <string name="media">Media</string>
     <string name="status_notifications_channel">Statusvarsler</string>
     <string name="background_service_channel">Bakgrunnstjeneste-varsler</string>
     <string name="general_notifications_channel">Generelle varsler</string>
     <string name="copyright_summary">Se åpen kildekode lisensinformasjon</string>
+    <string name="app_version">App versjon</string>
     <string name="faqs">Ofte Stilte Spørsmål</string>
     <string name="get_help">Få Hjelp</string>
     <string name="google_plus_summary">Pulse Beta Samfunn</string>
@@ -777,10 +775,9 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="theme_settings_redirect">Tema</string>
     <string name="add">Legg til</string>
     <string name="privacy_policy_summary">Se vår personvernpolicy på nettet</string>
-    <string name="signout_time">Logger ut på: %1$s</string>
+    <string name="signout_time">Logger ut av: %1$s</string>
     <string name="no_apps_found">Ingen apper funnet til å håndtere denne handlingen</string>
     <string name="you_denied_permission">Du har nektet denne tillatelsen</string>
-    <string name="advanced">Avansert</string>
     <string name="verify">Bekreft</string>
     <string name="default_text">Standard</string>
     <string name="dismiss">Avvis</string>
@@ -790,10 +787,6 @@ Nevninger, nye følgere og retweets/liker på statusene dine begynner å dukke o
     <string name="test">Test</string>
     <string name="off">Av</string>
     <string name="on">På</string>
-    <string name="rate_it_title">Topp rangeringer går en lang vei</string>
-    <string name="rate_it_summary"><b>5-stjerners rangeringer</b> er svært nyttig for appens vekst
-og synlighet i Play-butikken. Hvis du vil se appen <i>fortsette å sveve</i>, hjelp meg!</string>
-    <string name="rate_it_not_ready">Ikke klar for å rangere det? Ikke noe problem. Gå ut av denne dialogen, og jeg vil aldri spørre igjen.</string>
     <!-- Times -->
     <string name="one_second">Ett sekund</string>
     <string name="three_seconds">Tre sekunder</string>

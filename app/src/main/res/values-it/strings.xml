@@ -17,7 +17,7 @@
 <resources>
     <string name="app_name">Talon</string>
     <string name="app_name_full">Talon per Twitter</string>
-    <string name="extension_description">Mostra il numero di tweet non letti, menzioni e messaggi diretti appena aggiornati</string>
+    <string name="extension_description">Mostra il numero di tweet non letti, menzioni e messaggi diretti appena vengono aggiornati</string>
     <!-- Action Bar -->
     <string name="menu_refresh">Aggiorna timeline</string>
     <string name="menu_compose">Nuovo tweet</string>
@@ -38,7 +38,7 @@
     <string name="menu_favorite">Preferisci utente</string>
     <string name="menu_unfavorite">Non preferire più l\'utente</string>
     <string name="menu_create_list">Crea una nuova lista</string>
-    <string name="menu_spam">Segnala come spam</string>
+    <string name="menu_spam">Segna come spam</string>
     <!-- Times -->
     <!-- When translating: put the %s where the number should go in the string. -->
     <string name="just_now">adesso</string>
@@ -82,7 +82,7 @@
     <string name="new_account">Nuovo account</string>
     <string name="from_top">dall\'inizio</string>
     <string name="jump_to_top">All\'inizio</string>
-    <string name="all_read">Tutto letto!</string>
+    <string name="all_read">Letto tutto!</string>
     <string name="view_new">Caricare?</string>
     <string name="old_interactions">Tutte le interazioni</string>
     <!-- Notifications -->
@@ -91,17 +91,15 @@
     <string name="mention">Menzione</string>
     <string name="message">Messaggio</string>
     <string name="messages">Messaggi</string>
-    <string name="new_message">nuovo messaggio</string>
-    <string name="new_messages">nuovi messaggi</string>
     <string name="mentioned_by">Menzionato da</string>
     <string name="message_from">Messaggio da</string>
     <string name="mark_read">Leggi</string>
     <string name="noti_reply">Rispondi</string>
     <string name="popup">Popup</string>
-    <string name="fav_user_tweets">Nuovi tweet dall\'utente preferito</string>
+    <string name="fav_user_tweets">nuovi tweet da un utente preferito</string>
     <string name="sec_acc">Secondo account</string>
     <string name="talon_pull">Talon Pull</string>
-    <string name="talon_pull_summary">ATTENZIONE: L\'attivazione di questa opzione può causare significativi cali della batteria su Android Lollipop.</string>
+    <string name="talon_pull_summary">ATTENZIONE: L\'attivazione di questa opzione può causare un consumo significativo della batteria su Android Lollipop.</string>
     <string name="listening">In ascolto</string>
     <string name="listening_for_mentions">In ascolto di nuove interazioni</string>
     <string name="refreshing">Aggiornamento</string>
@@ -123,7 +121,7 @@
     <string name="login_to_twitter">Login su Twitter</string>
     <string name="first_welcome">Benvenuto su Talon!</string>
     <string name="second_welcome">Sincronizzazione dati</string>
-    <string name="third_welcome">Fatto - buon divertimento!</string>
+    <string name="third_welcome">Fatto tutto - buon divertimento!</string>
     <string name="back_to_timeline">Portami sulla mia timeline!</string>
     <string name="initial_sync">Sincronizza ora!</string>
     <string name="first_info">Prima di iniziare, effettua il login e la sincronizzazione con Twitter.</string>
@@ -138,10 +136,10 @@
     <string name="no_network">Non sei connesso ad internet</string>
     <string name="no_thanks">Non ora</string>
     <string name="follow_me">Segui!</string>
-    <string name="follow_me_description">Usa il pulsante per seguire gli account di supporto, oppure premi indietro per saltare questo passaggio.</string>
+    <string name="follow_me_description">Usa il pulsante per seguire automaticamente gli account di supporto, oppure premi indietro per saltare questo passaggio.</string>
     <!-- Compose New Activity -->
     <string name="compose_activity">Nuovo tweet</string>
-    <string name="compose_tweet_hint">Scrivi il tuo tweet...</string>
+    <string name="compose_tweet_hint">Scrivi il tweet...</string>
     <string name="send_to">Inserisci il nome utente...</string>
     <string name="direct_message_sent">Messaggio diretto inviato</string>
     <string name="type_user">Inserisci utente</string>
@@ -149,7 +147,7 @@
     <string name="location_connected">Posizione allegata</string>
     <string name="location_disconnected">Posizione persa</string>
     <string name="finding_location">Ricerca della posizione</string>
-    <string name="draft_found">Bozza trovata</string>
+    <string name="draft_found">Trovata bozza</string>
     <string name="apply">Applicare?</string>
     <string name="tweet_failed">Errore nell\'invio del tweet</string>
     <string name="tap_to_retry">Tocca per riprovare</string>
@@ -225,11 +223,11 @@
     <string name="deleted_tweet">Tweet eliminato</string>
     <string name="error_deleting">Errore nell\'eliminazione del tweet</string>
     <string name="sending">Invio</string>
-    <string name="open_what">Apri quale</string>
+    <string name="open_what">Apri che cosa</string>
     <string name="youtube_error">Errore nella riproduzione del video</string>
     <string name="no_conversation">Nessun tweet precedente</string>
     <string name="saving_picture">Salvataggio immagine</string>
-    <string name="saved_picture">Immagine salvata</string>
+    <string name="saved_picture">Immagine salvata con successo</string>
     <string name="retweet_success">Ritwittato con successo</string>
     <string name="favorite_success">Mi piace effettuato</string>
     <string name="success">Completato</string>
@@ -253,9 +251,9 @@
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nAccedi alle funzioni\ntoccando gli elementi\nnel\nnavigation\ndrawer!</string>
     <string name="part_1_phone">\nApri il\nnavigation drawer\ncon uno\nswipe laterale!</string>
-    <string name="part_2">\nNaviga tra\nle timeline con\nuno swipe in\nmezzo allo\nschermo!</string>
-    <string name="part_3">È tutto!\n\nTocca \nper\niniziare!</string>
-    <string name="part_4">\nTocca l\'app\nbar per mostrare\nla posizione\nsulla timeline.</string>
+    <string name="part_2">\nNaviga tra\nle timeline con\nuno swipe\nverso destra o sinistra\ndal centro dello schermo!</string>
+    <string name="part_3">È tutto!\n\nTocca lo\nschermo per\niniziare!</string>
+    <string name="part_4">\nTocca la barra\ndell\'app per vedere\nla posizione\nsulla timeline.</string>
     <string name="part_5">\nTieni premuta\nl\'app bar per\nsaltare in cima\nalla timeline.</string>
     <!-- Settings Menu -->
     <string name="theme_settings">Impostazioni tema</string>
@@ -264,7 +262,7 @@
     <string name="other_options">Altre opzioni</string>
     <string name="theme">Tema</string>
     <string name="addon_themes">Temi add-on</string>
-    <string name="addon_note">Premi qui per trovare nuovi temi.\n\nNOTE:\n- Questo disabiliterà l\'uso delle emoji integrate nella testiera quando rispondi ad un tweet.\n- Non riportare bug finché non sei in grado di confermarli SENZA un tema personalizzato applicato.</string>
+    <string name="addon_note">Premi qui per trovare nuovi temi.\n\nNOTE:\n- Questo disabiliterà l\'uso delle emoji integrate nella testiera quando rispondi ad un tweet.\n- Per favore non segnalare bug a meno che tu non possa verificarli SENZA la presenza di un tema personalizzato.</string>
     <string name="use_addon_themes">Usa un tema personalizzato</string>
     <string name="make_a_theme">Crea un tema</string>
     <string name="layout">Layout</string>
@@ -274,10 +272,10 @@ Dovrai eliminare \"Talon\" dalle app recenti affinché le modifiche abbiano effe
 Se le foto profilo non appaiono come dovrebbero (ad es. rotonde o quadrate), devi rimuovere e riaggiungere il widget.</string>
     <string name="layout_summary">Modificando questo verrà eliminata la cache dell\'app.</string>
     <string name="text_size">Dimensione testo</string>
-    <string name="night_mode">Modalità notte</string>
-    <string name="night_mode_night">Ora inizio</string>
-    <string name="night_mode_day">Ora fine</string>
-    <string name="night_mode_theme">Seleziona il tema della modalità notte</string>
+    <string name="night_mode">Modalità notturna</string>
+    <string name="night_mode_night">Seleziona l\'ora di inizio</string>
+    <string name="night_mode_day">Seleziona l\'ora di fine</string>
+    <string name="night_mode_theme">Seleziona il tema della modalità notturna</string>
     <string name="device_font">Usa il carattere di sistema</string>
     <string name="device_font_summary">\"Regular Roboto\" nella maggior parte dei dispositivi. Il carattere predefinito di Talon è \"Roboto Light\".</string>
     <string name="ui_extras">UI extra</string>
@@ -293,19 +291,16 @@ Se le foto profilo non appaiono come dovrebbero (ad es. rotonde o quadrate), dev
     <string name="enable_emojis">Usa emoji iOS</string>
     <string name="to_market">Al Play Store</string>
     <string name="get_ios">Scarica plug-in</string>
-    <string name="emoji_dialog_summary">Per attivare gli emoji iOS in questa app, devi installare la nostra app gratuita \"Sliding Emoji Keyboard\" dal play store.\n
-NOTA: gli emoji continueranno a funzionare in questa app anche se il periodo di prova scadrà. Quell\'app è usata sia come plugin sia come tastiera autonoma.\n</string>
+    <string name="emoji_dialog_summary">Per attivare le emoji iOS in questa app, devi installare la nostra app gratuita \"Sliding Emoji Keyboard\" dal play store.\n
+NOTA: le emoji continueranno a funzionare in questa app anche quando il periodo di prova terminerà. Quell\'app è usata sia come plugin sia come tastiera autonoma.\n</string>
     <string name="theme_light">Tema chiaro</string>
     <string name="theme_dark">Tema scuro</string>
     <string name="theme_black">Tema nero</string>
-    <string name="sync_settings">Sincronizzazione</string>
+    <string name="sync_settings">Sincronizzazione in background</string>
     <string name="sync_mobile_data">Sincronizza su reti cellulari</string>
     <string name="sync_mobile_data_summary">Aggiorna automaticamente la timeline sia su reti cellulari sia su WiFi.</string>
     <string name="auto_sync_notifications">Opzioni auto-aggiornamento notifiche</string>
     <string name="notifications">Notifiche</string>
-    <string name="vibrate">Vibrazione</string>
-    <string name="led">Flash LED</string>
-    <string name="wake_screen">Accendi schermo</string>
     <string name="sound">Suono notifica</string>
     <string name="quiet_hours">Modalità Non disturbare</string>
     <string name="max_number_on_refresh">Numero massimo di tweet da aggiornare</string>
@@ -320,8 +315,8 @@ NOTA: gli emoji continueranno a funzionare in questa app anche se il periodo di 
     <string name="dm_sync_interval">Intervallo aggiornamento messaggi diretti</string>
     <string name="sync_friends">Sincronizza i dati degli amici</string>
     <string name="sync_friends_summary2">Re-sincronizza i dati degli amici da usare quando si scrive un tweet.</string>
-    <string name="sync_friends_summary">Sincronizza manualmente la lista degli amici.\n\nCiò viene eseguito per te al login, ed essi vengono aggiunti automaticamente quando inizi a seguire qualcuno dall\'app Talon, ma questa opzione prenderà tutti le ultime persone seguite.\n\n
-Queste informazioni vengono utilizzate durante una ricerca di utenti quando si scrive un tweet.</string>
+    <string name="sync_friends_summary">Sincronizzazione manuale della lista amici.\n\nQuesto è stato fatto automaticamente al login, e i nuovi amici vengono aggiunti automaticamente quando inizi a seguire qualcuno da Talon, ma questa opzione raccoglierà tutte le persone che hai seguito di recente.\n\n
+Questi dati sono utilizzati quando cerchi un utente mentre stai scrivendo un tweet.</string>
     <string name="sync_success">Sincronizzazione completata</string>
     <string name="sync_failed">Sincronizzazione fallita</string>
     <string name="push_notification_options">"Opzioni \"Notifiche push\""</string>
@@ -346,7 +341,7 @@ Predefinito (quando è disabilitato):\n
     <string name="extra_pages_summary">Aggiungi pagine contenenti link e immagini alla sinistra della timeline.</string>
     <string name="live_streaming">Streaming Live</string>
     <string name="memory_management">Opzioni gestione memoria</string>
-    <string name="delete_cache">Elimina cache</string>
+    <string name="delete_cache">Elimina cache adesso</string>
     <string name="cache_dialog">Eliminare la cache?</string>
     <string name="not_cache">Ciò non viene applicato alla cache dell\'app.</string>
     <string name="current_cache_size">Dimensione attuale della cache</string>
@@ -372,20 +367,19 @@ Predefinito (quando è disabilitato):\n
     <string name="restore_settings">Ripristino impostazioni</string>
     <string name="restore_settings_summary">Ciò eliminerà la cache per applicare qualsiasi modifica al tema.</string>
     <string name="get_help_settings">Ottieni aiuto</string>
-    <string name="rerun_tutorial">Esegui il tutorial</string>
-    <string name="faq">F.A.Q.</string>
+    <string name="rerun_tutorial">Esegui il tutorial iniziale</string>
+    <string name="faq">Domande frequenti</string>
     <string name="features_explained">Caratteristiche spiegate</string>
     <string name="youtube">Video su YouTube</string>
     <string name="google_plus">Community su Google+</string>
-    <string name="xda_thread">Thread sul forum XDA</string>
+    <string name="xda_thread">Discussione su XDA</string>
     <string name="email_me">Inviami un\'email</string>
     <string name="tweet_me">Inviami un tweet</string>
     <string name="follow_talon">Segui Talon su Twitter</string>
     <string name="credits">Riconoscimenti</string>
     <string name="disclaimer">Disclaimer</string>
-    <string name="other_apps">Le nostre app</string>
+    <string name="other_apps">Le nostre altre app</string>
     <string name="whats_new">Cosa c\'è di nuovo</string>
-    <string name="rate_it">Vota Talon</string>
     <string name="talon_settings">Impostazioni Talon</string>
     <string name="feature_requests">Richiedi funzionalità</string>
     <!-- Emoji Keyboard -->
@@ -436,9 +430,6 @@ Predefinito (quando è disabilitato):\n
     <string name="to_replies">Inserisci nella risposta qualsiasi hashtag presente nel tweet.</string>
     <string name="clean_now">Svuota il database</string>
     <string name="clean_now_summary">Include la compressione e la rimozione dei duplicati dal database.</string>
-    <string name="delete_conversation">Eliminare la conversazione?</string>
-    <string name="deleting_messages">Eliminazione messaggi...</string>
-    <string name="type_message">Scrivi messaggio...</string>
     <string name="fill_gaps">Riempi buchi della timeline</string>
     <string name="fill_gaps_summary">Riempe eventuali buchi causati da una connessione errata mentre lo streaming dal vivo è abilitato.</string>
     <string name="filling_timeline">Riempimento buchi della timeline</string>
@@ -718,14 +709,80 @@ Menzioni, nuovi follower e retweet/mi piace sul tuo stato inizieranno a comparir
     <string name="three_mb_message">Twitter permette di postare GIF che non superano i 5 MB. Talon userà la versione da Giphy con la qualità più alta che rispetta questo vincolo.\n\nI risultati che vedrai hanno una versione che rispetta questo limite, io non ho mostrato GIF la cui qualità è stata ridotta per rientrare nel limite di 5 MB.</string>
     <string name="quoted_you">ti ha citato</string>
     <string name="privacy_policy">Politica sulla Privacy</string>
-    <string name="emoji_style">Stile emoji</string>
-    <string name="emoji_style_default">Predefinito di sistema</string>
-    <string name="emoji_style_android_o">Google Android Oreo</string>
     <string name="saved_tweets">Tweet salvati</string>
     <string name="save_for_later">Salva per dopo</string>
     <string name="remove_from_saved_tweets">Rimuovi dai Tweet salvati</string>
-    <string name="auto_play_gifs">Autoriproduci solo GIF</string>
-    <string name="auto_play_gifs_summary">Di default le GIF e i video di Twitter vengono autoriprodotti nella timeline.</string>
-    <string name="data_saver_mode">Modalità risparmio dati</string>
-    <string name="auto_complete_hashtags">Autocompletamento Hashtag</string>
+    <string name="today">Oggi</string>
+    <string name="last_week">Questa Settimana</string>
+    <string name="last_month">Questo mese</string>
+    <string name="older">Più Vecchio</string>
+    <string name="undo">disfare</string>
+    <string name="enter_search">Cercare</string>
+    <string name="message_from_bullet">%1$s  •</string>
+    <string name="now">Ora</string>
+    <string name="failed">Fallito</string>
+    <string name="delivered">Messaggio consegnato</string>
+    <string name="attach_image">Allega immagine</string>
+    <string name="capture_image">Cattura immagine</string>
+    <string name="record_video">Registra video</string>
+    <string name="flip_picture">Cambia fotocamera</string>
+    <string name="fullscreen">Schermo intero</string>
+    <string name="attached_image">Immagine allegata</string>
+    <string name="share">Condividi</string>
+    <string name="share_content">Condividi contenuto...</string>
+    <string name="saved">Salvato nella cartella dei download!</string>
+    <string name="failed_to_save">Salvataggio fallito</string>
+    <string name="read">Leggi</string>
+    <string name="mark_as_read">Segna come letto</string>
+    <string-array name="reply_choices">
+        <item>Sì</item>
+        <item>No</item>
+        <item>Forse</item>
+        <item>OK</item>
+        <item>Grazie</item>
+    </string-array>
+    <string name="status_notifications_channel">Notifiche di stato</string>
+    <string name="background_service_channel">Notifiche di servizio in background</string>
+    <string name="general_notifications_channel">Notifiche generali</string>
+    <string name="copyright_summary">Guarda info sulla licenza open source</string>
+    <string name="app_version">Versione app</string>
+    <string name="faqs">Domande frequenti</string>
+    <string name="get_help">Ottieni aiuto</string>
+    <string name="google_plus_summary">Pulse Beta Community</string>
+    <string name="email">Email</string>
+    <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="support">Supporto</string>
+    <string name="theme_settings_category">Aspetto</string>
+    <string name="conversation_list_category">Lista conversazioni</string>
+    <string name="general_category">Generale</string>
+    <string name="theme_settings_redirect">Tema</string>
+    <string name="add">Aggiungi</string>
+    <string name="privacy_policy_summary">Guarda la nostra politica sulla privacy sul web</string>
+    <string name="signout_time">Disconnettendo da: %1$s</string>
+    <string name="no_apps_found">Nessun app trovata per gestire questa azione</string>
+    <string name="you_denied_permission">Hai negato questo permesso</string>
+    <string name="verify">Verifica</string>
+    <string name="default_text">Predefinito</string>
+    <string name="dismiss">Rimuovi</string>
+    <string name="renew">Rinnova</string>
+    <string name="hours">Ore</string>
+    <string name="minutes">Minuti</string>
+    <string name="test">Test</string>
+    <string name="off">Spento</string>
+    <string name="on">Acceso</string>
+    <!-- Times -->
+    <string name="one_second">Un secondo</string>
+    <string name="three_seconds">Tre secondi</string>
+    <string name="five_seconds">Cinque secondi</string>
+    <string name="ten_seconds">Dieci secondi</string>
+    <string name="fifteen_seconds">Quindici secondi</string>
+    <string name="thirty_seconds">Trenta secondi</string>
+    <string name="one_minute">Un minuto</string>
+    <string name="one_week">Una settimana</string>
+    <string name="two_weeks">Due settimane</string>
+    <string name="one_month">Un mese</string>
+    <string name="three_months">Tre mesi</string>
+    <string name="six_months">Sei mesi</string>
+    <string name="one_year">Un anno</string>
 </resources>

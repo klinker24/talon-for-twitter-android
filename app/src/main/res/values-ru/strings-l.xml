@@ -122,7 +122,7 @@
     <string name="in_app_browser">Браузер приложения</string>
     <string name="location">Местонахождение</string>
     <string name="color_options">Настройка цветов</string>
-    <string name="advanced_options">Допольнительные настройки</string>
+    <string name="advanced_options">Дополнительные настройки</string>
     <string name="material_color">Цвета Material Design</string>
     <string name="base_theme">Основная тема</string>
     <string name="functionality_options">Настройка функциональности</string>
@@ -142,6 +142,7 @@
     <string name="widget_disclaimer">Возможно, придётся удалить и заново добавить виджет на рабочий стол, чтобы изменения вступили в силу.</string>
     <string name="widget_material_light">Светлый Material Design</string>
     <string name="widget_material_dark">тёмный Material Design</string>
+    <string name="widget_material_transparent">Полностью прозрачный</string>
     <string name="in_app_browser_summary">При отключении встроенного браузера, ссылки будут открываться с системном браузере.</string>
     <string name="chrome_custom_tabs_summary">Замена на встроенный браузер. Будут использованы сервисы, предоставляемые Google Chrome.</string>
     <string name="reverse_click_actions_default">По умолчанию:\n-Быстрое нажатие = Развернуть в ленте\n-Долгое нажатие = Полноэкранный просмотр</string>
@@ -181,7 +182,31 @@
     <string name="authenticate">Аутентификация</string>
     <string name="enable_fingerprint_lock">Включить блокировку отпечатком пальца</string>
     <string name="disable_fingerprint_lock">Отключить блокировку отпечатком пальца</string>
+    <string name="auto_complete_hashtags">Автозаполнение хэштегов</string>
+    <string name="auto_complete_hashtags_summary">Показывать недавно просмотренные хэштеги при составлении нового твита</string>
     <string name="quoting">Цитирование</string>
     <string name="profile_timeline">Лента</string>
     <string name="show_all_tweets">Показать все твиты</string>
+    <string name="are_you_sure_spam">Вы уверены, что хотите отметить данный твит как спам?</string>
+    <string name="larger_images">Использовать бОльшие изображения</string>
+    <string name="others">остальные</string>
+    <string name="never_show_notifications">Никогда не показывать уведомления</string>
+    <string name="media_downloads_channel">Уведомления о загрузке медиа</string>
+    <string name="background_refresh_channel">Уведомления об обновлении в фоне.</string>
+    <string name="notification_channels">Каналы уведомлений</string>
+    <string name="crop_images">Обрезать изображения в ленте</string>
+    <string name="update_tweet">Обновить твит</string>
+    <string name="rate_it_button">Оценить!</string>
+    <string name="preview_web_links">Предпросмотр ссылок</string>
+    <string name="seconds_ago">%1$d секунд назад</string>
+    <string name="min_ago">%1$d минуту назад</string>
+    <string name="mins_ago">%1$d минут назад</string>
+    <string name="hour_ago">%1$d час назад</string>
+    <string name="new_hours_ago">%1$d часов назад</string>
+    <string name="day_ago">%1$d день назад</string>
+    <string name="new_days_ago">%1$d дней назад</string>
+    <string name="auto_play_gifs">Автовоспроизведение только GIF</string>
+    <string name="auto_play_gifs_summary">GIF и видео будут проигрываться непосредственно в ленте по умолчанию</string>
+    <string name="data_saver_mode">Режим сокращения передачи фоновых данных</string>
+    <string name="data_saver_mode_summary">Это изменит ваши текущие настройки, чтобы сократить количество фоновых данных</string>
 </resources>

@@ -25,13 +25,13 @@
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_follow">Nutzer folgen</string>
     <string name="menu_unfollow">Nutzer entfolgen</string>
-    <string name="menu_tweet">Tweet an Nutzer</string>
+    <string name="menu_tweet">Tweet versenden</string>
     <string name="menu_dm">Direktnachricht senden</string>
     <string name="menu_block">Nutzer blockieren</string>
     <string name="menu_unblock">Blockierung aufheben</string>
     <string name="menu_add_to_list">Zu Liste hinzufügen</string>
     <string name="menu_change_picture">Profilbild ändern</string>
-    <string name="menu_change_bio">Profilbio bearbeiten</string>
+    <string name="menu_change_bio">Profil bearbeiten</string>
     <string name="menu_change_banner">Profilbanner ändern</string>
     <string name="menu_direct_message">Neue Direktnachricht</string>
     <string name="menu_save_image">Bild speichern</string>
@@ -91,8 +91,6 @@
     <string name="mention">Erwähnung</string>
     <string name="message">Nachricht</string>
     <string name="messages">Nachrichten</string>
-    <string name="new_message">neue Nachricht</string>
-    <string name="new_messages">neue Nachrichten</string>
     <string name="mentioned_by">Erwähnt von</string>
     <string name="message_from">Nachricht von</string>
     <string name="mark_read">Lesen</string>
@@ -214,7 +212,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <!-- Retweets Activity -->
     <string name="retweets_lower">Retweets</string>
     <string name="retweet_lower">Retweet</string>
-    <string name="retweeter">geretweetet von @</string>
+    <string name="retweeter">retweetet von @</string>
     <!-- Tweet Activity -->
     <string name="menu_open_web">Link öffnen</string>
     <string name="menu_copy_text">Tweet-Text kopieren</string>
@@ -229,7 +227,7 @@ Dieser Vorgang könnte etwas länger dauern, je nachdem, wie Du mit dem Internet
     <string name="deleted_tweet">Tweet gelöscht</string>
     <string name="error_deleting">Löschen des Tweets fehlgeschlagen</string>
     <string name="sending">Senden</string>
-    <string name="open_what">Open what</string>
+    <string name="open_what">Öffne was</string>
     <string name="youtube_error">Abspielen des Videos fehlgeschlagen</string>
     <string name="no_conversation">Keine vorherigen Tweets</string>
     <string name="saving_picture">Bild wird gesichert</string>
@@ -310,9 +308,6 @@ HINWEIS: Emojis werden auch nach Ablauf der Testversion weiterhin in dieser App 
     <string name="sync_mobile_data_summary">Timelines über WLAN und Mobilfunknetz automatisch aktualisieren.</string>
     <string name="auto_sync_notifications">Benachrichtigungen autom. Aktualisierung</string>
     <string name="notifications">Benachrichtigungen</string>
-    <string name="vibrate">Vibrieren</string>
-    <string name="led">Benachrichtigungs-LED</string>
-    <string name="wake_screen">Bildschirm aufwecken</string>
     <string name="sound">Benachrichtigungston</string>
     <string name="quiet_hours">\"Nicht stören\"-Modus</string>
     <string name="max_number_on_refresh">Maximal zu aktualisierende Tweets</string>
@@ -392,7 +387,6 @@ HINWEIS: Emojis werden auch nach Ablauf der Testversion weiterhin in dieser App 
     <string name="disclaimer">Haftungsausschluss</string>
     <string name="other_apps">Unsere weiteren Apps</string>
     <string name="whats_new">Neuerungen</string>
-    <string name="rate_it">Talon bewerten</string>
     <string name="talon_settings">Talon-Einstellungen</string>
     <string name="feature_requests">Funktionen vorschlagen</string>
     <!-- Emoji Keyboard -->
@@ -443,9 +437,6 @@ HINWEIS: Emojis werden auch nach Ablauf der Testversion weiterhin in dieser App 
     <string name="to_replies">Jegliche im Tweet verwendeten Hashtags in die Antwort einfügen.</string>
     <string name="clean_now">Datenbanken jetzt säubern</string>
     <string name="clean_now_summary">Beinhaltet das Trimmen und Entfernen von Duplikaten in deiner Datenbank.</string>
-    <string name="delete_conversation">Unterhaltung löschen?</string>
-    <string name="deleting_messages">Nachrichten werden gelöscht</string>
-    <string name="type_message">Nachricht eingeben...</string>
     <string name="fill_gaps">Timeline-Lücken füllen</string>
     <string name="fill_gaps_summary">Lücken füllen, die durch eine schlechte Streaming-Verbindung bei aktiviertem Live-Streaming entstanden sind.</string>
     <string name="filling_timeline">Timeline-Lücken werden gefüllt</string>
@@ -657,6 +648,9 @@ Ich hoffe Dir gefällt meine Arbeit!</string>
     <!-- %s will be replaced with a number for the currently selected page -->
     <string name="page">Seite %s</string>
     <string name="set_as_default">Als Standard setzen</string>
+    <string name="main_pages_and_drawer">Wischbare Seiten und App Verzeichnisse</string>
+    <string name="drawer_elements">Sichtbare Elemente im Verzeichnis</string>
+    <string name="drawer_elements_summary">Elemente im App-Hauptnavigationsordner anzeigen oder verbergen</string>
     <string name="second_acc_mentions">Erwähnungen des zweiten Kontos</string>
     <string name="using_second_account">Benutze Account %s!</string>
     <!-- the username will replace %s -->
@@ -675,6 +669,8 @@ Ich hoffe Dir gefällt meine Arbeit!</string>
     <string name="retweeted_your_status">hat Deinen Tweet geretweetet</string>
     <string name="followed_you">ist Dir gefolgt</string>
     <string name="new_activity">Neue Aktivität</string>
+    <string name="use_interaction_drawer">Aktivere Interaktionsverzeichnis</string>
+    <string name="use_interaction_drawer_summary">Der Inhalt dieses Verzeichnisses wird durch Talon Pull (Streaming) angelegt.</string>
     <string name="no_activity_yet">Noch keine Aktivität!</string>
     <string name="no_activity_yet_desc">Dieser Abschnitt wird gefüllt wenn Du mehr auf Twitter interagierst.\n\n
 
@@ -724,4 +720,7 @@ Erwähnungen, neue Follower, Retweets und Likes Deiner Status werden hier ersche
     <string name="three_mb_message">Twitter erlaubt das Posten von GIFs nur wenn sie kleiner als 5MB groß sind. Talon wählt das GIF mit der besten Qualität, welches noch in das Größenlimit passt.\n\nVon sämtlichen Ergebnissen die Du siehst existiert eine Version die in das Limit passt. GIFs die heruntergerechnet werden müssen um in das 5MB Limit zu passen werden nicht angezeigt.</string>
     <string name="quoted_you">hat dich zitiert</string>
     <string name="privacy_policy">Datenschutzrichtlinie</string>
+    <string name="saved_tweets">Gespeicherte Tweets</string>
+    <string name="save_for_later">Speichern für später</string>
+    <string name="remove_from_saved_tweets">Von den gespeicherten Tweets entfernen</string>
 </resources>

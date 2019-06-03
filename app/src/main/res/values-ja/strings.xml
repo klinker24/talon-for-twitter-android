@@ -708,18 +708,57 @@ Talon はその代わりに TwitPic を使用して画像をアップロード�
     <string name="three_mb_limit">サイズ制限5MB迄</string>
     <string name="three_mb_message">Twitterでは5MB以内のGIFのみが投稿できます。Talonは、Giphyからこれらの制約に適した高クオリティなGIFを提供します。\n\n検索結果に表示されるのはこの制限に適したものだけであり、5MB以下にダウンサンプリングされたものは表示されません。</string>
     <string name="quoted_you">引用RTされました</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="saved_tweets">保存したツイート</string>
+    <string name="remove_from_saved_tweets">保存したツイートから削除</string>
     <string name="today">今日</string>
     <string name="last_week">今週</string>
     <string name="last_month">今月</string>
     <string name="message_from_bullet">%1$s •</string>
     <string name="now">今</string>
     <string name="failed">失敗</string>
+    <string name="delivered">メッセージが送信されました</string>
     <string name="attach_image">画像を添付</string>
     <string name="capture_image">画像を撮影</string>
     <string name="record_video">動画を撮影</string>
+    <string name="flip_picture">カメラ反転</string>
     <string name="fullscreen">全画面表示</string>
     <string name="attached_image">画像を添付しました</string>
     <string name="share">共有</string>
+    <string-array name="reply_choices">
+        <item>はい</item>
+        <item>いいえ</item>
+        <item>OK</item>
+        <item>ありがとう</item>
+    </string-array>
+    <string name="app_version">アプリ バージョン</string>
+    <string name="faqs">よくある質問</string>
+    <string name="get_help">ヘルプ</string>
+    <string name="google_plus_summary">パルス ベータ コミュニティ</string>
     <string name="email">メール</string>
     <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="theme_settings_category">外観</string>
+    <string name="conversation_list_category">会話リスト</string>
+    <string name="general_category">一般</string>
+    <string name="theme_settings_redirect">テーマ</string>
+    <string name="hours">時間</string>
+    <string name="minutes">分</string>
+    <string name="test">テスト</string>
+    <string name="off">オフ</string>
+    <string name="on">オン</string>
+    <!-- Times -->
+    <string name="one_second">1 秒</string>
+    <string name="three_seconds">3 秒</string>
+    <string name="five_seconds">5 秒</string>
+    <string name="ten_seconds">10 秒</string>
+    <string name="fifteen_seconds">15 秒</string>
+    <string name="thirty_seconds">30 秒</string>
+    <string name="one_minute">1 分</string>
+    <string name="one_week">1 週間</string>
+    <string name="two_weeks">2 週間</string>
+    <string name="one_month">1 ヶ月</string>
+    <string name="three_months">3 ヶ月</string>
+    <string name="six_months">6 ヶ月</string>
+    <string name="one_year">1 年</string>
 </resources>

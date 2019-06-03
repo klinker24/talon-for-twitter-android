@@ -182,6 +182,8 @@ Ta gjerne bort tillatelser. Du kan manuelt få tilgang til disse fra systemets a
     <string name="authenticate">Verifisere</string>
     <string name="enable_fingerprint_lock">Aktiver fingeravtrykkslås</string>
     <string name="disable_fingerprint_lock">Deaktiver fingeravtrykkslås</string>
+    <string name="auto_complete_hashtags">Autofullfør Hashtags</string>
+    <string name="auto_complete_hashtags_summary">Søk nylig søkte eller viste hashtags, når du lager en ny tweet.</string>
     <string name="followers_only_auto_complete">Autofullfør følgere</string>
     <string name="followers_only_auto_complete_summary">Ikke søk hele Twitter når du automatisk fullfører en nevning.</string>
     <string name="quoting">Siter</string>
@@ -227,6 +229,7 @@ For å bruke denne funksjonen må du aktivere Talon, på neste skjermbilde. Dett
     <string name="rate_it_summary"><b>5-stjernes vurdering</b>er ekstremt nyttig for appens vekst
 og synlighet i Play-butikken. Hvis du vil se appen<i>fortsette å utvikle seg</i>, vennligst hjelp meg!</string>
     <string name="rate_it_not_ready">Ikke klar til å vurdere det? Ikke noe problem. Trykk tilbake ut av denne dialogen, og jeg vil aldri spørre igjen.</string>
+    <string name="preview_web_links">Forhåndsvis internettlenker</string>
     <string name="seconds_ago">%1$d sekunder siden</string>
     <string name="min_ago">%1$d minutt siden</string>
     <string name="mins_ago">%1$d minutter siden</string>
@@ -237,4 +240,8 @@ og synlighet i Play-butikken. Hvis du vil se appen<i>fortsette å utvikle seg</i
     <string name="revamped_layout">Tidslinjestil Tweet layout</string>
     <string name="widget_display_screenname">Vis skjermnavn</string>
     <string name="saved_tweet_description">For å få tilgang til de lagrede tweets, gå til innstillingene for å sveipbare sider, og sett opp en<i>Lagrede Tweets</i>side.</string>
+    <string name="auto_play_gifs">Bare vis GIFs automatisk</string>
+    <string name="auto_play_gifs_summary">Som standard, blir både GIFs og videoer avspilt automatisk i tidslinjen.</string>
+    <string name="data_saver_mode">Mobildata sparing</string>
+    <string name="data_saver_mode_summary">Dette vil overstyre noen av dine innstillinger for å gi deg minst mulig datatrafikk.</string>
 </resources>
