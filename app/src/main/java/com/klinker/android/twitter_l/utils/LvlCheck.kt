@@ -63,8 +63,10 @@ object LvlCheck {
 //                                    .setCancelable(false)
 //                                    .setMessage("Google Play is still reporting that you have not purchased the app. " +
 //                                            "You will now be logged out.")
-//                                    .setPositiveButton(android.R.string.ok) { _, _ -> context.logoutFromTwitter() }
-//                                    .show()
+//                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+//                                        sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
+//                                        context.logoutFromTwitter()
+//                                    }.show()
                         }
                         daysFailed >= 2 -> {
                             // Warn the user that they have failed the license check for two days in a row.
