@@ -76,7 +76,7 @@ class TimelineWidgetProvider : AppWidgetProvider() {
         var material = false
         var layout = 0
         when (Integer.parseInt(AppSettings.getSharedPreferences(context)
-                .getString("widget_theme", "4"))) {
+                .getString("widget_theme", "4")!!)) {
             0 -> layout = R.layout.widget_light
             1 -> layout = R.layout.widget_dark
             2 -> layout = R.layout.widget_trans_light

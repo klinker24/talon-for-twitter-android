@@ -105,7 +105,7 @@ class TimelineRemoteViewsFactory(private val context: Context) : RemoteViewsServ
 
     override fun getViewAt(position: Int): RemoteViews? {
         var res = 0
-        when (Integer.parseInt(AppSettings.getSharedPreferences(context).getString("widget_theme", "4"))) {
+        when (Integer.parseInt(AppSettings.getSharedPreferences(context).getString("widget_theme", "4")!!)) {
             0 -> res = if (settings.largerWidgetImages)
                 R.layout.widget_conversation_light_large_image
             else
