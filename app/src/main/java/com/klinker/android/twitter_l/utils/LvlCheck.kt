@@ -1,9 +1,9 @@
 package com.klinker.android.twitter_l.utils
 
 import android.annotation.SuppressLint
-import android.preference.PreferenceManager
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
+import androidx.preference.PreferenceManager
 import com.google.android.vending.licensing.AESObfuscator
 import com.google.android.vending.licensing.LicenseChecker
 import com.google.android.vending.licensing.LicenseCheckerCallback
@@ -41,7 +41,7 @@ object LvlCheck {
         checker.checkAccess(object : LicenseCheckerCallback {
             override fun allow(reason: Int) {
                 AnalyticsHelper.appPurchased(context)
-                sharedPrefs.edit().putInt("license_failed_days", 0).commit()
+                sharedPrefs.edit().putInt("license_days_failed", 0).commit()
             }
 
             override fun dontAllow(reason: Int) {
@@ -53,35 +53,35 @@ object LvlCheck {
                     // I will give them three days to make the purchase.
                     // There could be an issue with the Play Store, or something else.
 
-                    val daysFailed = sharedPrefs.getInt("license_failed_days", 0) + 1
+                    val daysFailed = sharedPrefs.getInt("license_days_failed", 0) + 1
                     when {
                         daysFailed >= 3 -> {
                             // Warn the user that they are about to be logged out.
 
                             AnalyticsHelper.appNotPurchasedLastWarning(context)
-//                            AlertDialog.Builder(context)
-//                                    .setCancelable(false)
-//                                    .setMessage("Google Play is still reporting that you have not purchased the app. " +
-//                                            "You will now be logged out.")
-//                                    .setPositiveButton(android.R.string.ok) { _, _ ->
-//                                        sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
-//                                        context.logoutFromTwitter()
-//                                    }.show()
+                            AlertDialog.Builder(context)
+                                    .setCancelable(false)
+                                    .setMessage("Google Play is still reporting that you have not purchased the app. " +
+                                            "You will now be logged out.")
+                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                                        sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
+                                        context.logoutFromTwitter()
+                                    }.show()
                         }
                         daysFailed >= 2 -> {
                             // Warn the user that they have failed the license check for two days in a row.
                             // They will be logged out tomorrow if they don't purchase the app
 
                             AnalyticsHelper.appNotPurchasedFirstWarning(context)
-//                            AlertDialog.Builder(context)
-//                                    .setMessage("Google Play is reporting that you have not purchased the app. " +
-//                                            "You will be logged out, tomorrow, unless you make a purchase.")
-//                                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-//                                    .show()
+                            AlertDialog.Builder(context)
+                                    .setMessage("Google Play is reporting that you have not purchased the app. " +
+                                            "You will be logged out, tomorrow, unless you make a purchase.")
+                                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+                                    .show()
                         }
                     }
 
-                    sharedPrefs.edit().putInt("license_failed_days", daysFailed).commit()
+                    sharedPrefs.edit().putInt("license_days_failed", daysFailed).commit()
                 }
             }
 
