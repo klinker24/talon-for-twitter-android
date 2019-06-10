@@ -1,1 +1,1 @@
-This version contains improvements to the light/dark theme support, for Android Q. It will now follow whatever theme you have set up, at the system level.
+This version continues the improvements for Android Q, and fixes some reported bugs.

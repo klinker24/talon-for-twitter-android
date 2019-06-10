@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.6.2">
+        <text>Continued improvements for Android Q</text>
+    </version>
+
     <version name="7.6.1">
         <text>Android Q: manually specify light vs dark theme, separate from the system theme.</text>
     </version>
