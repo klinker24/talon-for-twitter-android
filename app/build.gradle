@@ -98,7 +98,6 @@ dependencies {
     implementation 'me.leolin:ShortcutBadger:1.1.19@aar'
     implementation 'com.github.ajalt.reprint:core:3.2.1@aar'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
-    implementation 'com.github.javiersantos:PiracyChecker:1.2.5'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')
@@ -110,6 +109,7 @@ dependencies {
     
     implementation project(':searchview')
     implementation project(':shared_assets')
+    implementation project(':lvl')
 }
 
 apply plugin: 'com.google.gms.google-services'
