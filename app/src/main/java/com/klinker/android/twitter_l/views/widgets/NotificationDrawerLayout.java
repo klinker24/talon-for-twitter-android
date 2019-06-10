@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
@@ -31,7 +32,11 @@ import android.util.AttributeSet;
 import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.klinker.android.peekview.util.DensityUtils;
 import com.klinker.android.twitter_l.views.ViewDragHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DrawerLayout acts as a top-level container for window content that allows for
@@ -142,6 +147,8 @@ public class NotificationDrawerLayout extends ViewGroup {
     private Drawable mShadowLeft;
     private Drawable mShadowRight;
 
+    private List<Rect> exclusionRects = new ArrayList<>();
+
     /**
      * Listener for monitoring events about drawers.
      */
@@ -233,6 +240,8 @@ public class NotificationDrawerLayout extends ViewGroup {
 
         ViewCompat.setAccessibilityDelegate(this, new AccessibilityDelegate());
         ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
+
+        exclusionRects.add(new Rect(0, 0, DensityUtils.toDp(getContext(), 100), 0));
     }
 
     /**
@@ -646,6 +655,11 @@ public class NotificationDrawerLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            exclusionRects.get(0).bottom = b;
+            setSystemGestureExclusionRects(exclusionRects);
+        }
+
         mInLayout = true;
         final int width = r - l;
         final int childCount = getChildCount();
