@@ -1,1 +1,1 @@
-This version continues the improvements for Android Q, and fixes some reported bugs.
+Tweetmarker is unfortunately being shut down and must be removed from Talon. For more information: https://www.manton.org/2019/05/15/saying-goodbye-to.html

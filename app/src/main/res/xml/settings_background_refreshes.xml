@@ -72,14 +72,6 @@
         android:key="other_options"
         android:title="@string/sync_options" >
 
-        <ListPreference
-            android:key="tweetmarker_options"
-            android:title="@string/use_tweetmarker"
-            android:summary="@string/tweetmarker_text"
-            android:defaultValue="0"
-            android:entries="@array/tweetmarker"
-            android:entryValues="@array/tweetmarker_inserted" />
-
         <SwitchPreference
             android:key="refresh_on_start"
             android:title="@string/refresh_on_startup"

@@ -449,18 +449,8 @@ public class AppSettings {
             sharedPrefs.edit().putBoolean("pre_cache_wifi_only", false).apply();
         }
 
-        // set up tweetmarker
-        String val = sharedPrefs.getString("tweetmarker_options", "0");
-        if (val.equals("0")) {
-            tweetmarker = false;
-            tweetmarkerManualOnly = false;
-        } else if (val.equals("1")) {
-            tweetmarker = true;
-            tweetmarkerManualOnly = false;
-        } else {
-            tweetmarkerManualOnly = true;
-            tweetmarker = true;
-        }
+        tweetmarker = false;
+        tweetmarkerManualOnly = false;
 
         // set up the mobilized (plain text) browser
         String mobilize = sharedPrefs.getString("plain_text_browser", "0");

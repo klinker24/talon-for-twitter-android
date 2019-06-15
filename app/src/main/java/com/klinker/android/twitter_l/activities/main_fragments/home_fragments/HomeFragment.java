@@ -44,7 +44,6 @@ import com.klinker.android.twitter_l.activities.drawer_activities.DrawerActivity
 import com.klinker.android.twitter_l.activities.main_fragments.MainFragment;
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.utils.Utils;
-import com.klinker.android.twitter_l.utils.api_helper.TweetMarkerHelper;
 import com.klinker.android.twitter_l.widget.WidgetProvider;
 
 import java.util.ArrayList;
@@ -177,33 +176,10 @@ public class HomeFragment extends MainFragment {
         }
     };
 
-    public BroadcastReceiver tweetmarkerReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // if it is live streaming, then we will not have to refresh the timeline
-            // otherwise, we do have to refresh the timeline.
-            refreshOnStart();
-        }
-    };
-
     public BroadcastReceiver markRead = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, Intent intent) {
             markReadForLoad();
-            if (settings.tweetmarker) {
-                new TimeoutThread(() -> {
-
-                    TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                            sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                            Utils.getTwitter(context, new AppSettings(context)),
-                            sharedPrefs,
-                            getActivity());
-
-                    long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0l);
-                    helper.sendCurrentId("timeline", currentId);
-
-                }).start();
-            }
         }
     };
 
@@ -238,7 +214,6 @@ public class HomeFragment extends MainFragment {
             public void run() {
 
                 if (!trueLive && !initial) {
-                    Log.v("talon_tweetmarker", "true live");
                     markReadForLoad();
                 }
 
@@ -558,77 +533,6 @@ public class HomeFragment extends MainFragment {
         return unreadCount;
     }
 
-    public boolean getTweet() {
-
-        TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                Utils.getTwitter(context, new AppSettings(context)),
-                sharedPrefs,
-                getActivity());
-
-        boolean updated = helper.getLastStatus("timeline", context);
-
-        // update settings just in case it was invalidated
-        settings = AppSettings.getInstance(getActivity());
-
-        Log.v("talon_tweetmarker", "tweetmarker status: " + updated);
-
-        if (updated) {
-            //HomeContentProvider.updateCurrent(currentAccount, context, sharedPrefs.getLong("current_position_" + currentAccount, 0l));
-            trueLive = true;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void fetchTweetMarker() {
-        new AsyncTask<Void, Void, Boolean>() {
-
-            @Override
-            protected void onPreExecute() {
-                if (!isLauncher() && actionBar != null && !actionBar.isShowing()) {
-                    showStatusBar();
-                    actionBar.show();
-                }
-
-                try {
-                    refreshLayout.setRefreshing(true);
-                } catch (Exception e) {
-                    // same thing
-                }
-                MainActivity.canSwitch = false;
-                isRefreshing = true;
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-
-                }
-
-                return getTweet();
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-
-                MainActivity.canSwitch = true;
-
-                if (result) {
-                    resetTimeline(false);
-                } else {
-                    refreshLayout.setRefreshing(false);
-                    isRefreshing = false;
-                }
-
-            }
-        }.execute();
-    }
-
     public String sNewTweet;
     public String sNewTweets;
     public String sNoNewTweets;
@@ -644,7 +548,6 @@ public class HomeFragment extends MainFragment {
     }
 
     public int numberNew;
-    public boolean tweetMarkerUpdate;
 
     public boolean isRefreshing = false;
 
@@ -667,17 +570,10 @@ public class HomeFragment extends MainFragment {
                     onStartRefresh = false;
                 }
 
-                tweetMarkerUpdate = false;
-
-                if (settings.tweetmarker && refreshTweetmarker) {
-                    tweetMarkerUpdate = getTweet();
-                }
 
                 HomeFragment.starting = false;
 
-                refreshTweetmarker = false;
-
-                final boolean result = numberNew > 0 || tweetMarkerUpdate;
+                final boolean result = numberNew > 0;
 
                 context.runOnUiThread(new Runnable() {
                     @Override
@@ -696,21 +592,19 @@ public class HomeFragment extends MainFragment {
 
                                     text = numberNew == 1 ? numberNew + " " + sNewTweet : numberNew + " " + sNewTweets;
 
-                                    if (!tweetMarkerUpdate || (!tweetMarkerUpdate && settings.tweetmarkerManualOnly)) {
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    Looper.prepare();
-                                                } catch (Exception e) {
-                                                    // just in case
-                                                }
-                                                isToastShowing = false;
-                                                overrideSnackbarSetting = true;
-                                                showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Looper.prepare();
+                                            } catch (Exception e) {
+                                                // just in case
                                             }
-                                        }, 500);
-                                    }
+                                            isToastShowing = false;
+                                            overrideSnackbarSetting = true;
+                                            showToastBar(text + "", jumpToTop, 400, true, toTopListener);
+                                        }
+                                    }, 500);
                                 }
                             } else if (rateLimited) {
 
@@ -740,20 +634,19 @@ public class HomeFragment extends MainFragment {
                                 isRefreshing = false;
                             } else {
                                 final CharSequence text = sNoNewTweets;
-                                if (!settings.tweetmarker) {
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                Looper.prepare();
-                                            } catch (Exception e) {
-                                                // just in case
-                                            }
-                                            isToastShowing = false;
-                                            showToastBar(text + "", allRead, 400, true, toTopListener);
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Looper.prepare();
+                                        } catch (Exception e) {
+                                            // just in case
                                         }
-                                    }, 500);
-                                }
+                                        isToastShowing = false;
+                                        showToastBar(text + "", allRead, 400, true, toTopListener);
+                                    }
+                                }, 500);
 
                                 refreshLayout.setRefreshing(false);
                                 isRefreshing = false;
@@ -896,7 +789,6 @@ public class HomeFragment extends MainFragment {
         context.unregisterReceiver(pullReceiver);
         context.unregisterReceiver(markRead);
         context.unregisterReceiver(homeClosed);
-        context.unregisterReceiver(tweetmarkerReceiver);
 
         super.onPause();
     }
@@ -905,23 +797,6 @@ public class HomeFragment extends MainFragment {
     public void onStop() {
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
-
-        if (settings.tweetmarker && !isLauncher()) {
-            new TimeoutThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    TweetMarkerHelper helper = new TweetMarkerHelper(currentAccount,
-                            sharedPrefs.getString("twitter_screen_name_" + currentAccount, ""),
-                            Utils.getTwitter(context, new AppSettings(context)), sharedPrefs,
-                            getActivity());
-
-                    long currentId = sharedPrefs.getLong("current_position_" + currentAccount, 0);
-                    helper.sendCurrentId("timeline", currentId);
-
-                }
-            }).start();
-        }
 
         WidgetProvider.updateWidget(getActivity());
         //context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
@@ -945,10 +820,6 @@ public class HomeFragment extends MainFragment {
         filter.addAction("com.klinker.android.twitter.MARK_POSITION");
         context.registerReceiver(markRead, filter);
 
-        filter = new IntentFilter();
-        filter.addAction("com.klinker.android.twitter.TWEETMARKER");
-        context.registerReceiver(tweetmarkerReceiver, filter);
-
         if (isLauncher()) {
             return;
         }
@@ -961,7 +832,6 @@ public class HomeFragment extends MainFragment {
         }
     }
 
-    public boolean refreshTweetmarker = false;
     public boolean onStartRefresh = false;
     public static Handler refreshHandler;
 
@@ -993,8 +863,7 @@ public class HomeFragment extends MainFragment {
                     if ((settings.refreshOnStart) &&
                             (listView.getFirstVisiblePosition() == 0) &&
                             !MainActivity.isPopup &&
-                            sharedPrefs.getBoolean("should_refresh", true) &&
-                            (!settings.tweetmarker || settings.tweetmarkerManualOnly)) {
+                            sharedPrefs.getBoolean("should_refresh", true)) {
                         if (actionBar != null && !actionBar.isShowing() && !isLauncher()) {
                             showStatusBar();
                             actionBar.show();
@@ -1011,25 +880,6 @@ public class HomeFragment extends MainFragment {
             }, 600);
         }
 
-
-        if (settings.tweetmarker && !settings.tweetmarkerManualOnly) {
-            HomeFragment.refreshHandler.removeCallbacksAndMessages(null);
-            HomeFragment.refreshHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (actionBar != null && !actionBar.isShowing() && !isLauncher()) {
-                        showStatusBar();
-                        actionBar.show();
-                    }
-
-                    if (!sharedPrefs.getBoolean("from_activity", false)) {
-                        refreshOnStart();
-                    } else {
-                        sharedPrefs.edit().putBoolean("from_activity", false).apply();
-                    }
-                }
-            }, 600);
-        }
 
         context.sendBroadcast(new Intent("com.klinker.android.twitter.CLEAR_PULL_UNREAD"));
     }
@@ -1048,7 +898,6 @@ public class HomeFragment extends MainFragment {
         }
 
         refreshLayout.setRefreshing(true);
-        refreshTweetmarker = true;
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.klinker.android.twitter.TIMELINE_REFRESHED");
