@@ -2,6 +2,7 @@
 
     <version name="7.6.3">
         <text>Tweetmarker is unfortunately being shut down. It has been removed from Talon. For more information: https://www.manton.org/2019/05/15/saying-goodbye-to.html</text>
+        <text>Fix the overflow menu coloring, on dark or black themes</text>
     </version>
 
     <version name="7.6.2">
