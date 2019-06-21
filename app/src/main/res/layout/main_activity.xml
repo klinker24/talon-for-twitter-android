@@ -53,6 +53,7 @@
                     android:id="@+id/toolbar"
                     android:elevation="5dp"
                     android:gravity="center_vertical"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat"
                     style="@style/MyToolbar"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

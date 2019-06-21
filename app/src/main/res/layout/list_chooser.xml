@@ -17,9 +17,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?windowBackground" >
+    android:background="?windowBackground">
 
     <View android:id="@+id/activity_status_bar"
         android:layout_width="match_parent"
@@ -33,6 +35,7 @@
         android:id="@+id/toolbar"
         android:elevation="5dp"
         android:gravity="center_vertical"
+        app:popupTheme="@style/ThemeOverlay.AppCompat"
         style="@style/MyToolbar"/>
 
     <LinearLayout android:id="@+id/list_progress"

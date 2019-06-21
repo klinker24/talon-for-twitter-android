@@ -36,6 +36,7 @@
                 android:elevation="5dp"
                 android:background="@color/darker_primary"
                 android:id="@+id/toolbar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat"
                 style="@style/MyToolbar"/>
 
             <LinearLayout android:id="@+id/list_progress"

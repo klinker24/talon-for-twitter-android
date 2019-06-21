@@ -16,8 +16,8 @@
   limitations under the License.
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -84,6 +84,7 @@
         android:elevation="5dp"
         android:gravity="center_vertical"
         android:visibility="gone"
+        app:popupTheme="@style/ThemeOverlay.AppCompat"
         style="@style/MyToolbar"/>
 
 </RelativeLayout>
