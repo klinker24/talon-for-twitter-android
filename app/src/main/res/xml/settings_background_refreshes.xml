@@ -75,7 +75,6 @@
         <SwitchPreference
             android:key="refresh_on_start"
             android:title="@string/refresh_on_startup"
-            android:summary="@string/tweetmarker_always_refreshes"
             android:defaultValue="false" />
 
     </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
