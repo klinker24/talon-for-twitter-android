@@ -59,25 +59,28 @@ object LvlCheck {
                             // Warn the user that they are about to be logged out.
 
                             AnalyticsHelper.appNotPurchasedLastWarning(context)
-                            AlertDialog.Builder(context)
-                                    .setCancelable(false)
-                                    .setMessage("Google Play is still reporting that you have not purchased the app. " +
-                                            "You will now be logged out.")
-                                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                                        sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
-                                        context.logoutFromTwitter()
-                                    }.show()
+                            sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
+                            checker.followLastLicensingUrl(context)
+                            context.finish()
+//                            AlertDialog.Builder(context)
+//                                    .setCancelable(false)
+//                                    .setMessage("Google Play is still reporting that you have not purchased the app. " +
+//                                            "You will now be logged out.")
+//                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+//                                        sharedPrefs.edit().putLong("last_licence_check", oneDayAgo).commit()
+//                                        context.logoutFromTwitter()
+//                                    }.show()
                         }
                         daysFailed >= 2 -> {
                             // Warn the user that they have failed the license check for two days in a row.
                             // They will be logged out tomorrow if they don't purchase the app
 
                             AnalyticsHelper.appNotPurchasedFirstWarning(context)
-                            AlertDialog.Builder(context)
-                                    .setMessage("Google Play is reporting that you have not purchased the app. " +
-                                            "You will be logged out, tomorrow, unless you make a purchase.")
-                                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                                    .show()
+//                            AlertDialog.Builder(context)
+//                                    .setMessage("Google Play is reporting that you have not purchased the app. " +
+//                                            "You will be logged out, tomorrow, unless you make a purchase.")
+//                                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+//                                    .show()
                         }
                     }
 
