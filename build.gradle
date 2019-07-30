@@ -31,11 +31,11 @@ buildscript {
     ]
 
     ext.versions = [
-            'gradlePlugin'      : '3.5.0-beta04',
+            'gradlePlugin'      : '3.5.0-rc01',
             'targetSdk'         : 29,
             'minSdk'            : 19,
 
-            'kotlin'            : '1.3.31',
+            'kotlin'            : '1.3.41',
 
             'androidX'          : '1.0.0',
             'playServices'      : '16.0.0',
@@ -51,8 +51,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradlePlugin}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        classpath 'com.google.gms:google-services:4.2.0'
-        classpath 'io.fabric.tools:gradle:1.26.1'
+        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'io.fabric.tools:gradle:1.30.0'
     }
 
 }

@@ -76,7 +76,7 @@ public class FavoriterUtils {
             JSONObject json = getJson(tweetId);
             Document doc = Jsoup.parse(json.getString("htmlUsers"));
 
-            if(doc != null) {
+            if (doc != null) {
                 Elements elements = doc.getElementsByTag("img");
 
                 for (Element e : elements) {
