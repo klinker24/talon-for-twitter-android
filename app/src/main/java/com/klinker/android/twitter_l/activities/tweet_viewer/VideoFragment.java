@@ -16,8 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.halilibo.bettervideoplayer.BetterVideoCallback;
-import com.halilibo.bettervideoplayer.BetterVideoPlayer;
+import com.halilibo.bvpkotlin.BetterVideoPlayer;
+import com.halilibo.bvpkotlin.VideoCallback;
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.media_viewer.image.DragController;
 import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListener;
@@ -26,7 +26,7 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 
 
-public class VideoFragment extends Fragment implements BetterVideoCallback {
+public class VideoFragment extends Fragment implements VideoCallback {
 
     public static VideoFragment getInstance(String url) {
         Bundle args = new Bundle();

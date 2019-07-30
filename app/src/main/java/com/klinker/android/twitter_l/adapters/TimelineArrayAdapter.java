@@ -22,7 +22,7 @@ import android.widget.*;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.halilibo.bettervideoplayer.BetterVideoPlayer;
+import com.halilibo.bvpkotlin.BetterVideoPlayer;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.peekview.PeekViewActivity;

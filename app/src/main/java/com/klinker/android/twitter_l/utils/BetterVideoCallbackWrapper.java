@@ -1,13 +1,9 @@
 package com.klinker.android.twitter_l.utils;
 
-import android.net.Uri;
+import com.halilibo.bvpkotlin.BetterVideoPlayer;
+import com.halilibo.bvpkotlin.VideoCallback;
 
-import com.afollestad.easyvideoplayer.EasyVideoCallback;
-import com.afollestad.easyvideoplayer.EasyVideoPlayer;
-import com.halilibo.bettervideoplayer.BetterVideoCallback;
-import com.halilibo.bettervideoplayer.BetterVideoPlayer;
-
-public class BetterVideoCallbackWrapper implements BetterVideoCallback {
+public class BetterVideoCallbackWrapper implements VideoCallback {
 
     @Override
     public void onStarted(BetterVideoPlayer betterVideoPlayer) {
