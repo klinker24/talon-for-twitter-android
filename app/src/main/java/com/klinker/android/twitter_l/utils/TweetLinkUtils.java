@@ -443,23 +443,11 @@ public class TweetLinkUtils {
                 if (variants.length > 0) {
                     String url = "";
 
-                    for (MediaEntity.Variant variant : variants) {
-                        if (variant.getContentType().contains("mp4")) {
-                            url = variant.getUrl();
-                            break;
-                        }
-                    }
-
-                    if (url.isEmpty()) {
-                        for (MediaEntity.Variant variant : variants) {
-                            if (variant.getContentType().contains("m3u8")) {
-                                url = variant.getUrl();
-                                break;
-                            }
-                        }
-                        for (int i = variants.length - 1; i >= 0; i--) {
-                            MediaEntity.Variant v = variants[i];
-
+                    int largestBitrate = 0;
+                    for (MediaEntity.Variant v : variants) {
+                        if ((v.getUrl().contains(".mp4") || v.getUrl().contains(".m3u8")) && v.getBitrate() > largestBitrate) {
+                            url = v.getUrl();
+                            largestBitrate = v.getBitrate();
                         }
                     }
 
