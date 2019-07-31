@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <com.halilibo.bettervideoplayer.BetterVideoPlayer
+    <com.halilibo.bvpkotlin.BetterVideoPlayer
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/video"
         app:bvp_autoPlay="true"
