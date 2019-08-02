@@ -26,12 +26,12 @@ buildscript {
 
     ext.buildInfo = [
             'id'                : 'com.klinker.android.twitter_l',
-            'name'              : '7.6.3',
+            'name'              : '7.6.4',
             'number'            : System.getenv("BUILD_NUMBER") as Integer ?: 1458,
     ]
 
     ext.versions = [
-            'gradlePlugin'      : '3.5.0-rc01',
+            'gradlePlugin'      : '3.5.0-rc02',
             'targetSdk'         : 29,
             'minSdk'            : 19,
 

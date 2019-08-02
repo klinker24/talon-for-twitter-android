@@ -33,8 +33,6 @@ import java.util.Date;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class Utils {
@@ -54,21 +52,6 @@ public class Utils {
                 .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
         cb.setTweetModeExtended(true);
         TwitterFactory tf = new TwitterFactory(cb.build());
-        return tf.getInstance();
-    }
-
-    public static TwitterStream getStreamingTwitter(Context context, AppSettings settings) {
-        settings = AppSettings.getInstance(context);
-        APIKeys keys = new APIKeys(context);
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(keys.consumerKey)
-                .setOAuthConsumerSecret(keys.consumerSecret)
-                .setOAuthAccessToken(settings.authenticationToken)
-                .setOAuthAccessTokenSecret(settings.authenticationTokenSecret);
-        cb.setTweetModeExtended(true);
-        TwitterStreamFactory tf = new TwitterStreamFactory(cb.build());
         return tf.getInstance();
     }
 
@@ -97,7 +80,6 @@ public class Utils {
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
-
 
     public static String getTimeAgo(long time, Context context, boolean allowLongFormat) {
         if (allowLongFormat && AppSettings.getInstance(context).revampedTweets()) {

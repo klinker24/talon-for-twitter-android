@@ -101,7 +101,7 @@ dependencies {
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')
-    implementation files('lib/twitter4j-stream-fork.jar')
+    implementation files('lib/twitter4j-http2-fork.jar')
     implementation(name: 'ChipCloud-3.0.3', ext: 'aar')
     implementation(name: 'datetimepicker', ext: 'aar')
     implementation(name: 'sectioned-recyclerview', ext: 'aar')
