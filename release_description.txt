@@ -1,1 +1,1 @@
-Tweetmarker is unfortunately being shut down and must be removed from Talon. For more information: https://www.manton.org/2019/05/15/saying-goodbye-to.html
+The latest release just contains bug fixes and some performance improvements. More exciting things to come!
