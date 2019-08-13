@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.6.5">
+        <text>Improvements for Android Q</text>
+    </version>
+
     <version name="7.6.4">
         <text>Improvement to video playback quality</text>
         <text>Fixes for Android 4.4</text>
