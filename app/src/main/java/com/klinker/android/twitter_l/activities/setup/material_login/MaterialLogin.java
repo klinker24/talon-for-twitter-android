@@ -80,22 +80,14 @@ public class MaterialLogin extends AppIntro2 {
             public void onPageSelected(int position) {
                 if (position == getRtlPage(1)) {
                     // hacky to disable paging
-                    pager.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return true;
-                        }
-                    });
+                    pager.setOnTouchListener((v, event) -> true);
 
                     nextButton.setVisibility(View.INVISIBLE);
                     AnalyticsHelper.loginToTwitter(MaterialLogin.this);
 
-                    loginFragment.start(new Callback() {
-                        @Override
-                        public void onDone() {
-                            nextButton.performClick();
-                            AnalyticsHelper.finishLoginToTwitter(MaterialLogin.this);
-                        }
+                    loginFragment.start(MaterialLogin.this, () -> {
+                        nextButton.performClick();
+                        AnalyticsHelper.finishLoginToTwitter(MaterialLogin.this);
                     });
                 } else if (position == getRtlPage(2)) {
                     nextButton.setVisibility(View.INVISIBLE);

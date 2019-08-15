@@ -1,6 +1,7 @@
 package com.klinker.android.twitter_l.activities.setup.material_login;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -55,12 +56,12 @@ public class LoginFragment extends Fragment {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
 
-        buildTwitter();
+        buildTwitter(activity);
     }
 
-    private void buildTwitter() {
+    private void buildTwitter(Context context) {
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        APIKeys keys = new APIKeys(activity);
+        APIKeys keys = new APIKeys(context);
         builder.setOAuthConsumerKey(keys.consumerKey);
         builder.setOAuthConsumerSecret(keys.consumerSecret);
         Configuration configuration = builder.build();
@@ -102,9 +103,9 @@ public class LoginFragment extends Fragment {
     }
 
     private MaterialLogin.Callback finishedCallback = null;
-    public void start(final MaterialLogin.Callback callback) {
+    public void start(final Context context, final MaterialLogin.Callback callback) {
         finishedCallback = callback;
-        new RetrieveFeedTask().execute();
+        new RetrieveFeedTask(context).execute();
     }
 
     public void handleRequest(String url) {
@@ -115,8 +116,13 @@ public class LoginFragment extends Fragment {
 
     private class RetrieveFeedTask extends AsyncTask<String, Void, RequestToken> {
 
+        Context context;
         ProgressDialog pDialog;
         boolean errorGettingToken = false;
+
+        RetrieveFeedTask(Context context) {
+            this.context = context;
+        }
 
         @Override
         public void onPreExecute() {
@@ -157,7 +163,7 @@ public class LoginFragment extends Fragment {
         private RequestToken loginToTwitter(String callbackUrl) {
             try {
                 if (twitter == null) {
-                    buildTwitter();
+                    buildTwitter(context);
                 }
 
                 return twitter.getOAuthRequestToken(callbackUrl);
