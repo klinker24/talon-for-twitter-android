@@ -29,7 +29,7 @@ public class Regex {
                     "builders|buzz|bzh|cab|camera|camp|cancerresearch|capetown|capital|cards|care|career|careers|cash|cat|catering|" +
                     "center|ceo|cheap|christmas|church|citic|city|claims|cleaning|click|clinic|clothing|club|codes|coffee|college|cologne|com|" +
                     "community|company|computer|condos|construction|consulting|contractors|cooking|cool|coop|country|credit|" +
-                    "creditcard|cruises|cuisinella|dance|dating|degree|democrat|dental|dentist|desi|design|diamonds|digital|direct|" +
+                    "creditcard|cruises|cuisinella|dance|dating|degree|democrat|dental|dentist|desi|design|dev|diamonds|digital|direct|" +
                     "directory|discount|dnp|domains|durban|edu|education|email|engineer|engineering|enterprises|equipment|estate|" +
                     "eus|events|exchange|expert|exposed|fail|farm|feedback|finance|financial|fish|fishing|fitness|flights|florist|" +
                     "foo|foundation|frogans|fund|furniture|futbol|gal|gallery|games|gift|gives|glass|gle|global|globo|gmo|gop|google|gov|graphics|" +
