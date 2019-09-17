@@ -317,6 +317,138 @@ public class TweetButtonUtils {
         updateTweetCounts(status);
     }
 
+    public void setUpSimpleButtons(final long tweetId, final String screenName, final String text, View buttonsRoot) {
+        final ImageButton likeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_like_button);
+        final ImageButton retweetButton = (ImageButton) buttonsRoot.findViewById(R.id.always_retweet_button);
+        final ImageButton composeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_compose_button);
+        final ImageButton quoteButton = (ImageButton) buttonsRoot.findViewById(R.id.always_quote_button);
+        final ImageButton shareButton = (ImageButton) buttonsRoot.findViewById(R.id.always_share_button);
+
+        if (!settings.darkTheme) {
+            likeButton.setColorFilter(Color.BLACK);
+            retweetButton.setColorFilter(Color.BLACK);
+            shareButton.setColorFilter(Color.BLACK);
+            composeButton.setColorFilter(Color.BLACK);
+            quoteButton.setColorFilter(Color.BLACK);
+        }
+
+        likeButton.setOnClickListener(view -> {
+            new Thread(() -> {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
+
+                    this.status = status;
+
+                    buttonsRoot.post(() -> {
+                        favoriteStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                    });
+                } catch (Exception e) {
+
+                }
+            }).start();
+        });
+
+        retweetButton.setOnClickListener(view -> {
+            new Thread(() -> {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
+
+                    this.status = status;
+
+                    buttonsRoot.post(() -> {
+                        retweetStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
+                    });
+                } catch (Exception e) {
+
+                }
+            }).start();
+        });
+
+        quoteButton.setOnClickListener(v -> {
+            new Thread(() -> {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
+
+                    this.status = status;
+                    this.replyText = generateReplyText();
+
+                    buttonsRoot.post(() -> {
+                        String text1 = restoreLinks(status.getText());
+
+                        switch (AppSettings.getInstance(context).quoteStyle) {
+                            case AppSettings.QUOTE_STYLE_TWITTER:
+                                text1 = " " + "https://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId();
+                                break;
+                            case AppSettings.QUOTE_STYLE_TALON:
+                                text1 = restoreLinks(text1);
+                                text1 = "\"@" + status.getUser().getScreenName() + ": " + text1 + "\" ";
+                                break;
+                            case AppSettings.QUOTE_STYLE_RT:
+                                text1 = restoreLinks(text1);
+                                text1 = " RT @" + status.getUser().getScreenName() + ": " + text1;
+                                break;
+                            case AppSettings.QUOTE_STYLE_VIA:
+                                text1 = restoreLinks(text1);
+                                text1 = text1 + " via @" + status.getUser().getScreenName();
+                        }
+
+                        Intent quote;
+                        if (!secondAcc) {
+                            quote = new Intent(context, ComposeActivity.class);
+                        } else {
+                            quote = new Intent(context, ComposeSecAccActivity.class);
+                        }
+                        quote.putExtra("user", text1);
+                        quote.putExtra("id", status.getId());
+                        quote.putExtra("reply_to_text", "@" + status.getUser().getScreenName() + ": " + status.getText());
+
+                        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                                v.getMeasuredWidth(), v.getMeasuredHeight());
+                        quote.putExtra("already_animated", true);
+
+                        context.startActivity(quote, opts.toBundle());
+                    });
+                } catch (Exception e) {
+
+                }
+            }).start();
+        });
+
+        composeButton.setOnClickListener(v -> {
+            Intent compose;
+            if (!secondAcc) {
+                compose = new Intent(context, ComposeActivity.class);
+            } else {
+                compose = new Intent(context, ComposeSecAccActivity.class);
+            }
+            compose.putExtra("user", replyText);
+            compose.putExtra("id", tweetId);
+            compose.putExtra("reply_to_text", "@" + screenName + ": " + text);
+
+            ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                    v.getMeasuredWidth(), v.getMeasuredHeight());
+            compose.putExtra("already_animated", true);
+
+            context.startActivity(compose, opts.toBundle());
+        });
+
+        shareButton.setOnClickListener(view -> {
+            String text12 = "https://twitter.com/" + screenName + "/status/" + tweetId + "\n\n@" + screenName + ": " + text;
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_SUBJECT, "Tweet from @" + screenName);
+            share.putExtra(Intent.EXTRA_TEXT, text12);
+
+            context.startActivity(Intent.createChooser(share, "Share with:"));
+        });
+    }
+
 
     private final int TYPE_ACC_ONE = 1;
     private final int TYPE_ACC_TWO = 2;
@@ -365,135 +497,111 @@ public class TweetButtonUtils {
         tweetVia.setText(Html.fromHtml(via));
     }
 
-
-
     public void favoriteStatus(final int type) {
         final long id = status.getId();
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Twitter twitter = null;
-                    Twitter secTwitter = null;
-                    if (type == TYPE_ACC_ONE) {
-                        twitter = Utils.getTwitter(context, settings);
-                    } else if (type == TYPE_ACC_TWO) {
-                        secTwitter = Utils.getSecondTwitter(context);
-                    } else {
-                        twitter = Utils.getTwitter(context, settings);
-                        secTwitter = Utils.getSecondTwitter(context);
-                    }
-
-                    if (status.isFavorited() && twitter != null) {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, R.string.removing_favorite, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        twitter.destroyFavorite(id);
-                        try {
-                            FavoriteTweetsDataSource.getInstance(context).deleteTweet(id);
-                            context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_FAVORITES"));
-                        } catch (Exception e) { }
-                    } else if (twitter != null) {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, R.string.favoriting_status, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        try {
-                            twitter.createFavorite(id);
-                        } catch (TwitterException e) {
-                            // already been favorited by this account
-                        }
-                    }
-
-                    if (secTwitter != null) {
-                        try {
-                            secTwitter.createFavorite(id);
-                        } catch (Exception e) {
-
-                        }
-                    }
-
-                    final Status status = twitter.showStatus(TweetButtonUtils.this.status.getId());
-
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateTweetCounts(status);
-                        }
-                    });
-                } catch (Exception e) {
-
+        new TimeoutThread(() -> {
+            try {
+                Twitter twitter = null;
+                Twitter secTwitter = null;
+                if (type == TYPE_ACC_ONE) {
+                    twitter = Utils.getTwitter(context, settings);
+                } else if (type == TYPE_ACC_TWO) {
+                    secTwitter = Utils.getSecondTwitter(context);
+                } else {
+                    twitter = Utils.getTwitter(context, settings);
+                    secTwitter = Utils.getSecondTwitter(context);
                 }
+
+                if (status.isFavorited() && twitter != null) {
+                    ((Activity) context).runOnUiThread(() -> Toast.makeText(context, R.string.removing_favorite, Toast.LENGTH_SHORT).show());
+                    twitter.destroyFavorite(id);
+                    try {
+                        FavoriteTweetsDataSource.getInstance(context).deleteTweet(id);
+                        context.sendBroadcast(new Intent("com.klinker.android.twitter.RESET_FAVORITES"));
+                    } catch (Exception e) { }
+                } else if (twitter != null) {
+                    ((Activity) context).runOnUiThread(() -> Toast.makeText(context, R.string.favoriting_status, Toast.LENGTH_SHORT).show());
+                    try {
+                        twitter.createFavorite(id);
+                    } catch (TwitterException e) {
+                        // already been favorited by this account
+                    }
+                }
+
+                if (secTwitter != null) {
+                    try {
+                        secTwitter.createFavorite(id);
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                final Status status = twitter.showStatus(TweetButtonUtils.this.status.getId());
+
+                ((Activity)context).runOnUiThread(() -> {
+                    try {
+                        updateTweetCounts(status);
+                    } catch (Throwable t) {
+                        // won't work with the simple tweet buttons (no count shown)
+                    }
+                });
+            } catch (Exception e) {
+
             }
         }).start();
     }
 
     public void retweetStatus(final int type) {
         final long id = status.getId();
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // if they have a protected account, we want to still be able to retweet their retweets
-                    long idToRetweet = id;
-                    if (status != null && status.isRetweet()) {
-                        idToRetweet = status.getRetweetedStatus().getId();
-                    }
-
-                    Twitter twitter = null;
-                    Twitter secTwitter = null;
-                    if (type == TYPE_ACC_ONE) {
-                        twitter = Utils.getTwitter(context, settings);
-                    } else if (type == TYPE_ACC_TWO) {
-                        secTwitter = Utils.getSecondTwitter(context);
-                    } else {
-                        twitter = Utils.getTwitter(context, settings);
-                        secTwitter = Utils.getSecondTwitter(context);
-                    }
-
-                    if (status.isRetweetedByMe() && twitter != null) {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, R.string.removing_retweet, Toast.LENGTH_SHORT).show();
-                                new RemoveRetweet().execute();
-                            }
-                        });
-                    } else if (twitter != null) {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(context, R.string.retweeting_status, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        try {
-                            twitter.retweetStatus(idToRetweet);
-                        } catch (TwitterException e) {
-
-                        }
-                    }
-
-                    if (secTwitter != null) {
-                        secTwitter.retweetStatus(idToRetweet);
-                    }
-
-                    final twitter4j.Status status = twitter.showStatus(TweetButtonUtils.this.status.getId());
-
-                    ((Activity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateTweetCounts(status);
-                        }
-                    });
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+        new TimeoutThread(() -> {
+            try {
+                // if they have a protected account, we want to still be able to retweet their retweets
+                long idToRetweet = id;
+                if (status != null && status.isRetweet()) {
+                    idToRetweet = status.getRetweetedStatus().getId();
                 }
+
+                Twitter twitter = null;
+                Twitter secTwitter = null;
+                if (type == TYPE_ACC_ONE) {
+                    twitter = Utils.getTwitter(context, settings);
+                } else if (type == TYPE_ACC_TWO) {
+                    secTwitter = Utils.getSecondTwitter(context);
+                } else {
+                    twitter = Utils.getTwitter(context, settings);
+                    secTwitter = Utils.getSecondTwitter(context);
+                }
+
+                if (status.isRetweetedByMe() && twitter != null) {
+                    ((Activity) context).runOnUiThread(() -> {
+                        Toast.makeText(context, R.string.removing_retweet, Toast.LENGTH_SHORT).show();
+                        new RemoveRetweet().execute();
+                    });
+                } else if (twitter != null) {
+                    ((Activity) context).runOnUiThread(() -> Toast.makeText(context, R.string.retweeting_status, Toast.LENGTH_SHORT).show());
+                    try {
+                        twitter.retweetStatus(idToRetweet);
+                    } catch (TwitterException e) {
+
+                    }
+                }
+
+                if (secTwitter != null) {
+                    secTwitter.retweetStatus(idToRetweet);
+                }
+
+                final Status status = twitter.showStatus(TweetButtonUtils.this.status.getId());
+
+                ((Activity) context).runOnUiThread(() -> {
+                    try {
+                        updateTweetCounts(status);
+                    } catch (Throwable t) {
+                        // won't work with the simple tweet buttons (no count shown)
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }

@@ -96,6 +96,12 @@
         android:title="@string/advanced" >
 
         <SwitchPreference
+            android:key="always_show_tweet_buttons"
+            android:title="@string/alway_show_tweet_buttons"
+            android:summary="@string/alway_show_tweet_buttons_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="detailed_quotes"
             android:title="@string/detailed_quotes"
             android:summary="@string/detailed_quotes_summary"

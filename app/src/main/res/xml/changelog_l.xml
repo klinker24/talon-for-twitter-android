@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.7.0">
+        <text>With App Style settings, there is now a preference to force the app to always show the tweet actions (like, retweet, ect), below the tweets on your timeline</text>
+    </version>
+
     <version name="7.6.5">
         <text>Improvements for Android Q</text>
     </version>

@@ -19,9 +19,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    android:background="?revamped_tweet_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?revamped_tweet_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -52,10 +52,10 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
         android:background="?android:attr/selectableItemBackground"
-        android:paddingBottom="12dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:paddingTop="12dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="12dp"
         android:singleLine="true"
         android:textColor="?textColor"
         android:visibility="gone" />
@@ -72,17 +72,17 @@
             android:id="@+id/conversation_area"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
             android:orientation="vertical" />
 
         <LinearLayout
             android:id="@+id/tweet_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="6dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
@@ -92,12 +92,12 @@
                 android:id="@+id/profile_pic"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:layout_marginEnd="12dp"
                 android:layout_marginStart="2dp"
-                android:maxHeight="52dp"
+                android:layout_marginEnd="12dp"
                 android:maxWidth="52dp"
-                android:minHeight="52dp"
+                android:maxHeight="52dp"
                 android:minWidth="52dp"
+                android:minHeight="52dp"
                 app:civ_border_color="?revamped_tweet_background"
                 app:civ_border_width="5dp" />
 
@@ -133,9 +133,9 @@
                 android:layout_height="match_parent"
                 android:gravity="end|bottom"
                 android:orientation="vertical"
-                android:paddingBottom="6dp"
                 android:paddingLeft="6dp"
-                android:paddingRight="6dp">
+                android:paddingRight="6dp"
+                android:paddingBottom="6dp">
 
                 <ImageView
                     android:id="@+id/retweet_icon"
@@ -160,8 +160,8 @@
             android:id="@+id/reply_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="52dp"
+            android:layout_marginEnd="16dp"
             android:gravity="end"
             android:textColor="?dateColor"
             android:visibility="gone" />
@@ -170,10 +170,10 @@
             android:id="@+id/content_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="46dp"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:background="?android:selectableItemBackground"
             app:cardBackgroundColor="?embeddedTweetBackground"
             app:cardCornerRadius="2dp"
@@ -228,6 +228,17 @@
                 </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/always_shown_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:orientation="vertical"
+                    android:visibility="gone" />
+
+                <LinearLayout
                     android:id="@+id/expansion"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -250,9 +261,9 @@
             android:id="@+id/embedded_tweet_card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/quoted_tweet_height"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="46dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:visibility="gone"
             app:cardBackgroundColor="?embeddedTweetBackground"
             app:cardCornerRadius="2dp"
@@ -262,9 +273,9 @@
             android:id="@+id/web_preview_card"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="46dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:visibility="gone"
             app:cardBackgroundColor="?embeddedTweetBackground"
             app:cardCornerRadius="2dp"

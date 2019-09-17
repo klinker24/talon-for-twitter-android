@@ -388,6 +388,8 @@
     <string name="rate_it">Rate Talon</string>
     <string name="talon_settings">Talon Settings</string>
     <string name="feature_requests">Feature Requests</string>
+    <string name="alway_show_tweet_buttons">Always Show Tweet Actions</string>
+    <string name="alway_show_tweet_buttons_summary">Display the \"like\", \"retweet\", \"reply\", \"quote\", and \"share\" buttons below every tweet, on the timeline.</string>
     <!-- Emoji Keyboard -->
     <string name="recent">Recents</string>
     <string name="people">People</string>

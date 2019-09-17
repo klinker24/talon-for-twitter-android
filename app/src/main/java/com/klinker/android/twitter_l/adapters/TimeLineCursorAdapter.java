@@ -154,6 +154,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public SimpleVideoView videoView;
         public LinearLayout conversationArea;
         public WebPreviewCard webPreviewCard;
+        public LinearLayout alwaysShownButtons;
 
         // revamped tweet
         public View revampedTopLine;
@@ -381,6 +382,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         holder.videoView = (SimpleVideoView) v.findViewById(R.id.video_view);
         holder.conversationArea = (LinearLayout) v.findViewById(R.id.conversation_area);
         holder.webPreviewCard = (WebPreviewCard) v.findViewById(R.id.web_preview_card);
+        holder.alwaysShownButtons = (LinearLayout) v.findViewById(R.id.always_shown_buttons);
 
         // revamped tweet
         holder.revampedTopLine = v.findViewById(R.id.line_above_profile_picture);
@@ -399,6 +401,11 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             holder.image.setClipToOutline(true);
+        }
+
+        if (settings.alwaysShowButtons && holder.alwaysShownButtons.getChildCount() == 0) {
+            holder.alwaysShownButtons.addView(LayoutInflater.from(holder.background.getContext()).inflate(R.layout.always_shown_tweet_buttons, null, false));
+            holder.alwaysShownButtons.setVisibility(View.VISIBLE);
         }
 
         // some things we just don't need to configure every time
@@ -694,6 +701,11 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 holder.background.setVisibility(View.VISIBLE);
                 holder.muffledName.setVisibility(View.GONE);
             }
+        }
+
+        if (settings.alwaysShowButtons) {
+            TweetButtonUtils utils = new TweetButtonUtils(holder.background.getContext());
+            utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons);
         }
 
         if (holder.quickActions != null) {
@@ -1320,7 +1332,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         }).start();
 
-        final int expansionSize = Utils.toDP(64, context);
+        final int expansionSize = Utils.toDP(settings.alwaysShowButtons ? 48 : 64, context);
         ValueAnimator heightAnimatorContent = ValueAnimator.ofInt(0, expansionSize);
         heightAnimatorContent.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -1347,7 +1359,10 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 holder.expandArea.invalidate();
 
                 holder.expandArea.addView(counts);
-                holder.expandArea.addView(buttons);
+
+                if (!settings.alwaysShowButtons) {
+                    holder.expandArea.addView(buttons);
+                }
             }
         });
 

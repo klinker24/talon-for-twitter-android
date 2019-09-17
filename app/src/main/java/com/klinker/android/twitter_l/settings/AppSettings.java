@@ -209,6 +209,7 @@ public class AppSettings {
     public boolean webPreviews;
     public boolean widgetDisplayScreenname;
     public boolean onlyAutoPlayGifs;
+    public boolean alwaysShowButtons;
 
     // notifications
     public boolean timelineNot;
@@ -416,6 +417,7 @@ public class AppSettings {
         webPreviews = sharedPrefs.getBoolean("web_previews_timeline", true);
         widgetDisplayScreenname = sharedPrefs.getBoolean("widget_display_screenname", true);
         onlyAutoPlayGifs = sharedPrefs.getBoolean("autoplay_gifs", false);
+        alwaysShowButtons = sharedPrefs.getBoolean("always_show_tweet_buttons", false);
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
             this.emojiStyle = EmojiStyle.DEFAULT;

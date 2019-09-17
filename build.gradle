@@ -26,16 +26,16 @@ buildscript {
 
     ext.buildInfo = [
             'id'                : 'com.klinker.android.twitter_l',
-            'name'              : '7.6.5',
+            'name'              : '7.7.0',
             'number'            : System.getenv("BUILD_NUMBER") as Integer ?: 1458,
     ]
 
     ext.versions = [
-            'gradlePlugin'      : '3.5.0-rc03',
+            'gradlePlugin'      : '3.5.0',
             'targetSdk'         : 29,
             'minSdk'            : 19,
 
-            'kotlin'            : '1.3.41',
+            'kotlin'            : '1.3.50',
 
             'androidX'          : '1.0.0',
             'playServices'      : '16.0.0',
@@ -51,7 +51,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradlePlugin}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'com.google.gms:google-services:4.3.2'
         classpath 'io.fabric.tools:gradle:1.30.0'
     }
 
