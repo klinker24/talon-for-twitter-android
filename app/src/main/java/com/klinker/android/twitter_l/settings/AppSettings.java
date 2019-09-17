@@ -75,8 +75,8 @@ public class AppSettings {
     public static final int THEME_DARK_BACKGROUND_COLOR = 20;
     public static final int THEME_WHITE = 21;
 
-    public static final int DEFAULT_THEME = THEME_LIGHT_BLUE;
-    public static final int DEFAULT_MAIN_THEME = 1; // 0 = light, 1 = dark, 2 = black
+    public static final int DEFAULT_THEME = THEME_DARK_BACKGROUND_COLOR;
+    public static final int DEFAULT_MAIN_THEME = AndroidVersionUtils.isAndroidQ() ? 4 : 1; // 0 = light, 1 = dark, 2 = black (Android Q is a bit different)
 
     public static final int WIDGET_LIGHT = 0;
     public static final int WIDGET_DARK = 1;

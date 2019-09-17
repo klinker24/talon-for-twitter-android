@@ -2,6 +2,7 @@
 
     <version name="7.7.0">
         <text>With App Style settings, there is now a preference to force the app to always show the tweet actions (like, retweet, ect), below the tweets on your timeline</text>
+        <text>Updates to the default theme</text>
     </version>
 
     <version name="7.6.5">
