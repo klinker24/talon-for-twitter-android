@@ -403,7 +403,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             holder.image.setClipToOutline(true);
         }
 
-        if (settings.alwaysShowButtons && holder.alwaysShownButtons.getChildCount() == 0) {
+        if (!(this instanceof ActivityCursorAdapter) && settings.alwaysShowButtons && holder.alwaysShownButtons.getChildCount() == 0) {
             holder.alwaysShownButtons.addView(LayoutInflater.from(holder.background.getContext()).inflate(R.layout.always_shown_tweet_buttons, null, false));
             holder.alwaysShownButtons.setVisibility(View.VISIBLE);
         }
@@ -703,7 +703,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             }
         }
 
-        if (settings.alwaysShowButtons) {
+        if (settings.alwaysShowButtons && !(this instanceof ActivityCursorAdapter)) {
             TweetButtonUtils utils = new TweetButtonUtils(holder.background.getContext());
             utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons);
         }
