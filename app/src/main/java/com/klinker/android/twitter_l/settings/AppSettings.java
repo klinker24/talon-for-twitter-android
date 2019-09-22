@@ -488,7 +488,11 @@ public class AppSettings {
 
         // Integers
         currentAccount = sharedPrefs.getInt("current_account", 1);
-        theme = sharedPrefs.getInt("material_theme_" + currentAccount, DEFAULT_THEME);
+        try {
+            theme = sharedPrefs.getInt("material_theme_" + currentAccount, DEFAULT_THEME);
+        } catch (ClassCastException e) {
+            theme = Integer.parseInt(sharedPrefs.getString("material_theme_" + currentAccount, "" + DEFAULT_THEME));
+        }
         layout = LAYOUT_FULL_SCREEN;
         textSize = Integer.parseInt(sharedPrefs.getString("text_size", "14"));
         widgetTextSize = Integer.parseInt(sharedPrefs.getString("widget_text_size", "14"));

@@ -208,7 +208,7 @@ public class MainActivity extends DrawerActivity {
             AppSettings.getInstance(this).sharedPrefs.edit()
                     .putString("timeline_pictures", "" + AppSettings.REVAMPED_TWEETS)
                     .putString("main_theme_string", "" + (AndroidVersionUtils.isAndroidQ() ? 4 : 1))
-                    .putString("material_theme_1", "" + AppSettings.THEME_DARK_BACKGROUND_COLOR)
+                    .putInt("material_theme_1", AppSettings.THEME_DARK_BACKGROUND_COLOR)
                     .commit();
             Intent login = new Intent(context, MaterialLogin.class);
             startActivity(login);
