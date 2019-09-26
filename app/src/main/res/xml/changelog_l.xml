@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.7.2">
+        <text>Colorize the like and retweet buttons, when using the always active tweet action buttons</text>
+    </version>
+
     <version name="7.7.1">
         <text>Bug fixes</text>
     </version>
