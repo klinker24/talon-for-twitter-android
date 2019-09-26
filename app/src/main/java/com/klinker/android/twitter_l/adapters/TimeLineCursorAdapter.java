@@ -86,6 +86,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
     public Map<Long, Status> quotedTweets = new HashMap();
     public Map<String, WebPreview> webPreviews = new HashMap();
     public Set<Long> likedStatuses = new HashSet<>();
+    public Set<Long> retweetedStatuses = new HashSet<>();
 
     @Override
     public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) {
@@ -159,6 +160,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public WebPreviewCard webPreviewCard;
         public LinearLayout alwaysShownButtons;
         public ImageButton likeButton;
+        public ImageButton retweetButton;
 
         // revamped tweet
         public View revampedTopLine;
@@ -412,6 +414,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
             holder.alwaysShownButtons.setVisibility(View.VISIBLE);
 
             holder.likeButton = holder.alwaysShownButtons.findViewById(R.id.always_like_button);
+            holder.retweetButton = holder.alwaysShownButtons.findViewById(R.id.always_retweet_button);
         }
 
         // some things we just don't need to configure every time
@@ -711,6 +714,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
         if (settings.alwaysShowButtons && !(this instanceof ActivityCursorAdapter)) {
             if (likedStatuses.contains(holder.tweetId)) {
+                holder.likeButton.setImageResource(R.drawable.ic_heart_dark);
                 holder.likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
             } else {
                 if(!settings.darkTheme) {
@@ -721,8 +725,20 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
                 }
             }
 
+            if (retweetedStatuses.contains(holder.tweetId)) {
+                holder.retweetButton.setImageResource(R.drawable.ic_action_repeat_dark);
+                holder.retweetButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+            } else {
+                if(!settings.darkTheme) {
+                    holder.retweetButton.setImageResource(R.drawable.ic_action_repeat_light);
+                    holder.retweetButton.setColorFilter(Color.BLACK);
+                } else {
+                    holder.retweetButton.clearColorFilter();
+                }
+            }
+
             TweetButtonUtils utils = new TweetButtonUtils(holder.background.getContext());
-            utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons, (newLikeState, originalStatus, likeButton) -> {
+            utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons, (newLikeState, originalStatus) -> {
                 if (newLikeState) {
                     likedStatuses.add(originalStatus.getId());
                 } else {
@@ -731,13 +747,34 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
                 if (holder.tweetId == originalStatus.getId()) {
                     if (newLikeState) {
-                        likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+                        holder.likeButton.setImageResource(R.drawable.ic_heart_dark);
+                        holder.likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+                    } else {
+                        if (!settings.darkTheme) {
+                            holder.likeButton.setImageResource(R.drawable.ic_heart_light);
+                            holder.likeButton.setColorFilter(Color.BLACK);
+                        } else {
+                            holder.likeButton.clearColorFilter();
+                        }
+                    }
+                }
+            }, (newRetweetState, originalStatus) -> {
+                if (newRetweetState) {
+                    retweetedStatuses.add(originalStatus.getId());
+                } else {
+                    retweetedStatuses.remove(originalStatus.getId());
+                }
+
+                if (holder.tweetId == originalStatus.getId()) {
+                    if (newRetweetState) {
+                        holder.retweetButton.setImageResource(R.drawable.ic_action_repeat_dark);
+                        holder.retweetButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
                     } else {
                         if(!settings.darkTheme) {
-                            likeButton.setImageResource(R.drawable.ic_heart_light);
-                            likeButton.setColorFilter(Color.BLACK);
+                            holder.retweetButton.setImageResource(R.drawable.ic_action_repeat_light);
+                            holder.retweetButton.setColorFilter(Color.BLACK);
                         } else {
-                            likeButton.clearColorFilter();
+                            holder.retweetButton.clearColorFilter();
                         }
                     }
                 }

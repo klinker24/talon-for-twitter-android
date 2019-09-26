@@ -317,7 +317,7 @@ public class TweetButtonUtils {
         updateTweetCounts(status);
     }
 
-    public void setUpSimpleButtons(final long tweetId, final String screenName, final String text, View buttonsRoot, final LikeCallback callback) {
+    public void setUpSimpleButtons(final long tweetId, final String screenName, final String text, View buttonsRoot, final LikeCallback likeCallback, final RetweetCallback retweetCallback) {
         final ImageButton likeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_like_button);
         final ImageButton retweetButton = (ImageButton) buttonsRoot.findViewById(R.id.always_retweet_button);
         final ImageButton composeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_compose_button);
@@ -342,7 +342,7 @@ public class TweetButtonUtils {
                     this.status = status;
 
                     buttonsRoot.post(() -> {
-                        callback.onLikeChanged(!status.isFavorited(), status, likeButton);
+                        likeCallback.onLikeChanged(!status.isFavorited(), status);
                         favoriteStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                     });
                 } catch (Exception e) {
@@ -361,6 +361,7 @@ public class TweetButtonUtils {
                     this.status = status;
 
                     buttonsRoot.post(() -> {
+                        retweetCallback.onRetweetChanged(!status.isRetweetedByMe(), status);
                         retweetStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                     });
                 } catch (Exception e) {
@@ -825,6 +826,10 @@ public class TweetButtonUtils {
     }
 
     public interface LikeCallback {
-        void onLikeChanged(boolean newLikeState, Status originalStatus, ImageButton likeButton);
+        void onLikeChanged(boolean newLikeState, Status originalStatus);
+    }
+
+    public interface RetweetCallback {
+        void onRetweetChanged(boolean newRetweetState, Status originalStatus);
     }
 }
