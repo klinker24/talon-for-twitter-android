@@ -12,7 +12,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
@@ -83,6 +85,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
 
     public Map<Long, Status> quotedTweets = new HashMap();
     public Map<String, WebPreview> webPreviews = new HashMap();
+    public Set<Long> likedStatuses = new HashSet<>();
 
     @Override
     public void onLinkLoaded(@NotNull String link, @NotNull WebPreview preview) {
@@ -155,6 +158,7 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         public LinearLayout conversationArea;
         public WebPreviewCard webPreviewCard;
         public LinearLayout alwaysShownButtons;
+        public ImageButton likeButton;
 
         // revamped tweet
         public View revampedTopLine;
@@ -406,6 +410,8 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         if (!(this instanceof ActivityCursorAdapter) && settings.alwaysShowButtons && holder.alwaysShownButtons.getChildCount() == 0) {
             holder.alwaysShownButtons.addView(LayoutInflater.from(holder.background.getContext()).inflate(R.layout.always_shown_tweet_buttons, null, false));
             holder.alwaysShownButtons.setVisibility(View.VISIBLE);
+
+            holder.likeButton = holder.alwaysShownButtons.findViewById(R.id.always_like_button);
         }
 
         // some things we just don't need to configure every time
@@ -704,8 +710,38 @@ public class TimeLineCursorAdapter extends CursorAdapter implements WebPreviewCa
         }
 
         if (settings.alwaysShowButtons && !(this instanceof ActivityCursorAdapter)) {
+            if (likedStatuses.contains(holder.tweetId)) {
+                holder.likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+            } else {
+                if(!settings.darkTheme) {
+                    holder.likeButton.setImageResource(R.drawable.ic_heart_light);
+                    holder.likeButton.setColorFilter(Color.BLACK);
+                } else {
+                    holder.likeButton.clearColorFilter();
+                }
+            }
+
             TweetButtonUtils utils = new TweetButtonUtils(holder.background.getContext());
-            utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons);
+            utils.setUpSimpleButtons(holder.tweetId, screenname, tweetText, holder.alwaysShownButtons, (newLikeState, originalStatus, likeButton) -> {
+                if (newLikeState) {
+                    likedStatuses.add(originalStatus.getId());
+                } else {
+                    likedStatuses.remove(originalStatus.getId());
+                }
+
+                if (holder.tweetId == originalStatus.getId()) {
+                    if (newLikeState) {
+                        likeButton.setColorFilter(settings.themeColors.accentColor, PorterDuff.Mode.MULTIPLY);
+                    } else {
+                        if(!settings.darkTheme) {
+                            likeButton.setImageResource(R.drawable.ic_heart_light);
+                            likeButton.setColorFilter(Color.BLACK);
+                        } else {
+                            likeButton.clearColorFilter();
+                        }
+                    }
+                }
+            });
         }
 
         if (holder.quickActions != null) {

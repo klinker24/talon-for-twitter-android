@@ -317,7 +317,7 @@ public class TweetButtonUtils {
         updateTweetCounts(status);
     }
 
-    public void setUpSimpleButtons(final long tweetId, final String screenName, final String text, View buttonsRoot) {
+    public void setUpSimpleButtons(final long tweetId, final String screenName, final String text, View buttonsRoot, final LikeCallback callback) {
         final ImageButton likeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_like_button);
         final ImageButton retweetButton = (ImageButton) buttonsRoot.findViewById(R.id.always_retweet_button);
         final ImageButton composeButton = (ImageButton) buttonsRoot.findViewById(R.id.always_compose_button);
@@ -342,6 +342,7 @@ public class TweetButtonUtils {
                     this.status = status;
 
                     buttonsRoot.post(() -> {
+                        callback.onLikeChanged(!status.isFavorited(), status, likeButton);
                         favoriteStatus(secondAcc ? TYPE_ACC_TWO : TYPE_ACC_ONE);
                     });
                 } catch (Exception e) {
@@ -821,5 +822,9 @@ public class TweetButtonUtils {
                 // user has gone away from the window
             }
         }
+    }
+
+    public interface LikeCallback {
+        void onLikeChanged(boolean newLikeState, Status originalStatus, ImageButton likeButton);
     }
 }
