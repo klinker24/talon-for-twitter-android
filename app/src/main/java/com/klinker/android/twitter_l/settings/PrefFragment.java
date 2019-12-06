@@ -1829,15 +1829,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             }
         });
 
-        Preference gPlus = findPreference("google_plus");
-        gPlus.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://goo.gl/KCXlZk")));
-                return false;
-            }
-        });
-
         Preference email = findPreference("email_me");
         email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -1926,7 +1917,6 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                 return false;
             }
         });
-
     }
 
     public void setUpOtherAppSettings() {
