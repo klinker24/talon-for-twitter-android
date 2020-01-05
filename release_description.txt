@@ -1,1 +1,1 @@
-With App Style settings, there is now a preference to force the app to always show the tweet actions (like, retweet, ect), below the tweets on your timeline. This gives you fast access to interacting with anything that comes your way. Enjoy!
+This update just contains bug fixes. More to come in the future!

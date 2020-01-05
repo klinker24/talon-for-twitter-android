@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.7.4">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="7.7.3">
         <text>Dependency updates</text>
     </version>
