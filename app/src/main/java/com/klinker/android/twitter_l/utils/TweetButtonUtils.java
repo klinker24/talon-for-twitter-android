@@ -423,21 +423,36 @@ public class TweetButtonUtils {
         });
 
         composeButton.setOnClickListener(v -> {
-            Intent compose;
-            if (!secondAcc) {
-                compose = new Intent(context, ComposeActivity.class);
-            } else {
-                compose = new Intent(context, ComposeSecAccActivity.class);
-            }
-            compose.putExtra("user", replyText);
-            compose.putExtra("id", tweetId);
-            compose.putExtra("reply_to_text", "@" + screenName + ": " + text);
+            new Thread(() -> {
+                try {
+                    Twitter twitter = getTwitter();
+                    Status s = twitter.showStatus(tweetId);
+                    final Status status = s.isRetweet() ? s.getRetweetedStatus() : s;
 
-            ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
-                    v.getMeasuredWidth(), v.getMeasuredHeight());
-            compose.putExtra("already_animated", true);
+                    this.status = status;
+                    this.replyText = generateReplyText();
 
-            context.startActivity(compose, opts.toBundle());
+                    buttonsRoot.post(() -> {
+                        Intent compose;
+                        if (!secondAcc) {
+                            compose = new Intent(context, ComposeActivity.class);
+                        } else {
+                            compose = new Intent(context, ComposeSecAccActivity.class);
+                        }
+                        compose.putExtra("user", replyText);
+                        compose.putExtra("id", tweetId);
+                        compose.putExtra("reply_to_text", "@" + screenName + ": " + text);
+
+                        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
+                                v.getMeasuredWidth(), v.getMeasuredHeight());
+                        compose.putExtra("already_animated", true);
+
+                        context.startActivity(compose, opts.toBundle());
+                    });
+                } catch (Exception e) {
+
+                }
+            }).start();
         });
 
         shareButton.setOnClickListener(view -> {
