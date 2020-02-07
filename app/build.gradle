@@ -98,7 +98,6 @@ dependencies {
     implementation 'me.leolin:ShortcutBadger:1.1.19@aar'
     implementation 'com.github.ajalt.reprint:core:3.2.1@aar'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.11'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')
