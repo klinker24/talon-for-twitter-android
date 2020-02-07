@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="7.7.7">
+        <text>Well, would you look at that... I found a work around. You can now view who "likes" a tweet, again.</text>
+    </version>
+
+    <version name="7.7.6">
+        <text>Seeing the users that liked a tweet was never something that Twitter officially supported for third party apps. Recently, they have disabled the workaround that I used to obtain this information.</text>
+        <text>Until I can find an alternative solution, seeing who "liked" a tweet has been disabled.</text>
+    </version>
+
     <version name="7.7.5">
         <text>Bug fixes</text>
     </version>
