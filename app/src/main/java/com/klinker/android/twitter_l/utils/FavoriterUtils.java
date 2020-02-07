@@ -43,10 +43,10 @@ public class FavoriterUtils {
             URL obj = new URL(url);
 
             HttpsURLConnection connection = (HttpsURLConnection) obj.openConnection();
-            connection.setRequestProperty("Content-Type", "text/html");
-            connection.setRequestProperty("charset", "utf-8");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.94 Safari/537.36");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36");
             connection.connect();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
