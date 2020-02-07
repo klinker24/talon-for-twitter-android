@@ -33,8 +33,10 @@ public class TweetInteractionsPagerAdapter extends FragmentPagerAdapter {
                 f = QuotersFragment.getInstance(screenname, tweetId);
                 break;
             case 1:
+                f = LikersFragment.getInstance(tweetId);
+                break;
+            case 2:
                 f = RetweetersFragment.getInstance(tweetId);
-//                f = LikersFragment.getInstance(screenname, tweetId);
                 break;
         }
         return f;
@@ -42,7 +44,7 @@ public class TweetInteractionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -51,8 +53,9 @@ public class TweetInteractionsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return context.getResources().getString(R.string.quotes);
             case 1:
+                return context.getResources().getString(R.string.favorites);
+            case 2:
                 return context.getResources().getString(R.string.retweets);
-//                return context.getResources().getString(R.string.favorites);
         }
         return null;
     }

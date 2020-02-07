@@ -23,21 +23,18 @@ import twitter4j.User;
 public class LikersFragment extends Fragment {
 
     private static final String ARG_TWEET_ID = "arg_tweet_id";
-    private static final String ARG_SCREENNAME = "arg_screenname";
 
-    public static LikersFragment getInstance(String screenname, long tweetId) {
+    public static LikersFragment getInstance(long tweetId) {
         LikersFragment fragment = new LikersFragment();
 
         Bundle args = new Bundle();
         args.putLong(ARG_TWEET_ID, tweetId);
-        args.putString(ARG_SCREENNAME, screenname);
 
         fragment.setArguments(args);
         return fragment;
     }
 
     private long tweetId;
-    private String screenname;
 
     private ListView listView;
     private LinearLayout spinner;
@@ -52,7 +49,6 @@ public class LikersFragment extends Fragment {
 
         context = getActivity();
         tweetId = getArguments().getLong(ARG_TWEET_ID);
-        screenname = getArguments().getString(ARG_SCREENNAME);
 
         View layout = inflater.inflate(R.layout.no_ptr_list_layout, null);
 
@@ -74,7 +70,7 @@ public class LikersFragment extends Fragment {
             public void run() {
                 try {
                     FavoriterUtils utils = new FavoriterUtils();
-                    final List<User> users = utils.getFavoriters(getActivity(), screenname, tweetId);
+                    final List<User> users = utils.getFavoriters(getActivity(), tweetId);
 
                     if (getActivity() == null) {
                         return;

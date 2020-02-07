@@ -2,14 +2,14 @@ package com.klinker.android.twitter_l.utils;
 
 
 import android.content.Context;
-import android.util.Log;
-
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.User;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -21,30 +21,25 @@ import java.util.List;
 
 public class FavoriterUtils {
 
-    /**
-     * This does not work. The user list is loaded via JS after the page has been created. We cannot scrape it like this.
-     *
-     * This used to use a different method, but Twitter removed the functionality required to get that user list.
-     */
-    public List<User> getFavoriters(Context context, String username, long tweetId) {
+    public List<User> getFavoriters(Context context, long tweetId) {
         List<User> users = new ArrayList<User>();
 
         Twitter twitter =  Utils.getTwitter(context, null);
 
-//        try {
-//            String[] names = getFavoritesScreennames(username, tweetId);
-//            users = twitter.lookupUsers(names);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            long[] ids = getFavoritersIds(tweetId);
+            users = twitter.lookupUsers(ids);
+
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
 
         return users;
     }
 
-    private String getPage(String screenname, long tweetId) {
+    public JSONObject getJson(long tweetId) {
         try {
-            String url = "https://twitter.com/" + screenname + "/status/" + tweetId + "/likes";
+            String url = "https://twitter.com/i/activity/favorited_popup?id=" + tweetId;
             URL obj = new URL(url);
 
             HttpsURLConnection connection = (HttpsURLConnection) obj.openConnection();
@@ -69,28 +64,27 @@ public class FavoriterUtils {
 
             }
 
-            return docHtml;
+            return new JSONObject(docHtml);
         } catch (Exception e) {
             return null;
         }
     }
 
-    private String[] getFavoritesScreennames(String username, long tweetId) {
-        List<String> screennames = new ArrayList<>();
+    public long[] getFavoritersIds(long tweetId) {
+        List<Long> idsList = new ArrayList<Long>();
         try {
-            String html = getPage(username, tweetId);
-            Document doc = Jsoup.parse(html);
+            JSONObject json = getJson(tweetId);
+            Document doc = Jsoup.parse(json.getString("htmlUsers"));
 
             if (doc != null) {
-                Elements elements = doc.getElementsByAttributeValue("data-testid", "UserCell");
+                Elements elements = doc.getElementsByTag("img");
 
                 for (Element e : elements) {
                     try {
-                        Log.v("FavoriteUtils", e.toString());
-//                        Long l = Long.parseLong(e.attr("data-user-id"));
-//                        if (l != null) {
-//                            idsList.add(l);
-//                        }
+                        Long l = Long.parseLong(e.attr("data-user-id"));
+                        if (l != null) {
+                            idsList.add(l);
+                        }
                     } catch (Exception x) {
                         // doesn't have it, could be an emoji or something from the looks of it.
                     }
@@ -103,12 +97,12 @@ public class FavoriterUtils {
             e.printStackTrace();
         }
 
-        String[] names = new String[screennames.size()];
+        long[] ids = new long[idsList.size()];
 
-        for (int i = 0; i < names.length; i++) {
-            names[i] = screennames.get(i);
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = idsList.get(i);
         }
 
-        return names;
+        return ids;
     }
 }

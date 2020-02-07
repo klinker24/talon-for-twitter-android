@@ -333,9 +333,8 @@ public class ActivityDataSource {
         ContentValues values = new ContentValues();
         try {
             long id = status.getId();
-            String name = status.getUser().getScreenName();
 
-            List<User> userList = (new FavoriterUtils()).getFavoriters(context, name, id);
+            List<User> userList = (new FavoriterUtils()).getFavoriters(context, id);
 
             String[] html = TweetLinkUtils.getLinksInStatus(status);
             String text = html[0];
