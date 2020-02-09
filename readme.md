@@ -12,6 +12,8 @@ Enjoy Talon for Twitter and let me know what you want to see next!
 
 ### Building Talon
 
+> You should build the app against the current `master` branch. The tags are all old releases and are not maintained. I will not be able to support building older versions of the app.
+
 Before Talon will work, you will need to generate some API keys, for Twitter. I will not be distributing my keys.
 
 To get your Twitter API key, go through these steps:
