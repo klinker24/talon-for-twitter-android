@@ -31,7 +31,7 @@ buildscript {
     ]
 
     ext.versions = [
-            'gradlePlugin'      : '3.5.3',
+            'gradlePlugin'      : '3.6.0',
             'targetSdk'         : 29,
             'minSdk'            : 19,
 
@@ -52,7 +52,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:${versions.gradlePlugin}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'io.fabric.tools:gradle:1.30.0'
+        classpath 'io.fabric.tools:gradle:1.31.2'
     }
 
 }
