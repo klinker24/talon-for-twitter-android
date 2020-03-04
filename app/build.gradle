@@ -62,12 +62,12 @@ dependencies {
 
     wearApp project(':wear')
     
-    implementation "androidx.appcompat:appcompat:${versions.androidX}"
-    implementation "androidx.recyclerview:recyclerview:${versions.androidX}"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.emoji:emoji:${versions.androidX}"
-    implementation "com.google.android.material:material:${versions.androidX}"
-    implementation "androidx.browser:browser:${versions.androidX}"
-    implementation "androidx.preference:preference:${versions.androidX}"
+    implementation "com.google.android.material:material:1.1.0"
+    implementation "androidx.browser:browser:1.2.0"
+    implementation "androidx.preference:preference:1.1.0"
     implementation "androidx.legacy:legacy-preference-v14:${versions.androidX}"
     implementation 'androidx.multidex:multidex:2.0.0'
 

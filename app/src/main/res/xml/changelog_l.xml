@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.7.8">
+        <text>Dependency updates</text>
+    </version>
+
     <version name="7.7.7">
         <text>Well, would you look at that... I found a work around. You can now view who "likes" a tweet, again.</text>
     </version>

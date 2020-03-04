@@ -50,7 +50,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         setClicks();
 
         if (UpdateUtils.showSupporterDialog(getActivity())) {
-            showSupporterDialog();
+//            showSupporterDialog();
         }
 
         if (AppSettings.getInstance(getActivity()).blackTheme) {
@@ -81,7 +81,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             "mute_management",
             "app_memory",
             "other_options",
-            "become_supporter",
+//            "become_supporter",
             "faq",
             "whats_new",
     };
