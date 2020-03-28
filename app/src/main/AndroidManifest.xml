@@ -581,7 +581,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.TalonLight.Popup.Notif"
+            android:theme="@style/DragDismissTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
 
         </activity>

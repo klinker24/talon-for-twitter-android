@@ -301,7 +301,7 @@ public abstract class Compose extends Activity implements
 
         buildGoogleApiClient();
 
-        Utils.setUpTheme(context, settings);
+        Utils.setUpTweetTheme(context, settings);
         setUpWindow();
         setUpLayout();
         setUpActionBar();
