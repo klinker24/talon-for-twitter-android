@@ -28,7 +28,7 @@ class TweetStylePreviewPreference : Preference {
         private val TWEET = "@TalonAndroid and Pulse SMS are great!"
 
         private val IMAGE_URL = "https://pbs.twimg.com/media/DKK-EnFUMAYoxeZ.jpg:large"
-        private val PROFILE_PIC_URL = "https://pbs.twimg.com/profile_images/720974705042137088/q1foR7W5_400x400.jpg"
+        private val PROFILE_PIC_URL = "https://pbs.twimg.com/profile_images/1182306902245625856/FGMF7EV1_400x400.jpg"
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
