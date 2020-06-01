@@ -876,7 +876,12 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
 
         if (AndroidVersionUtils.isAndroidQ()) {
             View nightMode = findViewById(R.id.night_mode_container);
-            nightMode.setVisibility(View.GONE);
+
+            try {
+                nightMode.setVisibility(View.GONE);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         } else {
             Switch nightModeSwitch = (Switch) findViewById(R.id.night_mode_switch);
             if (nightModeSwitch != null) {
