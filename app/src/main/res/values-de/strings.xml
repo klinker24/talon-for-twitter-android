@@ -723,4 +723,6 @@ Erwähnungen, neue Follower, Retweets und Likes Deiner Status werden hier ersche
     <string name="saved_tweets">Gespeicherte Tweets</string>
     <string name="save_for_later">Speichern für später</string>
     <string name="remove_from_saved_tweets">Von den gespeicherten Tweets entfernen</string>
+    <string name="share">Teilen</string>
+    <string name="share_content">Inhalt teilen...</string>
 </resources>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <string name="app_name">"Placeholders: 
+"</string>
+    <string name="app_name_full">جگہ دار:</string>
+    <string name="extension_description">جگہ دار:</string>
+    <!-- Action Bar -->
+    <string name="menu_refresh">جگہ دار:</string>
+    <string name="menu_compose">جگہ دار:</string>
+    <string name="menu_logout">لاگ آؤٹ</string>
+    <string name="menu_settings">ترتیبات</string>
+    <string name="menu_follow">صارف کو فالو کریں</string>
+    <string name="menu_unfollow">صارف کو ان فالو کریں</string>
+    <string name="menu_tweet">ٹویٹ بھیجیں</string>
+    <string name="menu_dm">براہ راست پیغام بھیجیں</string>
+    <string name="menu_block">بلوک یوزر</string>
+    <string name="menu_unblock">صارف کو ان بلاک کریں</string>
+    <string name="menu_add_to_list">فہرست میں شامل کریں</string>
+    <string name="menu_change_picture">پروفائل تصویر تبدیل کریں</string>
+    <string name="menu_change_bio">پروفائل کی معلومات کو تبدیل کریں</string>
+    <string name="menu_change_banner">پروفائل بینر تبدیل کریں</string>
+    <string name="menu_direct_message">نیا براہ راست پیغام</string>
+    <string name="menu_save_image">تصویر محفوظ کریں</string>
+    <string name="menu_favorite">پسندیدہ صارف</string>
+    <string name="menu_unfavorite">غیر پسندیدہ صارف</string>
+    <string name="menu_create_list">نئی فہرست بنائیں</string>
+    <string name="menu_spam">اسپیم کے بطور نشان زد کریں</string>
+    <!-- Times -->
+    <!-- When translating: put the %s where the number should go in the string. -->
+    <string name="just_now">ابھی ابھی</string>
+    <string name="a_min_ago">ایک منٹ پہلے</string>
+    <string name="minutes_ago">{٪ s} منٹ پہلے</string>
+    <string name="an_hour_ago">ایک گھنٹے پہلے</string>
+    <string name="hours_ago">{٪s} گھنٹے پہلے</string>
+    <string name="yesterday">کل</string>
+    <string name="days_ago">{٪s} دن پہلے</string>
+    <!-- Muting -->
+    <string name="mute">خاموش</string>
+    <string name="unmute">غیر خاموش</string>
+    <string name="muted_users">خاموش صارفین</string>
+    <string name="no_users">"کوئی صارف نہیں "</string>
+    <!-- Main Activity -->
+    <string name="links">لنکس</string>
+    <string name="pictures">تصاویر</string>
+    <string name="timeline">ہوم</string>
+    <string name="mentions">"مینشن کریں "</string>
+    <string name="direct_messages">براہ راست پیغامات</string>
+    <string name="retweets">ریٹویٹس</string>
+    <string name="favorite_tweets">پسند کردہ ٹویٹس</string>
+    <string name="favorite_users">پسندیدہ صارفین</string>
+    <string name="favorite_users_tweets">پسندیدہ صارف کے ٹویٹس</string>
+    <string name="trends">ٹرینڈنگ</string>
+    <string name="local_trends">مقامی</string>
+    <string name="world_trends">" دنیا"</string>
+    <string name="search">تلاش کریں</string>
+    <string name="lists">فہرستیں</string>
+    <string name="search_hint">تلاش کریں ...</string>
+    <string name="new_tweet">نئی ٹویٹ</string>
+    <string name="new_tweets">نئی ٹویٹس</string>
+    <string name="no_new_tweets">کوئی نئی ٹویٹس نہیں</string>
+    <string name="new_mention">نیو مینشن</string>
+    <string name="new_mentions">نیو مینشنس</string>
+    <string name="no_new_mentions">کوئی نیا مینشن نہیں</string>
+    <string name="new_direct_message">براہ راست پیغام</string>
+    <string name="new_direct_messages">"نئے براہ راست پیغامات "</string>
+    <string name="no_new_direct_messages">کوئی نئے براہ راست پیغامات نہیں</string>
+    <string name="tap_to_setup">سیٹ اپ کیلئے کلک کریں</string>
+    <string name="new_account">نیا اکاؤنٹ</string>
+    <string name="from_top">اوپر سے</string>
+    <string name="jump_to_top">سب سے پہلے</string>
+    <string name="all_read">"سب پڑھیں! "</string>
+    <string name="view_new">"لوڈ؟ "</string>
+    <string name="old_interactions">تمام بات چیت</string>
+    <!-- Notifications -->
+    <string name="tweet">ٹویٹ</string>
+    <string name="tweets">ٹویٹس</string>
+    <string name="mention">مینشن</string>
+    <string name="message">پیغام</string>
+    <string name="messages">پیغامات</string>
+    <string name="mentioned_by">کا تذکرہ</string>
+    <string name="message_from">سے پیغام</string>
+    <!-- Login Screen -->
+    <!-- Compose New Activity -->
+    <!-- Actionbar Done-Discard -->
+    <!-- Other -->
+    <string name="placeholder">جگہ دار</string>
+    <string name="reply">جواب دیں ...</string>
+    <string name="error">خرابی</string>
+    <string name="error_loading_page">ویب صفحہ لوڈ کرنے میں خرابی</string>
+    <string name="delete">حذف کریں</string>
+    <string name="yes">"ہاں "</string>
+    <string name="changelog">نیا کیا ہے</string>
+    <string name="created_by">بنائی گئی</string>
+    <string name="no_location">مقام نہیں مل سکا</string>
+    <string name="take_picture">تصویرکیچ کرنا</string>
+    <string name="from_file">تصویر منسلک کریں</string>
+    <string name="via">ذریعے</string>
+    <string name="version">ورژن</string>
+    <string name="from">سے</string>
+    <string name="save">محفوظ کریں</string>
+    <string name="stop">رکیں</string>
+    <string name="tweeted">ٹویٹ</string>
+    <!-- User Profile Activity -->
+    <string name="followers">پیروکار</string>
+    <string name="following">درج ذیل</string>
+    <string name="blocked_user">مسدود صارف</string>
+    <string name="unblocked_user">غیر مسدود صارف</string>
+    <string name="followed_user">فالور صارف</string>
+    <string name="unfollowed_user">غیر پیروکار صارف</string>
+    <string name="no_description">صارف کی تفصیل دستیاب نہیں ہے۔</string>
+    <string name="favorite_user">پسندیدہ صارف</string>
+    <string name="unfavorite_user">غیر پسندیدہ صارف</string>
+    <string name="updating_pro_pic">پروفائل تصویر کو اپ ڈیٹ کرنا</string>
+    <string name="updating_banner_pic">بینر کی تصویر کو اپ ڈیٹ کرنا</string>
+    <string name="uploaded">فائل اپ لوڈ ہوگئی</string>
+    <string name="change_profile_info">پروفائل کی معلومات کو تبدیل کریں</string>
+    <string name="update">اپ ڈیٹ</string>
+    <string name="optional_name">نام (اختیاری)</string>
+    <string name="optional_url">یو آر ایل (اختیاری)</string>
+    <string name="optional_location">مقام (اختیاری)</string>
+    <string name="optional_description">تفصیل (اختیاری)</string>
+    <string name="updated_profile">تازہ کاری شدہ پروفائل</string>
+    <string name="name_char_length">نام: 20 حرف کی حد میں</string>
+    <string name="url_char_length">یو آر ایل: 100 حرف کی حد میں</string>
+    <string name="location_char_length">مقام: 30 حرف کی حد میں</string>
+    <string name="description_char_length">تفصیل: 160 حرف کی حد</string>
+    <!-- Retweets Activity -->
+    <string name="retweets_lower">ریٹویٹس</string>
+    <string name="retweet_lower">ریٹویٹ</string>
+    <string name="retweeter">\@ کے ذریعے ریٹویٹ شدہ</string>
+    <!-- Tweet Activity -->
+    <string name="menu_open_web">ویب لنک کھولیں</string>
+    <string name="menu_copy_text">ٹویٹ ٹیکسٹ کاپی کریں</string>
+    <string name="menu_share">ٹویٹ شئیر کریں</string>
+    <string name="menu_delete_tweet">ٹویٹ کو حذف کریں</string>
+    <string name="conversation">گفتگو</string>
+    <string name="webpage">ویب صفحہ</string>
+    <string name="tweet_youtube">یوٹیوب</string>
+    <string name="gif">ٹویٹ میڈیا</string>
+    <string name="vine">بیل</string>
+    <string name="menu_quote">اقتباس ٹویٹ</string>
+    <string name="deleted_tweet">ٹویٹ حذف ہوگیا</string>
+    <string name="error_deleting">ٹویٹ کو حذف کرنے میں خرابی</string>
+    <string name="sending">بھیجنا</string>
+    <!-- User Lists -->
+    <!-- Tutorial Activity -->
+    <!-- Settings Menu -->
+    <string name="pebble_notifications">پبل کی اطلاعات</string>
+    <string name="pebble_notifications_summary">پیبل اسمارٹ گھڑی کے لئے استعمال کیا جاتا ہے۔  اگر آپ کو اپنی گھڑی پر دو اطلاعات مل رہی ہیں تو اسے غیر فعال کریں۔</string>
+    <string name="advanced_settings">اعلی درجے کی ترتیبات</string>
+    <string name="app_feel_category">ایپ کو محسوس کرنے کے اختیارات</string>
+    <string name="advance_windowed">ایڈوانس ونڈو</string>
+    <string name="advance_windowed_summary">ٹائم لائنز کے اوپر \"ونڈو\" والے نظارے میں پروفائلز اور ٹویٹس کھولیں</string>
+    <string name="full_screen_browsers">فل سکرین براؤزر</string>
+    <string name="full_screen_browsers_summary">فل سکرین موڈ میں ویب پیج پر مشتمل ٹویٹس کھولیں۔</string>
+    <string name="reverse_click_actions">عمل کو الٹا کریں</string>
+    <string name="reverse_click_actions_summary">ٹویٹس پر کلک کر کے عمل کو الٹا دیں۔
+
+
+ پہلے سے طے شدہ (جب غیر فعال):
+
+ ٹویٹ کھولنے کے لئے لمبی کلک
+
+ ٹویٹ کو وسعت دینے کے لئے مختصر کلک</string>
+    <string name="extra_pages">اضافی صفحات استعمال کریں</string>
+    <string name="extra_pages_summary">ٹائم لائن کے بائیں طرف روابط اور تصاویر کے صفحات شامل کریں۔</string>
+    <string name="live_streaming">براہ راست سلسلہ بندی</string>
+    <string name="memory_management">میموری مینجمنٹ کے اختیارات</string>
+    <string name="delete_cache">ابھی کیچ کو حذف کریں</string>
+    <string name="cache_dialog">کیشے کو حذف کریں؟</string>
+    <string name="not_cache">یہ اطلاق کیشے پر لاگو نہیں ہوتا ہے۔</string>
+    <string name="current_cache_size">موجودہ کیشے کا سائز</string>
+    <string name="cache_dialog_summary">اس کارروائی کو مکمل نہیں کیا جاسکتا۔</string>
+    <string name="timeline_size">ہوم سائز</string>
+    <string name="timeline_size_summary">ڈیٹا بیس میں ذخیرہ کرنے کے لئے زیادہ سے زیادہ ٹویٹس کی تعداد۔</string>
+    <string name="mentions_size">"مینشنز سائز "</string>
+    <string name="mentions_size_summary">ڈیٹا بیس میں ذخیرہ کرنے کے لئے زیادہ سے زیادہ مینشن کریں۔</string>
+    <string name="dm_size">براہ راست پیغامات کا سائز</string>
+    <string name="dm_size_summary">ڈیٹا بیس میں ذخیرہ کرنے کیلئے براہ راست پیغامات کی زیادہ سے زیادہ تعداد۔</string>
+    <string name="auto_trim">آٹو ٹرم ڈیٹا بیس</string>
+    <string name="trim_now">ڈیٹا بیس کو ابھی ٹرم کریں</string>
+    <string name="trim_dialog">ڈیٹا بیس کو اب ٹرم کریں؟</string>
+    <string name="trimming">ٹریمنگ۔۔۔</string>
+    <string name="trim_success">ٹرم کامیاب</string>
+    <string name="trim_fail">ٹرم ناکام ہوگیا</string>
+    <string name="backup_category">بیک اپ اور بحال کے اختیارات</string>
+    <string name="backup_settings">بیک اپ کی ترتیبات</string>
+    <string name="backup_settings_dialog">نیا بیک اپ بنائیں؟</string>
+    <string name="backup_settings_dialog_summary">یہ تمام پچھلے بیک اپ کو اوور رائڈ کردے گا۔</string>
+    <string name="backup_success">بیک اپ کامیاب</string>
+    <string name="restore_success">ری اسٹور کامیاب ہوا</string>
+    <string name="restore_settings">ترتیبات کو بحال کریں</string>
+    <string name="restore_settings_summary">کسی بھی تھیم کی تبدیلیوں کو لاگو کرنے کے لئے کیشے صاف کردیں گے۔</string>
+    <string name="get_help_settings">"مدد حاصل کریں "</string>
+    <string name="rerun_tutorial">اسٹارٹپ ٹیوٹوریل چلائیں</string>
+    <string name="faq">اکثر پوچھے گئے سوالات</string>
+    <string name="features_explained">خصوصیات کی وضاحت</string>
+    <string name="youtube">یوٹیوب ویڈیو</string>
+    <string name="google_plus">گوگل + کمیونٹی</string>
+    <string name="talon_settings">ٹلون کی ترتیبات</string>
+    <string name="feature_requests">نمایاں درخواستیں</string>
+    <!-- Emoji Keyboard -->
+    <string name="recent">حالیہ</string>
+    <string name="people">لوگ</string>
+    <string name="things">اعتراضات</string>
+    <string name="nature">فطرت</string>
+    <string name="places">مقامات</string>
+    <string name="symbols">علامتیں</string>
+    <!-- Array value for translation -->
+    <string name="five_mins">5 منٹس</string>
+    <string name="ten_mins">10 منٹس</string>
+    <string name="twenty_mins">20 منٹس</string>
+    <string name="thirty_mins">30 منٹس</string>
+    <string name="fourty_five_mins">45 منٹس</string>
+    <string name="one_hour">1 گھنٹہ</string>
+    <string name="two_hours">2 گھنٹے</string>
+    <string name="three_hours">3 گھنٹے</string>
+    <string name="four_hours">4 گھنٹے</string>
+    <string name="manual">خود ہی</string>
+    <string name="layout_hangouts">ہینگوٹس</string>
+    <!-- added after release -->
+    <string name="use_inapp_browser">ایپ میں براؤزر استعمال کریں</string>
+    <string name="use_browser_on_tweet">ٹویٹر پر براؤزر پیج</string>
+    <string name="dismiss_all">سب ختم کرو</string>
+    <string name="handle_and_name">ہینڈل اور نام دکھائیں</string>
+    <string name="notification_types">اطلاع کی اقسام</string>
+    <string name="with_talon_pull">\"ٹیلون پل\" کے ذریعے حاصل کیا گیا۔</string>
+    <string name="favorited_tweet">آپ کی ٹویٹس کو پسند کیا</string>
+    <string name="new_followers">نئے پیروکار</string>
+    <string name="discussion">بحث</string>
+    <string name="no_replies">کوئی جواب نہیں</string>
+    <string name="rt_style_quotes">\"آر ٹی\" طرز حوالہ کو ترجیح دیں</string>
+    <string name="rt_style_quotes_summary">تالون کے اقتباس طریقہ کے بجائے حوالہ دینے کیلئے پرانا \"RT @ صارف نام: ...\" استعمال کریں۔\n\n کسی بھی ٹویٹ پر ایکشن بار یا مینو سے حاصل کردہ۔</string>
+    <string name="absolute_date">مطلق تاریخیں استعمال کریں</string>
+    <string name="clear_searches">تلاشیاں صاف کریں</string>
+    <string name="compose_with_search">تلاش کے ساتھ ٹویٹ تحریر کریں</string>
+    <string name="use_toast">\"ٹو فرسٹ\" ٹوسٹ استعمال کریں</string>
+    <string name="ignore_retweets">ریٹویٹس کو نظرانداز کریں</string>
+    <string name="ignore_retweets_summary">اپنی اہم ٹائم لائنز طومار کرتے ہوئے کوئی ٹویٹ نہیں دکھائیں۔</string>
+    <string name="view">دیکھیں</string>
+    <string name="muted_hashtags">خاموش ہیش ٹیگز</string>
+    <string name="muted_hashtags_summary">میوٹ کو دور کرنے کے لئے ہیش ٹیگ پر کلک کریں۔</string>
+    <string name="no_hashtags">کوئی ہیش ٹیگ نہیں</string>
+    <string name="mute_hashtags">ہیش ٹیگ خاموش کریں</string>
+    <string name="muted">خاموش</string>
+    <string name="auto_insert_hashtags">خودکار داخل کریں ہیش ٹیگ</string>
+    <string name="to_replies">جواب میں ٹویٹ میں شامل کوئی بھی ہیش ٹیگ داخل کریں</string>
+    <string name="clean_now">ڈیٹا بیس کو ابھی صاف کریں</string>
+    <string name="clean_now_summary">آپ کے ڈیٹا بیس میں نقول تراشنا اور ہٹانا بھی شامل ہے۔</string>
+    <string name="timeline_notifications">ٹائم لائن اطلاعات</string>
+    <string name="interactions_notifications">تعامل کی اطلاعات</string>
+    <string name="timelines_settings">ٹائم لائنز کی ترتیبات</string>
+    <string name="tweet_look_options">ٹائم لائن کے اختیارات</string>
+    <string name="limiting_options">محدود اختیارات</string>
+    <string name="browser_options">براؤزر کے اختیارات</string>
+    <string name="custom_ringtone">کسٹم رنگٹون</string>
+    <string name="use_twitlonger">ٹویٹ لونگر کو فعال کریں</string>
+    <string name="twitlonger">ٹویٹ لونگر</string>
+    <string name="post_with_twitlonger">ٹویٹ 140 حروف سے زیادہ ہے۔\n\n کیا آپ ٹویٹ لونگر کا استعمال کرتے ہوئے پوسٹ کرنا چاہیں گے؟</string>
+    <string name="remove_retweet">ریٹویٹ کو ہٹا دیں</string>
+    <string name="edit">ترمیم</string>
+    <string name="split_tweet">ٹویٹ کی تقسیم</string>
+    <string name="use_twitpic">ٹویٹپک استعمال کریں</string>
+    <string name="twitpic_summary">ٹویٹر کی تصویر اپ لوڈ سروس کے بجائے ٹویٹس میں تصاویر منسلک کرنے کے لئے ٹویٹ پیک کا استعمال کریں۔</string>
+    <string name="verified">تصدیق شدہ</string>
+    <string name="use_tweetmarker">ٹویٹ مارکر</string>
+    <string name="tweetmarker_summary">آلات کے مابین اپنی پوزیشن مطابقت پذیر کرنے کے لئے استعمال ہوتا ہے</string>
+    <string name="do_not_use">استعمال مت کرو</string>
+    <string name="automatic_refresh">خودکار ٹویٹ مارکر</string>
+    <string name="manual_refresh">دستی ٹویٹ مارکر</string>
+    <string name="finding_tweetmarker">ٹویٹ مارکر کی تلاش</string>
+    <string name="loading">لوڈ ہو رہا ہے</string>
+    <string name="loading_tweets">ٹویٹس لوڈ ہورہے ہیں…</string>
+    <string name="pull_to_refresh">ریفریش کرنے کے لئے کھینچیں</string>
+    <string name="removing_retweet">ریٹویٹ ہٹانا</string>
+    <string name="retweeting_status">ریٹویٹ اسٹیٹنگ</string>
+    <string name="removing_favorite">ہٹانا پسند ہے</string>
+    <string name="favoriting_status">پسند کا اسٹیٹس</string>
+    <string name="jumping_workaround">جمپنگ ورکآرائونڈ</string>
+    <string name="jumping_workaround_summary">اگر آپ اپنی فیڈ کو تازہ دم کرنے کے بعد آپ کی ٹائم لائن ایک جگہ سے نیچے جائے تو اسے فعال کریں۔</string>
+    <string name="menu_share_link">لنک شیئر کریں</string>
+    <string name="no_links">کوئی لنک نہیں</string>
+    <string name="configure_pages">سوائپ کے لیئے صفحات کا انتخاب کریں</string>
+    <string name="picture_page">تصویر ٹائم لائن</string>
+    <string name="link_page">لنک ٹائم لائن</string>
+    <string name="list_page">فہرست وقت</string>
+    <string name="current">موجودہ</string>
+    <string name="here_is_home">آپ کے ہوم کی ٹائم لائن یہ ہے!</string>
+    <string name="dont_use">اس صفحے کو استعمال نہ کریں</string>
+    <string name="page_1">صفحہ 1</string>
+    <string name="page_2">صفحہ 2</string>
+    <string name="load_tweets">ٹویٹس لوڈ کریں</string>
+    <string name="download_portal">تھیم پورٹل ایپ ڈاؤن لوڈ کریں</string>
+    <string name="download_portal_summary">تازہ ترین خبروں کے ساتھ تازہ ترین رہنے کے ساتھ ساتھ ٹالون اور ایوالوس ایس ایم ایس کے لئے ایک ہی جگہ پر تمام بہترین موضوعات تلاش کرنے کے لئے یہ کلنکر ایپس \"پورٹل\" ایپ ہے۔</string>
+    <string name="compose_dm_hint">پیغام ٹائپ کریں…</string>
+    <string name="pwiccer">پویسر</string>
+    <string name="select_shortening_service">ایک مختصر سروس کا انتخاب کریں ، یا ٹویٹ میں ترمیم کرنے کے لئے واپس دبائیں۔</string>
+    <string name="use_shortening_service">قصر خدمت استعمال کریں</string>
+    <string name="use_shortening_service_summary">آپ ٹویٹ لونجر یا پیوائسر (ایک ایسی خدمت جو آپ کے لمبے ٹویٹ کو پوسٹنگ کے لیئے کسی شبیہ میں تبدیل کرتی ہے) کو منتخب کرنے کے اہل ہوں گے۔</string>
+    <string name="view_retweeters">ریٹویٹرز</string>
+    <string name="view_favoriters">پسند ہے</string>
+    <string name="no_tweets">کوئی ٹویٹس نہیں</string>
+    <string name="only_7_days">صرف 7 دن دستیاب ہیں</string>
+    <string name="saved_searches">محفوظ کردہ تلاشیں</string>
+    <string name="error_check_network">پروفائل لوڈ کرنے میں خرابی۔  اپنا نیٹ ورک کنکشن چیک کریں۔</string>
+    <string name="error_loading_timeline">ٹائم لائن لوڈ نہیں ہوسکا!  اپنا ڈیٹا کنکشن چیک کرنے کی کوشش کریں۔</string>
+    <string name="currently_in_beta">فی الحال بیٹا میں ہیں۔</string>
+    <string name="changed_screenname">اس سے پہلے کہ تالون آپ کی شناخت محفوظ کرسکے آپ نے اپنا صارف نام تبدیل کردیا!  درست تبدیلیاں کرنے کے لیئے آپ کو ایک بار لاگ آؤٹ کرکے
+واپس جانا پڑے گا!</string>
+    <string name="menu_save_search">تلاش محفوظ کریں</string>
+    <string name="saving_search">"تلاش کو محفوظ "</string>
+    <string name="delete_saved_search">محفوظ کردہ تلاش کو حذف کریں</string>
+    <string name="deleting_search">تلاش کو حذف کیا جا رہا ہے</string>
+    <string name="none">کوئی نہیں</string>
+    <string name="start">شروع کرو!</string>
+    <string name="version_two">ورژن 2.0.0</string>
+    <string name="cleaning_databases">ڈیٹا بیس کی صفائی…</string>
+    <string name="user">صارفین</string>
+    <string name="menu_translate">ٹویٹ کا ترجمہ کریں</string>
+    <string name="add_new_tweet">نیا ٹویٹ شامل کریں</string>
+    <string name="scheduled_tweets">شیڈول ٹویٹس</string>
+    <string name="done_label">ہو گیا</string>
+    <string name="tweet_queued">قطار میں ٹویٹ!</string>
+    <string name="only_queue_no_pic">ہم تصویروں کے بغیر صرف ٹویٹس کی قطاریں لگاسکتے ہیں!</string>
+    <string name="menu_view_queued">قطار میں موجود ٹویٹس دیکھیں</string>
+    <string name="keep_queued_tweet">قطار میں ٹویٹ رکھیں؟</string>
+    <string name="date_picker">تاریخ منتخب کریں</string>
+    <string name="time_picker">وقت منتخب کریں</string>
+    <string name="complete_form">براہ کرم فارم کو مکمل کریں!</string>
+    <string name="no_drafts">کوئی مسودہ نہیں ملا</string>
+    <string name="no_queued">کوئی قطار میں ٹویٹس نہیں ہیں</string>
+    <string name="menu_show_top_tweets">فلٹر \"اوپر ٹویٹس\"</string>
+    <string name="delete_all">تمام مسودوں کو حذف کریں</string>
+    <string name="muted_clients">خاموش موکل</string>
+    <string name="mute_client">خاموش کلائنٹ</string>
+    <string name="no_clients">کوئی مؤکل نہیں</string>
+    <string name="muted_clients_summary">آپ کو ایک مخصوص اطلاق سے آنے والے تمام ٹویٹس کو خاموش کرنے کی اجازت دیتا ہے۔</string>
+    <string name="client_not_found">موکل نہیں ملا!</string>
+    <string name="favorite">پسند ہے</string>
+    <string name="menu_share_image">تصویر شیئر کریں</string>
+    <string name="pick_time">وقت متعین کریں</string>
+    <string name="pick_date">متعین تاریخ</string>
+    <string name="both_accounts">دونوں اکاؤنٹس</string>
+    <string name="attach_gif">ڈیوائس سے متحرک GIF</string>
+    <!-- %s will be replaced with a number for the currently selected page -->
+    <!-- the username will replace %s -->
+    <!-- Long click methods -->
+    <string name="open_profile">پروفائل کھولیں</string>
+    <string name="copy_handle">ہینڈل کاپی کریں</string>
+    <string name="search_user">صارف تلاش کریں</string>
+    <string name="mute_user">صارف کو خاموش کریں</string>
+    <string name="mute_retweets">ریٹویٹس کو خاموش کریں</string>
+    <string name="share_profile">پروفائل شیئر کریں</string>
+    <string name="open_to_external_browser">بیرونی براؤزر کے لئے کھلا</string>
+    <string name="open_to_internal_browser">اندرونی براؤزر کے لئے کھولیں</string>
+    <string name="copy_link">لنک کاپی کریں</string>
+    <string name="today">آج</string>
+    <string name="last_week">اس ہفتے</string>
+    <string name="last_month">اس مہینے</string>
+    <string name="older">پرانا</string>
+    <string name="undo">کالعدم کریں</string>
+    <string name="enter_search">تلاش کریں…</string>
+    <string name="message_from_bullet">٪ 1 $ s</string>
+    <string name="now">ابھی</string>
+    <string name="failed">ناکام ہوگیا</string>
+    <string name="delivered">پیغام پہنچایا</string>
+    <string name="attach_image">تصویر منسلک کریں</string>
+    <string name="capture_image">تصویر پر قبضہ</string>
+    <string name="record_video">ویڈیو ریکارڈ کریں</string>
+    <string name="flip_picture">پلٹائیں کیمرہ</string>
+    <string name="fullscreen">مکمل اسکرین</string>
+    <string name="attached_image">منسلک تصویر</string>
+    <string name="share">شیئر</string>
+    <string name="share_content">مواد کا اشتراک کریں…</string>
+    <string name="saved">ڈاؤن لوڈ فولڈر میں محفوظ!</string>
+    <string name="failed_to_save">بچانے میں ناکام</string>
+    <string name="read">پڑھیں</string>
+    <string name="mark_as_read">پڑھیں کے بطور نشان زد کریں</string>
+    <string-array name="reply_choices">
+        <item>"ہاں "</item>
+        <item>نہیں</item>
+        <item>شاید</item>
+        <item>ٹھیک ہے</item>
+        <item>شکریہ</item>
+    </string-array>
+    <string name="status_notifications_channel">اسٹیٹس کی اطلاعات</string>
+    <string name="background_service_channel">پس منظر کی خدمت کی اطلاعات</string>
+    <string name="general_notifications_channel">عام اطلاعات</string>
+    <string name="copyright_summary">اوپن سورس لائسنس کی معلومات دیکھیں</string>
+    <string name="app_version">ایپ ورژن</string>
+    <string name="faqs">اکثر پوچھے گئے سوالات</string>
+    <string name="get_help">مدد حاصل کریں</string>
+    <string name="google_plus_summary">پلس بیٹا کمیونٹی</string>
+    <string name="email">ای میل</string>
+    <string name="email_summary">"luke@klinkerapps.com
+"</string>
+</resources>

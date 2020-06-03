@@ -91,8 +91,6 @@
     <string name="mention">提及</string>
     <string name="message">消息</string>
     <string name="messages">消息</string>
-    <string name="new_message">条新消息</string>
-    <string name="new_messages">条新消息</string>
     <string name="mentioned_by">被以下用户提及：</string>
     <string name="message_from">消息来自：</string>
     <string name="mark_read">标记已读</string>
@@ -302,9 +300,6 @@
     <string name="sync_mobile_data_summary">在移动数据和 Wifi 下自动刷新时间线</string>
     <string name="auto_sync_notifications">自动刷新通知选项</string>
     <string name="notifications">通知</string>
-    <string name="vibrate">振动</string>
-    <string name="led">LED 灯闪烁</string>
-    <string name="wake_screen">点亮屏幕</string>
     <string name="sound">通知提示音</string>
     <string name="quiet_hours">勿扰模式</string>
     <string name="max_number_on_refresh">刷新时获取的最大推文数</string>
@@ -383,7 +378,6 @@
     <string name="disclaimer">免责声明</string>
     <string name="other_apps">我们的其他应用</string>
     <string name="whats_new">更新日志</string>
-    <string name="rate_it">给 Talon 评分</string>
     <string name="talon_settings">Talon 设置</string>
     <string name="feature_requests">请求新功能</string>
     <!-- Emoji Keyboard -->
@@ -434,9 +428,6 @@
     <string name="to_replies">在回复里自动插入原推文中的所有话题</string>
     <string name="clean_now">清理当前数据库</string>
     <string name="clean_now_summary">优化数据库并移除当中的重复项</string>
-    <string name="delete_conversation">删除对话？</string>
-    <string name="deleting_messages">删除信息</string>
-    <string name="type_message">输入消息...</string>
     <string name="fill_gaps">补全时间线上的空隙</string>
     <string name="fill_gaps_summary">填补当开启实时流后因信息流连接不稳定而造成的版面空隙</string>
     <string name="filling_timeline">正在补全时间线上的空隙</string>
@@ -719,4 +710,80 @@ Talon 程序内已内置了丰富的帮助说明。在焦急等待我的回复�
     <string name="three_mb_message">Twitter 仅允许用户发布不大于 5MB 的 GIF 图片。 Talon 将会从 Giphy 上抓取符合该项规定的最高画质 GIF 图片。\n\n您看到的所有显示结果都将有符合这一限制的版本存在，而那些降低图片质量以满足发布规定的图片将不被显示。</string>
     <string name="quoted_you">引用了你</string>
     <string name="privacy_policy">隐私策略</string>
+    <string name="saved_tweets">Gespeicherte Tweets</string>
+    <string name="save_for_later">Für später speichern</string>
+    <string name="remove_from_saved_tweets">Von den gespeicherten Tweets entfernen</string>
+    <string name="today">Heute</string>
+    <string name="last_week">Diese Woche</string>
+    <string name="last_month">Diesen Monat</string>
+    <string name="older">Älter</string>
+    <string name="undo">Rückgängig machen</string>
+    <string name="enter_search">Suchen nach...</string>
+    <string name="message_from_bullet">%1$s •</string>
+    <string name="now">Jetzt</string>
+    <string name="failed">Fehlgeschlagenen</string>
+    <string name="delivered">Nachricht zugestellt</string>
+    <string name="attach_image">Bild anhängen</string>
+    <string name="capture_image">Bild aufzeichnen</string>
+    <string name="record_video">Video aufnehmen</string>
+    <string name="flip_picture">Kamera umdrehen</string>
+    <string name="fullscreen">Vollbild</string>
+    <string name="attached_image">Angehängtes Bild</string>
+    <string name="share">Teilen</string>
+    <string name="share_content">Inhalt teilen...</string>
+    <string name="saved">In das Download-Verzeichnis gespeichert!</string>
+    <string name="failed_to_save">Speichern fehlgeschlagen</string>
+    <string name="read">Gelesen</string>
+    <string name="mark_as_read">Als gelesen markieren</string>
+    <string-array name="reply_choices">
+        <item>Ja</item>
+        <item>Nein</item>
+        <item>Vielleicht</item>
+        <item>Ok</item>
+        <item>Danke</item>
+    </string-array>
+    <string name="status_notifications_channel">Status-Benachrichtigungen</string>
+    <string name="background_service_channel">Hintergrund-Service-Benachrichtigungen</string>
+    <string name="general_notifications_channel">Grundsätzliche Benachrichtigungen</string>
+    <string name="copyright_summary">Open Source Lizenzinformation anzeigen</string>
+    <string name="app_version">App Version</string>
+    <string name="faqs">Häufig Fragen</string>
+    <string name="get_help">Hilfe</string>
+    <string name="google_plus_summary">Pulse Beta Benutzergruppe</string>
+    <string name="email">Email</string>
+    <string name="email_summary">luke@klinkerapps.com</string>
+    <string name="twitter_summary">\@KlinkerApps</string>
+    <string name="support">Support</string>
+    <string name="theme_settings_category">Erscheinungsbild</string>
+    <string name="conversation_list_category">Konversations-Liste</string>
+    <string name="general_category">Allgemein</string>
+    <string name="theme_settings_redirect">Thema</string>
+    <string name="add">Hinzufügen</string>
+    <string name="privacy_policy_summary">Unsere Datenschutzerklärung im Web einsehen</string>
+    <string name="signout_time">Von %1$s abmelden</string>
+    <string name="no_apps_found">Keine App mit dieser Aktion verknüpft</string>
+    <string name="you_denied_permission">Du hast die Genehmigung verweigert</string>
+    <string name="verify">Überprüfen</string>
+    <string name="default_text">Standard</string>
+    <string name="dismiss">Verwerfen</string>
+    <string name="renew">Erneuern</string>
+    <string name="hours">Stunden</string>
+    <string name="minutes">Minuten</string>
+    <string name="test">Test</string>
+    <string name="off">Aus</string>
+    <string name="on">An</string>
+    <!-- Times -->
+    <string name="one_second">Eine Sekunde</string>
+    <string name="three_seconds">Drei Sekunden</string>
+    <string name="five_seconds">Fünf Sekunden</string>
+    <string name="ten_seconds">Zehn Sekunden</string>
+    <string name="fifteen_seconds">Fünfzehn Sekunden</string>
+    <string name="thirty_seconds">Dreißig Sekunden</string>
+    <string name="one_minute">Eine Minute</string>
+    <string name="one_week">Eine Woche</string>
+    <string name="two_weeks">Zwei Wochen</string>
+    <string name="one_month">Ein Monat</string>
+    <string name="three_months">Drei Monate</string>
+    <string name="six_months">Sechs Monate</string>
+    <string name="one_year">Ein Jahr</string>
 </resources>

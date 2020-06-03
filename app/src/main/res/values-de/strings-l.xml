@@ -29,7 +29,7 @@
     <string name="emojis_summary">iOS-Emojis nutzen, indem Du unser \"Sliding Emoji Keyboard - iOS\" installierst.</string>
     <string name="replies">Antworten</string>
     <string name="web">Internet</string>
-    <string name="heads_up">Heads Up</string>
+    <string name="heads_up">Aufgepasst!</string>
     <string name="use_snackbar">Schwebende Tweet-Anzahl</string>
     <string name="use_snackbar_summary">Zeigt an, wie viele Tweets Du von dem obersten Deiner Timeline entfernt bist.</string>
     <string name="bottom_pictures">Bilder unter Tweets</string>
@@ -135,7 +135,7 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="timeline_notifications_text">Diese Benachrichtigungen werden angezeigt, nachdem eine Aktualisierung im Hintergrund abgeschlossen ist.</string>
     <string name="tweetmarker_always_refreshes">TweetMarker wird beim Start der App immer aktualisiert.</string>
     <string name="background_refreshes_disclaimer">Alle Einstellungen unter \"Hintergrundaktualisierung\" werden außerdem den Daten- und Stromverbrauch erhöhen.</string>
-    <string name="discover_section_options">Entdecken-Einstellungen</string>
+    <string name="discover_section_options">Einstellungen für den Bereich \"Entdecken\"</string>
     <string name="clear_memory">Leere den Zwischenspeicher</string>
     <string name="manage_mutes_options">Verwalte Stummschaltungen</string>
     <string name="widget_disclaimer">Möglicherweise musst du das Widget vom Startbildschirm entfernen und neu hinzufügen, damit diese Änderungen wirksam werden.</string>
@@ -150,7 +150,8 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="auto_dismiss_summary">Automatisch alle Talon-Benachrichtungen entfernen, wenn die App geöffnet wird. Dies ist standardmäßig aktiviert.</string>
     <string name="media">Medien des Nutzers</string>
     <string name="ignored_on_compact">Diese Einstellung wird im kompakten Layout ignoriert.</string>
-    <string name="use_peek">Benutze \'Hineinluken\'</string>
+    <string name="use_peek">"Benutze \"Lugen\"
+"</string>
     <string name="use_peek_description">Lange auf Bilder, Videos oder GIFs in der Timeline tippen, um eine Vorschau zu erhalten.</string>
     <string name="line_spacing">Zeilenabstand</string>
     <string name="line_spacing_summary">Diese Einstellung gilt nicht, wenn du das kompakte Layout nutzt.</string>
@@ -178,25 +179,30 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
     <string name="compact_layout_no_pictures">Kompakter Tweet (keine Bilder)</string>
     <string name="user_tweets">Die Tweets ausgewählter Nutzer</string>
     <string name="user_tweets_size">Nutzerseitengröße</string>
+    <string name="user_tweets_size_summary">Maximale Anzahl der Tweets die für eine wischbar Benutzerseite in der Datenbank gespeichert werden.</string>
     <string name="authenticate">Authentifizieren</string>
     <string name="enable_fingerprint_lock">Nutze Fingerabdruck-Sperre</string>
-    <string name="disable_fingerprint_lock">Nutze Fingerabdruck-Sperre nicht</string>
+    <string name="disable_fingerprint_lock">Deaktivieren der Fingerabdruck-Sperre</string>
+    <string name="auto_complete_hashtags">Hashtags automatisch vervollständigen</string>
+    <string name="auto_complete_hashtags_summary">Zeige kürzlich gesuchte oder angezeigte Hashtags beim Verfassen eines neuen Tweets an.</string>
     <string name="followers_only_auto_complete">Followers auto-vervollständigen</string>
     <string name="followers_only_auto_complete_summary">Durchsuche nicht das ganze Twitter bei der Auto-Vervollständigung einer Antwort.</string>
     <string name="quoting">Zitieren</string>
     <string name="profile_timeline">Zeitleiste</string>
     <string name="show_all_tweets">Zeige alle Tweets</string>
-    <string name="are_you_sure_unfollow">Bist Du Dir sicher, dass Du diesem Nutzer entfolgen möchtest?</string>
+    <string name="are_you_sure_unfollow">Bist Du Dir sicher, dass Du diesen Nutzer entfolgen möchtest?</string>
     <string name="are_you_sure_follow">Bist Du Dir sicher, dass Du diesem Nutzer folgen möchtest?</string>
-    <string name="are_you_sure_spam">Bist Du Dir sicher, dass Du diesen Twet als Spam melden möchtest?</string>
+    <string name="are_you_sure_spam">Bist Du Dir sicher, dass Du diesen Tweet als Spam melden möchtest?</string>
     <string name="larger_images">Nutze größere Bilder</string>
     <string name="show_profile_pictures">Zeige Profilbilder</string>
     <string name="reply_to">Antwort an</string>
     <string name="others">andere</string>
     <string name="compress_reply_handles">Verkleinere Antwort-Zeichen</string>
     <string name="compress_reply_handles_summary">Dies verbessert die Behandlung von langen Antwortketten auf Twitter.</string>
-    <string name="interaction_notifications">Interaktionen-Benachrichtigungen</string>
+    <string name="interaction_notifications">Benachrichtigung bei Interaktion</string>
+    <string name="interaction_notifications_summary">Dies erfordert eine Hintergrund-Aktualisierung für die Aktivitäts-Seite,  Twitter Push Interceptor oder Talon Pull aktivieren.</string>
     <string name="swipable_page_notifications">Wischbare Seiten-Benachrichtigungen</string>
+    <string name="swipable_page_notifications_summary">Diese werden angezeigt, wenn die wischbare Seite im Hintergrund aktualisiert wird.</string>
     <string name="never_show_notifications">Zeige niemals Benachrichtigungen</string>
     <string name="after_background_refresh_talon_pull">\nNach einer Hintergrundaktualisierung oder einem Talon Pull (Streaming) Ereignis\n</string>
     <string name="intercept_twitter_push_notifications">Fange Push-Benachrichtigungen von der offiziellen Twitter-App ab</string>
@@ -204,17 +210,25 @@ Die Berechtigungen können verweigert werden, eine nachträgliche Bearbeitung ka
 Du solltest in diesem offiziellen Client die Benachrichtigungen so einstellen, wie Du sie gerne bekommen magst. Alles, was dann als Benachrichtigung  von der offiziellen App hereinkommt, wird dann stattdessen als Talon-Benachrichtigung dargestellt.
 Um diese Funktion nutzen zu können, musst Du im nächsten Bildschirm Talon Zugriff auf Deine Benachrichtigungen erlauben. Damit ermöglichst Du der App, die Benachrichtigungen der Twitter-App zu lesen.</string>
     <string name="widget_refresh_channel">Widget: Neuladen-Benachrichtigungen</string>
+    <string name="media_downloads_channel">Medien Download Benachrichtigungen</string>
     <string name="tweeting_notifications_channel">Twittern-Benachtichtigungen</string>
     <string name="tweet_failure_channel">Sendefehlerbenachrichtigungen</string>
     <string name="background_refresh_channel">Hintergrund-Aktualisierung-Benachrichtigungen</string>
     <string name="interactions_channel">Interaktionen-Benachrichtigungen</string>
+    <string name="scheduled_messages_channel">Tweet Sendenzeitplan Benachrichtigungen</string>
     <string name="favorite_user_channel">Benachrichtigungen für gefavte Nutzer</string>
     <string name="talon_pull_channel">Talon-Pull-Benachrichtigungen</string>
     <string name="mentions_channel">Erwähnungsbenachrichtigungen</string>
     <string name="direct_messages_channel">Direktnachrichtbenachrichtigungen</string>
     <string name="notification_channels">Benachrichtigungskanäle</string>
+    <string name="notification_channels_summary">Kanale steuern die Arten von Warnungen, die Sie erhalten für Benachrichtungen und ermöglichen es Ihnen, Ihre Benachrichtungen anzupassen.</string>
     <string name="crop_images">Beschneide Bilder in der Zeitleiste</string>
+    <string name="update_tweet">Tweet aktualisieren</string>
     <string name="rate_it_button">Bewertung!</string>
+    <string name="rate_it_title">Top-Bewertungen gehen ein langen Weg</string>
+    <string name="rate_it_summary"><b>5-Sterne-Bewertungen</b> sind äußerst hilfreich
+für die Verbreitung und Sichtbarkeit der App im Play Store. Wenn Sie möchten, dass die App <i>weiter steigt</i>, helfen Sie mir!</string>
+    <string name="rate_it_not_ready">Nicht bereit, es zu bewerten? Kein Problem. Nach schliessen dieses Dialogs werde ich nie wieder fragen.</string>
     <string name="preview_web_links">Vorschau WWW Links</string>
     <string name="seconds_ago">Vor %1$d Sekunden</string>
     <string name="min_ago">Vor %1$d Minute</string>
@@ -223,4 +237,14 @@ Um diese Funktion nutzen zu können, musst Du im nächsten Bildschirm Talon Zugr
     <string name="new_hours_ago">Vor %1$d Stunden</string>
     <string name="day_ago">Vor %1$d Tag</string>
     <string name="new_days_ago">Vor %1$d Tagen</string>
+    <string name="revamped_layout">Timeline Style Tweet Layout</string>
+    <string name="widget_display_screenname">Bildschirmname anzeigen</string>
+    <string name="saved_tweet_description">Um auf Ihre gespeicherten tweets zuzugreifen, gehen Sie zum Abschnitt \"Swipe-fähige Seiten\" der Einstellungen und richten Sie eine <i>gespeicherte Tweet</i> s-Seite ein.</string>
+    <string name="auto_play_gifs">Autoplay nur für GIFs</string>
+    <string name="auto_play_gifs_summary">Standardmäßig werden sowohl GIFs als auch Twitter-Videos direkt auf der Timeline wiedergegeben.</string>
+    <string name="data_saver_mode">Datensparmodus</string>
+    <string name="data_saver_mode_summary">Dies überschreibt einige Ihrer aktuellen Einstellungen, um Ihnen die geringste Menge an Hintergrunddaten zu geben.</string>
+    <string name="quote_style">Zitat-Aussehen</string>
+    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
+    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>

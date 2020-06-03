@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  Copyright 2014 Luke Klinker
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+<resources>
+    <string name="app_name">Talon</string>
+    <string name="app_name_full">Talon pro Twitter</string>
+    <string name="extension_description">Zobrazení počtu nepřečtených twítů, zmínek a přímých zpráv, tak jak jsou obnovovány.</string>
+    <!-- Action Bar -->
+    <string name="menu_refresh">Obnovení Timeline</string>
+    <string name="menu_compose">Nový Tweet</string>
+    <string name="menu_logout">Odhlášení</string>
+    <string name="menu_settings">Nastavení</string>
+    <string name="menu_follow">Nasleduj uživatele</string>
+    <string name="menu_unfollow">Přestat následovat uživatele</string>
+    <string name="menu_tweet">Poslat Twít</string>
+    <string name="menu_dm">Poslat Přímou Zprávu</string>
+    <string name="menu_block">Blokovat Uživatele</string>
+    <string name="menu_unblock">Odblokovat Uživatele</string>
+    <string name="menu_add_to_list">Přidat do Seznamu</string>
+    <string name="menu_change_picture">Změnit Profilový Obrázek</string>
+    <string name="menu_change_bio">Změnit Profilové Informace</string>
+    <string name="menu_change_banner">Změnit Profilový Baner</string>
+    <string name="menu_direct_message">Nová Přímá Zpráva</string>
+    <string name="menu_save_image">Uložit Obrázek</string>
+    <string name="menu_favorite">Oblíbený Uživatel</string>
+    <string name="menu_unfavorite">Odebrat z oblíbených uživatelů</string>
+    <string name="menu_create_list">Vytvořit nový seznam</string>
+    <string name="menu_spam">Označit jako Spam</string>
+    <!-- Times -->
+    <!-- When translating: put the %s where the number should go in the string. -->
+    <string name="just_now">Právě teď</string>
+    <string name="a_min_ago">před minutou</string>
+    <string name="minutes_ago">před {%s} minut</string>
+    <string name="an_hour_ago">před hodinou</string>
+    <string name="hours_ago">před {%s} hodin</string>
+    <string name="yesterday">včera</string>
+    <!-- Muting -->
+    <string name="unmute">Odebrat ztlumení</string>
+    <string name="muted_users">Ztlumení uživatelé</string>
+    <string name="no_users">Žádní uživatelé</string>
+    <!-- Main Activity -->
+    <string name="links">Odkazy</string>
+    <string name="pictures">Obrázky</string>
+    <string name="timeline">Domů</string>
+    <string name="mentions">Zmínky</string>
+    <string name="direct_messages">Přímé zprávy</string>
+    <string name="retweets">Retwíty</string>
+    <string name="favorite_tweets">Oblíbené twíty</string>
+    <string name="favorite_users">Oblíbení uživatelé</string>
+    <string name="favorite_users_tweets">Twíty oblíbených uživatelů</string>
+    <string name="trends">Módní</string>
+    <string name="local_trends">Místní</string>
+    <string name="world_trends">Svět</string>
+    <string name="search">Hledat</string>
+    <string name="lists">Seznamy</string>
+    <string name="search_hint">Hledám...</string>
+    <string name="new_tweet">Nový tweet</string>
+    <string name="new_tweets">Nové tweety</string>
+    <string name="no_new_tweets">Žádné nové tweety</string>
+    <string name="new_mention">Nová zmínka</string>
+    <string name="new_mentions">Nové zmínky</string>
+    <string name="no_new_mentions">Žádné nové zmínky</string>
+    <string name="new_direct_message">Nová přímá zpráva</string>
+    <string name="new_direct_messages">Nové přímé zprávy</string>
+    <string name="no_new_direct_messages">Žádné nové přímé zprávy</string>
+    <string name="tap_to_setup">Klepni pro nastavení</string>
+    <string name="new_account">Nový účet</string>
+    <string name="all_read">Vše přečteno!</string>
+    <!-- Notifications -->
+    <!-- Login Screen -->
+    <!-- Compose New Activity -->
+    <!-- Actionbar Done-Discard -->
+    <!-- Other -->
+    <!-- User Profile Activity -->
+    <!-- Retweets Activity -->
+    <!-- Tweet Activity -->
+    <!-- User Lists -->
+    <!-- Tutorial Activity -->
+    <!-- Settings Menu -->
+    <!-- Emoji Keyboard -->
+    <string name="people">Lidé</string>
+    <!-- Array value for translation -->
+    <!-- added after release -->
+    <!-- %s will be replaced with a number for the currently selected page -->
+    <!-- the username will replace %s -->
+    <!-- Long click methods -->
+    <string name="today">Dnes</string>
+    <string name="last_week">Tento týden</string>
+    <string name="last_month">Tento měsíc</string>
+    <string name="older">Starší</string>
+    <string name="undo">Zpět</string>
+    <string name="enter_search">Vyhledávání</string>
+</resources>
