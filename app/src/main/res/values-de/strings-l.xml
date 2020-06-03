@@ -228,7 +228,6 @@ Um diese Funktion nutzen zu können, musst Du im nächsten Bildschirm Talon Zugr
     <string name="rate_it_title">Top-Bewertungen gehen ein langen Weg</string>
     <string name="rate_it_summary"><b>5-Sterne-Bewertungen</b> sind äußerst hilfreich
 für die Verbreitung und Sichtbarkeit der App im Play Store. Wenn Sie möchten, dass die App <i>weiter steigt</i>, helfen Sie mir!</string>
-    <string name="rate_it_not_ready">Nicht bereit, es zu bewerten? Kein Problem. Nach schliessen dieses Dialogs werde ich nie wieder fragen.</string>
     <string name="preview_web_links">Vorschau WWW Links</string>
     <string name="seconds_ago">Vor %1$d Sekunden</string>
     <string name="min_ago">Vor %1$d Minute</string>
@@ -244,7 +243,4 @@ für die Verbreitung und Sichtbarkeit der App im Play Store. Wenn Sie möchten, 
     <string name="auto_play_gifs_summary">Standardmäßig werden sowohl GIFs als auch Twitter-Videos direkt auf der Timeline wiedergegeben.</string>
     <string name="data_saver_mode">Datensparmodus</string>
     <string name="data_saver_mode_summary">Dies überschreibt einige Ihrer aktuellen Einstellungen, um Ihnen die geringste Menge an Hintergrunddaten zu geben.</string>
-    <string name="quote_style">Zitat-Aussehen</string>
-    <string name="quote_style_talon">\"\@&#8230; [^0^]\"</string>
-    <string name="quote_style_rt">RT \@lukeklinker &#8230;</string>
 </resources>
