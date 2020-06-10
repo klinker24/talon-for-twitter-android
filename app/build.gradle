@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
 
@@ -67,7 +67,7 @@ dependencies {
     implementation "androidx.emoji:emoji:${versions.androidX}"
     implementation "com.google.android.material:material:1.1.0"
     implementation "androidx.browser:browser:1.2.0"
-    implementation "androidx.preference:preference:1.1.0"
+    implementation "androidx.preference:preference:1.1.1"
     implementation "androidx.legacy:legacy-preference-v14:${versions.androidX}"
     implementation 'androidx.multidex:multidex:2.0.0'
 
