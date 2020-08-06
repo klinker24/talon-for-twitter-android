@@ -15,6 +15,7 @@ package com.klinker.android.twitter_l.utils;
  * limitations under the License.
  */
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.*;
 import android.content.pm.PackageInfo;
@@ -27,6 +28,7 @@ import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.activities.RateItDialog;
 import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.sensortower.rating.RatingPrompt;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,23 +41,13 @@ public class UpdateUtils {
     private static final long MIN = 60 * SEC;
     private static final long HOUR = 60 * MIN;
     private static final long DAY = 24 * HOUR;
-    private static final long RATE_IT_TIMEOUT = 2 * DAY;
 
     private static final long SUPPORTER_TIMEOUT = 90 * DAY;
 
-    public static void checkUpdate(final Context context) {
+    public static void checkUpdate(final Activity context) {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
-        long rateItShown = sharedPrefs.getLong("rate_it_last_shown", 0l);
-        long currentTime = Calendar.getInstance().getTimeInMillis();
-
-        if (rateItShown != 0l && currentTime - rateItShown > RATE_IT_TIMEOUT && sharedPrefs.getBoolean("show_rate_it", true)) {
-            // show dialog
-            showRateItDialog(context, sharedPrefs);
-            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).apply();
-        } if (rateItShown == 0l) {
-            sharedPrefs.edit().putLong("rate_it_last_shown", currentTime).apply();
-        }
+        RatingPrompt.show(context);
 
         boolean justInstalled = runFirstInstalled(sharedPrefs);
 
@@ -162,11 +154,6 @@ public class UpdateUtils {
         if (storedAppVersion != currentAppVersion && Utils.hasInternetConnection(context)) {
             sharedPrefs.edit().putInt("app_version", currentAppVersion).apply();
         }
-    }
-
-    public static void showRateItDialog(final Context context, final SharedPreferences sharedPreferences) {
-        sharedPreferences.edit().putBoolean("show_rate_it", false).commit();
-        new Handler().postDelayed(() -> context.startActivity(new Intent(context, RateItDialog.class)), 500);
     }
 
     protected static int getAppVersion(Context c) {
