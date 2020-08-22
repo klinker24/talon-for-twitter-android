@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="7.7.11">
+        <text>Bug fixes</text>
+        <text>Translation improvements</text>
+    </version>
+
     <version name="7.7.10">
         <text>Bug fixes</text>
         <text>Translation updates</text>

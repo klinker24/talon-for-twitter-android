@@ -247,7 +247,7 @@
     </string-array>
 
     <string-array name="interactions_notifications">
-        <item>@string/favorited_tweet</item>
+<!--        <item>@string/favorited_tweet</item>-->
         <item>@string/retweets</item>
         <item>@string/new_followers</item>
         <item>@string/mentions</item>
@@ -259,7 +259,7 @@
     </string-array>
 
     <string-array name="interaction_notifications_inserted">
-        <item>1</item>
+<!--        <item>1</item>-->
         <item>2</item>
         <item>3</item>
         <item>4</item>

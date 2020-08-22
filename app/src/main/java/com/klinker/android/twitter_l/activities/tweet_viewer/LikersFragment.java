@@ -57,7 +57,7 @@ public class LikersFragment extends Fragment {
         noContent = (LinearLayout) layout.findViewById(R.id.no_content);
         noContentText = (FontPrefTextView) layout.findViewById(R.id.no_retweeters_text);
 
-        noContentText.setText(getActivity().getResources().getString(R.string.no_favorites));
+        noContentText.setText(getActivity().getString(R.string.no_favorites_warning));
 
         startSearch();
 
@@ -65,46 +65,37 @@ public class LikersFragment extends Fragment {
     }
 
     private void startSearch() {
-        new TimeoutThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    FavoriterUtils utils = new FavoriterUtils();
-                    final List<User> users = utils.getFavoriters(getActivity(), tweetId);
+        new TimeoutThread(() -> {
+            try {
+                FavoriterUtils utils = new FavoriterUtils();
+                final List<User> users = utils.getFavoriters(getActivity(), tweetId);
 
-                    if (getActivity() == null) {
-                        return;
-                    }
-
-                    ((Activity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (users.size() > 0 && getActivity() != null) {
-                                listView.setAdapter(new PeopleArrayAdapter(getActivity(), users));
-                                listView.setVisibility(View.VISIBLE);
-                            } else {
-                                noContent.setVisibility(View.VISIBLE);
-                            }
-
-                            spinner.setVisibility(View.GONE);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    if (getActivity() == null) {
-                        return;
-                    }
-
-                    ((Activity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            noContent.setVisibility(View.VISIBLE);
-                            spinner.setVisibility(View.GONE);
-                        }
-                    });
-
+                if (getActivity() == null) {
+                    return;
                 }
+
+                ((Activity) context).runOnUiThread(() -> {
+                    if (users.size() > 0 && getActivity() != null) {
+                        listView.setAdapter(new PeopleArrayAdapter(getActivity(), users));
+                        listView.setVisibility(View.VISIBLE);
+                    } else {
+                        noContent.setVisibility(View.VISIBLE);
+                    }
+
+                    spinner.setVisibility(View.GONE);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                if (getActivity() == null) {
+                    return;
+                }
+
+                ((Activity) context).runOnUiThread(() -> {
+                    noContent.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.GONE);
+                });
+
             }
         }).start();
     }

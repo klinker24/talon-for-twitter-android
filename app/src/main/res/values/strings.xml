@@ -680,6 +680,7 @@
     <string name="items">items</string>
     <string name="and">and</string>
     <string name="no_favorites">No likes</string>
+    <string name="no_favorites_warning">Twitter has unfortunately disabled this functionality for third party applications.</string>
     <string name="quote_style">Quote Style</string>
     <string name="quote_style_twitter">Twitter Style (Link to tweet)</string>
     <string name="quote_style_talon">\"\@lukeklinker &#8230;\"</string>
