@@ -26,7 +26,7 @@ public class AnalyticsHelper {
     private static final String APP_NOT_PURCHASED_LAST_WARNING = "APP_NOT_PURCHASED_LAST_WARNING";
     private static final String APP_PURCHASED = "APP_PURCHASED";
 
-    private static void logEvent(Context context, String event) {
+    public static void logEvent(Context context, String event) {
         Bundle bundle = new Bundle();
         logEvent(context, event, bundle);
     }

@@ -99,6 +99,7 @@ dependencies {
     implementation 'com.github.ajalt.reprint:core:3.2.1@aar'
     implementation 'com.afollestad.material-dialogs:core:0.9.4.5'
     implementation "com.sensortower.usage:rating-prompt-lib:2.2.1"
+    implementation 'com.sensortower.usage:event-emitter-lib:1.0.0'
     implementation files('lib/YouTubeAndroidPlayerApi.jar')
     // version 1.2.2
     implementation files('lib/twitter4j-fork.jar')

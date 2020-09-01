@@ -27,18 +27,23 @@ import android.util.DisplayMetrics;
 
 import com.github.ajalt.reprint.core.Reprint;
 import com.klinker.android.twitter_l.settings.AppSettings;
+import com.klinker.android.twitter_l.utils.AnalyticsHelper;
 import com.klinker.android.twitter_l.utils.DynamicShortcutUtils;
 import com.klinker.android.twitter_l.utils.EmojiUtils;
 import com.klinker.android.twitter_l.utils.NotificationChannelUtil;
 import com.klinker.android.twitter_l.utils.TLSSocketFactory;
 import com.klinker.android.twitter_l.utils.text.EmojiInitializer;
+import com.sensortower.events.EventHandler;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
 import twitter4j.AlternativeHttpClientImpl;
 import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
 
-public class App extends MultiDexApplication {
+public class App extends MultiDexApplication implements EventHandler.Provider {
 
     public static long DATA_USED = 0;
 
@@ -120,5 +125,11 @@ public class App extends MultiDexApplication {
                 }
             }).start();
         }
+    }
+
+    @NotNull
+    @Override
+    public EventHandler getEventHandler() {
+        return (event, message) -> AnalyticsHelper.logEvent(App.this, event);
     }
 }
