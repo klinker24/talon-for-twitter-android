@@ -62,7 +62,6 @@ public class UpdateUtils {
                         .useLegacy(
                                 new RatingPromptOptions.Legacy.Builder("Talon")
                                         .accentColor(AppSettings.getInstance(context).themeColors.primaryColor)
-                                        .useEmojis(false)
                                         .build()
                         ).build());
 
