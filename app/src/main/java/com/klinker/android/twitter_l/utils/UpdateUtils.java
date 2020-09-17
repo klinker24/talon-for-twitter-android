@@ -59,10 +59,10 @@ public class UpdateUtils {
 
         RatingPrompt.show(context,
                 new RatingPromptOptions.Builder()
-                        .useLegacy(
-                                new RatingPromptOptions.Legacy.Builder("Talon")
+                        .useAlternateStyle(
+                                new RatingPromptOptions.Popup.Builder("Talon")
                                         .accentColor(AppSettings.getInstance(context).themeColors.primaryColor)
-                                        .build()
+                                        .darkTheme(AppSettings.getInstance(context).darkTheme)
                         ).build());
 
         if (!justInstalled) {
