@@ -45,17 +45,6 @@ public class UpdateUtils {
         SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         boolean justInstalled = runFirstInstalled(sharedPrefs);
-        if (justInstalled) {
-            sharedPrefs.edit().putBoolean("update_rating_method", false).commit();
-        }
-
-        RatingPromptSettings settings = RatingPromptSettings.Companion.getInstance(context);
-        if (sharedPrefs.getBoolean("update_rating_method", true)) {
-            sharedPrefs.edit().putBoolean("update_rating_method", false).commit();
-
-            settings.putBoolean("rating-prompt-dont-show-again", false);
-            settings.putLong("rating-prompt-should-show-at-timestamp", 1L);
-        }
 
         RatingPrompt.show(context,
                 new RatingPromptOptions.Builder()
