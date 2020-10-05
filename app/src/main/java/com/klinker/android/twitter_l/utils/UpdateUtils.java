@@ -25,7 +25,6 @@ import com.klinker.android.twitter_l.data.sq_lite.QueuedDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.sensortower.rating.RatingPrompt;
 import com.sensortower.rating.RatingPromptOptions;
-import com.sensortower.rating.RatingPromptSettings;
 
 import java.util.Calendar;
 import java.util.Date;
