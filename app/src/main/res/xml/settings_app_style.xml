@@ -108,6 +108,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="drag_dismiss"
+            android:title="@string/enable_drag_dismiss"
+            android:summary="@string/enable_drag_dismiss_summary"
+            android:defaultValue="true" />
+
+        <SwitchPreference
             android:key="web_previews_timeline"
             android:title="@string/preview_web_links"
             android:defaultValue="true" />

@@ -210,6 +210,7 @@ public class AppSettings {
     public boolean widgetDisplayScreenname;
     public boolean onlyAutoPlayGifs;
     public boolean alwaysShowButtons;
+    public boolean dragDismiss;
 
     // notifications
     public boolean timelineNot;
@@ -418,6 +419,7 @@ public class AppSettings {
         widgetDisplayScreenname = sharedPrefs.getBoolean("widget_display_screenname", true);
         onlyAutoPlayGifs = sharedPrefs.getBoolean("autoplay_gifs", false);
         alwaysShowButtons = sharedPrefs.getBoolean("always_show_tweet_buttons", false);
+        dragDismiss = sharedPrefs.getBoolean("drag_dismiss", true);
 
         if (EmojiInitializer.INSTANCE.isAlreadyUsingGoogleAndroidO()) {
             this.emojiStyle = EmojiStyle.DEFAULT;

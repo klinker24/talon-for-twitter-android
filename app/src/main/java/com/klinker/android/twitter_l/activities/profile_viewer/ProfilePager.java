@@ -197,6 +197,10 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
         DragDismissDelegate delegate = new DragDismissDelegate(this, this);
         delegate.onCreate(savedInstanceState);
 
+        if (!AppSettings.getInstance(this).dragDismiss) {
+            findViewById(R.id.dragdismiss_drag_dismiss_layout).setEnabled(false);
+        }
+
         overridePendingTransition(R.anim.activity_slide_up, 0);
     }
 

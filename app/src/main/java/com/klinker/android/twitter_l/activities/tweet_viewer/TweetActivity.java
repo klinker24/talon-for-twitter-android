@@ -59,6 +59,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder;
 import xyz.klinker.android.drag_dismiss.delegate.DragDismissDelegate;
+import xyz.klinker.android.drag_dismiss.view.ElasticDragDismissFrameLayout;
 
 public class TweetActivity extends PeekViewActivity implements DragDismissDelegate.Callback {
 
@@ -182,6 +183,10 @@ public class TweetActivity extends PeekViewActivity implements DragDismissDelega
 
         DragDismissDelegate delegate = new DragDismissDelegate(this, this);
         delegate.onCreate(savedInstanceState);
+
+        if (!AppSettings.getInstance(this).dragDismiss) {
+            findViewById(R.id.dragdismiss_drag_dismiss_layout).setEnabled(false);
+        }
 
         overridePendingTransition(R.anim.activity_slide_up, 0);
     }

@@ -233,6 +233,8 @@
     <string name="rate_it_summary">Reviews are extremely helpful to the app\'s growth
         and visibility on the Play Store. If you want to see the app <i>continue to soar</i>, please provide your feedback!</string>
     <string name="preview_web_links">Preview Web Links</string>
+    <string name="enable_drag_dismiss">Use Drag to Dismiss</string>
+    <string name="enable_drag_dismiss_summary">Navigate back to the previous screen by dragging up or down at the top or bottom of a tweet or profile.</string>
     <string name="seconds_ago">%1$d seconds ago</string>
     <string name="min_ago">%1$d minute ago</string>
     <string name="mins_ago">%1$d minutes ago</string>requl
