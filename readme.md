@@ -40,8 +40,10 @@ There are fields for the Twitter keys, as well as some third party services that
 For release builds, add your keystore simply as `keystore` to the root of the project, then add a `keystore.properties` file to the root with (no quotation marks around these strings!):
 
 ```
-KEY_SIGNATURE=xxxx
-KEY_ALIAS=xxxx
+keystorefile=keystore
+keyalias=XXXXXX
+keystorepassword=XXXXXX
+keypassword=XXXXXX
 ```
 
 ## Contributing
