@@ -162,7 +162,7 @@ public class XmlFaqUtils {
 
     public static void showFaqDialog(final Context context) {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("http://klinkerapps.com/talon-overview/help"));
+        i.setData(Uri.parse("http://klinker.xyz/talon-overview/help"));
         context.startActivity(i);
 
 //        final RecyclerView list = new RecyclerView(context);
