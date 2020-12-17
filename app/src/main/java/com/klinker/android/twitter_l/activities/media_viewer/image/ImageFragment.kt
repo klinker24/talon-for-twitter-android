@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.activities.media_viewer.image
 
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ClipData
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
@@ -245,6 +246,9 @@ class ImageFragment : Fragment() {
                     // add the bitmap uri to the intent
                     val uri = getImageUri(activity, bitmap)
                     sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+                    sharingIntent.clipData = ClipData.newRawUri(null, uri)
+                    sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
                     // start the chooser
                     activity.startActivity(Intent.createChooser(sharingIntent, activity.getString(R.string.menu_share) + ": "))
