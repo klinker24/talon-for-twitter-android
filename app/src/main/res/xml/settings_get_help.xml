@@ -43,7 +43,7 @@
             android:key="klinkerapps"
             android:title="@string/our_website" >
             <intent android:action="android.intent.action.VIEW"
-                android:data="http://klinker.xyz" />
+                android:data="http://klinkerapps.com" />
         </Preference>
 
         <Preference
