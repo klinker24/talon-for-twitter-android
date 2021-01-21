@@ -138,6 +138,8 @@ public class UpdateUtils {
             e.putLong("original_activity_refresh_" + 1, Calendar.getInstance().getTimeInMillis());
             e.putLong("original_activity_refresh_" + 2, Calendar.getInstance().getTimeInMillis());
 
+            e.putString("timeline_pictures", "" + AppSettings.REVAMPED_TWEETS);
+
             e.apply();
 
             return true;
