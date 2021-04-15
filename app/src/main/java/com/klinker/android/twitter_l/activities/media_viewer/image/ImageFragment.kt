@@ -192,7 +192,7 @@ class ImageFragment : Fragment() {
                     val `in` = ByteArrayInputStream(data)
 
                     `in`.writeToOutputAndCleanup(outputStream as FileOutputStream)
-                    
+
                     mNotificationManager.cancel(6)
                 } else {
                     var uri = IOUtils.saveImage(bitmap, name, activity)
