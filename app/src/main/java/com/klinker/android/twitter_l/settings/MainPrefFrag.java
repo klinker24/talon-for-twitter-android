@@ -33,12 +33,10 @@ import android.widget.ListView;
 
 import com.klinker.android.twitter_l.R;
 import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
-import com.klinker.android.twitter_l.utils.ListTagHandler;
-import com.klinker.android.twitter_l.utils.UpdateUtils;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
-public class MainPrefFrag extends InAppBillingPreferenceFragment {
+public class MainPrefFrag extends PrefFragment {
 
 
     @Override
@@ -48,10 +46,6 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         addPreferencesFromResource(R.xml.main_settings);
 
         setClicks();
-
-        if (UpdateUtils.showSupporterDialog(getActivity())) {
-//            showSupporterDialog();
-        }
 
         if (AppSettings.getInstance(getActivity()).blackTheme) {
             getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
@@ -81,7 +75,6 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             "mute_management",
             "app_memory",
             "other_options",
-//            "become_supporter",
             "faq",
             "whats_new",
     };
@@ -95,9 +88,7 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
             p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                    if (titles[num].equals("become_supporter")) {
-                        showSupporterDialog();
-                    } else if (titles[num].equals("faq")) {
+                    if (titles[num].equals("faq")) {
                         showGetHelp();
                     } else if (titles[num].equals("whats_new")) {
                         showWhatsNew();
@@ -145,37 +136,4 @@ public class MainPrefFrag extends InAppBillingPreferenceFragment {
         XmlFaqUtils.showFaqDialog(getActivity());
     }
 
-    private void showSupporterDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Love Talon?")
-                .setMessage(Html.fromHtml("Talon has been available for around four years now, can you believe it? A LOT of work goes into this app every single day. I am just one person trying my best to keep up.<br><br>" +
-                        "If you are like me and use Talon every day, chances are that you have gotten your $4 out of the app. Consider becoming a 2019 SUPPORTER to help out development!<br><br>" +
-                        "I do want to be clear that becoming a supporter doesn't enhance the app or its feature set in any way. This is purely a voluntary contribution if you have enjoyed my work, like I know many of you have.<br><br>" +
-                        "<b>So, why should I become a Supporter?</b>" +
-                        "<ul>" +
-                        "<li>You have been an every day user of Talon for awhile and you feel like you have gotten more than a cup of coffee's worth out of the app.</li>" +
-                        "<li>You understand that development is hard. I put all my free time into this product, and I think it shows! I hope you agree.</li>" +
-                        "<li>You want the warm-fuzzy feeling that comes with giving a little extra for something that you enjoy and use every day.</li><br>" +
-                        "</ul><br>" +
-                        "Even the $10 Supporter option is less than $1 per month for 2019. I am willing to bet that everyone throws away much more than that into products they use 10x less than Talon!<br><br><br>" +
-                        "Continue enjoying Talon either way, but I love when my users show me their support :)", null, new ListTagHandler()))
-                .setPositiveButton("$10", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        start2016SupporterPurchase("10");
-                    }
-                })
-                .setNeutralButton("$3", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        start2016SupporterPurchase("3");
-                    }
-                })
-                .setNegativeButton("$6", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        start2016SupporterPurchase("6");
-                    }
-                }).create().show();
-    }
 }

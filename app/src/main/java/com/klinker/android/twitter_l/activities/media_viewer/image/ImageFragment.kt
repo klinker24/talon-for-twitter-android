@@ -1,34 +1,39 @@
 package com.klinker.android.twitter_l.activities.media_viewer.image
 
+import android.R.attr
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ClipData
+import android.content.ContentValues
 import android.content.Context
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.*
+import android.os.Environment.getExternalStorageDirectory
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
-import com.bumptech.glide.request.target.Target
-import com.klinker.android.twitter_l.R
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.*
-import androidx.core.content.FileProvider
-import android.os.Environment.getExternalStorageDirectory
-import androidx.core.app.NotificationCompat
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
 import com.klinker.android.twitter_l.BuildConfig
+import com.klinker.android.twitter_l.R
 import com.klinker.android.twitter_l.settings.AppSettings
 import com.klinker.android.twitter_l.utils.*
 import com.klinker.android.twitter_l.utils.api_helper.TwitterDMPicHelper
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -169,36 +174,57 @@ class ImageFragment : Fragment() {
 
                 val name = "Image-" + Random().nextInt(1000000)
 
+                if (AndroidVersionUtils.isAndroidQ()) {
+                    val relativeLocation = Environment.DIRECTORY_PICTURES + "/Talon"
+                    val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
-                var uri = IOUtils.saveImage(bitmap, name, activity)
-                val root = Environment.getExternalStorageDirectory().toString()
-                val myDir = File("$root/Talon")
-                val file = File(myDir, "$name.jpg")
+                    val contentValues = ContentValues()
+                    contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                    contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
 
-                try {
-                    uri = FileProvider.getUriForFile(activity,
-                            BuildConfig.APPLICATION_ID + ".provider", file)
-                } catch (err: Exception) {
+                    val uri = context?.contentResolver?.insert(contentUri, contentValues)
+                    val outputStream = context?.contentResolver?.openOutputStream(uri!!)
+
+                    val bos = ByteArrayOutputStream()
+                    bitmap.compress(CompressFormat.PNG, 0, bos)
+                    val data = bos.toByteArray()
+                    val `in` = ByteArrayInputStream(data)
+
+                    `in`.writeToOutputAndCleanup(outputStream as FileOutputStream)
+                    
+                    mNotificationManager.cancel(6)
+                } else {
+                    var uri = IOUtils.saveImage(bitmap, name, activity)
+                    val root = Environment.getExternalStorageDirectory().toString()
+                    val myDir = File("$root/Talon")
+                    val file = File(myDir, "$name.jpg")
+
+                    try {
+                        uri = FileProvider.getUriForFile(activity,
+                                BuildConfig.APPLICATION_ID + ".provider", file)
+                    } catch (err: Exception) {
+                    }
+
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.setDataAndType(uri, "image/*")
+
+                    val randomId = NotificationUtils.generateRandomId()
+                    val pending = PendingIntent.getActivity(activity, randomId, intent, 0)
+
+                    val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
+                            //                                    .setContentIntent(pending)
+                            .setSmallIcon(R.drawable.ic_stat_icon)
+                            .setTicker(resources.getString(R.string.saved_picture) + "...")
+                            .setContentTitle(resources.getString(R.string.app_name))
+                            .setAutoCancel(true)
+                            .setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
+                            .setContentText(resources.getString(R.string.saved_picture) + "!")
+
+                    mNotificationManager.cancel(6)
+                    mNotificationManager.notify(randomId, builder2.build())
                 }
-
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.setDataAndType(uri, "image/*")
-
-                val randomId = NotificationUtils.generateRandomId()
-                val pending = PendingIntent.getActivity(activity, randomId, intent, 0)
-
-                val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
-//                                    .setContentIntent(pending)
-                        .setSmallIcon(R.drawable.ic_stat_icon)
-                        .setTicker(resources.getString(R.string.saved_picture) + "...")
-                        .setContentTitle(resources.getString(R.string.app_name))
-                        .setAutoCancel(true)
-                        .setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-                        .setContentText(resources.getString(R.string.saved_picture) + "!")
-
-                mNotificationManager.cancel(6)
-                mNotificationManager.notify(randomId, builder2.build())
             } catch (e: Exception) {
                 e.printStackTrace()
                 activity.runOnUiThread {
@@ -280,4 +306,31 @@ class ImageFragment : Fragment() {
     }
 
 
+}
+
+fun InputStream.writeToOutputAndCleanup(out: FileOutputStream) {
+    // Transfer bytes from in to out
+    val buf = ByteArray(1024)
+    var len = this.read(buf)
+    while (len > 0) {
+        out.write(buf, 0, len)
+        len = this.read(buf)
+    }
+
+    this.closeSilent()
+    out.closeSilent()
+}
+
+fun InputStream.closeSilent() {
+    try {
+        this.close()
+    } catch (e: Exception) {
+    }
+}
+
+fun OutputStream.closeSilent() {
+    try {
+        this.close()
+    } catch (e: Exception) {
+    }
 }

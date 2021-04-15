@@ -32,7 +32,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -88,7 +87,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="false"
         tools:replace="android:fullBackupContent">
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 
