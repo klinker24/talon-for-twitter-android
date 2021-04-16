@@ -94,13 +94,4 @@
 
     </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>
 
-<!--    <com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory-->
-<!--        android:title="@string/supporter_2016">-->
-
-<!--        <com.klinker.android.twitter_l.views.preference.BecomeSupporterPreference-->
-<!--            android:key="become_supporter"-->
-<!--            android:icon="?supporter" />-->
-
-<!--    </com.klinker.android.twitter_l.views.preference.MaterialPreferenceCategory>-->
-
 </PreferenceScreen>

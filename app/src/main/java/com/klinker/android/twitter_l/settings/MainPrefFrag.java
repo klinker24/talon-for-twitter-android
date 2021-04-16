@@ -24,6 +24,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import androidx.appcompat.app.AlertDialog;
+
+import android.preference.PreferenceFragment;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -36,7 +38,7 @@ import com.klinker.android.twitter_l.adapters.ChangelogAdapter;
 import com.klinker.android.twitter_l.utils.XmlChangelogUtils;
 import com.klinker.android.twitter_l.utils.XmlFaqUtils;
 
-public class MainPrefFrag extends PrefFragment {
+public class MainPrefFrag extends PreferenceFragment {
 
 
     @Override
