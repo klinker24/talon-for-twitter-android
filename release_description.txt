@@ -1,1 +1,1 @@
-In the "app style" section of settings, there is now an option to disable the "drag to dismiss" on the tweet and profile viewers.
+This update fixes some bugs :)
