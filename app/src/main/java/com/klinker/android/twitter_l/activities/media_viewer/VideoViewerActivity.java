@@ -243,7 +243,7 @@ public class VideoViewerActivity extends DragDismissActivity {
 
                     Intent intent = new Intent();
                     if (videoLink != null) {
-                        Uri uri = IOUtils.saveVideo(videoLink);
+                        Uri uri = IOUtils.saveVideo(context, videoLink);
 
                         String root = Environment.getExternalStorageDirectory().toString();
                         File myDir = new File(root + "/Talon");

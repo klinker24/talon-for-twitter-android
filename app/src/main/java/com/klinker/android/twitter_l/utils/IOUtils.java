@@ -45,6 +45,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import xyz.klinker.android.drag_dismiss.util.AndroidVersionUtils;
+
 public class IOUtils {
 
     public static Uri saveImage(Bitmap finalBitmap, String d, Context context) {
@@ -75,7 +77,10 @@ public class IOUtils {
         return Uri.fromFile(file);
     }
 
-    public static final Uri saveVideo(String videoUrl) throws Exception {
+    public static final Uri saveVideo(Context context, String videoUrl) throws Exception {
+        if (AndroidVersionUtils.isAndroidQ()) {
+            return IoUtilKotlin.INSTANCE.saveVideoAndroid11(context, videoUrl);
+        }
 
         File myDir = new File(Environment.getExternalStorageDirectory() + "/Talon");
         myDir.mkdirs();
