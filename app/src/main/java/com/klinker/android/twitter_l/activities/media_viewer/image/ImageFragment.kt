@@ -172,11 +172,11 @@ class ImageFragment : Fragment() {
                     bitmap
                 }
 
-                val name = "Image-" + Random().nextInt(1000000)
+                val name = "Image-" + Random().nextInt(1000000) + ".jpg"
 
                 if (AndroidVersionUtils.isAndroidQ()) {
-                    val relativeLocation = Environment.DIRECTORY_PICTURES + "/Talon"
-                    val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    val relativeLocation = Environment.DIRECTORY_DOWNLOADS
+                    val contentUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI
 
                     val contentValues = ContentValues()
                     contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name)
@@ -187,7 +187,7 @@ class ImageFragment : Fragment() {
                     val outputStream = context?.contentResolver?.openOutputStream(uri!!)
 
                     val bos = ByteArrayOutputStream()
-                    bitmap.compress(CompressFormat.PNG, 0, bos)
+                    bitmap.compress(CompressFormat.JPEG, 100, bos)
                     val data = bos.toByteArray()
                     val `in` = ByteArrayInputStream(data)
 
@@ -198,7 +198,7 @@ class ImageFragment : Fragment() {
                     var uri = IOUtils.saveImage(bitmap, name, activity)
                     val root = Environment.getExternalStorageDirectory().toString()
                     val myDir = File("$root/Talon")
-                    val file = File(myDir, "$name.jpg")
+                    val file = File(myDir, name)
 
                     try {
                         uri = FileProvider.getUriForFile(activity,
@@ -286,22 +286,44 @@ class ImageFragment : Fragment() {
     }
 
     private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val f = File(getExternalStorageDirectory().path + "/Talon/share_" + System.currentTimeMillis() + ".jpg")
-        val dir = File(Environment.getExternalStorageDirectory(), "Talon")
+        return if (AndroidVersionUtils.isAndroidQ()) {
+            val relativeLocation = Environment.DIRECTORY_DOWNLOADS
+            val contentUri = MediaStore.Downloads.EXTERNAL_CONTENT_URI
 
-        return try {
-            if (!dir.exists()) dir.mkdirs()
-            f.createNewFile()
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "share_" + System.currentTimeMillis() + ".jpg")
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
 
-            val fo = FileOutputStream(f)
-            fo.write(bytes.toByteArray())
+            val uri = context.contentResolver?.insert(contentUri, contentValues)
+            val outputStream = context.contentResolver?.openOutputStream(uri!!)
 
-            FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", f)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
+            val bos = ByteArrayOutputStream()
+            inImage.compress(CompressFormat.JPEG, 100, bos)
+            val data = bos.toByteArray()
+            val `in` = ByteArrayInputStream(data)
+
+            `in`.writeToOutputAndCleanup(outputStream as FileOutputStream)
+
+            uri
+        } else {
+            val bytes = ByteArrayOutputStream()
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val f = File(getExternalStorageDirectory().path + "/Talon/share_" + System.currentTimeMillis() + ".jpg")
+            val dir = File(Environment.getExternalStorageDirectory(), "Talon")
+
+            try {
+                if (!dir.exists()) dir.mkdirs()
+                f.createNewFile()
+
+                val fo = FileOutputStream(f)
+                fo.write(bytes.toByteArray())
+
+                FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", f)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                null
+            }
         }
     }
 
