@@ -124,6 +124,9 @@ public class IOUtils {
     }
 
     public static final Uri saveGiffy(Context context, String videoUrl) throws Exception {
+        if (AndroidVersionUtils.isAndroidQ()) {
+            return IoUtilKotlin.INSTANCE.saveGiphyAndroid11(context, videoUrl);
+        }
 
         final File directory = new File(Environment.getExternalStorageDirectory() + "/Talon/");
         if (!directory.exists()) {
