@@ -113,7 +113,6 @@ dependencies {
 
     implementation project(':searchview')
     implementation project(':shared_assets')
-    implementation project(':lvl')
 }
 
 apply plugin: 'com.google.gms.google-services'
