@@ -26,7 +26,7 @@ buildscript {
 
     ext.buildInfo = [
             'id'                : 'com.klinker.android.twitter_l',
-            'name'              : '7.8.4',
+            'name'              : '7.8.5',
             'number'            : System.getenv("BUILD_NUMBER") as Integer ?: 1458,
     ]
 

@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.8.5">
+        <text>Remove in app billing (it hasn't been used for 2 years)</text>
+    </version>
+
     <version name="7.8.4">
         <text>Fix adding GIFs to tweets on Android 11</text>
     </version>
