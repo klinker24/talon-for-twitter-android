@@ -35,7 +35,7 @@ buildscript {
             'targetSdk'         : 30,
             'minSdk'            : 21,
 
-            'kotlin'            : '1.5.31',
+            'kotlin'            : '1.4.0',
 
             'androidX'          : '1.0.0',
             'playServices'      : '16.0.0',
@@ -51,7 +51,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${versions.gradlePlugin}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
-        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.gms:google-services:4.3.3'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.1'
     }
 
