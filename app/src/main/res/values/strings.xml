@@ -250,6 +250,8 @@
     <string name="finding_lists">Finding Lists...</string>
     <string name="choose_list">Choose List</string>
     <string name="added_to_list">Added to list</string>
+    <string name="remove_from_list">User already belongs to the list, would you like to remove it?</string>
+    <string name="removed_from_list">Removed from the list</string>
     <!-- Tutorial Activity -->
     <string name="part_1_tablet">\nAccess features\nby tapping items\nin the\nnavigation\ndrawer!</string>
     <string name="part_1_phone">\nPull open the\nnavigation drawer\nwith a left\nside swipe!</string>
