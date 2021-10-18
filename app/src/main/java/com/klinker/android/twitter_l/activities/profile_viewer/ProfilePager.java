@@ -83,6 +83,7 @@ import java.util.Set;
 import fisk.chipcloud.ChipCloud;
 import fisk.chipcloud.ChipCloudConfig;
 import fisk.chipcloud.ChipListener;
+import twitter4j.PagableResponseList;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -1865,7 +1866,7 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if (thisUser != null) {
-                                new AddToList(lists.get(i).getId(), thisUser.getId()).execute();
+                                new CheckList(lists.get(i), thisUser).execute();
                             }
                         }
                     });
@@ -1886,6 +1887,76 @@ public class ProfilePager extends WhiteToolbarActivity implements DragDismissDel
                 }
                 Toast.makeText(context, context.getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    class CheckList extends AsyncTask<String, Void, List<UserList>> {
+
+        UserList list;
+        User user;
+
+        public CheckList(UserList listId, User userId) {
+            this.list = listId;
+            this.user = userId;
+        }
+
+        protected List<UserList> doInBackground(String... urls) {
+            try {
+                Twitter twitter = Utils.getTwitter(context, settings);
+                List<UserList> userLists = new ArrayList<UserList>();
+
+                long cursor = -1;
+                PagableResponseList<UserList> pagableThisUserLists;
+                do {
+                    pagableThisUserLists = twitter.getUserListMemberships(user.getScreenName(), cursor, true);
+                    for (UserList userList : pagableThisUserLists) {
+                        userLists.add(userList);
+                    }
+                } while ((cursor = pagableThisUserLists.getNextCursor()) != 0);
+
+                return userLists;
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(List<UserList> userLists) {
+            if(userLists != null && userLists.contains(list)) {
+                new AlertDialog.Builder(context)
+                        .setMessage(R.string.remove_from_list)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new RemoveFromList(list.getId(), user.getId()).execute();
+                            }
+                        }).show();
+                return;
+            }
+            new AddToList(list.getId(), user.getId()).execute();
+        }
+    }
+
+    class RemoveFromList extends AsyncTask<String, Void, Boolean> {
+        long listId;
+        long userId;
+
+        public RemoveFromList(long listId, long userId) {
+            this.listId = listId;
+            this.userId = userId;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            try {
+                Twitter twitter =  Utils.getTwitter(context, settings);
+                twitter.destroyUserListMember(listId, userId);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean added) {
+            Toast.makeText(context, getResources().getString(added ? R.string.removed_from_list : R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
