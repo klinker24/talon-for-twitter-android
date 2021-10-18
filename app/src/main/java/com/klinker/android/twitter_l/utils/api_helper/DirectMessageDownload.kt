@@ -98,7 +98,7 @@ object DirectMessageDownload {
             return inserted
         } catch (e: TwitterException) {
             // Error in updating status
-            Log.d("Twitter Update Error", e.message)
+            Log.d("Twitter Update Error", "${e.message}")
         }
 
         return 0

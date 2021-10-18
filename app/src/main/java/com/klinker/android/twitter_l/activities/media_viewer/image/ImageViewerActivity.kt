@@ -32,9 +32,9 @@ import twitter4j.Status
 class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
 
     private val pager: ViewPager by lazy { findViewById<View>(R.id.pager) as ViewPager }
-    private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)) }
+    private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter(supportFragmentManager, intent.getStringArrayExtra(EXTRA_URLS)!!) }
 
-    private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_IDS) }
+    private val tweetIds: LongArray by lazy { intent.getLongArrayExtra(EXTRA_TWEET_IDS)!! }
 
     private val tweetViews: MutableMap<Long, DetailedTweetView> by lazy { HashMap<Long, DetailedTweetView>() }
     private val toolbarMenu: Menu by lazy { findViewById<Toolbar>(R.id.toolbar).menu }
@@ -182,10 +182,6 @@ class ImageViewerActivity : AppCompatActivity(), TweetView.TweetLoaded {
         val tweetView = tweetViews.getOrPut(tweetId) { DetailedTweetView.create(this, tweetId).setTweetLoadedCallback(this) as DetailedTweetView }
         tweetView.view.setBackgroundResource(R.color.dark_background)
         bottomSheet.showWithSheetView(tweetView.view)
-    }
-
-    fun hasMultipleImages(): Boolean {
-        return intent.getStringArrayExtra(EXTRA_URLS).size > 1
     }
 
     companion object {
