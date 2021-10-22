@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.9.1">
+        <text>Fix background refreshes not working for some users.</text>
+    </version>
+
     <version name="7.9.0">
         <text>When adding a user to a list, if that user already exists in the list, Talon will prompt you to remove that user</text>
     </version>
