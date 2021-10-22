@@ -21,14 +21,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
@@ -43,46 +45,56 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class TimelineRefreshService extends SimpleJobService {
+public class TimelineRefreshService extends Worker {
+
+    private final Context context;
+    public TimelineRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "home-timeline-refresh";
     public static boolean isRunning = false;
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters params) {
-        return refresh(this, false);
+    public Result doWork() {
+        refresh(context, false);
+        return Result.success();
     }
 
     public static void cancelRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+        WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
+    }
+
+    public static void startNow(Context context) {
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(TimelineRefreshService.class).build());
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.timelineRefresh / 1000; // convert to seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         if (settings.timelineRefresh != 0) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(TimelineRefreshService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(true)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) + refreshInterval))
-                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            PeriodicWorkRequest request =
+                    new PeriodicWorkRequest.Builder(TimelineRefreshService.class, refreshInterval, TimeUnit.SECONDS)
+                            .setConstraints(new Constraints.Builder()
+                                    .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                    .build())
+                            .build();
+            WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
         } else {
-            dispatcher.cancel(JOB_TAG);
+            WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
         }
     }
 

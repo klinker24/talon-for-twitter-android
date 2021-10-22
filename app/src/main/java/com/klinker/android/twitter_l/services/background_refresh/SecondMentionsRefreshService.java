@@ -20,14 +20,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
-import com.klinker.android.twitter_l.services.abstract_services.LimitedRunService;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
@@ -39,29 +38,32 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class SecondMentionsRefreshService extends SimpleJobService {
+public class SecondMentionsRefreshService extends Worker {
 
-    public static void startNow(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(SecondMentionsRefreshService.class)
-                .setTag("second-mention-refresh-now")
-                .setTrigger(Trigger.executionWindow(0,0))
-                .build();
-
-        dispatcher.mustSchedule(myJob);
+    private final Context context;
+    public SecondMentionsRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
     }
 
+    public static void startNow(Context context) {
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(SecondMentionsRefreshService.class).build());
+    }
+
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
-        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(this);
+    public Result doWork() {
+        SharedPreferences sharedPrefs = AppSettings.getSharedPreferences(context);
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
 
         // if they have mobile data on and don't want to sync over mobile data
         if (Utils.getConnectionStatus(context) && !settings.syncMobile) {
-            return 0;
+            return Result.success();
         }
 
         boolean update = false;
@@ -98,7 +100,7 @@ public class SecondMentionsRefreshService extends SimpleJobService {
                     NotificationUtils.notifySecondMentions(context, currentAccount);
                 }
 
-                sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_SECOND_MENTIONS"));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.REFRESH_SECOND_MENTIONS"));
             }
 
         } catch (TwitterException e) {
@@ -106,6 +108,6 @@ public class SecondMentionsRefreshService extends SimpleJobService {
             Log.d("Twitter Update Error", e.getMessage());
         }
 
-        return 0;
+        return Result.success();
     }
 }

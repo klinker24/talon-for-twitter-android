@@ -3,21 +3,34 @@ package com.klinker.android.twitter_l.services;
 import android.content.Context;
 import android.net.TrafficStats;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.data.App;
 import com.klinker.android.twitter_l.services.background_refresh.ActivityRefreshService;
 import com.klinker.android.twitter_l.services.background_refresh.DirectMessageRefreshService;
 import com.klinker.android.twitter_l.services.background_refresh.ListRefreshService;
 import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
 import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
+import com.klinker.android.twitter_l.settings.AppSettings;
 
-public class DataCheckService extends SimpleJobService {
+import java.util.concurrent.TimeUnit;
+
+public class DataCheckService extends Worker {
+
+    private final Context context;
+    public DataCheckService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "data-check-service";
 
@@ -27,22 +40,19 @@ public class DataCheckService extends SimpleJobService {
     public static final long MB_IN_BYTES = KB_IN_BYTES * 1024;
 
     public static void scheduleRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(DataCheckService.class)
-                .setTag(JOB_TAG)
-                .setRecurring(true)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(RESTART_INTERVAL, 2 * RESTART_INTERVAL))
-                .setReplaceCurrent(true)
-                .build();
-
-        dispatcher.mustSchedule(myJob);
+        PeriodicWorkRequest request =
+                new PeriodicWorkRequest.Builder(DataCheckService.class, RESTART_INTERVAL, TimeUnit.SECONDS)
+                        .setConstraints(new Constraints.Builder()
+                                .build())
+                        .build();
+        WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
     }
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters jobParameters) {
-        int uid = getApplicationInfo().uid;
+    public Result doWork() {
+        int uid = context.getApplicationInfo().uid;
 
         long oldMb = App.DATA_USED;
 
@@ -53,15 +63,15 @@ public class DataCheckService extends SimpleJobService {
         App.DATA_USED = currentMb;
 
         if (oldMb != 0 && (currentMb - oldMb) > 100) {
-            ActivityRefreshService.cancelRefresh(this);
-            DirectMessageRefreshService.cancelRefresh(this);
-            ListRefreshService.cancelRefresh(this);
-            MentionsRefreshService.cancelRefresh(this);
-            TimelineRefreshService.cancelRefresh(this);
+            ActivityRefreshService.cancelRefresh(context);
+            DirectMessageRefreshService.cancelRefresh(context);
+            ListRefreshService.cancelRefresh(context);
+            MentionsRefreshService.cancelRefresh(context);
+            TimelineRefreshService.cancelRefresh(context);
 
             android.os.Process.killProcess(android.os.Process.myPid());
         }
 
-        return 0;
+        return Result.success();
     }
 }

@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.activities.MainActivity;
 import com.klinker.android.twitter_l.adapters.TimelinePagerAdapter;
 import com.klinker.android.twitter_l.data.sq_lite.ListDataSource;
@@ -21,12 +23,21 @@ import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 
-public class ListRefreshService extends SimpleJobService {
+public class ListRefreshService extends Worker {
+
+    private final Context context;
+    public ListRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "list-timeline-refresh";
 
@@ -34,40 +45,40 @@ public class ListRefreshService extends SimpleJobService {
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+        WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
+    }
+
+    public static void startNow(Context context) {
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(ListRefreshService.class).build());
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.listRefresh / 1000; // convert to seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         if (settings.listRefresh != 0) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(ListRefreshService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(true)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) +  refreshInterval))
-                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            PeriodicWorkRequest request =
+                    new PeriodicWorkRequest.Builder(ListRefreshService.class, refreshInterval, TimeUnit.SECONDS)
+                            .setConstraints(new Constraints.Builder()
+                                    .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                    .build())
+                            .build();
+            WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
         } else {
-            dispatcher.cancel(JOB_TAG);
+            WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
         }
     }
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters job) {
+    public Result doWork() {
         if (!MainActivity.canSwitch || WidgetRefreshService.isRunning || ListRefreshService.isRunning) {
-            return 0;
+            return Result.success();
         }
 
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+        sharedPrefs = AppSettings.getSharedPreferences(context);
 
         int currentAccount = sharedPrefs.getInt("current_account", 1);
 
@@ -128,12 +139,12 @@ public class ListRefreshService extends SimpleJobService {
                 dataSource.insertTweets(statuses, listId);
 
                 sharedPrefs.edit().putBoolean("refresh_me_list_" + listId, true).apply();
-                sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));
+                context.sendBroadcast(new Intent("com.klinker.android.twitter.LIST_REFRESHED_" + listId));
             }
 
             ListRefreshService.isRunning = false;
         }
 
-        return 0;
+        return Result.success();
     }
 }

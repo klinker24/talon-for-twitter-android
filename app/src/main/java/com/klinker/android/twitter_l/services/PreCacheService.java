@@ -20,14 +20,16 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.bumptech.glide.Glide;
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
 import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.HomeSQLiteHelper;
 import com.klinker.android.twitter_l.services.background_refresh.TimelineRefreshService;
@@ -35,48 +37,47 @@ import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
-public class PreCacheService extends SimpleJobService {
+public class PreCacheService extends Worker {
+
+    private final Context context;
+    public PreCacheService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "pre-cache-service";
     public static boolean isRunning = false;
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters params) {
-        cache(this);
-        return 0;
-    }
-
-    public static void cancelCache(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+    public Result doWork() {
+        cache(context);
+        return Result.success();
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
+        int refreshInterval = 60 * 60 * 2; // 2 hours, as seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
-        if (settings.preCacheImages) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(PreCacheService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(false)
-                    .setConstraints(AppSettings.getSharedPreferences(context)
-                            .getBoolean("pre_cache_wifi_only", false) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-                    .setTrigger(Trigger.executionWindow(0,0))
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
-        } else {
-            dispatcher.cancel(JOB_TAG);
-        }
+        PeriodicWorkRequest request =
+                new PeriodicWorkRequest.Builder(PreCacheService.class, refreshInterval, TimeUnit.SECONDS)
+                        .setConstraints(new Constraints.Builder()
+                                .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                .build())
+                        .build();
+        WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
     }
-
     private static final boolean DEBUG = false;
 
     public static void cache(Context context) {
+        if (!AppSettings.getInstance(context).preCacheImages) {
+            return;
+        }
 
         if (DEBUG) {
             Log.v("talon_pre_cache", "starting the service, current time: " + Calendar.getInstance().getTime().toString());

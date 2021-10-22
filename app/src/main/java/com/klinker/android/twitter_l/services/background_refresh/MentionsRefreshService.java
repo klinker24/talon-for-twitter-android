@@ -16,30 +16,40 @@ package com.klinker.android.twitter_l.services.background_refresh;
  */
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.NotificationUtils;
 import com.klinker.android.twitter_l.utils.Utils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-public class MentionsRefreshService extends SimpleJobService {
+public class MentionsRefreshService extends Worker {
+
+    private final Context context;
+    public MentionsRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "mention-timeline-refresh";
 
@@ -47,47 +57,36 @@ public class MentionsRefreshService extends SimpleJobService {
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+        WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
     }
 
     public static void startNow(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(MentionsRefreshService.class)
-                .setTag("mention-refresh-now")
-                .setTrigger(Trigger.executionWindow(0,0))
-                .build();
-
-        dispatcher.mustSchedule(myJob);
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(MentionsRefreshService.class).build());
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.mentionsRefresh / 1000; // convert to seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         if (settings.mentionsRefresh != 0) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(MentionsRefreshService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(true)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) +  refreshInterval))
-                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            PeriodicWorkRequest request =
+                    new PeriodicWorkRequest.Builder(MentionsRefreshService.class, refreshInterval, TimeUnit.SECONDS)
+                            .setConstraints(new Constraints.Builder()
+                                    .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                    .build())
+                            .build();
+            WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
         } else {
-            dispatcher.cancel(JOB_TAG);
+            WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
         }
     }
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
-        sharedPrefs = AppSettings.getSharedPreferences(this);
+    public Result doWork() {
+        sharedPrefs = AppSettings.getSharedPreferences(context);
 
         Context context = getApplicationContext();
         AppSettings settings = AppSettings.getInstance(context);
@@ -128,6 +127,6 @@ public class MentionsRefreshService extends SimpleJobService {
 
         }
 
-        return 0;
+        return Result.success();
     }
 }

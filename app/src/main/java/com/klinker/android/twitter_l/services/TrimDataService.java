@@ -18,65 +18,59 @@ package com.klinker.android.twitter_l.services;
 import android.content.Context;
 import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.data.sq_lite.HomeContentProvider;
+import com.klinker.android.twitter_l.services.background_refresh.MentionsRefreshService;
+import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.IOUtils;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-public class TrimDataService extends SimpleJobService {
+public class TrimDataService extends Worker {
+
+    private final Context context;
+    public TrimDataService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "trim-data";
 
     public static void scheduleRefresh(Context context) {
-        int secondsUntilThreeAm = secondsUntilThreeAm(new Date().getTime());
+        AppSettings settings = AppSettings.getInstance(context);
+        int refreshInterval = 60 * 60 * 12; // 12 hours, as seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(TrimDataService.class)
-                .setTag(JOB_TAG)
-                .setRecurring(true)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(secondsUntilThreeAm, (15 * 60) + secondsUntilThreeAm))
-                .setConstraints(Constraint.DEVICE_CHARGING)
-                .setReplaceCurrent(true)
-                .build();
-
-        dispatcher.mustSchedule(myJob);
+        PeriodicWorkRequest request =
+                new PeriodicWorkRequest.Builder(TrimDataService.class, refreshInterval, TimeUnit.SECONDS)
+                        .setConstraints(new Constraints.Builder()
+                                .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                .build())
+                        .build();
+        WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
     }
 
-    protected static int secondsUntilThreeAm(long currentTime) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(currentTime));
-
-        // force the calendar to 3 in the morning, on the next day.
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 3);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-
-        long threeAm = calendar.getTimeInMillis();
-
-        return (int) (threeAm - currentTime) / 1000;
-    }
-
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
+    public Result doWork() {
         Log.v("trimming_database", "trimming database from service");
         IOUtils.trimDatabase(getApplicationContext(), 1); // trims first account
         IOUtils.trimDatabase(getApplicationContext(), 2); // trims second account
 
-        getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
+        context.getContentResolver().notifyChange(HomeContentProvider.CONTENT_URI, null);
 
-        return 0;
+        return Result.success();
     }
 }

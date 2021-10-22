@@ -17,30 +17,33 @@ package com.klinker.android.twitter_l.services.background_refresh;
 
 import android.content.Context;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.utils.api_helper.DirectMessageDownload;
 
-public class SecondDMRefreshService extends SimpleJobService {
+public class SecondDMRefreshService extends Worker {
 
-    public static void startNow(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(SecondDMRefreshService.class)
-                .setTag("second-dm-refresh-now")
-                .setTrigger(Trigger.executionWindow(0,0))
-                .build();
-
-        dispatcher.mustSchedule(myJob);
+    private final Context context;
+    public SecondDMRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
     }
 
+    public static void startNow(Context context) {
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(SecondDMRefreshService.class).build());
+    }
+
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
-        DirectMessageDownload.download(this, true, false);
-        return 0;
+    public Result doWork() {
+        DirectMessageDownload.download(context, true, false);
+        return Result.success();
     }
 }

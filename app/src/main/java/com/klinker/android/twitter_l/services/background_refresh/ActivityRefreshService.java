@@ -1,58 +1,62 @@
 package com.klinker.android.twitter_l.services.background_refresh;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.ActivityUtils;
 
-public class ActivityRefreshService extends SimpleJobService {
+import java.util.concurrent.TimeUnit;
+
+public class ActivityRefreshService extends Worker {
+
+    private final Context context;
+    public ActivityRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "activity-refresh";
 
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+        WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.activityRefresh / 1000; // convert to seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         if (settings.activityRefresh != 0) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(ActivityRefreshService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(true)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) +  refreshInterval))
-                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            PeriodicWorkRequest request =
+                    new PeriodicWorkRequest.Builder(ActivityRefreshService.class, refreshInterval, TimeUnit.SECONDS)
+                            .setConstraints(new Constraints.Builder()
+                                    .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                    .build())
+                            .build();
+            WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
         } else {
-            dispatcher.cancel(JOB_TAG);
+            WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
         }
     }
 
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
-        AppSettings settings = AppSettings.getInstance(this);
-        ActivityUtils utils = new ActivityUtils(this, false);
+    public Result doWork() {
+        AppSettings settings = AppSettings.getInstance(context);
+        ActivityUtils utils = new ActivityUtils(context, false);
 
         boolean newActivity = utils.refreshActivity();
 
@@ -61,9 +65,9 @@ public class ActivityRefreshService extends SimpleJobService {
         }
 
         if (settings.syncSecondMentions) {
-            SecondActivityRefreshService.startNow(this);
+            SecondActivityRefreshService.startNow(context);
         }
 
-        return 0;
+        return Result.success();
     }
 }

@@ -16,78 +16,66 @@ package com.klinker.android.twitter_l.services.background_refresh;
  */
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobParameters;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.SimpleJobService;
-import com.firebase.jobdispatcher.Trigger;
-import com.klinker.android.twitter_l.data.sq_lite.DMDataSource;
+import androidx.annotation.NonNull;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import com.klinker.android.twitter_l.settings.AppSettings;
-import com.klinker.android.twitter_l.utils.NotificationUtils;
-import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.api_helper.DirectMessageDownload;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import twitter4j.DirectMessage;
-import twitter4j.Paging;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
+public class DirectMessageRefreshService extends Worker {
 
-public class DirectMessageRefreshService extends SimpleJobService {
+    private final Context context;
+    public DirectMessageRefreshService(
+            @NonNull Context context,
+            @NonNull WorkerParameters params) {
+        super(context, params);
+        this.context = context;
+    }
 
     public static final String JOB_TAG = "direct-message-refresh";
     public static boolean isRunning = false;
 
     public static void cancelRefresh(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        dispatcher.cancel(JOB_TAG);
+        WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
+    }
+
+    public static void startNow(Context context) {
+        WorkManager.getInstance(context)
+                .enqueue(new OneTimeWorkRequest.Builder(DirectMessageRefreshService.class).build());
     }
 
     public static void scheduleRefresh(Context context) {
         AppSettings settings = AppSettings.getInstance(context);
         int refreshInterval = (int) settings.dmRefresh / 1000; // convert to seconds
 
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
         if (settings.dmRefresh != 0) {
-            Job myJob = dispatcher.newJobBuilder()
-                    .setService(DirectMessageRefreshService.class)
-                    .setTag(JOB_TAG)
-                    .setRecurring(true)
-                    .setLifetime(Lifetime.FOREVER)
-                    .setTrigger(Trigger.executionWindow(refreshInterval, (5 * 60) +  refreshInterval))
-                    .setConstraints(settings.syncMobile ? Constraint.ON_ANY_NETWORK : Constraint.ON_UNMETERED_NETWORK)
-                    .setReplaceCurrent(true)
-                    .build();
-
-            dispatcher.mustSchedule(myJob);
+            PeriodicWorkRequest request =
+                    new PeriodicWorkRequest.Builder(DirectMessageRefreshService.class, refreshInterval, TimeUnit.SECONDS)
+                            .setConstraints(new Constraints.Builder()
+                                    .setRequiredNetworkType(settings.syncMobile ? NetworkType.UNMETERED : NetworkType.CONNECTED)
+                                    .build())
+                            .build();
+            WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(JOB_TAG, ExistingPeriodicWorkPolicy.KEEP, request);
         } else {
-            dispatcher.cancel(JOB_TAG);
+            WorkManager.getInstance(context).cancelUniqueWork(JOB_TAG);
         }
     }
 
-    public static void startNow(Context context) {
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = dispatcher.newJobBuilder()
-                .setService(DirectMessageRefreshService.class)
-                .setTag("dm-refresh-now")
-                .setTrigger(Trigger.executionWindow(0,0))
-                .build();
-
-        dispatcher.mustSchedule(myJob);
-    }
-
+    @NonNull
     @Override
-    public int onRunJob(JobParameters parameters) {
-        DirectMessageDownload.download(this, false, false);
-        return 0;
+    public Result doWork() {
+        DirectMessageDownload.download(context, false, false);
+        return Result.success();
     }
 }
