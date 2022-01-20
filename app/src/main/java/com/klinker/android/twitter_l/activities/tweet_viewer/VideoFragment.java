@@ -24,9 +24,12 @@ import com.klinker.android.twitter_l.activities.media_viewer.image.OnSwipeListen
 import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
+import com.potyvideo.library.AndExoPlayerView;
+
+import java.util.HashMap;
 
 
-public class VideoFragment extends Fragment implements VideoCallback {
+public class VideoFragment extends Fragment {
 
     public static VideoFragment getInstance(String url) {
         Bundle args = new Bundle();
@@ -44,7 +47,7 @@ public class VideoFragment extends Fragment implements VideoCallback {
 
     private View layout;
 
-    public BetterVideoPlayer videoView;
+    public AndExoPlayerView videoView;
 
     private DragController dragController;
     private GestureDetectorCompat gestureDetector;
@@ -62,12 +65,13 @@ public class VideoFragment extends Fragment implements VideoCallback {
         tweetUrl = getArguments().getString("url");
 
         layout = inflater.inflate(R.layout.gif_player, null, false);
-        videoView = (BetterVideoPlayer) layout.findViewById(R.id.player);
+        videoView = (AndExoPlayerView) layout.findViewById(R.id.player);
         dragController = new DragController((AppCompatActivity) getActivity(), videoView);
 
         if (VideoMatcherUtil.isTwitterGifLink(tweetUrl)) {
-            videoView.disableControls();
-            videoView.hideControls();
+            videoView.setShowControllers(false);
+        } else {
+            videoView.setShowControllers(true);
         }
 
         if (AppSettings.getInstance(getActivity()).themeColors.primaryColor == Color.BLACK) {
@@ -86,14 +90,6 @@ public class VideoFragment extends Fragment implements VideoCallback {
         });
 
         return layout;
-    }
-
-    public void stopPlayback() {
-        try {
-            videoView.stop();
-        } catch (Exception e) {
-
-        }
     }
 
     private void getGif() {
@@ -122,8 +118,7 @@ public class VideoFragment extends Fragment implements VideoCallback {
 
             getActivity().runOnUiThread(() -> {
                 if (videoUrl != null) {
-                    videoView.setCallback(VideoFragment.this);
-                    videoView.setSource(Uri.parse(videoUrl));
+                    videoView.setSource(videoUrl, new HashMap<>());
                 }
             });
 
@@ -258,62 +253,7 @@ public class VideoFragment extends Fragment implements VideoCallback {
     public void onPause() {
         super.onPause();
         // Make sure the player stops playing if the user presses the home button.
-        videoView.pause();
-    }
-
-    // Methods for the implemented EasyVideoCallback
-
-    @Override
-    public void onStarted(BetterVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onPaused(BetterVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onPreparing(BetterVideoPlayer player) {
-
-    }
-
-    @Override
-    public void onPrepared(BetterVideoPlayer player) {
-        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
-            //videoView.set(false);
-            videoView.setHideControlsOnPlay(true);
-            videoView.disableControls();
-            videoView.setVolume(0,0);
-        } else {
-            videoView.setHideControlsOnPlay(true);
-            videoView.enableControls();
-        }
-    }
-
-    @Override
-    public void onBuffering(int percent) {
-
-    }
-
-    @Override
-    public void onError(BetterVideoPlayer player, Exception e) {
-        e.printStackTrace();
-    }
-
-    @Override
-    public void onCompletion(BetterVideoPlayer player) {
-        if (VideoMatcherUtil.isTwitterGifLink(videoUrl)) {
-            videoView.seekTo(0);
-            videoView.start();
-        } else {
-            videoView.showControls();
-        }
-    }
-
-    @Override
-    public void onToggleControls(BetterVideoPlayer betterVideoPlayer, boolean b) {
-        
+        videoView.stopPlayer();
     }
 
 
