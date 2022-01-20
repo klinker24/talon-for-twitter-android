@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.9.2">
+        <text>Improve and fix the video/GIF player</text>
+    </version>
+
     <version name="7.9.1">
         <text>Fix background refreshes not working for some users.</text>
     </version>
