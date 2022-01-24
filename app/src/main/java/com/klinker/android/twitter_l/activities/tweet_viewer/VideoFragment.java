@@ -74,12 +74,6 @@ public class VideoFragment extends Fragment {
             videoView.setShowControllers(true);
         }
 
-        if (AppSettings.getInstance(getActivity()).themeColors.primaryColor == Color.BLACK) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ((ProgressBar) videoView.findViewById(R.id.seeker)).setProgressTintList(ColorStateList.valueOf(Color.WHITE));
-            }
-        }
-
         getGif();
 
         gestureDetector = new GestureDetectorCompat(getActivity(), new OnSwipeListener() {
