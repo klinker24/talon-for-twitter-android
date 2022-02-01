@@ -25,6 +25,7 @@ import com.klinker.android.twitter_l.activities.media_viewer.image.TimeoutThread
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.utils.VideoMatcherUtil;
 import com.potyvideo.library.AndExoPlayerView;
+import com.potyvideo.library.globalEnums.EnumMute;
 
 import java.util.HashMap;
 
@@ -70,6 +71,7 @@ public class VideoFragment extends Fragment {
 
         if (VideoMatcherUtil.isTwitterGifLink(tweetUrl)) {
             videoView.setShowControllers(false);
+            videoView.setMute(EnumMute.MUTE);
         } else {
             videoView.setShowControllers(true);
         }
@@ -88,23 +90,7 @@ public class VideoFragment extends Fragment {
 
     private void getGif() {
         new TimeoutThread(() -> {
-
-//            if (tweetUrl.contains("vine.co")) {
-//                // have to get the html from the page and parse the surfaceView from there.
-//
-//                videoUrl = getVineLink();
-//            } else if (tweetUrl.contains("amp.twimg.com/v/")) {
-//                videoUrl = getAmpTwimgLink();
-//            } else if (tweetUrl.contains("snpy.tv")) {
-//                videoUrl = getSnpyTvLink();
-//            } else if (tweetUrl.contains("/photo/1") && tweetUrl.contains("twitter.com/")) {
-//                // this is before it was added to the api.
-//                // finds the surfaceView from the HTML on twitters website.
-//
-//                videoUrl = getGifLink();
-//            } else {
-                videoUrl = tweetUrl;
-//            }
+            videoUrl = tweetUrl;
 
             if (getActivity() == null) {
                 return;
@@ -113,131 +99,12 @@ public class VideoFragment extends Fragment {
             getActivity().runOnUiThread(() -> {
                 if (videoUrl != null) {
                     videoView.setSource(videoUrl, new HashMap<>());
+                    videoView.startPlayer();
                 }
             });
 
         }).start();
     }
-
-//    private Document getDoc() {
-//        try {
-//            HttpClient httpclient = new DefaultHttpClient();
-//            HttpGet httpget = new HttpGet((tweetUrl.contains("http") ? "" : "https://") + tweetUrl);
-//            HttpResponse response = httpclient.execute(httpget);
-//            HttpEntity entity = response.getEntity();
-//            InputStream is = entity.getContent();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-//            StringBuilder sb = new StringBuilder();
-//            String line = null;
-//            while ((line = reader.readLine()) != null)
-//                sb.append(line + "\n");
-//
-//            String docHtml = sb.toString();
-//
-//            is.close();
-//
-//            return Jsoup.parse(docHtml);
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
-//
-//    private String getGifLink() {
-//        try {
-//            Document doc = getDoc();
-//
-//            if(doc != null) {
-//                Elements elements = doc.getElementsByAttributeValue("class", "animated-gif");
-//
-//                for (Element e : elements) {
-//                    for (Element x : e.getAllElements()) {
-//                        if (x.nodeName().contains("source")) {
-//                            return x.attr("surfaceView-src");
-//                        }
-//                    }
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-//
-//    private String getVineLink() {
-//        try {
-//            Document doc = getDoc();
-//
-//            if(doc != null) {
-//                Elements elements = doc.getElementsByAttributeValue("property", "twitter:player:stream");
-//
-//                for (Element e : elements) {
-//                    return e.attr("content");
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-//
-//    private String getSnpyTvLink() {
-//        try {
-//            String location = tweetUrl;
-//            HttpURLConnection connection = (HttpURLConnection) new URL(location).openConnection();
-//            connection.setInstanceFollowRedirects(false);
-//            while (connection.getResponseCode() / 100 == 3) {
-//                location = connection.getHeaderField("location");
-//                connection = (HttpURLConnection) new URL(location).openConnection();
-//            }
-//
-//            tweetUrl = location;
-//
-//            Log.v("talon_gif", "tweet_url: " + tweetUrl);
-//
-//            Document doc = getDoc();
-//
-//            if(doc != null) {
-//                Elements elements = doc.getElementsByAttributeValue("class", "snappy-surfaceView");
-//
-//                for (Element e : elements) {
-//                    return e.attr("src");
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
-//
-//    private String getAmpTwimgLink() {
-//        try {
-//            Document doc = getDoc();
-//
-//            if(doc != null) {
-//                Element element = doc.getElementById("iframe");
-//                return element.attr("src");
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } catch (OutOfMemoryError e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
 
     public String getLoadedVideoLink() {
         return videoUrl;
@@ -250,6 +117,11 @@ public class VideoFragment extends Fragment {
         videoView.stopPlayer();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        videoView.releasePlayer();
+    }
 
     public boolean isGif() {
         return VideoMatcherUtil.isTwitterGifLink(videoUrl);

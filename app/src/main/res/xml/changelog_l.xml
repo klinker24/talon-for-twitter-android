@@ -1,6 +1,10 @@
 <changelog>
 
     <version name="7.9.2">
+        <text>Continue to improve video/GIF player</text>
+    </version>
+
+    <version name="7.9.2">
         <text>Improve and fix the video/GIF player</text>
     </version>
 
