@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="7.9.4">
+        <text>Support Android SDK 32</text>
+    </version>
+
     <version name="7.9.2">
         <text>Continue to improve video/GIF player</text>
     </version>
