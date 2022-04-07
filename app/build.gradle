@@ -7,9 +7,8 @@ android {
     defaultConfig {
         applicationId buildInfo.id
 
-        File secretsExists = new File("secrets.properties")
-        if (secretsExists.exists()) {
-            def secretsFile = rootProject.file('secrets.properties')
+        File secretsFile = rootProject.file('secrets.properties')
+        if (secretsFile.exists()) {
             def secrets = new Properties()
             secrets.load(new FileInputStream(secretsFile))
 
