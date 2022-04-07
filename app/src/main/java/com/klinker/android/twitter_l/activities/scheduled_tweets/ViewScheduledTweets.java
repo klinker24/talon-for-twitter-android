@@ -164,13 +164,10 @@ public class ViewScheduledTweets extends AppCompatActivity {
     }
 
     protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
+        return PendingIntent.getService(
                         this,         //context
                         requestId,    //request id
                         intent,       //intent to be delivered
-                        0);
-
-        return pi;
+                        Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
     }
 }

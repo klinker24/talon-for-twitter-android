@@ -139,9 +139,9 @@ public class ActivityUtils {
 
         PendingIntent contentIntent;
         if (useSecondAccount) {
-            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), 0);
+            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, SwitchAccountsToActivity.class), Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
         } else {
-            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), 0);
+            contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, RedirectToActivity.class), Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
         }
 
         NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context,

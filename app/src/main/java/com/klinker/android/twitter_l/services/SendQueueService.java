@@ -160,7 +160,7 @@ public class SendQueueService extends Worker {
                         context,
                         0,
                         resultIntent,
-                        0
+                        Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
@@ -186,7 +186,7 @@ public class SendQueueService extends Worker {
                             context,
                             0,
                             resultIntent,
-                            0
+                            Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                     );
 
             mBuilder.setContentIntent(resultPendingIntent);

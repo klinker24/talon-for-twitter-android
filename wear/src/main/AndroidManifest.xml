@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.klinker.android.twitter_l">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.klinker.android.twitter_l">
 
-    <uses-sdk tools:overrideLibrary="android.support.v13,android.support.v4,android.support.v7.cardview,android.support.wearable"/>
+    <uses-sdk tools:overrideLibrary="android.support.v13,android.support.v4,android.support.v7.cardview,android.support.wearable" />
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
-            android:allowBackup="true"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/wear_app_name"
+        android:theme="@android:style/Theme.DeviceDefault">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".activity.WearActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
             android:label="@string/wear_app_name"
-            android:icon="@mipmap/ic_launcher"
-            android:theme="@android:style/Theme.DeviceDefault">
-
-        <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version" />
-
-        <activity android:name=".activity.WearActivity"
-                  android:label="@string/wear_app_name"
-                  android:allowEmbedded="true"
-                  android:taskAffinity=""
-                  android:exported="true">
+            android:taskAffinity="">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.SettingsActivity"
-                  android:theme="@android:style/Theme.DeviceDefault.Light"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
 
-        <activity android:name=".activity.TextSizeActivity"
-                  android:theme="@android:style/Theme.DeviceDefault.Light"/>
+        <activity
+            android:name=".activity.TextSizeActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
 
-        <service android:name=".service.NotificationListenerService">
+        <service
+            android:name=".service.NotificationListenerService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>

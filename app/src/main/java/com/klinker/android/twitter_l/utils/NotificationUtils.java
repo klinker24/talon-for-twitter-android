@@ -139,7 +139,7 @@ public class NotificationUtils {
         } else {
             List<NotificationIdentifier> grouped = new ArrayList();
             Intent markRead = new Intent(context, MarkReadService.class);
-            PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+            PendingIntent readPending = PendingIntent.getService(context, 0, markRead, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
             String shortText = getShortText(unreadCounts, context, currentAccount);
             String longText = getLongText(unreadCounts, context, currentAccount);
@@ -165,7 +165,7 @@ public class NotificationUtils {
                 resultIntent = new Intent(context, MainActivity.class);
             }
 
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
             NotificationCompat.Builder mBuilder;
 
@@ -189,7 +189,7 @@ public class NotificationUtils {
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .setTicker(TweetLinkUtils.removeColorHtml(shortText, settings))
-                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+                    .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mBuilder.setCategory(Notification.CATEGORY_SOCIAL);
@@ -297,7 +297,7 @@ public class NotificationUtils {
                         reply = new Intent(context, NotificationDMCompose.class);
                         reply.putExtra("dm_text", "@" + title[1] + ": " + shortText);
                         reply.putExtra("reply_to", "@" + title[1]);
-                        replyPending = PendingIntent.getActivity(context, generateRandomId(), reply, 0);
+                        replyPending = PendingIntent.getActivity(context, generateRandomId(), reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                     } else {
                         if (Utils.isAndroidN()) {
@@ -306,14 +306,14 @@ public class NotificationUtils {
                             reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + title[1] + " " + title[2]);
                             reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
 
-                            replyPending = PendingIntent.getService(context, notificationId, reply, 0);
+                            replyPending = PendingIntent.getService(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
                         } else {
                             reply = new Intent(context, NotificationCompose.class);
                             reply.putExtra("from_noti", "@" + title[1] + " " + title[2]);
                             reply.putExtra("rom_noti_long", id);
                             reply.putExtra("from_noti_text", "@" + title[1] + ": " + shortText);
 
-                            replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+                            replyPending = PendingIntent.getActivity(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
                         }
                     }
 
@@ -351,21 +351,21 @@ public class NotificationUtils {
                             contentIntent.putExtra("", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                             contentIntent.putExtra("notification_id", notificationId);
                             contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
+                            mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
                         }
 
                         // retweet button
                         mBuilder.addAction(new NotificationCompat.Action.Builder(
                                 R.drawable.ic_action_repeat_light,
                                 context.getResources().getString(R.string.retweet),
-                                PendingIntent.getService(context, generateRandomId(), retweetIntent, 0)
+                                PendingIntent.getService(context, generateRandomId(), retweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
                         ).build());
 
                         // favorite button
                         mBuilder.addAction(new NotificationCompat.Action.Builder(
                                 R.drawable.ic_heart_light,
                                 context.getResources().getString(R.string.favorite),
-                                PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
+                                PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
                         ).build());
                     }
 
@@ -374,7 +374,7 @@ public class NotificationUtils {
                     popup.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     popup.putExtra("from_notification", true);
 
-                    PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, 0);
+                    PendingIntent popupPending = PendingIntent.getActivity(context, 0, popup, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                     NotificationCompat.Action.Builder action = new NotificationCompat.Action.Builder(
                             R.drawable.ic_popup,
@@ -756,7 +756,7 @@ public class NotificationUtils {
             int smallIcon = R.drawable.ic_stat_icon;
 
             Intent resultIntent = new Intent(context, RedirectToFavoriteUsers.class);
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, 0);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, generateRandomId(), resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, NotificationChannelUtil.FAVORITE_USERS_CHANNEL)
                     .setContentTitle(context.getResources().getString(R.string.favorite_users))
@@ -857,7 +857,7 @@ public class NotificationUtils {
 
         Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
 
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         NotificationCompat.Builder mBuilder;
 
@@ -889,7 +889,7 @@ public class NotificationUtils {
         }
 
         Intent markRead = new Intent(context, MarkReadSecondAccService.class);
-        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         AppSettings settings = AppSettings.getInstance(context);
 
@@ -901,7 +901,7 @@ public class NotificationUtils {
                 .setSmallIcon(smallIcon)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(resultPendingIntent)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)))
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL);
 
@@ -969,7 +969,7 @@ public class NotificationUtils {
         Bitmap largeIcon;
 
         Intent resultIntent = new Intent(context, SwitchAccountsRedirect.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         NotificationCompat.Builder mBuilder;
 
@@ -1013,7 +1013,7 @@ public class NotificationUtils {
                 reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + name);
                 reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
 
-                replyPending = PendingIntent.getService(context, notificationId, reply, 0);
+                replyPending = PendingIntent.getService(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
             } else {
                 reply = new Intent(context, NotificationComposeSecondAcc.class);
 
@@ -1021,7 +1021,7 @@ public class NotificationUtils {
                 sharedPrefs.edit().putLong("from_notification_long_second", id).apply();
                 sharedPrefs.edit().putString("from_notification_text_second", "@" + name + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).apply();
 
-                replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+                replyPending = PendingIntent.getActivity(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
             }
 
             // Create the remote input
@@ -1056,7 +1056,7 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
 
         if (settings.headsUp) {
             mBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -1078,7 +1078,7 @@ public class NotificationUtils {
                 contentIntent.putExtra("", latest.getLong(latest.getColumnIndex(HomeSQLiteHelper.COLUMN_TWEET_ID)));
                 contentIntent.putExtra("notification_id", notificationId);
                 contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
+                mBuilder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
 
             }
 
@@ -1102,14 +1102,14 @@ public class NotificationUtils {
             mBuilder.addAction(new NotificationCompat.Action.Builder(
                     R.drawable.ic_action_repeat_light,
                     context.getResources().getString(R.string.retweet),
-                    PendingIntent.getService(context, generateRandomId(), retweetIntent, 0)
+                    PendingIntent.getService(context, generateRandomId(), retweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
             ).build());
 
             // favorite button
             mBuilder.addAction(new NotificationCompat.Action.Builder(
                     R.drawable.ic_heart_light,
                     context.getResources().getString(R.string.favorite),
-                    PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
+                    PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
             ).build());
         } else {
             List<NotificationIdentifier> grouped = new ArrayList();
@@ -1257,8 +1257,8 @@ public class NotificationUtils {
         contentIntent.putExtra("notification_id", notificationId);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        builder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, 0));
-        builder.setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0));
+        builder.setContentIntent(PendingIntent.getActivity(context, generateRandomId(), contentIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
+        builder.setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)));
 
         // reply button
         Intent reply;
@@ -1270,7 +1270,7 @@ public class NotificationUtils {
             reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@" + screenname);
             reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
 
-            replyPending = PendingIntent.getService(context, notificationId, reply, 0);
+            replyPending = PendingIntent.getService(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
         } else if (isSecondAccount) {
             reply = new Intent(context, NotificationComposeSecondAcc.class);
 
@@ -1279,7 +1279,7 @@ public class NotificationUtils {
             sharedPrefs.edit().putLong("from_notification_long_second", Long.parseLong(tweetId)).apply();
             sharedPrefs.edit().putString("from_notification_text_second", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context))).apply();
 
-            replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+            replyPending = PendingIntent.getActivity(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
         } else {
             reply = new Intent(context, NotificationCompose.class);
 
@@ -1287,7 +1287,7 @@ public class NotificationUtils {
             reply.putExtra("rom_noti_long", Long.parseLong(tweetId));
             reply.putExtra("from_noti_text", "@" + screenname + ": " + TweetLinkUtils.removeColorHtml(tweetText, AppSettings.getInstance(context)));
 
-            replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+            replyPending = PendingIntent.getActivity(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
         }
 
         // Create the remote input
@@ -1308,14 +1308,14 @@ public class NotificationUtils {
         builder.addAction(new NotificationCompat.Action.Builder(
                 R.drawable.ic_action_repeat_light,
                 context.getResources().getString(R.string.retweet),
-                PendingIntent.getService(context, generateRandomId(), retweetIntent, 0)
+                PendingIntent.getService(context, generateRandomId(), retweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
         ).build());
 
         // favorite button
         builder.addAction(new NotificationCompat.Action.Builder(
                 R.drawable.ic_heart_light,
                 context.getResources().getString(R.string.favorite),
-                PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, 0)
+                PendingIntent.getService(context, generateRandomId(), favoriteTweetIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
         ).build());
 
         if (useAlerts) {
@@ -1386,7 +1386,7 @@ public class NotificationUtils {
         AppSettings settings = AppSettings.getInstance(context);
 
         Intent resultIntent = new Intent(context, RedirectToDrawer.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         int newFollowers = sharedPrefs.getInt("new_followers", 0);
         int newRetweets = sharedPrefs.getInt("new_retweets", 0);
@@ -1448,7 +1448,7 @@ public class NotificationUtils {
         }
 
         Intent markRead = new Intent(context, ReadInteractionsService.class);
-        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         Intent deleteIntent = new Intent(context, NotificationDeleteReceiverOne.class);
 
@@ -1460,7 +1460,7 @@ public class NotificationUtils {
                 .setContentIntent(resultPendingIntent)
                 .setTicker(title)
                 .setCategory(Notification.CATEGORY_SOCIAL)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)))
                 .setAutoCancel(true);
 
         if (settings.headsUp) {
@@ -1566,14 +1566,14 @@ public class NotificationUtils {
 
 
         Intent markRead = new Intent(context, MarkReadService.class);
-        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, 0);
+        PendingIntent readPending = PendingIntent.getService(context, 0, markRead, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         String shortText = "Test Talon";
         String longText = "Here is a test for Talon's notifications";
 
         Intent resultIntent = new Intent(context, RedirectToMentions.class);
 
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0 );
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         NotificationCompat.Builder mBuilder;
 
@@ -1588,7 +1588,7 @@ public class NotificationUtils {
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
                 .setTicker(shortText)
-                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, 0))
+                .setDeleteIntent(PendingIntent.getBroadcast(context, 0, deleteIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)))
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         // Pebble notification
@@ -1633,7 +1633,7 @@ public class NotificationUtils {
             reply.putExtra(ReplyFromWearService.NOTIFICATION_ID, notificationId);
             reply.putExtra(ReplyFromWearService.REPLY_TO_NAME, "@test_for_talon");
 
-            replyPending = PendingIntent.getService(context, notificationId, reply, 0);
+            replyPending = PendingIntent.getService(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
         } else {
             reply = new Intent(context, NotificationComposeSecondAcc.class);
 
@@ -1641,7 +1641,7 @@ public class NotificationUtils {
             sharedPrefs.edit().putLong("from_notification_long_second", 1).apply();
             sharedPrefs.edit().putString("from_notification_text_second", "@test_for_talon" + ": test").apply();
 
-            replyPending = PendingIntent.getActivity(context, notificationId, reply, 0);
+            replyPending = PendingIntent.getActivity(context, notificationId, reply, Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT));
         }
 
         RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY)

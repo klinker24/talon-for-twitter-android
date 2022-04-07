@@ -136,7 +136,7 @@ public class ReplyFromWearService extends KillerIntentService {
                             this,
                             0,
                             resultIntent,
-                            0
+                            Utils.withMutability(PendingIntent.FLAG_UPDATE_CURRENT)
                     );
 
             mBuilder.setContentIntent(resultPendingIntent);

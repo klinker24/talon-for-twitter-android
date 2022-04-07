@@ -85,9 +85,9 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="false"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="false"
         tools:replace="android:fullBackupContent">
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 
@@ -117,11 +117,13 @@
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.setup.TutorialActivity"
+            android:exported="false"
             android:theme="@style/Theme.Tutorial" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
@@ -151,16 +153,19 @@
 
         <activity
             android:name=".activities.RateItDialog"
+            android:exported="false"
             android:launchMode="singleInstance"
             android:theme="@style/tutorial_FloatingTutorialTheme" />
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".activities.GiphySearch"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -169,6 +174,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.RetweetActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/retweets"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -176,11 +182,13 @@
         <activity
             android:name=".activities.media_viewer.image.ImageViewerActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:theme="@style/Theme.ImageViewer" />
 
         <activity
             android:name=".activities.media_viewer.VideoViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:exported="false"
             android:launchMode="singleTop"
             android:supportsPictureInPicture="true"
             android:theme="@style/DragDismissTheme" />
@@ -188,27 +196,32 @@
         <activity
             android:name=".activities.media_viewer.YouTubeViewerActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:exported="false"
             android:supportsPictureInPicture="true"
             android:theme="@style/Theme.PhotoViewerBlack" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoritesActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/favorite_tweets"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity"
+            android:exported="false"
             android:theme="@style/MaterialCamera.CaptureActivity" />
 
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity2"
+            android:exported="false"
             android:theme="@style/MaterialCamera.CaptureActivity" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.FavoriteUsersActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/favorite_users"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -216,6 +229,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.lists.ViewUsers"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/favorite_users"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -223,6 +237,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.discover.DiscoverPager"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/local_trends"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -230,6 +245,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.lists.ListsActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/lists"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -237,6 +253,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.scheduled_tweets.NewScheduledTweet"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/scheduled_tweets"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -244,6 +261,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.scheduled_tweets.ViewScheduledTweets"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/scheduled_tweets"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -251,6 +269,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.SavedSearchesActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/saved_searches"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -258,6 +277,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.lists.ChoosenListActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/lists"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -265,34 +285,40 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.DirectMessageConversation"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
             android:name="com.klinker.android.twitter_l.settings.configure_pages.ConfigurePagerActivity"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Tweet.Launcher" />
 
         <activity
             android:name="com.klinker.android.twitter_l.settings.configure_pages.ListChooser"
+            android:exported="false"
             android:label="@string/lists"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <activity
             android:name="com.klinker.android.twitter_l.settings.configure_pages.UserChooser"
+            android:exported="false"
             android:label="@string/user_tweets"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
             android:name="com.klinker.android.twitter_l.settings.configure_pages.SearchChooser"
+            android:exported="false"
             android:label="@string/saved_searches"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.search.SearchPager"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
@@ -398,6 +424,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.discover.trends.SearchedTrendsActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/trends"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Main.Launcher"
@@ -433,23 +460,27 @@
         <activity
             android:name=".activities.setup.material_login.MaterialLogin"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name_full"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.setup.Version2Setup"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name_full"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.BrowserActivity"
+            android:exported="false"
             android:label="@string/app_name_full"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.PlainTextBrowserActivity"
+            android:exported="false"
             android:label="@string/app_name_full"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -457,6 +488,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.MainActivityPopup"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.NoActionBar.Popup"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -465,6 +497,7 @@
             android:name="com.klinker.android.twitter_l.activities.launcher_page.LauncherPopup"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Notif.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -480,6 +513,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToPopup"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -503,6 +537,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToTweetViewer"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -510,6 +545,7 @@
         <activity
             android:name=".utils.redirects.RedirectToPlayStore"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonDark.Popup"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -525,6 +561,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToTimeline"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -532,6 +569,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToMentions"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -539,6 +577,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToFavoriteUsers"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -546,6 +585,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToDMs"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -553,6 +593,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -560,17 +601,20 @@
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.RedirectToDrawer"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.SwitchAccountsRedirect"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <activity
             android:name="com.klinker.android.twitter_l.utils.redirects.SwitchAccountsToActivity"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
@@ -581,24 +625,22 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/DragDismissTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
             android:name=".activities.compose.ComposeSecAccActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonDark.Popup"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
-
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
 
         <activity
             android:name="com.klinker.android.twitter_l.activities.compose.NotificationCompose"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.TalonLight.Popup.Notif"
@@ -608,6 +650,7 @@
             android:name="com.klinker.android.twitter_l.activities.compose.NotificationComposeSecondAcc"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.TalonLight.Popup.Notif"
@@ -617,6 +660,7 @@
             android:name="com.klinker.android.twitter_l.activities.compose.NotificationDMCompose"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.TalonLight.Popup.Notif"
@@ -626,6 +670,7 @@
             android:name="com.klinker.android.twitter_l.activities.compose.RetryCompose"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.TalonLight.Popup.Notif"
@@ -648,6 +693,7 @@
             android:name="com.klinker.android.twitter_l.activities.compose.WidgetCompose"
             android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.TalonLight.Popup.Notif"
@@ -674,6 +720,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.settings.FAQActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/faq"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -681,6 +728,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.settings.FeaturesActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/features_explained"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize" />
@@ -688,6 +736,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity"
             android:configChanges="orientation"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/DragDismissTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -706,6 +755,7 @@
             android:name="com.klinker.android.twitter_l.activities.tweet_viewer.NotiTweetActivity"
             android:configChanges="orientation"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/DragDismissTheme"
@@ -714,6 +764,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.drawer_activities.discover.people.PeopleSearch"
             android:configChanges="orientation"
+            android:exported="false"
             android:label="@string/suggested_users"
             android:theme="@style/Theme.TalonLight.Launcher"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -721,6 +772,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivityWidget"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/DragDismissTheme"
@@ -729,6 +781,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.activities.profile_viewer.ProfilePager"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/DragDismissTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -736,6 +789,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.settings.SettingsActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/talon_settings"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Settings"
@@ -749,6 +803,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.settings.PrefActivity"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/talon_settings"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Settings"
@@ -757,6 +812,7 @@
         <activity
             android:name="com.klinker.android.twitter_l.settings.PrefActivityAdvanced"
             android:configChanges="orientation|screenSize"
+            android:exported="false"
             android:label="@string/talon_settings"
             android:launchMode="singleTop"
             android:theme="@style/Theme.TalonLight.Settings"
@@ -764,6 +820,7 @@
 
         <service
             android:name=".services.NotificationListener"
+            android:exported="true"
             android:label="@string/app_name_full"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -773,6 +830,7 @@
 
         <service
             android:name=".services.ComposeTileService"
+            android:exported="true"
             android:icon="@drawable/ic_stat_icon"
             android:label="@string/menu_compose"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -878,22 +936,44 @@
             </intent-filter>
         </service>
 
-        <service android:name=".services.FavoriteTweetService" />
-        <service android:name=".services.RetweetService" />
-        <service android:name=".services.ReplyFromWearService" />
-        <service android:name=".services.ReplySecondAccountFromWearService" />
-        <service android:name=".services.SendTweet" />
-        <service android:name=".services.MarkReadService" />
-        <service android:name=".services.MarkReadSecondAccService" />
-        <service android:name=".services.ReadInteractionsService" />
-        <service android:name=".services.background_refresh.WidgetRefreshService" />
-        <service android:name=".services.TweetWearableService">
+        <service
+            android:name=".services.FavoriteTweetService"
+            android:exported="false" />
+        <service
+            android:name=".services.RetweetService"
+            android:exported="false" />
+        <service
+            android:name=".services.ReplyFromWearService"
+            android:exported="false" />
+        <service
+            android:name=".services.ReplySecondAccountFromWearService"
+            android:exported="false" />
+        <service
+            android:name=".services.SendTweet"
+            android:exported="false" />
+        <service
+            android:name=".services.MarkReadService"
+            android:exported="false" />
+        <service
+            android:name=".services.MarkReadSecondAccService"
+            android:exported="false" />
+        <service
+            android:name=".services.ReadInteractionsService"
+            android:exported="false" />
+        <service
+            android:name=".services.background_refresh.WidgetRefreshService"
+            android:exported="false" />
+        <service
+            android:name=".services.TweetWearableService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
 
-        <receiver android:name="com.klinker.android.twitter_l.receivers.BootReceiver">
+        <receiver
+            android:name="com.klinker.android.twitter_l.receivers.BootReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -903,7 +983,9 @@
             android:name=".services.SendScheduledTweet"
             android:exported="false" />
 
-        <receiver android:name="com.klinker.android.twitter_l.receivers.MarkMentionReadReceiver" />
+        <receiver
+            android:name="com.klinker.android.twitter_l.receivers.MarkMentionReadReceiver"
+            android:exported="false" />
 
         <receiver
             android:name="com.klinker.android.twitter_l.receivers.NotificationDeleteReceiverOne"
@@ -915,11 +997,13 @@
 
         <provider
             android:name="com.klinker.android.twitter_l.utils.MySuggestionsProvider"
-            android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider" />
+            android:authorities="com.klinker.android.twitter_l.MySuggestionsProvider"
+            android:exported="false" />
 
         <!-- Widget -->
         <receiver
             android:name="com.klinker.android.twitter_l.widget.timeline.TimelineWidgetProvider"
+            android:exported="true"
             android:label="@string/talon_large_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -933,6 +1017,7 @@
         <!-- unread widget -->
         <receiver
             android:name="com.klinker.android.twitter_l.widget.UnreadWidgetProvider"
+            android:exported="true"
             android:label="@string/unread_bar_widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -945,16 +1030,21 @@
 
         <activity
             android:name="com.klinker.android.twitter_l.widget.WidgetProxyActivity"
+            android:exported="false"
             android:theme="@style/Theme.TalonLight.Launcher" />
 
         <service
             android:name="com.klinker.android.twitter_l.widget.timeline.TimelineWidgetService"
+            android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service android:name="com.klinker.android.twitter_l.widget.UnreadWidgetProvider$UnreadWidgetService" />
+        <service
+            android:name="com.klinker.android.twitter_l.widget.UnreadWidgetProvider$UnreadWidgetService"
+            android:exported="false" />
 
         <!-- DashClock -->
         <service
             android:name="com.klinker.android.twitter_l.widget.TalonDashClockExtension"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name_full"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">

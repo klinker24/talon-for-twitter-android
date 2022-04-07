@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
@@ -20,6 +19,7 @@ import com.klinker.android.twitter_l.activities.compose.WidgetCompose
 import com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity
 import com.klinker.android.twitter_l.services.background_refresh.WidgetRefreshService
 import com.klinker.android.twitter_l.settings.AppSettings
+import com.klinker.android.twitter_l.utils.Utils
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform
 import java.util.*
 
@@ -103,14 +103,14 @@ class TimelineWidgetProvider : AppWidgetProvider() {
 
             val compose = Intent(context, WidgetCompose::class.java)
             compose.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            val pendingCompose = PendingIntent.getActivity(context, 0, compose, 0)
+            val pendingCompose = PendingIntent.getActivity(context, 0, compose, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
 
             val open = Intent(context, MainActivity::class.java)
             open.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            val pendingOpen = PendingIntent.getActivity(context, 0, open, 0)
+            val pendingOpen = PendingIntent.getActivity(context, 0, open, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
 
             val refresh = Intent(context, WidgetRefreshService::class.java)
-            val pendingRefresh = PendingIntent.getService(context, 0, refresh, 0)
+            val pendingRefresh = PendingIntent.getService(context, 0, refresh, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
 
 
             val rv = RemoteViews(context.packageName, layout)
@@ -143,7 +143,7 @@ class TimelineWidgetProvider : AppWidgetProvider() {
             openIntent.action = TimelineWidgetProvider.OPEN_ACTION
             openIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
             val openPendingIntent = PendingIntent.getBroadcast(context, 0, openIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+                    Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
             rv.setPendingIntentTemplate(R.id.widgetList, openPendingIntent)
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv)

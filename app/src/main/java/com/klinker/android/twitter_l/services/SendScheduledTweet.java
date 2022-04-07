@@ -53,7 +53,7 @@ public class SendScheduledTweet extends BroadcastReceiver {
         Collections.sort(tweets, (result1, result2) -> Long.compare(result1.time, result2.time));
 
         Intent intent = new Intent(context, SendScheduledTweet.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
@@ -76,9 +76,9 @@ public class SendScheduledTweet extends BroadcastReceiver {
             Log.v("talon_scheduled", "scheduling tweet: " + new Date(nextTime).toString());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
+                alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
             } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
             }
         }
     }
@@ -185,7 +185,7 @@ public class SendScheduledTweet extends BroadcastReceiver {
                         context,
                         0,
                         resultIntent,
-                        0
+                        Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
@@ -215,7 +215,7 @@ public class SendScheduledTweet extends BroadcastReceiver {
                             context,
                             0,
                             resultIntent,
-                            0
+                            Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                     );
 
             mBuilder.setContentIntent(resultPendingIntent);

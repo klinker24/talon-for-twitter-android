@@ -36,6 +36,7 @@ import com.klinker.android.twitter_l.data.sq_lite.HomeDataSource;
 import com.klinker.android.twitter_l.data.sq_lite.MentionsDataSource;
 import com.klinker.android.twitter_l.settings.AppSettings;
 import com.klinker.android.twitter_l.activities.compose.WidgetCompose;
+import com.klinker.android.twitter_l.utils.Utils;
 import com.klinker.android.twitter_l.utils.glide.CircleBitmapTransform;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToDMs;
 import com.klinker.android.twitter_l.utils.redirects.RedirectToMentions;
@@ -118,19 +119,19 @@ public class UnreadWidgetProvider extends AppWidgetProvider {
 
                 Intent quickText = new Intent(this, WidgetCompose.class);
                 quickText.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, 0);
+                PendingIntent quickPending = PendingIntent.getActivity(this, 0, quickText, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                 Intent openApp = new Intent(this, RedirectToTimeline.class);
                 openApp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, 0);
+                PendingIntent openAppPending = PendingIntent.getActivity(this, 0, openApp, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                 Intent mentions = new Intent(this, RedirectToMentions.class);
                 mentions.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                PendingIntent mentionsPending = PendingIntent.getActivity(this, 0, mentions, 0);
+                PendingIntent mentionsPending = PendingIntent.getActivity(this, 0, mentions, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                 Intent dms = new Intent(this, RedirectToDMs.class);
                 dms.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                PendingIntent dmsPending = PendingIntent.getActivity(this, 0, dms, 0);
+                PendingIntent dmsPending = PendingIntent.getActivity(this, 0, dms, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                 views.setOnClickPendingIntent(R.id.launcherIcon, openAppPending);
                 views.setOnClickPendingIntent(R.id.replyButton, quickPending);

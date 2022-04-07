@@ -318,7 +318,7 @@ public class SendTweet extends Service {
                         this,
                         0,
                         resultIntent,
-                        0
+                        Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                 );
 
         mBuilder.setContentIntent(resultPendingIntent);
@@ -344,7 +344,7 @@ public class SendTweet extends Service {
                             this,
                             NotificationUtils.generateRandomId(),
                             resultIntent,
-                            0
+                            Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT)
                     );
 
             mBuilder.setContentIntent(resultPendingIntent);

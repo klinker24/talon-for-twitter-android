@@ -2,6 +2,7 @@ package com.klinker.android.twitter_l.utils;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -1722,5 +1723,21 @@ public class Utils {
     public static boolean isColorDark(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
         return darkness >= 0.30;
+    }
+
+    public static int withImmutability(int value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return PendingIntent.FLAG_IMMUTABLE | value;
+        } else {
+            return value;
+        }
+    }
+
+    public static int withMutability(int value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return PendingIntent.FLAG_MUTABLE | value;
+        } else {
+            return value;
+        }
     }
 }

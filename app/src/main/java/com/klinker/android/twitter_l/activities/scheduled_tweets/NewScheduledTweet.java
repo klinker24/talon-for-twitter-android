@@ -460,14 +460,11 @@ public class NewScheduledTweet extends AppCompatActivity {
     }
 
     protected PendingIntent getDistinctPendingIntent(Intent intent, int requestId) {
-        PendingIntent pi =
-                PendingIntent.getService(
+        return PendingIntent.getService(
                         this,
                         requestId,
                         intent,
-                        0);
-
-        return pi;
+                        Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
     @Override

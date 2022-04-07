@@ -100,7 +100,7 @@ public class WebIntentBuilder {
             shareIntent.putExtra(Intent.EXTRA_TEXT, extraText);
             shareIntent.setType("text/plain");
             Random random = new Random();
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, random.nextInt(Integer.MAX_VALUE), shareIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, random.nextInt(Integer.MAX_VALUE), shareIntent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
             customTab = new CustomTabsIntent.Builder(null)
                     .setShowTitle(true)

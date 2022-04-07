@@ -32,7 +32,7 @@ buildscript {
 
     ext.versions = [
             'gradlePlugin'      : '4.0.0',
-            'targetSdk'         : 30,
+            'targetSdk'         : 32,
             'minSdk'            : 21,
 
             'kotlin'            : '1.4.0',

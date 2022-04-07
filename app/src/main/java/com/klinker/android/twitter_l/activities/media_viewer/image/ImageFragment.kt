@@ -1,6 +1,5 @@
 package com.klinker.android.twitter_l.activities.media_viewer.image
 
-import android.R.attr
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ClipData
@@ -211,7 +210,7 @@ class ImageFragment : Fragment() {
                     intent.setDataAndType(uri, "image/*")
 
                     val randomId = NotificationUtils.generateRandomId()
-                    val pending = PendingIntent.getActivity(activity, randomId, intent, 0)
+                    val pending = PendingIntent.getActivity(activity, randomId, intent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
 
                     val builder2 = NotificationCompat.Builder(activity, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)
                             //                                    .setContentIntent(pending)

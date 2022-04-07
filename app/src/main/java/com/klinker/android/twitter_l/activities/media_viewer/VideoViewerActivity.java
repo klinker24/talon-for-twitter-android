@@ -260,7 +260,7 @@ public class VideoViewerActivity extends DragDismissActivity {
                         intent.setDataAndType(uri, "surfaceView/*");
                     }
 
-                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, 0);
+                    PendingIntent pending = PendingIntent.getActivity(context, 91, intent, Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT));
 
                     mBuilder =
                             new NotificationCompat.Builder(context, NotificationChannelUtil.MEDIA_DOWNLOAD_CHANNEL)

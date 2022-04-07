@@ -40,7 +40,7 @@ public class NotificationListenerService extends WearableListenerService {
 
             Intent notificationIntent = new Intent(this, WearActivity.class);
             PendingIntent notificationPendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             Notification notification = new Notification.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
