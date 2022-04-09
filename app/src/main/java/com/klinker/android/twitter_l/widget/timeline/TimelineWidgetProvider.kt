@@ -143,7 +143,7 @@ class TimelineWidgetProvider : AppWidgetProvider() {
             openIntent.action = TimelineWidgetProvider.OPEN_ACTION
             openIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i])
             val openPendingIntent = PendingIntent.getBroadcast(context, 0, openIntent,
-                    Utils.withImmutability(PendingIntent.FLAG_UPDATE_CURRENT))
+                    Utils.withMutability(0))
             rv.setPendingIntentTemplate(R.id.widgetList, openPendingIntent)
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv)
