@@ -205,7 +205,7 @@ public class MainActivity extends DrawerActivity {
         if (!settings.isTwitterLoggedIn) {
             // set the default theme for new users to be dark timeline style, with a dark app bar
             AppSettings.getInstance(this).sharedPrefs.edit()
-                    .putString("timeline_pictures", "" + AppSettings.REVAMPED_TWEETS)
+                    .putString("timeline_pictures", "" + AppSettings.PICTURES_NORMAL)
                     .putString("main_theme_string", "" + (AndroidVersionUtils.isAndroidQ() ? 4 : 1))
                     .putInt("material_theme_1", AppSettings.THEME_DARK_BACKGROUND_COLOR)
                     .commit();
