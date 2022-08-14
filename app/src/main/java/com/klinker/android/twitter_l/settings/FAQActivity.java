@@ -86,34 +86,6 @@ public class FAQActivity extends Activity {
                 "All FAQ (XDA Link)",
                 "http://forum.xda-developers.com/showpost.php?p=49392415&postcount=2"
         });
-        links.add(new String[]{
-                "Push Notifications",
-                "https://plus.google.com/117432358268488452276/posts/31oSKEmMFnq"
-        });
-        links.add(new String[]{
-                "Translucency",
-                "https://plus.google.com/117432358268488452276/posts/Kc2sB8uBYwa"
-        });
-        links.add(new String[]{
-                "Theming Limits",
-                "https://plus.google.com/117432358268488452276/posts/dHDRSc4J3yV"
-        });
-        links.add(new String[]{
-                "More Info on Status's",
-                "https://plus.google.com/117432358268488452276/posts/hY7Aa3eSVvC"
-        });
-        links.add(new String[]{
-                "Clearing Cache",
-                "https://plus.google.com/117432358268488452276/posts/ZgAHJxKycfv"
-        });
-        links.add(new String[]{
-                "Immersive Mode Support",
-                "https://plus.google.com/117432358268488452276/posts/ec8UwdGUEEH"
-        });
-        links.add(new String[]{
-                "Battery Consumption",
-                "https://plus.google.com/117432358268488452276/posts/e2h3DTY5h7Q"
-        });
 
     }
 }
