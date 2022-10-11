@@ -1,1 +1,1 @@
-This update fixes some bugs :)
+This update supports new Android 13 features: themed icon and system-level locale configuration.
