@@ -539,7 +539,6 @@ public class ExpansionViewHelper {
                             web.getSettings().setSavePassword(true);
                             web.getSettings().setSaveFormData(true);
                             web.getSettings().setJavaScriptEnabled(true);
-                            web.getSettings().setAppCacheEnabled(false);
                             web.getSettings().setPluginState(WebSettings.PluginState.OFF);
 
                             // enable navigator.geolocation

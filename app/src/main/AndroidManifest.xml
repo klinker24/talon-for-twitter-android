@@ -35,6 +35,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- http://android-developers.blogspot.com/2016/05/bring-your-android-app-to-chromebooks.html -->
     <!-- http://www.chromium.org/chromium-os/android-apps -->
@@ -88,6 +89,7 @@
         android:requestLegacyExternalStorage="false"
         android:resizeableActivity="true"
         android:supportsRtl="true"
+        android:localeConfig="@xml/locales"
         tools:replace="android:fullBackupContent">
         <!--android:roundIcon="@mipmap/ic_launcher_round"-->
 

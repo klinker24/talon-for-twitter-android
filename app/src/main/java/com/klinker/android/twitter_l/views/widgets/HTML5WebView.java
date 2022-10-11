@@ -76,7 +76,6 @@ public class HTML5WebView extends WebView {
         s.setSavePassword(true);
         s.setSaveFormData(true);
         s.setJavaScriptEnabled(true);
-        s.setAppCacheEnabled(false);
         s.setPluginState(WebSettings.PluginState.OFF);
 
         clearCache(true);

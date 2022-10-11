@@ -6,11 +6,7 @@ import android.view.MotionEvent
 
 open class OnSwipeListener : GestureDetector.SimpleOnGestureListener() {
 
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        if (e1 == null || e2 == null) {
-            return false
-        }
-
+    override fun onScroll(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
         // Grab two events located on the plane at e1=(x1, y1) and e2=(x2, y2)
         // Let e1 be the initial event
         // e2 can be located at 4 different positions, consider the following diagram

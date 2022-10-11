@@ -26,13 +26,13 @@ buildscript {
 
     ext.buildInfo = [
             'id'                : 'com.klinker.android.twitter_l',
-            'name'              : '7.9.4',
+            'name'              : '7.10.0',
             'number'            : System.getenv("BUILD_NUMBER") as Integer ?: 1458,
     ]
 
     ext.versions = [
             'gradlePlugin'      : '4.0.0',
-            'targetSdk'         : 32,
+            'targetSdk'         : 33,
             'minSdk'            : 21,
 
             'kotlin'            : '1.4.0',
@@ -87,6 +87,10 @@ subprojects {
 
                     vectorDrawables.useSupportLibrary = true
                     multiDexEnabled true
+
+                    resConfigs("en", "ar", "bg", "bg-rBG", "ca", "cs", "da", "de", "el", "es", "es-rES",
+                            "fa", "fi", "fr", "fr-rFR", "he", "hi-rIN", "hu", "id", "it", "iw", "ja", "ko", "nb",
+                            "nl", "pl", "pt-rBR", "pt-rPT", "ru", "th", "tr", "uk", "ur-rIN", "zh-rCN", "zh-rTW")
                 }
 
                 File keystore = new File(props['keystorefile'])

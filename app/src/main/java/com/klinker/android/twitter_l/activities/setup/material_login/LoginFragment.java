@@ -80,7 +80,6 @@ public class LoginFragment extends Fragment {
         web.setBackgroundResource(android.R.color.white);
 
         try { web.getSettings().setJavaScriptEnabled(true); } catch (Exception e) { }
-        web.getSettings().setAppCacheEnabled(false);
         web.getSettings().setSavePassword(false);
         web.getSettings().setSaveFormData(false);
         web.setWebViewClient(new WebViewClient() {
