@@ -52,7 +52,7 @@ public class ActivityFragment extends MainFragment {
 
         View button = layout.findViewById(R.id.activity_info);
         button.setOnClickListener(view -> {
-            Uri weburi = Uri.parse("https://plus.google.com/+LukeKlinker/posts/Hy58Cr9xHK8");
+            Uri weburi = Uri.parse("https://klinkerapps.com/talon-overview/help");
             Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
             launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(launchBrowser);

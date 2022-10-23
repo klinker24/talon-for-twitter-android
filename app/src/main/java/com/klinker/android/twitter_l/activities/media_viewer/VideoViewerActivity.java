@@ -219,7 +219,7 @@ public class VideoViewerActivity extends DragDismissActivity {
     private void downloadVideo() {
         final String videoLink = videoFragment.getArguments().getString("url");
         if (videoFragment != null && videoLink != null && videoLink.contains(".m3u8")) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/+LukeKlinker/posts/4ZTM55gKVPi"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://klinkerapps.com/talon-overview/help"));
             startActivity(browserIntent);
             return;
         }

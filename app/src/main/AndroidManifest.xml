@@ -728,14 +728,6 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name="com.klinker.android.twitter_l.settings.FeaturesActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="@string/features_explained"
-            android:theme="@style/Theme.TalonLight.Launcher"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
             android:name="com.klinker.android.twitter_l.activities.tweet_viewer.TweetActivity"
             android:configChanges="orientation"
             android:exported="false"
