@@ -999,7 +999,7 @@ public abstract class DrawerActivity extends WhiteToolbarActivity implements Sys
                         } else {
                             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"luke@klinkerapps.com"});
+                            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"luke@klinker.xyz"});
                             emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Talon (Plus)");
                             emailIntent.setType("plain/text");
 
