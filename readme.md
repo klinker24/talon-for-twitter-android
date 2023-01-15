@@ -1,3 +1,5 @@
+Note: As of January 13th, 2023, Twitter seems to have disabled access for major third party apps, citing a violation of the terms of service. You may still be able to build and use Talon through your own Twitter developer account, but it is unknown what the future of this project will be.
+
 # Talon for Twitter
 
 ![promo](promo/github/promo.png)
