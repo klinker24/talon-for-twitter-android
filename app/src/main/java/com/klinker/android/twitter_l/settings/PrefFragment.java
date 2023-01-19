@@ -424,10 +424,11 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+                                String desPath = context.getExternalFilesDir(null).getAbsolutePath() + "/backup.prefs";
+                                File des = new File(desPath);
                                 IOUtils.saveSharedPreferencesToFile(des, context);
 
-                                Toast.makeText(context, context.getResources().getString(R.string.backup_success) + ": /Talon/backup.prefs", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.backup_success) + ": " + desPath, Toast.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -450,7 +451,7 @@ public class PrefFragment extends PreferenceFragment implements SharedPreference
             @Override
             public boolean onPreferenceClick(Preference arg0) {
 
-                File des = new File(Environment.getExternalStorageDirectory() + "/Talon/backup.prefs");
+                File des = new File(context.getExternalFilesDir(null).getAbsolutePath() + "/backup.prefs");
 
                 String authenticationToken1 = sharedPrefs.getString("authentication_token_1", "none");
                 String authenticationTokenSecret1 = sharedPrefs.getString("authentication_token_secret_1", "none");
